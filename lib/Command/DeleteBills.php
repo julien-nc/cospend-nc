@@ -64,11 +64,11 @@ class DeleteBills extends Command {
 			$output->writeln('This is just a simulation');
 		}
 
-		$billsToDelete = $this->billMapper->getBills($projectId, $what, $minTs);
+		$billsToDelete = $this->billMapper->getBillsToDelete($projectId, $what, $minTs);
 		foreach ($billsToDelete as $bill) {
 			$ts = $bill->getTimestamp();
 			$date = (new DateTime())->setTimestamp($ts)->format('c');
-			$output->writeln('DELETE [' . $bill->getId() . '] ' . $bill->getWhat() . ' ; ' . $bill->getAmount() . ' ; ' . $date);
+			$output->writeln('DELETE [' . $bill->getId() . '] ' . $bill->getWhat() . ' ; ' . $bill->getAmount() . ' ; ' . $date . ' ; ' . $bill->getPayerid());
 		}
 
 		if ($input->getOption('simulate')) {

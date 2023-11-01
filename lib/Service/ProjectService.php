@@ -15,7 +15,12 @@ namespace OCA\Cospend\Service;
 use DateTimeZone;
 use Exception;
 use Generator;
+use OC\User\NoUserException;
+use OCA\Circles\Exceptions\InitiatorNotFoundException;
+use OCA\Circles\Exceptions\RequestBuilderException;
 use OCP\Files\FileInfo;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IL10N;
 use OCP\IConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -621,7 +626,7 @@ class ProjectService {
 	}
 
 	/**
-	 * Get number of bills and total spent amount for a givne project
+	 * Get number of bills and total spent amount for a given project
 	 *
 	 * @param string $projectId
 	 * @return array
@@ -633,6 +638,9 @@ class ProjectService {
 			->from('cospend_bills')
 			->where(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+			)
+			->andWhere(
+				$qb->expr()->eq('deleted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 			);
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()) {
@@ -645,6 +653,9 @@ class ProjectService {
 			->from('cospend_bills')
 			->where(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+			)
+			->andWhere(
+				$qb->expr()->eq('deleted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 			);
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()) {
@@ -730,7 +741,7 @@ class ProjectService {
 		}
 
 		// compute stats
-		$bills = $this->getBills(
+		$bills = $this->billMapper->getBills(
 			$projectId, $tsMin, $tsMax, null, $paymentModeId, $categoryId,
 			$amountMin, $amountMax, null, null, false, $payerId
 		);
@@ -1104,7 +1115,7 @@ class ProjectService {
 							?float $amount, ?string $repeat, ?string $paymentmode = null, ?int $paymentmodeid = null,
 							?int $categoryid = null, int $repeatallactive = 0, ?string $repeatuntil = null,
 							?int $timestamp = null, ?string $comment = null, ?int $repeatfreq = null,
-							?array $paymentModes = null): array {
+							?array $paymentModes = null, int $deleted = 0): array {
 		// if we don't have the payment modes, get them now
 		if (is_null($paymentModes)) {
 			$paymentModes = $this->getCategoriesOrPaymentModes($projectid, false);
@@ -1198,7 +1209,8 @@ class ProjectService {
 				'categoryid' => $qb->createNamedParameter($categoryid ?? 0, IQueryBuilder::PARAM_INT),
 				'paymentmode' => $qb->createNamedParameter($paymentmode ?? 'n', IQueryBuilder::PARAM_STR),
 				'paymentmodeid' => $qb->createNamedParameter($paymentmodeid ?? 0, IQueryBuilder::PARAM_INT),
-				'lastchanged' => $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT)
+				'lastchanged' => $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT),
+				'deleted' => $qb->createNamedParameter($deleted, IQueryBuilder::PARAM_INT),
 			]);
 		$qb->executeStatement();
 		$qb = $qb->resetQueryParts();
@@ -1224,35 +1236,29 @@ class ProjectService {
 	/**
 	 * Delete a bill
 	 *
-	 * @param string $projectid
-	 * @param int $billid
+	 * @param string $projectId
+	 * @param int $billId
 	 * @param bool $force Ignores any deletion protection and forces the deletion of the bill
+	 * @param bool $moveToTrash
 	 * @return array
 	 */
-	public function deleteBill(string $projectid, int $billid, bool $force = false): array {
+	public function deleteBill(string $projectId, int $billId, bool $force = false, bool $moveToTrash = true): array {
 		if ($force === false) {
-			$project = $this->getProjectInfo($projectid);
+			$project = $this->getProjectInfo($projectId);
 			if ($project['deletion_disabled']) {
 				return ['message' => 'Forbidden'];
 			}
 		}
-		$billToDelete = $this->getBill($projectid, $billid);
+		$billToDelete = $this->billMapper->getBill($projectId, $billId);
 		if ($billToDelete !== null) {
-			$this->deleteBillOwersOfBill($billid);
-
-			$qb = $this->db->getQueryBuilder();
-			$qb->delete('cospend_bills')
-				->where(
-					$qb->expr()->eq('id', $qb->createNamedParameter($billid, IQueryBuilder::PARAM_INT))
-				)
-				->andWhere(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
-				);
-			$qb->executeStatement();
-			$qb->resetQueryParts();
+			if ($moveToTrash) {
+				$this->billMapper->moveBillToTrash($projectId, $billId);
+			} else {
+				$this->billMapper->deleteBill($projectId, $billId);
+			}
 
 			$ts = (new DateTime())->getTimestamp();
-			$this->updateProjectLastChanged($projectid, $ts);
+			$this->updateProjectLastChanged($projectId, $ts);
 
 			return ['success' => true];
 		} else {
@@ -1359,98 +1365,6 @@ class ProjectService {
 		$req->closeCursor();
 		$qb->resetQueryParts();
 		return $project;
-	}
-
-	/**
-	 * Get bill info
-	 *
-	 * @param string $projectId
-	 * @param int $billId
-	 * @return array|null
-	 */
-	public function getBill(string $projectId, int $billId): ?array {
-		$bill = null;
-		// get bill owers
-		$billOwers = [];
-		$billOwerIds = [];
-
-		$qb = $this->db->getQueryBuilder();
-
-		$qb->select('memberid', 'm.name', 'm.weight', 'm.activated')
-			->from('cospend_bill_owers', 'bo')
-			->innerJoin('bo', 'cospend_members', 'm', $qb->expr()->eq('bo.memberid', 'm.id'))
-			->where(
-				$qb->expr()->eq('bo.billid', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
-			);
-		$req = $qb->executeQuery();
-
-		while ($row = $req->fetch()){
-			$dbWeight = (float) $row['weight'];
-			$dbName = $row['name'];
-			$dbActivated = (((int) $row['activated']) === 1);
-			$dbOwerId= (int) $row['memberid'];
-			$billOwers[] = [
-				'id' => $dbOwerId,
-				'weight' => $dbWeight,
-				'name' => $dbName,
-				'activated' => $dbActivated,
-			];
-			$billOwerIds[] = $dbOwerId;
-		}
-		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
-
-		// get the bill
-		$qb->select('id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
-			'repeatallactive', 'paymentmode', 'paymentmodeid', 'categoryid', 'repeatuntil', 'repeatfreq')
-			->from('cospend_bills')
-			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('id', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
-			);
-		$req = $qb->executeQuery();
-		while ($row = $req->fetch()){
-			$bill = [
-				'id' => (int) $row['id'],
-				'amount' => (float) $row['amount'],
-				'what' => $row['what'],
-				'comment' => $row['comment'],
-				'date' => DateTime::createFromFormat('U', $row['timestamp'])->format('Y-m-d'),
-				'timestamp' => (int) $row['timestamp'],
-				'payer_id' => (int) $row['payerid'],
-				'owers' => $billOwers,
-				'owerIds' => $billOwerIds,
-				'repeat' => $row['repeat'],
-				'repeatallactive' => (int) $row['repeatallactive'],
-				'repeatuntil' => $row['repeatuntil'],
-				'repeatfreq' => (int) $row['repeatfreq'],
-				'paymentmode' => $row['paymentmode'],
-				'paymentmodeid' => (int) $row['paymentmodeid'],
-				'categoryid' => (int) $row['categoryid'],
-			];
-		}
-		$req->closeCursor();
-		$qb->resetQueryParts();
-
-		return $bill;
-	}
-
-	/**
-	 * Delete bill owers of given bill
-	 *
-	 * @param int $billid
-	 * @return void
-	 */
-	private function deleteBillOwersOfBill(int $billid): void {
-		$qb = $this->db->getQueryBuilder();
-		$qb->delete('cospend_bill_owers')
-			->where(
-				$qb->expr()->eq('billid', $qb->createNamedParameter($billid, IQueryBuilder::PARAM_INT))
-			);
-		$qb->executeStatement();
-		$qb->resetQueryParts();
 	}
 
 	/**
@@ -1921,10 +1835,13 @@ class ProjectService {
 	 *
 	 * @param string $projectId
 	 * @param int|null $payerId
+	 * @param int|null $categoryId
+	 * @param int|null $paymentModeId
+	 * @param int|null $deleted
 	 * @return int
 	 * @throws \OCP\DB\Exception
 	 */
-	public function getNbBills(string $projectId, ?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null): int {
+	public function getNbBills(string $projectId, ?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $deleted = 0): int {
 		$nb = 0;
 		$qb = $this->db->getQueryBuilder();
 		$qb->selectAlias($qb->createFunction('COUNT(*)'), 'count_bills')
@@ -1932,6 +1849,11 @@ class ProjectService {
 			->where(
 				$qb->expr()->eq('bi.projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
+		if ($deleted !== null) {
+			$qb->andWhere(
+				$qb->expr()->eq('deleted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+			);
+		}
 		if ($payerId !== null) {
 			$qb->andWhere(
 				$qb->expr()->eq('payerid', $qb->createNamedParameter($payerId, IQueryBuilder::PARAM_INT))
@@ -1955,378 +1877,12 @@ class ProjectService {
 	}
 
 	/**
-	 * Get filtered list of bills for a project
-	 *
-	 * @param string $projectId
-	 * @param int|null $tsMin
-	 * @param int|null $tsMax
-	 * @param string|null $paymentMode
-	 * @param int|null $category
-	 * @param float|null $amountMin
-	 * @param float|null $amountMax
-	 * @param int|null $lastchanged
-	 * @param int|null $limit
-	 * @param bool $reverse
-	 * @param int $offset
-	 * @return array
-	 */
-	public function getBillsWithLimit(string $projectId, ?int $tsMin = null, ?int $tsMax = null,
-									  ?string $paymentMode = null, ?int $paymentModeId = null,
-									  ?int $category = null, ?float $amountMin = null, ?float $amountMax = null,
-									  ?int $lastchanged = null, ?int $limit = null,
-									  bool $reverse = false, ?int $offset = 0, ?int $payerId = null,
-									  ?int $includeBillId = null, ?string $searchTerm = null): array {
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
-			'paymentmode', 'paymentmodeid', 'categoryid', 'lastchanged', 'repeatallactive',
-			'repeatuntil', 'repeatfreq')
-			->from('cospend_bills', 'bi')
-			->where(
-				$qb->expr()->eq('bi.projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			);
-		// take bills that have changed after $lastchanged
-		if ($lastchanged !== null) {
-			$qb->andWhere(
-				$qb->expr()->gt('bi.lastchanged', $qb->createNamedParameter($lastchanged, IQueryBuilder::PARAM_INT))
-			);
-		}
-		if ($payerId !== null) {
-			$qb->andWhere(
-				$qb->expr()->eq('payerid', $qb->createNamedParameter($payerId, IQueryBuilder::PARAM_INT))
-			);
-		}
-		if ($tsMin !== null) {
-			$qb->andWhere(
-				$qb->expr()->gte('timestamp', $qb->createNamedParameter($tsMin, IQueryBuilder::PARAM_INT))
-			);
-		}
-		if ($tsMax !== null) {
-			$qb->andWhere(
-				$qb->expr()->lte('timestamp', $qb->createNamedParameter($tsMax, IQueryBuilder::PARAM_INT))
-			);
-		}
-		if ($paymentMode !== null && $paymentMode !== '' && $paymentMode !== 'n') {
-			$qb->andWhere(
-				$qb->expr()->eq('paymentmode', $qb->createNamedParameter($paymentMode, IQueryBuilder::PARAM_STR))
-			);
-		} elseif (!is_null($paymentModeId)) {
-			$qb->andWhere(
-				$qb->expr()->eq('paymentmodeid', $qb->createNamedParameter($paymentModeId, IQueryBuilder::PARAM_INT))
-			);
-		}
-		if ($category !== null) {
-			if ($category === -100) {
-				$or = $qb->expr()->orx();
-				$or->add($qb->expr()->isNull('categoryid'));
-				$or->add($qb->expr()->neq('categoryid', $qb->createNamedParameter(Application::CAT_REIMBURSEMENT, IQueryBuilder::PARAM_INT)));
-				$qb->andWhere($or);
-			} else {
-				$qb->andWhere(
-					$qb->expr()->eq('categoryid', $qb->createNamedParameter($category, IQueryBuilder::PARAM_INT))
-				);
-			}
-		}
-		if ($amountMin !== null) {
-			$qb->andWhere(
-				$qb->expr()->gte('amount', $qb->createNamedParameter($amountMin, IQueryBuilder::PARAM_STR))
-			);
-		}
-		if ($amountMax !== null) {
-			$qb->andWhere(
-				$qb->expr()->lte('amount', $qb->createNamedParameter($amountMax, IQueryBuilder::PARAM_STR))
-			);
-		}
-		// handle the search term (what, comment, amount+-1)
-		if ($searchTerm !== null && $searchTerm !== '') {
-			$qb = $this->applyBillSearchTermCondition($qb, $searchTerm, 'bi');
-		}
-		if ($reverse) {
-			$qb->orderBy('timestamp', 'DESC');
-		} else {
-			$qb->orderBy('timestamp', 'ASC');
-		}
-		if ($limit) {
-			$qb->setMaxResults($limit);
-		}
-		if ($offset) {
-			$qb->setFirstResult($offset);
-		}
-		$req = $qb->executeQuery();
-
-		$bills = [];
-		$includeBillFound = false;
-		while ($row = $req->fetch()){
-			if ($includeBillId !== null && $includeBillId === (int) $row['id']) {
-				$includeBillFound = true;
-			}
-			$bills[] = $this->getBillFromRow($row);
-		}
-		$req->closeCursor();
-
-		// look further if we want to include a specific bill
-		if ($includeBillId !== null && $includeBillFound === false && $limit && $offset === 0) {
-			$lastResultCount = count($bills);
-			while ($lastResultCount > 0 && $includeBillFound === false) {
-				$offset = $offset + $limit;
-				$qb->setFirstResult($offset);
-				$req = $qb->executeQuery();
-				$lastResultCount = 0;
-				while ($row = $req->fetch()){
-					if ($includeBillId === (int) $row['id']) {
-						$includeBillFound = true;
-					}
-					$lastResultCount++;
-					$bills[] = $this->getBillFromRow($row);
-				}
-				$req->closeCursor();
-			}
-		}
-
-		$qb = $qb->resetQueryParts();
-
-		// get owers
-		foreach ($bills as $i => $bill) {
-			$billId = $bill['id'];
-			$billOwers = [];
-			$billOwerIds = [];
-
-			$qb->select('memberid', 'm.name', 'm.weight', 'm.activated')
-				->from('cospend_bill_owers', 'bo')
-				->innerJoin('bo', 'cospend_members', 'm', $qb->expr()->eq('bo.memberid', 'm.id'))
-				->where(
-					$qb->expr()->eq('bo.billid', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
-				);
-			$qb->setFirstResult(0);
-			$req = $qb->executeQuery();
-			while ($row = $req->fetch()){
-				$dbWeight = (float) $row['weight'];
-				$dbName = $row['name'];
-				$dbActivated = ((int) $row['activated']) === 1;
-				$dbOwerId= (int) $row['memberid'];
-				$billOwers[] = [
-					'id' => $dbOwerId,
-					'weight' => $dbWeight,
-					'name' => $dbName,
-					'activated' => $dbActivated,
-				];
-				$billOwerIds[] = $dbOwerId;
-			}
-			$req->closeCursor();
-			$qb = $qb->resetQueryParts();
-			$bills[$i]['owers'] = $billOwers;
-			$bills[$i]['owerIds'] = $billOwerIds;
-		}
-
-		return $bills;
-	}
-
-	private function getBillFromRow(array $row): array {
-		$dbBillId = (int) $row['id'];
-		$dbAmount = (float) $row['amount'];
-		$dbWhat = $row['what'];
-		$dbComment = $row['comment'];
-		$dbTimestamp = (int) $row['timestamp'];
-		$dbDate = DateTime::createFromFormat('U', $dbTimestamp);
-		$dbRepeat = $row['repeat'];
-		$dbPayerId = (int) $row['payerid'];
-		$dbPaymentMode = $row['paymentmode'];
-		$dbPaymentModeId = (int) $row['paymentmodeid'];
-		$dbCategoryId = (int) $row['categoryid'];
-		$dbLastchanged = (int) $row['lastchanged'];
-		$dbRepeatAllActive = (int) $row['repeatallactive'];
-		$dbRepeatUntil = $row['repeatuntil'];
-		$dbRepeatFreq = (int) $row['repeatfreq'];
-		return [
-			'id' => $dbBillId,
-			'amount' => $dbAmount,
-			'what' => $dbWhat,
-			'comment' => $dbComment ?? '',
-			'timestamp' => $dbTimestamp,
-			'date' => $dbDate->format('Y-m-d'),
-			'payer_id' => $dbPayerId,
-			'owers' => [],
-			'owerIds' => [],
-			'repeat' => $dbRepeat,
-			'paymentmode' => $dbPaymentMode,
-			'paymentmodeid' => $dbPaymentModeId,
-			'categoryid' => $dbCategoryId,
-			'lastchanged' => $dbLastchanged,
-			'repeatallactive' => $dbRepeatAllActive,
-			'repeatuntil' => $dbRepeatUntil,
-			'repeatfreq' => $dbRepeatFreq,
-		];
-	}
-
-	/**
-	 * Get filtered list of bills for a project
-	 *
-	 * @param string $projectId
-	 * @param int|null $tsMin
-	 * @param int|null $tsMax
-	 * @param string|null $paymentMode
-	 * @param int|null $paymentModeId
-	 * @param int|null $category
-	 * @param float|null $amountMin
-	 * @param float|null $amountMax
-	 * @param int|null $lastchanged
-	 * @param int|null $limit
-	 * @param bool $reverse
-	 * @param int|null $payerId
-	 * @return array
-	 * @throws \OCP\DB\Exception
-	 */
-	public function getBills(string $projectId, ?int $tsMin = null, ?int $tsMax = null,
-							 ?string $paymentMode = null, ?int $paymentModeId = null,
-							 ?int $category = null, ?float $amountMin = null, ?float $amountMax = null,
-							 ?int $lastchanged = null, ?int $limit = null,
-							 bool $reverse = false, ?int $payerId = null): array {
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('bi.id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
-			'paymentmode', 'paymentmodeid', 'categoryid', 'bi.lastchanged', 'repeatallactive', 'repeatuntil', 'repeatfreq',
-			'memberid', 'm.name', 'm.weight', 'm.activated')
-			->from('cospend_bill_owers', 'bo')
-			->innerJoin('bo', 'cospend_bills', 'bi', $qb->expr()->eq('bo.billid', 'bi.id'))
-			->innerJoin('bo', 'cospend_members', 'm', $qb->expr()->eq('bo.memberid', 'm.id'))
-			->where(
-				$qb->expr()->eq('bi.projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			);
-		// take bills that have changed after $lastchanged
-		if ($lastchanged !== null) {
-			$qb->andWhere(
-				$qb->expr()->gt('bi.lastchanged', $qb->createNamedParameter($lastchanged, IQueryBuilder::PARAM_INT))
-			);
-		}
-		if ($payerId !== null) {
-			$qb->andWhere(
-				$qb->expr()->eq('bi.payerid', $qb->createNamedParameter($payerId, IQueryBuilder::PARAM_INT))
-			);
-		}
-		if ($tsMin !== null) {
-			$qb->andWhere(
-				$qb->expr()->gte('timestamp', $qb->createNamedParameter($tsMin, IQueryBuilder::PARAM_INT))
-			);
-		}
-		if ($tsMax !== null) {
-			$qb->andWhere(
-				$qb->expr()->lte('timestamp', $qb->createNamedParameter($tsMax, IQueryBuilder::PARAM_INT))
-			);
-		}
-		if ($paymentMode !== null && $paymentMode !== '' && $paymentMode !== 'n') {
-			$qb->andWhere(
-				$qb->expr()->eq('paymentmode', $qb->createNamedParameter($paymentMode, IQueryBuilder::PARAM_STR))
-			);
-		} elseif (!is_null($paymentModeId)) {
-			$qb->andWhere(
-				$qb->expr()->eq('paymentmodeid', $qb->createNamedParameter($paymentModeId, IQueryBuilder::PARAM_INT))
-			);
-		}
-		if ($category !== null) {
-			if ($category === -100) {
-				$or = $qb->expr()->orx();
-				$or->add($qb->expr()->isNull('categoryid'));
-				$or->add($qb->expr()->neq('categoryid', $qb->createNamedParameter(Application::CAT_REIMBURSEMENT, IQueryBuilder::PARAM_INT)));
-				$qb->andWhere($or);
-			} else {
-				$qb->andWhere(
-					$qb->expr()->eq('categoryid', $qb->createNamedParameter($category, IQueryBuilder::PARAM_INT))
-				);
-			}
-		}
-		if ($amountMin !== null) {
-			$qb->andWhere(
-				$qb->expr()->gte('amount', $qb->createNamedParameter($amountMin, IQueryBuilder::PARAM_STR))
-			);
-		}
-		if ($amountMax !== null) {
-			$qb->andWhere(
-				$qb->expr()->lte('amount', $qb->createNamedParameter($amountMax, IQueryBuilder::PARAM_STR))
-			);
-		}
-		if ($reverse) {
-			$qb->orderBy('timestamp', 'DESC');
-		} else {
-			$qb->orderBy('timestamp', 'ASC');
-		}
-		if ($limit) {
-			$qb->setMaxResults($limit);
-		}
-		$req = $qb->executeQuery();
-
-		// bills by id
-		$billDict = [];
-		// ordered list of bill ids
-		$orderedBillIds = [];
-		while ($row = $req->fetch()){
-			$dbBillId = (int) $row['id'];
-			// if first time we see the bill : add it to bill list
-			if (!isset($billDict[$dbBillId])) {
-				$dbAmount = (float) $row['amount'];
-				$dbWhat = $row['what'];
-				$dbComment = $row['comment'];
-				$dbTimestamp = (int) $row['timestamp'];
-				$dbDate = DateTime::createFromFormat('U', $dbTimestamp);
-				$dbRepeat = $row['repeat'];
-				$dbPayerId = (int) $row['payerid'];
-				$dbPaymentMode = $row['paymentmode'];
-				$dbPaymentModeId = (int) $row['paymentmodeid'];
-				$dbCategoryId = (int) $row['categoryid'];
-				$dbLastchanged = (int) $row['lastchanged'];
-				$dbRepeatAllActive = (int) $row['repeatallactive'];
-				$dbRepeatUntil = $row['repeatuntil'];
-				$dbRepeatFreq = (int) $row['repeatfreq'];
-				$billDict[$dbBillId] = [
-					'id' => $dbBillId,
-					'amount' => $dbAmount,
-					'what' => $dbWhat,
-					'comment' => $dbComment,
-					'timestamp' => $dbTimestamp,
-					'date' => $dbDate->format('Y-m-d'),
-					'payer_id' => $dbPayerId,
-					'owers' => [],
-					'owerIds' => [],
-					'repeat' => $dbRepeat,
-					'paymentmode' => $dbPaymentMode,
-					'paymentmodeid' => $dbPaymentModeId,
-					'categoryid' => $dbCategoryId,
-					'lastchanged' => $dbLastchanged,
-					'repeatallactive' => $dbRepeatAllActive,
-					'repeatuntil' => $dbRepeatUntil,
-					'repeatfreq' => $dbRepeatFreq,
-				];
-				// keep order of bills
-				$orderedBillIds[] = $dbBillId;
-			}
-			// anyway add an ower
-			$dbWeight = (float) $row['weight'];
-			$dbName = $row['name'];
-			$dbActivated = ((int) $row['activated']) === 1;
-			$dbOwerId= (int) $row['memberid'];
-			$billDict[$dbBillId]['owers'][] = [
-				'id' => $dbOwerId,
-				'weight' => $dbWeight,
-				'name' => $dbName,
-				'activated' => $dbActivated,
-			];
-			$billDict[$dbBillId]['owerIds'][] = $dbOwerId;
-		}
-		$req->closeCursor();
-		$qb->resetQueryParts();
-
-		$resultBills = [];
-		foreach ($orderedBillIds as $bid) {
-			$resultBills[] = $billDict[$bid];
-		}
-
-		return $resultBills;
-	}
-
-	/**
 	 * Get all bill IDs of a project
 	 *
 	 * @param string $projectId
 	 * @return array
 	 */
-	public function getAllBillIds(string $projectId): array {
+	public function getAllBillIds(string $projectId, ?int $deleted = 0): array {
 		$billIds = [];
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id')
@@ -2334,6 +1890,11 @@ class ProjectService {
 			->where(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
+		if ($deleted !== null) {
+			$qb->andWhere(
+				$qb->expr()->eq('deleted', $qb->createNamedParameter($deleted, IQueryBuilder::PARAM_INT))
+			);
+		}
 		$req = $qb->executeQuery();
 
 		while ($row = $req->fetch()){
@@ -2433,7 +1994,7 @@ class ProjectService {
 			$membersBalance[$memberId] = 0.0;
 		}
 
-		$bills = $this->getBills($projectId, null, $maxTimestamp);
+		$bills = $this->billMapper->getBills($projectId, null, $maxTimestamp);
 		foreach ($bills as $bill) {
 			$payerId = $bill['payer_id'];
 			$amount = $bill['amount'];
@@ -2781,6 +2342,9 @@ class ProjectService {
 					->where(
 						$qb->expr()->eq($alias . '.projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 					)
+					->andWhere(
+						$qb->expr()->eq('bill.deleted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+					)
 					->orderBy($qb->func()->count($alias . '.id'), 'DESC')
 					->groupBy($alias . '.id');
 				$req = $qb->executeQuery();
@@ -2804,6 +2368,9 @@ class ProjectService {
 					->innerJoin($alias, 'cospend_bills', 'bill', $qb->expr()->eq($alias . '.id', 'bill.' . $billTableField))
 					->where(
 						$qb->expr()->eq($alias . '.projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+					)
+					->andWhere(
+						$qb->expr()->eq('bill.deleted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 					)
 					->orderBy($qb->func()->max('bill.timestamp'), 'DESC')
 					->groupBy($alias . '.id');
@@ -3147,18 +2714,21 @@ class ProjectService {
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
-	public function getBillsOfMember(int $memberid): array {
+	public function getBillsOfMember(int $memberid, ?int $deleted = 0): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('bi.id')
 			->from('cospend_bill_owers', 'bo')
 			->innerJoin('bo', 'cospend_bills', 'bi', $qb->expr()->eq('bo.billid', 'bi.id'))
-			->innerJoin('bo', 'cospend_members', 'm', $qb->expr()->eq('bo.memberid', 'm.id'))
-			->where(
-				$qb->expr()->eq('bi.payerid', $qb->createNamedParameter($memberid, IQueryBuilder::PARAM_INT))
-			)
-			->orWhere(
-				$qb->expr()->eq('bo.memberid', $qb->createNamedParameter($memberid, IQueryBuilder::PARAM_INT))
+			->innerJoin('bo', 'cospend_members', 'm', $qb->expr()->eq('bo.memberid', 'm.id'));
+		$or = $qb->expr()->orx();
+		$or->add($qb->expr()->eq('bi.payerid', $qb->createNamedParameter($memberid, IQueryBuilder::PARAM_INT)));
+		$or->add($qb->expr()->eq('bo.memberid', $qb->createNamedParameter($memberid, IQueryBuilder::PARAM_INT)));
+		$qb->where($or);
+		if ($deleted !== null) {
+			$qb->andWhere(
+				$qb->expr()->eq('bi.deleted', $qb->createNamedParameter($deleted, IQueryBuilder::PARAM_INT))
 			);
+		}
 		$req = $qb->executeQuery();
 
 		$billIds = [];
@@ -3296,6 +2866,7 @@ class ProjectService {
 	 * @param string|null $comment
 	 * @param int|null $repeatfreq
 	 * @param array|null $paymentModes
+	 * @param int|null $deleted
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
@@ -3303,7 +2874,7 @@ class ProjectService {
 							 ?float $amount, ?string $repeat, ?string $paymentmode = null, ?int $paymentmodeid = null,
 							 ?int $categoryid = null, ?int $repeatallactive = null, ?string $repeatuntil = null,
 							 ?int $timestamp = null, ?string $comment = null, ?int $repeatfreq = null,
-							 ?array $paymentModes = null): array {
+							 ?array $paymentModes = null, ?int $deleted = null): array {
 		// if we don't have the payment modes, get them now
 		if (is_null($paymentModes)) {
 			$paymentModes = $this->getCategoriesOrPaymentModes($projectid, false);
@@ -3317,7 +2888,7 @@ class ProjectService {
 		$qb->set('lastchanged', $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT));
 
 		// first check the bill exists
-		if ($this->getBill($projectid, $billid) === null) {
+		if ($this->billMapper->getBill($projectid, $billid) === null) {
 			return ['message' => $this->l10n->t('There is no such bill')];
 		}
 		// then edit the hell of it
@@ -3327,6 +2898,10 @@ class ProjectService {
 
 		if ($comment !== null) {
 			$qb->set('comment', $qb->createNamedParameter($comment, IQueryBuilder::PARAM_STR));
+		}
+
+		if ($deleted !== null) {
+			$qb->set('deleted', $qb->createNamedParameter($deleted, IQueryBuilder::PARAM_INT));
 		}
 
 		if ($repeat !== null && $repeat !== '') {
@@ -3433,7 +3008,7 @@ class ProjectService {
 		// edit the bill owers
 		if ($owerIds !== null) {
 			// delete old bill owers
-			$this->deleteBillOwersOfBill($billid);
+			$this->billMapper->deleteBillOwersOfBill($billid);
 			// insert bill owers
 			foreach ($owerIds as $owerId) {
 				$qb->insert('cospend_bill_owers')
@@ -3466,12 +3041,15 @@ class ProjectService {
 		$continue = true;
 		while ($continue) {
 			$continue = false;
-			// get bills whith repetition flag
+			// get bills with repetition flag
 			$qb = $this->db->getQueryBuilder();
 			$qb->select('id', 'projectid', 'what', 'timestamp', 'amount', 'payerid', 'repeat', 'repeatallactive', 'repeatfreq')
 				->from('cospend_bills', 'b')
 				->where(
 					$qb->expr()->neq('repeat', $qb->createNamedParameter(Application::FREQUENCIES['no'], IQueryBuilder::PARAM_STR))
+				)
+				->andWhere(
+					$qb->expr()->eq('deleted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 				);
 			// we only repeat one bill
 			if (!is_null($billId)) {
@@ -3614,8 +3192,15 @@ class ProjectService {
 		return $bill['categoryid'];
 	}
 
+	/**
+	 * @param string $projectid
+	 * @param int $billid
+	 * @param string $toProjectId
+	 * @return array
+	 * @throws \OCP\DB\Exception
+	 */
 	public function moveBill(string $projectid, int $billid, string $toProjectId): array {
-		$bill = $this->getBill($projectid, $billid);
+		$bill = $this->billMapper->getBill($projectid, $billid);
 
 		// get all members in all the projects and try to match them
 		$originMembers = $this->getMembers($projectid, 'lowername');
@@ -3684,7 +3269,7 @@ class ProjectService {
 	 * @throws \OCP\DB\Exception
 	 */
 	private function repeatBill(string $projectid, int $billid, DateTimeImmutable $targetDatetime): ?int {
-		$bill = $this->getBill($projectid, $billid);
+		$bill = $this->billMapper->getBill($projectid, $billid);
 
 		$owerIds = [];
 		if (((int) $bill['repeatallactive']) === 1) {
@@ -3908,20 +3493,21 @@ class ProjectService {
 	}
 
 	/**
-	 * @param string $projectid
-	 * @param int $pmid
-	 * @return array
+	 * @param string $projectId
+	 * @param int $pmId
+	 * @return array|true[]
+	 * @throws \OCP\DB\Exception
 	 */
-	public function deletePaymentMode(string $projectid, int $pmid): array {
-		$pmToDelete = $this->getPaymentMode($projectid, $pmid);
+	public function deletePaymentMode(string $projectId, int $pmId): array {
+		$pmToDelete = $this->getPaymentMode($projectId, $pmId);
 		if ($pmToDelete !== null) {
 			$qb = $this->db->getQueryBuilder();
 			$qb->delete('cospend_paymentmodes')
 				->where(
-					$qb->expr()->eq('id', $qb->createNamedParameter($pmid, IQueryBuilder::PARAM_INT))
+					$qb->expr()->eq('id', $qb->createNamedParameter($pmId, IQueryBuilder::PARAM_INT))
 				)
 				->andWhere(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
 			$qb->resetQueryParts();
@@ -3929,12 +3515,12 @@ class ProjectService {
 			// then get rid of this pm in bills
 			$qb = $this->db->getQueryBuilder();
 			$qb->update('cospend_bills');
-			$qb->set('paymentmodeid', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT));
-			$qb->where(
-				$qb->expr()->eq('paymentmodeid', $qb->createNamedParameter($pmid, IQueryBuilder::PARAM_INT))
-			)
+			$qb->set('paymentmodeid', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+				->where(
+					$qb->expr()->eq('paymentmodeid', $qb->createNamedParameter($pmId, IQueryBuilder::PARAM_INT))
+				)
 				->andWhere(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
 			$qb->resetQueryParts();
@@ -4080,20 +3666,21 @@ class ProjectService {
 	/**
 	 * Delete a category
 	 *
-	 * @param string $projectid
-	 * @param int $categoryid
+	 * @param string $projectId
+	 * @param int $categoryId
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
-	public function deleteCategory(string $projectid, int $categoryid): array {
-		$categoryToDelete = $this->getCategory($projectid, $categoryid);
+	public function deleteCategory(string $projectId, int $categoryId): array {
+		$categoryToDelete = $this->getCategory($projectId, $categoryId);
 		if ($categoryToDelete !== null) {
 			$qb = $this->db->getQueryBuilder();
 			$qb->delete('cospend_categories')
 				->where(
-					$qb->expr()->eq('id', $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT))
+					$qb->expr()->eq('id', $qb->createNamedParameter($categoryId, IQueryBuilder::PARAM_INT))
 				)
 				->andWhere(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
 			$qb->resetQueryParts();
@@ -4101,12 +3688,12 @@ class ProjectService {
 			// then get rid of this category in bills
 			$qb = $this->db->getQueryBuilder();
 			$qb->update('cospend_bills');
-			$qb->set('categoryid', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT));
-			$qb->where(
-				$qb->expr()->eq('categoryid', $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT))
-			)
+			$qb->set('categoryid', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+				->where(
+					$qb->expr()->eq('categoryid', $qb->createNamedParameter($categoryId, IQueryBuilder::PARAM_INT))
+				)
 				->andWhere(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
 			$qb->resetQueryParts();
@@ -4120,11 +3707,12 @@ class ProjectService {
 	/**
 	 * Save the manual category order
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @param array $order
 	 * @return bool
+	 * @throws \OCP\DB\Exception
 	 */
-	public function saveCategoryOrder(string $projectid, array $order): bool {
+	public function saveCategoryOrder(string $projectId, array $order): bool {
 		$qb = $this->db->getQueryBuilder();
 		foreach ($order as $o) {
 			$qb->update('cospend_categories');
@@ -4133,7 +3721,7 @@ class ProjectService {
 				$qb->expr()->eq('id', $qb->createNamedParameter($o['id'], IQueryBuilder::PARAM_INT))
 			)
 				->andWhere(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
 			$qb = $qb->resetQueryParts();
@@ -4144,36 +3732,37 @@ class ProjectService {
 	/**
 	 * Edit a category
 	 *
-	 * @param string $projectid
-	 * @param int $categoryid
+	 * @param string $projectId
+	 * @param int $categoryId
 	 * @param string|null $name
 	 * @param string|null $icon
 	 * @param string|null $color
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
-	public function editCategory(string $projectid, int $categoryid, ?string $name = null,
+	public function editCategory(string  $projectId, int $categoryId, ?string $name = null,
 								 ?string $icon = null, ?string $color = null): array {
 		if ($name !== null && $name !== '') {
 			$encIcon = $icon;
 			if ($icon !== null && $icon !== '') {
 				$encIcon = urlencode($icon);
 			}
-			if ($this->getCategory($projectid, $categoryid) !== null) {
+			if ($this->getCategory($projectId, $categoryId) !== null) {
 				$qb = $this->db->getQueryBuilder();
 				$qb->update('cospend_categories');
 				$qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
 				$qb->set('encoded_icon', $qb->createNamedParameter($encIcon, IQueryBuilder::PARAM_STR));
 				$qb->set('color', $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR));
 				$qb->where(
-					$qb->expr()->eq('id', $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT))
+					$qb->expr()->eq('id', $qb->createNamedParameter($categoryId, IQueryBuilder::PARAM_INT))
 				)
 					->andWhere(
-						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 					);
 				$qb->executeStatement();
 				$qb->resetQueryParts();
 
-				return $this->getCategory($projectid, $categoryid);
+				return $this->getCategory($projectId, $categoryId);
 			} else {
 				return ['message' => $this->l10n->t('This project has no such category')];
 			}
@@ -4185,17 +3774,18 @@ class ProjectService {
 	/**
 	 * Add a currency
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @param string $name
 	 * @param float $rate
 	 * @return int
+	 * @throws \OCP\DB\Exception
 	 */
-	public function addCurrency(string $projectid, string $name, float $rate): int {
+	public function addCurrency(string $projectId, string $name, float $rate): int {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->insert('cospend_currencies')
 			->values([
-				'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
+				'projectid' => $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR),
 				'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
 				'exchange_rate' => $qb->createNamedParameter($rate, IQueryBuilder::PARAM_STR)
 			]);
@@ -4209,10 +3799,11 @@ class ProjectService {
 	 * Get one currency
 	 *
 	 * @param string $projectId
-	 * @param int $currencyid
+	 * @param int $currencyId
 	 * @return array|null
+	 * @throws \OCP\DB\Exception
 	 */
-	private function getCurrency(string $projectId, int $currencyid): ?array {
+	private function getCurrency(string $projectId, int $currencyId): ?array {
 		$currency = null;
 
 		$qb = $this->db->getQueryBuilder();
@@ -4222,7 +3813,7 @@ class ProjectService {
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
-				$qb->expr()->eq('id', $qb->createNamedParameter($currencyid, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('id', $qb->createNamedParameter($currencyId, IQueryBuilder::PARAM_INT))
 			);
 		$req = $qb->executeQuery();
 
@@ -4246,20 +3837,21 @@ class ProjectService {
 	/**
 	 * Delete one currency
 	 *
-	 * @param string $projectid
-	 * @param int $currencyid
+	 * @param string $projectId
+	 * @param int $currencyId
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
-	public function deleteCurrency(string $projectid, int $currencyid): array {
-		$currencyToDelete = $this->getCurrency($projectid, $currencyid);
+	public function deleteCurrency(string $projectId, int $currencyId): array {
+		$currencyToDelete = $this->getCurrency($projectId, $currencyId);
 		if ($currencyToDelete !== null) {
 			$qb = $this->db->getQueryBuilder();
 			$qb->delete('cospend_currencies')
 				->where(
-					$qb->expr()->eq('id', $qb->createNamedParameter($currencyid, IQueryBuilder::PARAM_INT))
+					$qb->expr()->eq('id', $qb->createNamedParameter($currencyId, IQueryBuilder::PARAM_INT))
 				)
 				->andWhere(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
 			$qb->resetQueryParts();
@@ -4273,29 +3865,30 @@ class ProjectService {
 	/**
 	 * Edit a currency
 	 *
-	 * @param string $projectid
-	 * @param int $currencyid
+	 * @param string $projectId
+	 * @param int $currencyId
 	 * @param string $name
 	 * @param float $exchange_rate
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
-	public function editCurrency(string $projectid, int $currencyid, string $name, float $exchange_rate): array {
+	public function editCurrency(string $projectId, int $currencyId, string $name, float $exchange_rate): array {
 		if ($name !== '' && $exchange_rate !== 0.0) {
-			if ($this->getCurrency($projectid, $currencyid) !== null) {
+			if ($this->getCurrency($projectId, $currencyId) !== null) {
 				$qb = $this->db->getQueryBuilder();
 				$qb->update('cospend_currencies');
 				$qb->set('exchange_rate', $qb->createNamedParameter($exchange_rate, IQueryBuilder::PARAM_STR));
 				$qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
 				$qb->where(
-					$qb->expr()->eq('id', $qb->createNamedParameter($currencyid, IQueryBuilder::PARAM_INT))
+					$qb->expr()->eq('id', $qb->createNamedParameter($currencyId, IQueryBuilder::PARAM_INT))
 				)
 					->andWhere(
-						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 					);
 				$qb->executeStatement();
 				$qb->resetQueryParts();
 
-				return $this->getCurrency($projectid, $currencyid);
+				return $this->getCurrency($projectId, $currencyId);
 			} else {
 				return ['message' => $this->l10n->t('This project have no such currency')];
 			}
@@ -4307,20 +3900,23 @@ class ProjectService {
 	/**
 	 * Add a user shared access to a project
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @param string $userid
 	 * @param string $fromUserId
 	 * @param int $accesslevel
 	 * @param bool $manually_added
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
-	public function addUserShare(string $projectid, string $userid, string $fromUserId,
-								 int $accesslevel = Application::ACCESS_LEVELS['participant'], bool $manually_added = true): array {
+	public function addUserShare(
+		string $projectId, string $userid, string $fromUserId, int $accesslevel = Application::ACCESS_LEVELS['participant'],
+		bool   $manually_added = true
+	): array {
 		$user = $this->userManager->get($userid);
 		if ($user !== null && $userid !== $fromUserId) {
 			$userName = $user->getDisplayName();
 			$qb = $this->db->getQueryBuilder();
-			$projectInfo = $this->getProjectInfo($projectid);
+			$projectInfo = $this->getProjectInfo($projectId);
 			// check if someone tries to share the project with its owner
 			if ($userid !== $projectInfo['userid']) {
 				// check if user share exists
@@ -4330,7 +3926,7 @@ class ProjectService {
 						$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['user'], IQueryBuilder::PARAM_STR))
 					)
 					->andWhere(
-						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 					)
 					->andWhere(
 						$qb->expr()->eq('userid', $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR))
@@ -4345,10 +3941,10 @@ class ProjectService {
 				$qb = $qb->resetQueryParts();
 
 				if ($dbuserId === null) {
-					if ($this->getUserMaxAccessLevel($fromUserId, $projectid) >= $accesslevel) {
+					if ($this->getUserMaxAccessLevel($fromUserId, $projectId) >= $accesslevel) {
 						$qb->insert('cospend_shares')
 							->values([
-								'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
+								'projectid' => $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR),
 								'userid' => $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR),
 								'type' => $qb->createNamedParameter(Application::SHARE_TYPES['user'], IQueryBuilder::PARAM_STR),
 								'accesslevel' => $qb->createNamedParameter($accesslevel, IQueryBuilder::PARAM_INT),
@@ -4364,7 +3960,7 @@ class ProjectService {
 						];
 
 						// activity
-						$projectObj = $this->projectMapper->find($projectid);
+						$projectObj = $this->projectMapper->find($projectId);
 						$this->activityManager->triggerEvent(
 							ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
 							ActivityManager::SUBJECT_PROJECT_SHARE,
@@ -4386,7 +3982,7 @@ class ProjectService {
 						$notification->setApp('cospend')
 							->setUser($userid)
 							->setDateTime(new DateTime())
-							->setObject('addusershare', $projectid)
+							->setObject('addusershare', $projectId)
 							->setSubject('add_user_share', [$fromUserId, $projectInfo['name']])
 							->addAction($acceptAction)
 							->addAction($declineAction);
@@ -4411,17 +4007,18 @@ class ProjectService {
 	/**
 	 * Add public share access (public link with token)
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
-	public function addPublicShare(string $projectid): array {
+	public function addPublicShare(string $projectId): array {
 		$qb = $this->db->getQueryBuilder();
 		// generate token
-		$token = md5($projectid.rand());
+		$token = md5($projectId.rand());
 
 		$qb->insert('cospend_shares')
 			->values([
-				'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
+				'projectid' => $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR),
 				'userid' => $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR),
 				'type' => $qb->createNamedParameter(Application::SHARE_TYPES['public_link'], IQueryBuilder::PARAM_STR)
 			]);
@@ -4471,21 +4068,22 @@ class ProjectService {
 	/**
 	 * Change shared access permissions
 	 *
-	 * @param string $projectid
-	 * @param int $shid
-	 * @param int $accesslevel
+	 * @param string $projectId
+	 * @param int $shId
+	 * @param int $accessLevel
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
-	public function editShareAccessLevel(string $projectid, int $shid, int $accesslevel): array {
+	public function editShareAccessLevel(string $projectId, int $shId, int $accessLevel): array {
 		// check if user share exists
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'projectid')
 			->from('cospend_shares', 's')
 			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
-				$qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
 			);
 		$req = $qb->executeQuery();
 		$dbId = null;
@@ -4499,12 +4097,12 @@ class ProjectService {
 		if ($dbId !== null) {
 			// set the accesslevel
 			$qb->update('cospend_shares')
-				->set('accesslevel', $qb->createNamedParameter($accesslevel, IQueryBuilder::PARAM_INT))
+				->set('accesslevel', $qb->createNamedParameter($accessLevel, IQueryBuilder::PARAM_INT))
 				->where(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 				)
 				->andWhere(
-					$qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
+					$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
 				);
 			$qb->executeStatement();
 			$qb->resetQueryParts();
@@ -4518,22 +4116,23 @@ class ProjectService {
 	/**
 	 * Change shared access permissions
 	 *
-	 * @param string $projectid
-	 * @param int $shid
+	 * @param string $projectId
+	 * @param int $shId
 	 * @param string|null $label
+	 * @param string|null $password
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
-	public function editShareAccess(string $projectid, int $shid, ?string $label = null, ?string $password = null): array {
+	public function editShareAccess(string $projectId, int $shId, ?string $label = null, ?string $password = null): array {
 		// check if user share exists
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'projectid')
 			->from('cospend_shares', 's')
 			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
-				$qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
 			);
 		$req = $qb->executeQuery();
 		$dbId = null;
@@ -4559,10 +4158,10 @@ class ProjectService {
 				$qb->set('password', $qb->createNamedParameter($password, IQueryBuilder::PARAM_STR));
 			}
 			$qb->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			)
 				->andWhere(
-					$qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
+					$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
 				);
 			$qb->executeStatement();
 			$qb->resetQueryParts();
@@ -4576,19 +4175,20 @@ class ProjectService {
 	/**
 	 * Change guest access permissions
 	 *
-	 * @param string $projectid
-	 * @param int $accesslevel
+	 * @param string $projectId
+	 * @param int $accessLevel
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
-	public function editGuestAccessLevel(string $projectid, int $accesslevel): array {
+	public function editGuestAccessLevel(string $projectId, int $accessLevel): array {
 		// check if project exists
 		$qb = $this->db->getQueryBuilder();
 
 		// set the access level
 		$qb->update('cospend_projects')
-			->set('guestaccesslevel', $qb->createNamedParameter($accesslevel, IQueryBuilder::PARAM_INT))
+			->set('guestaccesslevel', $qb->createNamedParameter($accessLevel, IQueryBuilder::PARAM_INT))
 			->where(
-				$qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
 		$qb->executeStatement();
 		$qb->resetQueryParts();
@@ -4599,12 +4199,13 @@ class ProjectService {
 	/**
 	 * Delete user shared access
 	 *
-	 * @param string $projectid
-	 * @param int $shid
+	 * @param string $projectId
+	 * @param int $shId
 	 * @param string|null $fromUserId
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
-	public function deleteUserShare(string $projectid, int $shid, ?string $fromUserId = null): array {
+	public function deleteUserShare(string $projectId, int $shId, ?string $fromUserId = null): array {
 		// check if user share exists
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'userid', 'projectid')
@@ -4613,17 +4214,17 @@ class ProjectService {
 				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['user'], IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
-				$qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
 			);
 		$req = $qb->executeQuery();
 		$dbId = null;
-		$dbuserId = null;
+		$dbUserId = null;
 		while ($row = $req->fetch()){
 			$dbId = $row['id'];
-			$dbuserId = $row['userid'];
+			$dbUserId = $row['userid'];
 			break;
 		}
 		$req->closeCursor();
@@ -4633,10 +4234,10 @@ class ProjectService {
 			// delete
 			$qb->delete('cospend_shares')
 				->where(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 				)
 				->andWhere(
-					$qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
+					$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
 				)
 				->andWhere(
 					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['user'], IQueryBuilder::PARAM_STR))
@@ -4645,16 +4246,16 @@ class ProjectService {
 			$qb->resetQueryParts();
 
 			// activity
-			$projectObj = $this->projectMapper->find($projectid);
+			$projectObj = $this->projectMapper->find($projectId);
 			$this->activityManager->triggerEvent(
 				ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
 				ActivityManager::SUBJECT_PROJECT_UNSHARE,
-				['who' => $dbuserId, 'type' => Application::SHARE_TYPES['user']]
+				['who' => $dbUserId, 'type' => Application::SHARE_TYPES['user']]
 			);
 
 			// SEND NOTIFICATION
 			if (!is_null($fromUserId)) {
-				$projectInfo = $this->getProjectInfo($projectid);
+				$projectInfo = $this->getProjectInfo($projectId);
 
 				$manager = $this->notificationManager;
 				$notification = $manager->createNotification();
@@ -4668,9 +4269,9 @@ class ProjectService {
 					->setLink('/apps/cospend', 'GET');
 
 				$notification->setApp('cospend')
-					->setUser($dbuserId)
+					->setUser($dbUserId)
 					->setDateTime(new DateTime())
-					->setObject('deleteusershare', $projectid)
+					->setObject('deleteusershare', $projectId)
 					->setSubject('delete_user_share', [$fromUserId, $projectInfo['name']])
 					->addAction($acceptAction)
 					->addAction($declineAction)
@@ -4688,11 +4289,12 @@ class ProjectService {
 	/**
 	 * Delete public shared access
 	 *
-	 * @param string $projectid
-	 * @param int $shid
+	 * @param string $projectId
+	 * @param int $shId
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
-	public function deletePublicShare(string $projectid, int $shid): array {
+	public function deletePublicShare(string $projectId, int $shId): array {
 		// check if public share exists
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'userid', 'projectid')
@@ -4701,10 +4303,10 @@ class ProjectService {
 				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['public_link'], IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
-				$qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
 			);
 		$req = $qb->executeQuery();
 		$dbId = null;
@@ -4719,10 +4321,10 @@ class ProjectService {
 			// delete
 			$qb->delete('cospend_shares')
 				->where(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 				)
 				->andWhere(
-					$qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
+					$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
 				)
 				->andWhere(
 					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['public_link'], IQueryBuilder::PARAM_STR))
@@ -4772,14 +4374,15 @@ class ProjectService {
 	/**
 	 * Add group shared access
 	 *
-	 * @param string $projectid
-	 * @param string $groupid
+	 * @param string $projectId
+	 * @param string $groupId
 	 * @param string|null $fromUserId
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
-	public function addGroupShare(string $projectid, string $groupid, ?string $fromUserId = null): array {
-		if ($this->groupManager->groupExists($groupid)) {
-			$groupName = $this->groupManager->get($groupid)->getDisplayName();
+	public function addGroupShare(string $projectId, string $groupId, ?string $fromUserId = null): array {
+		if ($this->groupManager->groupExists($groupId)) {
+			$groupName = $this->groupManager->get($groupId)->getDisplayName();
 			$qb = $this->db->getQueryBuilder();
 			// check if user share exists
 			$qb->select('userid', 'projectid')
@@ -4788,10 +4391,10 @@ class ProjectService {
 					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['group'], IQueryBuilder::PARAM_STR))
 				)
 				->andWhere(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 				)
 				->andWhere(
-					$qb->expr()->eq('userid', $qb->createNamedParameter($groupid, IQueryBuilder::PARAM_STR))
+					$qb->expr()->eq('userid', $qb->createNamedParameter($groupId, IQueryBuilder::PARAM_STR))
 				);
 			$req = $qb->executeQuery();
 			$dbGroupId = null;
@@ -4805,8 +4408,8 @@ class ProjectService {
 			if ($dbGroupId === null) {
 				$qb->insert('cospend_shares')
 					->values([
-						'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
-						'userid' => $qb->createNamedParameter($groupid, IQueryBuilder::PARAM_STR),
+						'projectid' => $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR),
+						'userid' => $qb->createNamedParameter($groupId, IQueryBuilder::PARAM_STR),
 						'type' => $qb->createNamedParameter(Application::SHARE_TYPES['group'], IQueryBuilder::PARAM_STR)
 					]);
 				$qb->executeStatement();
@@ -4815,11 +4418,11 @@ class ProjectService {
 				$insertedShareId = $qb->getLastInsertId();
 
 				// activity
-				$projectObj = $this->projectMapper->find($projectid);
+				$projectObj = $this->projectMapper->find($projectId);
 				$this->activityManager->triggerEvent(
 					ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
 					ActivityManager::SUBJECT_PROJECT_SHARE,
-					['who' => $groupid, 'type' => Application::SHARE_TYPES['group']]
+					['who' => $groupId, 'type' => Application::SHARE_TYPES['group']]
 				);
 
 				return [
@@ -4837,12 +4440,13 @@ class ProjectService {
 	/**
 	 * Delete group shared access
 	 *
-	 * @param string $projectid
-	 * @param int shid
+	 * @param string $projectId
+	 * @param int $shId
 	 * @param string|null $fromUserId
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
-	public function deleteGroupShare(string $projectid, int $shid, ?string $fromUserId = null): array {
+	public function deleteGroupShare(string $projectId, int $shId, ?string $fromUserId = null): array {
 		// check if group share exists
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('userid', 'projectid', 'id')
@@ -4851,10 +4455,10 @@ class ProjectService {
 				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['group'], IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
-				$qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
 			);
 		$req = $qb->executeQuery();
 		$dbGroupId = null;
@@ -4869,10 +4473,10 @@ class ProjectService {
 			// delete
 			$qb->delete('cospend_shares')
 				->where(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 				)
 				->andWhere(
-					$qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
+					$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
 				)
 				->andWhere(
 					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['group'], IQueryBuilder::PARAM_STR))
@@ -4881,7 +4485,7 @@ class ProjectService {
 			$qb->resetQueryParts();
 
 			// activity
-			$projectObj = $this->projectMapper->find($projectid);
+			$projectObj = $this->projectMapper->find($projectId);
 			$this->activityManager->triggerEvent(
 				ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
 				ActivityManager::SUBJECT_PROJECT_UNSHARE,
@@ -4895,14 +4499,17 @@ class ProjectService {
 	}
 
 	/**
-	 * Add circle shaed access
+	 * Add circle shared access
 	 *
-	 * @param string $projectid
-	 * @param string $circleid
+	 * @param string $projectId
+	 * @param string $circleId
 	 * @param string|null $fromUserId
 	 * @return array
+	 * @throws InitiatorNotFoundException
+	 * @throws RequestBuilderException
+	 * @throws \OCP\DB\Exception
 	 */
-	public function addCircleShare(string $projectid, string $circleid, ?string $fromUserId = null): array {
+	public function addCircleShare(string $projectId, string $circleId, ?string $fromUserId = null): array {
 		// check if circleId exists
 		$circlesEnabled = $this->appManager->isEnabledForUser('circles');
 		if ($circlesEnabled) {
@@ -4916,13 +4523,13 @@ class ProjectService {
 			$exists = true;
 			$circleName = '';
 			try {
-				$circle = $circlesManager->getCircle($circleid);
+				$circle = $circlesManager->getCircle($circleId);
 				$circleName = $circle->getDisplayName();
 			} catch (\OCA\Circles\Exceptions\CircleNotFoundException $e) {
 				$exists = false;
 			}
 
-			if ($circleid !== '' && $exists) {
+			if ($circleId !== '' && $exists) {
 				$qb = $this->db->getQueryBuilder();
 				// check if circle share exists
 				$qb->select('userid', 'projectid')
@@ -4931,10 +4538,10 @@ class ProjectService {
 						$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['circle'], IQueryBuilder::PARAM_STR))
 					)
 					->andWhere(
-						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 					)
 					->andWhere(
-						$qb->expr()->eq('userid', $qb->createNamedParameter($circleid, IQueryBuilder::PARAM_STR))
+						$qb->expr()->eq('userid', $qb->createNamedParameter($circleId, IQueryBuilder::PARAM_STR))
 					);
 				$req = $qb->executeQuery();
 				$dbCircleId = null;
@@ -4948,8 +4555,8 @@ class ProjectService {
 				if ($dbCircleId === null) {
 					$qb->insert('cospend_shares')
 						->values([
-							'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
-							'userid' => $qb->createNamedParameter($circleid, IQueryBuilder::PARAM_STR),
+							'projectid' => $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR),
+							'userid' => $qb->createNamedParameter($circleId, IQueryBuilder::PARAM_STR),
 							'type' => $qb->createNamedParameter(Application::SHARE_TYPES['circle'], IQueryBuilder::PARAM_STR)
 						]);
 					$qb->executeStatement();
@@ -4958,11 +4565,11 @@ class ProjectService {
 					$insertedShareId = $qb->getLastInsertId();
 
 					// activity
-					$projectObj = $this->projectMapper->find($projectid);
+					$projectObj = $this->projectMapper->find($projectId);
 					$this->activityManager->triggerEvent(
 						ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
 						ActivityManager::SUBJECT_PROJECT_SHARE,
-						['who' => $circleid, 'type' => Application::SHARE_TYPES['circle']]
+						['who' => $circleId, 'type' => Application::SHARE_TYPES['circle']]
 					);
 
 					$circlesManager->stopSession();
@@ -4986,12 +4593,13 @@ class ProjectService {
 	/**
 	 * Delete circle shared access
 	 *
-	 * @param string $projectid
-	 * @param int $shid
+	 * @param string $projectId
+	 * @param int $shId
 	 * @param string|null $fromUserId
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
-	public function deleteCircleShare(string $projectid, int $shid, ?string $fromUserId = null): array {
+	public function deleteCircleShare(string $projectId, int $shId, ?string $fromUserId = null): array {
 		// check if circle share exists
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('userid', 'projectid', 'id')
@@ -5000,10 +4608,10 @@ class ProjectService {
 				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['circle'], IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
-				$qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
 			);
 		$req = $qb->executeQuery();
 		$dbCircleId = null;
@@ -5018,10 +4626,10 @@ class ProjectService {
 			// delete
 			$qb->delete('cospend_shares')
 				->where(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 				)
 				->andWhere(
-					$qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
+					$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
 				)
 				->andWhere(
 					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['circle'], IQueryBuilder::PARAM_STR))
@@ -5030,7 +4638,7 @@ class ProjectService {
 			$qb->resetQueryParts();
 
 			// activity
-			$projectObj = $this->projectMapper->find($projectid);
+			$projectObj = $this->projectMapper->find($projectId);
 			$this->activityManager->triggerEvent(
 				ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
 				ActivityManager::SUBJECT_PROJECT_UNSHARE,
@@ -5047,13 +4655,16 @@ class ProjectService {
 	/**
 	 * Export settlement plan in CSV
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @param string $userId
 	 * @param int|null $centeredOn
 	 * @param int|null $maxTimestamp
 	 * @return array
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
+	 * @throws NoUserException
 	 */
-	public function exportCsvSettlement(string $projectid, string $userId, ?int $centeredOn = null, ?int $maxTimestamp = null): array {
+	public function exportCsvSettlement(string $projectId, string $userId, ?int $centeredOn = null, ?int $maxTimestamp = null): array {
 		// create export directory if needed
 		$outPath = $this->config->getUserValue($userId, 'cospend', 'outputDirectory', '/Cospend');
 		$userFolder = $this->root->getUserFolder($userId);
@@ -5064,10 +4675,10 @@ class ProjectService {
 		$folder = $userFolder->get($outPath);
 
 		// create file
-		if ($folder->nodeExists($projectid.'-settlement.csv')) {
-			$folder->get($projectid.'-settlement.csv')->delete();
+		if ($folder->nodeExists($projectId.'-settlement.csv')) {
+			$folder->get($projectId.'-settlement.csv')->delete();
 		}
-		$file = $folder->newFile($projectid.'-settlement.csv');
+		$file = $folder->newFile($projectId.'-settlement.csv');
 		$handler = $file->fopen('w');
 		fwrite(
 			$handler,
@@ -5076,10 +4687,10 @@ class ProjectService {
 			. '","' . $this->l10n->t('How much?')
 			. '"' . "\n"
 		);
-		$settlement = $this->getProjectSettlement($projectid, $centeredOn, $maxTimestamp);
+		$settlement = $this->getProjectSettlement($projectId, $centeredOn, $maxTimestamp);
 		$transactions = $settlement['transactions'];
 
-		$members = $this->getMembers($projectid);
+		$members = $this->getMembers($projectId);
 		$memberIdToName = [];
 		foreach ($members as $member) {
 			$memberIdToName[$member['id']] = $member['name'];
@@ -5097,7 +4708,7 @@ class ProjectService {
 
 		fclose($handler);
 		$file->touch();
-		return ['path' => $outPath . '/' . $projectid . '-settlement.csv'];
+		return ['path' => $outPath . '/' . $projectId . '-settlement.csv'];
 	}
 
 	/**
@@ -5106,6 +4717,8 @@ class ProjectService {
 	 * @param Folder $userFolder
 	 * @param string $outPath
 	 * @return string
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
 	 */
 	private function createAndCheckExportDirectory(Folder $userFolder, string $outPath): string {
 		if (!$userFolder->nodeExists($outPath)) {
@@ -5126,7 +4739,7 @@ class ProjectService {
 	}
 
 	/**
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @param string $userId
 	 * @param int|null $tsMin
 	 * @param int|null $tsMax
@@ -5142,10 +4755,12 @@ class ProjectService {
 	 * @throws \OCP\Files\NotPermittedException
 	 * @throws \OC\User\NoUserException
 	 */
-	public function exportCsvStatistics(string $projectid, string $userId, ?int $tsMin = null, ?int $tsMax = null,
-										?int $paymentModeId = null, ?int $category = null,
-										?float $amountMin = null, ?float $amountMax = null,
-										bool $showDisabled = true, ?int $currencyId = null): array {
+	public function exportCsvStatistics(
+		string $projectId, string $userId, ?int $tsMin = null, ?int $tsMax = null,
+		?int $paymentModeId = null, ?int $category = null,
+		?float $amountMin = null, ?float $amountMax = null,
+		bool $showDisabled = true, ?int $currencyId = null
+	): array {
 		// create export directory if needed
 		$outPath = $this->config->getUserValue($userId, 'cospend', 'outputDirectory', '/Cospend');
 		$userFolder = $this->root->getUserFolder($userId);
@@ -5156,10 +4771,10 @@ class ProjectService {
 		$folder = $userFolder->get($outPath);
 
 		// create file
-		if ($folder->nodeExists($projectid.'-stats.csv')) {
-			$folder->get($projectid.'-stats.csv')->delete();
+		if ($folder->nodeExists($projectId.'-stats.csv')) {
+			$folder->get($projectId.'-stats.csv')->delete();
 		}
-		$file = $folder->newFile($projectid.'-stats.csv');
+		$file = $folder->newFile($projectId.'-stats.csv');
 		$handler = $file->fopen('w');
 		fwrite(
 			$handler,
@@ -5170,7 +4785,7 @@ class ProjectService {
 			. "\n"
 		);
 		$allStats = $this->getProjectStatistics(
-			$projectid, 'lowername', $tsMin, $tsMax, $paymentModeId,
+			$projectId, 'lowername', $tsMin, $tsMax, $paymentModeId,
 			$category, $amountMin, $amountMax, $showDisabled, $currencyId
 		);
 		$stats = $allStats['stats'];
@@ -5188,13 +4803,13 @@ class ProjectService {
 
 		fclose($handler);
 		$file->touch();
-		return ['path' => $outPath . '/' . $projectid . '-stats.csv'];
+		return ['path' => $outPath . '/' . $projectId . '-stats.csv'];
 	}
 
 	/**
 	 * Export project in CSV
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @param string|null $name
 	 * @param string $userId
 	 * @return array
@@ -5202,7 +4817,7 @@ class ProjectService {
 	 * @throws \OCP\Files\NotPermittedException
 	 * @throws \OC\User\NoUserException
 	 */
-	public function exportCsvProject(string $projectid, string $userId, ?string $name = null): array {
+	public function exportCsvProject(string $projectId, string $userId, ?string $name = null): array {
 		// create export directory if needed
 		$outPath = $this->config->getUserValue($userId, 'cospend', 'outputDirectory', '/Cospend');
 		$userFolder = $this->root->getUserFolder($userId);
@@ -5214,7 +4829,7 @@ class ProjectService {
 
 
 		// create file
-		$filename = $projectid.'.csv';
+		$filename = $projectId.'.csv';
 		if ($name !== null) {
 			$filename = $name;
 			if (!str_ends_with($filename, '.csv')) {
@@ -5226,7 +4841,7 @@ class ProjectService {
 		}
 		$file = $folder->newFile($filename);
 		$handler = $file->fopen('w');
-		foreach ($this->getJsonProject($projectid) as $chunk) {
+		foreach ($this->getJsonProject($projectId) as $chunk) {
 			fwrite($handler, $chunk);
 		}
 
@@ -5235,6 +4850,11 @@ class ProjectService {
 		return ['path' => $outPath . '/' . $filename];
 	}
 
+	/**
+	 * @param string $projectId
+	 * @return Generator
+	 * @throws \OCP\DB\Exception
+	 */
 	public function getJsonProject(string $projectId): Generator {
 		// members
 		yield "name,weight,active,color\n";
@@ -5255,8 +4875,11 @@ class ProjectService {
 				. "\n";
 		}
 		// bills
-		yield "\nwhat,amount,date,timestamp,payer_name,payer_weight,payer_active,owers,repeat,repeatfreq,repeatallactive,repeatuntil,categoryid,paymentmode,paymentmodeid,comment\n";
-		$bills = $this->getBills($projectId);
+		yield "\nwhat,amount,date,timestamp,payer_name,payer_weight,payer_active,owers,repeat,repeatfreq,repeatallactive,repeatuntil,categoryid,paymentmode,paymentmodeid,comment,deleted\n";
+		$bills = $this->billMapper->getBills(
+			$projectId, null, null, null, null, null,
+			null, null, null, null, false, null, null
+		);
 		foreach ($bills as $bill) {
 			$owerNames = [];
 			foreach ($bill['owers'] as $ower) {
@@ -5285,7 +4908,8 @@ class ProjectService {
 				. $bill['categoryid'] . ','
 				. $bill['paymentmode'] . ','
 				. $bill['paymentmodeid'] . ',"'
-				. urlencode($bill['comment']) . '"'
+				. urlencode($bill['comment']) . '",'
+				. $bill['deleted']
 				. "\n";
 		}
 
@@ -5365,6 +4989,11 @@ class ProjectService {
 	 * @param string $path
 	 * @param string $userId
 	 * @return array
+	 * @throws NoUserException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
+	 * @throws Throwable
+	 * @throws \OCP\DB\Exception
 	 */
 	public function importCsvProject(string $path, string $userId): array {
 		$cleanPath = str_replace(['../', '..\\'], '',  $path);
@@ -5386,6 +5015,13 @@ class ProjectService {
 		}
 	}
 
+	/**
+	 * @param $handle
+	 * @param string $userId
+	 * @param string $projectName
+	 * @return array
+	 * @throws \OCP\DB\Exception
+	 */
 	public function importCsvProjectStream($handle, string $userId, string $projectName): array {
 		$columns = [];
 		$membersByName = [];
@@ -5540,6 +5176,7 @@ class ProjectService {
 					$repeatuntil = array_key_exists('repeatuntil', $columns) ? $data[$columns['repeatuntil']] : null;
 					$repeatfreq = array_key_exists('repeatfreq', $columns) ? $data[$columns['repeatfreq']] : 1;
 					$comment = array_key_exists('comment', $columns) ? urldecode($data[$columns['comment']] ?? '') : null;
+					$deleted = array_key_exists('deleted', $columns) ? $data[$columns['deleted']] : 0;
 
 					// manage members
 					if (!isset($membersByName[$payer_name])) {
@@ -5591,6 +5228,7 @@ class ProjectService {
 							'repeatuntil' => $repeatuntil,
 							'repeatallactive' => $repeatallactive,
 							'repeatfreq' => $repeatfreq,
+							'deleted' => $deleted,
 						];
 					}
 				}
@@ -5697,6 +5335,10 @@ class ProjectService {
 	 * @param string $path
 	 * @param string $userId
 	 * @return array
+	 * @throws NoUserException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
+	 * @throws \OCP\DB\Exception
 	 */
 	public function importSWProject(string $path, string $userId): array {
 		$cleanPath = str_replace(['../', '..\\'], '',  $path);
@@ -6007,93 +5649,6 @@ class ProjectService {
 	}
 
 	/**
-	 * Search bills with query string
-	 *
-	 * @param string $projectId
-	 * @param string $term
-	 * @return array
-	 */
-	public function searchBills(string $projectId, string $term): array {
-		$qb = $this->db->getQueryBuilder();
-		$qb->select(
-			'b.id', 'what', 'comment', 'amount', 'timestamp',
-			'paymentmode', 'paymentmodeid', 'categoryid',
-			'pr.currencyname', 'me.name', 'me.userid'
-		)
-			->from('cospend_bills', 'b')
-			->innerJoin('b', 'cospend_projects', 'pr', $qb->expr()->eq('b.projectid', 'pr.id'))
-			->innerJoin('b', 'cospend_members', 'me', $qb->expr()->eq('b.payerid', 'me.id'))
-			->where(
-				$qb->expr()->eq('b.projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			);
-		$qb = $this->applyBillSearchTermCondition($qb, $term, 'b');
-		$qb->orderBy('timestamp', 'ASC');
-		$req = $qb->executeQuery();
-
-		// bills by id
-		$bills = [];
-		while ($row = $req->fetch()){
-			$dbBillId = (int) $row['id'];
-			$dbAmount = (float) $row['amount'];
-			$dbWhat = $row['what'];
-			$dbTimestamp = (int) $row['timestamp'];
-			$dbComment = $row['comment'];
-			$dbPaymentMode = $row['paymentmode'];
-			$dbPaymentModeId = (int) $row['paymentmodeid'];
-			$dbCategoryId = (int) $row['categoryid'];
-			$dbProjectCurrencyName = $row['currencyname'];
-			$dbPayerName = $row['name'];
-			$dbPayerUserId = $row['userid'];
-			$bills[] = [
-				'id' => $dbBillId,
-				'projectId' => $projectId,
-				'amount' => $dbAmount,
-				'what' => $dbWhat,
-				'timestamp' => $dbTimestamp,
-				'comment' => $dbComment,
-				'paymentmode' => $dbPaymentMode,
-				'paymentmodeid' => $dbPaymentModeId,
-				'categoryid' => $dbCategoryId,
-				'currencyname' => $dbProjectCurrencyName,
-				'payer_name' => $dbPayerName,
-				'payer_user_id' => $dbPayerUserId,
-			];
-		}
-		$req->closeCursor();
-		$qb->resetQueryParts();
-
-		return $bills;
-	}
-
-	private function applyBillSearchTermCondition(IQueryBuilder $qb, string $term, string $billTableAlias): IQueryBuilder {
-		$term = strtolower($term);
-		$or = $qb->expr()->orx();
-		$or->add(
-			$qb->expr()->iLike($billTableAlias . '.what', $qb->createNamedParameter('%' . $this->db->escapeLikeParameter($term) . '%', IQueryBuilder::PARAM_STR))
-		);
-		$or->add(
-			$qb->expr()->iLike($billTableAlias . '.comment', $qb->createNamedParameter('%' . $this->db->escapeLikeParameter($term) . '%', IQueryBuilder::PARAM_STR))
-		);
-		// search amount
-		$noCommaTerm = str_replace(',', '.', $term);
-		if (is_numeric($noCommaTerm)) {
-			$amount = (float) $noCommaTerm;
-			$amountMin = $amount - 1.0;
-			$amountMax = $amount + 1.0;
-			$andExpr = $qb->expr()->andX();
-			$andExpr->add(
-				$qb->expr()->gte($billTableAlias . '.amount', $qb->createNamedParameter($amountMin, IQueryBuilder::PARAM_STR))
-			);
-			$andExpr->add(
-				$qb->expr()->lte($billTableAlias . '.amount', $qb->createNamedParameter($amountMax, IQueryBuilder::PARAM_STR))
-			);
-			$or->add($andExpr);
-		}
-		$qb->andWhere($or);
-		return $qb;
-	}
-
-	/**
 	 * Get Cospend bill activity
 	 *
 	 * @param string $userId
@@ -6108,7 +5663,7 @@ class ProjectService {
 		$bills = [];
 		foreach ($projects as $project) {
 			$pid = $project['id'];
-			$bl = $this->getBills($pid, null, null, null, null, null, null, null, $since, 20, true);
+			$bl = $this->billMapper->getBills($pid, null, null, null, null, null, null, null, $since, 20, true);
 
 			// get members by id
 			$membersById = [];

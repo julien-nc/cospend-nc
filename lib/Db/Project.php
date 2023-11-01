@@ -21,8 +21,26 @@ use OCP\AppFramework\Db\Entity;
  * @method void setUserid(string $userid)
  * @method string getName()
  * @method void setName(string $name)
+ * @method string getEmail()
+ * @method void setEmail(string $email)
+ * @method string getPassword()
+ * @method void setPassword(string $password)
+ * @method string getAutoexport()
+ * @method void setAutoexport(string $autoexport)
+ * @method int getLastchanged()
+ * @method void setLastchanged(int $lastchanged)
+ * @method int getGuestaccesslevel()
+ * @method void setGuestaccesslevel(int $guestaccesslevel)
+ * @method int getDeletiondisabled()
+ * @method void setDeletiondisabled(int $deletiondisabled)
+ * @method string getCategorysort()
+ * @method void setCategorysort(string $categorysort)
+ * @method string getPaymentmodesort()
+ * @method void setPaymentmodesort(string $paymentmodesort)
+ * @method string getCurrencyname()
+ * @method void setCurrencyname(string $currencyname)
  */
-class Project extends Entity {
+class Project extends Entity implements \JsonSerializable {
 
 	protected $userid;
 	protected $name;
@@ -49,5 +67,23 @@ class Project extends Entity {
 		$this->addType('categorysort', 'string');
 		$this->addType('paymentmodesort', 'string');
 		$this->addType('currencyname', 'string');
+	}
+
+	#[\ReturnTypeWillChange]
+	public function jsonSerialize() {
+		return [
+			'id' => $this->id,
+			'userid' => $this->userid,
+			'name' => $this->name,
+			'email' => $this->email,
+			'password' => $this->password,
+			'autoexport' => $this->autoexport,
+			'lastchanged' => (int)$this->lastchanged,
+			'guestaccesslevel' => (int)$this->guestaccesslevel,
+			'deletiondisabled' => (int)$this->deletiondisabled,
+			'categorysort' => $this->categorysort,
+			'paymentmodesort' => $this->paymentmodesort,
+			'currencyname' => $this->currencyname,
+		];
 	}
 }

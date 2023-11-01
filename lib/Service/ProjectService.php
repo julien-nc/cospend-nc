@@ -1137,7 +1137,7 @@ class ProjectService {
 	public function deleteBill(string $projectId, int $billId, bool $force = false, bool $moveToTrash = true): array {
 		if ($force === false) {
 			$project = $this->getProjectInfo($projectId);
-			if ($project['deletion_disabled']) {
+			if ($project['deletiondisabled']) {
 				return ['message' => 'Forbidden'];
 			}
 		}

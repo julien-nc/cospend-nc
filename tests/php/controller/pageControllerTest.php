@@ -20,6 +20,7 @@ namespace OCA\Cospend\Controller;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\IServerContainer;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -94,8 +95,9 @@ class PageNUtilsControllerTest extends TestCase {
 		$c = $this->container;
 		$sc = $c->get(IServerContainer::class);
 		$this->config = $c->get(IConfig::class);
+		$this->l10n = $c->get(IL10N::class);
 		$this->billMapper = new BillMapper($sc->getDatabaseConnection());
-		$this->projectMapper = new ProjectMapper($sc->getDatabaseConnection());
+		$this->projectMapper = new ProjectMapper($sc->getDatabaseConnection(), $this->l10n);
 
 		$this->activityManager = new ActivityManager(
 			$sc->getActivityManager(),

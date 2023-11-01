@@ -177,7 +177,7 @@ export default {
 			return cospend.pageIsPublic
 		},
 		deletionEnabled() {
-			return !cospend.projects[this.projectId].deletion_disabled
+			return !cospend.projects[this.projectId].deletiondisabled
 		},
 		billFormattedTitle() {
 			const links = this.bill.what.match(/https?:\/\/[^\s]+/gi) || []

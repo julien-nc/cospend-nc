@@ -403,7 +403,7 @@ export default {
 				: t('cospend', 'Open filters')
 		},
 		deletionEnabled() {
-			return !cospend.projects[this.projectId].deletion_disabled
+			return !cospend.projects[this.projectId].deletiondisabled
 		},
 	},
 

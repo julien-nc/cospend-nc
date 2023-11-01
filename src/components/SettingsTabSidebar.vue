@@ -19,7 +19,7 @@
 		<div v-if="adminAccess" class="deletion-disabled-line">
 			<NcCheckboxRadioSwitch
 				id="deletion-disabled"
-				:checked="project.deletion_disabled"
+				:checked="project.deletiondisabled"
 				@update:checked="onDisableDeletionChange">
 				{{ t('cospend', 'Disable bill deletion') }}
 			</NcCheckboxRadioSwitch>
@@ -472,7 +472,7 @@ export default {
 			this.newProjectName = ''
 		},
 		onDisableDeletionChange(checked) {
-			cospend.projects[this.projectId].deletion_disabled = checked
+			cospend.projects[this.projectId].deletiondisabled = checked
 			this.$emit('project-edited', this.projectId)
 		},
 		onMultiselectEnterPressed(elem) {

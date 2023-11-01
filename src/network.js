@@ -177,7 +177,7 @@ export function editProject(project, password) {
 		password,
 		autoexport: project.autoexport,
 		currencyname: project.currencyname,
-		deletion_disabled: project.deletion_disabled,
+		deletion_disabled: project.deletiondisabled,
 		categorysort: project.categorysort,
 		paymentmodesort: project.paymentmodesort,
 	}

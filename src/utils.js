@@ -3,31 +3,38 @@ import { getCurrentUser } from '@nextcloud/auth'
 import {
 	showInfo,
 	showError,
+	getFilePickerBuilder,
 } from '@nextcloud/dialogs'
 import * as network from './network.js'
 
 export function importCospendProject(importBeginCallback, importSuccessCallback, importEndCallback) {
-	OC.dialogs.filepicker(
-		t('cospend', 'Choose csv project file'),
-		(targetPath) => {
-			importProject(targetPath, false, importBeginCallback, importSuccessCallback, importEndCallback)
-		},
-		false,
-		['text/csv'],
-		true,
-	)
+	const picker = getFilePickerBuilder(t('cospend', 'Choose csv project file'))
+		.setMultiSelect(false)
+		.setModal(true)
+		.setType(1)
+		.addMimeTypeFilter('text/csv')
+		// .allowDirectories()
+		// .startAt(this.outputDir)
+		.build()
+	picker.pick()
+		.then(async (path) => {
+			importProject(path, false, importBeginCallback, importSuccessCallback, importEndCallback)
+		})
 }
 
 export function importSWProject(importBeginCallback, importSuccessCallback, importEndCallback) {
-	OC.dialogs.filepicker(
-		t('cospend', 'Choose SplitWise project file'),
-		(targetPath) => {
-			importProject(targetPath, true, importBeginCallback, importSuccessCallback, importEndCallback)
-		},
-		false,
-		['text/csv'],
-		true,
-	)
+	const picker = getFilePickerBuilder(t('cospend', 'Choose SplitWise project file'))
+		.setMultiSelect(false)
+		.setModal(true)
+		.setType(1)
+		.addMimeTypeFilter('text/csv')
+		// .allowDirectories()
+		// .startAt(this.outputDir)
+		.build()
+	picker.pick()
+		.then(async (path) => {
+			importProject(path, true, importBeginCallback, importSuccessCallback, importEndCallback)
+		})
 }
 
 export function importProject(targetPath, isSplitWise = false, importBeginCallback, importSuccessCallback, importEndCallback) {

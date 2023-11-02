@@ -615,6 +615,7 @@ import { getLocale } from '@nextcloud/l10n'
 import {
 	showSuccess,
 	showError,
+	getFilePickerBuilder,
 } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
 import {
@@ -1677,13 +1678,18 @@ export default {
 			this.owerCustomShareAmount = this.getOwersCustomShareAmount()
 		},
 		onGeneratePubLinkClick() {
-			OC.dialogs.filepicker(
-				t('cospend', 'Choose file'),
-				(targetPath) => {
-					this.generatePublicLinkToFile(targetPath)
-				},
-				false, null, true,
-			)
+			const picker = getFilePickerBuilder(t('cospend', 'Choose file'))
+				.setMultiSelect(false)
+				.setModal(true)
+				.setType(1)
+				// .addMimeTypeFilter('text/csv')
+				// .allowDirectories()
+				// .startAt(this.outputDir)
+				.build()
+			picker.pick()
+				.then(async (path) => {
+					this.generatePublicLinkToFile(path)
+				})
 		},
 		generatePublicLinkToFile(targetPath) {
 			network.generatePublicLinkToFile(targetPath).then((response) => {

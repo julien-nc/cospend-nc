@@ -5211,7 +5211,7 @@ class ProjectService {
 				$bill['paymentmode'], $pmId,
 				$catId, $bill['repeatallactive'],
 				$bill['repeatuntil'], $bill['timestamp'], $bill['comment'], $bill['repeatfreq'],
-				$dbPaymentModes
+				$dbPaymentModes, $bill['deleted']
 			);
 			if (!isset($addBillResult['inserted_id'])) {
 				$this->deleteProject($projectid);

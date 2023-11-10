@@ -157,7 +157,7 @@
 							:size="20" />
 						{{ t('cospend', 'When?') }}
 					</label>
-					<NcDatetimePicker v-if="showDatePicker"
+					<NcDateTimePicker v-if="showDatePicker"
 						id="dateInput"
 						v-model="billDatetime"
 						class="datetime-picker"
@@ -317,7 +317,7 @@
 								:size="20" />
 							{{ t('cospend', 'Repeat until') }}
 						</label>
-						<NcDatetimePicker v-if="showDatePicker"
+						<NcDateTimePicker v-if="showDatePicker"
 							v-model="billStringRepeatUntil"
 							class="datetime-picker"
 							type="date"
@@ -600,7 +600,7 @@ import CospendIcon from './components/icons/CospendIcon.vue'
 import CurrencyIcon from './components/icons/CurrencyIcon.vue'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcDatetimePicker from '@nextcloud/vue/dist/Components/NcDatetimePicker.js'
+import NcDateTimePicker from '@nextcloud/vue/dist/Components/NcDateTimePicker.js'
 import NcAppContentDetails from '@nextcloud/vue/dist/Components/NcAppContentDetails.js'
 import NcRichContenteditable from '@nextcloud/vue/dist/Components/NcRichContenteditable.js'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
@@ -632,7 +632,7 @@ export default {
 		CospendTogglableAvatar,
 		CurrencyIcon,
 		CospendIcon,
-		NcDatetimePicker,
+		NcDateTimePicker,
 		NcAppContentDetails,
 		NcSelect,
 		NcCheckboxRadioSwitch,

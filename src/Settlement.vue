@@ -45,7 +45,7 @@
 						<InformationVariantIcon :size="20" />
 					</template>
 				</NcButton>
-				<NcDatetimePicker
+				<NcDateTimePicker
 					id="max-date"
 					v-model="maxDate"
 					class="datetime-picker"
@@ -256,7 +256,7 @@ import ReimburseIcon from './components/icons/ReimburseIcon.vue'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcAppContentDetails from '@nextcloud/vue/dist/Components/NcAppContentDetails.js'
-import NcDatetimePicker from '@nextcloud/vue/dist/Components/NcDatetimePicker.js'
+import NcDateTimePicker from '@nextcloud/vue/dist/Components/NcDateTimePicker.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 
 import CospendTogglableAvatar from './components/avatar/CospendTogglableAvatar.vue'
@@ -277,7 +277,7 @@ export default {
 		ReimburseIcon,
 		CospendIcon,
 		NcAppContentDetails,
-		NcDatetimePicker,
+		NcDateTimePicker,
 		NcEmptyContent,
 		NcButton,
 		ContentSaveIcon,

@@ -63,6 +63,14 @@
 			</NcActionButton>
 			<NcActionButton
 				:close-after-click="true"
+				@click="onTrashbinClick">
+				<template #icon>
+					<DeleteVariantIcon />
+				</template>
+				{{ t('cospend', 'Show trashbin') }}
+			</NcActionButton>
+			<NcActionButton
+				:close-after-click="true"
 				@click="onStatsClick">
 				<template #icon>
 					<ChartLineIcon
@@ -111,6 +119,7 @@
 </template>
 
 <script>
+import DeleteVariantIcon from 'vue-material-design-icons/DeleteVariant.vue'
 import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
@@ -128,6 +137,7 @@ import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 
 import ClickOutside from 'vue-click-outside'
+import { emit } from '@nextcloud/event-bus'
 import cospend from '../state.js'
 import * as constants from '../constants.js'
 import { Timer, getSortedMembers } from '../utils.js'
@@ -147,6 +157,7 @@ export default {
 		AccountIcon,
 		PlusIcon,
 		DeleteIcon,
+		DeleteVariantIcon,
 	},
 	directives: {
 		ClickOutside,
@@ -220,6 +231,9 @@ export default {
 		},
 		onStatsClick() {
 			this.$emit('stats-clicked', this.project.id)
+		},
+		onTrashbinClick() {
+			emit('trashbin-clicked', this.project.id)
 		},
 		onSettleClick() {
 			this.$emit('settle-clicked', this.project.id)

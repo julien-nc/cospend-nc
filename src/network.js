@@ -84,7 +84,7 @@ export function getProjects() {
 export function getBills(
 	projectid, offset, limit,
 	payerId = null, categoryId = null, paymentModeId = null,
-	includeBillId = null, searchTerm = null,
+	includeBillId = null, searchTerm = null, deleted = false,
 ) {
 	const req = {
 		params: {
@@ -96,6 +96,7 @@ export function getBills(
 			paymentModeId,
 			includeBillId,
 			searchTerm,
+			deleted: deleted ? 1 : 0,
 		},
 	}
 	const url = cospend.pageIsPublic

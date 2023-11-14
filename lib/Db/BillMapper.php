@@ -90,7 +90,7 @@ class BillMapper extends QBMapper {
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
-				$qb->expr()->gt('id', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('id', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
 			);
 		$qb->executeStatement();
 		return [

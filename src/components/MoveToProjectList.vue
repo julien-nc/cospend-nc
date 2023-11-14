@@ -7,6 +7,7 @@
 			<NcListItem v-for="(project) in candidateTargetProjects"
 				:key="project.id"
 				:title="project.name"
+				:name="project.name"
 				@click="onProjectClicked(project)" />
 		</ul>
 		<NcEmptyContent v-if="cospend.projects.length === 1 && cospend.projects[projectId]"

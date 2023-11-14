@@ -897,33 +897,27 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param string $projectid
-	 * @param int|null $lastchanged
-	 * @param int|null $offset
-	 * @param int|null $limit
-	 * @param bool $reverse
-	 * @param int|null $payerId
-	 * @param int|null $categoryId
 	 * @return DataResponse
 	 * @throws \OCP\DB\Exception
 	 */
 	public function webGetBills(string $projectid, ?int $lastchanged = null, ?int $offset = 0, ?int $limit = null,
 								bool $reverse = false, ?int $payerId = null, ?int $categoryId = null,
-								?int $paymentModeId = null, ?int $includeBillId = null, ?string $searchTerm = null): DataResponse {
+								?int $paymentModeId = null, ?int $includeBillId = null, ?string $searchTerm = null,
+								?int $deleted = 0): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			if ($limit) {
 				$bills = $this->billMapper->getBillsWithLimit(
 					$projectid, null, null, null, $paymentModeId, $categoryId, null, null,
-					$lastchanged, $limit, $reverse, $offset, $payerId, $includeBillId, $searchTerm
+					$lastchanged, $limit, $reverse, $offset, $payerId, $includeBillId, $searchTerm, $deleted
 				);
 			} else {
 				$bills = $this->billMapper->getBills(
 					$projectid, null, null, null, $paymentModeId, $categoryId, null, null,
-					$lastchanged, null, $reverse, $payerId
+					$lastchanged, null, $reverse, $payerId, $deleted
 				);
 			}
 			$result = [
-				'nb_bills' => $this->projectService->getNbBills($projectid, $payerId, $categoryId, $paymentModeId),
+				'nb_bills' => $this->projectService->getNbBills($projectid, $payerId, $categoryId, $paymentModeId, $deleted),
 				'bills' => $bills,
 			];
 			return new DataResponse($result);
@@ -1162,7 +1156,7 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiGetBills(string $projectid, string $password, ?int $lastchanged = null,
-								?int $offset = 0, ?int $limit = null, bool $reverse = false): DataResponse {
+								?int $offset = 0, ?int $limit = null, bool $reverse = false, ?int $deleted = 0): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if ($this->checkLogin($projectid, $password)
 			|| ($publicShareInfo !== null
@@ -1172,13 +1166,13 @@ class PageController extends ApiController {
 				$bills = $this->billMapper->getBillsWithLimit(
 					$publicShareInfo['projectid'] ?? $projectid, null, null,
 					null, null, null, null, null,
-					$lastchanged, $limit, $reverse, $offset
+					$lastchanged, $limit, $reverse, $offset, null, null, null, $deleted
 				);
 			} else {
 				$bills = $this->billMapper->getBills(
 					$publicShareInfo['projectid'] ?? $projectid, null, null,
 					null, null, null, null, null,
-					$lastchanged, null, $reverse
+					$lastchanged, null, $reverse, null, $deleted
 				);
 			}
 			return new DataResponse($bills);
@@ -1208,7 +1202,8 @@ class PageController extends ApiController {
 	public function apiv3GetBills(string $projectid, string $password, ?int $lastchanged = null,
 								?int $offset = 0, ?int $limit = null, bool $reverse = false,
 								?int $payerId = null, ?int $categoryId = null,
-								?int $paymentModeId = null, ?int $includeBillId = null, ?string $searchTerm = null): DataResponse {
+								?int $paymentModeId = null, ?int $includeBillId = null, ?string $searchTerm = null,
+								?int $deleted = 0): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if ($this->checkLogin($projectid, $password)
 			|| ($publicShareInfo !== null
@@ -1218,17 +1213,19 @@ class PageController extends ApiController {
 				$bills = $this->billMapper->getBillsWithLimit(
 					$publicShareInfo['projectid'] ?? $projectid, null, null,
 					null, $paymentModeId, $categoryId, null, null,
-					$lastchanged, $limit, $reverse, $offset, $payerId, $includeBillId, $searchTerm
+					$lastchanged, $limit, $reverse, $offset, $payerId, $includeBillId, $searchTerm, $deleted
 				);
 			} else {
 				$bills = $this->billMapper->getBills(
 					$publicShareInfo['projectid'] ?? $projectid, null, null,
 					null, $paymentModeId, $categoryId, null, null,
-					$lastchanged, null, $reverse, $payerId
+					$lastchanged, null, $reverse, $payerId, $deleted
 				);
 			}
 			$result = [
-				'nb_bills' => $this->projectService->getNbBills($publicShareInfo['projectid'] ?? $projectid, $payerId, $categoryId, $paymentModeId),
+				'nb_bills' => $this->projectService->getNbBills(
+					$publicShareInfo['projectid'] ?? $projectid, $payerId, $categoryId, $paymentModeId, $deleted
+				),
 				'bills' => $bills,
 			];
 			return new DataResponse($result);
@@ -1245,13 +1242,13 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivGetBills(string $projectid, ?int $lastchanged = null): DataResponse {
+	public function apiPrivGetBills(string $projectid, ?int $lastchanged = null, ?int $deleted = 0): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			$bills = $this->billMapper->getBills(
 				$projectid, null, null, null, null, null,
-				null, null, $lastchanged
+				null, null, $lastchanged, null, false, null, $deleted
 			);
-			$billIds = $this->projectService->getAllBillIds($projectid);
+			$billIds = $this->projectService->getAllBillIds($projectid, $deleted);
 			$ts = (new DateTime())->getTimestamp();
 			return new DataResponse([
 				'bills' => $bills,
@@ -1272,7 +1269,7 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiv2GetBills(string $projectid, string $password, ?int $lastchanged = null): DataResponse {
+	public function apiv2GetBills(string $projectid, string $password, ?int $lastchanged = null, ?int $deleted = 0): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if ($this->checkLogin($projectid, $password)
 			|| ($publicShareInfo !== null
@@ -1280,9 +1277,10 @@ class PageController extends ApiController {
 		) {
 			$bills = $this->billMapper->getBills(
 				$publicShareInfo['projectid'] ?? $projectid, null, null,
-				null, null, null, null, null, $lastchanged
+				null, null, null, null, null, $lastchanged,
+				null, false, null, $deleted
 			);
-			$billIds = $this->projectService->getAllBillIds($publicShareInfo['projectid'] ?? $projectid);
+			$billIds = $this->projectService->getAllBillIds($publicShareInfo['projectid'] ?? $projectid, $deleted);
 			$ts = (new DateTime())->getTimestamp();
 			return new DataResponse([
 				'bills' => $bills,

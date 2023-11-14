@@ -3,7 +3,7 @@
 		ref="list">
 		<div class="list-header">
 			<NcAppNavigationItem
-				v-show="!loading"
+				v-show="!loading && !trashbinEnabled"
 				class="addBillItem"
 				:name="(editionAccess && oneActiveMember) ? t('cospend', 'New bill') : ''"
 				:force-display-actions="editionAccess && oneActiveMember"
@@ -29,6 +29,24 @@
 							<FormatListCheckboxIcon v-else :size="20" />
 						</template>
 						{{ multiToggleText }}
+					</NcActionButton>
+				</template>
+			</NcAppNavigationItem>
+			<NcAppNavigationItem
+				v-show="!loading && trashbinEnabled"
+				class="addBillItem"
+				:name="t('cospend', 'Trashbin')"
+				:force-display-actions="true">
+				<template #icon>
+					<DeleteVariantIcon />
+				</template>
+				<template #actions>
+					<NcActionButton
+						@click="onCloseTrashbinClicked">
+						<template #icon>
+							<CloseIcon />
+						</template>
+						{{ t('cospend', 'Close trashbin') }}
 					</NcActionButton>
 				</template>
 			</NcAppNavigationItem>
@@ -158,6 +176,7 @@
 </template>
 
 <script>
+import DeleteVariantIcon from 'vue-material-design-icons/DeleteVariant.vue'
 import InformationVariantIcon from 'vue-material-design-icons/InformationVariant.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
@@ -179,6 +198,7 @@ import BillListItem from './components/BillListItem.vue'
 
 import InfiniteLoading from 'vue-infinite-loading'
 import { showSuccess, showError } from '@nextcloud/dialogs'
+import { emit } from '@nextcloud/event-bus'
 import cospend from './state.js'
 import * as network from './network.js'
 import * as constants from './constants.js'
@@ -204,6 +224,7 @@ export default {
 		FilterIcon,
 		FormatListCheckboxIcon,
 		InformationVariantIcon,
+		DeleteVariantIcon,
 	},
 
 	props: {
@@ -231,9 +252,9 @@ export default {
 			type: Boolean,
 			required: true,
 		},
-		mode: {
-			type: String,
-			required: true,
+		trashbinEnabled: {
+			type: Boolean,
+			default: false,
 		},
 		selectedCategoryIdFilter: {
 			type: Number,
@@ -265,9 +286,6 @@ export default {
 		},
 		reverseBills() {
 			return this.bills.slice().reverse()
-		},
-		shouldShowDetails() {
-			return (this.mode !== 'edition' || this.selectedBillId !== -1)
 		},
 		oneActiveMember() {
 			let c = 0
@@ -418,7 +436,7 @@ export default {
 
 	methods: {
 		infiniteHandler($state) {
-			this.$emit('load-more-bills', this.projectId, $state)
+			this.$emit('load-more-bills', this.projectId, $state, this.trashbinEnabled)
 		},
 		isBillSelected(bill) {
 			if (this.selectMode) {
@@ -426,6 +444,9 @@ export default {
 			} else {
 				return bill.id === this.selectedBillId
 			}
+		},
+		onCloseTrashbinClicked() {
+			emit('close-trashbin', this.projectId)
 		},
 		onAddBillClicked() {
 			if (!this.editionAccess || !this.oneActiveMember) {

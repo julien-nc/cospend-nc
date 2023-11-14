@@ -1143,9 +1143,13 @@ class ProjectService {
 		}
 		$billToDelete = $this->billMapper->getBill($projectId, $billId);
 		if ($billToDelete !== null) {
-			if ($moveToTrash) {
+			error_log('bill exists');
+			// really delete bills that already are in the trashbin
+			if ($moveToTrash && $billToDelete['deleted'] === 0) {
+				error_log('move to trash');
 				$this->billMapper->moveBillToTrash($projectId, $billId);
 			} else {
+				error_log('delete');
 				$this->billMapper->deleteBill($projectId, $billId);
 			}
 
@@ -3137,7 +3141,7 @@ class ProjectService {
 			implode(',', array_column($newOwers, 'id')), $bill['amount'], $bill['repeat'],
 			$bill['paymentmode'], $newPaymentId,
 			$newCategoryId, $bill['repeatallactive'], $bill['repeatuntil'],
-			$bill['timestamp'], $bill['comment'], $bill['repeatfreq']
+			$bill['timestamp'], $bill['comment'], $bill['repeatfreq'], null, $bill['deleted']
 		);
 
 		if (!isset($result['inserted_id'])) {

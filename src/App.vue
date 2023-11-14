@@ -33,7 +33,7 @@
 					:bills="currentBills"
 					:selected-bill-id="selectedBillId"
 					:edition-access="editionAccess"
-					:mode="mode"
+					:trashbin-enabled="trashbinEnabled"
 					:selected-category-id-filter="selectedCategoryFilter"
 					:selected-payment-mode-id-filter="selectedPaymentModeFilter"
 					@reset-filters="onResetFilters"
@@ -49,7 +49,7 @@
 					@new-bill-clicked="onNewBillClicked"
 					@move-bill-clicked="onMoveBillClicked" />
 			</template>
-			<div>
+			<div class="content-details-wrapper">
 				<BillForm
 					v-if="currentBill !== null && mode === 'edition'"
 					:bill="currentBill"
@@ -243,6 +243,7 @@ export default {
 	data() {
 		return {
 			mode: 'normal',
+			trashbinEnabled: false,
 			cospend,
 			projects: {},
 			bills: {},
@@ -337,10 +338,14 @@ export default {
 	mounted() {
 		subscribe('nextcloud:unified-search.search', this.filter)
 		subscribe('nextcloud:unified-search.reset', this.cleanSearch)
+		subscribe('trashbin-clicked', this.onTrashbinClicked)
+		subscribe('close-trashbin', this.onCloseTrashbinClicked)
 	},
 	beforeDestroy() {
 		unsubscribe('nextcloud:unified-search.search', this.filter)
 		unsubscribe('nextcloud:unified-search.reset', this.cleanSearch)
+		unsubscribe('trashbin-clicked', this.onTrashbinClicked)
+		unsubscribe('close-trashbin', this.onCloseTrashbinClicked)
 	},
 	methods: {
 		onResetFilters() {
@@ -514,6 +519,7 @@ export default {
 		},
 		onProjectClicked(projectid) {
 			if (cospend.currentProjectId !== projectid) {
+				this.trashbinEnabled = false
 				this.selectProject(projectid, true, true)
 			} else if (this.selectedMemberId !== null) {
 				// click on current selected project: deselect member
@@ -549,6 +555,14 @@ export default {
 			this.currentBill = null
 			this.mode = 'settle'
 		},
+		onTrashbinClicked(projectid) {
+			this.trashbinEnabled = true
+			this.selectProject(projectid, true, true, false, true)
+		},
+		onCloseTrashbinClicked(projectid) {
+			this.trashbinEnabled = false
+			this.selectProject(projectid, true, true, false, false)
+		},
 		onNewMemberClicked(projectid) {
 			if (cospend.currentProjectId !== projectid) {
 				this.selectProject(projectid, true, true)
@@ -580,16 +594,16 @@ export default {
 			}
 			return res
 		},
-		selectProject(projectid, save = true, pushState = false, restoreSelectedBill = false) {
+		selectProject(projectid, save = true, pushState = false, restoreSelectedBill = false, getBills = true) {
 			this.mode = 'normal'
 			this.currentBill = null
 			this.selectedMemberId = null
 			this.selectedCategoryFilter = null
 			this.selectedPaymentModeFilter = null
 			if (restoreSelectedBill) {
-				this.getBills(projectid, cospend.restoredCurrentBillId, null, false)
+				this.getBills(projectid, cospend.restoredCurrentBillId, null, false, this.trashbinEnabled)
 			} else {
-				this.getBills(projectid)
+				this.getBills(projectid, null, null, false, this.trashbinEnabled)
 			}
 			if (save) {
 				network.saveOptionValue({ selectedProject: projectid })
@@ -765,13 +779,14 @@ export default {
 				)
 			})
 		},
-		getBills(projectid, selectBillId = null, callback = null, pushState = true) {
+		getBills(projectid, selectBillId = null, callback = null, pushState = true, deleted = false) {
 			this.billsLoading = true
 			const catFilter = this.selectedCategoryFilter
 			const pmFilter = this.selectedPaymentModeFilter
 			const searchTerm = this.filterQuery
 			network.getBills(
-				projectid, 0, 50, this.selectedMemberId, catFilter, pmFilter, selectBillId, searchTerm,
+				projectid, 0, 50, this.selectedMemberId,
+				catFilter, pmFilter, selectBillId, searchTerm, deleted,
 			).then((response) => {
 				this.currentProject.nbBills = response.data.nb_bills
 				this.bills[projectid] = {}
@@ -807,13 +822,13 @@ export default {
 				this.billsLoading = false
 			})
 		},
-		loadMoreBills(projectid, state) {
+		loadMoreBills(projectid, state, deleted = false) {
 			const catFilter = this.selectedCategoryFilter
 			const pmFilter = this.selectedPaymentModeFilter
 			const searchTerm = this.filterQuery
 			network.getBills(
 				projectid, this.billLists[projectid].length, 20, this.selectedMemberId,
-				catFilter, pmFilter, null, searchTerm,
+				catFilter, pmFilter, null, searchTerm, deleted,
 			).then((response) => {
 				this.currentProject.nbBills = response.data.nb_bills
 				if (!response.data.bills || response.data.bills.length === 0) {
@@ -1097,14 +1112,14 @@ export default {
 }
 
 ::v-deep .central-empty-content {
-	margin-left: auto;
-	margin-right: auto;
+	margin: 24px auto 24px auto;
 }
 
 .project-actions {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	gap: 8px;
 }
 
 .iconButton {

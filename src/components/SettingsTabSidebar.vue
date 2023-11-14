@@ -120,8 +120,7 @@
 				:member="member"
 				:project-id="project.id"
 				:in-navigation="false"
-				:precision="precision"
-				@member-edited="onMemberEdited(member.id)" />
+				:precision="precision" />
 			<div v-if="!pageIsPublic && maintenerAccess">
 				<br><hr>
 				<h3>
@@ -198,6 +197,7 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadi
 import AppNavigationMemberItem from './AppNavigationMemberItem.vue'
 import MemberMultiSelect from './MemberMultiSelect.vue'
 
+import { emit } from '@nextcloud/event-bus'
 import { generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -459,12 +459,9 @@ export default {
 			const member = this.members[this.selectedMemberId]
 			this.$set(member, 'userid', this.selectedAffectUser.user)
 			this.$set(member, 'name', this.selectedAffectUser.name)
-			this.$emit('member-edited', this.projectId, this.selectedMemberId)
+			emit('member-edited', { projectId: this.projectId, memberId: this.selectedMemberId })
 			this.selectedAffectUser = null
 			this.selectedMemberId = null
-		},
-		onMemberEdited(memberid) {
-			this.$emit('member-edited', this.projectId, memberid)
 		},
 		onRenameProject() {
 			cospend.projects[this.projectId].name = this.newProjectName

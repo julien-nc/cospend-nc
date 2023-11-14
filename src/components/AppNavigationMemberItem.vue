@@ -8,7 +8,7 @@
 		:menu-open="menuOpen"
 		@contextmenu.native.stop.prevent="menuOpen = true"
 		@update:menuOpen="onUpdateMenuOpen"
-		@update:title="onRename"
+		@update:name="onRename"
 		@click="onClick">
 		<div v-if="maintenerAccess"
 			slot="icon"
@@ -141,6 +141,7 @@ import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
 import CospendTogglableAvatar from './avatar/CospendTogglableAvatar.vue'
 
 import { getCurrentUser } from '@nextcloud/auth'
+import { emit } from '@nextcloud/event-bus'
 import cospend from '../state.js'
 import * as constants from '../constants.js'
 import * as network from '../network.js'
@@ -279,7 +280,7 @@ export default {
 		},
 		onDeleteMemberClick() {
 			this.cMember.activated = !this.cMember.activated
-			this.$emit('member-edited', this.projectId, this.member.id)
+			emit('member-edited', { projectId: this.projectId, memberId: this.member.id })
 			// take care of removing access if it was added automatically
 			if (this.member.userid) {
 				this.deleteAccessOfUser()
@@ -301,12 +302,12 @@ export default {
 				this.deleteAccessOfUser()
 			}
 			this.cMember.userid = null
-			this.$emit('member-edited', this.projectId, this.member.id)
+			emit('member-edited', { projectId: this.projectId, memberId: this.member.id })
 		},
 		onWeightSubmit() {
 			const newWeight = this.$refs.weightInput.$el.querySelector('input[type="number"]').value
 			this.cMember.weight = parseFloat(newWeight)
-			this.$emit('member-edited', this.projectId, this.member.id)
+			emit('member-edited', { projectId: this.projectId, memberId: this.member.id })
 		},
 		updateColor(color) {
 			delay(() => {
@@ -315,7 +316,7 @@ export default {
 		},
 		applyUpdateColor(color) {
 			this.cMember.color = color.replace('#', '')
-			this.$emit('member-edited', this.projectId, this.member.id)
+			emit('member-edited', { projectId: this.projectId, memberId: this.member.id })
 		},
 		onMenuColorClick() {
 			this.menuOpen = false

@@ -219,8 +219,8 @@ import NcAppSettingsSection from '@nextcloud/vue/dist/Components/NcAppSettingsSe
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 
-import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { getFilePickerBuilder, showError, showSuccess } from '@nextcloud/dialogs'
+import { subscribe, unsubscribe, emit } from '@nextcloud/event-bus'
+import { getFilePickerBuilder, FilePickerType, showError, showSuccess } from '@nextcloud/dialogs'
 import cospend from '../state.js'
 import { generateUrl } from '@nextcloud/router'
 import { importCospendProject, importSWProject, Timer } from '../utils.js'
@@ -274,8 +274,7 @@ export default {
 		onOutputDirClick() {
 			const picker = getFilePickerBuilder(t('cospend', 'Choose where to write output files (stats, settlement, export)'))
 				.setMultiSelect(false)
-				.setModal(true)
-				.setType(1)
+				.setType(FilePickerType.Choose)
 				.addMimeTypeFilter('httpd/unix-directory')
 				.allowDirectories()
 				.startAt(this.outputDir)
@@ -287,31 +286,31 @@ export default {
 					}
 					path = path.replace(/^\/+/, '/')
 					this.outputDir = path
-					this.$emit('save-option', 'outputDirectory', path)
+					emit('save-option', 'outputDirectory', path)
 				})
 		},
 		onSortOrderChange() {
-			this.$emit('save-option', 'sortOrder', this.sortOrder)
+			emit('save-option', 'sortOrder', this.sortOrder)
 			cospend.sortOrder = this.sortOrder
 		},
 		onMemberOrderChange() {
-			this.$emit('save-option', 'memberOrder', this.memberOrder)
+			emit('save-option', 'memberOrder', this.memberOrder)
 			cospend.memberOrder = this.memberOrder
 		},
 		onMaxPrecisionChange() {
-			this.$emit('save-option', 'maxPrecision', this.maxPrecision)
+			emit('save-option', 'maxPrecision', this.maxPrecision)
 			cospend.maxPrecision = this.maxPrecision
 			this.$emit('update-max-precision')
 		},
 		onUseTimeChange(checked) {
-			this.$emit('save-option', 'useTime', checked ? '1' : '0')
+			emit('save-option', 'useTime', checked ? '1' : '0')
 			cospend.useTime = checked
 		},
 		onImportClick() {
 			importCospendProject(() => {
 				this.importingProject = true
 			}, (data) => {
-				this.$emit('project-imported', data)
+				emit('project-imported', data)
 				showSuccess(t('cospend', 'Project imported'))
 			}, () => {
 				this.importingProject = false
@@ -321,7 +320,7 @@ export default {
 			importSWProject(() => {
 				this.importingSWProject = true
 			}, (data) => {
-				this.$emit('project-imported', data)
+				emit('project-imported', data)
 				showSuccess(t('cospend', 'Project imported'))
 			}, () => {
 				this.importingSWProject = false

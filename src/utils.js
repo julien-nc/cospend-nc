@@ -4,14 +4,14 @@ import {
 	showInfo,
 	showError,
 	getFilePickerBuilder,
+	FilePickerType,
 } from '@nextcloud/dialogs'
 import * as network from './network.js'
 
 export function importCospendProject(importBeginCallback, importSuccessCallback, importEndCallback) {
 	const picker = getFilePickerBuilder(t('cospend', 'Choose csv project file'))
 		.setMultiSelect(false)
-		.setModal(true)
-		.setType(1)
+		.setType(FilePickerType.Choose)
 		.addMimeTypeFilter('text/csv')
 		// .allowDirectories()
 		// .startAt(this.outputDir)
@@ -25,8 +25,7 @@ export function importCospendProject(importBeginCallback, importSuccessCallback,
 export function importSWProject(importBeginCallback, importSuccessCallback, importEndCallback) {
 	const picker = getFilePickerBuilder(t('cospend', 'Choose SplitWise project file'))
 		.setMultiSelect(false)
-		.setModal(true)
-		.setType(1)
+		.setType(FilePickerType.Choose)
 		.addMimeTypeFilter('text/csv')
 		// .allowDirectories()
 		// .startAt(this.outputDir)

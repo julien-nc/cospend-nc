@@ -112,8 +112,7 @@
 				:project-id="project.id"
 				:in-navigation="true"
 				:precision="precision"
-				@click="onMemberClick(member.id)"
-				@member-edited="onMemberEdited" />
+				@click="onMemberClick(member.id)" />
 		</template>
 	</NcAppNavigationItem>
 </template>
@@ -212,16 +211,16 @@ export default {
 	beforeMount() {
 	},
 	methods: {
-		onProjectClick(e) {
-			this.$emit('project-clicked', this.project.id)
+		onProjectClick() {
+			emit('project-clicked', this.project.id)
 		},
 		onMemberClick(memberId) {
-			this.$emit('member-click', memberId)
+			emit('member-click', { projectId: this.project.id, memberId })
 		},
 		onDeleteProjectClick() {
 			this.deleting = true
 			this.deletionTimer = new Timer(() => {
-				this.$emit('delete-project', this.project.id)
+				emit('delete-project', this.project.id)
 			}, 7000)
 		},
 		cancelDeletion() {
@@ -230,25 +229,22 @@ export default {
 			delete this.deletionTimer
 		},
 		onStatsClick() {
-			this.$emit('stats-clicked', this.project.id)
+			emit('stats-clicked', this.project.id)
 		},
 		onTrashbinClick() {
 			emit('trashbin-clicked', this.project.id)
 		},
 		onSettleClick() {
-			this.$emit('settle-clicked', this.project.id)
+			emit('settle-clicked', this.project.id)
 		},
 		onDetailClick() {
-			this.$emit('detail-clicked', this.project.id)
+			emit('detail-clicked', this.project.id)
 		},
 		onShareClick() {
-			this.$emit('share-clicked', this.project.id)
+			emit('share-clicked', this.project.id)
 		},
 		onAddMemberClick() {
-			this.$emit('new-member-clicked', this.project.id)
-		},
-		onMemberEdited(projectid, memberid) {
-			this.$emit('member-edited', projectid, memberid)
+			emit('new-member-clicked', this.project.id)
 		},
 		onUpdateMenuOpen(isOpen) {
 			this.menuOpen = isOpen

@@ -10,7 +10,7 @@
 				:loading="importingProject"
 				:menu-open="importMenuOpen"
 				@click="importMenuOpen = true"
-				@update:title="$emit('create-project', $event)"
+				@update:name="onUpdateTitle"
 				@update:menuOpen="updateImportMenuOpen">
 				<template #icon>
 					<PlusIcon :size="20" />
@@ -54,16 +54,7 @@
 				:members="projects[id].members"
 				:selected="id === selectedProjectId"
 				:selected-member-id="selectedMemberId"
-				:member-order="cospend.memberOrder"
-				@project-clicked="onProjectClicked"
-				@delete-project="onDeleteProject"
-				@stats-clicked="onStatsClicked"
-				@settle-clicked="onSettleClicked"
-				@detail-clicked="onDetailClicked"
-				@share-clicked="onShareClicked"
-				@new-member-clicked="onNewMemberClicked"
-				@member-edited="onMemberEdited"
-				@member-click="$emit('member-click', id, $event)" />
+				:member-order="cospend.memberOrder" />
 		</template>
 		<template #footer>
 			<div id="app-settings">
@@ -181,35 +172,14 @@ export default {
 		closeMenu() {
 			this.opened = false
 		},
-		onProjectClicked(projectid) {
-			this.$emit('project-clicked', projectid)
-		},
-		onDeleteProject(projectid) {
-			this.$emit('delete-project', projectid)
-		},
-		onStatsClicked(projectid) {
-			this.$emit('stats-clicked', projectid)
-		},
-		onSettleClicked(projectid) {
-			this.$emit('settle-clicked', projectid)
-		},
-		onDetailClicked(projectid) {
-			this.$emit('detail-clicked', projectid)
-		},
-		onShareClicked(projectid) {
-			this.$emit('share-clicked', projectid)
-		},
-		onNewMemberClicked(projectid) {
-			this.$emit('new-member-clicked', projectid)
-		},
-		onMemberEdited(projectid, memberid) {
-			this.$emit('member-edited', projectid, memberid)
+		onUpdateTitle(title) {
+			emit('create-project', title)
 		},
 		onImportClick() {
 			importCospendProject(() => {
 				this.importingProject = true
 			}, (data) => {
-				this.$emit('project-imported', data)
+				emit('project-imported', data)
 				showSuccess(t('cospend', 'Project imported'))
 			}, () => {
 				this.importingProject = false
@@ -219,7 +189,7 @@ export default {
 			importSWProject(() => {
 				this.importingProject = true
 			}, (data) => {
-				this.$emit('project-imported', data)
+				emit('project-imported', data)
 				showSuccess(t('cospend', 'Project imported'))
 			}, () => {
 				this.importingProject = false

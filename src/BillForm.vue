@@ -616,6 +616,7 @@ import {
 	showSuccess,
 	showError,
 	getFilePickerBuilder,
+	FilePickerType,
 } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
 import {
@@ -1680,8 +1681,7 @@ export default {
 		onGeneratePubLinkClick() {
 			const picker = getFilePickerBuilder(t('cospend', 'Choose file'))
 				.setMultiSelect(false)
-				.setModal(true)
-				.setType(1)
+				.setType(FilePickerType.Choose)
 				// .addMimeTypeFilter('text/csv')
 				// .allowDirectories()
 				// .startAt(this.outputDir)

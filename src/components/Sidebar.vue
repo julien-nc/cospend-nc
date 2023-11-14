@@ -46,7 +46,6 @@
 				:project="project"
 				@project-edited="onProjectEdited"
 				@user-added="onUserAdded"
-				@member-edited="onMemberEdited"
 				@new-simple-member="onNewSimpleMember"
 				@export-clicked="onExportClicked" />
 		</NcAppSidebarTab>
@@ -230,9 +229,6 @@ export default {
 		},
 		onUserAdded(projectid, name, userid) {
 			this.$emit('user-added', projectid, name, userid)
-		},
-		onMemberEdited(projectid, memberid) {
-			this.$emit('member-edited', projectid, memberid)
 		},
 		onNewSimpleMember(projectid, name) {
 			this.$emit('new-member', projectid, name)

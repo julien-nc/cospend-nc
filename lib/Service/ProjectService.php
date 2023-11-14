@@ -1143,13 +1143,10 @@ class ProjectService {
 		}
 		$billToDelete = $this->billMapper->getBill($projectId, $billId);
 		if ($billToDelete !== null) {
-			error_log('bill exists');
 			// really delete bills that already are in the trashbin
 			if ($moveToTrash && $billToDelete['deleted'] === 0) {
-				error_log('move to trash');
 				$this->billMapper->moveBillToTrash($projectId, $billId);
 			} else {
-				error_log('delete');
 				$this->billMapper->deleteBill($projectId, $billId);
 			}
 

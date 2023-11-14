@@ -4,19 +4,7 @@
 			:projects="projects"
 			:selected-project-id="currentProjectId"
 			:selected-member-id="selectedMemberId"
-			:loading="projectsLoading"
-			@project-clicked="onProjectClicked"
-			@delete-project="onDeleteProject"
-			@project-imported="onProjectImported"
-			@stats-clicked="onStatsClicked"
-			@settle-clicked="onSettleClicked"
-			@detail-clicked="onDetailClicked"
-			@share-clicked="onShareClicked"
-			@new-member-clicked="onNewMemberClicked"
-			@member-edited="onMemberEdited"
-			@create-project="onCreateProject"
-			@save-option="onSaveOption"
-			@member-click="onNavMemberClick" />
+			:loading="projectsLoading" />
 		<NcAppContent
 			:list-max-width="showSidebar ? 40 : 50"
 			:list-min-width="showSidebar ? 30 : 20"
@@ -146,9 +134,7 @@
 			</div>
 		</NcAppContent>
 		<CospendSettingsDialog
-			@project-imported="onProjectImported"
-			@update-max-precision="onUpdateMaxPrecision"
-			@save-option="onSaveOption" />
+			@update-max-precision="onUpdateMaxPrecision" />
 		<Sidebar
 			v-if="currentProjectId"
 			ref="sidebar"
@@ -161,7 +147,6 @@
 			@close="showSidebar = false"
 			@project-edited="onProjectEdited"
 			@user-added="onNewMember"
-			@member-edited="onMemberEdited"
 			@new-member="onNewMember"
 			@export-clicked="onExportClicked"
 			@paymentmode-deleted="onPaymentModeDeleted"
@@ -338,12 +323,40 @@ export default {
 	mounted() {
 		subscribe('nextcloud:unified-search.search', this.filter)
 		subscribe('nextcloud:unified-search.reset', this.cleanSearch)
+
+		subscribe('project-clicked', this.onProjectClicked)
+		subscribe('delete-project', this.onDeleteProject)
+		subscribe('project-imported', this.onProjectImported)
+		subscribe('stats-clicked', this.onStatsClicked)
+		subscribe('settle-clicked', this.onSettleClicked)
+		subscribe('detail-clicked', this.onDetailClicked)
+		subscribe('share-clicked', this.onShareClicked)
+		subscribe('new-member-clicked', this.onNewMemberClicked)
+		subscribe('member-edited', this.onMemberEdited)
+		subscribe('create-project', this.onCreateProject)
+		subscribe('save-option', this.onSaveOption)
+		subscribe('member-click', this.onNavMemberClick)
+
 		subscribe('trashbin-clicked', this.onTrashbinClicked)
 		subscribe('close-trashbin', this.onCloseTrashbinClicked)
 	},
 	beforeDestroy() {
 		unsubscribe('nextcloud:unified-search.search', this.filter)
 		unsubscribe('nextcloud:unified-search.reset', this.cleanSearch)
+
+		unsubscribe('project-clicked', this.onProjectClicked)
+		unsubscribe('delete-project', this.onDeleteProject)
+		unsubscribe('project-imported', this.onProjectImported)
+		unsubscribe('stats-clicked', this.onStatsClicked)
+		unsubscribe('settle-clicked', this.onSettleClicked)
+		unsubscribe('detail-clicked', this.onDetailClicked)
+		unsubscribe('share-clicked', this.onShareClicked)
+		unsubscribe('new-member-clicked', this.onNewMemberClicked)
+		unsubscribe('member-edited', this.onMemberEdited)
+		unsubscribe('create-project', this.onCreateProject)
+		unsubscribe('save-option', this.onSaveOption)
+		unsubscribe('member-click', this.onNavMemberClick)
+
 		unsubscribe('trashbin-clicked', this.onTrashbinClicked)
 		unsubscribe('close-trashbin', this.onCloseTrashbinClicked)
 	},
@@ -368,7 +381,7 @@ export default {
 			// and infinite scroll works fine
 			this.getBills(cospend.currentProjectId)
 		},
-		onNavMemberClick(projectId, memberId) {
+		onNavMemberClick({ projectId, memberId }) {
 			if (this.selectedMemberId === memberId) {
 				this.selectedMemberId = null
 			} else if (this.currentProjectId === projectId) {
@@ -1007,11 +1020,11 @@ export default {
 				this.onBillDeleted(newBill)
 			}
 		},
-		onMemberEdited(projectid, memberid) {
+		onMemberEdited({ projectId, memberId }) {
 			this.deleteNewBill()
-			const member = this.members[projectid][memberid]
-			network.editMember(projectid, member).then((response) => {
-				this.editMemberSuccess(projectid, memberid, response.data)
+			const member = this.members[projectId][memberId]
+			network.editMember(projectId, member).then((response) => {
+				this.editMemberSuccess(projectId, memberId, response.data)
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to save member')

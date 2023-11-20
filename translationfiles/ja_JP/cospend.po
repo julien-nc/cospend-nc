@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-05-16 23:39+0200\n"
-"PO-Revision-Date: 2023-11-19 13:02\n"
+"PO-Revision-Date: 2023-11-20 12:59\n"
 "Last-Translator: \n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
@@ -188,11 +188,11 @@ msgstr "このプロジェクトの集計を取得する権限がありません
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:614
 msgid "You are not allowed to get this project's settlement"
-msgstr "このプロジェクトの決済を取得する権限がありません"
+msgstr "このプロジェクトの決算を取得する権限がありません"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:634
 msgid "You are not allowed to settle this project automatically"
-msgstr "このプロジェクトを自動的に決済する権限がありません"
+msgstr "このプロジェクトを自動決算する権限がありません"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:649
 msgid "You are not allowed to access this project"
@@ -347,7 +347,7 @@ msgstr "公開共有アクセスを追加する権限がありません"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:3144
 msgid "You are not allowed to export this project settlement"
-msgstr "このプロジェクト決済をエクスポートする権限がありません"
+msgstr "このプロジェクトの決算をエクスポートする権限がありません"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:3170
 msgid "You are not allowed to export this project statistics"
@@ -477,7 +477,7 @@ msgstr "{user} がプロジェクト %s の共有を停止しました"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Search/CospendSearchProvider.php:178
 #, php-format
 msgid "in %1$s"
-msgstr ""
+msgstr "%1$s で"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:159
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:243
@@ -871,7 +871,7 @@ msgstr "プロジェクトの集計を表示"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:7
 msgid "Show project settlement plan"
-msgstr "プロジェクト決済プランを表示"
+msgstr "プロジェクト決算プランを表示"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:8
 msgid "Select a project"
@@ -1650,7 +1650,7 @@ msgstr "通貨 {n} が追加されました。"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:202
 msgid "Settlement of project {name}"
-msgstr "プロジェクト {name} の決済"
+msgstr "プロジェクト {name} の決算"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:203
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:451
@@ -1663,20 +1663,20 @@ msgstr "これらの支払いをプロジェクトに追加"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:205
 msgid "Center settlement on"
-msgstr "1人を中心に決済する"
+msgstr "1人を中心に決算する"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:206
 msgid "Nobody (optimal)"
-msgstr ""
+msgstr "誰も（最適）"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:207
 msgid "Settlement date"
-msgstr "決済日"
+msgstr "決算日"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:208
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:209
 msgid "Information on settlement date"
-msgstr "決済日に関する詳細情報"
+msgstr "決算日に関する詳細情報"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:211
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:212
@@ -1695,11 +1695,11 @@ msgstr "この月の初めに設定"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:217
 msgid "Settlement plan on {date}"
-msgstr "{date} の決済日"
+msgstr "{date} の決算日"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:217
 msgid "Settlement plan"
-msgstr "決済日"
+msgstr "決算日"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:221
 msgid "No transactions found"
@@ -1741,15 +1741,15 @@ msgstr "請求書を作成 ({amount})"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:232
 msgid "Failed to get settlement"
-msgstr "決済を取得できませんでした"
+msgstr "決算を取得できませんでした"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:233
 msgid "Project settlement bills added."
-msgstr "プロジェクト決済請求書が追加されました。"
+msgstr "プロジェクト決算請求書が追加されました。"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:234
 msgid "Project settlement exported in {path}"
-msgstr "プロジェクト決済を {path} にエクスポートしました"
+msgstr "プロジェクト決算を {path} にエクスポートしました"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:235
 msgid "Set a maximum date to only consider bills until then."
@@ -1761,11 +1761,11 @@ msgstr "それ以降に作成された請求書を無視したい場合に便利
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:237
 msgid "Automatic settlement will create bills one second before the maximum date."
-msgstr "自動決済は、最大日付の1秒前に請求書を作成します。"
+msgstr "自動決算は、最大日付の1秒前に請求書を作成します。"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:239
 msgid "This feature is useful when a member with a negative balance wants to get out of the project but you don't want to make a full settlement plan."
-msgstr "この機能は、負の残高を持つメンバーがプロジェクトから抜け出したいが、完全な決済プランを作成したくない場合に便利です。"
+msgstr "この機能は、負の残高を持つメンバーがプロジェクトから抜けたいが、完全な決算プランを作成したくない場合に便利です。"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:240
 msgid "Select a payer who wants to get a zero balance, then a receiver who will be the only one to get the reimbursement money."
@@ -1913,7 +1913,7 @@ msgstr "集計"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:278
 msgid "Project settlement"
-msgstr "プロジェクトの決済"
+msgstr "プロジェクトの決算"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:280
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:373
@@ -2081,7 +2081,7 @@ msgstr "日付で時刻を使用する"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:342
 msgid "Choose where to write output files (stats, settlement, export)"
-msgstr "出力ファイルを書き出す場所を選択します (集計、決済、エクスポート)"
+msgstr "出力ファイルを書き出す場所を選択します (集計、決算、エクスポート)"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:345
 msgid "Guest link copied to clipboard."
@@ -2390,7 +2390,7 @@ msgstr "全体の集計"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:473
 msgid "Filtered balance"
-msgstr ""
+msgstr "フィルター残高"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:475
 msgid "Monthly paid per member"
@@ -2450,7 +2450,7 @@ msgstr "誰が誰のために支払ったか？"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:490
 msgid "paid for"
-msgstr ""
+msgstr "誰のための支払い"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:491
 msgid "Total paid"
@@ -2471,7 +2471,7 @@ msgstr "{name} の支払額合計"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:495
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:501
 msgid "All except reimbursement"
-msgstr ""
+msgstr "その他すべての払い戻し"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:496
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:499
@@ -2577,11 +2577,11 @@ msgstr "プロジェクトの集計のエクスポートに失敗しました"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/src/network.js:539
 msgid "Failed to add project settlement bills"
-msgstr "プロジェクト決済請求書の追加に失敗しました"
+msgstr "プロジェクト決算請求書の追加に失敗しました"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/src/network.js:559
 msgid "Failed to export project settlement"
-msgstr "プロジェクト決済のエクスポートに失敗しました"
+msgstr "プロジェクトの決算のエクスポートに失敗しました"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/src/utils.js:11
 msgid "Choose csv project file"

@@ -31,7 +31,7 @@
 			</div>
 		</template>
 		<template #actions>
-			<NcActionButton v-if="editionAccess && !selectMode && bill.id !== 0 && bill.deleted === 1"
+			<NcActionButton v-if="editionAccess && !selectMode && bill.id !== 0 && bill.deleted === 1 && !timerOn"
 				:close-after-click="true"
 				@click="onRestoreClick">
 				<template #icon>
@@ -265,10 +265,12 @@ export default {
 		deleteIconTitle() {
 			return this.timerOn
 				? t('cospend', 'Cancel')
-				: t('cospend', 'Delete this bill')
+				: this.bill.deleted
+					? t('cospend', 'Delete')
+					: t('cospend', 'Move to trash')
 		},
 		moveIconTitle() {
-			return t('cospend', 'Move bill')
+			return t('cospend', 'Move to other project')
 		},
 		billDetails() {
 			return this.selected

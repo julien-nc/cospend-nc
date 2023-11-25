@@ -31,6 +31,14 @@
 			</div>
 		</template>
 		<template #actions>
+			<NcActionButton v-if="editionAccess && !selectMode && bill.id !== 0 && bill.deleted === 1"
+				:close-after-click="true"
+				@click="onRestoreClick">
+				<template #icon>
+					<RestoreIcon />
+				</template>
+				{{ t('cospend', 'Restore') }}
+			</NcActionButton>
 			<NcActionButton v-if="editionAccess && !selectMode && bill.id !== 0 && !payerDisabled && !timerOn"
 				:close-after-click="true"
 				@click="onDuplicateClick">
@@ -70,6 +78,7 @@
 </template>
 
 <script>
+import RestoreIcon from 'vue-material-design-icons/Restore.vue'
 import CalendarSyncIcon from 'vue-material-design-icons/CalendarSync.vue'
 import CheckboxMarkedIcon from 'vue-material-design-icons/CheckboxMarked.vue'
 import CheckboxBlankOutlineIcon from 'vue-material-design-icons/CheckboxBlankOutline.vue'
@@ -86,6 +95,7 @@ import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import cospend from '../state.js'
 import { generateUrl } from '@nextcloud/router'
 import moment from '@nextcloud/moment'
+import { emit } from '@nextcloud/event-bus'
 import { reload, Timer, getCategory, getPaymentMode, getSmartMemberName } from '../utils.js'
 
 export default {
@@ -102,6 +112,7 @@ export default {
 		NcActionButton,
 		SwapHorizontalIcon,
 		ContentDuplicateIcon,
+		RestoreIcon,
 	},
 
 	props: {
@@ -275,6 +286,9 @@ export default {
 		},
 		onMoveClick(e) {
 			this.$emit('move')
+		},
+		onRestoreClick() {
+			emit('restore-bill', this.bill)
 		},
 		onDeleteClick(e) {
 			// stop timer

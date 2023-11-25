@@ -195,7 +195,7 @@ export function repeatBillNow(projectId, billId) {
 	return axios.get(url)
 }
 
-export function saveBill(projectid, bill) {
+export function saveBill(projectId, bill) {
 	const req = {
 		what: bill.what,
 		comment: bill.comment,
@@ -212,10 +212,20 @@ export function saveBill(projectid, bill) {
 	}
 	let url
 	if (!cospend.pageIsPublic) {
-		url = generateUrl('/apps/cospend/projects/' + projectid + '/bills/' + bill.id)
+		url = generateUrl('/apps/cospend/projects/' + projectId + '/bills/' + bill.id)
 	} else {
 		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills/' + bill.id)
 	}
+	return axios.put(url, req)
+}
+
+export function restoreBill(projectId, bill) {
+	const req = {
+		deleted: 0,
+	}
+	const url = cospend.pageIsPublic
+		? generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills/' + bill.id)
+		: generateUrl('/apps/cospend/projects/' + projectId + '/bills/' + bill.id)
 	return axios.put(url, req)
 }
 
@@ -240,6 +250,17 @@ export function saveBills(projectid, billIds, categoryid, paymentmodeid) {
 	} else {
 		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills')
 	}
+	return axios.put(url, req)
+}
+
+export function restoreBills(projectid, billIds) {
+	const req = {
+		deleted: 0,
+		billIds,
+	}
+	const url = cospend.pageIsPublic
+		? generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills')
+		: generateUrl('/apps/cospend/projects/' + projectid + '/bills')
 	return axios.put(url, req)
 }
 

@@ -685,16 +685,20 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 *
 	 */
-	public function webEditBill(string $projectid, int $billid, ?string $date = null, ?string $what = null, ?int $payer = null,
-								?string $payed_for = null, ?float $amount = null, ?string $repeat = null,
-								?string $paymentmode = null, ?int $paymentmodeid = null,
-								?int $categoryid = null, ?int $repeatallactive = null, ?string $repeatuntil = null,
-								?int $timestamp = null, ?string $comment = null, ?int $repeatfreq = null): DataResponse {
+	public function webEditBill(
+		string $projectid, int $billid, ?string $date = null, ?string $what = null,
+		?int $payer = null, ?string $payed_for = null, ?float $amount = null, ?string $repeat = null,
+		?string $paymentmode = null, ?int $paymentmodeid = null,
+		?int $categoryid = null, ?int $repeatallactive = null, ?string $repeatuntil = null,
+		?int $timestamp = null, ?string $comment = null, ?int $repeatfreq = null, ?int $deleted = null
+	): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 		if ($userAccessLevel >= Application::ACCESS_LEVELS['participant']) {
-			$result =  $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
-													   $amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
-													   $repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq);
+			$result =  $this->projectService->editBill(
+				$projectid, $billid, $date, $what, $payer, $payed_for,
+				$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
+				$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq, null, $deleted
+			);
 			if (isset($result['edited_bill_id'])) {
 				$billObj = $this->billMapper->find($billid);
 				$this->activityManager->triggerEvent(
@@ -709,7 +713,7 @@ class PageController extends ApiController {
 			}
 		} else {
 			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to edit this bill')],
+				['message' => $this->trans->t('You are not allowed to edit this bill ... '.$userAccessLevel)],
 				403
 			);
 		}
@@ -781,12 +785,14 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 *
 	 */
-	public function webEditBills(string $projectid, array $billIds, ?int $categoryid = null, ?string $date = null,
-								?string $what = null, ?int $payer = null, ?string $payed_for = null,
-								?float $amount = null, ?string $repeat = null,
-								 ?string $paymentmode = null, ?int $paymentmodeid = null,
-								?int $repeatallactive = null, ?string $repeatuntil = null, ?int $timestamp = null,
-								?string $comment = null, ?int $repeatfreq = null): DataResponse {
+	public function webEditBills(
+		string $projectid, array $billIds, ?int $categoryid = null, ?string $date = null,
+		?string $what = null, ?int $payer = null, ?string $payed_for = null,
+		?float $amount = null, ?string $repeat = null,
+		?string $paymentmode = null, ?int $paymentmodeid = null,
+		?int $repeatallactive = null, ?string $repeatuntil = null, ?int $timestamp = null,
+		?string $comment = null, ?int $repeatfreq = null, ?int $deleted = null
+	): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 		if ($userAccessLevel >= Application::ACCESS_LEVELS['participant']) {
 			$paymentModes = $this->projectService->getCategoriesOrPaymentModes($projectid, false);
@@ -795,7 +801,7 @@ class PageController extends ApiController {
 					$projectid, $billid, $date, $what, $payer, $payed_for,
 					$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
 					$repeatallactive, $repeatuntil, $timestamp, $comment,
-					$repeatfreq, $paymentModes
+					$repeatfreq, $paymentModes, $deleted
 				);
 				if (isset($result['edited_bill_id'])) {
 					$billObj = $this->billMapper->find($billid);
@@ -1493,12 +1499,14 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiEditBill(string $projectid, string $password, int $billid, ?string $date = null, ?string $what = null,
-								?int $payer = null, ?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
-								?string $paymentmode = null, ?int $paymentmodeid = null,
-								?int $categoryid = null, ?int $repeatallactive = null,
-								?string $repeatuntil = null, ?int $timestamp = null, ?string $comment = null,
-								?int $repeatfreq = null): DataResponse {
+	public function apiEditBill(
+		string $projectid, string $password, int $billid, ?string $date = null, ?string $what = null,
+		?int $payer = null, ?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
+		?string $paymentmode = null, ?int $paymentmodeid = null,
+		?int $categoryid = null, ?int $repeatallactive = null,
+		?string $repeatuntil = null, ?int $timestamp = null, ?string $comment = null,
+		?int $repeatfreq = null, ?int $deleted = null
+	): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
 			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['participant'])
@@ -1509,7 +1517,7 @@ class PageController extends ApiController {
 			$result = $this->projectService->editBill(
 				$publicShareInfo['projectid'] ?? $projectid, $billid, $date, $what, $payer, $payed_for,
 				$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
-				$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq
+				$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq, null, $deleted
 			);
 			if (isset($result['edited_bill_id'])) {
 				$billObj = $this->billMapper->find($billid);
@@ -1545,12 +1553,14 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiEditBills(string $projectid, string $password, array $billIds, ?int $categoryid = null, ?string $date = null,
-								?string $what = null, ?int $payer = null, ?string $payed_for = null, ?float $amount = null,
-								?string $repeat = 'n', ?string $paymentmode = null, ?int $paymentmodeid = null,
-								?int $repeatallactive = null,
-								?string $repeatuntil = null, ?int $timestamp = null, ?string $comment = null,
-								?int $repeatfreq = null): DataResponse {
+	public function apiEditBills(
+		string $projectid, string $password, array $billIds, ?int $categoryid = null, ?string $date = null,
+		?string $what = null, ?int $payer = null, ?string $payed_for = null, ?float $amount = null,
+		?string $repeat = 'n', ?string $paymentmode = null, ?int $paymentmodeid = null,
+		?int $repeatallactive = null,
+		?string $repeatuntil = null, ?int $timestamp = null, ?string $comment = null,
+		?int $repeatfreq = null, ?int $deleted = null
+	): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
 			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['participant'])
@@ -1571,7 +1581,7 @@ class PageController extends ApiController {
 				$result = $this->projectService->editBill(
 					$publicShareInfo['projectid'] ?? $projectid, $billid, $date, $what, $payer, $payed_for,
 					$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
-					$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq, $paymentModes
+					$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq, $paymentModes, $deleted
 				);
 				if (isset($result['edited_bill_id'])) {
 					$billObj = $this->billMapper->find($billid);
@@ -1598,16 +1608,20 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivEditBill(string $projectid, int $billid, ?string $date = null, ?string $what = null,
-								?int $payer = null, ?string $payed_for = null, ?float $amount = null, ?string $repeat = 'n',
-								?string $paymentmode = null, ?int $paymentmodeid = null,
-								?int $categoryid = null, ?int $repeatallactive = null,
-								?string $repeatuntil = null, ?int $timestamp = null, ?string $comment=null,
-								?int $repeatfreq = null): DataResponse {
+	public function apiPrivEditBill(
+		string $projectid, int $billid, ?string $date = null, ?string $what = null,
+		?int $payer = null, ?string $payed_for = null, ?float $amount = null, ?string $repeat = 'n',
+		?string $paymentmode = null, ?int $paymentmodeid = null,
+		?int $categoryid = null, ?int $repeatallactive = null,
+		?string $repeatuntil = null, ?int $timestamp = null, ?string $comment=null,
+		?int $repeatfreq = null, ?int $deleted = null
+	): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['participant']) {
-			$result = $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
-													  $amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
-													  $repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq);
+			$result = $this->projectService->editBill(
+				$projectid, $billid, $date, $what, $payer, $payed_for,
+				$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
+				$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq, null, $deleted
+			);
 			if (isset($result['edited_bill_id'])) {
 				$billObj = $this->billMapper->find($billid);
 				$this->activityManager->triggerEvent(

@@ -336,6 +336,8 @@ export default {
 		subscribe('create-project', this.onCreateProject)
 		subscribe('save-option', this.onSaveOption)
 		subscribe('member-click', this.onNavMemberClick)
+		subscribe('restore-bill', this.onRestoreBill)
+		subscribe('restore-bills', this.onRestoreBills)
 
 		subscribe('trashbin-clicked', this.onTrashbinClicked)
 		subscribe('close-trashbin', this.onCloseTrashbinClicked)
@@ -356,6 +358,8 @@ export default {
 		unsubscribe('create-project', this.onCreateProject)
 		unsubscribe('save-option', this.onSaveOption)
 		unsubscribe('member-click', this.onNavMemberClick)
+		unsubscribe('restore-bill', this.onRestoreBill)
+		unsubscribe('restore-bills', this.onRestoreBills)
 
 		unsubscribe('trashbin-clicked', this.onTrashbinClicked)
 		unsubscribe('close-trashbin', this.onCloseTrashbinClicked)
@@ -379,7 +383,7 @@ export default {
 			this.currentBill = null
 			// we load bills from scratch to make sure we get the correct total number of bills
 			// and infinite scroll works fine
-			this.getBills(cospend.currentProjectId)
+			this.getBills(cospend.currentProjectId, null, null, null, this.trashbinEnabled)
 		},
 		onNavMemberClick({ projectId, memberId }) {
 			if (this.selectedMemberId === memberId) {
@@ -391,7 +395,7 @@ export default {
 			this.currentBill = null
 			// we load bills from scratch to make sure we get the correct total number of bills
 			// and infinite scroll works fine
-			this.getBills(cospend.currentProjectId)
+			this.getBills(cospend.currentProjectId, null, null, null, this.trashbinEnabled)
 		},
 		onActiveSidebarTabChanged(newActive) {
 			this.activeSidebarTab = newActive
@@ -529,6 +533,37 @@ export default {
 				this.currentBill = null
 			}
 			this.updateProjectInfo(cospend.currentProjectId)
+		},
+		onRestoreBill(bill) {
+			network.restoreBill(cospend.currentProjectId, bill).then((response) => {
+				showSuccess(t('cospend', 'Bill restored'))
+				const billList = this.billLists[cospend.currentProjectId]
+				billList.splice(billList.indexOf(bill), 1)
+				if (bill.id === this.selectedBillId) {
+					this.currentBill = null
+				}
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to restore bill')
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+				)
+			})
+		},
+		onRestoreBills(billIds) {
+			network.restoreBills(cospend.currentProjectId, billIds).then((response) => {
+				showSuccess(t('cospend', 'Bills restored'))
+				const billList = this.billLists[cospend.currentProjectId]
+				billIds.forEach(id => {
+					const index = billList.findIndex(bill => bill.id === id)
+					billList.splice(index, 1)
+				})
+				this.updateProjectInfo(cospend.currentProjectId)
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to delete bills')
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+				)
+			})
 		},
 		onProjectClicked(projectid) {
 			if (cospend.currentProjectId !== projectid) {

@@ -4,7 +4,7 @@
 		<div class="list-header">
 			<NcAppNavigationItem
 				v-show="!loading && !trashbinEnabled"
-				class="addBillItem"
+				class="list-header-item"
 				:name="(editionAccess && oneActiveMember) ? t('cospend', 'New bill') : ''"
 				:force-display-actions="editionAccess && oneActiveMember"
 				@click="onAddBillClicked">
@@ -12,6 +12,14 @@
 					<PlusIcon v-show="editionAccess && oneActiveMember" :size="20" />
 				</template>
 				<template #actions>
+					<NcActionButton
+						:close-after-click="true"
+						@click="showTrashbin">
+						<template #icon>
+							<DeleteVariantIcon />
+						</template>
+						{{ t('cospend', 'Show trashbin') }}
+					</NcActionButton>
 					<NcActionButton v-show="bills.length > 0 || filterMode"
 						:close-after-click="true"
 						@click="toggleFilterMode">
@@ -34,7 +42,7 @@
 			</NcAppNavigationItem>
 			<NcAppNavigationItem
 				v-show="!loading && trashbinEnabled"
-				class="addBillItem"
+				class="list-header-item"
 				:name="t('cospend', 'Trashbin')"
 				:force-display-actions="true">
 				<template #icon>
@@ -42,11 +50,30 @@
 				</template>
 				<template #actions>
 					<NcActionButton
+						:close-after-click="true"
 						@click="onCloseTrashbinClicked">
 						<template #icon>
 							<CloseIcon />
 						</template>
 						{{ t('cospend', 'Close trashbin') }}
+					</NcActionButton>
+					<NcActionButton v-show="bills.length > 0 || filterMode"
+						:close-after-click="true"
+						@click="toggleFilterMode">
+						<template #icon>
+							<CloseIcon v-if="filterMode" />
+							<FilterIcon v-else />
+						</template>
+						{{ filterToggleText }}
+					</NcActionButton>
+					<NcActionButton v-show="(editionAccess && bills.length > 0) || selectMode"
+						:close-after-click="true"
+						@click="toggleSelectMode">
+						<template #icon>
+							<CloseIcon v-if="selectMode" />
+							<FormatListCheckboxIcon v-else />
+						</template>
+						{{ multiToggleText }}
 					</NcActionButton>
 				</template>
 			</NcAppNavigationItem>
@@ -117,12 +144,22 @@
 									<InformationVariantIcon :size="20" />
 									{{ t('cospend', 'Select bills to make grouped actions') }}
 								</span>
-								<NcActions v-show="deletionEnabled">
+								<NcActions v-show="deletionEnabled || trashbinEnabled"
+									class="multi-actions"
+									:inline="2">
+									<NcActionButton v-if="trashbinEnabled"
+										class="multiRestore"
+										@click="restoreSelection">
+										<template #icon>
+											<RestoreIcon />
+										</template>
+										{{ t('cospend', 'Restore selected bills') }}
+									</NcActionButton>
 									<NcActionButton
 										class="multiDelete"
 										@click="deleteSelection">
 										<template #icon>
-											<DeleteIcon :size="20" />
+											<DeleteIcon />
 										</template>
 										{{ t('cospend', 'Delete selected bills') }}
 									</NcActionButton>
@@ -176,6 +213,7 @@
 </template>
 
 <script>
+import RestoreIcon from 'vue-material-design-icons/Restore.vue'
 import DeleteVariantIcon from 'vue-material-design-icons/DeleteVariant.vue'
 import InformationVariantIcon from 'vue-material-design-icons/InformationVariant.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
@@ -225,6 +263,7 @@ export default {
 		FormatListCheckboxIcon,
 		InformationVariantIcon,
 		DeleteVariantIcon,
+		RestoreIcon,
 	},
 
 	props: {
@@ -446,6 +485,7 @@ export default {
 			}
 		},
 		onCloseTrashbinClicked() {
+			this.selectedBillIds = []
 			emit('close-trashbin', this.projectId)
 		},
 		onAddBillClicked() {
@@ -487,6 +527,10 @@ export default {
 					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 				)
 			})
+		},
+		showTrashbin() {
+			this.selectedBillIds = []
+			emit('trashbin-clicked', this.projectId)
 		},
 		toggleFilterMode(emit = true, enabled = null) {
 			if (enabled === null) {
@@ -586,6 +630,26 @@ export default {
 				)
 			}
 		},
+		restoreSelection() {
+			if (this.selectedBillIds.length > 0) {
+				OC.dialogs.confirm(
+					n('cospend',
+						'Are you sure you want to restore {nb} bill?',
+						'Are you sure you want to restore {nb} bills?',
+						this.selectedBillIds.length,
+						{ nb: this.selectedBillIds.length },
+					),
+					t('cospend', 'Confirm restoration'),
+					(result) => {
+						if (result) {
+							emit('restore-bills', this.selectedBillIds)
+							this.selectedBillIds = []
+						}
+					},
+					true,
+				)
+			}
+		},
 	},
 }
 </script>
@@ -602,16 +666,20 @@ export default {
 		select {
 			margin-top: 5px;
 		}
-		.multiDelete {
-			margin-left: auto;
-			&:hover {
-				color: var(--color-error);
-			}
-		}
 		> div {
 			width: 100%;
 			display: flex;
 			flex-direction: column;
+		}
+		:deep(.multiDelete) {
+			&:hover {
+				color: var(--color-error);
+			}
+		}
+		:deep(.multiRestore) {
+			&:hover {
+				color: var(--color-success);
+			}
 		}
 		.multiSelectFooter {
 			display: flex;
@@ -619,6 +687,9 @@ export default {
 			span {
 				display: flex;
 				align-items: center;
+			}
+			.multi-actions {
+				margin-left: auto;
 			}
 		}
 	}
@@ -653,7 +724,7 @@ export default {
 	}
 }
 
-.addBillItem {
+.list-header-item {
 	padding-left: 40px;
 }
 

@@ -486,7 +486,25 @@ class PageController extends ApiController {
 
 	/**
 	 * @NoAdminRequired
-	 *
+	 */
+	public function webClearTrashbin(string $projectid): DataResponse {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['participant']) {
+			try {
+				$this->billMapper->deleteDeletedBills($projectid);
+				return new DataResponse('');
+			} catch (\Exception | \Throwable $e) {
+				return new DataResponse('', Http::STATUS_BAD_REQUEST);
+			}
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to clear the trashbin')],
+				403
+			);
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
 	 */
 	public function webDeleteBill(string $projectid, int $billid, bool $moveToTrash = true): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['participant']) {
@@ -1648,6 +1666,34 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
+	public function apiClearTrashbin(string $projectid, string $password): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
+		if (
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['participant'])
+			|| ($publicShareInfo !== null
+				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['participant'])
+		) {
+			try {
+				$this->billMapper->deleteDeletedBills($publicShareInfo['projectid']);
+				return new DataResponse('');
+			} catch (\Exception | \Throwable $e) {
+				return new DataResponse('', Http::STATUS_BAD_REQUEST);
+			}
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to clear the trashbin')],
+				Http::STATUS_FORBIDDEN
+			);
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @PublicPage
+	 * @CORS
+	 */
 	public function apiDeleteBill(string $projectid, string $password, int $billid, bool $moveToTrash = true): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
@@ -1680,12 +1726,12 @@ class PageController extends ApiController {
 				}
 				return new DataResponse('OK');
 			} else {
-				return new DataResponse($result, 404);
+				return new DataResponse($result, Http::STATUS_NOT_FOUND);
 			}
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('Unauthorized action')],
-				401
+				Http::STATUS_UNAUTHORIZED
 			);
 		}
 	}
@@ -1736,6 +1782,27 @@ class PageController extends ApiController {
 			return new DataResponse(
 				['message' => $this->trans->t('Unauthorized action')],
 				401
+			);
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @CORS
+	 */
+	public function apiPrivClearTrashbin(string $projectid): DataResponse {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['participant']) {
+			try {
+			$this->billMapper->deleteDeletedBills($projectid);
+				return new DataResponse('');
+			} catch (\Exception | \Throwable $e) {
+				return new DataResponse('', Http::STATUS_NOT_FOUND);
+			}
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('Unauthorized action')],
+				403
 			);
 		}
 	}

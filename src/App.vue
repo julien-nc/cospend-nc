@@ -342,6 +342,7 @@ export default {
 
 		subscribe('trashbin-clicked', this.onTrashbinClicked)
 		subscribe('close-trashbin', this.onCloseTrashbinClicked)
+		subscribe('clear-trashbin-clicked', this.onClearTrashbinClicked)
 	},
 	beforeDestroy() {
 		unsubscribe('nextcloud:unified-search.search', this.filter)
@@ -364,6 +365,7 @@ export default {
 
 		unsubscribe('trashbin-clicked', this.onTrashbinClicked)
 		unsubscribe('close-trashbin', this.onCloseTrashbinClicked)
+		unsubscribe('clear-trashbin-clicked', this.onClearTrashbinClicked)
 	},
 	methods: {
 		onResetFilters() {
@@ -615,6 +617,13 @@ export default {
 		onCloseTrashbinClicked(projectid) {
 			this.trashbinEnabled = false
 			this.selectProject(projectid, true, true, false, false)
+		},
+		onClearTrashbinClicked(projectId) {
+			network.clearTrashbin(projectId)
+				.then(() => {
+					showSuccess(t('cospend', 'Trashbin has been cleared'))
+				})
+			this.onCloseTrashbinClicked(projectId)
 		},
 		onNewMemberClicked(projectid) {
 			if (cospend.currentProjectId !== projectid) {

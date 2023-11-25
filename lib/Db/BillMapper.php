@@ -81,6 +81,39 @@ class BillMapper extends QBMapper {
 		return $nbDeleted;
 	}
 
+	public function deleteDeletedBills(string $projectId): void {
+		// first delete the bill owers
+		$qb = $this->db->getQueryBuilder();
+
+		$qb2 = $this->db->getQueryBuilder();
+		$qb2->select('id')
+			->from('cospend_bills')
+			->where(
+				$qb2->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+			)
+			->andWhere(
+				$qb->expr()->eq('deleted', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
+			);
+
+		$qb->delete('cospend_bill_owers')
+			->where(
+				$qb2->expr()->in('billid', $qb->createFunction($qb2->getSQL()), IQueryBuilder::PARAM_STR_ARRAY)
+			);
+		$qb->executeStatement();
+		$qb->resetQueryParts();
+
+		// delete the bills
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('cospend_bills')
+			->where(
+				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+			)
+			->andWhere(
+				$qb->expr()->eq('deleted', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
+			);
+		$qb->executeStatement();
+	}
+
 	public function deleteBill(string $projectId, int $billId): array {
 		$nbBillOwersDeleted = $this->deleteBillOwersOfBill($billId);
 

@@ -39,6 +39,14 @@
 						</template>
 						{{ t('cospend', 'Show trashbin') }}
 					</NcActionButton>
+					<NcActionButton v-if="trashbinEnabled && editionAccess && bills.length > 0"
+						:close-after-click="true"
+						@click="onClearTrashbinClicked">
+						<template #icon>
+							<DeleteEmptyIcon />
+						</template>
+						{{ t('cospend', 'Clear trashbin') }}
+					</NcActionButton>
 					<NcActionButton v-show="bills.length > 0 || filterMode"
 						:close-after-click="true"
 						@click="toggleFilterMode">
@@ -195,6 +203,7 @@
 </template>
 
 <script>
+import DeleteEmptyIcon from 'vue-material-design-icons/DeleteEmpty.vue'
 import RestoreIcon from 'vue-material-design-icons/Restore.vue'
 import DeleteVariantIcon from 'vue-material-design-icons/DeleteVariant.vue'
 import InformationVariantIcon from 'vue-material-design-icons/InformationVariant.vue'
@@ -246,6 +255,7 @@ export default {
 		InformationVariantIcon,
 		DeleteVariantIcon,
 		RestoreIcon,
+		DeleteEmptyIcon,
 	},
 
 	props: {
@@ -513,6 +523,10 @@ export default {
 		showTrashbin() {
 			this.selectedBillIds = []
 			emit('trashbin-clicked', this.projectId)
+		},
+		onClearTrashbinClicked() {
+			this.selectedBillIds = []
+			emit('clear-trashbin-clicked', this.projectId)
 		},
 		toggleFilterMode(emit = true, enabled = null) {
 			if (enabled === null) {

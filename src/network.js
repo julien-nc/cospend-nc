@@ -286,13 +286,17 @@ export function generatePublicLinkToFile(targetPath) {
 	return axios.post(url, req)
 }
 
+export function clearTrashbin(projectId) {
+	const url = cospend.pageIsPublic
+		? generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/trashbin')
+		: generateUrl('/apps/cospend/projects/' + projectId + '/trashbin')
+	return axios.delete(url)
+}
+
 export function deleteBill(projectid, bill) {
-	let url
-	if (!cospend.pageIsPublic) {
-		url = generateUrl('/apps/cospend/projects/' + projectid + '/bills/' + bill.id)
-	} else {
-		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills/' + bill.id)
-	}
+	const url = cospend.pageIsPublic
+		? generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills/' + bill.id)
+		: generateUrl('/apps/cospend/projects/' + projectid + '/bills/' + bill.id)
 	return axios.delete(url)
 }
 

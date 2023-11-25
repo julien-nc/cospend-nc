@@ -151,7 +151,7 @@
 										<template #icon>
 											<DeleteIcon />
 										</template>
-										{{ t('cospend', 'Delete selected bills') }}
+										{{ multiDeleteLabel }}
 									</NcActionButton>
 								</NcActions>
 							</div>
@@ -453,6 +453,11 @@ export default {
 		},
 		deletionEnabled() {
 			return !cospend.projects[this.projectId].deletiondisabled
+		},
+		multiDeleteLabel() {
+			return this.trashbinEnabled
+				? t('cospend', 'Move selected bills to trash')
+				: t('cospend', 'Delete selected bills')
 		},
 	},
 

@@ -54,7 +54,8 @@
 				:members="projects[id].members"
 				:selected="id === selectedProjectId"
 				:selected-member-id="selectedMemberId"
-				:member-order="cospend.memberOrder" />
+				:member-order="cospend.memberOrder"
+				:trashbin-enabled="trashbinEnabled" />
 		</template>
 		<template #footer>
 			<div id="app-settings">
@@ -128,6 +129,10 @@ export default {
 			default: null,
 		},
 		loading: {
+			type: Boolean,
+			default: false,
+		},
+		trashbinEnabled: {
 			type: Boolean,
 			default: false,
 		},

@@ -2,60 +2,42 @@
 	<NcAppContentList
 		ref="list">
 		<div class="list-header">
-			<NcAppNavigationItem
-				v-show="!loading && !trashbinEnabled"
-				class="list-header-item"
-				:name="(editionAccess && oneActiveMember) ? t('cospend', 'New bill') : ''"
-				:force-display-actions="editionAccess && oneActiveMember"
-				@click="onAddBillClicked">
-				<template #icon>
-					<PlusIcon v-show="editionAccess && oneActiveMember" :size="20" />
-				</template>
-				<template #actions>
-					<NcActionButton
-						:close-after-click="true"
-						@click="showTrashbin">
-						<template #icon>
-							<DeleteVariantIcon />
-						</template>
-						{{ t('cospend', 'Show trashbin') }}
-					</NcActionButton>
-					<NcActionButton v-show="bills.length > 0 || filterMode"
-						:close-after-click="true"
-						@click="toggleFilterMode">
-						<template #icon>
-							<CloseIcon v-if="filterMode" :size="20" />
-							<FilterIcon v-else :size="20" />
-						</template>
-						{{ filterToggleText }}
-					</NcActionButton>
-					<NcActionButton v-show="(editionAccess && bills.length > 0) || selectMode"
-						:close-after-click="true"
-						@click="toggleSelectMode">
-						<template #icon>
-							<CloseIcon v-if="selectMode" :size="20" />
-							<FormatListCheckboxIcon v-else :size="20" />
-						</template>
-						{{ multiToggleText }}
-					</NcActionButton>
-				</template>
-			</NcAppNavigationItem>
-			<NcAppNavigationItem
-				v-show="!loading && trashbinEnabled"
-				class="list-header-item"
-				:name="t('cospend', 'Trashbin')"
-				:force-display-actions="true">
-				<template #icon>
-					<DeleteVariantIcon />
-				</template>
-				<template #actions>
-					<NcActionButton
+			<div class="list-header-header">
+				<NcAppNavigationItem
+					v-show="!loading && !trashbinEnabled"
+					class="list-header-item"
+					:name="(editionAccess && oneActiveMember) ? t('cospend', 'New bill') : ''"
+					:force-display-actions="editionAccess && oneActiveMember"
+					@click="onAddBillClicked">
+					<template #icon>
+						<PlusIcon v-show="editionAccess && oneActiveMember" :size="20" />
+					</template>
+				</NcAppNavigationItem>
+				<NcAppNavigationItem
+					v-show="!loading && trashbinEnabled"
+					class="list-header-item"
+					:name="t('cospend', 'Trashbin')"
+					:force-display-actions="true">
+					<template #icon>
+						<DeleteVariantIcon class="header-trashbin-icon" />
+					</template>
+				</NcAppNavigationItem>
+				<NcActions :inline="trashbinEnabled ? 1 : 0">
+					<NcActionButton v-if="trashbinEnabled"
 						:close-after-click="true"
 						@click="onCloseTrashbinClicked">
 						<template #icon>
 							<CloseIcon />
 						</template>
 						{{ t('cospend', 'Close trashbin') }}
+					</NcActionButton>
+					<NcActionButton v-else
+						:close-after-click="true"
+						@click="showTrashbin">
+						<template #icon>
+							<DeleteVariantIcon />
+						</template>
+						{{ t('cospend', 'Show trashbin') }}
 					</NcActionButton>
 					<NcActionButton v-show="bills.length > 0 || filterMode"
 						:close-after-click="true"
@@ -75,8 +57,8 @@
 						</template>
 						{{ multiToggleText }}
 					</NcActionButton>
-				</template>
-			</NcAppNavigationItem>
+				</NcActions>
+			</div>
 			<transition name="fade">
 				<div v-if="filterMode"
 					class="filterOptions">
@@ -662,6 +644,18 @@ export default {
 	background-color: var(--color-main-background);
 	border-bottom: 1px solid var(--color-border);
 
+	.list-header-header {
+		display: flex;
+		.list-header-item {
+			padding-left: 40px;
+			flex-shrink: 1;
+
+			.header-trashbin-icon {
+				color: var(--color-error);
+			}
+		}
+	}
+
 	.selectionOptions {
 		select {
 			margin-top: 5px;
@@ -722,10 +716,6 @@ export default {
 			gap: 12px;
 		}
 	}
-}
-
-.list-header-item {
-	padding-left: 40px;
 }
 
 .nobill, .nomember {

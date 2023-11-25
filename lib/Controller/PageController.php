@@ -713,7 +713,7 @@ class PageController extends ApiController {
 			}
 		} else {
 			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to edit this bill ... '.$userAccessLevel)],
+				['message' => $this->trans->t('You are not allowed to edit this bill')],
 				403
 			);
 		}

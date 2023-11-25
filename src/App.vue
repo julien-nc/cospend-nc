@@ -4,6 +4,7 @@
 			:projects="projects"
 			:selected-project-id="currentProjectId"
 			:selected-member-id="selectedMemberId"
+			:trashbin-enabled="trashbinEnabled"
 			:loading="projectsLoading" />
 		<NcAppContent
 			:list-max-width="showSidebar ? 40 : 50"
@@ -604,7 +605,11 @@ export default {
 			this.mode = 'settle'
 		},
 		onTrashbinClicked(projectid) {
-			this.trashbinEnabled = true
+			if (cospend.currentProjectId === projectid && this.trashbinEnabled) {
+				this.trashbinEnabled = false
+			} else {
+				this.trashbinEnabled = true
+			}
 			this.selectProject(projectid, true, true, false, true)
 		},
 		onCloseTrashbinClicked(projectid) {

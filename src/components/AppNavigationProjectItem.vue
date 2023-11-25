@@ -67,7 +67,7 @@
 				<template #icon>
 					<DeleteVariantIcon />
 				</template>
-				{{ t('cospend', 'Show trashbin') }}
+				{{ trashbinActionLabel }}
 			</NcActionButton>
 			<NcActionButton
 				:close-after-click="true"
@@ -182,6 +182,10 @@ export default {
 			type: String,
 			default: 'name',
 		},
+		trashbinEnabled: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data() {
 		return {
@@ -206,6 +210,11 @@ export default {
 		},
 		sortedMembers() {
 			return getSortedMembers(this.members, this.memberOrder)
+		},
+		trashbinActionLabel() {
+			return this.selected && this.trashbinEnabled
+				? t('cospend', 'Close trashbin')
+				: t('cospend', 'Show trashbin')
 		},
 	},
 	beforeMount() {

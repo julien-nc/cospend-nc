@@ -302,7 +302,7 @@ export default {
 				}
 			} else {
 				if (this.bill.id === 0) {
-					this.$emit('delete', this.bill)
+					emit('delete-bill', this.bill)
 				} else {
 					// start timer
 					this.deleteCounter = 7
@@ -318,7 +318,7 @@ export default {
 					this.timerLoop()
 				}, 1000)
 			} else {
-				this.$emit('delete', this.bill)
+				emit('delete-bill', this.bill)
 			}
 		},
 		onSelectorClick(e) {

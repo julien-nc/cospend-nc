@@ -42,6 +42,15 @@
 					<ContentDuplicateIcon :size="20" />
 				</template>
 			</NcButton>
+			<NcButton
+				v-if="!isNewBill"
+				:title="deleteBillLabel"
+				type="secondary"
+				@click="onDeleteClick">
+				<template #icon>
+					<DeleteIcon />
+				</template>
+			</NcButton>
 		</h2>
 		<div class="bill-form">
 			<div class="bill-left">
@@ -579,6 +588,7 @@
 </template>
 
 <script>
+import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import FormatListBulletedTypeIcon from 'vue-material-design-icons/FormatListBulletedType.vue'
 import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
 import AccountIcon from 'vue-material-design-icons/Account.vue'
@@ -609,6 +619,7 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadi
 import CospendTogglableAvatar from './components/avatar/CospendTogglableAvatar.vue'
 import MemberMultiSelect from './components/MemberMultiSelect.vue'
 
+import { emit } from '@nextcloud/event-bus'
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { getLocale } from '@nextcloud/l10n'
@@ -656,6 +667,7 @@ export default {
 		ContentDuplicateIcon,
 		InformationVariantIcon,
 		FormatListBulletedTypeIcon,
+		DeleteIcon,
 	},
 
 	props: {
@@ -707,6 +719,11 @@ export default {
 	},
 
 	computed: {
+		deleteBillLabel() {
+			return this.myBill.deleted === 1
+				? t('cospend', 'Delete this bill')
+				: t('cospend', 'Move this bill to the trashbin')
+		},
 		maintenerAccess() {
 			return this.project.myaccesslevel >= constants.ACCESS.MAINTENER
 		},
@@ -1253,6 +1270,9 @@ export default {
 				return false
 			}
 			return true
+		},
+		onDeleteClick() {
+			emit('delete-bill', this.myBill)
 		},
 		saveBill() {
 			// don't save the bill if we are typing a formula

@@ -30,7 +30,6 @@
 					@set-paymentmode-filter="onSetPaymentModeFilter"
 					@load-more-bills="loadMoreBills"
 					@item-clicked="onBillClicked"
-					@item-deleted="onBillDeleted"
 					@items-deleted="onBillsDeleted"
 					@multi-bill-edit="onMultiBillEdit"
 					@reset-selection="onResetSelection"
@@ -339,6 +338,7 @@ export default {
 		subscribe('member-click', this.onNavMemberClick)
 		subscribe('restore-bill', this.onRestoreBill)
 		subscribe('restore-bills', this.onRestoreBills)
+		subscribe('delete-bill', this.onDeleteBill)
 
 		subscribe('trashbin-clicked', this.onTrashbinClicked)
 		subscribe('close-trashbin', this.onCloseTrashbinClicked)
@@ -362,6 +362,7 @@ export default {
 		unsubscribe('member-click', this.onNavMemberClick)
 		unsubscribe('restore-bill', this.onRestoreBill)
 		unsubscribe('restore-bills', this.onRestoreBills)
+		unsubscribe('delete-bill', this.onDeleteBill)
 
 		unsubscribe('trashbin-clicked', this.onTrashbinClicked)
 		unsubscribe('close-trashbin', this.onCloseTrashbinClicked)
@@ -518,6 +519,21 @@ export default {
 		},
 		onResetSelection() {
 			this.currentBill = null
+		},
+		onDeleteBill(bill) {
+			if (bill.id === 0) {
+				this.onBillDeleted(bill)
+			} else {
+				network.deleteBill(cospend.currentProjectId, bill).then((response) => {
+					this.onBillDeleted(bill)
+					showSuccess(t('cospend', 'Bill deleted'))
+				}).catch((error) => {
+					showError(
+						t('cospend', 'Failed to delete bill')
+						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+					)
+				})
+			}
 		},
 		onBillsDeleted(billIds) {
 			const billList = this.billLists[cospend.currentProjectId]

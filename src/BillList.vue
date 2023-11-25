@@ -185,7 +185,6 @@
 				:edition-access="editionAccess"
 				:select-mode="selectMode"
 				@clicked="onItemClicked"
-				@delete="onItemDeleted"
 				@move="onItemMove(bill)"
 				@duplicate-bill="$emit('duplicate-bill', $event)" />
 		</transition-group>
@@ -504,26 +503,8 @@ export default {
 				this.$emit('item-clicked', bill.id)
 			}
 		},
-		onItemDeleted(bill) {
-			if (bill.id === 0) {
-				this.$emit('item-deleted', bill)
-			} else {
-				this.deleteBill(bill)
-			}
-		},
 		onItemMove(bill) {
 			this.$emit('move-bill-clicked', bill)
-		},
-		deleteBill(bill) {
-			network.deleteBill(this.projectId, bill).then((response) => {
-				this.$emit('item-deleted', bill)
-				showSuccess(t('cospend', 'Bill deleted'))
-			}).catch((error) => {
-				showError(
-					t('cospend', 'Failed to delete bill')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
-				)
-			})
 		},
 		showTrashbin() {
 			this.selectedBillIds = []

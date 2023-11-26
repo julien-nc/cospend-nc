@@ -1776,12 +1776,6 @@ export default {
 		display: inline-block;
 		vertical-align: middle;
 		height: 46px;
-		.itemAvatar {
-			display: block;
-			position: relative;
-			left: 0px;
-			top: 0px;
-		}
 	}
 	.duplicate-bill {
 		width: 44px;

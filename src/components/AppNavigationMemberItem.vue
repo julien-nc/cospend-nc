@@ -12,8 +12,7 @@
 		@update:name="onRename"
 		@click="onClick">
 		<div v-if="maintenerAccess"
-			slot="icon"
-			class="memberItemAvatar">
+			slot="icon">
 			<NcColorPicker
 				class="app-navigation-entry-bullet-wrapper memberColorPicker"
 				:value="`#${member.color}`"
@@ -31,8 +30,7 @@
 			</NcColorPicker>
 		</div>
 		<div v-else
-			slot="icon"
-			class="memberItemAvatar">
+			slot="icon">
 			<CospendTogglableAvatar
 				:enabled="member.activated"
 				:color="member.color"
@@ -398,10 +396,5 @@ export default {
 <style scoped lang="scss">
 .nopad {
 	left: 8px;
-}
-
-.itemAvatar {
-	margin-top: 16px;
-	margin-right: 2px;
 }
 </style>

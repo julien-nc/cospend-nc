@@ -38,12 +38,16 @@ body {
 .balanceNegative {
 	color: red;
 }
-.balance {
-	float: right;
-	font-weight: bold;
-	height: 44px;
-	line-height: 44px;
+.memberItem {
+	.balance.counter-bubble__counter {
+		overflow: visible !important;
+	}
+
+	.app-navigation-entry__counter-wrapper {
+		margin-right: 0 !important;
+	}
 }
+
 .memberAvatar img {
 	width: 24px;
 	height: auto;

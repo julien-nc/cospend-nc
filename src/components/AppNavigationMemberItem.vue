@@ -44,11 +44,13 @@
 				:display-name="member.name" />
 		</div>
 		<template v-if="inNavigation"
-			slot="counter">
-			<span :class="balanceClass">{{ balanceCounter }}</span>
+			#counter>
+			<NcCounterBubble class="balance">
+				<span :class="balanceClass">{{ balanceCounter }}</span>
+			</NcCounterBubble>
 		</template>
 		<template v-if="maintenerAccess"
-			slot="actions">
+			#actions>
 			<NcActionButton
 				@click="onMenuColorClick">
 				<template #icon>
@@ -138,6 +140,7 @@ import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
 import NcActionRadio from '@nextcloud/vue/dist/Components/NcActionRadio.js'
 import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
 import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
+import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
 
 import CospendTogglableAvatar from './avatar/CospendTogglableAvatar.vue'
 
@@ -159,6 +162,7 @@ export default {
 		NcActionSeparator,
 		NcActionInput,
 		NcColorPicker,
+		NcCounterBubble,
 		WeightIcon,
 		PaletteIcon,
 		DeleteIcon,
@@ -248,10 +252,8 @@ export default {
 		},
 		balanceClass() {
 			return {
-				balance: true,
 				balancePositive: this.member.balance >= 0.01,
 				balanceNegative: this.member.balance <= -0.01,
-				alone: !this.maintenerAccess,
 			}
 		},
 		memberVisible() {
@@ -401,19 +403,5 @@ export default {
 .itemAvatar {
 	margin-top: 16px;
 	margin-right: 2px;
-}
-
-.balance.alone {
-	padding-right: 10px;
-}
-
-/* first action-input child has margin...
-::v-deep .action-input {
-	margin-top: 0px !important;
-}
-*/
-
-::v-deep .app-navigation-entry__title {
-	padding: 0 !important;
 }
 </style>

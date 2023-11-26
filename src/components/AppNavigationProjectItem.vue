@@ -16,9 +16,9 @@
 	</NcAppNavigationItem>
 	<NcAppNavigationItem v-else
 		:name="project.name"
-		:class="{ selectedproject: selected }"
 		:allow-collapse="true"
 		:open="selected"
+		:active="selected"
 		:force-display-actions="true"
 		:force-menu="false"
 		:menu-open="menuOpen"

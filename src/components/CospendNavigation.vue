@@ -223,21 +223,6 @@ export default {
 	}
 }
 
-::v-deep .selectedproject,
-::v-deep .selectedmember {
-	> .app-navigation-entry {
-		background: var(--color-primary-light, lightgrey);
-	}
-
-	> .app-navigation-entry a {
-		font-weight: bold;
-	}
-}
-
-::v-deep .selectedmember .app-navigation-entry__title {
-	text-decoration: underline;
-}
-
 #app-settings-content {
 	p {
 		margin-top: 20px;

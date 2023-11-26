@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- new trashbin feature
+
+### Changed
+
+- Move from NcMultiSelect to NcSelect
+- Use NcCheckbox instead of natvie checkboxes
+
+### Fixed
+
+- fix moving bill with reimbursement category [#229](https://github.com/julien-nc/cospend-nc/issues/229)
+- compute amount formula when creating bill [#222](https://github.com/julien-nc/cospend-nc/issues/222)
+
 ## 1.5.10 – 2023-05-16
 
 ### Added

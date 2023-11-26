@@ -77,10 +77,11 @@
 					class="bill-link-button">
 					<label>&nbsp;</label>
 					<div class="link-button">
-						<NcButton @click="onGeneratePubLinkClick">
+						<NcButton
+							:title="t('cospend', 'Attach share link to personal file')"
+							@click="onGeneratePubLinkClick">
 							<template #icon>
-								<LinkVariantIcon
-									:size="20" />
+								<LinkVariantIcon />
 							</template>
 							{{ t('cospend', 'Attach share link to personal file') }}
 						</NcButton>
@@ -109,7 +110,7 @@
 							:aria-label="t('cospend', 'More information on amount input field')"
 							@click="onAmountInfoClicked">
 							<template #icon>
-								<InformationVariantIcon :size="20" />
+								<InformationOutlineIcon />
 							</template>
 						</NcButton>
 					</div>
@@ -138,7 +139,7 @@
 							:aria-label="t('cospend', 'More information on currency conversion')"
 							@click="onConvertInfoClicked">
 							<template #icon>
-								<InformationVariantIcon :size="20" />
+								<InformationOutlineIcon />
 							</template>
 						</NcButton>
 					</div>
@@ -282,7 +283,7 @@
 							:aria-label="t('cospend', 'More information on bill repetition')"
 							@click="onRepeatInfoClicked">
 							<template #icon>
-								<InformationVariantIcon :size="20" />
+								<InformationOutlineIcon />
 							</template>
 						</NcButton>
 					</div>
@@ -386,7 +387,7 @@
 							:aria-label="t('cospend', 'More information on bill mode')"
 							@click="onHintClick">
 							<template #icon>
-								<InformationVariantIcon :size="20" />
+								<InformationOutlineIcon />
 							</template>
 						</NcButton>
 					</div>
@@ -604,7 +605,7 @@ import CommentTextIcon from 'vue-material-design-icons/CommentText.vue'
 import RepeatIcon from 'vue-material-design-icons/Repeat.vue'
 import ContentDuplicateIcon from 'vue-material-design-icons/ContentDuplicate.vue'
 import CalendarSyncIcon from 'vue-material-design-icons/CalendarSync.vue'
-import InformationVariantIcon from 'vue-material-design-icons/InformationVariant.vue'
+import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
 
 import CospendIcon from './components/icons/CospendIcon.vue'
 import CurrencyIcon from './components/icons/CurrencyIcon.vue'
@@ -665,7 +666,7 @@ export default {
 		LinkVariantIcon,
 		CheckIcon,
 		ContentDuplicateIcon,
-		InformationVariantIcon,
+		InformationOutlineIcon,
 		FormatListBulletedTypeIcon,
 		DeleteIcon,
 	},

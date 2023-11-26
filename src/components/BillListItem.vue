@@ -1,6 +1,6 @@
 <template>
 	<NcListItem
-		:class="{ billItem: true, newBill: bill.id === 0, selected}"
+		:class="{ billItem: true, newBill: bill.id === 0}"
 		:title="billFormattedTitle"
 		:name="billFormattedTitle"
 		:active="selected"
@@ -341,14 +341,6 @@ export default {
 <style scoped lang="scss">
 ::v-deep .newBillAvatar * {
 	color: var(--color-main-text) !important;
-}
-
-.billItem {
-	list-style: none;
-
-	&.selected :deep(.list-item) {
-		background-color: var(--color-background-dark);
-	}
 }
 
 .icon-selector {

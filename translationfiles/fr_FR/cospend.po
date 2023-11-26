@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-11-26 14:30+0100\n"
-"PO-Revision-Date: 2023-11-26 13:32\n"
+"PO-Revision-Date: 2023-11-26 13:37\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -177,7 +177,7 @@ msgstr "Action non autorisée"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:500
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:1685
 msgid "You are not allowed to clear the trashbin"
-msgstr ""
+msgstr "Vous n'êtes pas autorisé à vider la corbeille"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:531
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:564
@@ -875,11 +875,11 @@ msgstr "Partager le projet"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:7
 msgid "Close the trashbin"
-msgstr ""
+msgstr "Fermer la corbeille"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:7
 msgid "Show the trashbin"
-msgstr ""
+msgstr "Afficher la corbeille"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:8
 msgid "Show project statistics"
@@ -913,15 +913,15 @@ msgstr "Échec de la suppression de la facture"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:17
 msgid "Bill restored"
-msgstr ""
+msgstr "Facture restaurée"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:18
 msgid "Failed to restore bill"
-msgstr ""
+msgstr "Impossible de restaurer la facture"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:19
 msgid "Bills restored"
-msgstr ""
+msgstr "Factures restaurées"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:20
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:172
@@ -930,7 +930,7 @@ msgstr "Impossible de supprimer les factures"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:21
 msgid "Trashbin has been cleared"
-msgstr ""
+msgstr "La corbeille a été vidée"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:22
 msgid "Member {name} already exists"
@@ -1238,7 +1238,7 @@ msgstr "Supprimer cette facture"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:100
 msgid "Move this bill to the trashbin"
-msgstr ""
+msgstr "Déplacer cette facture vers la corbeille"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:101
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:102
@@ -1366,21 +1366,21 @@ msgstr "Nouvelle facture"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:134
 msgid "Trashbin"
-msgstr ""
+msgstr "Corbeille"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:135
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:302
 msgid "Close trashbin"
-msgstr ""
+msgstr "Fermer la corbeille"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:136
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:303
 msgid "Show trashbin"
-msgstr ""
+msgstr "Afficher la corbeille"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:137
 msgid "Clear trashbin"
-msgstr ""
+msgstr "Vider la corbeille"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:138
 msgid "Filters"
@@ -1424,7 +1424,7 @@ msgstr "Sélectionnez des factures pour effectuer des actions groupées"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:147
 msgid "Restore selected bills"
-msgstr ""
+msgstr "Restaurer les factures sélectionnées"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:148
 msgid "Add at least 2 members to start creating bills"
@@ -1476,7 +1476,7 @@ msgstr "Ouvrir les filtres"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:163
 msgid "Move selected bills to trash"
-msgstr ""
+msgstr "Déplacer les factures sélectionnées vers la corbeille"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:164
 msgid "Delete selected bills"
@@ -1522,7 +1522,7 @@ msgstr "Factures supprimées"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:173
 msgid "Confirm restoration"
-msgstr ""
+msgstr "Confirmer la restauration"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:174
 msgid "Are you sure you want to delete {nb} bill?"
@@ -1533,8 +1533,8 @@ msgstr[1] "Êtes-vous sûr de vouloir supprimer {nb} factures ?"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:175
 msgid "Are you sure you want to restore {nb} bill?"
 msgid_plural "Are you sure you want to restore {nb} bills?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Êtes-vous sûr de vouloir restaurer {nb} facture ?"
+msgstr[1] "Êtes-vous sûr de vouloir restaurer {nb} factures ?"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:176
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:177
@@ -2007,7 +2007,7 @@ msgstr "Ajouter un membre"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:304
 msgid "Restore"
-msgstr ""
+msgstr "Restaurer"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:306
 msgid "Everyone"
@@ -2028,11 +2028,11 @@ msgstr "La liste des membres n’est pas à jour. Rechargement dans 5 sec."
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:313
 msgid "Move to trash"
-msgstr ""
+msgstr "Déplacer vers la corbeille"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:314
 msgid "Move to other project"
-msgstr ""
+msgstr "Déplacer vers un autre projet"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:315
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:316

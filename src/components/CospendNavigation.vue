@@ -3,14 +3,10 @@
 		<template #list>
 			<NcAppNavigationItem v-if="!pageIsPublic && !loading"
 				class="addProjectItem"
-				:editable="true"
 				:name="t('cospend', 'New project')"
-				:edit-placeholder="t('cospend', 'New project name')"
-				:edit-label="t('cospend', 'New empty project')"
 				:loading="importingProject"
 				:menu-open="importMenuOpen"
 				@click="importMenuOpen = true"
-				@update:name="onUpdateTitle"
 				@update:menuOpen="updateImportMenuOpen">
 				<template #icon>
 					<PlusIcon :size="20" />
@@ -18,11 +14,17 @@
 				<template #actions>
 					<NcActionButton
 						:close-after-click="true"
+						@click="showCreationModal = true">
+						<template #icon>
+							<FolderPlusIcon />
+						</template>
+						{{ t('cospend', 'Create empty project') }}
+					</NcActionButton>
+					<NcActionButton
+						:close-after-click="true"
 						@click="onImportClick">
 						<template #icon>
-							<FileImportIcon
-								class="icon"
-								:size="20" />
+							<FileImportIcon />
 						</template>
 						{{ t('cospend', 'Import csv project') }}
 					</NcActionButton>
@@ -30,21 +32,35 @@
 						:close-after-click="true"
 						@click="onImportSWClick">
 						<template #icon>
-							<FileImportIcon
-								class="icon"
-								:size="20" />
+							<FileImportIcon />
 						</template>
 						{{ t('cospend', 'Import SplitWise project') }}
 					</NcActionButton>
 				</template>
 			</NcAppNavigationItem>
+			<NcModal v-if="showCreationModal"
+				@close="showCreationModal = false">
+				<div class="creation-modal-content">
+					<h2>{{ t('cospend', 'Create empty project') }}</h2>
+					<NcTextField :value.sync="newProjectName"
+						:label="t('cospend', 'Project name')"
+						:placeholder="t('cospend', 'My new project')" />
+					<NcButton class="submit"
+						@click="createProject">
+						<template #icon>
+							<ArrowRightIcon />
+						</template>
+						{{ t('cospend', 'Create') }}
+					</NcButton>
+				</div>
+			</NcModal>
 			<h2 v-if="loading"
 				class="icon-loading-small loading-icon" />
 			<NcEmptyContent v-else-if="sortedProjectIds.length === 0"
 				:name="t('cospend', 'No projects yet')"
 				:title="t('cospend', 'No projects yet')">
 				<template #icon>
-					<FolderIcon :size="20" />
+					<FolderIcon />
 				</template>
 			</NcEmptyContent>
 			<AppNavigationProjectItem
@@ -67,9 +83,7 @@
 						:name="t('cospend', 'Cospend settings')"
 						@click="showSettings">
 						<template #icon>
-							<CogIcon
-								class="icon"
-								:size="20" />
+							<CogIcon />
 						</template>
 					</NcAppNavigationItem>
 				</div>
@@ -79,6 +93,8 @@
 </template>
 
 <script>
+import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue'
+import FolderPlusIcon from 'vue-material-design-icons/FolderPlus.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import FileImportIcon from 'vue-material-design-icons/FileImport.vue'
@@ -88,6 +104,9 @@ import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 import AppNavigationProjectItem from './AppNavigationProjectItem.vue'
 
@@ -107,10 +126,15 @@ export default {
 		NcEmptyContent,
 		NcAppNavigationItem,
 		NcActionButton,
+		NcButton,
+		NcModal,
+		NcTextField,
 		CogIcon,
 		FileImportIcon,
 		PlusIcon,
 		FolderIcon,
+		FolderPlusIcon,
+		ArrowRightIcon,
 	},
 	directives: {
 		ClickOutside,
@@ -145,6 +169,8 @@ export default {
 			pageIsPublic: cospend.pageIsPublic,
 			importMenuOpen: false,
 			importingProject: false,
+			showCreationModal: false,
+			newProjectName: '',
 		}
 	},
 	computed: {
@@ -177,8 +203,10 @@ export default {
 		closeMenu() {
 			this.opened = false
 		},
-		onUpdateTitle(title) {
-			emit('create-project', title)
+		createProject() {
+			emit('create-project', this.newProjectName)
+			this.showCreationModal = false
+			this.newProjectName = ''
 		},
 		onImportClick() {
 			importCospendProject(() => {
@@ -250,5 +278,16 @@ export default {
 
 .loading-icon {
 	margin-top: 16px;
+}
+
+.creation-modal-content {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 16px;
+
+	.submit {
+		align-self: end;
+	}
 }
 </style>

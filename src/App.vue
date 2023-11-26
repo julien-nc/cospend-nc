@@ -18,7 +18,7 @@
 					ref="billList"
 					:loading="billsLoading"
 					:project-id="currentProjectId"
-					:total-bill-number="currentProject.nbBills || 0"
+					:total-bill-number="totalBillNumber"
 					:bills="currentBills"
 					:selected-bill-id="selectedBillId"
 					:edition-access="editionAccess"
@@ -325,6 +325,11 @@ export default {
 			}
 			return payerId
 		},
+		totalBillNumber() {
+			return this.trashbinEnabled
+				? this.currentProject.nb_trashbin_bills || 0
+				: this.currentProject.nb_bills || 0
+		},
 	},
 	created() {
 		this.getProjects()
@@ -470,7 +475,7 @@ export default {
 		onBillCreated(bill, select, mode) {
 			this.bills[cospend.currentProjectId][bill.id] = bill
 			this.billLists[cospend.currentProjectId].unshift(bill)
-			this.currentProject.nbBills++
+			this.currentProject.nb_bills++
 			this.cleanupBills()
 			if (select) {
 				this.currentBill = bill
@@ -549,17 +554,16 @@ export default {
 			billIds.forEach(id => {
 				const index = billList.findIndex(bill => bill.id === id)
 				billList.splice(index, 1)
-				this.currentProject.nbBills--
 			})
 			this.updateProjectInfo(cospend.currentProjectId)
 		},
 		onBillDeleted(bill) {
 			const billList = this.billLists[cospend.currentProjectId]
 			billList.splice(billList.indexOf(bill), 1)
-			this.currentProject.nbBills--
 			if (bill.id === this.selectedBillId) {
 				this.currentBill = null
 			}
+			console.debug('aaaaaa ONE bill delete: updateProjectInfo')
 			this.updateProjectInfo(cospend.currentProjectId)
 		},
 		onRestoreBill(bill) {
@@ -570,6 +574,7 @@ export default {
 				if (bill.id === this.selectedBillId) {
 					this.currentBill = null
 				}
+				this.updateProjectInfo(cospend.currentProjectId)
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to restore bill')
@@ -792,7 +797,7 @@ export default {
 						}
 					}
 					this.billLists[cospend.currentProjectId].unshift(this.currentBill)
-					this.currentProject.nbBills++
+					this.currentProject.nb_bills++
 				} else {
 					this.currentBill = billList[found]
 					if (bill) {
@@ -875,13 +880,19 @@ export default {
 				projectid, 0, 50, this.selectedMemberId,
 				catFilter, pmFilter, selectBillId, searchTerm, deleted,
 			).then((response) => {
-				this.currentProject.nbBills = response.data.nb_bills
+				this.updateProjectInfo(projectid).then(() => {
+					// update number of filtered bills after project info has been updated
+					if (this.trashbinEnabled) {
+						this.currentProject.nb_trashbin_bills = response.data.nb_bills
+					} else {
+						this.currentProject.nb_bills = response.data.nb_bills
+					}
+				})
 				this.bills[projectid] = {}
 				this.$set(this.billLists, projectid, response.data.bills)
 				response.data.bills.forEach((bill) => {
 					this.bills[projectid][bill.id] = bill
 				})
-				this.updateProjectInfo(projectid)
 				if (selectBillId !== null && this.bills[projectid][selectBillId]) {
 					this.currentBill = this.bills[projectid][selectBillId]
 					this.mode = 'edition'
@@ -917,7 +928,12 @@ export default {
 				projectid, this.billLists[projectid].length, 20, this.selectedMemberId,
 				catFilter, pmFilter, null, searchTerm, deleted,
 			).then((response) => {
-				this.currentProject.nbBills = response.data.nb_bills
+				// update number of filtered bills
+				if (this.trashbinEnabled) {
+					this.currentProject.nb_trashbin_bills = response.data.nb_bills
+				} else {
+					this.currentProject.nb_bills = response.data.nb_bills
+				}
 				if (!response.data.bills || response.data.bills.length === 0) {
 					state.complete()
 				} else {
@@ -1003,7 +1019,7 @@ export default {
 			})
 		},
 		updateProjectInfo(projectid) {
-			network.updateProjectInfo(projectid).then((response) => {
+			return network.updateProjectInfo(projectid).then((response) => {
 				this.projects[projectid].balance = response.data.balance
 				let balance
 				for (const memberid in response.data.balance) {
@@ -1013,6 +1029,7 @@ export default {
 				this.updateProjectPrecision(projectid)
 
 				this.projects[projectid].nb_bills = response.data.nb_bills
+				this.projects[projectid].nb_trashbin_bills = response.data.nb_trashbin_bills
 				this.projects[projectid].total_spent = response.data.total_spent
 				this.projects[projectid].lastchanged = response.data.lastchanged
 				this.projects[projectid].categories = response.data.categories

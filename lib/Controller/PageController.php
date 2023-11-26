@@ -924,10 +924,11 @@ class PageController extends ApiController {
 	 * @return DataResponse
 	 * @throws \OCP\DB\Exception
 	 */
-	public function webGetBills(string $projectid, ?int $lastchanged = null, ?int $offset = 0, ?int $limit = null,
-								bool $reverse = false, ?int $payerId = null, ?int $categoryId = null,
-								?int $paymentModeId = null, ?int $includeBillId = null, ?string $searchTerm = null,
-								?int $deleted = 0): DataResponse {
+	public function webGetBills(
+		string $projectid, ?int $lastchanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false,
+		?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $includeBillId = null,
+		?string $searchTerm = null, ?int $deleted = 0
+	): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			if ($limit) {
 				$bills = $this->billMapper->getBillsWithLimit(

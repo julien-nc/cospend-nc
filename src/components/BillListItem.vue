@@ -132,7 +132,7 @@ export default {
 			type: Number,
 			required: true,
 		},
-		nbbills: {
+		nbBills: {
 			type: Number,
 			required: true,
 		},
@@ -255,7 +255,7 @@ export default {
 			return billMom.format('L')
 		},
 		billIndexText() {
-			return '[' + this.index + '/' + this.nbbills + ']'
+			return '[' + this.index + '/' + this.nbBills + ']'
 		},
 		deleteIconComponent() {
 			return this.timerOn

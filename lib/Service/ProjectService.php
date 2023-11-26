@@ -505,6 +505,7 @@ class ProjectService {
 			'balance' => $balance,
 			'nb_bills' => $smallStats['nb_bills'],
 			'total_spent' => $smallStats['total_spent'],
+			'nb_trashbin_bills' => $smallStats['nb_trashbin_bills'],
 			'shares' => $shares,
 			'currencies' => $currencies,
 			'categories' => $categories,
@@ -552,9 +553,26 @@ class ProjectService {
 			$totalSpent = (int) $row['sum_amount'];
 		}
 		$qb->resetQueryParts();
+
+		$nbTrashbinBills = 0;
+		$qb = $this->db->getQueryBuilder();
+		$qb->selectAlias($qb->createFunction('COUNT(*)'), 'count_bills')
+			->from('cospend_bills')
+			->where(
+				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+			)
+			->andWhere(
+				$qb->expr()->eq('deleted', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
+			);
+		$req = $qb->executeQuery();
+		while ($row = $req->fetch()) {
+			$nbTrashbinBills = (int) $row['count_bills'];
+		}
+		$qb = $qb->resetQueryParts();
 		return [
 			'nb_bills' => $nbBills,
 			'total_spent' => $totalSpent,
+			'nb_trashbin_bills' => $nbTrashbinBills,
 		];
 	}
 
@@ -1744,7 +1762,7 @@ class ProjectService {
 			);
 		if ($deleted !== null) {
 			$qb->andWhere(
-				$qb->expr()->eq('deleted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('deleted', $qb->createNamedParameter($deleted, IQueryBuilder::PARAM_INT))
 			);
 		}
 		if ($payerId !== null) {

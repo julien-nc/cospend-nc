@@ -180,7 +180,7 @@
 				:bill="bill"
 				:project-id="projectId"
 				:index="nbBills - index"
-				:nbbills="nbBills"
+				:nb-bills="nbBills"
 				:selected="isBillSelected(bill)"
 				:edition-access="editionAccess"
 				:select-mode="selectMode"

@@ -523,23 +523,8 @@ class ProjectService {
 	 * @throws \OCP\DB\Exception
 	 */
 	private function getSmallStats(string $projectId): array {
-		$nbBills = 0;
-		$qb = $this->db->getQueryBuilder();
-		$qb->selectAlias($qb->createFunction('COUNT(*)'), 'count_bills')
-			->from('cospend_bills')
-			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('deleted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
-			);
-		$req = $qb->executeQuery();
-		while ($row = $req->fetch()) {
-			$nbBills = (int) $row['count_bills'];
-		}
-		$qb = $qb->resetQueryParts();
-
 		$totalSpent = 0;
+		$qb = $this->db->getQueryBuilder();
 		$qb->selectAlias($qb->createFunction('SUM(amount)'), 'sum_amount')
 			->from('cospend_bills')
 			->where(
@@ -554,25 +539,10 @@ class ProjectService {
 		}
 		$qb->resetQueryParts();
 
-		$nbTrashbinBills = 0;
-		$qb = $this->db->getQueryBuilder();
-		$qb->selectAlias($qb->createFunction('COUNT(*)'), 'count_bills')
-			->from('cospend_bills')
-			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('deleted', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
-			);
-		$req = $qb->executeQuery();
-		while ($row = $req->fetch()) {
-			$nbTrashbinBills = (int) $row['count_bills'];
-		}
-		$qb = $qb->resetQueryParts();
 		return [
-			'nb_bills' => $nbBills,
+			'nb_bills' => $this->billMapper->countBills($projectId, null, null, null, 0),
 			'total_spent' => $totalSpent,
-			'nb_trashbin_bills' => $nbTrashbinBills,
+			'nb_trashbin_bills' => $this->billMapper->countBills($projectId, null, null, null, 1),
 		];
 	}
 
@@ -1739,52 +1709,6 @@ class ProjectService {
 		} else {
 			return ['error' => $this->l10n->t('Name field is required')];
 		}
-	}
-
-	/**
-	 * Get number of bills in a project
-	 *
-	 * @param string $projectId
-	 * @param int|null $payerId
-	 * @param int|null $categoryId
-	 * @param int|null $paymentModeId
-	 * @param int|null $deleted
-	 * @return int
-	 * @throws \OCP\DB\Exception
-	 */
-	public function getNbBills(string $projectId, ?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $deleted = 0): int {
-		$nb = 0;
-		$qb = $this->db->getQueryBuilder();
-		$qb->selectAlias($qb->createFunction('COUNT(*)'), 'count_bills')
-			->from('cospend_bills', 'bi')
-			->where(
-				$qb->expr()->eq('bi.projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			);
-		if ($deleted !== null) {
-			$qb->andWhere(
-				$qb->expr()->eq('deleted', $qb->createNamedParameter($deleted, IQueryBuilder::PARAM_INT))
-			);
-		}
-		if ($payerId !== null) {
-			$qb->andWhere(
-				$qb->expr()->eq('payerid', $qb->createNamedParameter($payerId, IQueryBuilder::PARAM_INT))
-			);
-		}
-		if ($categoryId !== null) {
-			$qb->andWhere(
-				$qb->expr()->eq('categoryid', $qb->createNamedParameter($categoryId, IQueryBuilder::PARAM_INT))
-			);
-		}
-		if ($paymentModeId !== null) {
-			$qb->andWhere(
-				$qb->expr()->eq('paymentmodeid', $qb->createNamedParameter($paymentModeId, IQueryBuilder::PARAM_INT))
-			);
-		}
-		$req = $qb->executeQuery();
-		while ($row = $req->fetch()) {
-			$nb = (int) $row['count_bills'];
-		}
-		return $nb;
 	}
 
 	/**

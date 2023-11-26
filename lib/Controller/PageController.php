@@ -942,7 +942,7 @@ class PageController extends ApiController {
 				);
 			}
 			$result = [
-				'nb_bills' => $this->projectService->getNbBills($projectid, $payerId, $categoryId, $paymentModeId, $deleted),
+				'nb_bills' => $this->billMapper->countBills($projectid, $payerId, $categoryId, $paymentModeId, $deleted),
 				'bills' => $bills,
 			];
 			return new DataResponse($result);
@@ -1224,11 +1224,11 @@ class PageController extends ApiController {
 	 * @param int|null $payerId
 	 * @return DataResponse
 	 */
-	public function apiv3GetBills(string $projectid, string $password, ?int $lastchanged = null,
-								?int $offset = 0, ?int $limit = null, bool $reverse = false,
-								?int $payerId = null, ?int $categoryId = null,
-								?int $paymentModeId = null, ?int $includeBillId = null, ?string $searchTerm = null,
-								?int $deleted = 0): DataResponse {
+	public function apiv3GetBills(
+		string $projectid, string $password, ?int $lastchanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false,
+		?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $includeBillId = null,
+		?string $searchTerm = null, ?int $deleted = 0
+	): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if ($this->checkLogin($projectid, $password)
 			|| ($publicShareInfo !== null
@@ -1248,7 +1248,7 @@ class PageController extends ApiController {
 				);
 			}
 			$result = [
-				'nb_bills' => $this->projectService->getNbBills(
+				'nb_bills' => $this->billMapper->countBills(
 					$publicShareInfo['projectid'] ?? $projectid, $payerId, $categoryId, $paymentModeId, $deleted
 				),
 				'bills' => $bills,

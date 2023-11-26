@@ -1735,13 +1735,13 @@ class PageNUtilsControllerTest extends TestCase {
 		$data = $resp->getData();
 		$idBill3 = $data;
 
-		$nbBills = $this->projectService->getNbBills('superprojS', $idMember1);
+		$nbBills = $this->billMapper->countBills('superprojS', $idMember1);
 		$this->assertEquals(2, $nbBills);
-		$nbBills = $this->projectService->getNbBills('superprojS', $idMember2);
+		$nbBills = $this->billMapper->countBills('superprojS', $idMember2);
 		$this->assertEquals(1, $nbBills);
-		$nbBills = $this->projectService->getNbBills('superprojS', null, $idCat1);
+		$nbBills = $this->billMapper->countBills('superprojS', null, $idCat1);
 		$this->assertEquals(2, $nbBills);
-		$nbBills = $this->projectService->getNbBills('superprojS', null, null, $idPm1);
+		$nbBills = $this->billMapper->countBills('superprojS', null, null, $idPm1);
 		$this->assertEquals(1, $nbBills);
 
 		$resp = $this->pageController->webDeleteProject('superprojS');

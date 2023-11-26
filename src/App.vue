@@ -78,35 +78,42 @@
 					<NcButton
 						@click="onNewBillClicked(null)">
 						<template #icon>
-							<PlusIcon :size="20" />
+							<PlusIcon />
 						</template>
 						{{ t('cospend', 'Create a bill') }}
 					</NcButton>
 					<NcButton
 						@click="onDetailClicked(currentProjectId)">
 						<template #icon>
-							<CogIcon :size="20" />
+							<CogIcon />
 						</template>
 						{{ t('cospend', 'Show project settings') }}
 					</NcButton>
 					<NcButton
 						@click="onShareClicked(currentProjectId)">
 						<template #icon>
-							<ShareVariantIcon :size="20" />
+							<ShareVariantIcon />
 						</template>
 						{{ t('cospend', 'Share the project') }}
 					</NcButton>
 					<NcButton
+						@click="onTrashbinClicked(currentProjectId)">
+						<template #icon>
+							<DeleteVariantIcon />
+						</template>
+						{{ trashbinEnabled ? t('cospend', 'Close the trashbin') : t('cospend', 'Show the trashbin') }}
+					</NcButton>
+					<NcButton
 						@click="onStatsClicked(currentProjectId)">
 						<template #icon>
-							<ChartLineIcon :size="20" />
+							<ChartLineIcon />
 						</template>
 						{{ t('cospend', 'Show project statistics') }}
 					</NcButton>
 					<NcButton
 						@click="onSettleClicked(currentProjectId)">
 						<template #icon>
-							<ReimburseIcon :size="20" />
+							<ReimburseIcon />
 						</template>
 						{{ t('cospend', 'Show project settlement plan') }}
 					</NcButton>
@@ -172,6 +179,7 @@ import * as network from './network.js'
 import * as constants from './constants.js'
 import { rgbObjToHex, slugify } from './utils.js'
 
+const DeleteVariantIcon = () => import('vue-material-design-icons/DeleteVariant.vue')
 const PlusIcon = () => import('vue-material-design-icons/Plus.vue')
 const MenuIcon = () => import('vue-material-design-icons/Menu.vue')
 const ShareVariantIcon = () => import('vue-material-design-icons/ShareVariant.vue')
@@ -219,6 +227,7 @@ export default {
 		CogIcon,
 		ShareVariantIcon,
 		ChartLineIcon,
+		DeleteVariantIcon,
 	},
 	mixins: [isMobile],
 	provide() {

@@ -179,30 +179,30 @@ import * as network from './network.js'
 import * as constants from './constants.js'
 import { rgbObjToHex, slugify } from './utils.js'
 
-const DeleteVariantIcon = () => import('vue-material-design-icons/DeleteVariant.vue')
-const PlusIcon = () => import('vue-material-design-icons/Plus.vue')
-const MenuIcon = () => import('vue-material-design-icons/Menu.vue')
-const ShareVariantIcon = () => import('vue-material-design-icons/ShareVariant.vue')
-const ChartLineIcon = () => import('vue-material-design-icons/ChartLine.vue')
-const CogIcon = () => import('vue-material-design-icons/Cog.vue')
+import DeleteVariantIcon from 'vue-material-design-icons/DeleteVariant.vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import MenuIcon from 'vue-material-design-icons/Menu.vue'
+import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
+import ChartLineIcon from 'vue-material-design-icons/ChartLine.vue'
+import CogIcon from 'vue-material-design-icons/Cog.vue'
 
-const ReimburseIcon = () => import('./components/icons/ReimburseIcon.vue')
-const CospendIcon = () => import('./components/icons/CospendIcon.vue')
+import ReimburseIcon from './components/icons/ReimburseIcon.vue'
+import CospendIcon from './components/icons/CospendIcon.vue'
 
-const Statistics = () => import('./components/statistics/Statistics.vue')
-const Settlement = () => import('./Settlement.vue')
-const CospendNavigation = () => import('./components/CospendNavigation.vue')
-const CospendSettingsDialog = () => import('./components/CospendSettingsDialog.vue')
-const BillForm = () => import('./BillForm.vue')
-const BillList = () => import('./BillList.vue')
-const Sidebar = () => import('./components/Sidebar.vue')
-const MoveToProjectList = () => import('./components/MoveToProjectList.vue')
+import Statistics from './components/statistics/Statistics.vue'
+import Settlement from './Settlement.vue'
+import CospendNavigation from './components/CospendNavigation.vue'
+import CospendSettingsDialog from './components/CospendSettingsDialog.vue'
+import BillForm from './BillForm.vue'
+import BillList from './BillList.vue'
+import Sidebar from './components/Sidebar.vue'
+import MoveToProjectList from './components/MoveToProjectList.vue'
 
-const NcModal = () => import('@nextcloud/vue/dist/Components/NcModal.js')
-const NcButton = () => import('@nextcloud/vue/dist/Components/NcButton.js')
-const NcEmptyContent = () => import('@nextcloud/vue/dist/Components/NcEmptyContent.js')
-const NcContent = () => import('@nextcloud/vue/dist/Components/NcContent.js')
-const NcAppContent = () => import('@nextcloud/vue/dist/Components/NcAppContent.js')
+import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
+import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
 
 export default {
 	name: 'App',

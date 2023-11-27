@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.5.12 – 2023-11-27
+
+### Fixed
+
+- fix bill deletion from bill form not removing item in bill list
+
 ## 1.5.11 – 2023-11-27
 
 ### Added

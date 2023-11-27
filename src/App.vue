@@ -138,6 +138,7 @@
 						</template>
 					</NcButton>
 				</div>
+				<div @click="() => {}" />
 			</div>
 		</NcAppContent>
 		<CospendSettingsDialog

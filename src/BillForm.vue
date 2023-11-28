@@ -108,11 +108,14 @@
 						<NcButton
 							:title="t('cospend', 'More information')"
 							:aria-label="t('cospend', 'More information on amount input field')"
-							@click="onAmountInfoClicked">
+							@click="showAmountInfo = true">
 							<template #icon>
 								<InformationOutlineIcon />
 							</template>
 						</NcButton>
+						<NcDialog :open.sync="showAmountInfo"
+							:name="t('cospend', 'Info')"
+							:message="t('cospend', 'You can type simple math operations and validate by pressing Enter key.')" />
 					</div>
 				</div>
 				<div
@@ -137,11 +140,14 @@
 						<NcButton
 							:title="t('cospend', 'More information')"
 							:aria-label="t('cospend', 'More information on currency conversion')"
-							@click="onConvertInfoClicked">
+							@click="showConvertInfo = true">
 							<template #icon>
 								<InformationOutlineIcon />
 							</template>
 						</NcButton>
+						<NcDialog :open.sync="showConvertInfo"
+							:name="t('cospend', 'Info')"
+							:message="convertInfoText" />
 					</div>
 				</div>
 				<div class="bill-payer">
@@ -281,11 +287,14 @@
 						<NcButton
 							:title="t('cospend', 'More information')"
 							:aria-label="t('cospend', 'More information on bill repetition')"
-							@click="onRepeatInfoClicked">
+							@click="showRepeatInfo = true">
 							<template #icon>
 								<InformationOutlineIcon />
 							</template>
 						</NcButton>
+						<NcDialog :open.sync="showRepeatInfo"
+							:name="t('cospend', 'Info')"
+							:message="repeatInfoText" />
 					</div>
 				</div>
 				<div v-if="myBill.repeat !== 'n'"
@@ -616,6 +625,7 @@ import NcAppContentDetails from '@nextcloud/vue/dist/Components/NcAppContentDeta
 import NcRichContenteditable from '@nextcloud/vue/dist/Components/NcRichContenteditable.js'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
 
 import CospendTogglableAvatar from './components/avatar/CospendTogglableAvatar.vue'
 import MemberMultiSelect from './components/MemberMultiSelect.vue'
@@ -652,6 +662,7 @@ export default {
 		MemberMultiSelect,
 		NcButton,
 		NcRichContenteditable,
+		NcDialog,
 		AccountIcon,
 		AccountGroupIcon,
 		TagIcon,
@@ -716,6 +727,9 @@ export default {
 			showDatePicker: true,
 			categoryQuery: '',
 			pmQuery: '',
+			showConvertInfo: false,
+			showAmountInfo: false,
+			showRepeatInfo: false,
 		}
 	},
 
@@ -1045,6 +1059,13 @@ export default {
 		},
 		createBillButtonText() {
 			return this.newBillMode === 'normal' ? t('cospend', 'Create the bill') : t('cospend', 'Create the bills')
+		},
+		convertInfoText() {
+			return t('cospend', 'This is just a currency converter. Bill amount can be entered in another currency and then converted to "{maincur}". Value is always stored in "{maincur}".', { maincur: this.project.currencyname })
+		},
+		repeatInfoText() {
+			return t('cospend', 'Bill repetition process runs once a day as a background job. If your bills are not automatically repeated, ask your Nextcloud administrator to check if "Cron" method is selected in admin settings.')
+				+ ' ' + t('cospend', 'You can also manually repeat the current bill with the "Repeat now" button.')
 		},
 	},
 
@@ -1726,25 +1747,6 @@ export default {
 					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 				)
 			})
-		},
-		onConvertInfoClicked() {
-			OC.dialogs.info(
-				t('cospend', 'This is just a currency converter. Bill amount can be entered in another currency and then converted to "{maincur}". Value is always stored in "{maincur}".', { maincur: this.project.currencyname }),
-				t('cospend', 'Info'),
-			)
-		},
-		onAmountInfoClicked() {
-			OC.dialogs.info(
-				t('cospend', 'You can type simple math operations and validate by pressing Enter key.'),
-				t('cospend', 'Info'),
-			)
-		},
-		onRepeatInfoClicked() {
-			OC.dialogs.info(
-				t('cospend', 'Bill repetition process runs once a day as a background job. If your bills are not automatically repeated, ask your Nextcloud administrator to check if "Cron" method is selected in admin settings.')
-					+ ' ' + t('cospend', 'You can also manually repeat the current bill with the "Repeat now" button.'),
-				t('cospend', 'Info'),
-			)
 		},
 		onDuplicate() {
 			const owerIds = this.myBill.owerIds.filter((owerId) => {

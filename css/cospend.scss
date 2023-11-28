@@ -20,6 +20,11 @@ body {
 	overflow: auto;
 }
 
+// fix NcDialog style overriden by the NcModal one?
+.dialog__modal .modal-container {
+	padding-inline: 12px 8px !important;
+}
+
 @media only screen and (max-width: 1024px) {
 	// fix max height being unset in mobile view by server style
 	.app-content-list {

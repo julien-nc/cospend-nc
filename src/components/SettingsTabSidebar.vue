@@ -67,11 +67,14 @@
 				</span>
 				<NcButton
 					:aria-label="t('cospend', 'More information on adding members')"
-					@click="onInfoAddClicked">
+					@click="showInfoAdd = true">
 					<template #icon>
-						<InformationVariantIcon :size="20" />
+						<InformationVariantIcon />
 					</template>
 				</NcButton>
+				<NcDialog :open.sync="showInfoAdd"
+					:name="t('cospend', 'Info')"
+					:message="t('cospend', 'You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab.')" />
 			</h3>
 			<h4 v-if="maintenerAccess">
 				<PlusIcon class="icon" :size="20" />
@@ -130,11 +133,14 @@
 					</span>
 					<NcButton
 						:aria-label="t('cospend', 'More information on adding Nextcloud users as members')"
-						@click="onInfoAssociateClicked">
+						@click="showInfoAssociate = true">
 						<template #icon>
-							<InformationVariantIcon :size="20" />
+							<InformationVariantIcon />
 						</template>
 					</NcButton>
+					<NcDialog :open.sync="showInfoAssociate"
+						:name="t('cospend', 'Info')"
+						:message="t('cospend', 'Choose a project member, then a Nextcloud user to associate with.') + ' ' + t('cospend', 'You can cut the link with a Nextcloud user by renaming the member.')" />
 				</h3>
 				<div id="affectDiv">
 					<MemberMultiSelect
@@ -193,6 +199,7 @@ import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
 
 import AppNavigationMemberItem from './AppNavigationMemberItem.vue'
 import MemberMultiSelect from './MemberMultiSelect.vue'
@@ -214,6 +221,7 @@ export default {
 		AppNavigationMemberItem,
 		NcAvatar,
 		NcCheckboxRadioSwitch,
+		NcDialog,
 		MemberMultiSelect,
 		CalendarMonthIcon,
 		ContentSaveIcon,
@@ -240,6 +248,8 @@ export default {
 			newProjectName: '',
 			query: '',
 			currentUser: getCurrentUser(),
+			showInfoAdd: false,
+			showInfoAssociate: false,
 		}
 	},
 	computed: {
@@ -482,19 +492,6 @@ export default {
 		onExportClick() {
 			this.$emit('export-clicked', this.projectId)
 		},
-		onInfoAddClicked() {
-			OC.dialogs.info(
-				t('cospend', 'You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab.'),
-				t('cospend', 'Info'),
-			)
-		},
-		onInfoAssociateClicked() {
-			OC.dialogs.info(
-				t('cospend', 'Choose a project member, then a Nextcloud user to associate with.')
-				+ ' ' + t('cospend', 'You can cut the link with a Nextcloud user by renaming the member.'),
-				t('cospend', 'Info'),
-			)
-		},
 		focusOnAddMember() {
 			this.$refs.addUserInput.$el?.focus()
 		},
@@ -569,11 +566,11 @@ export default {
 
 h3, h4 {
 	display: flex;
+	align-items: center;
 	margin-bottom: 20px;
 
 	> .tcontent {
 		flex-grow: 1;
-		padding-top: 12px;
 	}
 
 	> span.icon {

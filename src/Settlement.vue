@@ -40,11 +40,14 @@
 				<NcButton
 					:title="t('cospend', 'Information on settlement date')"
 					:aria-label="t('cospend', 'Information on settlement date')"
-					@click="onDateInfoClicked">
+					@click="showDateInfo = true">
 					<template #icon>
-						<InformationVariantIcon :size="20" />
+						<InformationVariantIcon />
 					</template>
 				</NcButton>
+				<NcDialog :open.sync="showDateInfo"
+					:name="t('cospend', 'Info')"
+					:message="dateInfoText" />
 				<NcDateTimePicker
 					id="max-date"
 					v-model="maxDate"
@@ -204,13 +207,16 @@
 			<NcButton
 				:title="t('cospend', 'Information on individual reimbursement')"
 				:aria-label="t('cospend', 'Information on individual reimbursement')"
-				@click="onIndividualInfoClicked">
+				@click="showIndividualInfo = true">
 				<template #icon>
 					<InformationVariantIcon :size="20" />
 				</template>
 			</NcButton>
 			<span>{{ t('cospend', 'Individual reimbursement') }}</span>
 		</h2>
+		<NcDialog :open.sync="showIndividualInfo"
+			:name="t('cospend', 'Info')"
+			:message="individualInfoText" />
 		<div id="individual-form">
 			<select id="individual-payer" v-model="individualPayerId" @change="onChangeIndividual">
 				<option value="0">
@@ -258,6 +264,7 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcAppContentDetails from '@nextcloud/vue/dist/Components/NcAppContentDetails.js'
 import NcDateTimePicker from '@nextcloud/vue/dist/Components/NcDateTimePicker.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
 
 import CospendTogglableAvatar from './components/avatar/CospendTogglableAvatar.vue'
 
@@ -280,6 +287,7 @@ export default {
 		NcDateTimePicker,
 		NcEmptyContent,
 		NcButton,
+		NcDialog,
 		ContentSaveIcon,
 		PlusIcon,
 		InformationVariantIcon,
@@ -310,6 +318,8 @@ export default {
 			// individual reimbursement
 			individualPayerId: 0,
 			individualReceiverId: 0,
+			showDateInfo: false,
+			showIndividualInfo: false,
 		}
 	},
 
@@ -353,6 +363,18 @@ export default {
 					}
 				})
 				: null
+		},
+		dateInfoText() {
+			return t('cospend', 'Set a maximum date to only consider bills until then.')
+				+ ' ' + t('cospend', 'Useful if you want to settle at a precise date and ignore the bills created since then.')
+				+ ' ' + t('cospend', 'Automatic settlement will create bills one second before the maximum date.')
+		},
+		individualInfoText() {
+			return t('cospend', 'This feature is useful when a member with a negative balance wants to get out of the project but you don\'t want to make a full settlement plan.')
+				+ ' '
+				+ t('cospend', 'Select a payer who wants to get a zero balance, then a receiver who will be the only one to get the reimbursement money.')
+				+ ' '
+				+ t('cospend', 'Make sure the "real" reimbursement has been done between those 2 members in real life. Then press "Create bill" to automatically create the corresponding bill.')
 		},
 	},
 
@@ -454,26 +476,6 @@ export default {
 		},
 		parse(value) {
 			return moment(value, 'LLL', this.locale).toDate()
-		},
-		onDateInfoClicked() {
-			OC.dialogs.info(
-				t('cospend', 'Set a maximum date to only consider bills until then.')
-				+ ' '
-				+ t('cospend', 'Useful if you want to settle at a precise date and ignore the bills created since then.')
-				+ ' '
-				+ t('cospend', 'Automatic settlement will create bills one second before the maximum date.'),
-				t('cospend', 'Info'),
-			)
-		},
-		onIndividualInfoClicked() {
-			OC.dialogs.info(
-				t('cospend', 'This feature is useful when a member with a negative balance wants to get out of the project but you don\'t want to make a full settlement plan.')
-				+ ' '
-				+ t('cospend', 'Select a payer who wants to get a zero balance, then a receiver who will be the only one to get the reimbursement money.')
-				+ ' '
-				+ t('cospend', 'Make sure the "real" reimbursement has been done between those 2 members in real life. Then press "Create bill" to automatically create the corresponding bill.'),
-				t('cospend', 'Info'),
-			)
 		},
 		onDayBeginningClicked() {
 			const begin = moment()

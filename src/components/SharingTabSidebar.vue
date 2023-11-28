@@ -268,6 +268,9 @@
 			{{ t('cospend', 'Show deprecated password protected access') }}
 		</NcButton>
 		<div v-if="showPasswordAccess">
+			<NcDialog :open.sync="showOldLinkInfo"
+				:name="t('cospend', 'Info')"
+				:message="t('cospend', 'Password protected access is now deprecated. You can use the share links instead, they can be password protected too.')" />
 			<ul
 				id="guestList"
 				class="shareWithList">
@@ -276,17 +279,15 @@
 					<span class="username">
 						<span>{{ t('cospend', 'Password protected access') }}</span>
 					</span>
-
 					<NcActions>
 						<NcActionButton
-							@click="oldLinkInfoClick">
+							@click="showOldLinkInfo = true">
 							<template #icon>
 								<InformationVariantIcon :size="20" />
 							</template>
 							{{ t('cospend', 'More information') }}
 						</NcActionButton>
 					</NcActions>
-
 					<NcActions>
 						<NcActionLink
 							:href="guestLink"
@@ -302,7 +303,6 @@
 							{{ guestLinkCopied ? t('cospend', 'Link copied') : t('cospend', 'Copy to clipboard') }}
 						</NcActionLink>
 					</NcActions>
-
 					<NcActions
 						:force-menu="true"
 						placement="bottom">
@@ -382,6 +382,7 @@ import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
 import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
@@ -414,6 +415,7 @@ export default {
 		NcSelect,
 		NcModal,
 		NcButton,
+		NcDialog,
 		QRCode,
 		QrcodeIcon,
 		LockIcon,
@@ -453,6 +455,7 @@ export default {
 			// the svg api is dead, glory to the svg api
 			qrcodeImageUrl: generateUrl('/apps/cospend/svg/cospend_square_bg?color=' + hexToDarkerHex(getComplementaryColor(cospend.themeColorDark)).replace('#', '')),
 			showPasswordAccess: false,
+			showOldLinkInfo: false,
 		}
 	},
 
@@ -737,12 +740,6 @@ export default {
 					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 				)
 			})
-		},
-		oldLinkInfoClick() {
-			OC.dialogs.info(
-				t('cospend', 'Password protected access is now deprecated. You can use the share links instead, they can be password protected too.'),
-				t('cospend', 'Info'),
-			)
 		},
 	},
 }

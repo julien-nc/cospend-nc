@@ -137,17 +137,17 @@
 								<NcActions v-show="deletionEnabled || trashbinEnabled"
 									class="multi-actions"
 									:inline="2">
-									<NcActionButton v-if="trashbinEnabled"
+									<NcActionButton v-if="trashbinEnabled && selectedBillIds.length > 0"
 										class="multiRestore"
-										@click="restoreSelection">
+										@click="showRestorationConfirmation = true">
 										<template #icon>
 											<RestoreIcon />
 										</template>
 										{{ t('cospend', 'Restore selected bills') }}
 									</NcActionButton>
-									<NcActionButton
+									<NcActionButton v-if="selectedBillIds.length > 0"
 										class="multiDelete"
-										@click="deleteSelection">
+										@click="showDeletionConfirmation = true">
 										<template #icon>
 											<DeleteIcon />
 										</template>
@@ -198,6 +198,42 @@
 				{{ t('cospend', 'No more bills') }}
 			</template>
 		</InfiniteLoading>
+		<NcDialog :open.sync="showDeletionConfirmation"
+			:name="t('cospend', 'Confirm deletion')"
+			:message="deletionConfirmationMessage">
+			<template #actions>
+				<NcButton
+					@click="showDeletionConfirmation = false">
+					{{ t('cospend', 'Cancel') }}
+				</NcButton>
+				<NcButton
+					type="warning"
+					@click="confirmedDeleteSelection">
+					<template #icon>
+						<DeleteIcon />
+					</template>
+					{{ t('cospend', 'Delete') }}
+				</NcButton>
+			</template>
+		</NcDialog>
+		<NcDialog :open.sync="showRestorationConfirmation"
+			:name="t('cospend', 'Confirm restoration')"
+			:message="restorationConfirmationMessage">
+			<template #actions>
+				<NcButton
+					@click="showRestorationConfirmation = false">
+					{{ t('cospend', 'Cancel') }}
+				</NcButton>
+				<NcButton
+					type="warning"
+					@click="confirmedRestoreSelection">
+					<template #icon>
+						<RestoreIcon />
+					</template>
+					{{ t('cospend', 'Restore') }}
+				</NcButton>
+			</template>
+		</NcDialog>
 	</NcAppContentList>
 </template>
 
@@ -219,6 +255,8 @@ import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
 import PaymentModeMultiSelect from './components/PaymentModeMultiSelect.vue'
 import CategoryMultiSelect from './components/CategoryMultiSelect.vue'
@@ -243,6 +281,8 @@ export default {
 		NcActions,
 		NcActionButton,
 		NcEmptyContent,
+		NcDialog,
+		NcButton,
 		InfiniteLoading,
 		PaymentModeMultiSelect,
 		CategoryMultiSelect,
@@ -304,6 +344,8 @@ export default {
 			selectedPaymentModeMultiAction: null,
 			selectedBillIds: [],
 			filterMode: false,
+			showDeletionConfirmation: false,
+			showRestorationConfirmation: false,
 		}
 	},
 
@@ -458,6 +500,22 @@ export default {
 				? t('cospend', 'Move selected bills to trash')
 				: t('cospend', 'Delete selected bills')
 		},
+		deletionConfirmationMessage() {
+			return n('cospend',
+				'Are you sure you want to delete {nb} bill?',
+				'Are you sure you want to delete {nb} bills?',
+				this.selectedBillIds.length,
+				{ nb: this.selectedBillIds.length },
+			)
+		},
+		restorationConfirmationMessage() {
+			return n('cospend',
+				'Are you sure you want to restore {nb} bill?',
+				'Are you sure you want to restore {nb} bills?',
+				this.selectedBillIds.length,
+				{ nb: this.selectedBillIds.length },
+			)
+		},
 	},
 
 	watch: {
@@ -578,59 +636,23 @@ export default {
 			this.$emit('multi-bill-edit', billIds, categoryid, paymentmodeid)
 			showSuccess(t('cospend', 'Bills edited'))
 		},
-		deleteSelection() {
-			if (this.selectedBillIds.length > 0) {
-				OC.dialogs.confirmDestructive(
-					n('cospend',
-						'Are you sure you want to delete {nb} bill?',
-						'Are you sure you want to delete {nb} bills?',
-						this.selectedBillIds.length,
-						{ nb: this.selectedBillIds.length },
-					),
-					t('cospend', 'Confirm deletion'),
-					{
-						type: OC.dialogs.YES_NO_BUTTONS,
-						confirm: t('cospend', 'Delete'),
-						confirmClasses: 'error',
-						cancel: t('cospend', 'Cancel'),
-					},
-					(result) => {
-						if (result) {
-							network.deleteBills(this.projectId, this.selectedBillIds).then((response) => {
-								this.$emit('items-deleted', this.selectedBillIds)
-								showSuccess(t('cospend', 'Bills deleted'))
-								this.selectedBillIds = []
-							}).catch((error) => {
-								showError(
-									t('cospend', 'Failed to delete bills')
-									+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
-								)
-							})
-						}
-					},
-					true,
+		confirmedDeleteSelection() {
+			this.showDeletionConfirmation = false
+			network.deleteBills(this.projectId, this.selectedBillIds).then((response) => {
+				this.$emit('items-deleted', this.selectedBillIds)
+				showSuccess(t('cospend', 'Bills deleted'))
+				this.selectedBillIds = []
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to delete bills')
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 				)
-			}
+			})
 		},
-		restoreSelection() {
-			if (this.selectedBillIds.length > 0) {
-				OC.dialogs.confirm(
-					n('cospend',
-						'Are you sure you want to restore {nb} bill?',
-						'Are you sure you want to restore {nb} bills?',
-						this.selectedBillIds.length,
-						{ nb: this.selectedBillIds.length },
-					),
-					t('cospend', 'Confirm restoration'),
-					(result) => {
-						if (result) {
-							emit('restore-bills', this.selectedBillIds)
-							this.selectedBillIds = []
-						}
-					},
-					true,
-				)
-			}
+		confirmedRestoreSelection() {
+			this.showRestorationConfirmation = false
+			emit('restore-bills', this.selectedBillIds)
+			this.selectedBillIds = []
 		},
 	},
 }

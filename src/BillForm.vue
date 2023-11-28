@@ -1273,7 +1273,7 @@ export default {
 			return true
 		},
 		onDeleteClick() {
-			emit('delete-bill', this.bill)
+			emit('delete-bill', this.myBill)
 		},
 		saveBill() {
 			// don't save the bill if we are typing a formula

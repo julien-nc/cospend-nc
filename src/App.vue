@@ -560,11 +560,13 @@ export default {
 		},
 		onBillDeleted(bill) {
 			const billList = this.billLists[cospend.currentProjectId]
-			billList.splice(billList.indexOf(bill), 1)
+			const billIndex = billList.findIndex(b => bill.id === b.id)
+			if (billIndex !== -1) {
+				billList.splice(billIndex, 1)
+			}
 			if (bill.id === this.selectedBillId) {
 				this.currentBill = null
 			}
-			console.debug('aaaaaa ONE bill delete: updateProjectInfo')
 			this.updateProjectInfo(cospend.currentProjectId)
 		},
 		onRestoreBill(bill) {

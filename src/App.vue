@@ -1027,8 +1027,8 @@ export default {
 			})
 		},
 		archiveProject(projectId, password = null) {
-			this.$set(this.projects[projectId], 'archived', this.projects[projectId].archived ? null : new Date().toISOString().slice(0, 19).replace('T', ' '))
-			this.editProject(projectId, password)
+			this.$set(this.projects[projectId], 'archived', this.projects[projectId].archived ? null : 'currentDateTime')
+			this.editProject(projectId, password, true)
 		},
 		updateProjectInfo(projectid) {
 			return network.updateProjectInfo(projectid).then((response) => {
@@ -1154,14 +1154,18 @@ export default {
 				}
 			}
 		},
-		editProject(projectid, password = null) {
-			const project = this.projects[projectid]
+		editProject(projectId, password = null, deselectProject = false) {
+			const project = this.projects[projectId]
 			network.editProject(project, password).then((response) => {
 				if (password && cospend.pageIsPublic) {
 					cospend.password = password
 				}
-				this.updateProjectInfo(cospend.currentProjectId)
-				showSuccess(t('cospend', 'Project saved'))
+				this.updateProjectInfo(projectId).then(() => {
+					showSuccess(t('cospend', 'Project saved'))
+					if (deselectProject) {
+						this.deselectProject()
+					}
+				})
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to edit project')

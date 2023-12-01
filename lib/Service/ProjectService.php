@@ -1581,7 +1581,7 @@ class ProjectService {
 								?string $categorysort = null, ?string $paymentmodesort = null, ?string $archived = null): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->update('cospend_projects');
-        $qb->set('archived', $qb->createNamedParameter($archived, IQueryBuilder::PARAM_STR));
+        $qb->set('archived', $qb->createNamedParameter($archived === 'currentDateTime' ? date('Y-m-d H:i:s') : null, IQueryBuilder::PARAM_STR));
 
 		if ($name !== null) {
 			if ($name === '') {

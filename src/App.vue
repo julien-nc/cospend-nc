@@ -341,6 +341,7 @@ export default {
 
 		subscribe('project-clicked', this.onProjectClicked)
 		subscribe('delete-project', this.onDeleteProject)
+		subscribe('archive-project', this.onArchiveProject)
 		subscribe('project-imported', this.onProjectImported)
 		subscribe('stats-clicked', this.onStatsClicked)
 		subscribe('settle-clicked', this.onSettleClicked)
@@ -365,6 +366,7 @@ export default {
 
 		unsubscribe('project-clicked', this.onProjectClicked)
 		unsubscribe('delete-project', this.onDeleteProject)
+		unsubscribe('archive-project', this.onArchiveProject)
 		unsubscribe('project-imported', this.onProjectImported)
 		unsubscribe('stats-clicked', this.onStatsClicked)
 		unsubscribe('settle-clicked', this.onSettleClicked)
@@ -617,6 +619,9 @@ export default {
 		},
 		onDeleteProject(projectid) {
 			this.deleteProject(projectid)
+		},
+		onArchiveProject(projectId) {
+			this.archiveProject(projectId)
 		},
 		onExportClicked(projectid) {
 			const projectName = this.projects[projectid].name
@@ -1021,6 +1026,10 @@ export default {
 				)
 			})
 		},
+		archiveProject(projectId, password = null) {
+			this.$set(this.projects[projectId], 'archived', this.projects[projectId].archived ? null : new Date().toISOString().slice(0, 19).replace('T', ' '))
+			this.editProject(projectId, password)
+		},
 		updateProjectInfo(projectid) {
 			return network.updateProjectInfo(projectid).then((response) => {
 				this.projects[projectid].balance = response.data.balance
@@ -1037,6 +1046,7 @@ export default {
 				this.projects[projectid].lastchanged = response.data.lastchanged
 				this.projects[projectid].categories = response.data.categories
 				this.projects[projectid].paymentmodes = response.data.paymentmodes
+				this.projects[projectid].archived = response.data.archived
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to update balances')

@@ -87,6 +87,22 @@
 				</template>
 				{{ t('cospend', 'Project settlement') }}
 			</NcActionButton>
+			<NcActionButton v-if="adminAccess && !project.archived"
+				:close-after-click="true"
+				@click="onArchiveProjectClick">
+				<template #icon>
+					<ArchiveIcon :size="20" />
+				</template>
+				{{ t('cospend', 'Archive') }}
+			</NcActionButton>
+			<NcActionButton v-if="adminAccess && project.archived"
+				:close-after-click="true"
+				@click="onArchiveProjectClick">
+				<template #icon>
+					<ArchiveCancelIcon :size="20" />
+				</template>
+				{{ t('cospend', 'Unarchive') }}
+			</NcActionButton>
 			<NcActionButton v-if="adminAccess"
 				:close-after-click="true"
 				@click="onDeleteProjectClick">
@@ -127,6 +143,8 @@ import AccountIcon from 'vue-material-design-icons/Account.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import FolderOutlineIcon from 'vue-material-design-icons/FolderOutline.vue'
 import ChartLineIcon from 'vue-material-design-icons/ChartLine.vue'
+import ArchiveIcon from 'vue-material-design-icons/Archive.vue'
+import ArchiveCancelIcon from 'vue-material-design-icons/ArchiveCancel.vue'
 
 import ReimburseIcon from './icons/ReimburseIcon.vue'
 
@@ -157,6 +175,8 @@ export default {
 		PlusIcon,
 		DeleteIcon,
 		DeleteVariantIcon,
+		ArchiveIcon,
+		ArchiveCancelIcon,
 	},
 	directives: {
 		ClickOutside,
@@ -225,6 +245,9 @@ export default {
 		},
 		onMemberClick(memberId) {
 			emit('member-click', { projectId: this.project.id, memberId })
+		},
+		onArchiveProjectClick() {
+			emit('archive-project', this.project.id)
 		},
 		onDeleteProjectClick() {
 			this.deleting = true

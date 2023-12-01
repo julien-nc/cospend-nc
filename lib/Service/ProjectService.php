@@ -1572,14 +1572,16 @@ class ProjectService {
 	 * @param bool|null $deletion_disabled
 	 * @param string|null $categorysort
 	 * @param string|null $paymentmodesort
+     * @param string|null $archived
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
-	public function editProject(string $projectid, ?string $name = null, ?string $contact_email = null, ?string $password = null,
+	public function editProject(string  $projectid, ?string $name = null, ?string $contact_email = null, ?string $password = null,
 								?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
-								?string $categorysort = null, ?string $paymentmodesort = null): array {
+								?string $categorysort = null, ?string $paymentmodesort = null, ?string $archived = null): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->update('cospend_projects');
+        $qb->set('archived', $qb->createNamedParameter($archived, IQueryBuilder::PARAM_STR));
 
 		if ($name !== null) {
 			if ($name === '') {

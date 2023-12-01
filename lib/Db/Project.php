@@ -39,6 +39,8 @@ use OCP\AppFramework\Db\Entity;
  * @method void setPaymentmodesort(string $paymentmodesort)
  * @method string getCurrencyname()
  * @method void setCurrencyname(string $currencyname)
+ * @method string getArchived()
+ * @method void setArchived(string $archived)
  */
 class Project extends Entity implements \JsonSerializable {
 
@@ -53,6 +55,7 @@ class Project extends Entity implements \JsonSerializable {
 	protected $categorysort;
 	protected $paymentmodesort;
 	protected $currencyname;
+	protected $archived;
 
 	public function __construct() {
 		$this->addType('id', 'string');
@@ -67,6 +70,7 @@ class Project extends Entity implements \JsonSerializable {
 		$this->addType('categorysort', 'string');
 		$this->addType('paymentmodesort', 'string');
 		$this->addType('currencyname', 'string');
+		$this->addType('archived', 'datetime');
 	}
 
 	#[\ReturnTypeWillChange]
@@ -84,6 +88,7 @@ class Project extends Entity implements \JsonSerializable {
 			'categorysort' => $this->categorysort,
 			'paymentmodesort' => $this->paymentmodesort,
 			'currencyname' => $this->currencyname,
+			'archived' => $this->archived,
 		];
 	}
 }

@@ -76,9 +76,13 @@
 		<template #footer>
 			<div id="app-settings">
 				<div id="app-settings-header">
-					<!--button class="settings-button" @click="showSettings">
-						{{ t('cospend', 'Cospend settings') }}
-					</button-->
+					<NcAppNavigationItem
+						:name="t('cospend', 'Archived projects')"
+						@click="showSettings">
+						<template #icon>
+							<ArchiveLockIcon />
+						</template>
+					</NcAppNavigationItem>
 					<NcAppNavigationItem
 						:name="t('cospend', 'Cospend settings')"
 						@click="showSettings">
@@ -99,6 +103,7 @@ import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import FileImportIcon from 'vue-material-design-icons/FileImport.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
+import ArchiveLockIcon from 'vue-material-design-icons/ArchiveLock.vue'
 
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
@@ -135,6 +140,7 @@ export default {
 		FolderIcon,
 		FolderPlusIcon,
 		ArrowRightIcon,
+		ArchiveLockIcon,
 	},
 	directives: {
 		ClickOutside,

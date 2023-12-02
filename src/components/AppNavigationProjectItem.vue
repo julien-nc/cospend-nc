@@ -26,10 +26,16 @@
 		@update:menuOpen="onUpdateMenuOpen"
 		@click="onProjectClick">
 		<template #icon>
-			<FolderIcon v-if="selected"
+			<FolderIcon v-if="selected && !project.archived"
 				class="icon folder-icon-primary"
 				:size="20" />
-			<FolderOutlineIcon v-else
+			<FolderOutlineIcon v-if="!selected && !project.archived"
+				class="icon folder-icon"
+				:size="20" />
+			<ArchiveIcon v-if="selected && project.archived"
+				class="icon folder-icon-primary"
+				:size="20" />
+			<ArchiveOutlineIcon v-if="!selected && project.archived"
 				class="icon folder-icon"
 				:size="20" />
 		</template>
@@ -145,6 +151,7 @@ import FolderOutlineIcon from 'vue-material-design-icons/FolderOutline.vue'
 import ChartLineIcon from 'vue-material-design-icons/ChartLine.vue'
 import ArchiveIcon from 'vue-material-design-icons/Archive.vue'
 import ArchiveCancelIcon from 'vue-material-design-icons/ArchiveCancel.vue'
+import ArchiveOutlineIcon from 'vue-material-design-icons/ArchiveOutline.vue'
 
 import ReimburseIcon from './icons/ReimburseIcon.vue'
 
@@ -177,6 +184,7 @@ export default {
 		DeleteVariantIcon,
 		ArchiveIcon,
 		ArchiveCancelIcon,
+		ArchiveOutlineIcon,
 	},
 	directives: {
 		ClickOutside,

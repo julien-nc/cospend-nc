@@ -1576,7 +1576,7 @@ class ProjectService {
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
-	public function editProject(string  $projectid, ?string $name = null, ?string $contact_email = null, ?string $password = null,
+	public function editProject(string $projectid, ?string $name = null, ?string $contact_email = null, ?string $password = null,
 								?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
 								?string $categorysort = null, ?string $paymentmodesort = null, ?string $archived = null): array {
 		$qb = $this->db->getQueryBuilder();

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-11-26 19:50+0100\n"
-"PO-Revision-Date: 2023-11-26 18:51\n"
+"PO-Revision-Date: 2023-12-02 13:10\n"
 "Last-Translator: \n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
@@ -177,7 +177,7 @@ msgstr "許可されていないアクションです"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:500
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:1686
 msgid "You are not allowed to clear the trashbin"
-msgstr ""
+msgstr "ごみ箱をクリアする権限がありません"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:531
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:564
@@ -875,11 +875,11 @@ msgstr "このプロジェクトを共有"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:7
 msgid "Close the trashbin"
-msgstr ""
+msgstr "ごみ箱を空にする"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:7
 msgid "Show the trashbin"
-msgstr ""
+msgstr "ごみ箱を表示"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:8
 msgid "Show project statistics"
@@ -913,15 +913,15 @@ msgstr "請求書の削除に失敗しました"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:17
 msgid "Bill restored"
-msgstr ""
+msgstr "請求書が復元されました"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:18
 msgid "Failed to restore bill"
-msgstr ""
+msgstr "請求書の復元に失敗しました"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:19
 msgid "Bills restored"
-msgstr ""
+msgstr "請求書が復元されました"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:20
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:173
@@ -930,7 +930,7 @@ msgstr "請求書の削除に失敗しました"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:21
 msgid "Trashbin has been cleared"
-msgstr ""
+msgstr "ごみ箱を空にしました"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:22
 msgid "Member {name} already exists"
@@ -1039,7 +1039,7 @@ msgstr "何の支払い？"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:47
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:48
 msgid "Attach share link to personal file"
-msgstr "共有リンクを個人用ファイルに添付"
+msgstr "個人ﾌｧｲﾙへの共有ﾘﾝｸ"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:50
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:53
@@ -1111,7 +1111,7 @@ msgstr "繰り返し"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:67
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:405
 msgid "No"
-msgstr "いいえ"
+msgstr "なし"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:68
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:406
@@ -1238,7 +1238,7 @@ msgstr "この請求書を削除"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:101
 msgid "Move this bill to the trashbin"
-msgstr ""
+msgstr "この請求書をごみ箱に移動する"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:102
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:103
@@ -1366,21 +1366,21 @@ msgstr "新しい請求書"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:135
 msgid "Trashbin"
-msgstr ""
+msgstr "ごみ箱"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:136
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:303
 msgid "Close trashbin"
-msgstr ""
+msgstr "ごみ箱を閉じる"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:137
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:304
 msgid "Show trashbin"
-msgstr ""
+msgstr "ごみ箱を表示"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:138
 msgid "Clear trashbin"
-msgstr ""
+msgstr "ごみ箱を空にする"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:139
 msgid "Filters"
@@ -1424,7 +1424,7 @@ msgstr "グループ化アクションを行う請求書を選択してくださ
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:148
 msgid "Restore selected bills"
-msgstr ""
+msgstr "選択した請求書を復元"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:149
 msgid "Add at least 2 members to start creating bills"
@@ -1476,7 +1476,7 @@ msgstr "フィルタを開く"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:164
 msgid "Move selected bills to trash"
-msgstr ""
+msgstr "選択した請求書をごみ箱へ移動"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:165
 msgid "Delete selected bills"
@@ -1522,7 +1522,7 @@ msgstr "請求書が削除されました"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:174
 msgid "Confirm restoration"
-msgstr ""
+msgstr "復元を確認"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:175
 msgid "Are you sure you want to delete {nb} bill?"
@@ -1532,7 +1532,7 @@ msgstr[0] "{nb} の請求書を削除してもよろしいですか？"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:176
 msgid "Are you sure you want to restore {nb} bill?"
 msgid_plural "Are you sure you want to restore {nb} bills?"
-msgstr[0] ""
+msgstr[0] "{nb} 請求書を復元してもよろしいですか？"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:177
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:178
@@ -2005,7 +2005,7 @@ msgstr "メンバーを追加"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:305
 msgid "Restore"
-msgstr ""
+msgstr "復元"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:307
 msgid "Everyone"
@@ -2026,11 +2026,11 @@ msgstr "メンバーリストが最新ではありません。5秒後に再読�
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:314
 msgid "Move to trash"
-msgstr ""
+msgstr "ごみ箱へ移動"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:315
 msgid "Move to other project"
-msgstr ""
+msgstr "他のプロジェクトへ移動"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:316
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:317
@@ -2046,7 +2046,7 @@ msgstr "新しいプロジェクト"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:330
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:333
 msgid "Create empty project"
-msgstr ""
+msgstr "空のプロジェクトを作成"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:331
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:355
@@ -2060,7 +2060,7 @@ msgstr "SplitWiseプロジェクトをインポート"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:334
 msgid "Project name"
-msgstr ""
+msgstr "プロジェクト名"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:335
 msgid "My new project"
@@ -2068,7 +2068,7 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:336
 msgid "Create"
-msgstr ""
+msgstr "作成"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:337
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:338

@@ -204,6 +204,7 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
+import { deselectProjectMixin } from './mixins.js'
 
 export default {
 	name: 'App',
@@ -230,7 +231,7 @@ export default {
 		ChartLineIcon,
 		DeleteVariantIcon,
 	},
-	mixins: [isMobile],
+	mixins: [isMobile, deselectProjectMixin],
 	provide() {
 		return {
 		}
@@ -716,11 +717,6 @@ export default {
 					generateUrl('/apps/cospend/p/{projectId}', { projectId: cospend.currentProjectId }),
 				)
 			}
-		},
-		deselectProject() {
-			this.mode = 'normal'
-			this.currentBill = null
-			cospend.currentProjectId = null
 		},
 		onAutoSettled(projectid) {
 			this.getBills(projectid)

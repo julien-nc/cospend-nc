@@ -79,7 +79,7 @@
 					<NcAppNavigationItem
 						v-if="showArchivedProjects"
 						:name="t('cospend', 'Active projects')"
-						@click="showArchivedProjects = false">
+						@click="toggleArchivedProjects(false)">
 						<template #icon>
 							<CalendarIcon />
 						</template>
@@ -92,7 +92,7 @@
 					<NcAppNavigationItem
 						v-if="!showArchivedProjects"
 						:name="t('cospend', 'Archived projects')"
-						@click="showArchivedProjects = true">
+						@click="toggleArchivedProjects(true)">
 						<template #icon>
 							<ArchiveLockIcon />
 						</template>
@@ -143,6 +143,7 @@ import { strcmp, importCospendProject, importSWProject } from '../utils.js'
 import ClickOutside from 'vue-click-outside'
 import { emit } from '@nextcloud/event-bus'
 import { showSuccess } from '@nextcloud/dialogs'
+import { deselectProjectMixin } from '../mixins.js'
 
 export default {
 	name: 'CospendNavigation',
@@ -168,6 +169,7 @@ export default {
 	directives: {
 		ClickOutside,
 	},
+	mixins: [deselectProjectMixin],
 	props: {
 		projects: {
 			type: Object,
@@ -231,6 +233,10 @@ export default {
 	beforeMount() {
 	},
 	methods: {
+		toggleArchivedProjects(showArchivedProjects = false) {
+			this.showArchivedProjects = showArchivedProjects
+			this.deselectProject()
+		},
 		showSettings() {
 			emit('show-settings')
 		},

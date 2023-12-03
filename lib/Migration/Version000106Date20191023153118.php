@@ -6,6 +6,7 @@ namespace OCA\Cospend\Migration;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
+use OCP\DB\Types;
 use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
 
@@ -32,32 +33,27 @@ class Version000106Date20191023153118 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		$ts = (new \DateTime())->getTimestamp();
-
 		if ($schema->hasTable('cospend_projects')) {
 			$table = $schema->getTable('cospend_projects');
-			$table->addColumn('lastchanged', 'integer', [
+			$table->addColumn('lastchanged', Types::INTEGER, [
 				'notnull' => true,
-				'length' => 1,
-				'default' => $ts,
+				'default' => 0,
 			]);
 		}
 
 		if ($schema->hasTable('cospend_bills')) {
 			$table = $schema->getTable('cospend_bills');
-			$table->addColumn('lastchanged', 'integer', [
+			$table->addColumn('lastchanged', Types::INTEGER, [
 				'notnull' => true,
-				'length' => 1,
-				'default' => $ts,
+				'default' => 0,
 			]);
 		}
 
 		if ($schema->hasTable('cospend_members')) {
 			$table = $schema->getTable('cospend_members');
-			$table->addColumn('lastchanged', 'integer', [
+			$table->addColumn('lastchanged', Types::INTEGER, [
 				'notnull' => true,
-				'length' => 1,
-				'default' => $ts,
+				'default' => 0,
 			]);
 		}
 

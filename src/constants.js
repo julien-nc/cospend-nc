@@ -12,6 +12,9 @@ export const MEMBER_WEIGHT_EDITION = 2
 export const PROJECT_NAME_EDITION = 1
 export const PROJECT_PASSWORD_EDITION = 2
 
+export const PROJECT_ARCHIVED_TS_UNSET = -1
+export const PROJECT_ARCHIVED_TS_NOW = 0
+
 export const SHARE_TYPE = {
 	PUBLIC_LINK: 'l',
 	USER: 'u',

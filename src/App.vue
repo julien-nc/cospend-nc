@@ -341,6 +341,8 @@ export default {
 
 		subscribe('project-clicked', this.onProjectClicked)
 		subscribe('delete-project', this.onDeleteProject)
+		subscribe('archive-project', this.archiveProject)
+		subscribe('deselect-project', this.deselectProject)
 		subscribe('project-imported', this.onProjectImported)
 		subscribe('stats-clicked', this.onStatsClicked)
 		subscribe('settle-clicked', this.onSettleClicked)
@@ -365,6 +367,8 @@ export default {
 
 		unsubscribe('project-clicked', this.onProjectClicked)
 		unsubscribe('delete-project', this.onDeleteProject)
+		unsubscribe('archive-project', this.archiveProject)
+		unsubscribe('deselect-project', this.deselectProject)
 		unsubscribe('project-imported', this.onProjectImported)
 		unsubscribe('stats-clicked', this.onStatsClicked)
 		unsubscribe('settle-clicked', this.onSettleClicked)
@@ -1021,6 +1025,10 @@ export default {
 				)
 			})
 		},
+		archiveProject(projectId) {
+			this.$set(this.projects[projectId], 'archived_ts', this.projects[projectId].archived_ts ? constants.PROJECT_ARCHIVED_TS_UNSET : constants.PROJECT_ARCHIVED_TS_NOW)
+			this.editProject(projectId, null, true)
+		},
 		updateProjectInfo(projectid) {
 			return network.updateProjectInfo(projectid).then((response) => {
 				this.projects[projectid].balance = response.data.balance
@@ -1037,6 +1045,7 @@ export default {
 				this.projects[projectid].lastchanged = response.data.lastchanged
 				this.projects[projectid].categories = response.data.categories
 				this.projects[projectid].paymentmodes = response.data.paymentmodes
+				this.projects[projectid].archived_ts = response.data.archived_ts
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to update balances')
@@ -1144,14 +1153,18 @@ export default {
 				}
 			}
 		},
-		editProject(projectid, password = null) {
-			const project = this.projects[projectid]
+		editProject(projectId, password = null, deselectProject = false) {
+			const project = this.projects[projectId]
 			network.editProject(project, password).then((response) => {
 				if (password && cospend.pageIsPublic) {
 					cospend.password = password
 				}
-				this.updateProjectInfo(cospend.currentProjectId)
-				showSuccess(t('cospend', 'Project saved'))
+				this.updateProjectInfo(projectId).then(() => {
+					showSuccess(t('cospend', 'Project saved'))
+					if (deselectProject) {
+						this.deselectProject()
+					}
+				})
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to edit project')

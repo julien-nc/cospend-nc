@@ -64,7 +64,7 @@
 				</template>
 			</NcEmptyContent>
 			<AppNavigationProjectItem
-				v-for="id in sortedProjectIds"
+				v-for="id in filteredProjectIds"
 				:key="id"
 				:project="projects[id]"
 				:members="projects[id].members"
@@ -76,9 +76,19 @@
 		<template #footer>
 			<div id="app-settings">
 				<div id="app-settings-header">
-					<!--button class="settings-button" @click="showSettings">
-						{{ t('cospend', 'Cospend settings') }}
-					</button-->
+					<NcAppNavigationItem
+						:name="showArchivedProjects ? t('cospend', 'Show active projects') : t('cospend', 'Show archived projects')"
+						@click="toggleArchivedProjects">
+						<template #icon>
+							<CalendarIcon v-if="showArchivedProjects" />
+							<ArchiveLockIcon v-else />
+						</template>
+						<template #counter>
+							<NcCounterBubble>
+								{{ sortedProjectIds.length - filteredProjectIds.length }}
+							</NcCounterBubble>
+						</template>
+					</NcAppNavigationItem>
 					<NcAppNavigationItem
 						:name="t('cospend', 'Cospend settings')"
 						@click="showSettings">
@@ -99,6 +109,8 @@ import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import FileImportIcon from 'vue-material-design-icons/FileImport.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
+import ArchiveLockIcon from 'vue-material-design-icons/ArchiveLock.vue'
+import CalendarIcon from 'vue-material-design-icons/Calendar.vue'
 
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
@@ -107,6 +119,7 @@ import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
 
 import AppNavigationProjectItem from './AppNavigationProjectItem.vue'
 
@@ -129,12 +142,15 @@ export default {
 		NcButton,
 		NcModal,
 		NcTextField,
+		NcCounterBubble,
 		CogIcon,
 		FileImportIcon,
 		PlusIcon,
 		FolderIcon,
 		FolderPlusIcon,
 		ArrowRightIcon,
+		ArchiveLockIcon,
+		CalendarIcon,
 	},
 	directives: {
 		ClickOutside,
@@ -171,9 +187,15 @@ export default {
 			importingProject: false,
 			showCreationModal: false,
 			newProjectName: '',
+			showArchivedProjects: false,
 		}
 	},
 	computed: {
+		filteredProjectIds(opposite = false) {
+			return this.showArchivedProjects
+			    ? this.sortedProjectIds.filter(id => this.projects[id].archived_ts !== null)
+			    : this.sortedProjectIds.filter(id => this.projects[id].archived_ts === null)
+		},
 		sortedProjectIds() {
 			if (this.cospend.sortOrder === 'name') {
 				return Object.keys(this.projects).sort((a, b) => {
@@ -194,6 +216,10 @@ export default {
 	beforeMount() {
 	},
 	methods: {
+		toggleArchivedProjects() {
+			this.showArchivedProjects = !this.showArchivedProjects
+			emit('deselect-project')
+		},
 		showSettings() {
 			emit('show-settings')
 		},

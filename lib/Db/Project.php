@@ -88,7 +88,7 @@ class Project extends Entity implements \JsonSerializable {
 			'categorysort' => $this->categorysort,
 			'paymentmodesort' => $this->paymentmodesort,
 			'currencyname' => $this->currencyname,
-			'archived' => $this->archived,
+			'archived_ts' => $this->archivedTs,
 		];
 	}
 }

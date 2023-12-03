@@ -1563,7 +1563,7 @@ class ProjectService {
 	/**
 	 * Edit a project
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @param string|null $name
 	 * @param string|null $contact_email
 	 * @param string|null $password
@@ -1576,80 +1576,49 @@ class ProjectService {
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
-	public function editProject(string $projectid, ?string $name = null, ?string $contact_email = null, ?string $password = null,
-								?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
-								?string $categorysort = null, ?string $paymentmodesort = null, ?int $archivedTs = null): array {
-		$qb = $this->db->getQueryBuilder();
-		$qb->update('cospend_projects');
-        if ($archivedTs !== null) {
-            if ($archivedTs === ProjectMapper::ARCHIVED_TS_NOW) {
-                $dbTs = (new DateTime())->getTimestamp();
-            } elseif ($archivedTs === ProjectMapper::ARCHIVED_TS_UNSET) {
-                $dbTs = null;
-            } else {
-                $dbTs = $archivedTs;
-            }
-            $qb->set('archived_ts', $qb->createNamedParameter($dbTs, IQueryBuilder::PARAM_STR));
-        }
-
-		if ($name !== null) {
-			if ($name === '') {
-				return ['name' => [$this->l10n->t('Name can\'t be empty')]];
-			}
-			$qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
+	public function editProject(
+		string  $projectId, ?string $name = null, ?string $contact_email = null, ?string $password = null,
+		?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
+		?string $categorysort = null, ?string $paymentmodesort = null, ?int $archivedTs = null
+	): array {
+		if ($name === '') {
+			return ['name' => [$this->l10n->t('Name can\'t be empty')]];
 		}
-
 		if ($contact_email !== null && $contact_email !== '') {
 			if (filter_var($contact_email, FILTER_VALIDATE_EMAIL)) {
-				$qb->set('email', $qb->createNamedParameter($contact_email, IQueryBuilder::PARAM_STR));
 			} else {
 				return ['contact_email' => [$this->l10n->t('Invalid email address')]];
 			}
 		}
 		if ($password !== null && $password !== '') {
 			$dbPassword = password_hash($password, PASSWORD_DEFAULT);
-			$qb->set('password', $qb->createNamedParameter($dbPassword, IQueryBuilder::PARAM_STR));
+		} else {
+			$dbPassword = null;
 		}
 		if ($autoexport !== null && $autoexport !== '') {
 			if (in_array($autoexport, array_values(Application::FREQUENCIES))) {
-				$qb->set('autoexport', $qb->createNamedParameter($autoexport, IQueryBuilder::PARAM_STR));
 			} else {
 				return ['autoexport' => [$this->l10n->t('Invalid frequency')]];
 			}
 		}
 		if ($categorysort !== null && $categorysort !== '') {
 			if (in_array($categorysort, array_values(Application::SORT_ORDERS))) {
-				$qb->set('categorysort', $qb->createNamedParameter($categorysort, IQueryBuilder::PARAM_STR));
 			} else {
 				return ['categorysort' => [$this->l10n->t('Invalid sort order')]];
 			}
 		}
 		if ($paymentmodesort !== null && $paymentmodesort !== '') {
 			if (in_array($paymentmodesort, array_values(Application::SORT_ORDERS))) {
-				$qb->set('paymentmodesort', $qb->createNamedParameter($paymentmodesort, IQueryBuilder::PARAM_STR));
 			} else {
 				return ['paymentmodesort' => [$this->l10n->t('Invalid sort order')]];
 			}
 		}
-		if ($deletion_disabled !== null) {
-			$qb->set('deletiondisabled', $qb->createNamedParameter($deletion_disabled ? 1 : 0, IQueryBuilder::PARAM_INT));
-		}
-		if ($currencyname !== null) {
-			if ($currencyname === '') {
-				$qb->set('currencyname', $qb->createNamedParameter(null, IQueryBuilder::PARAM_STR));
-			} else {
-				$qb->set('currencyname', $qb->createNamedParameter($currencyname, IQueryBuilder::PARAM_STR));
-			}
-		}
-		if ($this->getProjectById($projectid) !== null) {
-			$ts = (new DateTime())->getTimestamp();
-			$qb->set('lastchanged', $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT));
-			$qb->where(
-				$qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
-			);
-			$qb->executeStatement();
-			$qb->resetQueryParts();
 
+		if ($this->getProjectById($projectId) !== null) {
+			$this->projectMapper->editProject(
+				$projectId, $name, $contact_email, $dbPassword, $autoexport, $currencyname, $deletion_disabled,
+				$categorysort, $paymentmodesort, $archivedTs
+			);
 			return ['success' => true];
 		} else {
 			return ['message' => $this->l10n->t('There is no such project')];

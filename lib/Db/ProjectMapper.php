@@ -193,4 +193,62 @@ class ProjectMapper extends QBMapper {
 		$qb->executeStatement();
 		$qb->resetQueryParts();
 	}
+
+	public function editProject(
+		string  $projectId, ?string $name = null, ?string $contact_email = null, ?string $password = null,
+		?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
+		?string $categorysort = null, ?string $paymentmodesort = null, ?int $archivedTs = null
+	): void {
+		$qb = $this->db->getQueryBuilder();
+		$qb->update('cospend_projects');
+		if ($archivedTs !== null) {
+			if ($archivedTs === self::ARCHIVED_TS_NOW) {
+				$dbTs = (new DateTime())->getTimestamp();
+			} elseif ($archivedTs === self::ARCHIVED_TS_UNSET) {
+				$dbTs = null;
+			} else {
+				$dbTs = $archivedTs;
+			}
+			$qb->set('archived_ts', $qb->createNamedParameter($dbTs, IQueryBuilder::PARAM_STR));
+		}
+
+		if ($name !== null) {
+			$qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
+		}
+
+		if ($contact_email !== null && $contact_email !== '') {
+			$qb->set('email', $qb->createNamedParameter($contact_email, IQueryBuilder::PARAM_STR));
+		}
+
+		if ($password !== null && $password !== '') {
+			$qb->set('password', $qb->createNamedParameter($password, IQueryBuilder::PARAM_STR));
+		}
+
+		if ($autoexport !== null && $autoexport !== '') {
+			$qb->set('autoexport', $qb->createNamedParameter($autoexport, IQueryBuilder::PARAM_STR));
+		}
+		if ($categorysort !== null && $categorysort !== '') {
+			$qb->set('categorysort', $qb->createNamedParameter($categorysort, IQueryBuilder::PARAM_STR));
+		}
+		if ($paymentmodesort !== null && $paymentmodesort !== '') {
+			$qb->set('paymentmodesort', $qb->createNamedParameter($paymentmodesort, IQueryBuilder::PARAM_STR));
+		}
+		if ($deletion_disabled !== null) {
+			$qb->set('deletiondisabled', $qb->createNamedParameter($deletion_disabled ? 1 : 0, IQueryBuilder::PARAM_INT));
+		}
+		if ($currencyname !== null) {
+			if ($currencyname === '') {
+				$qb->set('currencyname', $qb->createNamedParameter(null, IQueryBuilder::PARAM_STR));
+			} else {
+				$qb->set('currencyname', $qb->createNamedParameter($currencyname, IQueryBuilder::PARAM_STR));
+			}
+		}
+		$ts = (new DateTime())->getTimestamp();
+		$qb->set('lastchanged', $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT));
+		$qb->where(
+			$qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+		);
+		$qb->executeStatement();
+		$qb->resetQueryParts();
+	}
 }

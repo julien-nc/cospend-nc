@@ -5300,7 +5300,7 @@ class ProjectService {
 					fclose($handle);
 
 					if (!$columnNamesLineFound) {
-						return ['message' => $this->l10n->t('Malformed CSV, impossible to find the column names')];
+						return ['message' => $this->l10n->t('Malformed CSV, impossible to find the column names. Make sure your Splitwise account language is set to English first, then export the project again.')];
 					}
 
 					$memberNameToId = [];

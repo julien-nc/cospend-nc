@@ -1022,9 +1022,9 @@ export default {
 				)
 			})
 		},
-		archiveProject(projectId, password = null) {
-			this.$set(this.projects[projectId], 'archived', this.projects[projectId].archived ? null : 'currentDateTime')
-			this.editProject(projectId, password, true)
+		archiveProject(projectId) {
+			this.$set(this.projects[projectId], 'archived_ts', this.projects[projectId].archived_ts ? -1 : 0)
+			this.editProject(projectId, null, true)
 		},
 		updateProjectInfo(projectid) {
 			return network.updateProjectInfo(projectid).then((response) => {
@@ -1042,7 +1042,7 @@ export default {
 				this.projects[projectid].lastchanged = response.data.lastchanged
 				this.projects[projectid].categories = response.data.categories
 				this.projects[projectid].paymentmodes = response.data.paymentmodes
-				this.projects[projectid].archived = response.data.archived
+				this.projects[projectid].archived_ts = response.data.archived_ts
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to update balances')

@@ -26,16 +26,16 @@
 		@update:menuOpen="onUpdateMenuOpen"
 		@click="onProjectClick">
 		<template #icon>
-			<FolderIcon v-if="selected && !project.archived"
+			<FolderIcon v-if="selected && !project.archived_ts"
 				class="icon folder-icon-primary"
 				:size="20" />
-			<FolderOutlineIcon v-if="!selected && !project.archived"
+			<FolderOutlineIcon v-if="!selected && !project.archived_ts"
 				class="icon folder-icon"
 				:size="20" />
-			<ArchiveIcon v-if="selected && project.archived"
+			<ArchiveIcon v-if="selected && project.archived_ts"
 				class="icon folder-icon-primary"
 				:size="20" />
-			<ArchiveOutlineIcon v-if="!selected && project.archived"
+			<ArchiveOutlineIcon v-if="!selected && project.archived_ts"
 				class="icon folder-icon"
 				:size="20" />
 		</template>

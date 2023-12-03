@@ -77,24 +77,11 @@
 			<div id="app-settings">
 				<div id="app-settings-header">
 					<NcAppNavigationItem
-						v-if="showArchivedProjects"
-						:name="t('cospend', 'Active projects')"
-						@click="toggleArchivedProjects(false)">
+						:name="showArchivedProjects ? t('cospend', 'Active projects') : t('cospend', 'Archived projects')"
+						@click="toggleArchivedProjects">
 						<template #icon>
-							<CalendarIcon />
-						</template>
-						<template #counter>
-							<NcCounterBubble>
-								{{ sortedProjectIds.length - filteredProjectIds.length }}
-							</NcCounterBubble>
-						</template>
-					</NcAppNavigationItem>
-					<NcAppNavigationItem
-						v-if="!showArchivedProjects"
-						:name="t('cospend', 'Archived projects')"
-						@click="toggleArchivedProjects(true)">
-						<template #icon>
-							<ArchiveLockIcon />
+							<CalendarIcon v-if="showArchivedProjects" />
+							<ArchiveLockIcon v-else />
 						</template>
 						<template #counter>
 							<NcCounterBubble>
@@ -169,7 +156,6 @@ export default {
 	directives: {
 		ClickOutside,
 	},
-	mixins: [deselectProjectMixin],
 	props: {
 		projects: {
 			type: Object,
@@ -207,11 +193,9 @@ export default {
 	},
 	computed: {
 		filteredProjectIds(opposite = false) {
-			if (this.showArchivedProjects) { // show archived projects
-				return this.sortedProjectIds.filter(id => this.projects[id].archived !== null)
-			} else { // show active projects
-				return this.sortedProjectIds.filter(id => this.projects[id].archived === null)
-			}
+			return this.showArchivedProjects
+			    ? this.sortedProjectIds.filter(id => this.projects[id].archived_ts !== null)
+			    : this.sortedProjectIds.filter(id => this.projects[id].archived_ts === null)
 		},
 		sortedProjectIds() {
 			if (this.cospend.sortOrder === 'name') {
@@ -233,9 +217,9 @@ export default {
 	beforeMount() {
 	},
 	methods: {
-		toggleArchivedProjects(showArchivedProjects = false) {
-			this.showArchivedProjects = showArchivedProjects
-			this.deselectProject()
+		toggleArchivedProjects() {
+			this.showArchivedProjects = !this.showArchivedProjects
+			emit('deselect-project')
 		},
 		showSettings() {
 			emit('show-settings')

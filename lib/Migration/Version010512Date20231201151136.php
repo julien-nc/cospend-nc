@@ -26,10 +26,11 @@ class Version010512Date20231201151136 extends SimpleMigrationStep {
 		$schema = $schemaClosure();
 		if ($schema->hasTable('cospend_projects')) {
 			$table = $schema->getTable('cospend_projects');
-			if (!$table->hasColumn('archived')) {
-				$table->addColumn('archived', Types::DATETIME, [
+			if (!$table->hasColumn('archived_ts')) {
+				$table->addColumn('archived_ts', Types::BIGINT, [
 					'notnull' => false,
 					'default' => null,
+					'unsigned' => true,
 				]);
 				return $schema;
 			}

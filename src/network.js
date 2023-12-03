@@ -181,7 +181,7 @@ export function editProject(project, password) {
 		deletion_disabled: project.deletiondisabled,
 		categorysort: project.categorysort,
 		paymentmodesort: project.paymentmodesort,
-		archived: project.archived,
+		archived_ts: project.archived_ts,
 	}
 	const url = cospend.pageIsPublic
 		? generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password)

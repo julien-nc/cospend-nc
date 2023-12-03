@@ -93,7 +93,7 @@
 				</template>
 				{{ t('cospend', 'Project settlement') }}
 			</NcActionButton>
-			<NcActionButton v-if="adminAccess && !project.archived"
+			<NcActionButton v-if="adminAccess && !project.archived_ts"
 				:close-after-click="true"
 				@click="onArchiveProjectClick">
 				<template #icon>
@@ -101,7 +101,7 @@
 				</template>
 				{{ t('cospend', 'Archive') }}
 			</NcActionButton>
-			<NcActionButton v-if="adminAccess && project.archived"
+			<NcActionButton v-if="adminAccess && project.archived_ts"
 				:close-after-click="true"
 				@click="onArchiveProjectClick">
 				<template #icon>

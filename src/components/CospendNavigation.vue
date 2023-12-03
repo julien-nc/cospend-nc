@@ -77,7 +77,7 @@
 			<div id="app-settings">
 				<div id="app-settings-header">
 					<NcAppNavigationItem
-						:name="showArchivedProjects ? t('cospend', 'Active projects') : t('cospend', 'Archived projects')"
+						:name="showArchivedProjects ? t('cospend', 'Show active projects') : t('cospend', 'Show archived projects')"
 						@click="toggleArchivedProjects">
 						<template #icon>
 							<CalendarIcon v-if="showArchivedProjects" />
@@ -130,7 +130,6 @@ import { strcmp, importCospendProject, importSWProject } from '../utils.js'
 import ClickOutside from 'vue-click-outside'
 import { emit } from '@nextcloud/event-bus'
 import { showSuccess } from '@nextcloud/dialogs'
-import { deselectProjectMixin } from '../mixins.js'
 
 export default {
 	name: 'CospendNavigation',

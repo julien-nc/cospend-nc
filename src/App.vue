@@ -204,7 +204,6 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
-import { deselectProjectMixin } from './mixins.js'
 
 export default {
 	name: 'App',
@@ -231,7 +230,7 @@ export default {
 		ChartLineIcon,
 		DeleteVariantIcon,
 	},
-	mixins: [isMobile, deselectProjectMixin],
+	mixins: [isMobile],
 	provide() {
 		return {
 		}
@@ -342,7 +341,8 @@ export default {
 
 		subscribe('project-clicked', this.onProjectClicked)
 		subscribe('delete-project', this.onDeleteProject)
-		subscribe('archive-project', this.onArchiveProject)
+		subscribe('archive-project', this.archiveProject)
+		subscribe('deselect-project', this.deselectProject)
 		subscribe('project-imported', this.onProjectImported)
 		subscribe('stats-clicked', this.onStatsClicked)
 		subscribe('settle-clicked', this.onSettleClicked)
@@ -367,7 +367,8 @@ export default {
 
 		unsubscribe('project-clicked', this.onProjectClicked)
 		unsubscribe('delete-project', this.onDeleteProject)
-		unsubscribe('archive-project', this.onArchiveProject)
+		unsubscribe('archive-project', this.archiveProject)
+		unsubscribe('deselect-project', this.deselectProject)
 		unsubscribe('project-imported', this.onProjectImported)
 		unsubscribe('stats-clicked', this.onStatsClicked)
 		unsubscribe('settle-clicked', this.onSettleClicked)
@@ -621,9 +622,6 @@ export default {
 		onDeleteProject(projectid) {
 			this.deleteProject(projectid)
 		},
-		onArchiveProject(projectId) {
-			this.archiveProject(projectId)
-		},
 		onExportClicked(projectid) {
 			const projectName = this.projects[projectid].name
 			const timeStamp = Math.floor(Date.now())
@@ -717,6 +715,11 @@ export default {
 					generateUrl('/apps/cospend/p/{projectId}', { projectId: cospend.currentProjectId }),
 				)
 			}
+		},
+		deselectProject() {
+			this.mode = 'normal'
+			this.currentBill = null
+			cospend.currentProjectId = null
 		},
 		onAutoSettled(projectid) {
 			this.getBills(projectid)

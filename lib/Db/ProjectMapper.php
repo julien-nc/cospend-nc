@@ -194,13 +194,27 @@ class ProjectMapper extends QBMapper {
 		$qb->resetQueryParts();
 	}
 
+	/**
+	 * @param string $projectId
+	 * @param string|null $name
+	 * @param string|null $contact_email
+	 * @param string|null $password
+	 * @param string|null $autoexport
+	 * @param string|null $currencyname
+	 * @param bool|null $deletion_disabled
+	 * @param string|null $categorysort
+	 * @param string|null $paymentmodesort
+	 * @param int|null $archivedTs
+	 * @return void
+	 * @throws \OCP\DB\Exception
+	 */
 	public function editProject(
 		string  $projectId, ?string $name = null, ?string $contact_email = null, ?string $password = null,
 		?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
 		?string $categorysort = null, ?string $paymentmodesort = null, ?int $archivedTs = null
 	): void {
 		$qb = $this->db->getQueryBuilder();
-		$qb->update('cospend_projects');
+		$qb->update($this->getTableName());
 		if ($archivedTs !== null) {
 			if ($archivedTs === self::ARCHIVED_TS_NOW) {
 				$dbTs = (new DateTime())->getTimestamp();
@@ -245,6 +259,25 @@ class ProjectMapper extends QBMapper {
 		}
 		$ts = (new DateTime())->getTimestamp();
 		$qb->set('lastchanged', $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT));
+		$qb->where(
+			$qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+		);
+		$qb->executeStatement();
+		$qb->resetQueryParts();
+	}
+
+	/**
+	 * Touch a project
+	 *
+	 * @param string $projectId
+	 * @param int $timestamp
+	 * @return void
+	 * @throws \OCP\DB\Exception
+	 */
+	public function updateProjectLastChanged(string $projectId, int $timestamp): void {
+		$qb = $this->db->getQueryBuilder();
+		$qb->update($this->getTableName());
+		$qb->set('lastchanged', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT));
 		$qb->where(
 			$qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 		);

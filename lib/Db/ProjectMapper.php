@@ -22,6 +22,9 @@ use OCP\IL10N;
 class ProjectMapper extends QBMapper {
 	const TABLENAME = 'cospend_projects';
 
+	public const ARCHIVED_TS_UNSET = -1;
+	public const ARCHIVED_TS_NOW = 0;
+
 	public function __construct(
 		IDBConnection $db,
 		private IL10N $l10n,

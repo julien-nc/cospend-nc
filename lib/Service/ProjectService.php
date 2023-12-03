@@ -1582,9 +1582,9 @@ class ProjectService {
 		$qb = $this->db->getQueryBuilder();
 		$qb->update('cospend_projects');
         if ($archivedTs !== null) {
-            if ($archivedTs === 0) {
+            if ($archivedTs === ProjectMapper::ARCHIVED_TS_NOW) {
                 $dbTs = (new DateTime())->getTimestamp();
-            } elseif ($archivedTs === -1) {
+            } elseif ($archivedTs === ProjectMapper::ARCHIVED_TS_UNSET) {
                 $dbTs = null;
             } else {
                 $dbTs = $archivedTs;

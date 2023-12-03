@@ -1026,7 +1026,7 @@ export default {
 			})
 		},
 		archiveProject(projectId) {
-			this.$set(this.projects[projectId], 'archived_ts', this.projects[projectId].archived_ts ? -1 : 0)
+			this.$set(this.projects[projectId], 'archived_ts', this.projects[projectId].archived_ts ? constants.PROJECT_ARCHIVED_TS_UNSET : constants.PROJECT_ARCHIVED_TS_NOW)
 			this.editProject(projectId, null, true)
 		},
 		updateProjectInfo(projectid) {

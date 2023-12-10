@@ -1602,9 +1602,12 @@ export default {
 			network.createBill(this.projectId, req).then((response) => {
 				this.createBillSuccess(response.data, billToCreate, mode)
 			}).catch((error) => {
+				const errorText = error.response.status === 500
+					? t('cospend', 'Unknown error')
+					: error.response?.request?.responseText
 				showError(
 					t('cospend', 'Failed to create bill')
-					+ ': ' + error.response?.request?.responseText,
+					+ ': ' + errorText,
 				)
 			}).then(() => {
 				this.createBillDone()

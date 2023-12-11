@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-12-10 14:03+0100\n"
-"PO-Revision-Date: 2023-12-10 13:06\n"
+"PO-Revision-Date: 2023-12-11 14:16\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -830,7 +830,7 @@ msgstr "CSV mal formé, aucun participant à la ligne %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:5294
 msgid "Malformed CSV, impossible to find the column names. Make sure your Splitwise account language is set to English first, then export the project again."
-msgstr ""
+msgstr "CSV mal formé, impossible de trouver les noms de colonnes. Assurez-vous d'abord que vous avez réglé votre compte Splitwise en langue anglaise, puis exportez le projet à nouveau."
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:5388
 msgid "daily"
@@ -1346,7 +1346,7 @@ msgstr "Il n'y a aucune part personnalisée"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:130
 msgid "Unknown error"
-msgstr ""
+msgstr "Erreur inconnue"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:131
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:269
@@ -2013,11 +2013,11 @@ msgstr "Plan de remboursement de projet"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:304
 msgid "Archive"
-msgstr ""
+msgstr "Archiver"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:305
 msgid "Unarchive"
-msgstr ""
+msgstr "Désarchiver"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:307
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:419
@@ -2094,11 +2094,11 @@ msgstr "Pas encore de projet"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:344
 msgid "Show active projects"
-msgstr ""
+msgstr "Afficher les projets actifs"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:344
 msgid "Show archived projects"
-msgstr ""
+msgstr "Afficher les projets archivés"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:345
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:348

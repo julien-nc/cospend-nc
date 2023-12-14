@@ -887,7 +887,7 @@ class PageController extends ApiController {
 				);
 				return new DataResponse($result['inserted_id']);
 			} else {
-				return new DataResponse($result, 400);
+				return new DataResponse(['error' => $result], Http::STATUS_BAD_REQUEST);
 			}
 		} else {
 			return new DataResponse(

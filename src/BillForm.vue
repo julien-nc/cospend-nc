@@ -43,7 +43,7 @@
 				</template>
 			</NcButton>
 			<NcButton
-				v-if="!isNewBill"
+				v-if="!isNewBill && !project.deletiondisabled"
 				:title="deleteBillLabel"
 				type="secondary"
 				@click="onDeleteClick">
@@ -1604,7 +1604,7 @@ export default {
 			}).catch((error) => {
 				const errorText = error.response.status === 500
 					? t('cospend', 'Unknown error')
-					: error.response?.request?.responseText
+					: JSON.stringify(error.response?.data?.error)
 				showError(
 					t('cospend', 'Failed to create bill')
 					+ ': ' + errorText,

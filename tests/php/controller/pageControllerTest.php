@@ -699,56 +699,56 @@ class PageNUtilsControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
 		$data = $resp->getData();
-		$this->assertTrue(isset($data['date']));
+		$this->assertTrue(isset($data['error'], $data['error']['date']));
 		$this->assertFalse(isset($data['inserted_id']));
 
 		$resp = $this->pageController->webAddBill('superproj', '2019-01-20', 'lala', -1, $idMember1, 12.3, 'n');
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
 		$data = $resp->getData();
-		$this->assertTrue(isset($data['payer']));
+		$this->assertTrue(isset($data['error'], $data['error']['payer']));
 		$this->assertFalse(isset($data['inserted_id']));
 
 		$resp = $this->pageController->webAddBill('superproj', '2019-01-20', 'lala', $idMember2, -1, 12.3, 'n');
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
 		$data = $resp->getData();
-		$this->assertTrue(isset($data['payed_for']));
+		$this->assertTrue(isset($data['error'], $data['error']['payed_for']));
 		$this->assertFalse(isset($data['inserted_id']));
 
 		$resp = $this->pageController->webAddBill('superproj', '2019-01-20', 'lala', $idMember2, '', 12.3, 'n');
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
 		$data = $resp->getData();
-		$this->assertTrue(isset($data['payed_for']));
+		$this->assertTrue(isset($data['error'], $data['error']['payed_for']));
 		$this->assertFalse(isset($data['inserted_id']));
 
 		$resp = $this->pageController->webAddBill('superproj', '2019-01-20', 'lala', $idMember2, $idMember1, 12.3, '');
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
 		$data = $resp->getData();
-		$this->assertTrue(isset($data['repeat']));
+		$this->assertTrue(isset($data['error'], $data['error']['repeat']));
 		$this->assertFalse(isset($data['inserted_id']));
 
 		$resp = $this->pageController->webAddBill('superproj', '2019-01-20', 'lala', $idMember2, $idMember1, 12.3, 'zzz');
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
 		$data = $resp->getData();
-		$this->assertTrue(isset($data['repeat']));
+		$this->assertTrue(isset($data['error'], $data['error']['repeat']));
 		$this->assertFalse(isset($data['inserted_id']));
 
 		$resp = $this->pageController->webAddBill('superproj', '', 'lala', $idMember2, $idMember1, 12.3, 'n');
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
 		$data = $resp->getData();
-		$this->assertTrue(isset($data['message']));
+		$this->assertTrue(isset($data['error'], $data['error']['message']));
 		$this->assertFalse(isset($data['inserted_id']));
 
 		$resp = $this->pageController->webAddBill('superproj', '2019-01-20', 'lala', $idMember2, $idMember1.',aa', 12.3, 'n');
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
 		$data = $resp->getData();
-		$this->assertTrue(isset($data['payed_for']));
+		$this->assertTrue(isset($data['error'], $data['error']['payed_for']));
 		$this->assertFalse(isset($data['inserted_id']));
 
 		// get all bill ids

@@ -41,7 +41,7 @@
 					</NcActionButton>
 					<NcActionButton v-if="trashbinEnabled && editionAccess && bills.length > 0"
 						:close-after-click="true"
-						@click="onClearTrashbinClicked">
+						@click="showClearTrashbinConfirmation = true">
 						<template #icon>
 							<DeleteEmptyIcon />
 						</template>
@@ -234,6 +234,24 @@
 				</NcButton>
 			</template>
 		</NcDialog>
+		<NcDialog :open.sync="showClearTrashbinConfirmation"
+			:name="t('cospend', 'Confirm clear trashbin')"
+			:message="clearTrashbinConfirmationMessage">
+			<template #actions>
+				<NcButton
+					@click="showClearTrashbinConfirmation = false">
+					{{ t('cospend', 'Cancel') }}
+				</NcButton>
+				<NcButton
+					type="error"
+					@click="clearTrashbin">
+					<template #icon>
+						<DeleteIcon />
+					</template>
+					{{ t('cospend', 'Clear') }}
+				</NcButton>
+			</template>
+		</NcDialog>
 	</NcAppContentList>
 </template>
 
@@ -346,6 +364,7 @@ export default {
 			filterMode: false,
 			showDeletionConfirmation: false,
 			showRestorationConfirmation: false,
+			showClearTrashbinConfirmation: false,
 		}
 	},
 
@@ -523,6 +542,14 @@ export default {
 				{ nb: this.selectedBillIds.length },
 			)
 		},
+		clearTrashbinConfirmationMessage() {
+			return n('cospend',
+				'Are you sure you want to clear the trashbin? ({nb} bill)',
+				'Are you sure you want to clear the trashbin? ({nb} bills)',
+				this.bills.length,
+				{ nb: this.bills.length },
+			)
+		},
 	},
 
 	watch: {
@@ -575,7 +602,8 @@ export default {
 			this.selectedBillIds = []
 			emit('trashbin-clicked', this.projectId)
 		},
-		onClearTrashbinClicked() {
+		clearTrashbin() {
+			this.showClearTrashbinConfirmation = false
 			this.selectedBillIds = []
 			emit('clear-trashbin-clicked', this.projectId)
 		},

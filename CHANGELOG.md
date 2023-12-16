@@ -6,6 +6,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.5.13 – 2023-12-16
+
+### Added
+
+- new feature: Archive projects [#236](https://github.com/julien-nc/cospend-nc/pull/236) @j0hannesr0th
+
+### Changed
+
+- better error message when importing a Splitwise csv [#238](https://github.com/julien-nc/cospend-nc/pull/238) @Jolg42
+- use unsigned BIGINT with default 0 for all date DB columns
+- no delay to move single bill to trashbin, add confirmation to clear trashbin
+
+### Fixed
+
+- bill form: only show delete button if deletion is not disabled
+
 ## 1.5.12 – 2023-11-27
 
 ### Fixed

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-12-16 18:27+0100\n"
-"PO-Revision-Date: 2023-12-16 17:28\n"
+"PO-Revision-Date: 2023-12-16 17:32\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -1121,11 +1121,11 @@ msgstr "Plus de détails sur la facture (300 caractères max)"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:68
 msgid "More details about the bill"
-msgstr ""
+msgstr "Plus de détails sur la facture"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:68
 msgid "({n} characters max)"
-msgstr ""
+msgstr "({n} caractères max)"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:69
 msgid "Repeat"
@@ -1490,11 +1490,11 @@ msgstr "Restaurer"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:161
 msgid "Confirm clear trashbin"
-msgstr ""
+msgstr "Confirmer le vidage de la corbeille"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:163
 msgid "Clear"
-msgstr ""
+msgstr "Vider"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:164
 msgid "All payment modes"
@@ -1560,8 +1560,8 @@ msgstr[1] "Êtes-vous sûr de vouloir supprimer {nb} factures ?"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:182
 msgid "Are you sure you want to move {nb} bill to the trashbin?"
 msgid_plural "Are you sure you want to move {nb} bills to the trashbin?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Êtes-vous sûr de vouloir déplacer {nb} facture vers la corbeille?"
+msgstr[1] "Êtes-vous sûr de vouloir déplacer {nb} factures vers la corbeille?"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:183
 msgid "Are you sure you want to restore {nb} bill?"
@@ -1572,8 +1572,8 @@ msgstr[1] "Êtes-vous sûr de vouloir restaurer {nb} factures ?"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:184
 msgid "Are you sure you want to clear the trashbin? ({nb} bill)"
 msgid_plural "Are you sure you want to clear the trashbin? ({nb} bills)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Êtes-vous sûr de vouloir vider la corbeille ? ({nb} facture)"
+msgstr[1] "Êtes-vous sûr de vouloir vider la corbeille ? ({nb} factures)"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:185
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:186

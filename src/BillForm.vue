@@ -246,7 +246,7 @@
 						:maxlength="300"
 						:multiline="true"
 						:contenteditable="editionAccess"
-						:placeholder="t('cospend', 'More details about the bill (300 char. max)')"
+						:placeholder="t('cospend', 'More details about the bill') + '\n' + t('cospend', '({n} characters max)', { n: 300 })"
 						@update:value="onBillEdited" />
 				</div>
 				<div class="bill-repeat">
@@ -1797,7 +1797,7 @@ export default {
 	.repeat-now,
 	.link-button,
 	input {
-		width: 250px;
+		width: 260px;
 	}
 }
 
@@ -1818,6 +1818,7 @@ button {
 		height: 100%;
 		margin-left: auto;
 		margin-right: auto;
+		padding-bottom: 24px;
 
 		label:not(.checkboxlabel):not(.spentlabel) {
 			display: flex;
@@ -1928,7 +1929,7 @@ button {
 }
 
 .input-bill-comment {
-	flex-grow: 1;
+	width: 260px;
 }
 
 .bill-repeat-now,

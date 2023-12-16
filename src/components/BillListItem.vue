@@ -293,6 +293,14 @@ export default {
 			emit('restore-bill', this.bill)
 		},
 		onDeleteClick(e) {
+			// delay deletion only in trashbin
+			if (this.bill.deleted) {
+				this.delayedDelete()
+			} else {
+				emit('delete-bill', this.bill)
+			}
+		},
+		delayedDelete() {
 			// stop timer
 			if (this.timerOn) {
 				this.deleteCounter = 0

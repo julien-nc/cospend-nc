@@ -501,12 +501,19 @@ export default {
 				: t('cospend', 'Delete selected bills')
 		},
 		deletionConfirmationMessage() {
-			return n('cospend',
-				'Are you sure you want to delete {nb} bill?',
-				'Are you sure you want to delete {nb} bills?',
-				this.selectedBillIds.length,
-				{ nb: this.selectedBillIds.length },
-			)
+			return this.trashbinEnabled
+				? n('cospend',
+					'Are you sure you want to delete {nb} bill?',
+					'Are you sure you want to delete {nb} bills?',
+					this.selectedBillIds.length,
+					{ nb: this.selectedBillIds.length },
+				)
+				: n('cospend',
+					'Are you sure you want to move {nb} bill to the trashbin?',
+					'Are you sure you want to move {nb} bills to the trashbin?',
+					this.selectedBillIds.length,
+					{ nb: this.selectedBillIds.length },
+				)
 		},
 		restorationConfirmationMessage() {
 			return n('cospend',

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-12-16 18:27+0100\n"
-"PO-Revision-Date: 2023-12-16 17:28\n"
+"PO-Revision-Date: 2023-12-17 17:43\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -493,7 +493,7 @@ msgstr "{user} hat die Freigabe des Projektes %s gestoppt"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Search/CospendSearchProvider.php:180
 #, php-format
 msgid "in %1$s"
-msgstr ""
+msgstr "in %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:164
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:273
@@ -1353,7 +1353,7 @@ msgstr "Bitte individuelle Anteile setzen"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:130
 msgid "Unknown error"
-msgstr ""
+msgstr "Unbekannter Fehler"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:131
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:274
@@ -1481,12 +1481,12 @@ msgstr "Löschen"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:158
 msgid "Confirm restoration"
-msgstr ""
+msgstr "Wiederherstellung bestätigen"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:160
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:315
 msgid "Restore"
-msgstr ""
+msgstr "Wiederherstellen"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:161
 msgid "Confirm clear trashbin"
@@ -2041,11 +2041,11 @@ msgstr "Projektabrechnung"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:309
 msgid "Archive"
-msgstr ""
+msgstr "Archivieren"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:310
 msgid "Unarchive"
-msgstr ""
+msgstr "Entarchivieren"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:312
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:424
@@ -2071,11 +2071,11 @@ msgstr "Mitgliederliste nicht aktuell. Wird in 5 Sek. neu geladen."
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:324
 msgid "Move to trash"
-msgstr ""
+msgstr "In den Papierkorb verschieben"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:325
 msgid "Move to other project"
-msgstr ""
+msgstr "In anderes Projekt verschieben"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:326
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:327
@@ -2091,7 +2091,7 @@ msgstr "Neues Projekt"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:340
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:343
 msgid "Create empty project"
-msgstr ""
+msgstr "Leeres Projekt erstellen"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:341
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:365
@@ -2105,15 +2105,15 @@ msgstr "SplitWise-Projekt importieren"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:344
 msgid "Project name"
-msgstr ""
+msgstr "Projektname"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:345
 msgid "My new project"
-msgstr ""
+msgstr "Mein neues Projekt"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:346
 msgid "Create"
-msgstr ""
+msgstr "Erstellen"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:347
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:348
@@ -2122,11 +2122,11 @@ msgstr "Noch keine Projekte"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:349
 msgid "Show active projects"
-msgstr ""
+msgstr "Aktive Projekte anzeigen"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:349
 msgid "Show archived projects"
-msgstr ""
+msgstr "Archivierte Projekte anzeigen"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:350
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:353

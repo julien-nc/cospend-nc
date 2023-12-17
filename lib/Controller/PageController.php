@@ -868,6 +868,32 @@ class PageController extends ApiController {
 
 	/**
 	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @CORS
+	 */
+	public function apiPrivSetProjectInfo(string $projectid, ?string $name = null, ?string $contact_email = null, ?string $password = null,
+										  ?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
+										  ?string $categorysort = null, ?string $paymentmodesort = null): DataResponse {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['admin']) {
+			$result = $this->projectService->editProject(
+				$projectid, $name, $contact_email, $password, $autoexport,
+				$currencyname, $deletion_disabled, $categorysort, $paymentmodesort
+			);
+			if (isset($result['success'])) {
+				return new DataResponse('UPDATED');
+			} else {
+				return new DataResponse($result, 400);
+			}
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('Unauthorized action')],
+				401
+			);
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
 	 *
 	 */
 	public function webAddBill(string $projectid, ?string $date = null, ?string $what = null, ?int $payer = null, ?string $payed_for = null,
@@ -1094,32 +1120,6 @@ class PageController extends ApiController {
 		) {
 			$result = $this->projectService->editProject(
 				$publicShareInfo['projectid'] ?? $projectid, $name, $contact_email, $password, $autoexport,
-				$currencyname, $deletion_disabled, $categorysort, $paymentmodesort
-			);
-			if (isset($result['success'])) {
-				return new DataResponse('UPDATED');
-			} else {
-				return new DataResponse($result, 400);
-			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				401
-			);
-		}
-	}
-
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
-	public function apiPrivSetProjectInfo(string $projectid, ?string $name = null, ?string $contact_email = null, ?string $password = null,
-										?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
-										?string $categorysort = null, ?string $paymentmodesort = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['admin']) {
-			$result = $this->projectService->editProject(
-				$projectid, $name, $contact_email, $password, $autoexport,
 				$currencyname, $deletion_disabled, $categorysort, $paymentmodesort
 			);
 			if (isset($result['success'])) {

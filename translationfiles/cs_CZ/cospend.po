@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-12-16 18:27+0100\n"
-"PO-Revision-Date: 2023-12-16 17:28\n"
+"PO-Revision-Date: 2023-12-26 19:53\n"
 "Last-Translator: \n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
@@ -177,7 +177,7 @@ msgstr "Neoprávněná akce"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:500
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:1686
 msgid "You are not allowed to clear the trashbin"
-msgstr ""
+msgstr "Nemáte oprávnění smazat tento účet"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:531
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:564

@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.5.14 – 2023-12-30
+
+### Changed
+
+- update nc/vue to 8.4.0
+
+### Fixed
+
+- make sure timestamps are not negative when setting db columns type to unsigned bigint
+
 ## 1.5.13 – 2023-12-16
 
 ### Added

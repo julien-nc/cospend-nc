@@ -7,11 +7,56 @@ namespace OCA\Cospend\Migration;
 use Closure;
 use Doctrine\DBAL\Types\Type;
 use OCP\DB\ISchemaWrapper;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\Types;
+use OCP\IDBConnection;
 use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
 
-class Version010513Date20231203164157 extends SimpleMigrationStep {
+class Version010514Date20231203164157 extends SimpleMigrationStep {
+
+	public function __construct(private IDBConnection $connection) {
+	}
+
+	/**
+	 * @param IOutput $output
+	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	 * @param array $options
+	 */
+	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->update('cospend_projects')
+			->set('lastchanged', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+			->where(
+				$qb->expr()->lt('lastchanged', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+			);
+		$qb->executeStatement();
+		$qb = $qb->resetQueryParts();
+
+		$qb->update('cospend_bills')
+			->set('lastchanged', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+			->where(
+				$qb->expr()->lt('lastchanged', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+			);
+		$qb->executeStatement();
+		$qb = $qb->resetQueryParts();
+
+		$qb->update('cospend_bills')
+			->set('timestamp', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+			->where(
+				$qb->expr()->lt('timestamp', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+			);
+		$qb->executeStatement();
+		$qb = $qb->resetQueryParts();
+
+		$qb->update('cospend_members')
+			->set('lastchanged', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+			->where(
+				$qb->expr()->lt('lastchanged', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+			);
+		$qb->executeStatement();
+		$qb = $qb->resetQueryParts();
+	}
 
 	/**
 	 * @param IOutput $output

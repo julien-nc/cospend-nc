@@ -1157,9 +1157,6 @@ export default {
 				return this.members[mid].color
 			}
 		},
-		onChangeCenterMember(e) {
-			this.getSettlement(e.target.value)
-		},
 		getStats() {
 			this.stats = null
 			this.loadingStats = true

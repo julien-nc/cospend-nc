@@ -1,6 +1,6 @@
 import cospend from './state.js'
 import * as constants from './constants.js'
-import { generateUrl } from '@nextcloud/router'
+import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import {
 	showSuccess,
@@ -111,16 +111,16 @@ export function createProject(name, id) {
 		name,
 		password: null,
 	}
-	const url = generateUrl('/apps/cospend/projects')
+	const url = generateOcsUrl('/apps/cospend/api/v1/projects')
 	return axios.post(url, req)
 }
 
-export function deleteProject(projectid) {
+export function deleteProject(projectId) {
 	let url
 	if (!cospend.pageIsPublic) {
-		url = generateUrl('/apps/cospend/projects/' + projectid)
+		url = generateOcsUrl('/apps/cospend/api/v1/projects/' + projectId)
 	} else {
-		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password)
+		url = generateOcsUrl('/apps/cospend/api/v1/public/projects/' + cospend.projectid + '/' + cospend.password)
 	}
 	return axios.delete(url)
 }
@@ -152,8 +152,8 @@ export function createMember(projectid, name, userid) {
 	return axios.post(url, req)
 }
 
-export function editMember(projectid, member) {
-	const memberid = member.id
+export function editMember(projectId, member) {
+	const memberId = member.id
 	const req = {
 		name: member.name,
 		weight: member.weight,
@@ -163,9 +163,9 @@ export function editMember(projectid, member) {
 	}
 	let url
 	if (!cospend.pageIsPublic) {
-		url = generateUrl('/apps/cospend/projects/' + projectid + '/members/' + memberid)
+		url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/members/{memberId}', { projectId, memberId })
 	} else {
-		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/members/' + memberid)
+		url = generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/members/{memberId}', { projectId: cospend.projectid, password: cospend.password, memberId })
 	}
 	return axios.put(url, req)
 }
@@ -289,24 +289,24 @@ export function generatePublicLinkToFile(targetPath) {
 
 export function clearTrashbin(projectId) {
 	const url = cospend.pageIsPublic
-		? generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/trashbin')
-		: generateUrl('/apps/cospend/projects/' + projectId + '/trashbin')
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/trashbin', { projectId: cospend.projectid, password: cospend.password })
+		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/trashbin', { projectId })
 	return axios.delete(url)
 }
 
-export function deleteBill(projectid, bill) {
+export function deleteBill(projectId, bill) {
 	const url = cospend.pageIsPublic
-		? generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills/' + bill.id)
-		: generateUrl('/apps/cospend/projects/' + projectid + '/bills/' + bill.id)
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/bills/{billId}', { projectId: cospend.projectid, password: cospend.password, billId: bill.id })
+		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/bills/{billId}', { projectId, billId: bill.id })
 	return axios.delete(url)
 }
 
-export function deleteBills(projectid, billIds) {
+export function deleteBills(projectId, billIds) {
 	let url
 	if (!cospend.pageIsPublic) {
-		url = generateUrl('/apps/cospend/projects/' + projectid + '/bills')
+		url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/bills', { projectId })
 	} else {
-		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills')
+		url = generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/bills', { projectId: cospend.projectid, password: cospend.password })
 	}
 	const req = {
 		params: {
@@ -481,19 +481,19 @@ export function editCurrency(projectid, currency, backupCurrency, failCB) {
 		})
 }
 
-export function getStats(projectid, params, isFiltered, successCB, doneCB) {
+export function getStats(projectId, params, isFiltered, successCB, doneCB) {
 	const req = {
 		params,
 	}
 	let url
 	if (!cospend.pageIsPublic) {
-		url = generateUrl('/apps/cospend/projects/' + projectid + '/statistics')
+		url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/statistics', { projectId })
 	} else {
-		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/statistics')
+		url = generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/statistics', { projectId: cospend.projectid, password: cospend.password })
 	}
 	axios.get(url, req)
 		.then((response) => {
-			successCB(response.data, isFiltered)
+			successCB(response.data.ocs.data, isFiltered)
 		})
 		.catch((error) => {
 			showError(t('cospend', 'Failed to get statistics.'))
@@ -524,7 +524,7 @@ export function exportStats(projectid, params, doneCB) {
 		})
 }
 
-export function getSettlement(projectid, centeredOn, maxTimestamp) {
+export function getSettlement(projectId, centeredOn, maxTimestamp) {
 	if (parseInt(centeredOn) === 0) {
 		centeredOn = null
 	}
@@ -536,14 +536,14 @@ export function getSettlement(projectid, centeredOn, maxTimestamp) {
 	}
 	let url
 	if (!cospend.pageIsPublic) {
-		url = generateUrl('/apps/cospend/projects/' + projectid + '/settlement')
+		url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/settlement', { projectId })
 	} else {
-		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/settle')
+		url = generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/settle', { projectId: cospend.projectid, password: cospend.password })
 	}
 	return axios.get(url, req)
 }
 
-export function autoSettlement(projectid, centeredOn, maxTimestamp, precision, successCB) {
+export function autoSettlement(projectId, centeredOn, maxTimestamp, precision, successCB) {
 	const req = {
 		params: {
 			centeredOn: (parseInt(centeredOn) === 0) ? null : centeredOn,
@@ -553,9 +553,9 @@ export function autoSettlement(projectid, centeredOn, maxTimestamp, precision, s
 	}
 	let url
 	if (!cospend.pageIsPublic) {
-		url = generateUrl('/apps/cospend/projects/' + projectid + '/auto-settlement')
+		url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/auto-settlement', { projectId })
 	} else {
-		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/autosettlement')
+		url = generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/autosettlement', { projectId: cospend.projectid, password: cospend.password })
 	}
 	axios.get(url, req)
 		.then((response) => {

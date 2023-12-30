@@ -427,7 +427,7 @@ export default {
 		getSettlement(centeredOn = null) {
 			this.loading = true
 			network.getSettlement(this.project.id, centeredOn, this.maxTs).then((response) => {
-				this.getSettlementSuccess(response.data)
+				this.getSettlementSuccess(response.data.ocs.data)
 			}).catch((error) => {
 				this.getSettlementFail()
 				showError(

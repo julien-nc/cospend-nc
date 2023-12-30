@@ -9,6 +9,11 @@
  * @copyright Julien Veyssier 2018
  */
 
+$requirements = [
+	'apiVersion' => 'v1',
+//	'token' => '^[a-z0-9]{4,30}$',
+];
+
 return [
 	'routes' => [
 		['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
@@ -140,7 +145,7 @@ return [
 		['name' => 'page#webEditMember', 'url' => '/projects/{projectid}/members/{memberid}', 'verb' => 'PUT'],
 		['name' => 'page#webGetBills', 'url' => '/projects/{projectid}/bills', 'verb' => 'GET'],
 		['name' => 'page#webAddBill', 'url' => '/projects/{projectid}/bills', 'verb' => 'POST'],
-		['name' => 'page#webMoveBill', 'url' => 'oprojects/{projectid}/bills/{billid}/move', 'verb' => 'POST'],
+		['name' => 'page#webMoveBill', 'url' => '/projects/{projectid}/bills/{billid}/move', 'verb' => 'POST'],
 		['name' => 'page#webRepeatBill', 'url' => '/projects/{projectid}/bills/{billid}/repeat', 'verb' => 'GET'],
 		['name' => 'page#webEditBill', 'url' => '/projects/{projectid}/bills/{billid}', 'verb' => 'PUT'],
 		['name' => 'page#webEditBills', 'url' => '/projects/{projectid}/bills', 'verb' => 'PUT'],
@@ -157,5 +162,26 @@ return [
 		['name' => 'page#pubLogin', 'url' => 'login', 'verb' => 'GET'],
 		['name' => 'page#pubProject', 'url' => 'project', 'verb' => 'POST'],
 		['name' => 'page#publicShareLinkPage', 'url' => 's/{token}', 'verb' => 'GET'],
-	]
+	],
+	'ocs' => [
+		['name' => 'api#createProject', 'url' => '/api/{apiVersion}/projects', 'verb' => 'POST', 'requirements' => $requirements],
+		['name' => 'api#deleteProject', 'url' => '/api/{apiVersion}/projects/{projectId}', 'verb' => 'DELETE', 'requirements' => $requirements],
+		['name' => 'api#publicDeleteProject', 'url' => '/api/{apiVersion}/public/projects/{projectId}/{password}', 'verb' => 'DELETE', 'requirements' => $requirements],
+		['name' => 'api#getProjectInfo', 'url' => '/api/{apiVersion}/projects/{projectId}', 'verb' => 'GET', 'requirements' => $requirements],
+		['name' => 'api#publicGetProjectInfo', 'url' => '/api/{apiVersion}/public/projects/{projectId}/{password}', 'verb' => 'GET', 'requirements' => $requirements],
+		['name' => 'api#getProjectStatistics', 'url' => '/api/{apiVersion}/projects/{projectId}/statistics', 'verb' => 'GET', 'requirements' => $requirements],
+		['name' => 'api#publicGetProjectStatistics', 'url' => '/api/{apiVersion}/public/projects/{projectId}/{password}/statistics', 'verb' => 'GET', 'requirements' => $requirements],
+		['name' => 'api#getProjectSettlement', 'url' => '/api/{apiVersion}/projects/{projectId}/settlement', 'verb' => 'GET', 'requirements' => $requirements],
+		['name' => 'api#publicGetProjectSettlement', 'url' => '/api/{apiVersion}/public/projects/{projectId}/{password}/settle', 'verb' => 'GET', 'requirements' => $requirements],
+		['name' => 'api#autoSettlement', 'url' => '/api/{apiVersion}/projects/{projectId}/auto-settlement', 'verb' => 'GET', 'requirements' => $requirements],
+		['name' => 'api#publicAutoSettlement', 'url' => '/api/{apiVersion}/public/projects/{projectId}/{password}/autosettlement', 'verb' => 'GET', 'requirements' => $requirements],
+		['name' => 'api#clearTrashbin', 'url' => '/api/{apiVersion}/projects/{projectId}/trashbin', 'verb' => 'DELETE', 'requirements' => $requirements],
+		['name' => 'api#publicClearTrashbin', 'url' => '/api/{apiVersion}/public/projects/{projectId}/{password}/trashbin', 'verb' => 'DELETE', 'requirements' => $requirements],
+		['name' => 'api#deleteBill', 'url' => '/api/{apiVersion}/projects/{projectId}/bills/{billId}', 'verb' => 'DELETE', 'requirements' => $requirements],
+		['name' => 'api#publicDeleteBill', 'url' => '/api/{apiVersion}/public/projects/{projectId}/{password}/bills/{billId}', 'verb' => 'DELETE', 'requirements' => $requirements],
+		['name' => 'api#deleteBills', 'url' => '/api/{apiVersion}/projects/{projectId}/bills', 'verb' => 'DELETE', 'requirements' => $requirements],
+		['name' => 'api#publicDeleteBills', 'url' => '/api/{apiVersion}/public/projects/{projectId}/{password}/bills', 'verb' => 'DELETE', 'requirements' => $requirements],
+		['name' => 'api#editMember', 'url' => '/api/{apiVersion}/projects/{projectId}/members/{memberId}', 'verb' => 'PUT', 'requirements' => $requirements],
+		['name' => 'api#publicEditMember', 'url' => '/api/{apiVersion}/public/projects/{projectId}/{password}/members/{memberId}', 'verb' => 'PUT', 'requirements' => $requirements],
+	],
 ];

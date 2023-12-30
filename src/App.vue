@@ -992,8 +992,8 @@ export default {
 		createProject(name, id) {
 			network.createProject(name, id).then((response) => {
 				this.$refs.billList?.toggleFilterMode(false, false)
-				this.addProject(response.data)
-				this.selectProject(response.data.id, true, true)
+				this.addProject(response.data.ocs.data)
+				this.selectProject(response.data.ocs.data.id, true, true)
 			}).catch((error) => {
 				console.error(error)
 				showError(
@@ -1127,8 +1127,9 @@ export default {
 			this.deleteNewBill()
 			const member = this.members[projectId][memberId]
 			network.editMember(projectId, member).then((response) => {
-				this.editMemberSuccess(projectId, memberId, response.data)
+				this.editMemberSuccess(projectId, memberId, response.data.ocs.data)
 			}).catch((error) => {
+				console.error(error)
 				showError(
 					t('cospend', 'Failed to save member')
 					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
@@ -1143,9 +1144,9 @@ export default {
 				if (i !== -1) {
 					this.projects[projectid].members.splice(i, 1)
 				}
-				showSuccess(t('cospend', 'Member deleted.'))
+				showSuccess(t('cospend', 'Member deleted'))
 			} else {
-				showSuccess(t('cospend', 'Member saved.'))
+				showSuccess(t('cospend', 'Member saved'))
 				this.updateProjectInfo(cospend.currentProjectId)
 				// add access to this user if it's not there already
 				if (member.userid) {

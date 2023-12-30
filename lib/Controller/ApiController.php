@@ -12,20 +12,13 @@
 namespace OCA\Cospend\Controller;
 
 use DateTime;
-use OC\Files\Filesystem;
-use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\CORS;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
-use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
-use OCP\AppFramework\Http\DataDisplayResponse;
-use OCP\AppFramework\Http\NotFoundResponse;
-use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Services\IInitialState;
-use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\DB\Exception;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -34,8 +27,6 @@ use OCP\IL10N;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 
 use OCP\IRequest;
-use OCP\AppFramework\Http\TemplateResponse;
-use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Constants;
 use OCP\Files\FileInfo;
@@ -139,46 +130,16 @@ class ApiController extends OCSController {
 	}
 
 	/**
-	 * Create a project
-	 *
-	 * @param string $name
-	 * @param string $id
-	 * @param string|null $password
-	 * @param string|null $contact_email
-	 * @return DataResponse
-	 */
-	#[NoAdminRequired]
-	#[PublicPage]
-	#[CORS]
-//	#[NoCSRFRequired]
-	public function publicCreateProject(string $name, string $id, ?string $password = null, ?string $contact_email = null): DataResponse {
-		$allow = (int) $this->config->getAppValue('cospend', 'allowAnonymousCreation', '0');
-		if ($allow) {
-			$result = $this->projectService->createProject($name, $id, $password, $contact_email);
-			if (isset($result['id'])) {
-				return new DataResponse($result['id']);
-			} else {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Anonymous project creation is not allowed on this server')],
-				Http::STATUS_FORBIDDEN
-			);
-		}
-	}
-
-	/**
 	 * Delete a project
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
 	#[CORS]
 //	#[NoCSRFRequired]
-	public function deleteProject(string $projectid): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['admin']) {
-			$result = $this->projectService->deleteProject($projectid);
+	public function deleteProject(string $projectId): DataResponse {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectId) >= Application::ACCESS_LEVELS['admin']) {
+			$result = $this->projectService->deleteProject($projectId);
 			if (!isset($result['error'])) {
 				return new DataResponse($result);
 			} else {
@@ -195,7 +156,7 @@ class ApiController extends OCSController {
 	/**
 	 * Delete a project
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @param string $password
 	 * @return DataResponse
 	 */
@@ -203,15 +164,15 @@ class ApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 //	#[NoCSRFRequired]
-	public function publicDeleteProject(string $projectid, string $password): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
+	public function publicDeleteProject(string $projectId, string $password): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['admin'])
+			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['admin'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
 				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['admin'])
 		) {
-			$result = $this->projectService->deleteProject($publicShareInfo['projectid'] ?? $projectid);
+			$result = $this->projectService->deleteProject($publicShareInfo['projectid'] ?? $projectId);
 			if (!isset($result['error'])) {
 				return new DataResponse($result);
 			} else {
@@ -228,16 +189,16 @@ class ApiController extends OCSController {
 	/**
 	 * Clear the trashbin
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
 	#[CORS]
 //	#[NoCSRFRequired]
-	public function clearTrashbin(string $projectid): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['participant']) {
+	public function clearTrashbin(string $projectId): DataResponse {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectId) >= Application::ACCESS_LEVELS['participant']) {
 			try {
-				$this->billMapper->deleteDeletedBills($projectid);
+				$this->billMapper->deleteDeletedBills($projectId);
 				return new DataResponse('');
 			} catch (\Exception | \Throwable $e) {
 				return new DataResponse('', Http::STATUS_BAD_REQUEST);
@@ -253,7 +214,7 @@ class ApiController extends OCSController {
 	/**
 	 * Clear the trashbin
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @param string $password
 	 * @return DataResponse
 	 */
@@ -261,10 +222,10 @@ class ApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 //	#[NoCSRFRequired]
-	public function publicClearTrashbin(string $projectid, string $password): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
+	public function publicClearTrashbin(string $projectId, string $password): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['participant'])
+			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['participant'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
 				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['participant'])
@@ -286,8 +247,8 @@ class ApiController extends OCSController {
 	/**
 	 * Delete a bill
 	 *
-	 * @param string $projectid
-	 * @param int $billid
+	 * @param string $projectId
+	 * @param int $billId
 	 * @param bool $moveToTrash
 	 * @return DataResponse
 	 * @throws Exception
@@ -295,14 +256,14 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 //	#[NoCSRFRequired]
-	public function deleteBill(string $projectid, int $billid, bool $moveToTrash = true): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['participant']) {
+	public function deleteBill(string $projectId, int $billId, bool $moveToTrash = true): DataResponse {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectId) >= Application::ACCESS_LEVELS['participant']) {
 			$billObj = null;
-			if ($this->billMapper->getBill($projectid, $billid) !== null) {
-				$billObj = $this->billMapper->find($billid);
+			if ($this->billMapper->getBill($projectId, $billId) !== null) {
+				$billObj = $this->billMapper->find($billId);
 			}
 
-			$result = $this->projectService->deleteBill($projectid, $billid, false, $moveToTrash);
+			$result = $this->projectService->deleteBill($projectId, $billId, false, $moveToTrash);
 			if (isset($result['success'])) {
 				if (!is_null($billObj)) {
 					$this->activityManager->triggerEvent(
@@ -326,9 +287,9 @@ class ApiController extends OCSController {
 	/**
 	 * Delete a bill
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @param string $password
-	 * @param int $billid
+	 * @param int $billId
 	 * @param bool $moveToTrash
 	 * @return DataResponse
 	 * @throws Exception
@@ -337,20 +298,20 @@ class ApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 //	#[NoCSRFRequired]
-	public function publicDeleteBill(string $projectid, string $password, int $billid, bool $moveToTrash = true): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
+	public function publicDeleteBill(string $projectId, string $password, int $billId, bool $moveToTrash = true): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['participant'])
+			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['participant'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
 				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['participant'])
 		) {
 			$billObj = null;
-			if ($this->billMapper->getBill($publicShareInfo['projectid'] ?? $projectid, $billid) !== null) {
-				$billObj = $this->billMapper->find($billid);
+			if ($this->billMapper->getBill($publicShareInfo['projectid'] ?? $projectId, $billId) !== null) {
+				$billObj = $this->billMapper->find($billId);
 			}
 
-			$result = $this->projectService->deleteBill($publicShareInfo['projectid'] ?? $projectid, $billid, false, $moveToTrash);
+			$result = $this->projectService->deleteBill($publicShareInfo['projectid'] ?? $projectId, $billId, false, $moveToTrash);
 			if (isset($result['success'])) {
 				if (!is_null($billObj)) {
 					if (is_null($publicShareInfo)) {
@@ -382,7 +343,7 @@ class ApiController extends OCSController {
 	/**
 	 * Delete multiple bills
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @param array $billIds
 	 * @param bool $moveToTrash
 	 * @return DataResponse
@@ -391,14 +352,14 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 //	#[NoCSRFRequired]
-	public function deleteBills(string $projectid, array $billIds, bool $moveToTrash = true): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['participant']) {
+	public function deleteBills(string $projectId, array $billIds, bool $moveToTrash = true): DataResponse {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectId) >= Application::ACCESS_LEVELS['participant']) {
 			foreach ($billIds as $billid) {
 				$billObj = null;
-				if ($this->billMapper->getBill($projectid, $billid) !== null) {
+				if ($this->billMapper->getBill($projectId, $billid) !== null) {
 					$billObj = $this->billMapper->find($billid);
 				}
-				$result = $this->projectService->deleteBill($projectid, $billid, false, $moveToTrash);
+				$result = $this->projectService->deleteBill($projectId, $billid, false, $moveToTrash);
 				if (!isset($result['success'])) {
 					return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 				} else {
@@ -423,7 +384,7 @@ class ApiController extends OCSController {
 	/**
 	 * Delete multiple bills
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @param string $password
 	 * @param array $billIds
 	 * @param bool $moveToTrash
@@ -434,10 +395,10 @@ class ApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 //	#[NoCSRFRequired]
-	public function publicDeleteBills(string $projectid, string $password, array $billIds, bool $moveToTrash = true): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
+	public function publicDeleteBills(string $projectId, string $password, array $billIds, bool $moveToTrash = true): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['participant'])
+			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['participant'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
 				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['participant'])
@@ -452,11 +413,11 @@ class ApiController extends OCSController {
 			}
 			foreach ($billIds as $billid) {
 				$billObj = null;
-				if ($this->billMapper->getBill($publicShareInfo['projectid'] ?? $projectid, $billid) !== null) {
+				if ($this->billMapper->getBill($publicShareInfo['projectid'] ?? $projectId, $billid) !== null) {
 					$billObj = $this->billMapper->find($billid);
 				}
 
-				$result = $this->projectService->deleteBill($publicShareInfo['projectid'] ?? $projectid, $billid, false, $moveToTrash);
+				$result = $this->projectService->deleteBill($publicShareInfo['projectid'] ?? $projectId, $billid, false, $moveToTrash);
 				if (!isset($result['success'])) {
 					return new DataResponse($result, Http::STATUS_NOT_FOUND);
 				} else {
@@ -483,17 +444,17 @@ class ApiController extends OCSController {
 	 *
 	 * Change for clients: error code is now Http::STATUS_FORBIDDEN
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @return DataResponse
 	 * @throws Exception
 	 */
 	#[NoAdminRequired]
 	#[CORS]
 //	#[NoCSRFRequired]
-	public function getProjectInfo(string $projectid): DataResponse {
-		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-			$projectInfo = $this->projectService->getProjectInfo($projectid);
-			$projectInfo['myaccesslevel'] = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
+	public function getProjectInfo(string $projectId): DataResponse {
+		if ($this->projectService->userCanAccessProject($this->userId, $projectId)) {
+			$projectInfo = $this->projectService->getProjectInfo($projectId);
+			$projectInfo['myaccesslevel'] = $this->projectService->getUserMaxAccessLevel($this->userId, $projectId);
 			return new DataResponse($projectInfo);
 		} else {
 			return new DataResponse(
@@ -506,7 +467,7 @@ class ApiController extends OCSController {
 	/**
 	 * Get project information
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @param string $password
 	 * @return DataResponse
 	 * @throws Exception
@@ -515,13 +476,13 @@ class ApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 //	#[NoCSRFRequired]
-	public function publicGetProjectInfo(string $projectid, string $password): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
-		if ($this->checkLogin($projectid, $password)
+	public function publicGetProjectInfo(string $projectId, string $password): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
+		if ($this->checkLogin($projectId, $password)
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password']))
 		) {
-			$projectInfo = $this->projectService->getProjectInfo($publicShareInfo['projectid'] ?? $projectid);
+			$projectInfo = $this->projectService->getProjectInfo($publicShareInfo['projectid'] ?? $projectId);
 			if ($projectInfo !== null) {
 				unset($projectInfo['userid']);
 				// for public link share: set the visible access level for frontend
@@ -549,7 +510,7 @@ class ApiController extends OCSController {
 	/**
 	 * Get project statistics
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @param int|null $tsMin
 	 * @param int|null $tsMax
 	 * @param int|null $paymentModeId
@@ -566,13 +527,13 @@ class ApiController extends OCSController {
 	#[CORS]
 //	#[NoCSRFRequired]
 	public function getProjectStatistics(
-		string $projectid, ?int $tsMin = null, ?int $tsMax = null, ?int $paymentModeId = null,
+		string $projectId, ?int $tsMin = null, ?int $tsMax = null, ?int $paymentModeId = null,
 		?int   $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
 		string $showDisabled = '1', ?int $currencyId = null, ?int $payerId = null
 	): DataResponse {
-		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+		if ($this->projectService->userCanAccessProject($this->userId, $projectId)) {
 			$result = $this->projectService->getProjectStatistics(
-				$projectid, 'lowername', $tsMin, $tsMax, $paymentModeId,
+				$projectId, 'lowername', $tsMin, $tsMax, $paymentModeId,
 				$categoryId, $amountMin, $amountMax, $showDisabled === '1', $currencyId, $payerId
 			);
 			return new DataResponse($result);
@@ -585,7 +546,7 @@ class ApiController extends OCSController {
 	}
 
 	/**
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @param string $password
 	 * @param int|null $tsMin
 	 * @param int|null $tsMax
@@ -604,18 +565,18 @@ class ApiController extends OCSController {
 	#[CORS]
 //	#[NoCSRFRequired]
 	public function publicGetProjectStatistics(
-		string $projectid, string $password, ?int $tsMin = null, ?int $tsMax = null,
-		?int $paymentModeId = null, ?int $categoryId = null,
+		string $projectId, string $password, ?int $tsMin = null, ?int $tsMax = null,
+		?int   $paymentModeId = null, ?int $categoryId = null,
 		?float $amountMin = null, ?float $amountMax = null,
 		string $showDisabled = '1', ?int $currencyId = null, ?int $payerId = null
 	): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
-		if ($this->checkLogin($projectid, $password)
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
+		if ($this->checkLogin($projectId, $password)
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password']))
 		) {
 			$result = $this->projectService->getProjectStatistics(
-				$publicShareInfo['projectid'] ?? $projectid, 'lowername', $tsMin, $tsMax,
+				$publicShareInfo['projectid'] ?? $projectId, 'lowername', $tsMin, $tsMax,
 				$paymentModeId, $categoryId, $amountMin, $amountMax, $showDisabled === '1', $currencyId,
 				$payerId
 			);
@@ -631,7 +592,7 @@ class ApiController extends OCSController {
 	/**
 	 * Get project settlement info
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @param int|null $centeredOn
 	 * @param int|null $maxTimestamp
 	 * @return DataResponse
@@ -639,9 +600,9 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 //	#[NoCSRFRequired]
-	public function getProjectSettlement(string $projectid, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
-		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-			$result = $this->projectService->getProjectSettlement($projectid, $centeredOn, $maxTimestamp);
+	public function getProjectSettlement(string $projectId, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
+		if ($this->projectService->userCanAccessProject($this->userId, $projectId)) {
+			$result = $this->projectService->getProjectSettlement($projectId, $centeredOn, $maxTimestamp);
 			return new DataResponse($result);
 		}
 		else {
@@ -655,7 +616,7 @@ class ApiController extends OCSController {
 	/**
 	 * Get project settlement info
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @param string $password
 	 * @param int|null $centeredOn
 	 * @param int|null $maxTimestamp
@@ -665,14 +626,14 @@ class ApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 //	#[NoCSRFRequired]
-	public function apiGetProjectSettlement(string $projectid, string $password, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
-		if ($this->checkLogin($projectid, $password)
+	public function publicGetProjectSettlement(string $projectId, string $password, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
+		if ($this->checkLogin($projectId, $password)
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password']))
 		) {
 			$result = $this->projectService->getProjectSettlement(
-				$publicShareInfo['projectid'] ?? $projectid, $centeredOn, $maxTimestamp
+				$publicShareInfo['projectid'] ?? $projectId, $centeredOn, $maxTimestamp
 			);
 			return new DataResponse($result);
 		} else {
@@ -686,7 +647,7 @@ class ApiController extends OCSController {
 	/**
 	 * Get automatic settlement plan
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @param int|null $centeredOn
 	 * @param int $precision
 	 * @param int|null $maxTimestamp
@@ -695,10 +656,10 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 //	#[NoCSRFRequired]
-	public function autoSettlement(string $projectid, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null): DataResponse {
+	public function autoSettlement(string $projectId, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null): DataResponse {
 //		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['participant']) {
-		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-			$result = $this->projectService->autoSettlement($projectid, $centeredOn, $precision, $maxTimestamp);
+		if ($this->projectService->userCanAccessProject($this->userId, $projectId)) {
+			$result = $this->projectService->autoSettlement($projectId, $centeredOn, $precision, $maxTimestamp);
 			if (isset($result['success'])) {
 				return new DataResponse('OK');
 			} else {
@@ -715,7 +676,7 @@ class ApiController extends OCSController {
 	/**
 	 * Get automatic settlement plan
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @param string $password
 	 * @param int|null $centeredOn
 	 * @param int $precision
@@ -727,17 +688,17 @@ class ApiController extends OCSController {
 	#[CORS]
 //	#[NoCSRFRequired]
 	public function publicAutoSettlement(
-		string $projectid, string $password, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null
+		string $projectId, string $password, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null
 	): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['participant'])
+			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['participant'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
 				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['participant'])
 		) {
 			$result = $this->projectService->autoSettlement(
-				$publicShareInfo['projectid'] ?? $projectid, $centeredOn, $precision, $maxTimestamp
+				$publicShareInfo['projectid'] ?? $projectId, $centeredOn, $precision, $maxTimestamp
 			);
 			if (isset($result['success'])) {
 				return new DataResponse('OK');
@@ -755,8 +716,8 @@ class ApiController extends OCSController {
 	/**
 	 * Edit a project member
 	 *
-	 * @param string $projectid
-	 * @param int $memberid
+	 * @param string $projectId
+	 * @param int $memberId
 	 * @param string|null $name
 	 * @param float|null $weight
 	 * @param null $activated
@@ -768,16 +729,16 @@ class ApiController extends OCSController {
 	#[CORS]
 //	#[NoCSRFRequired]
 	public function editMember(
-		string $projectid, int $memberid, ?string $name = null, ?float $weight = null, $activated = null,
+		string  $projectId, int $memberId, ?string $name = null, ?float $weight = null, $activated = null,
 		?string $color = null, ?string $userid = null
 	): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectId) >= Application::ACCESS_LEVELS['maintainer']) {
 			if ($activated === 'true') {
 				$activated = true;
 			} elseif ($activated === 'false') {
 				$activated = false;
 			}
-			$result = $this->projectService->editMember($projectid, $memberid, $name, $userid, $weight, $activated, $color);
+			$result = $this->projectService->editMember($projectId, $memberId, $name, $userid, $weight, $activated, $color);
 			if (count($result) === 0) {
 				return new DataResponse(null);
 			} elseif (isset($result['activated'])) {
@@ -796,9 +757,9 @@ class ApiController extends OCSController {
 	/**
 	 * Edit a project member
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @param string $password
-	 * @param int $memberid
+	 * @param int $memberId
 	 * @param string|null $name
 	 * @param float|null $weight
 	 * @param null $activated
@@ -811,12 +772,12 @@ class ApiController extends OCSController {
 	#[CORS]
 //	#[NoCSRFRequired]
 	public function publicEditMember(
-		string $projectid, string $password, int $memberid, ?string $name = null, ?float $weight = null,
-		$activated = null, ?string $color = null, ?string $userid = null
+		string $projectId, string $password, int $memberId, ?string $name = null, ?float $weight = null,
+			   $activated = null, ?string $color = null, ?string $userid = null
 	): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['maintainer'])
+			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['maintainer'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
 				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
@@ -827,7 +788,7 @@ class ApiController extends OCSController {
 				$activated = false;
 			}
 			$result = $this->projectService->editMember(
-				$publicShareInfo['projectid'] ?? $projectid, $memberid, $name, $userid, $weight, $activated, $color
+				$publicShareInfo['projectid'] ?? $projectId, $memberId, $name, $userid, $weight, $activated, $color
 			);
 			if (count($result) === 0) {
 				return new DataResponse(null);

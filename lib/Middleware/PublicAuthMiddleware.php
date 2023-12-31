@@ -35,9 +35,9 @@ class PublicAuthMiddleware extends Middleware {
 		$attributes = $reflectionMethod->getAttributes(CospendPublicAuth::class);
 
 		if (!empty($attributes)) {
-			$paramProjectId = $this->request->getParam('projectId');
+			$paramToken = $this->request->getParam('token');
 			$paramPassword = $this->request->getParam('password');
-			$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($paramProjectId);
+			$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($paramToken);
 			if ($publicShareInfo === null) {
 				throw new CospendPublicAuthNotValidException($this->l->t('Project not found'), Http::STATUS_UNAUTHORIZED);
 			}
@@ -50,7 +50,7 @@ class PublicAuthMiddleware extends Middleware {
 				$cospendAuthAttr = $attribute->newInstance();
 				$minLevel = $cospendAuthAttr->getMinimumLevel();
 				if ($this->projectService->getGuestAccessLevel($publicShareInfo['projectid']) < $minLevel) {
-					throw new CospendPublicAuthNotValidException($this->l->t('Insufficient permission'), Http::STATUS_UNAUTHORIZED);
+					throw new CospendPublicAuthNotValidException($this->l->t('Insufficient access level'), Http::STATUS_UNAUTHORIZED);
 				}
 			}
 		}

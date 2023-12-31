@@ -12,36 +12,18 @@
 namespace OCA\Cospend\Controller;
 
 use DateTime;
-use OC\User\NoUserException;
-use OCA\Circles\Exceptions\InitiatorNotFoundException;
-use OCA\Circles\Exceptions\RequestBuilderException;
 use OCA\Cospend\Attribute\CospendPublicAuth;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\CORS;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\OCSController;
-use OCP\AppFramework\Services\IInitialState;
 use OCP\DB\Exception;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\InvalidPathException;
-use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
-use OCP\IConfig;
 use OCP\IL10N;
-
-use OCP\AppFramework\Http\ContentSecurityPolicy;
 
 use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\Constants;
-use OCP\Files\FileInfo;
-use OCP\Share\IShare;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\IUserManager;
-use OCP\Share\IManager;
-use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 
 use OCA\Cospend\Db\BillMapper;
@@ -54,19 +36,11 @@ class PublicApiController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		private IConfig $config,
-		private IManager $shareManager,
-		private IUserManager $userManager,
 		private IL10N $trans,
 		private BillMapper $billMapper,
 		private ProjectService $projectService,
 		private ActivityManager $activityManager,
 		private IDBConnection $dbconnection,
-		private IRootFolder $root,
-		private IInitialState $initialStateService,
-		private IAppManager $appManager,
-		private IEventDispatcher $eventDispatcher,
-		private ?string $userId
 	) {
 		parent::__construct($appName, $request, 'PUT, POST, GET, DELETE, PATCH, OPTIONS');
 	}
@@ -108,72 +82,47 @@ class PublicApiController extends OCSController {
 	/**
 	 * Delete a project
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	public function publicDeleteProject(string $projectId, string $password): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if (
-			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['admin'])
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['admin'])
-		) {
-			$result = $this->projectService->deleteProject($publicShareInfo['projectid'] ?? $projectId);
-			if (!isset($result['error'])) {
-				return new DataResponse($result);
-			} else {
-				return new DataResponse(['message' => $result['error']], Http::STATUS_NOT_FOUND);
-			}
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['admin'])]
+	public function publicDeleteProject(string $token): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		$result = $this->projectService->deleteProject($publicShareInfo['projectid']);
+		if (!isset($result['error'])) {
+			return new DataResponse($result);
 		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				Http::STATUS_UNAUTHORIZED
-			);
+			return new DataResponse(['message' => $result['error']], Http::STATUS_NOT_FOUND);
 		}
 	}
 
 	/**
 	 * Clear the trashbin
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	public function publicClearTrashbin(string $projectId, string $password): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if (
-			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['participant'])
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['participant'])
-		) {
-			try {
-				$this->billMapper->deleteDeletedBills($publicShareInfo['projectid']);
-				return new DataResponse('');
-			} catch (\Exception | \Throwable $e) {
-				return new DataResponse('', Http::STATUS_BAD_REQUEST);
-			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to clear the trashbin')],
-				Http::STATUS_FORBIDDEN
-			);
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	public function publicClearTrashbin(string $token): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		try {
+			$this->billMapper->deleteDeletedBills($publicShareInfo['projectid']);
+			return new DataResponse('');
+		} catch (\Exception | \Throwable $e) {
+			return new DataResponse('', Http::STATUS_BAD_REQUEST);
 		}
 	}
 
 	/**
 	 * Delete a bill
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param int $billId
 	 * @param bool $moveToTrash
 	 * @return DataResponse
@@ -182,53 +131,41 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	public function publicDeleteBill(string $projectId, string $password, int $billId, bool $moveToTrash = true): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if (
-			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['participant'])
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['participant'])
-		) {
-			$billObj = null;
-			if ($this->billMapper->getBill($publicShareInfo['projectid'] ?? $projectId, $billId) !== null) {
-				$billObj = $this->billMapper->find($billId);
-			}
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	public function publicDeleteBill(string $token, int $billId, bool $moveToTrash = true): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		$billObj = null;
+		if ($this->billMapper->getBill($publicShareInfo['projectid'], $billId) !== null) {
+			$billObj = $this->billMapper->find($billId);
+		}
 
-			$result = $this->projectService->deleteBill($publicShareInfo['projectid'] ?? $projectId, $billId, false, $moveToTrash);
-			if (isset($result['success'])) {
-				if (!is_null($billObj)) {
-					if (is_null($publicShareInfo)) {
-						$authorFullText = $this->trans->t('Guest access');
-					} elseif ($publicShareInfo['label']) {
-						$authorName = $publicShareInfo['label'];
-						$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
-					} else {
-						$authorFullText = $this->trans->t('Share link');
-					}
-					$this->activityManager->triggerEvent(
-						ActivityManager::COSPEND_OBJECT_BILL, $billObj,
-						ActivityManager::SUBJECT_BILL_DELETE,
-						['author' => $authorFullText]
-					);
+		$result = $this->projectService->deleteBill($publicShareInfo['projectid'], $billId, false, $moveToTrash);
+		if (isset($result['success'])) {
+			if (!is_null($billObj)) {
+				if (is_null($publicShareInfo)) {
+					$authorFullText = $this->trans->t('Guest access');
+				} elseif ($publicShareInfo['label']) {
+					$authorName = $publicShareInfo['label'];
+					$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
+				} else {
+					$authorFullText = $this->trans->t('Share link');
 				}
-				return new DataResponse('OK');
-			} else {
-				return new DataResponse($result, Http::STATUS_NOT_FOUND);
+				$this->activityManager->triggerEvent(
+					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+					ActivityManager::SUBJECT_BILL_DELETE,
+					['author' => $authorFullText]
+				);
 			}
+			return new DataResponse('OK');
 		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				Http::STATUS_UNAUTHORIZED
-			);
+			return new DataResponse($result, Http::STATUS_NOT_FOUND);
 		}
 	}
 
 	/**
 	 * Delete multiple bills
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param array $billIds
 	 * @param bool $moveToTrash
 	 * @return DataResponse
@@ -237,55 +174,43 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	public function publicDeleteBills(string $projectId, string $password, array $billIds, bool $moveToTrash = true): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if (
-			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['participant'])
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['participant'])
-		) {
-			if (is_null($publicShareInfo)) {
-				$authorFullText = $this->trans->t('Guest access');
-			} elseif ($publicShareInfo['label']) {
-				$authorName = $publicShareInfo['label'];
-				$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
-			} else {
-				$authorFullText = $this->trans->t('Share link');
-			}
-			foreach ($billIds as $billid) {
-				$billObj = null;
-				if ($this->billMapper->getBill($publicShareInfo['projectid'] ?? $projectId, $billid) !== null) {
-					$billObj = $this->billMapper->find($billid);
-				}
-
-				$result = $this->projectService->deleteBill($publicShareInfo['projectid'] ?? $projectId, $billid, false, $moveToTrash);
-				if (!isset($result['success'])) {
-					return new DataResponse($result, Http::STATUS_NOT_FOUND);
-				} else {
-					if (!is_null($billObj)) {
-						$this->activityManager->triggerEvent(
-							ActivityManager::COSPEND_OBJECT_BILL, $billObj,
-							ActivityManager::SUBJECT_BILL_DELETE,
-							['author' => $authorFullText]
-						);
-					}
-				}
-			}
-			return new DataResponse('OK');
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	public function publicDeleteBills(string $token, array $billIds, bool $moveToTrash = true): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		if (is_null($publicShareInfo)) {
+			$authorFullText = $this->trans->t('Guest access');
+		} elseif ($publicShareInfo['label']) {
+			$authorName = $publicShareInfo['label'];
+			$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
 		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				Http::STATUS_UNAUTHORIZED
-			);
+			$authorFullText = $this->trans->t('Share link');
 		}
+		foreach ($billIds as $billid) {
+			$billObj = null;
+			if ($this->billMapper->getBill($publicShareInfo['projectid'], $billid) !== null) {
+				$billObj = $this->billMapper->find($billid);
+			}
+
+			$result = $this->projectService->deleteBill($publicShareInfo['projectid'], $billid, false, $moveToTrash);
+			if (!isset($result['success'])) {
+				return new DataResponse($result, Http::STATUS_NOT_FOUND);
+			} else {
+				if (!is_null($billObj)) {
+					$this->activityManager->triggerEvent(
+						ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+						ActivityManager::SUBJECT_BILL_DELETE,
+						['author' => $authorFullText]
+					);
+				}
+			}
+		}
+		return new DataResponse('OK');
 	}
 
 	/**
 	 * Get project information
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @return DataResponse
 	 * @throws Exception
 	 */
@@ -293,9 +218,9 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['viewer'])]
-	public function publicGetProjectInfo(string $projectId, string $password): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		$projectInfo = $this->projectService->getProjectInfo($publicShareInfo['projectid'] ?? $projectId);
+	public function publicGetProjectInfo(string $token): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		$projectInfo = $this->projectService->getProjectInfo($publicShareInfo['projectid']);
 		if ($projectInfo !== null) {
 			unset($projectInfo['userid']);
 			// for public link share: set the visible access level for frontend
@@ -315,8 +240,7 @@ class PublicApiController extends OCSController {
 	}
 
 	/**
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param int|null $tsMin
 	 * @param int|null $tsMax
 	 * @param int|null $paymentModeId
@@ -332,36 +256,26 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['viewer'])]
 	public function publicGetProjectStatistics(
-		string $projectId, string $password, ?int $tsMin = null, ?int $tsMax = null,
+		string $token, ?int $tsMin = null, ?int $tsMax = null,
 		?int   $paymentModeId = null, ?int $categoryId = null,
 		?float $amountMin = null, ?float $amountMax = null,
 		string $showDisabled = '1', ?int $currencyId = null, ?int $payerId = null
 	): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if ($this->checkLogin($projectId, $password)
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password']))
-		) {
-			$result = $this->projectService->getProjectStatistics(
-				$publicShareInfo['projectid'] ?? $projectId, 'lowername', $tsMin, $tsMax,
-				$paymentModeId, $categoryId, $amountMin, $amountMax, $showDisabled === '1', $currencyId,
-				$payerId
-			);
-			return new DataResponse($result);
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				Http::STATUS_UNAUTHORIZED
-			);
-		}
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		$result = $this->projectService->getProjectStatistics(
+			$publicShareInfo['projectid'], 'lowername', $tsMin, $tsMax,
+			$paymentModeId, $categoryId, $amountMin, $amountMax, $showDisabled === '1', $currencyId,
+			$payerId
+		);
+		return new DataResponse($result);
 	}
 
 	/**
 	 * Get project settlement info
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param int|null $centeredOn
 	 * @param int|null $maxTimestamp
 	 * @return DataResponse
@@ -369,29 +283,19 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	public function publicGetProjectSettlement(string $projectId, string $password, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if ($this->checkLogin($projectId, $password)
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password']))
-		) {
-			$result = $this->projectService->getProjectSettlement(
-				$publicShareInfo['projectid'] ?? $projectId, $centeredOn, $maxTimestamp
-			);
-			return new DataResponse($result);
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				Http::STATUS_UNAUTHORIZED
-			);
-		}
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['viewer'])]
+	public function publicGetProjectSettlement(string $token, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		$result = $this->projectService->getProjectSettlement(
+			$publicShareInfo['projectid'], $centeredOn, $maxTimestamp
+		);
+		return new DataResponse($result);
 	}
 
 	/**
 	 * Get automatic settlement plan
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param int|null $centeredOn
 	 * @param int $precision
 	 * @param int|null $maxTimestamp
@@ -400,37 +304,25 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['participant'])]
 	public function publicAutoSettlement(
-		string $projectId, string $password, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null
+		string $token, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null
 	): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if (
-			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['participant'])
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['participant'])
-		) {
-			$result = $this->projectService->autoSettlement(
-				$publicShareInfo['projectid'] ?? $projectId, $centeredOn, $precision, $maxTimestamp
-			);
-			if (isset($result['success'])) {
-				return new DataResponse('OK');
-			} else {
-				return new DataResponse($result, Http::STATUS_FORBIDDEN);
-			}
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		$result = $this->projectService->autoSettlement(
+			$publicShareInfo['projectid'], $centeredOn, $precision, $maxTimestamp
+		);
+		if (isset($result['success'])) {
+			return new DataResponse('OK');
 		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				Http::STATUS_UNAUTHORIZED
-			);
+			return new DataResponse($result, Http::STATUS_FORBIDDEN);
 		}
 	}
 
 	/**
 	 * Edit a project member
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param int $memberId
 	 * @param string|null $name
 	 * @param float|null $weight
@@ -442,45 +334,33 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
 	public function publicEditMember(
-		string $projectId, string $password, int $memberId, ?string $name = null, ?float $weight = null,
-			   $activated = null, ?string $color = null, ?string $userid = null
+		string $token, int $memberId, ?string $name = null, ?float $weight = null,
+		$activated = null, ?string $color = null, ?string $userid = null
 	): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if (
-			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['maintainer'])
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
-		) {
-			if ($activated === 'true') {
-				$activated = true;
-			} elseif ($activated === 'false') {
-				$activated = false;
-			}
-			$result = $this->projectService->editMember(
-				$publicShareInfo['projectid'] ?? $projectId, $memberId, $name, $userid, $weight, $activated, $color
-			);
-			if (count($result) === 0) {
-				return new DataResponse(null);
-			} elseif (array_key_exists('activated', $result)) {
-				return new DataResponse($result);
-			} else {
-				return new DataResponse($result, Http::STATUS_FORBIDDEN);
-			}
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		if ($activated === 'true') {
+			$activated = true;
+		} elseif ($activated === 'false') {
+			$activated = false;
+		}
+		$result = $this->projectService->editMember(
+			$publicShareInfo['projectid'], $memberId, $name, $userid, $weight, $activated, $color
+		);
+		if (count($result) === 0) {
+			return new DataResponse(null);
+		} elseif (array_key_exists('activated', $result)) {
+			return new DataResponse($result);
 		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				Http::STATUS_UNAUTHORIZED
-			);
+			return new DataResponse($result, Http::STATUS_FORBIDDEN);
 		}
 	}
 
 	/**
 	 * Edit a bill
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param int $billId
 	 * @param string|null $date
 	 * @param string|null $what
@@ -503,59 +383,47 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['participant'])]
 	public function publicEditBill(
-		string $projectId, string $password, int $billId, ?string $date = null, ?string $what = null,
+		string $token, int $billId, ?string $date = null, ?string $what = null,
 		?int $payer = null, ?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
 		?string $paymentmode = null, ?int $paymentmodeid = null,
 		?int $categoryid = null, ?int $repeatallactive = null,
 		?string $repeatuntil = null, ?int $timestamp = null, ?string $comment = null,
 		?int $repeatfreq = null, ?int $deleted = null
 	): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if (
-			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['participant'])
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['participant'])
-		) {
-			$result = $this->projectService->editBill(
-				$publicShareInfo['projectid'] ?? $projectId, $billId, $date, $what, $payer, $payed_for,
-				$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
-				$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq, null, $deleted
-			);
-			if (isset($result['edited_bill_id'])) {
-				$billObj = $this->billMapper->find($billId);
-				if (is_null($publicShareInfo)) {
-					$authorFullText = $this->trans->t('Guest access');
-				} elseif ($publicShareInfo['label']) {
-					$authorName = $publicShareInfo['label'];
-					$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
-				} else {
-					$authorFullText = $this->trans->t('Share link');
-				}
-				$this->activityManager->triggerEvent(
-					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
-					ActivityManager::SUBJECT_BILL_UPDATE,
-					['author' => $authorFullText]
-				);
-
-				return new DataResponse($result['edited_bill_id']);
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		$result = $this->projectService->editBill(
+			$publicShareInfo['projectid'], $billId, $date, $what, $payer, $payed_for,
+			$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
+			$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq, null, $deleted
+		);
+		if (isset($result['edited_bill_id'])) {
+			$billObj = $this->billMapper->find($billId);
+			if (is_null($publicShareInfo)) {
+				$authorFullText = $this->trans->t('Guest access');
+			} elseif ($publicShareInfo['label']) {
+				$authorName = $publicShareInfo['label'];
+				$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
 			} else {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+				$authorFullText = $this->trans->t('Share link');
 			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to edit this bill')],
-				Http::STATUS_UNAUTHORIZED
+			$this->activityManager->triggerEvent(
+				ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+				ActivityManager::SUBJECT_BILL_UPDATE,
+				['author' => $authorFullText]
 			);
+
+			return new DataResponse($result['edited_bill_id']);
+		} else {
+			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		}
 	}
 
 	/**
 	 * Edit multiple bills
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param array $billIds
 	 * @param int|null $categoryid
 	 * @param string|null $date
@@ -578,91 +446,70 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['participant'])]
 	public function publicEditBills(
-		string  $projectId, string $password, array $billIds, ?int $categoryid = null, ?string $date = null,
+		string $token, array $billIds, ?int $categoryid = null, ?string $date = null,
 		?string $what = null, ?int $payer = null, ?string $payed_for = null, ?float $amount = null,
 		?string $repeat = 'n', ?string $paymentmode = null, ?int $paymentmodeid = null,
 		?int $repeatallactive = null,
 		?string $repeatuntil = null, ?int $timestamp = null, ?string $comment = null,
 		?int $repeatfreq = null, ?int $deleted = null
 	): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if (
-			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['participant'])
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['participant'])
-		) {
-			if (is_null($publicShareInfo)) {
-				$authorFullText = $this->trans->t('Guest access');
-			} elseif ($publicShareInfo['label']) {
-				$authorName = $publicShareInfo['label'];
-				$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
-			} else {
-				$authorFullText = $this->trans->t('Share link');
-			}
-			$paymentModes = $this->projectService->getCategoriesOrPaymentModes($publicShareInfo['projectid'] ?? $projectId, false);
-			foreach ($billIds as $billid) {
-				$result = $this->projectService->editBill(
-					$publicShareInfo['projectid'] ?? $projectId, $billid, $date, $what, $payer, $payed_for,
-					$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
-					$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq, $paymentModes, $deleted
-				);
-				if (isset($result['edited_bill_id'])) {
-					$billObj = $this->billMapper->find($billid);
-					$this->activityManager->triggerEvent(
-						ActivityManager::COSPEND_OBJECT_BILL, $billObj,
-						ActivityManager::SUBJECT_BILL_UPDATE,
-						['author' => $authorFullText]
-					);
-				} else {
-					return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-				}
-			}
-			return new DataResponse($billIds);
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		if (is_null($publicShareInfo)) {
+			$authorFullText = $this->trans->t('Guest access');
+		} elseif ($publicShareInfo['label']) {
+			$authorName = $publicShareInfo['label'];
+			$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
 		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to edit this bill')],
-				Http::STATUS_UNAUTHORIZED
-			);
+			$authorFullText = $this->trans->t('Share link');
 		}
+		$paymentModes = $this->projectService->getCategoriesOrPaymentModes($publicShareInfo['projectid'] ?? $token, false);
+		foreach ($billIds as $billid) {
+			$result = $this->projectService->editBill(
+				$publicShareInfo['projectid'], $billid, $date, $what, $payer, $payed_for,
+				$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
+				$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq, $paymentModes, $deleted
+			);
+			if (isset($result['edited_bill_id'])) {
+				$billObj = $this->billMapper->find($billid);
+				$this->activityManager->triggerEvent(
+					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+					ActivityManager::SUBJECT_BILL_UPDATE,
+					['author' => $authorFullText]
+				);
+			} else {
+				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+			}
+		}
+		return new DataResponse($billIds);
 	}
 
 	/**
 	 * Trigger bill repetition for a specific bill
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param int $billId
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	public function publicRepeatBill(string $projectId, string $password, int $billId): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if (
-			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['participant'])
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['participant'])
-		) {
-			// TODO check if bill is in this project
-			$result = $this->projectService->cronRepeatBills($billId);
-			return new DataResponse($result);
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to add bills')],
-				Http::STATUS_UNAUTHORIZED
-			);
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	public function publicRepeatBill(string $token, int $billId): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		$bill = $this->billMapper->getBill($publicShareInfo['projectid'], $billId);
+		if ($bill === null) {
+			return new DataResponse('Bill not found', Http::STATUS_NOT_FOUND);
 		}
+		$result = $this->projectService->cronRepeatBills($billId);
+		return new DataResponse($result);
 	}
 
 	/**
 	 * Edit a project
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param string|null $name
 	 * @param string|null $contact_email
 	 * @param string|null $autoexport
@@ -676,39 +523,28 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['admin'])]
 	public function publicEditProject(
-		string $projectId, string $password, ?string $name = null, ?string $contact_email = null,
+		string $token, ?string $name = null, ?string $contact_email = null,
 		?string $autoexport = null, ?string $currencyname = null,
 		?bool $deletion_disabled = null, ?string $categorysort = null, ?string $paymentmodesort = null
 	): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if (
-			$publicShareInfo !== null
-			&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-			&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['admin']
-		) {
-			$result = $this->projectService->editProject(
-				$publicShareInfo['projectid'] ?? $projectId, $name, $contact_email, null, $autoexport,
-				$currencyname, $deletion_disabled, $categorysort, $paymentmodesort
-			);
-			if (isset($result['success'])) {
-				return new DataResponse('UPDATED');
-			} else {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-			}
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		$result = $this->projectService->editProject(
+			$publicShareInfo['projectid'], $name, $contact_email, null, $autoexport,
+			$currencyname, $deletion_disabled, $categorysort, $paymentmodesort
+		);
+		if (isset($result['success'])) {
+			return new DataResponse('UPDATED');
 		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				Http::STATUS_UNAUTHORIZED
-			);
+			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		}
 	}
 
 	/**
 	 * Create a bill
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param string|null $date
 	 * @param string|null $what
 	 * @param int|null $payer
@@ -729,57 +565,45 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['participant'])]
 	public function publicCreateBill(
-		string $projectId, string $password, ?string $date = null, ?string $what = null, ?int $payer = null,
+		string $token, ?string $date = null, ?string $what = null, ?int $payer = null,
 		?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
 		?string $paymentmode = null, ?int $paymentmodeid = null,
 		?int $categoryid = null, int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
 		?string $comment = null, ?int $repeatfreq = null
 	): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if (
-			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['participant'])
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['participant'])
-		) {
-			$result = $this->projectService->addBill(
-				$publicShareInfo['projectid'] ?? $projectId, $date, $what, $payer, $payed_for, $amount,
-				$repeat, $paymentmode, $paymentmodeid, $categoryid, $repeatallactive,
-				$repeatuntil, $timestamp, $comment, $repeatfreq
-			);
-			if (isset($result['inserted_id'])) {
-				$billObj = $this->billMapper->find($result['inserted_id']);
-				if (is_null($publicShareInfo)) {
-					$authorFullText = $this->trans->t('Guest access');
-				} elseif ($publicShareInfo['label']) {
-					$authorName = $publicShareInfo['label'];
-					$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
-				} else {
-					$authorFullText = $this->trans->t('Share link');
-				}
-				$this->activityManager->triggerEvent(
-					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
-					ActivityManager::SUBJECT_BILL_CREATE,
-					['author' => $authorFullText]
-				);
-				return new DataResponse($result['inserted_id']);
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		$result = $this->projectService->addBill(
+			$publicShareInfo['projectid'], $date, $what, $payer, $payed_for, $amount,
+			$repeat, $paymentmode, $paymentmodeid, $categoryid, $repeatallactive,
+			$repeatuntil, $timestamp, $comment, $repeatfreq
+		);
+		if (isset($result['inserted_id'])) {
+			$billObj = $this->billMapper->find($result['inserted_id']);
+			if (is_null($publicShareInfo)) {
+				$authorFullText = $this->trans->t('Guest access');
+			} elseif ($publicShareInfo['label']) {
+				$authorName = $publicShareInfo['label'];
+				$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
 			} else {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+				$authorFullText = $this->trans->t('Share link');
 			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to add bills')],
-				Http::STATUS_UNAUTHORIZED
+			$this->activityManager->triggerEvent(
+				ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+				ActivityManager::SUBJECT_BILL_CREATE,
+				['author' => $authorFullText]
 			);
+			return new DataResponse($result['inserted_id']);
+		} else {
+			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		}
 	}
 
 	/**
 	 * Create a project member
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param string $name
 	 * @param float $weight
 	 * @param int $active
@@ -791,38 +615,26 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
 	public function publicCreateMember(
-		string $projectId, string $password, string $name, float $weight = 1, int $active = 1,
+		string  $token, string $name, float $weight = 1, int $active = 1,
 		?string $color = null, ?string $userid = null
 	): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if (
-			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['maintainer'])
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
-		) {
-			$result = $this->projectService->addMember(
-				$publicShareInfo['projectid'] ?? $projectId, $name, $weight, $active !== 0, $color, $userid
-			);
-			if (!isset($result['error'])) {
-				return new DataResponse($result);
-			} else {
-				return new DataResponse($result['error'], Http::STATUS_BAD_REQUEST);
-			}
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		$result = $this->projectService->addMember(
+			$publicShareInfo['projectid'], $name, $weight, $active !== 0, $color, $userid
+		);
+		if (!isset($result['error'])) {
+			return new DataResponse($result);
 		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to add members')],
-				Http::STATUS_UNAUTHORIZED
-			);
+			return new DataResponse($result['error'], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
 	/**
 	 * Get a project's bill list
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param int|null $lastchanged
 	 * @param int|null $offset
 	 * @param int|null $limit
@@ -839,107 +651,78 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['viewer'])]
 	public function publicGetBills(
-		string $projectId, string $password, ?int $lastchanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false,
-		?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $includeBillId = null,
+		string  $token, ?int $lastchanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false,
+		?int    $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $includeBillId = null,
 		?string $searchTerm = null, ?int $deleted = 0
 	): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if ($this->checkLogin($projectId, $password)
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password']))
-		) {
-			if ($limit) {
-				$bills = $this->billMapper->getBillsWithLimit(
-					$publicShareInfo['projectid'] ?? $projectId, null, null,
-					null, $paymentModeId, $categoryId, null, null,
-					$lastchanged, $limit, $reverse, $offset, $payerId, $includeBillId, $searchTerm, $deleted
-				);
-			} else {
-				$bills = $this->billMapper->getBills(
-					$publicShareInfo['projectid'] ?? $projectId, null, null,
-					null, $paymentModeId, $categoryId, null, null,
-					$lastchanged, null, $reverse, $payerId, $deleted
-				);
-			}
-			$billIds = $this->projectService->getAllBillIds($publicShareInfo['projectid'] ?? $projectId, $deleted);
-			$ts = (new DateTime())->getTimestamp();
-			$result = [
-				'nb_bills' => $this->billMapper->countBills(
-					$publicShareInfo['projectid'] ?? $projectId, $payerId, $categoryId, $paymentModeId, $deleted
-				),
-				'bills' => $bills,
-				'allBillIds' => $billIds,
-				'timestamp' => $ts,
-			];
-			return new DataResponse($result);
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		if ($limit) {
+			$bills = $this->billMapper->getBillsWithLimit(
+				$publicShareInfo['projectid'], null, null,
+				null, $paymentModeId, $categoryId, null, null,
+				$lastchanged, $limit, $reverse, $offset, $payerId, $includeBillId, $searchTerm, $deleted
+			);
 		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				Http::STATUS_UNAUTHORIZED
+			$bills = $this->billMapper->getBills(
+				$publicShareInfo['projectid'], null, null,
+				null, $paymentModeId, $categoryId, null, null,
+				$lastchanged, null, $reverse, $payerId, $deleted
 			);
 		}
+		$billIds = $this->projectService->getAllBillIds($publicShareInfo['projectid'] ?? $token, $deleted);
+		$ts = (new DateTime())->getTimestamp();
+		$result = [
+			'nb_bills' => $this->billMapper->countBills(
+				$publicShareInfo['projectid'], $payerId, $categoryId, $paymentModeId, $deleted
+			),
+			'bills' => $bills,
+			'allBillIds' => $billIds,
+			'timestamp' => $ts,
+		];
+		return new DataResponse($result);
 	}
 
 	/**
 	 * Get a project's member list
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param int|null $lastChanged
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	public function publicGetMembers(string $projectId, string $password, ?int $lastChanged = null): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if ($this->checkLogin($projectId, $password)
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password']))
-		) {
-			$members = $this->projectService->getMembers($publicShareInfo['projectid'] ?? $projectId, null, $lastChanged);
-			return new DataResponse($members);
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				Http::STATUS_UNAUTHORIZED
-			);
-		}
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['viewer'])]
+	public function publicGetMembers(string $token, ?int $lastChanged = null): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		$members = $this->projectService->getMembers($publicShareInfo['projectid'], null, $lastChanged);
+		return new DataResponse($members);
 	}
 
 	/**
 	 * Delete or disable a member
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param int $memberId
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	public function publicDeleteMember(string $projectId, string $password, int $memberId): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if (
-			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['maintainer'])
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
-		) {
-			$result = $this->projectService->deleteMember($publicShareInfo['projectid'] ?? $projectId, $memberId);
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	public function publicDeleteMember(string $token, int $memberId): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+			$result = $this->projectService->deleteMember($publicShareInfo['projectid'], $memberId);
 			if (isset($result['success'])) {
 				return new DataResponse('OK');
 			} else {
 				return new DataResponse($result, Http::STATUS_NOT_FOUND);
 			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				Http::STATUS_UNAUTHORIZED
-			);
-		}
 	}
+
+	// TODO continue from here (projectId -> token, no more fallback to projectId, remove password)
 
 	/**
 	 * Create a payment mode

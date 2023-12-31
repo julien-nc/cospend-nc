@@ -195,13 +195,13 @@ export default {
 				showError(t('cospend', 'Exchange rate should be a number.'))
 				return
 			}
-			network.addCurrency(this.project.id, name, rate, this.addCurrencySuccess)
+			network.createCurrency(this.project.id, name, rate, this.addCurrencySuccess)
 		},
-		addCurrencySuccess(response, name, rate) {
+		addCurrencySuccess(currencyId, name, rate) {
 			this.project.currencies.push({
 				name,
 				exchange_rate: rate,
-				id: response,
+				id: currencyId,
 			})
 			showSuccess(t('cospend', 'Currency {n} added.', { n: name }))
 			this.$refs.newCurrencyName.value = ''

@@ -42,7 +42,7 @@ export function importProject(targetPath, isSplitWise = false, importBeginCallba
 	}
 	network.importProject(targetPath, isSplitWise).then((response) => {
 		if (importSuccessCallback) {
-			importSuccessCallback(response.data)
+			importSuccessCallback(response.data.ocs.data)
 		}
 	}).catch((error) => {
 		showError(

@@ -337,13 +337,13 @@ export default {
 					accesslevel: level,
 					manually_added: true,
 				}
-				network.addSharedAccess(this.projectId, sh).then((response) => {
+				network.createSharedAccess(this.projectId, sh).then((response) => {
 					const newShAccess = {
 						accesslevel: sh.accesslevel,
 						type: sh.type,
-						name: response.data.name,
+						name: response.data.ocs.data.name,
 						userid: sh.user,
-						id: response.data.id,
+						id: response.data.ocs.data.id,
 						manually_added: sh.manually_added,
 					}
 					this.project.shares.push(newShAccess)
@@ -357,7 +357,7 @@ export default {
 				this.deleteAccess()
 			} else if (this.access !== null) {
 				// edit shared access
-				network.setAccessLevel(this.projectId, this.access, level).then((response) => {
+				network.setSharedAccessLevel(this.projectId, this.access, level).then((response) => {
 					this.access.accesslevel = level
 				}).catch((error) => {
 					showError(
@@ -369,7 +369,7 @@ export default {
 		},
 		deleteAccess() {
 			const accessId = this.access.id
-			network.deleteAccess(this.projectId, this.access).then((response) => {
+			network.deleteSharedAccess(this.projectId, this.access).then((response) => {
 				this.deleteAccessSuccess(accessId)
 			}).catch((error) => {
 				console.error(error)

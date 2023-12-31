@@ -505,10 +505,10 @@ export default {
 			}
 		},
 		onRepeatBillNow(billId) {
-			network.repeatBillNow(cospend.currentProjectId, billId).then((response) => {
-				if (response.data.length > 0) {
+			network.repeatBill(cospend.currentProjectId, billId).then((response) => {
+				if (response.data.ocs.data.length > 0) {
 					this.getBills(cospend.currentProjectId, billId)
-					showSuccess(n('cospend', '{nb} bill was created', '{nb} bills were created', response.data.length, { nb: response.data.length }))
+					showSuccess(n('cospend', '{nb} bill was created', '{nb} bills were created', response.data.ocs.data.length, { nb: response.data.ocs.data.length }))
 					// this.currentBill = null
 				} else {
 					showInfo(t('cospend', 'Nothing to repeat'))
@@ -857,17 +857,18 @@ export default {
 		getProjects() {
 			this.projectsLoading = true
 			network.getProjects().then((response) => {
+				const responseData = response.data.ocs.data
 				if (!cospend.pageIsPublic) {
-					response.data.forEach((proj) => { this.addProject(proj) })
+					responseData.forEach((proj) => { this.addProject(proj) })
 					if (cospend.restoredCurrentProjectId !== null && cospend.restoredCurrentProjectId in this.projects) {
 						this.selectProject(cospend.restoredCurrentProjectId, false, false, true)
 					}
 				} else {
-					if (!response.data.myaccesslevel) {
-						response.data.myaccesslevel = response.data.guestaccesslevel
+					if (!responseData.myaccesslevel) {
+						responseData.myaccesslevel = responseData.guestaccesslevel
 					}
-					this.addProject(response.data)
-					this.selectProject(response.data.id, false)
+					this.addProject(responseData)
+					this.selectProject(responseData.id, false)
 				}
 				this.projectsLoading = false
 			}).catch((error) => {
@@ -878,30 +879,31 @@ export default {
 				)
 			})
 		},
-		getBills(projectid, selectBillId = null, callback = null, pushState = true, deleted = false) {
+		getBills(projectId, selectBillId = null, callback = null, pushState = true, deleted = false) {
 			this.billsLoading = true
 			const catFilter = this.selectedCategoryFilter
 			const pmFilter = this.selectedPaymentModeFilter
 			const searchTerm = this.filterQuery
 			network.getBills(
-				projectid, 0, 50, this.selectedMemberId,
+				projectId, 0, 50, this.selectedMemberId,
 				catFilter, pmFilter, selectBillId, searchTerm, deleted,
 			).then((response) => {
-				this.updateProjectInfo(projectid).then(() => {
+				const responseData = response.data.ocs.data
+				this.updateProjectInfo(projectId).then(() => {
 					// update number of filtered bills after project info has been updated
 					if (this.trashbinEnabled) {
-						this.currentProject.nb_trashbin_bills = response.data.nb_bills
+						this.currentProject.nb_trashbin_bills = responseData.nb_bills
 					} else {
-						this.currentProject.nb_bills = response.data.nb_bills
+						this.currentProject.nb_bills = responseData.nb_bills
 					}
 				})
-				this.bills[projectid] = {}
-				this.$set(this.billLists, projectid, response.data.bills)
-				response.data.bills.forEach((bill) => {
-					this.bills[projectid][bill.id] = bill
+				this.bills[projectId] = {}
+				this.$set(this.billLists, projectId, responseData.bills)
+				responseData.bills.forEach((bill) => {
+					this.bills[projectId][bill.id] = bill
 				})
-				if (selectBillId !== null && this.bills[projectid][selectBillId]) {
-					this.currentBill = this.bills[projectid][selectBillId]
+				if (selectBillId !== null && this.bills[projectId][selectBillId]) {
+					this.currentBill = this.bills[projectId][selectBillId]
 					this.mode = 'edition'
 					if (pushState) {
 						window.history.pushState(
@@ -927,26 +929,27 @@ export default {
 				this.billsLoading = false
 			})
 		},
-		loadMoreBills(projectid, state, deleted = false) {
+		loadMoreBills(projectId, state, deleted = false) {
 			const catFilter = this.selectedCategoryFilter
 			const pmFilter = this.selectedPaymentModeFilter
 			const searchTerm = this.filterQuery
 			network.getBills(
-				projectid, this.billLists[projectid].length, 20, this.selectedMemberId,
+				projectId, this.billLists[projectId].length, 20, this.selectedMemberId,
 				catFilter, pmFilter, null, searchTerm, deleted,
 			).then((response) => {
+				const responseData = response.data.ocs.data
 				// update number of filtered bills
 				if (this.trashbinEnabled) {
-					this.currentProject.nb_trashbin_bills = response.data.nb_bills
+					this.currentProject.nb_trashbin_bills = responseData.nb_bills
 				} else {
-					this.currentProject.nb_bills = response.data.nb_bills
+					this.currentProject.nb_bills = responseData.nb_bills
 				}
-				if (!response.data.bills || response.data.bills.length === 0) {
+				if (!responseData.bills || responseData.bills.length === 0) {
 					state.complete()
 				} else {
-					this.$set(this.billLists, projectid, this.billLists[projectid].concat(response.data.bills))
-					response.data.bills.forEach((bill) => {
-						this.bills[projectid][bill.id] = bill
+					this.$set(this.billLists, projectId, this.billLists[projectId].concat(responseData.bills))
+					responseData.bills.forEach((bill) => {
+						this.bills[projectId][bill.id] = bill
 					})
 					state.loaded()
 				}
@@ -1029,23 +1032,24 @@ export default {
 			this.$set(this.projects[projectId], 'archived_ts', this.projects[projectId].archived_ts ? constants.PROJECT_ARCHIVED_TS_UNSET : constants.PROJECT_ARCHIVED_TS_NOW)
 			this.editProject(projectId, null, true)
 		},
-		updateProjectInfo(projectid) {
-			return network.updateProjectInfo(projectid).then((response) => {
-				this.projects[projectid].balance = response.data.balance
+		updateProjectInfo(projectId) {
+			return network.getProjectInfo(projectId).then((response) => {
+				const responseData = response.data.ocs.data
+				this.projects[projectId].balance = responseData.balance
 				let balance
-				for (const memberid in response.data.balance) {
-					balance = response.data.balance[memberid]
-					this.$set(this.members[projectid][memberid], 'balance', balance)
+				for (const memberid in responseData.balance) {
+					balance = responseData.balance[memberid]
+					this.$set(this.members[projectId][memberid], 'balance', balance)
 				}
-				this.updateProjectPrecision(projectid)
+				this.updateProjectPrecision(projectId)
 
-				this.projects[projectid].nb_bills = response.data.nb_bills
-				this.projects[projectid].nb_trashbin_bills = response.data.nb_trashbin_bills
-				this.projects[projectid].total_spent = response.data.total_spent
-				this.projects[projectid].lastchanged = response.data.lastchanged
-				this.projects[projectid].categories = response.data.categories
-				this.projects[projectid].paymentmodes = response.data.paymentmodes
-				this.projects[projectid].archived_ts = response.data.archived_ts
+				this.projects[projectId].nb_bills = responseData.nb_bills
+				this.projects[projectId].nb_trashbin_bills = responseData.nb_trashbin_bills
+				this.projects[projectId].total_spent = responseData.total_spent
+				this.projects[projectId].lastchanged = responseData.lastchanged
+				this.projects[projectId].categories = responseData.categories
+				this.projects[projectId].paymentmodes = responseData.paymentmodes
+				this.projects[projectId].archived_ts = responseData.archived_ts
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to update balances')
@@ -1067,16 +1071,17 @@ export default {
 			} while (sum !== 0.0 && precision < cospend.maxPrecision)
 			this.$set(this.projects[projectid], 'precision', precision)
 		},
-		createMember(projectid, name, userid = null) {
-			network.createMember(projectid, name, userid).then((response) => {
-				response.data.balance = 0
-				response.data.color = rgbObjToHex(response.data.color).replace('#', '')
-				this.$set(this.members[projectid], response.data.id, response.data)
-				this.projects[projectid].members.unshift(response.data)
+		createMember(projectId, name, userid = null) {
+			network.createMember(projectId, name, userid).then((response) => {
+				const responseData = response.data.ocs.data
+				responseData.balance = 0
+				responseData.color = rgbObjToHex(responseData.color).replace('#', '')
+				this.$set(this.members[projectId], responseData.id, responseData)
+				this.projects[projectId].members.unshift(responseData)
 				showSuccess(t('cospend', 'Created member {name}', { name }))
 				// add access to this user if it's not there already
-				if (response.data.userid) {
-					this.addParticipantAccess(projectid, response.data.id, response.data.userid)
+				if (responseData.userid) {
+					this.addParticipantAccess(projectId, responseData.id, responseData.userid)
 				}
 			}).catch((error) => {
 				showError(
@@ -1096,13 +1101,13 @@ export default {
 					accesslevel: 2,
 					manually_added: false,
 				}
-				network.addSharedAccess(projectid, sh).then((response) => {
+				network.createSharedAccess(projectid, sh).then((response) => {
 					const newShAccess = {
 						accesslevel: sh.accesslevel,
 						type: sh.type,
-						name: response.data.name,
+						name: response.data.ocs.data.name,
 						userid: sh.user,
-						id: response.data.id,
+						id: response.data.ocs.data.id,
 						manually_added: sh.manually_added,
 					}
 					this.projects[projectid].shares.push(newShAccess)

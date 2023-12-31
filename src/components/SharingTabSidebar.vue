@@ -576,19 +576,19 @@ export default {
 		},
 		addSharedAccess(sh) {
 			this.addingPublicLink = true
-			network.addSharedAccess(this.projectId, sh).then((response) => {
+			network.createSharedAccess(this.projectId, sh).then((response) => {
 				const newShAccess = {
 					accesslevel: constants.ACCESS.PARTICIPANT,
 					type: sh.type,
 					manually_added: sh.manually_added,
 					password: sh.password,
 				}
-				newShAccess.id = response.data.id
+				newShAccess.id = response.data.ocs.data.id
 				if (sh.type === constants.SHARE_TYPE.PUBLIC_LINK) {
-					newShAccess.token = response.data.token
+					newShAccess.token = response.data.ocs.data.token
 					this.copyLink(newShAccess)
 				} else {
-					newShAccess.name = response.data.name
+					newShAccess.name = response.data.ocs.data.name
 					if (sh.type === constants.SHARE_TYPE.USER) {
 						newShAccess.userid = sh.user
 					} else if (sh.type === constants.SHARE_TYPE.GROUP) {
@@ -610,7 +610,7 @@ export default {
 			})
 		},
 		clickAccessLevel(access, level) {
-			network.setAccessLevel(this.projectId, access, level).then((response) => {
+			network.setSharedAccessLevel(this.projectId, access, level).then((response) => {
 				access.accesslevel = level
 			}).catch((error) => {
 				showError(
@@ -662,7 +662,7 @@ export default {
 		clickDeleteAccess(access) {
 			// to make sure the menu disappears
 			this.$refs.shareWithList.click()
-			network.deleteAccess(this.projectId, access).then((response) => {
+			network.deleteSharedAccess(this.projectId, access).then((response) => {
 				const index = this.shares.indexOf(access)
 				this.shares.splice(index, 1)
 			}).catch((error) => {

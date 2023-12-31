@@ -641,7 +641,7 @@ export default {
 			}
 			const categoryid = selected.id
 			if (this.selectedBillIds.length > 0) {
-				network.saveBills(this.projectId, this.selectedBillIds, categoryid, null).then((response) => {
+				network.editBills(this.projectId, this.selectedBillIds, categoryid, null).then((response) => {
 					this.saveBillsSuccess(this.selectedBillIds, categoryid, null)
 				}).catch((error) => {
 					showError(
@@ -657,7 +657,7 @@ export default {
 			}
 			const paymentmodeid = selected.id
 			if (this.selectedBillIds.length > 0) {
-				network.saveBills(this.projectId, this.selectedBillIds, null, paymentmodeid).then((response) => {
+				network.editBills(this.projectId, this.selectedBillIds, null, paymentmodeid).then((response) => {
 					this.saveBillsSuccess(this.selectedBillIds, null, paymentmodeid)
 				}).catch((error) => {
 					showError(

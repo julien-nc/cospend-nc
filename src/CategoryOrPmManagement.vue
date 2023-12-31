@@ -284,10 +284,10 @@ export default {
 				return
 			}
 			const func = this.type === 'category'
-				? network.addCategory
-				: network.addPaymentMode
+				? network.createCategory
+				: network.createPaymentMode
 			func(this.project.id, name, icon, color, order).then((response) => {
-				this.addElementSuccess(response.data, name, icon, color)
+				this.addElementSuccess(response.data.ocs.data, name, icon, color)
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to add {name}', { name })

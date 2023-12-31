@@ -1133,8 +1133,8 @@ export default {
 				const icon = '🏷'
 				const color = '#000000'
 				const order = this.sortedPaymentModes.length
-				network.addPaymentMode(this.project.id, name, icon, color, order).then((response) => {
-					const newPmId = response.data
+				network.createPaymentMode(this.project.id, name, icon, color, order).then((response) => {
+					const newPmId = response.data.ocs.data
 					this.$set(cospend.projects[this.projectId].paymentmodes, newPmId, {
 						name,
 						icon,
@@ -1169,8 +1169,8 @@ export default {
 				const icon = '✨'
 				const color = '#000000'
 				const order = this.sortedCategories.length
-				network.addCategory(this.project.id, name, icon, color, order).then((response) => {
-					const newCategoryId = response.data
+				network.createCategory(this.project.id, name, icon, color, order).then((response) => {
+					const newCategoryId = response.data.ocs.data
 					this.$set(cospend.projects[this.projectId].categories, newCategoryId, {
 						name,
 						icon,
@@ -1305,7 +1305,7 @@ export default {
 				showError(t('cospend', 'Impossible to save bill, invalid values'))
 			} else {
 				this.billLoading = true
-				network.saveBill(this.projectId, this.myBill).then((response) => {
+				network.editBill(this.projectId, this.myBill).then((response) => {
 					// to update balances
 					this.$emit('bill-saved', this.bill, this.myBill)
 					showSuccess(t('cospend', 'Bill saved'))
@@ -1600,7 +1600,7 @@ export default {
 			}
 			this.billLoading = true
 			network.createBill(this.projectId, req).then((response) => {
-				this.createBillSuccess(response.data, billToCreate, mode)
+				this.createBillSuccess(response.data.ocs.data, billToCreate, mode)
 			}).catch((error) => {
 				const errorText = error.response.status === 500
 					? t('cospend', 'Unknown error')
@@ -1738,7 +1738,7 @@ export default {
 		},
 		generatePublicLinkToFile(targetPath) {
 			network.generatePublicLinkToFile(targetPath).then((response) => {
-				const filePublicUrl = window.location.protocol + '//' + window.location.host + generateUrl('/s/' + response.data.token)
+				const filePublicUrl = window.location.protocol + '//' + window.location.host + generateUrl('/s/' + response.data.ocs.data.token)
 
 				let what = this.myBill.what
 				what = what + ' ' + filePublicUrl

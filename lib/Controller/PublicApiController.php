@@ -15,6 +15,7 @@ use DateTime;
 use OC\User\NoUserException;
 use OCA\Circles\Exceptions\InitiatorNotFoundException;
 use OCA\Circles\Exceptions\RequestBuilderException;
+use OCA\Cospend\Attribute\CospendPublicAuth;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\CORS;
@@ -291,33 +292,24 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['viewer'])]
 	public function publicGetProjectInfo(string $projectId, string $password): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if ($this->checkLogin($projectId, $password)
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password']))
-		) {
-			$projectInfo = $this->projectService->getProjectInfo($publicShareInfo['projectid'] ?? $projectId);
-			if ($projectInfo !== null) {
-				unset($projectInfo['userid']);
-				// for public link share: set the visible access level for frontend
-				if ($publicShareInfo !== null) {
-					$projectInfo['myaccesslevel'] = $publicShareInfo['accesslevel'];
-				} else {
-					// my access level is the guest one
-					$projectInfo['myaccesslevel'] = $projectInfo['guestaccesslevel'];
-				}
-				return new DataResponse($projectInfo);
+		$projectInfo = $this->projectService->getProjectInfo($publicShareInfo['projectid'] ?? $projectId);
+		if ($projectInfo !== null) {
+			unset($projectInfo['userid']);
+			// for public link share: set the visible access level for frontend
+			if ($publicShareInfo !== null) {
+				$projectInfo['myaccesslevel'] = $publicShareInfo['accesslevel'];
 			} else {
-				return new DataResponse(
-					['message' => $this->trans->t('Project not found')],
-					Http::STATUS_NOT_FOUND
-				);
+				// my access level is the guest one
+				$projectInfo['myaccesslevel'] = $projectInfo['guestaccesslevel'];
 			}
+			return new DataResponse($projectInfo);
 		} else {
 			return new DataResponse(
-				['message' => $this->trans->t('Bad password or share link')],
-				Http::STATUS_BAD_REQUEST
+				['message' => $this->trans->t('Project not found')],
+				Http::STATUS_NOT_FOUND
 			);
 		}
 	}

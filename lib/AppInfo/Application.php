@@ -11,6 +11,7 @@
 
 namespace OCA\Cospend\AppInfo;
 
+use OCA\Cospend\Middleware\PublicAuthMiddleware;
 use OCA\Cospend\UserMigration\UserMigrator;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
@@ -85,6 +86,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSearchProvider(CospendSearchProvider::class);
 		$context->registerDashboardWidget(CospendWidget::class);
 		$context->registerUserMigrator(UserMigrator::class);
+		$context->registerMiddleware(PublicAuthMiddleware::class);
 	}
 
 	public function boot(IBootContext $context): void {

@@ -791,7 +791,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->projectService->editProject(
 			'superproj', 'proj', null, null,
 			null, null, null,
-			Application::SORT_ORDERS['most_used'], Application::SORT_ORDERS['most_used']
+			Application::SORT_ORDER_MOST_USED, Application::SORT_ORDER_MOST_USED
 		);
 		// check categories/pm
 		$cats = $this->projectService->getCategoriesOrPaymentModes('superproj', true);
@@ -805,7 +805,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->projectService->editProject(
 			'superproj', 'proj', null, null,
 			null, null, null,
-			Application::SORT_ORDERS['most_recently_used'], Application::SORT_ORDERS['most_recently_used']
+			Application::SORT_ORDER_RECENTLY_USED, Application::SORT_ORDER_RECENTLY_USED
 		);
 		// check categories/pm
 		$cats = $this->projectService->getCategoriesOrPaymentModes('superproj', true);
@@ -1094,7 +1094,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$resp = $this->pageController->webEditProject(
 			'superproj', 'newname', 'email@yep.yop', 'new password',
 			Application::FREQUENCIES['monthly'], '', false,
-			Application::SORT_ORDERS['manual'], Application::SORT_ORDERS['manual']
+			Application::SORT_ORDER_MANUAL, Application::SORT_ORDER_MANUAL
 		);
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
@@ -1129,7 +1129,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$resp = $this->pageController->webEditProject(
 			'superproj', 'newname', 'email@yep.yop', 'new password',
 			Application::FREQUENCIES['monthly'], 'euro', null,
-			'zzz', Application::SORT_ORDERS['manual']
+			'zzz', Application::SORT_ORDER_MANUAL
 		);
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
@@ -1138,7 +1138,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$resp = $this->pageController->webEditProject(
 			'superproj', 'newname', 'email@yep.yop', 'new password',
 			Application::FREQUENCIES['monthly'], 'euro', null,
-			Application::SORT_ORDERS['manual'], 'zzz'
+			Application::SORT_ORDER_MANUAL, 'zzz'
 		);
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
@@ -1147,7 +1147,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$resp = $this->pageController->webEditProject(
 			'superproj', 'newname', 'email@yep.yop', 'new password',
 			'zzz', 'euro', null,
-			Application::SORT_ORDERS['manual'], Application::SORT_ORDERS['manual']
+			Application::SORT_ORDER_MANUAL, Application::SORT_ORDER_MANUAL
 		);
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);

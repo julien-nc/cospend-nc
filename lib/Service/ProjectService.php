@@ -1607,13 +1607,13 @@ class ProjectService {
 			}
 		}
 		if ($categorysort !== null && $categorysort !== '') {
-			if (in_array($categorysort, array_values(Application::SORT_ORDERS))) {
+			if (in_array($categorysort, Application::SORT_ORDERS)) {
 			} else {
 				return ['categorysort' => [$this->l10n->t('Invalid sort order')]];
 			}
 		}
 		if ($paymentmodesort !== null && $paymentmodesort !== '') {
-			if (in_array($paymentmodesort, array_values(Application::SORT_ORDERS))) {
+			if (in_array($paymentmodesort, Application::SORT_ORDERS)) {
 			} else {
 				return ['paymentmodesort' => [$this->l10n->t('Invalid sort order')]];
 			}
@@ -2085,7 +2085,7 @@ class ProjectService {
 				$qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
 		$req = $qb->executeQuery();
-		$sortMethod = Application::SORT_ORDERS['alpha'];
+		$sortMethod = Application::SORT_ORDER_ALPHA;
 		while ($row = $req->fetch()) {
 			$sortMethod = $row[$sortOrderField];
 			break;
@@ -2093,7 +2093,7 @@ class ProjectService {
 		$req->closeCursor();
 		$qb->resetQueryParts();
 
-		if ($sortMethod === Application::SORT_ORDERS['manual'] || $sortMethod === Application::SORT_ORDERS['alpha']) {
+		if ($sortMethod === Application::SORT_ORDER_MANUAL || $sortMethod === Application::SORT_ORDER_ALPHA) {
 			if ($getCategories) {
 				$qb = $qb->select('name', 'id', 'encoded_icon', 'color', 'order');
 			} else {
@@ -2123,7 +2123,7 @@ class ProjectService {
 			}
 			$req->closeCursor();
 			$qb->resetQueryParts();
-		} elseif ($sortMethod === Application::SORT_ORDERS['most_used'] || $sortMethod === Application::SORT_ORDERS['most_recently_used']) {
+		} elseif ($sortMethod === Application::SORT_ORDER_MOST_USED || $sortMethod === Application::SORT_ORDER_RECENTLY_USED) {
 			// get all categories/paymentmodes
 			if ($getCategories) {
 				$qb = $qb->select('name', 'id', 'encoded_icon', 'color');
@@ -2154,7 +2154,7 @@ class ProjectService {
 			$req->closeCursor();
 			$qb->resetQueryParts();
 			// now we get the order
-			if ($sortMethod === Application::SORT_ORDERS['most_used']) {
+			if ($sortMethod === Application::SORT_ORDER_MOST_USED) {
 				// sort by most used
 				// first get list of most used
 				$mostUsedOrder = [];
@@ -2182,7 +2182,7 @@ class ProjectService {
 					// fallback order is more than max order
 					$elements[$cid]['order'] = $mostUsedOrder[$cid] ?? $order;
 				}
-			} elseif ($sortMethod === Application::SORT_ORDERS['most_recently_used']) {
+			} elseif ($sortMethod === Application::SORT_ORDER_RECENTLY_USED) {
 				// sort by most recently used
 				$mostUsedOrder = [];
 				$qb->select($alias . '.id')

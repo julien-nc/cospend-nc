@@ -397,7 +397,7 @@ export default {
 			return [
 				constants.SORT_ORDER.MANUAL,
 				constants.SORT_ORDER.MOST_USED,
-				constants.SORT_ORDER.MOST_RECENTLY_USED,
+				constants.SORT_ORDER.RECENTLY_USED,
 			].includes(this.project.paymentmodesort)
 				? allPaymentModes.sort((a, b) => {
 					return a.order === b.order
@@ -449,7 +449,7 @@ export default {
 			return [
 				constants.SORT_ORDER.MANUAL,
 				constants.SORT_ORDER.MOST_USED,
-				constants.SORT_ORDER.MOST_RECENTLY_USED,
+				constants.SORT_ORDER.RECENTLY_USED,
 			].includes(this.project.categorysort)
 				? allCategories.sort((a, b) => {
 					return a.order === b.order

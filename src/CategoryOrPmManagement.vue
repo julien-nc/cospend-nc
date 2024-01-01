@@ -68,7 +68,7 @@
 					<option :value="constants.SORT_ORDER.MOST_USED">
 						{{ t('cospend', 'Most used') }}
 					</option>
-					<option :value="constants.SORT_ORDER.MOST_RECENTLY_USED">
+					<option :value="constants.SORT_ORDER.RECENTLY_USED">
 						{{ t('cospend', 'Most recently used') }}
 					</option>
 				</select>
@@ -247,7 +247,7 @@ export default {
 			if ([
 				constants.SORT_ORDER.MANUAL,
 				constants.SORT_ORDER.MOST_USED,
-				constants.SORT_ORDER.MOST_RECENTLY_USED,
+				constants.SORT_ORDER.RECENTLY_USED,
 			].includes(this.sortOrderValue)) {
 				return this.elementList.slice().sort((a, b) => {
 					return a.order === b.order

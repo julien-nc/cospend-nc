@@ -30,11 +30,15 @@ class Application extends App implements IBootstrap {
 
 	public const CAT_REIMBURSEMENT = -11;
 
+	public const SORT_ORDER_ALPHA = 'a';
+	public const SORT_ORDER_MANUAL = 'm';
+	public const SORT_ORDER_MOST_USED = 'u';
+	public const SORT_ORDER_RECENTLY_USED = 'r';
 	public const SORT_ORDERS = [
-		'alpha' => 'a',
-		'manual' => 'm',
-		'most_used' => 'u',
-		'most_recently_used' => 'r',
+		self::SORT_ORDER_ALPHA,
+		self::SORT_ORDER_MANUAL,
+		self::SORT_ORDER_MOST_USED,
+		self::SORT_ORDER_RECENTLY_USED,
 	];
 
 	public const FREQUENCIES = [

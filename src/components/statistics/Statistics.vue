@@ -575,7 +575,7 @@ export default {
 			if ([
 				constants.SORT_ORDER.MANUAL,
 				constants.SORT_ORDER.MOST_USED,
-				constants.SORT_ORDER.MOST_RECENTLY_USED,
+				constants.SORT_ORDER.RECENTLY_USED,
 			].includes(this.project.paymentmodesort)) {
 				return Object.values(this.paymentmodes).slice().sort((a, b) => {
 					return a.order === b.order
@@ -600,7 +600,7 @@ export default {
 			if ([
 				constants.SORT_ORDER.MANUAL,
 				constants.SORT_ORDER.MOST_USED,
-				constants.SORT_ORDER.MOST_RECENTLY_USED,
+				constants.SORT_ORDER.RECENTLY_USED,
 			].includes(this.project.categorysort)) {
 				return Object.values(this.categories).slice().sort((a, b) => {
 					return a.order === b.order

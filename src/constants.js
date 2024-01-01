@@ -36,7 +36,7 @@ export const SORT_ORDER = {
 	ALPHA: 'a',
 	MANUAL: 'm',
 	MOST_USED: 'u',
-	MOST_RECENTLY_USED: 'r',
+	RECENTLY_USED: 'r',
 }
 
 export const hardCodedCategories = {

@@ -74,7 +74,7 @@ export default {
 				console.error(error)
 				showError(
 					t('cospend', 'Failed to move bill')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},

@@ -188,11 +188,11 @@ export default {
 			const name = this.$refs.newCurrencyName.value
 			const rate = parseFloat(this.$refs.newCurrencyRate.value)
 			if (name === null || name === '') {
-				showError(t('cospend', 'Currency name should not be empty.'))
+				showError(t('cospend', 'Currency name should not be empty'))
 				return
 			}
 			if (isNaN(rate)) {
-				showError(t('cospend', 'Exchange rate should be a number.'))
+				showError(t('cospend', 'Exchange rate should be a number'))
 				return
 			}
 			network.createCurrency(this.project.id, name, rate, this.addCurrencySuccess)
@@ -203,7 +203,7 @@ export default {
 				exchange_rate: rate,
 				id: currencyId,
 			})
-			showSuccess(t('cospend', 'Currency {n} added.', { n: name }))
+			showSuccess(t('cospend', 'Currency {n} added', { n: name }))
 			this.$refs.newCurrencyName.value = ''
 			this.$refs.newCurrencyRate.value = 1
 		},
@@ -220,7 +220,7 @@ export default {
 		},
 		onEditCurrency(currency, name, exchangeRate) {
 			if (name === '') {
-				showError(t('cospend', 'Currency name should not be empty.'))
+				showError(t('cospend', 'Currency name should not be empty'))
 				return
 			}
 			const backupCurrency = {

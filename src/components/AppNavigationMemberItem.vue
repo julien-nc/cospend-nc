@@ -292,7 +292,7 @@ export default {
 			const members = cospend.projects[this.projectId].members
 			for (const mid in members) {
 				if (members[mid].name === newName && parseInt(mid) !== this.member.id) {
-					showError(t('cospend', 'A member is already named like that.'))
+					showError(t('cospend', 'A member is already named like that'))
 					return
 				}
 			}
@@ -350,7 +350,7 @@ export default {
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to add shared access')
-						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+						+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 					)
 				})
 			} else if (this.access !== null && level === 0) {
@@ -362,7 +362,7 @@ export default {
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to edit shared access level')
-						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+						+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 					)
 				})
 			}
@@ -375,7 +375,7 @@ export default {
 				console.error(error)
 				showError(
 					t('cospend', 'Failed to delete shared access')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},

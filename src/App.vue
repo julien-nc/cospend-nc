@@ -549,7 +549,7 @@ export default {
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to delete bill')
-						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+						+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 					)
 				})
 			}
@@ -585,7 +585,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to restore bill')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},
@@ -601,7 +601,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to delete bills')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},
@@ -875,7 +875,7 @@ export default {
 				console.debug(error)
 				showError(
 					t('cospend', 'Failed to get projects')
-					+ ': ' + error.response.request.responseText,
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},
@@ -922,7 +922,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to get bills')
-					+ ': ' + error.response?.request?.responseText,
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 				console.error(error)
 			}).then(() => {
@@ -956,7 +956,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to get bills')
-					+ ': ' + error.response?.request?.responseText,
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 			}).then(() => {
 			})
@@ -1001,7 +1001,7 @@ export default {
 				console.error(error)
 				showError(
 					t('cospend', 'Failed to create project')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},
@@ -1024,7 +1024,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to delete project')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},
@@ -1053,7 +1053,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to update balances')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},
@@ -1086,7 +1086,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to add member')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},
@@ -1114,7 +1114,7 @@ export default {
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to add shared access')
-						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+						+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 					)
 				})
 			}
@@ -1137,7 +1137,7 @@ export default {
 				console.error(error)
 				showError(
 					t('cospend', 'Failed to save member')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},
@@ -1174,7 +1174,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to edit project')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},

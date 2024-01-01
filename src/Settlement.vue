@@ -432,7 +432,7 @@ export default {
 				this.getSettlementFail()
 				showError(
 					t('cospend', 'Failed to get settlement')
-					+ ': ' + error.response?.request?.responseText,
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 			}).then(() => {
 				this.loading = false
@@ -529,7 +529,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to create bill')
-					+ ': ' + error.response?.request?.responseText,
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},

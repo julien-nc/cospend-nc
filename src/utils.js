@@ -47,7 +47,7 @@ export function importProject(targetPath, isSplitWise = false, importBeginCallba
 	}).catch((error) => {
 		showError(
 			t('cospend', 'Failed to import project file')
-			+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+			+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 		)
 	}).then(() => {
 		if (importEndCallback) {

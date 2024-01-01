@@ -12,6 +12,7 @@
 namespace OCA\Cospend\AppInfo;
 
 use OCA\Cospend\Middleware\PublicAuthMiddleware;
+use OCA\Cospend\Middleware\UserPermissionMiddleware;
 use OCA\Cospend\UserMigration\UserMigrator;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
@@ -23,11 +24,6 @@ use OCA\Cospend\Dashboard\CospendWidget;
 use OCA\Cospend\Notification\Notifier;
 use OCP\Util;
 
-/**
- * Class Application
- *
- * @package OCA\Cospend\AppInfo
- */
 class Application extends App implements IBootstrap {
 
 	public const APP_ID = 'cospend';
@@ -72,11 +68,6 @@ class Application extends App implements IBootstrap {
 		],
 	];
 
-	/**
-	 * Constructor
-	 *
-	 * @param array $urlParams
-	 */
 	public function __construct(array $urlParams = []) {
 		parent::__construct(self::APP_ID, $urlParams);
 	}
@@ -85,8 +76,11 @@ class Application extends App implements IBootstrap {
 		$context->registerNotifierService(Notifier::class);
 		$context->registerSearchProvider(CospendSearchProvider::class);
 		$context->registerDashboardWidget(CospendWidget::class);
+
 		$context->registerUserMigrator(UserMigrator::class);
+
 		$context->registerMiddleware(PublicAuthMiddleware::class);
+		$context->registerMiddleware(UserPermissionMiddleware::class);
 	}
 
 	public function boot(IBootContext $context): void {

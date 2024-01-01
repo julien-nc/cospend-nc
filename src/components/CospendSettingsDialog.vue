@@ -337,7 +337,7 @@ export default {
 				}, 5000)
 			} catch (error) {
 				console.debug(error)
-				showError(t('cospend', 'Guest link could not be copied to clipboard.'))
+				showError(t('cospend', 'Guest link could not be copied to clipboard'))
 			}
 		},
 	},

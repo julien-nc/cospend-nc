@@ -1146,7 +1146,7 @@ export default {
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to add payment mode')
-						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+						+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 					)
 					console.error(error)
 				})
@@ -1182,7 +1182,7 @@ export default {
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to add category')
-						+ ': ' + error.response?.request?.responseText,
+						+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 					)
 					console.error(error)
 				})
@@ -1310,9 +1310,10 @@ export default {
 					this.$emit('bill-saved', this.bill, this.myBill)
 					showSuccess(t('cospend', 'Bill saved'))
 				}).catch((error) => {
+					console.debug(error)
 					showError(
 						t('cospend', 'Failed to save bill')
-						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+						+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 					)
 				}).then(() => {
 					this.billLoading = false
@@ -1602,12 +1603,9 @@ export default {
 			network.createBill(this.projectId, req).then((response) => {
 				this.createBillSuccess(response.data.ocs.data, billToCreate, mode)
 			}).catch((error) => {
-				const errorText = error.response.status === 500
-					? t('cospend', 'Unknown error')
-					: JSON.stringify(error.response?.data?.error)
 				showError(
 					t('cospend', 'Failed to create bill')
-					+ ': ' + errorText,
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 			}).then(() => {
 				this.createBillDone()
@@ -1747,7 +1745,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to generate share link to file')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},

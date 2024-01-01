@@ -646,7 +646,7 @@ export default {
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to save bills')
-						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+						+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 					)
 				})
 			}
@@ -662,7 +662,7 @@ export default {
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to save bills')
-						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+						+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 					)
 				})
 			}
@@ -680,7 +680,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to delete bills')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},

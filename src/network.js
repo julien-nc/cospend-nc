@@ -39,12 +39,12 @@ export function setAllowAnonymousCreation(val) {
 	axios.put(url, req)
 		.then((response) => {
 			showSuccess(
-				t('cospend', 'Cospend setting saved.'),
+				t('cospend', 'Cospend setting saved'),
 			)
 		})
 		.catch((error) => {
 			showError(
-				t('cospend', 'Failed to save Cospend setting.'),
+				t('cospend', 'Failed to save Cospend setting'),
 			)
 			console.debug(error)
 		})
@@ -65,7 +65,7 @@ export function exportProject(filename, projectId, projectName) {
 		.catch((error) => {
 			showError(
 				t('cospend', 'Failed to export project')
-				+ ': ' + error.response.request.responseText,
+				+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 			)
 		})
 }
@@ -409,7 +409,7 @@ export function createCurrency(projectId, name, rate, successCB) {
 		.catch((error) => {
 			showError(
 				t('cospend', 'Failed to add currency')
-				+ ': ' + error.response.request.responseText,
+				+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 			)
 		})
 }
@@ -425,7 +425,7 @@ export function deleteCurrency(projectId, currency, successCB) {
 		.catch((error) => {
 			showError(
 				t('cospend', 'Failed to delete currency')
-				+ ': ' + error.response.request.responseText,
+				+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 			)
 		})
 }
@@ -445,7 +445,7 @@ export function editCurrency(projectId, currency, backupCurrency, failCB) {
 			failCB(currency, backupCurrency)
 			showError(
 				t('cospend', 'Failed to edit currency')
-				+ ': ' + error.response.request.responseText,
+				+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 			)
 		})
 }
@@ -462,7 +462,10 @@ export function getStats(projectId, params, isFiltered, successCB, doneCB) {
 			successCB(response.data.ocs.data, isFiltered)
 		})
 		.catch((error) => {
-			showError(t('cospend', 'Failed to get statistics.'))
+			showError(
+				t('cospend', 'Failed to get statistics')
+				+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
+			)
 			console.debug(error)
 		})
 		.then(() => {
@@ -482,7 +485,7 @@ export function exportStats(projectId, params, doneCB) {
 		.catch((error) => {
 			showError(
 				t('cospend', 'Failed to export project statistics')
-				+ ': ' + error.response.request.responseText,
+				+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 			)
 		})
 		.then(() => {
@@ -524,7 +527,7 @@ export function autoSettlement(projectId, centeredOn, maxTimestamp, precision, s
 		.catch((error) => {
 			showError(
 				t('cospend', 'Failed to add project settlement bills')
-				+ ': ' + error.response.request.responseText,
+				+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 			)
 		})
 }
@@ -544,7 +547,7 @@ export function exportSettlement(projectId, centeredOn, maxTimestamp, successCB)
 		.catch((error) => {
 			showError(
 				t('cospend', 'Failed to export project settlement')
-				+ ': ' + error.response.request.responseText,
+				+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 			)
 		})
 }

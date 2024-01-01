@@ -455,7 +455,7 @@ export default {
 		},
 		clickAddUserItem() {
 			if (this.selectedAddUser === null) {
-				showError(t('cospend', 'Failed to add member.'))
+				showError(t('cospend', 'Failed to add member'))
 				return
 			}
 			if (this.selectedAddUser.type === 'u') {

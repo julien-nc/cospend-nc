@@ -38,7 +38,7 @@ function restoreOptions() {
 	network.getOptionValues().then((response) => {
 		getOptionValuesSuccess(response.data)
 	}).catch((error) => {
-		showError(t('cospend', 'Failed to restore options values.'))
+		showError(t('cospend', 'Failed to restore options values'))
 		console.debug(error)
 	})
 }

@@ -602,7 +602,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to add shared access')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 				console.error(error)
 			}).then(() => {
@@ -615,7 +615,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to edit shared access level')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 				console.error(error)
 			})
@@ -641,7 +641,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to edit share link')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 				console.error(error)
 			})
@@ -654,7 +654,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to edit share link')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 				console.error(error)
 			})
@@ -668,7 +668,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to delete shared access')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 				console.error(error)
 			})
@@ -687,7 +687,7 @@ export default {
 				}, 5000)
 			} catch (error) {
 				console.error(error)
-				showError(t('cospend', 'Link could not be copied to clipboard.'))
+				showError(t('cospend', 'Link could not be copied to clipboard'))
 			}
 		},
 		generateCospendLink(access) {
@@ -713,7 +713,7 @@ export default {
 				this.$emit('project-edited', this.projectId, this.newGuestPassword)
 				this.newGuestPassword = ''
 			} else {
-				showError(t('cospend', 'Password should not be empty.'))
+				showError(t('cospend', 'Password should not be empty'))
 			}
 		},
 		async copyPasswordLink() {
@@ -727,7 +727,7 @@ export default {
 				}, 5000)
 			} catch (error) {
 				console.debug(error)
-				showError(t('cospend', 'Link could not be copied to clipboard.'))
+				showError(t('cospend', 'Link could not be copied to clipboard'))
 			}
 		},
 		clickGuestAccessLevel(level) {
@@ -737,7 +737,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to edit guest access level')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},

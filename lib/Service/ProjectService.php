@@ -268,7 +268,7 @@ class ProjectService {
 	 * @return int
 	 */
 	public function getUserMaxAccessLevel(string $userId, string $projectId): int {
-		$result = 0;
+		$result = Application::ACCESS_LEVELS['none'];
 		$projectInfo = $this->getProjectInfo($projectId);
 		if ($projectInfo !== null) {
 			// does the user own the project ?

@@ -992,7 +992,7 @@ class ProjectService {
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
-	public function addBill(
+	public function createBill(
 		string $projectId, ?string $date, ?string $what, ?int $payer, ?string $payed_for,
 		?float $amount, ?string $repeat, ?string $paymentmode = null, ?int $paymentmodeid = null,
 		?int $categoryid = null, int $repeatallactive = 0, ?string $repeatuntil = null,
@@ -1285,7 +1285,7 @@ class ProjectService {
 			$toId = $transaction['to'];
 			$amount = round((float) $transaction['amount'], $precision);
 			$billTitle = $memberIdToName[$fromId].' → '.$memberIdToName[$toId];
-			$addBillResult = $this->addBill(
+			$addBillResult = $this->createBill(
 				$projectId, null, $billTitle, $fromId, $toId, $amount,
 				Application::FREQUENCY_NO, 'n', 0, Application::CATEGORY_REIMBURSEMENT,
 				0, null, $ts, null, null, $paymentModes
@@ -3064,7 +3064,7 @@ class ProjectService {
 		$newCategoryId = $this->copyBillCategoryOver($projectId, $bill, $toProjectId);
 		$newPaymentId = $this->copyBillPaymentModeOver($projectId, $bill, $toProjectId);
 
-		$result = $this->addBill(
+		$result = $this->createBill(
 			$toProjectId, null, $bill['what'], $newPayer['id'],
 			implode(',', array_column($newOwers, 'id')), $bill['amount'], $bill['repeat'],
 			$bill['paymentmode'], $newPaymentId,
@@ -3132,7 +3132,7 @@ class ProjectService {
 			}
 		}
 
-		$addBillResult = $this->addBill(
+		$addBillResult = $this->createBill(
 			$projectId, null, $bill['what'], $bill['payer_id'],
 			$owerIdsStr, $bill['amount'], $bill['repeat'],
 			$bill['paymentmode'], $bill['paymentmodeid'],
@@ -3606,7 +3606,7 @@ class ProjectService {
 	 * @return int
 	 * @throws \OCP\DB\Exception
 	 */
-	public function addCurrency(string $projectId, string $name, float $rate): int {
+	public function createCurrency(string $projectId, string $name, float $rate): int {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->insert('cospend_currencies')
@@ -4206,7 +4206,7 @@ class ProjectService {
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
-	public function addGroupShare(string $projectId, string $groupId, ?string $fromUserId = null): array {
+	public function createGroupShare(string $projectId, string $groupId, ?string $fromUserId = null): array {
 		if ($this->groupManager->groupExists($groupId)) {
 			$groupName = $this->groupManager->get($groupId)->getDisplayName();
 			$qb = $this->db->getQueryBuilder();
@@ -4335,7 +4335,7 @@ class ProjectService {
 	 * @throws RequestBuilderException
 	 * @throws \OCP\DB\Exception
 	 */
-	public function addCircleShare(string $projectId, string $circleId, ?string $fromUserId = null): array {
+	public function createCircleShare(string $projectId, string $circleId, ?string $fromUserId = null): array {
 		// check if circleId exists
 		$circlesEnabled = $this->appManager->isEnabledForUser('circles');
 		if ($circlesEnabled) {
@@ -5102,7 +5102,7 @@ class ProjectService {
 		}
 		// add currencies
 		foreach ($currencies as $cur) {
-			$insertedCurId = $this->addCurrency($projectid, $cur['name'], $cur['exchange_rate']);
+			$insertedCurId = $this->createCurrency($projectid, $cur['name'], $cur['exchange_rate']);
 			if (!is_numeric($insertedCurId)) {
 				$this->deleteProject($projectid);
 				return ['message' => $this->l10n->t('Error when adding currency %1$s', [$cur['name']])];
@@ -5139,7 +5139,7 @@ class ProjectService {
 				$owerIds[] = $memberNameToId[$strippedOwer];
 			}
 			$owerIdsStr = implode(',', $owerIds);
-			$addBillResult = $this->addBill(
+			$addBillResult = $this->createBill(
 				$projectid, null, $bill['what'], $payerId,
 				$owerIdsStr, $bill['amount'], $bill['repeat'],
 				$bill['paymentmode'], $pmId,
@@ -5343,7 +5343,7 @@ class ProjectService {
 							&& array_key_exists($bill['category_name'], $catNameToId)) {
 							$catId = $catNameToId[$bill['category_name']];
 						}
-						$addBillResult = $this->addBill(
+						$addBillResult = $this->createBill(
 							$projectid, null, $bill['what'], $payerId, $owerIdsStr,
 							$bill['amount'], Application::FREQUENCY_NO,null, 0, $catId,
 							0, null, $bill['timestamp'], null, null, []

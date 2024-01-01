@@ -544,7 +544,7 @@ class ApiController extends OCSController {
 		?int $categoryid = null, int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
 		?string $comment = null, ?int $repeatfreq = null
 	): DataResponse {
-		$result = $this->projectService->addBill(
+		$result = $this->projectService->createBill(
 			$projectId, $date, $what, $payer, $payed_for, $amount,
 			$repeat, $paymentmode, $paymentmodeid, $categoryid, $repeatallactive,
 			$repeatuntil, $timestamp, $comment, $repeatfreq
@@ -919,7 +919,7 @@ class ApiController extends OCSController {
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function createCurrency(string $projectId, string $name, float $rate): DataResponse {
-		$result = $this->projectService->addCurrency($projectId, $name, $rate);
+		$result = $this->projectService->createCurrency($projectId, $name, $rate);
 		if (is_numeric($result)) {
 			return new DataResponse($result);
 		}
@@ -1077,7 +1077,7 @@ class ApiController extends OCSController {
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function createGroupShare(string $projectId, string $groupId): DataResponse {
-		$result = $this->projectService->addGroupShare($projectId, $groupId, $this->userId);
+		$result = $this->projectService->createGroupShare($projectId, $groupId, $this->userId);
 		if (!isset($result['message'])) {
 			return new DataResponse($result);
 		}
@@ -1127,7 +1127,7 @@ class ApiController extends OCSController {
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function createCircleShare(string $projectId, string $circleId): DataResponse {
-		$result = $this->projectService->addCircleShare($projectId, $circleId, $this->userId);
+		$result = $this->projectService->createCircleShare($projectId, $circleId, $this->userId);
 		if (!isset($result['message'])) {
 			return new DataResponse($result);
 		}

@@ -856,10 +856,10 @@ class ApiControllerTest extends TestCase {
 		// currencies
 		$result = $this->projectService->editProject('superproj', 'SuperProj', null, null, null, 'euro');
 		$this->assertTrue(isset($result['success']));
-		$currencyId = $this->projectService->addCurrency('superproj', 'dollar', 1.5);
+		$currencyId = $this->projectService->createCurrency('superproj', 'dollar', 1.5);
 		$this->assertTrue($currencyId > 0);
 
-		$currencyId2 = $this->projectService->addCurrency('superproj', 'dollar2', 1.5);
+		$currencyId2 = $this->projectService->createCurrency('superproj', 'dollar2', 1.5);
 		$this->assertTrue($currencyId2 > 0);
 		$res = $this->projectService->editCurrency('superproj', $currencyId2, 'dolrenamed', 2);
 		$this->assertFalse(isset($res['message']));

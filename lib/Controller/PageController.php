@@ -908,7 +908,7 @@ class PageController extends ApiController {
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
 				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVEL_PARTICIPANT)
 		) {
-			$result = $this->projectService->addBill(
+			$result = $this->projectService->createBill(
 				$publicShareInfo['projectid'] ?? $projectid, $date, $what, $payer, $payed_for, $amount,
 				$repeat, $paymentmode, $paymentmodeid, $categoryid, $repeatallactive,
 				$repeatuntil, $timestamp, $comment, $repeatfreq
@@ -951,7 +951,7 @@ class PageController extends ApiController {
 								?int $categoryid = null, int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
 								?string $comment = null, ?int $repeatfreq = null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVEL_PARTICIPANT) {
-			$result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
+			$result = $this->projectService->createBill($projectid, $date, $what, $payer, $payed_for, $amount,
 													 $repeat, $paymentmode, $paymentmodeid, $categoryid, $repeatallactive,
 													 $repeatuntil, $timestamp, $comment, $repeatfreq);
 			if (isset($result['inserted_id'])) {
@@ -2100,7 +2100,7 @@ class PageController extends ApiController {
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
 				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVEL_MAINTAINER)
 		) {
-			$result = $this->projectService->addCurrency($publicShareInfo['projectid'] ?? $projectid, $name, $rate);
+			$result = $this->projectService->createCurrency($publicShareInfo['projectid'] ?? $projectid, $name, $rate);
 			if (is_numeric($result)) {
 				// inserted currency id
 				return new DataResponse($result);
@@ -2122,7 +2122,7 @@ class PageController extends ApiController {
 	 */
 	public function apiPrivAddCurrency(string $projectid, string $name, float $rate): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVEL_MAINTAINER) {
-			$result = $this->projectService->addCurrency($projectid, $name, $rate);
+			$result = $this->projectService->createCurrency($projectid, $name, $rate);
 			if (is_numeric($result)) {
 				// inserted bill id
 				return new DataResponse($result);

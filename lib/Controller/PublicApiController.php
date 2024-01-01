@@ -574,7 +574,7 @@ class PublicApiController extends OCSController {
 		?string $comment = null, ?int $repeatfreq = null
 	): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
-		$result = $this->projectService->addBill(
+		$result = $this->projectService->createBill(
 			$publicShareInfo['projectid'], $date, $what, $payer, $payed_for, $amount,
 			$repeat, $paymentmode, $paymentmodeid, $categoryid, $repeatallactive,
 			$repeatuntil, $timestamp, $comment, $repeatfreq
@@ -935,7 +935,7 @@ class PublicApiController extends OCSController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function publicCreateCurrency(string $token, string $name, float $rate): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
-		$result = $this->projectService->addCurrency($publicShareInfo['projectid'], $name, $rate);
+		$result = $this->projectService->createCurrency($publicShareInfo['projectid'], $name, $rate);
 		if (is_numeric($result)) {
 			// inserted currency id
 			return new DataResponse($result);

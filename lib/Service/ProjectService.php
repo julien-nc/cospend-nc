@@ -185,7 +185,7 @@ class ProjectService {
 				$qb->select('userid', 'projectid')
 					->from('cospend_shares', 's')
 					->where(
-						$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['user'], IQueryBuilder::PARAM_STR))
+						$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_USER, IQueryBuilder::PARAM_STR))
 					)
 					->andWhere(
 						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -212,7 +212,7 @@ class ProjectService {
 					$qb->select('userid')
 						->from('cospend_shares', 's')
 						->where(
-							$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['group'], IQueryBuilder::PARAM_STR))
+							$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR))
 						)
 						->andWhere(
 							$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -237,7 +237,7 @@ class ProjectService {
 							$qb->select('userid')
 								->from('cospend_shares', 's')
 								->where(
-									$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['circle'], IQueryBuilder::PARAM_STR))
+									$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_CIRCLE, IQueryBuilder::PARAM_STR))
 								)
 								->andWhere(
 									$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -280,7 +280,7 @@ class ProjectService {
 				$qb->select('userid', 'projectid', 'accesslevel')
 					->from('cospend_shares')
 					->where(
-						$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['user'], IQueryBuilder::PARAM_STR))
+						$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_USER, IQueryBuilder::PARAM_STR))
 					)
 					->andWhere(
 						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -309,7 +309,7 @@ class ProjectService {
 				$qb->select('userid', 'accesslevel')
 					->from('cospend_shares')
 					->where(
-						$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['group'], IQueryBuilder::PARAM_STR))
+						$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR))
 					)
 					->andWhere(
 						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -334,7 +334,7 @@ class ProjectService {
 					$qb->select('userid', 'accesslevel')
 						->from('cospend_shares')
 						->where(
-							$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['circle'], IQueryBuilder::PARAM_STR))
+							$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_CIRCLE, IQueryBuilder::PARAM_STR))
 						)
 						->andWhere(
 							$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -1006,7 +1006,7 @@ class ProjectService {
 
 		if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
 			return ['repeat' => $this->l10n->t('Invalid value')];
-		} elseif (!in_array($repeat, array_values(Application::FREQUENCIES))) {
+		} elseif (!in_array($repeat, Application::FREQUENCIES)) {
 			return ['repeat' => $this->l10n->t('Invalid frequency')];
 		}
 		if ($repeatuntil !== null && $repeatuntil === '') {
@@ -1287,7 +1287,7 @@ class ProjectService {
 			$billTitle = $memberIdToName[$fromId].' → '.$memberIdToName[$toId];
 			$addBillResult = $this->addBill(
 				$projectId, null, $billTitle, $fromId, $toId, $amount,
-				Application::FREQUENCIES['no'], 'n', 0, Application::CAT_REIMBURSEMENT,
+				Application::FREQUENCY_NO, 'n', 0, Application::CATEGORY_REIMBURSEMENT,
 				0, null, $ts, null, null, $paymentModes
 			);
 			if (!isset($addBillResult['inserted_id'])) {
@@ -1601,7 +1601,7 @@ class ProjectService {
 			$dbPassword = null;
 		}
 		if ($autoexport !== null && $autoexport !== '') {
-			if (in_array($autoexport, array_values(Application::FREQUENCIES))) {
+			if (in_array($autoexport, Application::FREQUENCIES)) {
 			} else {
 				return ['autoexport' => [$this->l10n->t('Invalid frequency')]];
 			}
@@ -1924,7 +1924,7 @@ class ProjectService {
 				$qb->expr()->eq('s.userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
-				$qb->expr()->eq('s.type', $qb->createNamedParameter(Application::SHARE_TYPES['user'], IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('s.type', $qb->createNamedParameter(Application::SHARE_TYPE_USER, IQueryBuilder::PARAM_STR))
 			);
 		$req = $qb->executeQuery();
 
@@ -1946,7 +1946,7 @@ class ProjectService {
 		$qb->select('userid')
 			->from('cospend_shares', 's')
 			->where(
-				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['group'], IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR))
 			)
 			->groupBy('userid');
 		$req = $qb->executeQuery();
@@ -1969,7 +1969,7 @@ class ProjectService {
 						$qb->expr()->eq('s.userid', $qb->createNamedParameter($candidateGroupId, IQueryBuilder::PARAM_STR))
 					)
 					->andWhere(
-						$qb->expr()->eq('s.type', $qb->createNamedParameter(Application::SHARE_TYPES['group'], IQueryBuilder::PARAM_STR))
+						$qb->expr()->eq('s.type', $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR))
 					);
 				$req = $qb->executeQuery();
 
@@ -1992,7 +1992,7 @@ class ProjectService {
 			$qb->select('userid')
 				->from('cospend_shares', 's')
 				->where(
-					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['circle'], IQueryBuilder::PARAM_STR))
+					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_CIRCLE, IQueryBuilder::PARAM_STR))
 				)
 				->groupBy('userid');
 			$req = $qb->executeQuery();
@@ -2014,7 +2014,7 @@ class ProjectService {
 							$qb->expr()->eq('s.userid', $qb->createNamedParameter($candidateCircleId, IQueryBuilder::PARAM_STR))
 						)
 						->andWhere(
-							$qb->expr()->eq('s.type', $qb->createNamedParameter(Application::SHARE_TYPES['circle'], IQueryBuilder::PARAM_STR))
+							$qb->expr()->eq('s.type', $qb->createNamedParameter(Application::SHARE_TYPE_CIRCLE, IQueryBuilder::PARAM_STR))
 						);
 					$req = $qb->executeQuery();
 
@@ -2265,7 +2265,7 @@ class ProjectService {
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
-				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['user'], IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_USER, IQueryBuilder::PARAM_STR))
 			);
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()){
@@ -2290,7 +2290,7 @@ class ProjectService {
 				'name' => $name,
 				'id' => $dbId,
 				'accesslevel' => $dbAccessLevel,
-				'type' => Application::SHARE_TYPES['user'],
+				'type' => Application::SHARE_TYPE_USER,
 				'manually_added' => $dbManuallyAdded === 1,
 			];
 		}
@@ -2322,7 +2322,7 @@ class ProjectService {
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
-				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['public_link'], IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_PUBLIC_LINK, IQueryBuilder::PARAM_STR))
 			);
 		if (!is_null($maxAccessLevel)) {
 			$qb->andWhere(
@@ -2342,7 +2342,7 @@ class ProjectService {
 				'accesslevel' => $dbAccessLevel,
 				'label' => $dbLabel,
 				'password' => $dbPassword,
-				'type' => Application::SHARE_TYPES['public_link'],
+				'type' => Application::SHARE_TYPE_PUBLIC_LINK,
 			];
 		}
 		$req->closeCursor();
@@ -2367,7 +2367,7 @@ class ProjectService {
 				$qb->expr()->eq('userid', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
-				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['public_link'], IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_PUBLIC_LINK, IQueryBuilder::PARAM_STR))
 			);
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()){
@@ -2407,7 +2407,7 @@ class ProjectService {
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
-				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['group'], IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR))
 			);
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()){
@@ -2430,7 +2430,7 @@ class ProjectService {
 				'name' => $name,
 				'id' => $dbId,
 				'accesslevel' => $dbAccessLevel,
-				'type' => Application::SHARE_TYPES['group'],
+				'type' => Application::SHARE_TYPE_GROUP,
 			];
 		}
 		$req->closeCursor();
@@ -2467,7 +2467,7 @@ class ProjectService {
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 				)
 				->andWhere(
-					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['circle'], IQueryBuilder::PARAM_STR))
+					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_CIRCLE, IQueryBuilder::PARAM_STR))
 				);
 			$req = $qb->executeQuery();
 			while ($row = $req->fetch()) {
@@ -2481,7 +2481,7 @@ class ProjectService {
 						'name' => $circle->getDisplayName(),
 						'id' => $dbId,
 						'accesslevel' => $dbAccessLevel,
-						'type' => Application::SHARE_TYPES['circle'],
+						'type' => Application::SHARE_TYPE_CIRCLE,
 					];
 				} catch (\OCA\Circles\Exceptions\CircleNotFoundException $e) {
 				}
@@ -2729,7 +2729,7 @@ class ProjectService {
 		}
 
 		if ($repeat !== null && $repeat !== '') {
-			if (in_array($repeat, array_values(Application::FREQUENCIES))) {
+			if (in_array($repeat, Application::FREQUENCIES)) {
 				$qb->set('repeat', $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR));
 			} else {
 				return ['repeat' => $this->l10n->t('Invalid value')];
@@ -2870,7 +2870,7 @@ class ProjectService {
 			$qb->select('id', 'projectid', 'what', 'timestamp', 'amount', 'payerid', 'repeat', 'repeatallactive', 'repeatfreq')
 				->from('cospend_bills', 'b')
 				->where(
-					$qb->expr()->neq('repeat', $qb->createNamedParameter(Application::FREQUENCIES['no'], IQueryBuilder::PARAM_STR))
+					$qb->expr()->neq('repeat', $qb->createNamedParameter(Application::FREQUENCY_NO, IQueryBuilder::PARAM_STR))
 				)
 				->andWhere(
 					$qb->expr()->eq('deleted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
@@ -2994,7 +2994,7 @@ class ProjectService {
 		$originCategories = $this->getCategoriesOrPaymentModes($projectId);
 		$destinationCategories = $this->getCategoriesOrPaymentModes($toProjectId);
 
-		if ($bill['categoryid'] !== 0 && $bill['categoryid'] !== Application::CAT_REIMBURSEMENT) {
+		if ($bill['categoryid'] !== 0 && $bill['categoryid'] !== Application::CATEGORY_REIMBURSEMENT) {
 			$originCategory = array_filter($originCategories, static function ($val) use ($bill) {
 				return $val['id'] === $bill['categoryid'];
 			});
@@ -3113,7 +3113,7 @@ class ProjectService {
 		if (count($owerIds) === 0) {
 			$this->editBill(
 				$projectId, $billId, null, null, null, null,
-				null, Application::FREQUENCIES['no'], null, null,
+				null, Application::FREQUENCY_NO, null, null,
 				null, null
 			);
 			return null;
@@ -3125,7 +3125,7 @@ class ProjectService {
 			if ($targetDatetime > $untilDate) {
 				$this->editBill(
 					$projectId, $billId, null, null, null, null,
-					null, Application::FREQUENCIES['no'], null, null,
+					null, Application::FREQUENCY_NO, null, null,
 					null, null
 				);
 				return null;
@@ -3151,7 +3151,7 @@ class ProjectService {
 
 		// now we can remove repeat flag on original bill
 		$this->editBill($projectId, $billId, null, $bill['what'], $bill['payer_id'], null,
-			$bill['amount'], Application::FREQUENCIES['no'], null, null, null, null);
+			$bill['amount'], Application::FREQUENCY_NO, null, null, null, null);
 		return $newBillId;
 	}
 
@@ -3165,7 +3165,7 @@ class ProjectService {
 	 */
 	private function getNextRepetitionDate(array $bill, DateTimeImmutable $billDate): ?DateTimeImmutable {
 		switch ($bill['repeat']) {
-			case Application::FREQUENCIES['daily']:
+			case Application::FREQUENCY_DAILY:
 				if ($bill['repeatfreq'] < 2) {
 					return $billDate->add(new DateInterval('P1D'));
 				} else {
@@ -3173,7 +3173,7 @@ class ProjectService {
 				}
 				break;
 
-			case Application::FREQUENCIES['weekly']:
+			case Application::FREQUENCY_WEEKLY:
 				if ($bill['repeatfreq'] < 2) {
 					return $billDate->add(new DateInterval('P7D'));
 				} else {
@@ -3182,11 +3182,11 @@ class ProjectService {
 				}
 				break;
 
-			case Application::FREQUENCIES['bi_weekly']:
+			case Application::FREQUENCY_BI_WEEKLY:
 				return $billDate->add(new DateInterval('P14D'));
 				break;
 
-			case Application::FREQUENCIES['semi_monthly']:
+			case Application::FREQUENCY_SEMI_MONTHLY:
 				$day = (int) $billDate->format('d');
 				$month = (int) $billDate->format('m');
 				$year = (int) $billDate->format('Y');
@@ -3207,7 +3207,7 @@ class ProjectService {
 				}
 				break;
 
-			case Application::FREQUENCIES['monthly']:
+			case Application::FREQUENCY_MONTHLY:
 				$freq = ($bill['repeatfreq'] < 2) ? 1 : $bill['repeatfreq'];
 				$billMonth = (int) $billDate->format('m');
 				$yearDelta = intdiv($billMonth + $freq - 1, 12);
@@ -3225,7 +3225,7 @@ class ProjectService {
 				}
 				break;
 
-			case Application::FREQUENCIES['yearly']:
+			case Application::FREQUENCY_YEARLY:
 				$freq = ($bill['repeatfreq'] < 2) ? 1 : $bill['repeatfreq'];
 				$billYear = (int) $billDate->format('Y');
 				$billMonth = (int) $billDate->format('m');
@@ -3749,7 +3749,7 @@ class ProjectService {
 				$qb->select('userid', 'projectid')
 					->from('cospend_shares', 's')
 					->where(
-						$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['user'], IQueryBuilder::PARAM_STR))
+						$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_USER, IQueryBuilder::PARAM_STR))
 					)
 					->andWhere(
 						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -3772,7 +3772,7 @@ class ProjectService {
 							->values([
 								'projectid' => $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR),
 								'userid' => $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR),
-								'type' => $qb->createNamedParameter(Application::SHARE_TYPES['user'], IQueryBuilder::PARAM_STR),
+								'type' => $qb->createNamedParameter(Application::SHARE_TYPE_USER, IQueryBuilder::PARAM_STR),
 								'accesslevel' => $qb->createNamedParameter($accesslevel, IQueryBuilder::PARAM_INT),
 								'manually_added' => $qb->createNamedParameter($manually_added ? 1 : 0, IQueryBuilder::PARAM_INT),
 							]);
@@ -3790,7 +3790,7 @@ class ProjectService {
 						$this->activityManager->triggerEvent(
 							ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
 							ActivityManager::SUBJECT_PROJECT_SHARE,
-							['who' => $userId, 'type' => Application::SHARE_TYPES['user']]
+							['who' => $userId, 'type' => Application::SHARE_TYPE_USER]
 						);
 
 						// SEND NOTIFICATION
@@ -3846,7 +3846,7 @@ class ProjectService {
 			->values([
 				'projectid' => $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR),
 				'userid' => $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR),
-				'type' => $qb->createNamedParameter(Application::SHARE_TYPES['public_link'], IQueryBuilder::PARAM_STR)
+				'type' => $qb->createNamedParameter(Application::SHARE_TYPE_PUBLIC_LINK, IQueryBuilder::PARAM_STR)
 			]);
 		$qb->executeStatement();
 		$qb = $qb->resetQueryParts();
@@ -4037,7 +4037,7 @@ class ProjectService {
 		$qb->select('id', 'userid', 'projectid')
 			->from('cospend_shares', 's')
 			->where(
-				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['user'], IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_USER, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -4066,7 +4066,7 @@ class ProjectService {
 					$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
 				)
 				->andWhere(
-					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['user'], IQueryBuilder::PARAM_STR))
+					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_USER, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
 			$qb->resetQueryParts();
@@ -4076,7 +4076,7 @@ class ProjectService {
 			$this->activityManager->triggerEvent(
 				ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
 				ActivityManager::SUBJECT_PROJECT_UNSHARE,
-				['who' => $dbUserId, 'type' => Application::SHARE_TYPES['user']]
+				['who' => $dbUserId, 'type' => Application::SHARE_TYPE_USER]
 			);
 
 			// SEND NOTIFICATION
@@ -4126,7 +4126,7 @@ class ProjectService {
 		$qb->select('id', 'userid', 'projectid')
 			->from('cospend_shares', 's')
 			->where(
-				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['public_link'], IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_PUBLIC_LINK, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -4153,7 +4153,7 @@ class ProjectService {
 					$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
 				)
 				->andWhere(
-					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['public_link'], IQueryBuilder::PARAM_STR))
+					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_PUBLIC_LINK, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
 			$qb->resetQueryParts();
@@ -4214,7 +4214,7 @@ class ProjectService {
 			$qb->select('userid', 'projectid')
 				->from('cospend_shares', 's')
 				->where(
-					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['group'], IQueryBuilder::PARAM_STR))
+					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR))
 				)
 				->andWhere(
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -4236,7 +4236,7 @@ class ProjectService {
 					->values([
 						'projectid' => $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR),
 						'userid' => $qb->createNamedParameter($groupId, IQueryBuilder::PARAM_STR),
-						'type' => $qb->createNamedParameter(Application::SHARE_TYPES['group'], IQueryBuilder::PARAM_STR)
+						'type' => $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR)
 					]);
 				$qb->executeStatement();
 				$qb = $qb->resetQueryParts();
@@ -4248,7 +4248,7 @@ class ProjectService {
 				$this->activityManager->triggerEvent(
 					ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
 					ActivityManager::SUBJECT_PROJECT_SHARE,
-					['who' => $groupId, 'type' => Application::SHARE_TYPES['group']]
+					['who' => $groupId, 'type' => Application::SHARE_TYPE_GROUP]
 				);
 
 				return [
@@ -4278,7 +4278,7 @@ class ProjectService {
 		$qb->select('userid', 'projectid', 'id')
 			->from('cospend_shares', 's')
 			->where(
-				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['group'], IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -4305,7 +4305,7 @@ class ProjectService {
 					$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
 				)
 				->andWhere(
-					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['group'], IQueryBuilder::PARAM_STR))
+					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
 			$qb->resetQueryParts();
@@ -4315,7 +4315,7 @@ class ProjectService {
 			$this->activityManager->triggerEvent(
 				ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
 				ActivityManager::SUBJECT_PROJECT_UNSHARE,
-				['who' => $dbGroupId, 'type' => Application::SHARE_TYPES['group']]
+				['who' => $dbGroupId, 'type' => Application::SHARE_TYPE_GROUP]
 			);
 
 			return ['success' => true];
@@ -4361,7 +4361,7 @@ class ProjectService {
 				$qb->select('userid', 'projectid')
 					->from('cospend_shares', 's')
 					->where(
-						$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['circle'], IQueryBuilder::PARAM_STR))
+						$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_CIRCLE, IQueryBuilder::PARAM_STR))
 					)
 					->andWhere(
 						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -4383,7 +4383,7 @@ class ProjectService {
 						->values([
 							'projectid' => $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR),
 							'userid' => $qb->createNamedParameter($circleId, IQueryBuilder::PARAM_STR),
-							'type' => $qb->createNamedParameter(Application::SHARE_TYPES['circle'], IQueryBuilder::PARAM_STR)
+							'type' => $qb->createNamedParameter(Application::SHARE_TYPE_CIRCLE, IQueryBuilder::PARAM_STR)
 						]);
 					$qb->executeStatement();
 					$qb = $qb->resetQueryParts();
@@ -4395,7 +4395,7 @@ class ProjectService {
 					$this->activityManager->triggerEvent(
 						ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
 						ActivityManager::SUBJECT_PROJECT_SHARE,
-						['who' => $circleId, 'type' => Application::SHARE_TYPES['circle']]
+						['who' => $circleId, 'type' => Application::SHARE_TYPE_CIRCLE]
 					);
 
 					$circlesManager->stopSession();
@@ -4431,7 +4431,7 @@ class ProjectService {
 		$qb->select('userid', 'projectid', 'id')
 			->from('cospend_shares', 's')
 			->where(
-				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['circle'], IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_CIRCLE, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -4458,7 +4458,7 @@ class ProjectService {
 					$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
 				)
 				->andWhere(
-					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPES['circle'], IQueryBuilder::PARAM_STR))
+					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_CIRCLE, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
 			$qb->resetQueryParts();
@@ -4468,7 +4468,7 @@ class ProjectService {
 			$this->activityManager->triggerEvent(
 				ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
 				ActivityManager::SUBJECT_PROJECT_UNSHARE,
-				['who' => $dbCircleId, 'type' => Application::SHARE_TYPES['circle']]
+				['who' => $dbCircleId, 'type' => Application::SHARE_TYPE_CIRCLE]
 			);
 
 			$response = ['success' => true];
@@ -4994,7 +4994,7 @@ class ProjectService {
 					$payer_weight = $data[$columns['payer_weight']];
 					$owers = $data[$columns['owers']];
 					$payer_active = array_key_exists('payer_active', $columns) ? $data[$columns['payer_active']] : 1;
-					$repeat = array_key_exists('repeat', $columns) ? $data[$columns['repeat']] : Application::FREQUENCIES['no'];
+					$repeat = array_key_exists('repeat', $columns) ? $data[$columns['repeat']] : Application::FREQUENCY_NO;
 					$categoryid = array_key_exists('categoryid', $columns) ? (int) $data[$columns['categoryid']] : null;
 					$paymentmode = array_key_exists('paymentmode', $columns) ? $data[$columns['paymentmode']] : null;
 					$paymentmodeid = array_key_exists('paymentmodeid', $columns) ? $data[$columns['paymentmodeid']] : null;
@@ -5345,7 +5345,7 @@ class ProjectService {
 						}
 						$addBillResult = $this->addBill(
 							$projectid, null, $bill['what'], $payerId, $owerIdsStr,
-							$bill['amount'], Application::FREQUENCIES['no'],null, 0, $catId,
+							$bill['amount'], Application::FREQUENCY_NO,null, 0, $catId,
 							0, null, $bill['timestamp'], null, null, []
 						);
 						if (!isset($addBillResult['inserted_id'])) {
@@ -5445,7 +5445,7 @@ class ProjectService {
 					$qb->expr()->eq('userid', $qb->createNamedParameter($uid, IQueryBuilder::PARAM_STR))
 				)
 				->andWhere(
-					$qb->expr()->neq('autoexport', $qb->createNamedParameter(Application::FREQUENCIES['no'], IQueryBuilder::PARAM_STR))
+					$qb->expr()->neq('autoexport', $qb->createNamedParameter(Application::FREQUENCY_NO, IQueryBuilder::PARAM_STR))
 				);
 			$req = $qb->executeQuery();
 
@@ -5456,9 +5456,9 @@ class ProjectService {
 
 				$suffix = $dailySuffix;
 				// TODO add suffix for all frequencies
-				if ($autoexport === Application::FREQUENCIES['weekly']) {
+				if ($autoexport === Application::FREQUENCY_WEEKLY) {
 					$suffix = $weeklySuffix;
-				} elseif ($autoexport === Application::FREQUENCIES['monthly']) {
+				} elseif ($autoexport === Application::FREQUENCY_MONTHLY) {
 					$suffix = $monthlySuffix;
 				}
 				// check if file already exists

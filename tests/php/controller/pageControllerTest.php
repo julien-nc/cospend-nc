@@ -536,7 +536,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// create bills
 		$resp = $this->pageController->webAddBill(
 			'superproj', '2019-01-22', 'boomerang', $idMember1,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'], null, $idPm1, $idCat1,
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO, null, $idPm1, $idCat1,
 			0, '2049-01-01'
 		);
 		$status = $resp->getStatus();
@@ -551,7 +551,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals('2019-01-22', $bill['date']);
 		$this->assertEquals($idMember1, $bill['payer_id']);
 		$this->assertEquals(22.5, $bill['amount']);
-		$this->assertEquals(Application::FREQUENCIES['no'], $bill['repeat']);
+		$this->assertEquals(Application::FREQUENCY_NO, $bill['repeat']);
 		$this->assertEquals('n', $bill['paymentmode']);
 		$this->assertEquals($idPm1, $bill['paymentmodeid']);
 		$this->assertEquals($idCat1, $bill['categoryid']);
@@ -601,7 +601,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// add a bill with this payment mode
 		$resp = $this->pageController->webAddBill(
 			'superproj', '2019-01-22', 'boomerang', $idMember1,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'], null, $oneDefPm['id'], $idCat1,
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO, null, $oneDefPm['id'], $idCat1,
 			0, '2049-01-01'
 		);
 		$status = $resp->getStatus();
@@ -627,7 +627,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// edit a bill with this payment mode
 		$resp = $this->pageController->webEditBill(
 			'superproj', $idBillPm, '2019-01-22', 'boomerang', $idMember1,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'], null, $otherDefPm['id'], $idCat1,
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO, null, $otherDefPm['id'], $idCat1,
 			0, '2049-01-01'
 		);
 		$status = $resp->getStatus();
@@ -642,7 +642,7 @@ class PageNUtilsControllerTest extends TestCase {
 
 		$resp = $this->pageController->webEditBill(
 			'superproj', $idBillPm, '2019-01-22', 'boomerang', $idMember1,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'], $oneDefPm['old_id'], null, $idCat1,
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO, $oneDefPm['old_id'], null, $idCat1,
 			0, '2049-01-01'
 		);
 		$status = $resp->getStatus();
@@ -658,7 +658,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// add bill with old pm id, it should affect the matching default pm
 		$resp = $this->pageController->webAddBill(
 			'superproj', '2019-01-22', 'boomerang', $idMember1,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'],
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO,
 			'c', null, $idCat1,
 			0, '2049-01-01'
 		);
@@ -758,7 +758,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// edit bill
 		$resp = $this->pageController->webEditBill(
 			'superproj', $idBill1, '2039-02-02', 'kangaroo', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCIES['monthly'], null,
+			$idMember1.','.$idMember2, 99, Application::FREQUENCY_MONTHLY, null,
 			$idPm2, $idCat2, 1, '2021-09-10',
 			null, 'newcom', 2
 		);
@@ -772,7 +772,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals('2039-02-02', $bill['date']);
 		$this->assertEquals($idMember2, $bill['payer_id']);
 		$this->assertEquals(99, $bill['amount']);
-		$this->assertEquals(Application::FREQUENCIES['monthly'], $bill['repeat']);
+		$this->assertEquals(Application::FREQUENCY_MONTHLY, $bill['repeat']);
 		$this->assertEquals('n', $bill['paymentmode']);
 		$this->assertEquals($idPm2, $bill['paymentmodeid']);
 		$this->assertEquals($idCat2, $bill['categoryid']);
@@ -817,7 +817,7 @@ class PageNUtilsControllerTest extends TestCase {
 
 		$resp = $this->pageController->webEditBill(
 			'superproj', $idBill1, null, 'boomerang', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCIES['monthly'], null,
+			$idMember1.','.$idMember2, 99, Application::FREQUENCY_MONTHLY, null,
 			null, null, 1, '',
 			123456789, 'newcom', 2
 		);
@@ -838,7 +838,7 @@ class PageNUtilsControllerTest extends TestCase {
 
 		$resp = $this->pageController->webEditBill(
 			'superproj', $idBill1, '2019-01-20', 'boomerang', $idMember1,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCIES['monthly'] . 'wrong_value', null,
+			$idMember1.','.$idMember2, 99, Application::FREQUENCY_MONTHLY . 'wrong_value', null,
 			null, null, null, null,
 			null, 'newcom', 2
 		);
@@ -1093,7 +1093,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// EDIT PROJECT
 		$resp = $this->pageController->webEditProject(
 			'superproj', 'newname', 'email@yep.yop', 'new password',
-			Application::FREQUENCIES['monthly'], '', false,
+			Application::FREQUENCY_MONTHLY, '', false,
 			Application::SORT_ORDER_MANUAL, Application::SORT_ORDER_MANUAL
 		);
 		$status = $resp->getStatus();
@@ -1128,7 +1128,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// invalid category sort
 		$resp = $this->pageController->webEditProject(
 			'superproj', 'newname', 'email@yep.yop', 'new password',
-			Application::FREQUENCIES['monthly'], 'euro', null,
+			Application::FREQUENCY_MONTHLY, 'euro', null,
 			'zzz', Application::SORT_ORDER_MANUAL
 		);
 		$status = $resp->getStatus();
@@ -1137,7 +1137,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// invalid payment mode sort
 		$resp = $this->pageController->webEditProject(
 			'superproj', 'newname', 'email@yep.yop', 'new password',
-			Application::FREQUENCIES['monthly'], 'euro', null,
+			Application::FREQUENCY_MONTHLY, 'euro', null,
 			Application::SORT_ORDER_MANUAL, 'zzz'
 		);
 		$status = $resp->getStatus();
@@ -1156,7 +1156,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// bill with no enabled owers
 		$resp = $this->pageController->webEditBill(
 			'superproj', $idBill2, '2019-02-02', 'kangaroo', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCIES['yearly'], null,
+			$idMember1.','.$idMember2, 99, Application::FREQUENCY_YEARLY, null,
 			$idPm2, $idCat2, 0, '2021-03-10',
 			null, 'newcom', 1
 		);
@@ -1195,7 +1195,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// yearly
 		$resp = $this->pageController->webEditBill(
 			'superproj', $idBill2, '2019-02-02', 'kangaroo', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCIES['yearly'], null,
+			$idMember1.','.$idMember2, 99, Application::FREQUENCY_YEARLY, null,
 			$idPm2, $idCat2, 0, '2021-03-10',
 			null, 'newcom', 1
 		);
@@ -1207,7 +1207,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill, 'repeated bill should not be null');
 		$this->assertEquals(
-			Application::FREQUENCIES['no'],
+			Application::FREQUENCY_NO,
 			$repeatedBill['repeat'],
 			'repeat should be "n" for the repeated bill, it is "' . $repeatedBill['repeat'] . '"'
 		);
@@ -1228,7 +1228,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// yearly freq 2
 		$resp = $this->pageController->webEditBill(
 			'superproj', $idBill2, '2019-02-02', 'kangaroo', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCIES['yearly'], null,
+			$idMember1.','.$idMember2, 99, Application::FREQUENCY_YEARLY, null,
 			$idPm2, $idCat2, 1, '2021-03-10',
 			null, 'newcom', 2
 		);
@@ -1239,7 +1239,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// check repeated bill repeat value
 		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
-		$this->assertEquals(Application::FREQUENCIES['no'], $repeatedBill['repeat']);
+		$this->assertEquals(Application::FREQUENCY_NO, $repeatedBill['repeat']);
 
 		$this->assertEquals(1, count($repeated));
 		foreach ($repeated as $r) {
@@ -1257,7 +1257,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// monthly
 		$resp = $this->pageController->webEditBill(
 			'superproj', $idBill2, '2019-02-02', 'kangaroo', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCIES['monthly'], null,
+			$idMember1.','.$idMember2, 99, Application::FREQUENCY_MONTHLY, null,
 			$idPm2, $idCat2, 1, '2019-05-10',
 			null, 'newcom', 1
 		);
@@ -1268,7 +1268,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// check repeated bill repeat value
 		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
-		$this->assertEquals(Application::FREQUENCIES['no'], $repeatedBill['repeat']);
+		$this->assertEquals(Application::FREQUENCY_NO, $repeatedBill['repeat']);
 
 		$this->assertEquals(3, count($repeated));
 		foreach ($repeated as $r) {
@@ -1286,7 +1286,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// monthly freq 2
 		$resp = $this->pageController->webEditBill(
 			'superproj', $idBill2, '2019-02-02', 'kangaroo', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCIES['monthly'], null,
+			$idMember1.','.$idMember2, 99, Application::FREQUENCY_MONTHLY, null,
 			$idPm2, $idCat2, 1, '2019-06-10',
 			null, 'newcom', 2
 		);
@@ -1297,7 +1297,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// check repeated bill repeat value
 		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
-		$this->assertEquals(Application::FREQUENCIES['no'], $repeatedBill['repeat']);
+		$this->assertEquals(Application::FREQUENCY_NO, $repeatedBill['repeat']);
 
 		$this->assertEquals(2, count($repeated));
 		foreach ($repeated as $r) {
@@ -1315,7 +1315,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// daily
 		$resp = $this->pageController->webEditBill(
 			'superproj', $idBill2, '2019-02-02', 'kangaroo', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCIES['daily'], null,
+			$idMember1.','.$idMember2, 99, Application::FREQUENCY_DAILY, null,
 			$idPm2, $idCat2, 1, '2019-02-12',
 			null, 'newcom', 1
 		);
@@ -1326,7 +1326,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// check repeated bill repeat value
 		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
-		$this->assertEquals(Application::FREQUENCIES['no'], $repeatedBill['repeat']);
+		$this->assertEquals(Application::FREQUENCY_NO, $repeatedBill['repeat']);
 
 		$this->assertEquals(10, count($repeated));
 		foreach ($repeated as $r) {
@@ -1344,7 +1344,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// daily freq 2
 		$resp = $this->pageController->webEditBill(
 			'superproj', $idBill2, '2019-02-02', 'kangaroo', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCIES['daily'], null,
+			$idMember1.','.$idMember2, 99, Application::FREQUENCY_DAILY, null,
 			$idPm2, $idCat2, 1, '2019-02-12',
 			null, 'newcom', 2
 		);
@@ -1355,7 +1355,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// check repeated bill repeat value
 		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
-		$this->assertEquals(Application::FREQUENCIES['no'], $repeatedBill['repeat']);
+		$this->assertEquals(Application::FREQUENCY_NO, $repeatedBill['repeat']);
 
 		$this->assertEquals(5, count($repeated));
 		foreach ($repeated as $r) {
@@ -1373,7 +1373,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// weekly
 		$resp = $this->pageController->webEditBill(
 			'superproj', $idBill2, '2019-03-02', 'kangaroo', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCIES['weekly'], null,
+			$idMember1.','.$idMember2, 99, Application::FREQUENCY_WEEKLY, null,
 			$idPm2, $idCat2, 1, '2019-03-18',
 			null, 'newcom', 1
 		);
@@ -1384,7 +1384,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// check repeated bill repeat value
 		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
-		$this->assertEquals(Application::FREQUENCIES['no'], $repeatedBill['repeat']);
+		$this->assertEquals(Application::FREQUENCY_NO, $repeatedBill['repeat']);
 
 		$this->assertEquals(2, count($repeated));
 		foreach ($repeated as $r) {
@@ -1402,7 +1402,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// weekly freq 2
 		$resp = $this->pageController->webEditBill(
 			'superproj', $idBill2, '2019-03-02', 'kangaroo', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCIES['weekly'], null,
+			$idMember1.','.$idMember2, 99, Application::FREQUENCY_WEEKLY, null,
 			$idPm2, $idCat2, 1, '2019-03-18',
 			null, 'newcom', 2
 		);
@@ -1413,7 +1413,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// check repeated bill repeat value
 		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
-		$this->assertEquals(Application::FREQUENCIES['no'], $repeatedBill['repeat']);
+		$this->assertEquals(Application::FREQUENCY_NO, $repeatedBill['repeat']);
 
 		$this->assertEquals(1, count($repeated));
 		foreach ($repeated as $r) {
@@ -1431,7 +1431,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// bi weekly
 		$resp = $this->pageController->webEditBill(
 			'superproj', $idBill2, '2019-03-02', 'kangaroo', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCIES['bi_weekly'], null,
+			$idMember1.','.$idMember2, 99, Application::FREQUENCY_BI_WEEKLY, null,
 			$idPm2, $idCat2, 1, '2019-04-03',
 			null, 'newcom', 1
 		);
@@ -1442,7 +1442,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// check repeated bill repeat value
 		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
-		$this->assertEquals(Application::FREQUENCIES['no'], $repeatedBill['repeat']);
+		$this->assertEquals(Application::FREQUENCY_NO, $repeatedBill['repeat']);
 
 		$this->assertEquals(2, count($repeated));
 		foreach ($repeated as $r) {
@@ -1460,7 +1460,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// semi monthly
 		$resp = $this->pageController->webEditBill(
 			'superproj', $idBill2, '2019-03-02', 'kangaroo', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCIES['semi_monthly'], null,
+			$idMember1.','.$idMember2, 99, Application::FREQUENCY_SEMI_MONTHLY, null,
 			$idPm2, $idCat2, 1, '2019-04-14',
 			null, 'newcom', 1
 		);
@@ -1471,7 +1471,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// check repeated bill repeat value
 		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
-		$this->assertEquals(Application::FREQUENCIES['no'], $repeatedBill['repeat']);
+		$this->assertEquals(Application::FREQUENCY_NO, $repeatedBill['repeat']);
 
 		$this->assertEquals(2, count($repeated));
 		foreach ($repeated as $r) {
@@ -1643,7 +1643,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// search bills
 		$resp = $this->pageController->webAddBill(
 			'superprojS', '2019-01-22', 'one', $idMember1,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'], null, null, null,
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO, null, null, null,
 			0, '2049-01-01', null, 'super comment 1'
 		);
 		$status = $resp->getStatus();
@@ -1652,7 +1652,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$idBillSearch1 = $data;
 		$resp = $this->pageController->webAddBill(
 			'superprojS', '2019-01-22', 'two', $idMember1,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'], null, null, null,
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO, null, null, null,
 			0, '2049-01-01', null, 'ultra comment 2'
 		);
 		$status = $resp->getStatus();
@@ -1661,7 +1661,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$idBillSearch2 = $data;
 		$resp = $this->pageController->webAddBill(
 			'superprojS', '2019-01-22', 'three', $idMember1,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'], null, null, null,
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO, null, null, null,
 			0, '2049-01-01', null, 'mega comment 3'
 		);
 		$status = $resp->getStatus();
@@ -1709,7 +1709,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// search bills
 		$resp = $this->pageController->webAddBill(
 			'superprojS', '2019-01-22', 'one', $idMember1,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'], null, $idPm1, $idCat1,
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO, null, $idPm1, $idCat1,
 			0, '2049-01-01', null, 'super comment 1'
 		);
 		$status = $resp->getStatus();
@@ -1718,7 +1718,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$idBill1 = $data;
 		$resp = $this->pageController->webAddBill(
 			'superprojS', '2019-01-22', 'two', $idMember2,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'], null, null, $idCat1,
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO, null, null, $idCat1,
 			0, '2049-01-01', null, 'ultra comment 2'
 		);
 		$status = $resp->getStatus();
@@ -1727,7 +1727,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$idBill2 = $data;
 		$resp = $this->pageController->webAddBill(
 			'superprojS', '2019-01-22', 'three', $idMember1,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'], null, null, null,
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO, null, null, null,
 			0, '2049-01-01', null, 'mega comment 3'
 		);
 		$status = $resp->getStatus();
@@ -1787,7 +1787,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// search bills
 		$resp = $this->pageController->webAddBill(
 			$projectId, '2019-01-22', 'one', $idMember1,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'], null, $idPm1, $idCat1,
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO, null, $idPm1, $idCat1,
 			0, '2049-01-01', null, 'super comment 1'
 		);
 		$status = $resp->getStatus();
@@ -1796,7 +1796,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$idBill1 = $data;
 		$resp = $this->pageController->webAddBill(
 			$projectId, '2019-01-22', 'two', $idMember2,
-			$idMember1.','.$idMember3, 22.5, Application::FREQUENCIES['no'], null, null, $idCat1,
+			$idMember1.','.$idMember3, 22.5, Application::FREQUENCY_NO, null, null, $idCat1,
 			0, '2049-01-01', null, 'ultra comment 2'
 		);
 		$status = $resp->getStatus();
@@ -1805,7 +1805,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$idBill2 = $data;
 		$resp = $this->pageController->webAddBill(
 			$projectId, '2019-01-22', 'three', $idMember1,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'], null, null, null,
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO, null, null, null,
 			0, '2049-01-01', null, 'mega comment 3'
 		);
 		$status = $resp->getStatus();

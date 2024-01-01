@@ -413,7 +413,7 @@ class BillMapper extends QBMapper {
 			if ($category === -100) {
 				$or = $qb->expr()->orx();
 				$or->add($qb->expr()->isNull('categoryid'));
-				$or->add($qb->expr()->neq('categoryid', $qb->createNamedParameter(Application::CAT_REIMBURSEMENT, IQueryBuilder::PARAM_INT)));
+				$or->add($qb->expr()->neq('categoryid', $qb->createNamedParameter(Application::CATEGORY_REIMBURSEMENT, IQueryBuilder::PARAM_INT)));
 				$qb->andWhere($or);
 			} else {
 				$qb->andWhere(
@@ -587,7 +587,7 @@ class BillMapper extends QBMapper {
 			if ($category === -100) {
 				$or = $qb->expr()->orx();
 				$or->add($qb->expr()->isNull('categoryid'));
-				$or->add($qb->expr()->neq('categoryid', $qb->createNamedParameter(Application::CAT_REIMBURSEMENT, IQueryBuilder::PARAM_INT)));
+				$or->add($qb->expr()->neq('categoryid', $qb->createNamedParameter(Application::CATEGORY_REIMBURSEMENT, IQueryBuilder::PARAM_INT)));
 				$qb->andWhere($or);
 			} else {
 				$qb->andWhere(

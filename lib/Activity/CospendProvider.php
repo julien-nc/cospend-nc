@@ -261,7 +261,7 @@ class CospendProvider implements IProvider {
 
 	private function parseParamForWho($subjectParams, $params) {
 		if (array_key_exists('who', $subjectParams)) {
-			if ($subjectParams['type'] === Application::SHARE_TYPES['user']) {
+			if ($subjectParams['type'] === Application::SHARE_TYPE_USER) {
 				$user = $this->userManager->get($subjectParams['who']);
 				if ($user === null) {
 					throw new InvalidArgumentException();
@@ -271,7 +271,7 @@ class CospendProvider implements IProvider {
 					'id' => $subjectParams['who'],
 					'name' => $user !== null ? $user->getDisplayName() : $subjectParams['who']
 				];
-			} elseif ($subjectParams['type'] === Application::SHARE_TYPES['group']) {
+			} elseif ($subjectParams['type'] === Application::SHARE_TYPE_GROUP) {
 				$group = $this->groupManager->get($subjectParams['who']);
 				if ($group === null) {
 					throw new InvalidArgumentException();
@@ -281,7 +281,7 @@ class CospendProvider implements IProvider {
 					'id' => $subjectParams['who'],
 					'name' => $group !== null ? $group->getDisplayName() : $subjectParams['who']
 				];
-			} elseif ($subjectParams['type'] === Application::SHARE_TYPES['circle']) {
+			} elseif ($subjectParams['type'] === Application::SHARE_TYPE_CIRCLE) {
 				$displayName = $this->l10n->t('circle %1$s', [$subjectParams['who']]);
 				$circlesEnabled = $this->appManager->isEnabledForUser('circles');
 				if ($circlesEnabled) {

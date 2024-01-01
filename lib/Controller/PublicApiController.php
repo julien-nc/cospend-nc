@@ -88,7 +88,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['admin'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
 	public function publicDeleteProject(string $token): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->deleteProject($publicShareInfo['projectid']);
@@ -108,7 +108,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function publicClearTrashbin(string $token): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		try {
@@ -131,7 +131,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function publicDeleteBill(string $token, int $billId, bool $moveToTrash = true): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$billObj = null;
@@ -174,7 +174,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function publicDeleteBills(string $token, array $billIds, bool $moveToTrash = true): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		if (is_null($publicShareInfo)) {
@@ -217,7 +217,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['viewer'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function publicGetProjectInfo(string $token): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$projectInfo = $this->projectService->getProjectInfo($publicShareInfo['projectid']);
@@ -256,7 +256,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['viewer'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function publicGetProjectStatistics(
 		string $token, ?int $tsMin = null, ?int $tsMax = null,
 		?int   $paymentModeId = null, ?int $categoryId = null,
@@ -283,7 +283,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['viewer'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function publicGetProjectSettlement(string $token, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->getProjectSettlement(
@@ -304,7 +304,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function publicAutoSettlement(
 		string $token, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null
 	): DataResponse {
@@ -334,7 +334,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function publicEditMember(
 		string $token, int $memberId, ?string $name = null, ?float $weight = null,
 		$activated = null, ?string $color = null, ?string $userid = null
@@ -383,7 +383,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function publicEditBill(
 		string $token, int $billId, ?string $date = null, ?string $what = null,
 		?int $payer = null, ?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
@@ -446,7 +446,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function publicEditBills(
 		string $token, array $billIds, ?int $categoryid = null, ?string $date = null,
 		?string $what = null, ?int $payer = null, ?string $payed_for = null, ?float $amount = null,
@@ -495,7 +495,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function publicRepeatBill(string $token, int $billId): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$bill = $this->billMapper->getBill($publicShareInfo['projectid'], $billId);
@@ -523,7 +523,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['admin'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
 	public function publicEditProject(
 		string $token, ?string $name = null, ?string $contact_email = null,
 		?string $autoexport = null, ?string $currencyname = null,
@@ -565,7 +565,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function publicCreateBill(
 		string $token, ?string $date = null, ?string $what = null, ?int $payer = null,
 		?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
@@ -615,7 +615,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function publicCreateMember(
 		string  $token, string $name, float $weight = 1, int $active = 1,
 		?string $color = null, ?string $userid = null
@@ -651,7 +651,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['viewer'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function publicGetBills(
 		string $token, ?int $lastchanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false,
 		?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $includeBillId = null,
@@ -694,7 +694,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['viewer'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function publicGetMembers(string $token, ?int $lastChanged = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$members = $this->projectService->getMembers($publicShareInfo['projectid'], null, $lastChanged);
@@ -711,7 +711,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function publicDeleteMember(string $token, int $memberId): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 			$result = $this->projectService->deleteMember($publicShareInfo['projectid'], $memberId);
@@ -737,7 +737,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function publicCreatePaymentMode(string $token, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->addPaymentMode(
@@ -763,7 +763,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function publicEditPaymentMode(
 		string $token, int $pmId, ?string $name = null, ?string $icon = null, ?string $color = null
 	): DataResponse {
@@ -788,7 +788,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function publicSavePaymentModeOrder(string $token, array $order): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		if ($this->projectService->savePaymentModeOrder($publicShareInfo['projectid'], $order)) {
@@ -809,7 +809,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function publicDeletePaymentMode(string $token, int $pmId): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->deletePaymentMode($publicShareInfo['projectid'], $pmId);
@@ -833,7 +833,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function publicCreateCategory(string $token, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->addCategory(
@@ -861,7 +861,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function publicEditCategory(
 		string  $token, int $categoryId,
 		?string $name = null, ?string $icon = null, ?string $color = null
@@ -888,7 +888,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function publicSaveCategoryOrder(string $token, array $order): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		if ($this->projectService->saveCategoryOrder($publicShareInfo['projectid'], $order)) {
@@ -909,7 +909,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function publicDeleteCategory(string $token, int $categoryId): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->deleteCategory($publicShareInfo['projectid'], $categoryId);
@@ -932,7 +932,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function publicCreateCurrency(string $token, string $name, float $rate): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->addCurrency($publicShareInfo['projectid'], $name, $rate);
@@ -957,7 +957,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function publicEditCurrency(string $token, int $currencyId, string $name, float $rate): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->editCurrency(
@@ -981,7 +981,7 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function publicDeleteCurrency(string $token, int $currencyId): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->deleteCurrency($publicShareInfo['projectid'], $currencyId);

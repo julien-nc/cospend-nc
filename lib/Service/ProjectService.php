@@ -268,12 +268,12 @@ class ProjectService {
 	 * @return int
 	 */
 	public function getUserMaxAccessLevel(string $userId, string $projectId): int {
-		$result = Application::ACCESS_LEVELS['none'];
+		$result = Application::ACCESS_LEVEL_NONE;
 		$projectInfo = $this->getProjectInfo($projectId);
 		if ($projectInfo !== null) {
 			// does the user own the project ?
 			if ($projectInfo['userid'] === $userId) {
-				return Application::ACCESS_LEVELS['admin'];
+				return Application::ACCESS_LEVEL_ADMIN;
 			} else {
 				$qb = $this->db->getQueryBuilder();
 				// is the project shared with the user ?
@@ -365,7 +365,7 @@ class ProjectService {
 		if ($projectInfo !== null) {
 			return (int) $projectInfo['guestaccesslevel'];
 		} else {
-			return Application::ACCESS_LEVELS['none'];
+			return Application::ACCESS_LEVEL_NONE;
 		}
 	}
 
@@ -3735,7 +3735,7 @@ class ProjectService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function addUserShare(
-		string $projectId, string $userId, string $fromUserId, int $accesslevel = Application::ACCESS_LEVELS['participant'],
+		string $projectId, string $userId, string $fromUserId, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT,
 		bool   $manually_added = true
 	): array {
 		$user = $this->userManager->get($userId);

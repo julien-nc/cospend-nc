@@ -437,9 +437,9 @@ class PageNUtilsControllerTest extends TestCase {
 
 		// guest access level
 		$level = $this->projectService->getGuestAccessLevel('superproj');
-		$this->assertEquals(Application::ACCESS_LEVELS['participant'], $level);
+		$this->assertEquals(Application::ACCESS_LEVEL_PARTICIPANT, $level);
 		$level = $this->projectService->getGuestAccessLevel('superproj_doesnotexist');
-		$this->assertEquals(Application::ACCESS_LEVELS['none'], $level);
+		$this->assertEquals(Application::ACCESS_LEVEL_NONE, $level);
 
 		// get members
 		$resp = $this->pageController->webGetProjects();
@@ -912,13 +912,13 @@ class PageNUtilsControllerTest extends TestCase {
 		$res = $this->projectService->editShareAccess('superproj', $shareLinkId, 'lala', 'passpass');
 		$this->assertTrue(isset($res['success']));
 		$this->assertFalse(isset($res['message']));
-		$res = $this->projectService->editShareAccessLevel('superproj', $shareLinkId, Application::ACCESS_LEVELS['admin']);
+		$res = $this->projectService->editShareAccessLevel('superproj', $shareLinkId, Application::ACCESS_LEVEL_ADMIN);
 		$this->assertTrue(isset($res['success']));
 		$this->assertFalse(isset($res['message']));
 		$res = $this->projectService->editShareAccess('superproj', -1, 'lala', 'passpass');
 		$this->assertFalse(isset($res['success']));
 		$this->assertTrue(isset($res['message']));
-		$res = $this->projectService->editShareAccessLevel('superproj', -1, Application::ACCESS_LEVELS['admin']);
+		$res = $this->projectService->editShareAccessLevel('superproj', -1, Application::ACCESS_LEVEL_ADMIN);
 		$this->assertFalse(isset($res['success']));
 		$this->assertTrue(isset($res['message']));
 		$res = $this->projectService->getPublicShares('superproj');
@@ -926,7 +926,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals($shareLinkToken, $res[0]['token']);
 		$this->assertEquals('lala', $res[0]['label']);
 		$this->assertEquals('passpass', $res[0]['password']);
-		$this->assertEquals(Application::ACCESS_LEVELS['admin'], $res[0]['accesslevel']);
+		$this->assertEquals(Application::ACCESS_LEVEL_ADMIN, $res[0]['accesslevel']);
 		$this->assertEquals($shareLinkId, $res[0]['id']);
 
 		// get project stats
@@ -1511,19 +1511,19 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals(403, $status);
 
 		// share the project with second user
-		$resp = $this->pageController->addUserShare('projtodel', 'test2', Application::ACCESS_LEVELS['maintainer']);
+		$resp = $this->pageController->addUserShare('projtodel', 'test2', Application::ACCESS_LEVEL_MAINTAINER);
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
 		$shareId2 = $resp->getData()['id'];
 		// already shared
-		$resp = $this->pageController->addUserShare('projtodel', 'test2', Application::ACCESS_LEVELS['maintainer']);
+		$resp = $this->pageController->addUserShare('projtodel', 'test2', Application::ACCESS_LEVEL_MAINTAINER);
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
 		$data = $resp->getData();
 		$this->assertTrue(isset($data['message']));
 		$this->assertFalse(isset($data['id']));
 		// non-existing user
-		$resp = $this->pageController->addUserShare('projtodel', 'test2_doesnotexist', Application::ACCESS_LEVELS['maintainer']);
+		$resp = $this->pageController->addUserShare('projtodel', 'test2_doesnotexist', Application::ACCESS_LEVEL_MAINTAINER);
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
 		$data = $resp->getData();
@@ -1544,11 +1544,11 @@ class PageNUtilsControllerTest extends TestCase {
 
 		// make someone having shared access share to someone else with higher access level
 		// in this case, test2 shares to test3 with admin access
-		$res = $this->projectService->addUserShare('projtodel', 'test3', 'test2', Application::ACCESS_LEVELS['admin']);
+		$res = $this->projectService->addUserShare('projtodel', 'test3', 'test2', Application::ACCESS_LEVEL_ADMIN);
 		$this->assertTrue(isset($res['message']));
 		$this->assertFalse(isset($res['id']));
 		// but with equal access level, it's fine
-		$res = $this->projectService->addUserShare('projtodel', 'test3', 'test2', Application::ACCESS_LEVELS['maintainer']);
+		$res = $this->projectService->addUserShare('projtodel', 'test3', 'test2', Application::ACCESS_LEVEL_MAINTAINER);
 		$this->assertFalse(isset($res['message']));
 		$this->assertTrue(isset($res['id']));
 

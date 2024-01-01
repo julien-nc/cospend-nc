@@ -47,13 +47,11 @@ class Application extends App implements IBootstrap {
 		'yearly' => 'y',
 	];
 
-	public const ACCESS_LEVELS = [
-		'none' => 0,
-		'viewer' => 1,
-		'participant' => 2,
-		'maintainer' => 3,
-		'admin' => 4,
-	];
+	public const ACCESS_LEVEL_NONE = 0;
+	public const ACCESS_LEVEL_VIEWER = 1;
+	public const ACCESS_LEVEL_PARTICIPANT = 2;
+	public const ACCESS_LEVEL_MAINTAINER = 3;
+	public const ACCESS_LEVEL_ADMIN = 4;
 
 	public const SHARE_TYPES = [
 		'public_link' => 'l',

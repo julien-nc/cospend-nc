@@ -83,7 +83,7 @@ class ApiController extends OCSController {
 		$result = $this->projectService->createProject($name, $id, $password, $email, $this->userId);
 		if (isset($result['id'])) {
 			$projInfo = $this->projectService->getProjectInfo($result['id']);
-			$projInfo['myaccesslevel'] = Application::ACCESS_LEVELS['admin'];
+			$projInfo['myaccesslevel'] = Application::ACCESS_LEVEL_ADMIN;
 			return new DataResponse($projInfo);
 		} else {
 			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
@@ -98,7 +98,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['admin'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
 	public function deleteProject(string $projectId): DataResponse {
 		$result = $this->projectService->deleteProject($projectId);
 		if (!isset($result['error'])) {
@@ -116,7 +116,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function clearTrashbin(string $projectId): DataResponse {
 		try {
 			$this->billMapper->deleteDeletedBills($projectId);
@@ -137,7 +137,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function deleteBill(string $projectId, int $billId, bool $moveToTrash = true): DataResponse {
 		$billObj = null;
 		if ($this->billMapper->getBill($projectId, $billId) !== null) {
@@ -170,7 +170,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function deleteBills(string $projectId, array $billIds, bool $moveToTrash = true): DataResponse {
 		foreach ($billIds as $billid) {
 			$billObj = null;
@@ -202,7 +202,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['viewer'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function getProjectInfo(string $projectId): DataResponse {
 		$projectInfo = $this->projectService->getProjectInfo($projectId);
 		$projectInfo['myaccesslevel'] = $this->projectService->getUserMaxAccessLevel($this->userId, $projectId);
@@ -227,7 +227,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['viewer'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function getProjectStatistics(
 		string $projectId, ?int $tsMin = null, ?int $tsMax = null, ?int $paymentModeId = null,
 		?int   $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
@@ -250,7 +250,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['viewer'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function getProjectSettlement(string $projectId, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
 		$result = $this->projectService->getProjectSettlement($projectId, $centeredOn, $maxTimestamp);
 		return new DataResponse($result);
@@ -267,7 +267,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['viewer'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function autoSettlement(string $projectId, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null): DataResponse {
 		$result = $this->projectService->autoSettlement($projectId, $centeredOn, $precision, $maxTimestamp);
 		if (isset($result['success'])) {
@@ -291,7 +291,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function editMember(
 		string $projectId, int $memberId, ?string $name = null, ?float $weight = null, $activated = null,
 		?string $color = null, ?string $userid = null
@@ -337,7 +337,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function editBill(
 		string $projectId, int $billId, ?string $date = null, ?string $what = null,
 		?int $payer = null, ?string $payed_for = null, ?float $amount = null, ?string $repeat = null,
@@ -389,7 +389,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function editBills(
 		string $projectId, array $billIds, ?int $categoryid = null, ?string $date = null,
 		?string $what = null, ?int $payer = null, ?string $payed_for = null,
@@ -431,10 +431,10 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function moveBill(string $projectId, int $billId, string $toProjectId): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $toProjectId);
-		if ($userAccessLevel < Application::ACCESS_LEVELS['participant']) {
+		if ($userAccessLevel < Application::ACCESS_LEVEL_PARTICIPANT) {
 			return new DataResponse(['message' => $this->trans->t('You are not allowed to access the destination project')], Http::STATUS_UNAUTHORIZED);
 		}
 
@@ -475,7 +475,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function repeatBill(string $projectId, int $billId): DataResponse {
 		$result = $this->projectService->cronRepeatBills($billId);
 		return new DataResponse($result);
@@ -498,7 +498,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['admin'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
 	public function editProject(
 		string $projectId, ?string $name = null, ?string $contact_email = null,
 		?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
@@ -538,7 +538,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function createBill(
 		string $projectId, ?string $date = null, ?string $what = null, ?int $payer = null, ?string $payed_for = null,
 		?float $amount = null, ?string $repeat = null, ?string $paymentmode = null, ?int $paymentmodeid = null,
@@ -576,7 +576,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function createMember(
 		string $projectId, string $name, ?string $userid = null, float $weight = 1,
 		int $active = 1, ?string $color = null
@@ -607,7 +607,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['viewer'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function getBills(
 		string $projectId, ?int $lastchanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false,
 		?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $includeBillId = null,
@@ -657,7 +657,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['viewer'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function getMembers(string $projectId, ?int $lastChanged = null): DataResponse {
 		$members = $this->projectService->getMembers($projectId, null, $lastChanged);
 		return new DataResponse($members);
@@ -672,7 +672,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function deleteMember(string $projectId, int $memberId): DataResponse {
 		$result = $this->projectService->deleteMember($projectId, $memberId);
 		if (isset($result['success'])) {
@@ -692,7 +692,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function editSharedAccessLevel(string $projectId, int $shId, int $accessLevel): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectId);
 		$shareAccessLevel = $this->projectService->getShareAccessLevel($projectId, $shId);
@@ -725,7 +725,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function editSharedAccess(string $projectId, int $shId, ?string $label = null, ?string $password = null): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectId);
 		$shareAccessLevel = $this->projectService->getShareAccessLevel($projectId, $shId);
@@ -756,7 +756,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function createPaymentMode(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
 		$result = $this->projectService->addPaymentMode($projectId, $name, $icon, $color, $order);
 		if (is_numeric($result)) {
@@ -777,7 +777,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function editPaymentMode(
 		string $projectId, int $pmId, ?string $name = null, ?string $icon = null, ?string $color = null
 	): DataResponse {
@@ -797,7 +797,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function savePaymentModeOrder(string $projectId, array $order): DataResponse {
 		if ($this->projectService->savePaymentModeOrder($projectId, $order)) {
 			return new DataResponse(true);
@@ -815,7 +815,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function deletePaymentMode(string $projectId, int $pmId): DataResponse {
 		$result = $this->projectService->deletePaymentMode($projectId, $pmId);
 		if (isset($result['success'])) {
@@ -836,7 +836,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function createCategory(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
 		$result = $this->projectService->addCategory($projectId, $name, $icon, $color, $order);
 		if (is_numeric($result)) {
@@ -858,7 +858,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function editCategory(
 		string $projectId, int $categoryId, ?string $name = null, ?string $icon = null, ?string $color = null
 	): DataResponse {
@@ -880,7 +880,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function saveCategoryOrder(string $projectId, array $order): DataResponse {
 		if ($this->projectService->saveCategoryOrder($projectId, $order)) {
 			return new DataResponse(true);
@@ -898,7 +898,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function deleteCategory(string $projectId, int $categoryId): DataResponse {
 		$result = $this->projectService->deleteCategory($projectId, $categoryId);
 		if (isset($result['success'])) {
@@ -918,7 +918,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function createCurrency(string $projectId, string $name, float $rate): DataResponse {
 		$result = $this->projectService->addCurrency($projectId, $name, $rate);
 		if (is_numeric($result)) {
@@ -939,7 +939,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function editCurrency(string $projectId, int $currencyId, string $name, float $rate): DataResponse {
 		$result = $this->projectService->editCurrency($projectId, $currencyId, $name, $rate);
 		if (!isset($result['message'])) {
@@ -958,7 +958,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function deleteCurrency(string $projectId, int $currencyId): DataResponse {
 		$result = $this->projectService->deleteCurrency($projectId, $currencyId);
 		if (isset($result['success'])) {
@@ -979,9 +979,9 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function createUserShare(
-		string $projectId, string $userId, int $accessLevel = Application::ACCESS_LEVELS['participant'],
+		string $projectId, string $userId, int $accessLevel = Application::ACCESS_LEVEL_PARTICIPANT,
 		bool $manuallyAdded = true
 	): DataResponse {
 		$result = $this->projectService->addUserShare($projectId, $userId, $this->userId, $accessLevel, $manuallyAdded);
@@ -1001,7 +1001,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function deleteUserShare(string $projectId, int $shId): DataResponse {
 		// allow to delete share if user perms are at least participant AND if this share perms are <= user perms
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectId);
@@ -1029,7 +1029,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function createPublicShare(string $projectId): DataResponse {
 		$result = $this->projectService->addPublicShare($projectId);
 		if (is_array($result)) {
@@ -1048,7 +1048,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function deletePublicShare(string $projectId, int $shId): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectId);
 		$shareAccessLevel = $this->projectService->getShareAccessLevel($projectId, $shId);
@@ -1076,7 +1076,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function createGroupShare(string $projectId, string $groupId): DataResponse {
 		$result = $this->projectService->addGroupShare($projectId, $groupId, $this->userId);
 		if (!isset($result['message'])) {
@@ -1095,7 +1095,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function deleteGroupShare(string $projectId, int $shId): DataResponse {
 		// allow to delete share if user perms are at least participant AND if this share perms are <= user perms
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectId);
@@ -1126,7 +1126,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function createCircleShare(string $projectId, string $circleId): DataResponse {
 		$result = $this->projectService->addCircleShare($projectId, $circleId, $this->userId);
 		if (!isset($result['message'])) {
@@ -1145,7 +1145,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['participant'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function deleteCircleShare(string $projectId, int $shId): DataResponse {
 		// allow to delete share if user perms are at least participant AND if this share perms are <= user perms
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectId);
@@ -1223,7 +1223,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['viewer'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function exportCsvSettlement(string $projectId, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
 		$result = $this->projectService->exportCsvSettlement($projectId, $this->userId, $centeredOn, $maxTimestamp);
 		if (isset($result['path'])) {
@@ -1252,7 +1252,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['viewer'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function exportCsvStatistics(
 		string $projectId, ?int $tsMin = null, ?int $tsMax = null,
 		?int $paymentModeId = null, ?int $category = null,
@@ -1282,7 +1282,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVELS['viewer'])]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function exportCsvProject(string $projectId, ?string $name = null): DataResponse {
 		$result = $this->projectService->exportCsvProject($projectId, $this->userId, $name);
 		if (isset($result['path'])) {
@@ -1308,7 +1308,7 @@ class ApiController extends OCSController {
 		$result = $this->projectService->importCsvProject($path, $this->userId);
 		if (isset($result['project_id'])) {
 			$projInfo = $this->projectService->getProjectInfo($result['project_id']);
-			$projInfo['myaccesslevel'] = Application::ACCESS_LEVELS['admin'];
+			$projInfo['myaccesslevel'] = Application::ACCESS_LEVEL_ADMIN;
 			return new DataResponse($projInfo);
 		}
 		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
@@ -1330,7 +1330,7 @@ class ApiController extends OCSController {
 		$result = $this->projectService->importSWProject($path, $this->userId);
 		if (isset($result['project_id'])) {
 			$projInfo = $this->projectService->getProjectInfo($result['project_id']);
-			$projInfo['myaccesslevel'] = Application::ACCESS_LEVELS['admin'];
+			$projInfo['myaccesslevel'] = Application::ACCESS_LEVEL_ADMIN;
 			return new DataResponse($projInfo);
 		}
 		return new DataResponse($result, Http::STATUS_BAD_REQUEST);

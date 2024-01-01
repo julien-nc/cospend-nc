@@ -29,7 +29,7 @@ class PublicAuthMiddleware extends Middleware {
 	) {
 	}
 
-	public function beforeController($controller, $methodName) {
+	public function beforeController($controller, $methodName): void {
 		$reflectionMethod = new ReflectionMethod($controller, $methodName);
 
 		$attributes = $reflectionMethod->getAttributes(CospendPublicAuth::class);
@@ -49,7 +49,7 @@ class PublicAuthMiddleware extends Middleware {
 				/** @var CospendPublicAuth $cospendAuthAttr */
 				$cospendAuthAttr = $attribute->newInstance();
 				$minLevel = $cospendAuthAttr->getMinimumLevel();
-				if ($this->projectService->getGuestAccessLevel($publicShareInfo['projectid']) < $minLevel) {
+				if ($publicShareInfo['accesslevel'] < $minLevel) {
 					throw new CospendPublicAuthNotValidException($this->l->t('Insufficient access level'), Http::STATUS_UNAUTHORIZED);
 				}
 			}

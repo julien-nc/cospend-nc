@@ -464,7 +464,7 @@ class PublicApiController extends OCSController {
 		} else {
 			$authorFullText = $this->trans->t('Share link');
 		}
-		$paymentModes = $this->projectService->getCategoriesOrPaymentModes($publicShareInfo['projectid'] ?? $token, false);
+		$paymentModes = $this->projectService->getCategoriesOrPaymentModes($publicShareInfo['projectid'], false);
 		foreach ($billIds as $billid) {
 			$result = $this->projectService->editBill(
 				$publicShareInfo['projectid'], $billid, $date, $what, $payer, $payed_for,
@@ -653,8 +653,8 @@ class PublicApiController extends OCSController {
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['viewer'])]
 	public function publicGetBills(
-		string  $token, ?int $lastchanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false,
-		?int    $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $includeBillId = null,
+		string $token, ?int $lastchanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false,
+		?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $includeBillId = null,
 		?string $searchTerm = null, ?int $deleted = 0
 	): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -671,7 +671,7 @@ class PublicApiController extends OCSController {
 				$lastchanged, null, $reverse, $payerId, $deleted
 			);
 		}
-		$billIds = $this->projectService->getAllBillIds($publicShareInfo['projectid'] ?? $token, $deleted);
+		$billIds = $this->projectService->getAllBillIds($publicShareInfo['projectid'], $deleted);
 		$ts = (new DateTime())->getTimestamp();
 		$result = [
 			'nb_bills' => $this->billMapper->countBills(
@@ -727,8 +727,7 @@ class PublicApiController extends OCSController {
 	/**
 	 * Create a payment mode
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param string $name
 	 * @param string|null $icon
 	 * @param string $color
@@ -738,35 +737,23 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	public function publicCreatePaymentMode(string $projectId, string $password, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if (
-			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['maintainer'])
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
-		) {
-			$result = $this->projectService->addPaymentMode(
-				$publicShareInfo['projectid'] ?? $projectId, $name, $icon, $color, $order
-			);
-			if (is_numeric($result)) {
-				return new DataResponse($result);
-			} else {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-			}
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	public function publicCreatePaymentMode(string $token, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		$result = $this->projectService->addPaymentMode(
+			$publicShareInfo['projectid'], $name, $icon, $color, $order
+		);
+		if (is_numeric($result)) {
+			return new DataResponse($result);
 		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage payment modes')],
-				Http::STATUS_UNAUTHORIZED
-			);
+			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		}
 	}
 
 	/**
 	 * Edit a payment mode
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param int $pmId
 	 * @param string|null $name
 	 * @param string|null $icon
@@ -776,69 +763,45 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
 	public function publicEditPaymentMode(
-		string $projectId, string $password, int $pmId, ?string $name = null, ?string $icon = null, ?string $color = null
+		string $token, int $pmId, ?string $name = null, ?string $icon = null, ?string $color = null
 	): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if (
-			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['maintainer'])
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
-		) {
-			$result = $this->projectService->editPaymentMode(
-				$publicShareInfo['projectid'] ?? $projectId, $pmId, $name, $icon, $color
-			);
-			if (is_array($result)) {
-				return new DataResponse($result);
-			} else {
-				return new DataResponse($result, Http::STATUS_FORBIDDEN);
-			}
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		$result = $this->projectService->editPaymentMode(
+			$publicShareInfo['projectid'], $pmId, $name, $icon, $color
+		);
+		if (is_array($result)) {
+			return new DataResponse($result);
 		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage payment modes')],
-				Http::STATUS_UNAUTHORIZED
-			);
+			return new DataResponse($result, Http::STATUS_FORBIDDEN);
 		}
 	}
 
 	/**
 	 * Save payment modes order
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param array $order
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	public function publicSavePaymentModeOrder(string $projectId, string $password, array $order): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if (
-			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['maintainer'])
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
-		) {
-			if ($this->projectService->savePaymentModeOrder($publicShareInfo['projectid'] ?? $projectId, $order)) {
-				return new DataResponse(true);
-			} else {
-				return new DataResponse(false, Http::STATUS_FORBIDDEN);
-			}
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	public function publicSavePaymentModeOrder(string $token, array $order): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		if ($this->projectService->savePaymentModeOrder($publicShareInfo['projectid'], $order)) {
+			return new DataResponse(true);
 		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage payment modes')],
-				Http::STATUS_UNAUTHORIZED
-			);
+			return new DataResponse(false, Http::STATUS_FORBIDDEN);
 		}
 	}
 
 	/**
 	 * Delete a payment mode
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param int $pmId
 	 * @return DataResponse
 	 * @throws Exception
@@ -846,33 +809,21 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	public function publicDeletePaymentMode(string $projectId, string $password, int $pmId): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if (
-			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['maintainer'])
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
-		) {
-			$result = $this->projectService->deletePaymentMode($publicShareInfo['projectid'] ?? $projectId, $pmId);
-			if (isset($result['success'])) {
-				return new DataResponse($pmId);
-			} else {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-			}
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	public function publicDeletePaymentMode(string $token, int $pmId): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		$result = $this->projectService->deletePaymentMode($publicShareInfo['projectid'], $pmId);
+		if (isset($result['success'])) {
+			return new DataResponse($pmId);
 		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage payment modes')],
-				Http::STATUS_UNAUTHORIZED
-			);
+			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		}
 	}
 
 	/**
 	 * Create a category
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param string $name
 	 * @param string|null $icon
 	 * @param string $color
@@ -882,36 +833,24 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	public function publicCreateCategory(string $projectId, string $password, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if (
-			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['maintainer'])
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
-		) {
-			$result = $this->projectService->addCategory(
-				$publicShareInfo['projectid'] ?? $projectId, $name, $icon, $color, $order
-			);
-			if (is_numeric($result)) {
-				// inserted category id
-				return new DataResponse($result);
-			} else {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-			}
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	public function publicCreateCategory(string $token, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		$result = $this->projectService->addCategory(
+			$publicShareInfo['projectid'], $name, $icon, $color, $order
+		);
+		if (is_numeric($result)) {
+			// inserted category id
+			return new DataResponse($result);
 		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage categories')],
-				Http::STATUS_UNAUTHORIZED
-			);
+			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		}
 	}
 
 	/**
 	 * Edit a category
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param int $categoryId
 	 * @param string|null $name
 	 * @param string|null $icon
@@ -922,38 +861,26 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
 	public function publicEditCategory(
-		string $projectId, string $password, int $categoryId,
+		string  $token, int $categoryId,
 		?string $name = null, ?string $icon = null, ?string $color = null
 	): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if (
-			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['maintainer'])
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
-		) {
-			$result = $this->projectService->editCategory(
-				$publicShareInfo['projectid'] ?? $projectId, $categoryId, $name, $icon, $color
-			);
-			if (is_array($result)) {
-				return new DataResponse($result);
-			} else {
-				return new DataResponse($result, Http::STATUS_FORBIDDEN);
-			}
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		$result = $this->projectService->editCategory(
+			$publicShareInfo['projectid'], $categoryId, $name, $icon, $color
+		);
+		if (is_array($result)) {
+			return new DataResponse($result);
 		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage categories')],
-				Http::STATUS_UNAUTHORIZED
-			);
+			return new DataResponse($result, Http::STATUS_FORBIDDEN);
 		}
 	}
 
 	/**
 	 * Save categories order
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param array $order
 	 * @return DataResponse
 	 * @throws Exception
@@ -961,32 +888,20 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	public function publicSaveCategoryOrder(string $projectId, string $password, array $order): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if (
-			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['maintainer'])
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
-		) {
-			if ($this->projectService->saveCategoryOrder($publicShareInfo['projectid'] ?? $projectId, $order)) {
-				return new DataResponse(true);
-			} else {
-				return new DataResponse(false, Http::STATUS_FORBIDDEN);
-			}
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	public function publicSaveCategoryOrder(string $token, array $order): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		if ($this->projectService->saveCategoryOrder($publicShareInfo['projectid'], $order)) {
+			return new DataResponse(true);
 		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage categories')],
-				Http::STATUS_UNAUTHORIZED
-			);
+			return new DataResponse(false, Http::STATUS_FORBIDDEN);
 		}
 	}
 
 	/**
 	 * Delete a category
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param int $categoryId
 	 * @return DataResponse
 	 * @throws Exception
@@ -994,33 +909,21 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	public function publicDeleteCategory(string $projectId, string $password, int $categoryId): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if (
-			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['maintainer'])
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
-		) {
-			$result = $this->projectService->deleteCategory($publicShareInfo['projectid'] ?? $projectId, $categoryId);
-			if (isset($result['success'])) {
-				return new DataResponse($categoryId);
-			} else {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-			}
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	public function publicDeleteCategory(string $token, int $categoryId): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		$result = $this->projectService->deleteCategory($publicShareInfo['projectid'], $categoryId);
+		if (isset($result['success'])) {
+			return new DataResponse($categoryId);
 		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage categories')],
-				Http::STATUS_UNAUTHORIZED
-			);
+			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		}
 	}
 
 	/**
 	 * Create a currency
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param string $name
 	 * @param float $rate
 	 * @return DataResponse
@@ -1029,34 +932,22 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	public function publicCreateCurrency(string $projectId, string $password, string $name, float $rate): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if (
-			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['maintainer'])
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
-		) {
-			$result = $this->projectService->addCurrency($publicShareInfo['projectid'] ?? $projectId, $name, $rate);
-			if (is_numeric($result)) {
-				// inserted currency id
-				return new DataResponse($result);
-			} else {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-			}
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	public function publicCreateCurrency(string $token, string $name, float $rate): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		$result = $this->projectService->addCurrency($publicShareInfo['projectid'], $name, $rate);
+		if (is_numeric($result)) {
+			// inserted currency id
+			return new DataResponse($result);
 		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage currencies')],
-				Http::STATUS_UNAUTHORIZED
-			);
+			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		}
 	}
 
 	/**
 	 * Edit a currency
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param int $currencyId
 	 * @param string $name
 	 * @param float $rate
@@ -1066,35 +957,23 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	public function publicEditCurrency(string $projectId, string $password, int $currencyId, string $name, float $rate): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if (
-			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['maintainer'])
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
-		) {
-			$result = $this->projectService->editCurrency(
-				$publicShareInfo['projectid'] ?? $projectId, $currencyId, $name, $rate
-			);
-			if (!isset($result['message'])) {
-				return new DataResponse($result);
-			} else {
-				return new DataResponse($result, Http::STATUS_FORBIDDEN);
-			}
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	public function publicEditCurrency(string $token, int $currencyId, string $name, float $rate): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		$result = $this->projectService->editCurrency(
+			$publicShareInfo['projectid'], $currencyId, $name, $rate
+		);
+		if (!isset($result['message'])) {
+			return new DataResponse($result);
 		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage currencies')],
-				Http::STATUS_UNAUTHORIZED
-			);
+			return new DataResponse($result, Http::STATUS_FORBIDDEN);
 		}
 	}
 
 	/**
 	 * Delete a currency
 	 *
-	 * @param string $projectId
-	 * @param string $password
+	 * @param string $token
 	 * @param int $currencyId
 	 * @return DataResponse
 	 * @throws Exception
@@ -1102,25 +981,14 @@ class PublicApiController extends OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]
-	public function publicDeleteCurrency(string $projectId, string $password, int $currencyId): DataResponse {
-		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectId);
-		if (
-			($this->checkLogin($projectId, $password) && $this->projectService->getGuestAccessLevel($projectId) >= Application::ACCESS_LEVELS['maintainer'])
-			|| ($publicShareInfo !== null
-				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
-		) {
-			$result = $this->projectService->deleteCurrency($publicShareInfo['projectid'] ?? $projectId, $currencyId);
-			if (isset($result['success'])) {
-				return new DataResponse($currencyId);
-			} else {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-			}
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVELS['maintainer'])]
+	public function publicDeleteCurrency(string $token, int $currencyId): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		$result = $this->projectService->deleteCurrency($publicShareInfo['projectid'], $currencyId);
+		if (isset($result['success'])) {
+			return new DataResponse($currencyId);
 		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage currencies')],
-				Http::STATUS_UNAUTHORIZED
-			);
+			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		}
 	}
 }

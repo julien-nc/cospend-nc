@@ -15,18 +15,14 @@ use DateTime;
 use OC\User\NoUserException;
 use OCA\Circles\Exceptions\InitiatorNotFoundException;
 use OCA\Circles\Exceptions\RequestBuilderException;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\CORS;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\OCSController;
-use OCP\AppFramework\Services\IInitialState;
 use OCP\DB\Exception;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
-use OCP\IConfig;
 use OCP\IL10N;
 
 use OCP\AppFramework\Http\ContentSecurityPolicy;
@@ -39,7 +35,6 @@ use OCP\Share\IShare;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\Files\IRootFolder;
-use OCP\IDBConnection;
 
 use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Service\ProjectService;
@@ -51,18 +46,13 @@ class ApiController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		private IConfig $config,
 		private IManager $shareManager,
 		private IUserManager $userManager,
 		private IL10N $trans,
 		private BillMapper $billMapper,
 		private ProjectService $projectService,
 		private ActivityManager $activityManager,
-		private IDBConnection $dbconnection,
 		private IRootFolder $root,
-		private IInitialState $initialStateService,
-		private IAppManager $appManager,
-		private IEventDispatcher $eventDispatcher,
 		private ?string $userId
 	) {
 		parent::__construct($appName, $request, 'PUT, POST, GET, DELETE, PATCH, OPTIONS');

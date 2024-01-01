@@ -1642,7 +1642,7 @@ class ProjectService {
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
-	public function addMember(
+	public function createMember(
 		string  $projectId, string $name, ?float $weight = 1.0, bool $active = true,
 		?string $color = null, ?string $userId = null
 	): array {
@@ -2981,7 +2981,7 @@ class ProjectService {
 
 			// no payment mode match, means new mode
 			if (count($paymentNameMatches) === 0) {
-				return $this->addPaymentMode($toProjectId, $originPayment['name'], $originPayment['icon'], $originPayment['color']);
+				return $this->createPaymentMode($toProjectId, $originPayment['name'], $originPayment['icon'], $originPayment['color']);
 			} else {
 				return array_shift($paymentNameMatches)['id'];
 			}
@@ -3007,7 +3007,7 @@ class ProjectService {
 
 			// no category match, means new category
 			if (count($categoryNameMatches) === 0) {
-				return $this->addCategory($toProjectId, $originCategory['name'], $originCategory['icon'], $originCategory['color']);
+				return $this->createCategory($toProjectId, $originCategory['name'], $originCategory['icon'], $originCategory['color']);
 			} else {
 				return array_shift($categoryNameMatches)['id'];
 			}
@@ -3254,7 +3254,7 @@ class ProjectService {
 	 * @param int|null $order
 	 * @return int
 	 */
-	public function addPaymentMode(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): int {
+	public function createPaymentMode(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): int {
 		$qb = $this->db->getQueryBuilder();
 
 		$encIcon = $icon;
@@ -3427,7 +3427,7 @@ class ProjectService {
 	 * @param int|null $order
 	 * @return int
 	 */
-	public function addCategory(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): int {
+	public function createCategory(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): int {
 		$qb = $this->db->getQueryBuilder();
 
 		$encIcon = $icon;
@@ -3734,7 +3734,7 @@ class ProjectService {
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
-	public function addUserShare(
+	public function createUserShare(
 		string $projectId, string $userId, string $fromUserId, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT,
 		bool   $manually_added = true
 	): array {
@@ -3837,7 +3837,7 @@ class ProjectService {
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
-	public function addPublicShare(string $projectId): array {
+	public function createPublicShare(string $projectId): array {
 		$qb = $this->db->getQueryBuilder();
 		// generate token
 		$token = md5($projectId.rand());
@@ -5084,7 +5084,7 @@ class ProjectService {
 		}
 		// add payment modes
 		foreach ($paymentModes as $pm) {
-			$insertedPmId = $this->addPaymentMode($projectid, $pm['name'], $pm['icon'], $pm['color']);
+			$insertedPmId = $this->createPaymentMode($projectid, $pm['name'], $pm['icon'], $pm['color']);
 			if (!is_numeric($insertedPmId)) {
 				$this->deleteProject($projectid);
 				return ['message' => $this->l10n->t('Error when adding payment mode %1$s', [$pm['name']])];
@@ -5093,7 +5093,7 @@ class ProjectService {
 		}
 		// add categories
 		foreach ($categories as $cat) {
-			$insertedCatId = $this->addCategory($projectid, $cat['name'], $cat['icon'], $cat['color']);
+			$insertedCatId = $this->createCategory($projectid, $cat['name'], $cat['icon'], $cat['color']);
 			if (!is_numeric($insertedCatId)) {
 				$this->deleteProject($projectid);
 				return ['message' => $this->l10n->t('Error when adding category %1$s', [$cat['name']])];
@@ -5110,7 +5110,7 @@ class ProjectService {
 		}
 		// add members
 		foreach ($membersByName as $memberName => $member) {
-			$insertedMember = $this->addMember(
+			$insertedMember = $this->createMember(
 				$projectid, $memberName, $member['weight'], $member['active'], $member['color'] ?? null
 			);
 			if (!is_array($insertedMember)) {
@@ -5313,7 +5313,7 @@ class ProjectService {
 					// add categories
 					$catNameToId = [];
 					foreach ($categoryNames as $categoryName) {
-						$insertedCatId = $this->addCategory($projectid, $categoryName, null, '#000000');
+						$insertedCatId = $this->createCategory($projectid, $categoryName, null, '#000000');
 						if (!is_numeric($insertedCatId)) {
 							$this->deleteProject($projectid);
 							return ['message' => $this->l10n->t('Error when adding category %1$s', [$categoryName])];
@@ -5322,7 +5322,7 @@ class ProjectService {
 					}
 					// add members
 					foreach ($membersWeight as $memberName => $weight) {
-						$insertedMember = $this->addMember($projectid, $memberName, $weight);
+						$insertedMember = $this->createMember($projectid, $memberName, $weight);
 						if (!is_array($insertedMember)) {
 							$this->deleteProject($projectid);
 							return ['message' => $this->l10n->t('Error when adding member %1$s', [$memberName])];

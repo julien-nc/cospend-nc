@@ -32,7 +32,6 @@ use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Constants;
-use OCP\Files\FileInfo;
 use OCP\Share\IShare;
 use OCP\IUserManager;
 use OCP\Share\IManager;
@@ -55,7 +54,7 @@ class ApiController extends OCSController {
 		private ProjectService $projectService,
 		private ActivityManager $activityManager,
 		private IRootFolder $root,
-		private ?string $userId
+		public ?string $userId
 	) {
 		parent::__construct($appName, $request, 'PUT, POST, GET, DELETE, PATCH, OPTIONS');
 	}
@@ -155,7 +154,7 @@ class ApiController extends OCSController {
 			}
 			return new DataResponse('OK');
 		} else {
-			return new DataResponse($result, Http::STATUS_NOT_FOUND);
+			return new DataResponse($result, Http::STATUS_FORBIDDEN);
 		}
 	}
 
@@ -445,7 +444,7 @@ class ApiController extends OCSController {
 		$result = $this->projectService->moveBill($projectId, $billId, $toProjectId);
 
 		if (!isset($result['inserted_id'])) {
-			return new DataResponse($result, Http::STATUS_FORBIDDEN);
+			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		}
 
 		$newBillObj = $this->billMapper->find ($result ['inserted_id']);
@@ -581,7 +580,7 @@ class ApiController extends OCSController {
 		string $projectId, string $name, ?string $userid = null, float $weight = 1,
 		int $active = 1, ?string $color = null
 	): DataResponse {
-		$result = $this->projectService->addMember($projectId, $name, $weight, $active !== 0, $color, $userid);
+		$result = $this->projectService->createMember($projectId, $name, $weight, $active !== 0, $color, $userid);
 		if (!isset($result['error'])) {
 			return new DataResponse($result);
 		}
@@ -758,7 +757,7 @@ class ApiController extends OCSController {
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function createPaymentMode(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
-		$result = $this->projectService->addPaymentMode($projectId, $name, $icon, $color, $order);
+		$result = $this->projectService->createPaymentMode($projectId, $name, $icon, $color, $order);
 		if (is_numeric($result)) {
 			return new DataResponse($result);
 		}
@@ -838,7 +837,7 @@ class ApiController extends OCSController {
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function createCategory(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
-		$result = $this->projectService->addCategory($projectId, $name, $icon, $color, $order);
+		$result = $this->projectService->createCategory($projectId, $name, $icon, $color, $order);
 		if (is_numeric($result)) {
 			return new DataResponse($result);
 		}
@@ -984,7 +983,7 @@ class ApiController extends OCSController {
 		string $projectId, string $userId, int $accessLevel = Application::ACCESS_LEVEL_PARTICIPANT,
 		bool $manuallyAdded = true
 	): DataResponse {
-		$result = $this->projectService->addUserShare($projectId, $userId, $this->userId, $accessLevel, $manuallyAdded);
+		$result = $this->projectService->createUserShare($projectId, $userId, $this->userId, $accessLevel, $manuallyAdded);
 		if (!isset($result['message'])) {
 			return new DataResponse($result);
 		}
@@ -1031,7 +1030,7 @@ class ApiController extends OCSController {
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function createPublicShare(string $projectId): DataResponse {
-		$result = $this->projectService->addPublicShare($projectId);
+		$result = $this->projectService->createPublicShare($projectId);
 		if (is_array($result)) {
 			return new DataResponse($result);
 		}

@@ -338,7 +338,7 @@ class PageController extends ApiController {
 				$response->setContentSecurityPolicy($csp);
 				return $response;
 			} else {
-				//$response = new DataResponse(null, 403);
+				//$response = new DataResponse(null, Http::STATUS_FORBIDDEN);
 				//return $response;
 				$params = [
 					'wrong' => true,
@@ -457,7 +457,7 @@ class PageController extends ApiController {
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('You are not allowed to access this project')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -478,7 +478,7 @@ class PageController extends ApiController {
 			if (isset($result['success'])) {
 				return new DataResponse('UPDATED');
 			} else {
-				return new DataResponse($result, 400);
+				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 			}
 		} else {
 			return new DataResponse(
@@ -501,12 +501,12 @@ class PageController extends ApiController {
 			if (isset($result['id'])) {
 				return new DataResponse($result['id']);
 			} else {
-				return new DataResponse($result, 400);
+				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 			}
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('Anonymous project creation is not allowed on this server')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -521,7 +521,7 @@ class PageController extends ApiController {
 		if (isset($result['id'])) {
 			return new DataResponse($result['id']);
 		} else {
-			return new DataResponse($result, 400);
+			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -557,7 +557,7 @@ class PageController extends ApiController {
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('Bad password or share link')],
-				400
+				Http::STATUS_BAD_REQUEST
 			);
 		}
 	}
@@ -611,7 +611,7 @@ class PageController extends ApiController {
 			if (isset($result['success'])) {
 				return new DataResponse('UPDATED');
 			} else {
-				return new DataResponse($result, 400);
+				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 			}
 		} else {
 			return new DataResponse(
@@ -655,7 +655,7 @@ class PageController extends ApiController {
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('Unauthorized action')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -769,7 +769,7 @@ class PageController extends ApiController {
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('Unauthorized action')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -821,13 +821,13 @@ class PageController extends ApiController {
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
 				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVEL_MAINTAINER)
 		) {
-			$result = $this->projectService->addMember(
+			$result = $this->projectService->createMember(
 				$publicShareInfo['projectid'] ?? $projectid, $name, $weight, $active !== 0, $color, null
 			);
 			if (!isset($result['error'])) {
 				return new DataResponse($result['id']);
 			} else {
-				return new DataResponse($result['error'], 400);
+				return new DataResponse($result['error'], Http::STATUS_BAD_REQUEST);
 			}
 		} else {
 			return new DataResponse(
@@ -852,13 +852,13 @@ class PageController extends ApiController {
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
 				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVEL_MAINTAINER)
 		) {
-			$result = $this->projectService->addMember(
+			$result = $this->projectService->createMember(
 				$publicShareInfo['projectid'] ?? $projectid, $name, $weight, $active !== 0, $color, $userid
 			);
 			if (!isset($result['error'])) {
 				return new DataResponse($result);
 			} else {
-				return new DataResponse($result['error'], 400);
+				return new DataResponse($result['error'], Http::STATUS_BAD_REQUEST);
 			}
 		} else {
 			return new DataResponse(
@@ -876,16 +876,16 @@ class PageController extends ApiController {
 	public function apiPrivAddMember(string $projectid, string $name, float $weight = 1, int $active = 1,
 									?string $color = null, ?string $userid = null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVEL_MAINTAINER) {
-			$result = $this->projectService->addMember($projectid, $name, $weight, $active !== 0, $color, $userid);
+			$result = $this->projectService->createMember($projectid, $name, $weight, $active !== 0, $color, $userid);
 			if (!isset($result['error'])) {
 				return new DataResponse($result['id']);
 			} else {
-				return new DataResponse($result['error'], 400);
+				return new DataResponse($result['error'], Http::STATUS_BAD_REQUEST);
 			}
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('You are not allowed to add members')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -930,7 +930,7 @@ class PageController extends ApiController {
 				);
 				return new DataResponse($result['inserted_id']);
 			} else {
-				return new DataResponse($result, 400);
+				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 			}
 		} else {
 			return new DataResponse(
@@ -963,12 +963,12 @@ class PageController extends ApiController {
 				);
 				return new DataResponse($result['inserted_id']);
 			} else {
-				return new DataResponse($result, 400);
+				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 			}
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('You are not allowed to add bills')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -1042,7 +1042,7 @@ class PageController extends ApiController {
 
 				return new DataResponse($result['edited_bill_id']);
 			} else {
-				return new DataResponse($result, 400);
+				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 			}
 		} else {
 			return new DataResponse(
@@ -1096,7 +1096,7 @@ class PageController extends ApiController {
 						['author' => $authorFullText]
 					);
 				} else {
-					return new DataResponse($result, 400);
+					return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 				}
 			}
 			return new DataResponse($billIds);
@@ -1137,12 +1137,12 @@ class PageController extends ApiController {
 
 				return new DataResponse($result['edited_bill_id']);
 			} else {
-				return new DataResponse($result, 400);
+				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 			}
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('Unauthorized action')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -1289,7 +1289,7 @@ class PageController extends ApiController {
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('Unauthorized action')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -1322,7 +1322,7 @@ class PageController extends ApiController {
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('Unauthorized action')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -1371,7 +1371,7 @@ class PageController extends ApiController {
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('Unauthorized action')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -1420,7 +1420,7 @@ class PageController extends ApiController {
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('Unauthorized action')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -1454,7 +1454,7 @@ class PageController extends ApiController {
 			} elseif (array_key_exists('activated', $result)) {
 				return new DataResponse($result);
 			} else {
-				return new DataResponse($result, 403);
+				return new DataResponse($result, Http::STATUS_FORBIDDEN);
 			}
 		} else {
 			return new DataResponse(
@@ -1483,12 +1483,12 @@ class PageController extends ApiController {
 			} elseif (array_key_exists('activated', $result)) {
 				return new DataResponse($result);
 			} else {
-				return new DataResponse($result, 403);
+				return new DataResponse($result, Http::STATUS_FORBIDDEN);
 			}
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('Unauthorized action')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -1569,7 +1569,7 @@ class PageController extends ApiController {
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('Unauthorized action')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -1610,7 +1610,7 @@ class PageController extends ApiController {
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('Unauthorized action')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -1636,7 +1636,7 @@ class PageController extends ApiController {
 			if (isset($result['success'])) {
 				return new DataResponse('OK');
 			} else {
-				return new DataResponse($result, 403);
+				return new DataResponse($result, Http::STATUS_FORBIDDEN);
 			}
 		} else {
 			return new DataResponse(
@@ -1657,12 +1657,12 @@ class PageController extends ApiController {
 			if (isset($result['success'])) {
 				return new DataResponse('OK');
 			} else {
-				return new DataResponse($result, 403);
+				return new DataResponse($result, Http::STATUS_FORBIDDEN);
 			}
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('Unauthorized action')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -1677,12 +1677,12 @@ class PageController extends ApiController {
 			if (isset($result['success'])) {
 				return new DataResponse('OK');
 			} else {
-				return new DataResponse($result, 400);
+				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 			}
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('You are not allowed to edit guest access level')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -1696,7 +1696,7 @@ class PageController extends ApiController {
 	public function apiEditGuestAccessLevel($projectid, $password, $accesslevel): DataResponse {
 		return new DataResponse(
 			['message' => $this->trans->t('You are not allowed to edit guest access level')],
-			403
+			Http::STATUS_FORBIDDEN
 		);
 		//if ($this->checkLogin($projectid, $password)) {
 		//    $guestAccessLevel = $this->projectService->getGuestAccessLevel($projectid);
@@ -1706,20 +1706,20 @@ class PageController extends ApiController {
 		//            return new DataResponse($result);
 		//        }
 		//        else {
-		//            return new DataResponse($result, 400);
+		//            return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		//        }
 		//    }
 		//    else {
 		//        return new DataResponse(
 		//            ['message' => $this->trans->t('You are not allowed to give such access level')],
-		//				403
+		//				Http::STATUS_FORBIDDEN
 		//        );
 		//    }
 		//}
 		//else {
 		//    return new DataResponse(
 		//        ['message' => $this->trans->t('You are not allowed to access this project')],
-		//			403
+		//			Http::STATUS_FORBIDDEN
 		//    );
 		//}
 	}
@@ -1738,13 +1738,13 @@ class PageController extends ApiController {
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
 				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVEL_MAINTAINER)
 		) {
-			$result = $this->projectService->addPaymentMode(
+			$result = $this->projectService->createPaymentMode(
 				$publicShareInfo['projectid'] ?? $projectid, $name, $icon, $color, $order
 			);
 			if (is_numeric($result)) {
 				return new DataResponse($result);
 			} else {
-				return new DataResponse($result, 400);
+				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 			}
 		} else {
 			return new DataResponse(
@@ -1761,16 +1761,16 @@ class PageController extends ApiController {
 	 */
 	public function apiPrivAddPaymentMode(string $projectid, string $name, ?string $icon = null, ?string $color = null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVEL_MAINTAINER) {
-			$result = $this->projectService->addPaymentMode($projectid, $name, $icon, $color);
+			$result = $this->projectService->createPaymentMode($projectid, $name, $icon, $color);
 			if (is_numeric($result)) {
 				return new DataResponse($result);
 			} else {
-				return new DataResponse($result, 400);
+				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 			}
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('You are not allowed to manage payment modes')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -1796,7 +1796,7 @@ class PageController extends ApiController {
 			if (is_array($result)) {
 				return new DataResponse($result);
 			} else {
-				return new DataResponse($result, 403);
+				return new DataResponse($result, Http::STATUS_FORBIDDEN);
 			}
 		} else {
 			return new DataResponse(
@@ -1823,7 +1823,7 @@ class PageController extends ApiController {
 			if ($this->projectService->savePaymentModeOrder($publicShareInfo['projectid'] ?? $projectid, $order)) {
 				return new DataResponse(true);
 			} else {
-				return new DataResponse(false, 403);
+				return new DataResponse(false, Http::STATUS_FORBIDDEN);
 			}
 		} else {
 			return new DataResponse(
@@ -1845,12 +1845,12 @@ class PageController extends ApiController {
 			if (is_array($result)) {
 				return new DataResponse($result);
 			} else {
-				return new DataResponse($result, 403);
+				return new DataResponse($result, Http::STATUS_FORBIDDEN);
 			}
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('You are not allowed to manage payment modes')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -1873,7 +1873,7 @@ class PageController extends ApiController {
 			if (isset($result['success'])) {
 				return new DataResponse($pmid);
 			} else {
-				return new DataResponse($result, 400);
+				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 			}
 		} else {
 			return new DataResponse(
@@ -1894,12 +1894,12 @@ class PageController extends ApiController {
 			if (isset($result['success'])) {
 				return new DataResponse($pmid);
 			} else {
-				return new DataResponse($result, 400);
+				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 			}
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('You are not allowed to manage payment modes')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -1918,14 +1918,14 @@ class PageController extends ApiController {
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
 				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVEL_MAINTAINER)
 		) {
-			$result = $this->projectService->addCategory(
+			$result = $this->projectService->createCategory(
 				$publicShareInfo['projectid'] ?? $projectid, $name, $icon, $color, $order
 			);
 			if (is_numeric($result)) {
 				// inserted category id
 				return new DataResponse($result);
 			} else {
-				return new DataResponse($result, 400);
+				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 			}
 		} else {
 			return new DataResponse(
@@ -1942,17 +1942,17 @@ class PageController extends ApiController {
 	 */
 	public function apiPrivAddCategory(string $projectid, string $name, ?string $icon = null, ?string $color = null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVEL_MAINTAINER) {
-			$result = $this->projectService->addCategory($projectid, $name, $icon, $color);
+			$result = $this->projectService->createCategory($projectid, $name, $icon, $color);
 			if (is_numeric($result)) {
 				// inserted category id
 				return new DataResponse($result);
 			} else {
-				return new DataResponse($result, 400);
+				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 			}
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('You are not allowed to manage categories')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -1978,7 +1978,7 @@ class PageController extends ApiController {
 			if (is_array($result)) {
 				return new DataResponse($result);
 			} else {
-				return new DataResponse($result, 403);
+				return new DataResponse($result, Http::STATUS_FORBIDDEN);
 			}
 		} else {
 			return new DataResponse(
@@ -2005,7 +2005,7 @@ class PageController extends ApiController {
 			if ($this->projectService->saveCategoryOrder($publicShareInfo['projectid'] ?? $projectid, $order)) {
 				return new DataResponse(true);
 			} else {
-				return new DataResponse(false, 403);
+				return new DataResponse(false, Http::STATUS_FORBIDDEN);
 			}
 		} else {
 			return new DataResponse(
@@ -2027,12 +2027,12 @@ class PageController extends ApiController {
 			if (is_array($result)) {
 				return new DataResponse($result);
 			} else {
-				return new DataResponse($result, 403);
+				return new DataResponse($result, Http::STATUS_FORBIDDEN);
 			}
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('You are not allowed to manage categories')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -2055,7 +2055,7 @@ class PageController extends ApiController {
 			if (isset($result['success'])) {
 				return new DataResponse($categoryid);
 			} else {
-				return new DataResponse($result, 400);
+				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 			}
 		} else {
 			return new DataResponse(
@@ -2076,12 +2076,12 @@ class PageController extends ApiController {
 			if (isset($result['success'])) {
 				return new DataResponse($categoryid);
 			} else {
-				return new DataResponse($result, 400);
+				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 			}
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('You are not allowed to manage categories')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -2105,7 +2105,7 @@ class PageController extends ApiController {
 				// inserted currency id
 				return new DataResponse($result);
 			} else {
-				return new DataResponse($result, 400);
+				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 			}
 		} else {
 			return new DataResponse(
@@ -2127,12 +2127,12 @@ class PageController extends ApiController {
 				// inserted bill id
 				return new DataResponse($result);
 			} else {
-				return new DataResponse($result, 400);
+				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 			}
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('You are not allowed to manage currencies')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -2157,7 +2157,7 @@ class PageController extends ApiController {
 			if (!isset($result['message'])) {
 				return new DataResponse($result);
 			} else {
-				return new DataResponse($result, 403);
+				return new DataResponse($result, Http::STATUS_FORBIDDEN);
 			}
 		} else {
 			return new DataResponse(
@@ -2178,12 +2178,12 @@ class PageController extends ApiController {
 			if (!isset($result['message'])) {
 				return new DataResponse($result);
 			} else {
-				return new DataResponse($result, 403);
+				return new DataResponse($result, Http::STATUS_FORBIDDEN);
 			}
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('You are not allowed to manage currencies')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -2206,7 +2206,7 @@ class PageController extends ApiController {
 			if (isset($result['success'])) {
 				return new DataResponse($currencyid);
 			} else {
-				return new DataResponse($result, 400);
+				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 			}
 		} else {
 			return new DataResponse(
@@ -2227,12 +2227,12 @@ class PageController extends ApiController {
 			if (isset($result['success'])) {
 				return new DataResponse($currencyid);
 			} else {
-				return new DataResponse($result, 400);
+				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 			}
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('You are not allowed to manage currencies')],
-				403
+				Http::STATUS_FORBIDDEN
 			);
 		}
 	}
@@ -2258,7 +2258,7 @@ class PageController extends ApiController {
 	public function getBillActivity(?int $since): DataResponse {
 		$result = $this->projectService->getBillActivity($this->userId, $since);
 		if (isset($result['error'])) {
-			return new DataResponse($result, 400);
+			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		} else {
 			return new DataResponse($result);
 		}

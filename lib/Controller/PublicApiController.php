@@ -621,7 +621,7 @@ class PublicApiController extends OCSController {
 		?string $color = null, ?string $userid = null
 	): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
-		$result = $this->projectService->addMember(
+		$result = $this->projectService->createMember(
 			$publicShareInfo['projectid'], $name, $weight, $active !== 0, $color, $userid
 		);
 		if (!isset($result['error'])) {
@@ -740,7 +740,7 @@ class PublicApiController extends OCSController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function publicCreatePaymentMode(string $token, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
-		$result = $this->projectService->addPaymentMode(
+		$result = $this->projectService->createPaymentMode(
 			$publicShareInfo['projectid'], $name, $icon, $color, $order
 		);
 		if (is_numeric($result)) {
@@ -836,7 +836,7 @@ class PublicApiController extends OCSController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function publicCreateCategory(string $token, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
-		$result = $this->projectService->addCategory(
+		$result = $this->projectService->createCategory(
 			$publicShareInfo['projectid'], $name, $icon, $color, $order
 		);
 		if (is_numeric($result)) {

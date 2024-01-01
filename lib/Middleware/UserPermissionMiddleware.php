@@ -24,7 +24,6 @@ class UserPermissionMiddleware extends Middleware {
 		protected IRequest $request,
 		private IL10N $l,
 		private LoggerInterface $logger,
-		private ?string $userId,
 	) {
 	}
 
@@ -32,12 +31,11 @@ class UserPermissionMiddleware extends Middleware {
 		$reflectionMethod = new ReflectionMethod($controller, $methodName);
 
 		$attributes = $reflectionMethod->getAttributes(CospendUserPermissions::class);
-		error_log('IN UserPermissionMiddleware');
 
 		if (!empty($attributes)) {
 			$paramProjectId = $this->request->getParam('projectId');
-			$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $paramProjectId);
-			error_log('ACCESS LEVEL of '.$this->userId.' IS '.$userAccessLevel);
+			$userId = $controller->userId;
+			$userAccessLevel = $this->projectService->getUserMaxAccessLevel($userId, $paramProjectId);
 
 			foreach ($attributes as $attribute) {
 				/** @var CospendUserPermissions $cospendAuthAttr */

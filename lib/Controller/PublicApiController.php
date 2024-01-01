@@ -23,8 +23,6 @@ use OCP\IL10N;
 
 use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\IDBConnection;
 
 use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Service\ProjectService;
@@ -40,43 +38,8 @@ class PublicApiController extends OCSController {
 		private BillMapper $billMapper,
 		private ProjectService $projectService,
 		private ActivityManager $activityManager,
-		private IDBConnection $dbconnection,
 	) {
 		parent::__construct($appName, $request, 'PUT, POST, GET, DELETE, PATCH, OPTIONS');
-	}
-
-	/**
-	 * Check if project password is valid
-	 *
-	 * @param string $projectId
-	 * @param string $password
-	 * @return bool
-	 */
-	private function checkLogin(string $projectId, string $password): bool {
-		if ($projectId === '' || $projectId === null
-			|| $password === '' || $password === null
-		) {
-			return false;
-		} else {
-			$qb = $this->dbconnection->getQueryBuilder();
-			$qb->select('id', 'password')
-			   ->from('cospend_projects', 'p')
-			   ->where(
-				   $qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			   );
-			$req = $qb->executeQuery();
-			$dbPassword = null;
-			$row = $req->fetch();
-			if ($row !== false) {
-				$dbPassword = $row['password'];
-			}
-			$req->closeCursor();
-			$qb->resetQueryParts();
-			return (
-				$dbPassword !== null &&
-				password_verify($password, $dbPassword)
-			);
-		}
 	}
 
 	/**

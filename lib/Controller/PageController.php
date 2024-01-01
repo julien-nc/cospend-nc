@@ -16,22 +16,22 @@ use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
+use OCP\DB\Exception;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IL10N;
-
-use OCP\AppFramework\Http\ContentSecurityPolicy;
 
 use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\IDBConnection;
 
 use OCA\Cospend\Service\ProjectService;
 use OCA\Cospend\AppInfo\Application;
@@ -43,7 +43,6 @@ class PageController extends Controller {
 		IRequest $request,
 		private IL10N $trans,
 		private ProjectService $projectService,
-		private IDBConnection $dbconnection,
 		private IInitialState $initialStateService,
 		private IAppManager $appManager,
 		private IEventDispatcher $eventDispatcher,
@@ -54,39 +53,29 @@ class PageController extends Controller {
 
 	/**
 	 * Main page
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
+	 *
+	 * @param string|null $projectId
+	 * @param int|null $billId
+	 * @return TemplateResponse
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function index(?string $projectId = null, ?int $billId = null): TemplateResponse {
 		$activityEnabled = $this->appManager->isEnabledForUser('activity');
 		$this->initialStateService->provideInitialState('activity_enabled', $activityEnabled ? '1' : '0');
 		$this->initialStateService->provideInitialState('pathProjectId', $projectId ?? '');
 		$this->initialStateService->provideInitialState('pathBillId', $billId ?? 0);
 		$this->eventDispatcher->dispatchTyped(new RenderReferenceEvent());
-		$response = new TemplateResponse('cospend', 'main', []);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-//			->addAllowedChildSrcDomain('*')
-			->addAllowedFrameDomain('*')
-			->addAllowedWorkerSrcDomain('*')
-			//->allowInlineScript(true)
-			// to make eval work in frontend
-			->allowEvalScript(true)
-			->addAllowedObjectDomain('*')
-			->addAllowedScriptDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new TemplateResponse('cospend', 'main');
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 * @param string $fileName
 	 * @param string $color
 	 * @return NotFoundResponse|Response
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function getSvgFromApp(string $fileName, string $color = 'ffffff') {
 		try {
 			$appPath = $this->appManager->getAppPath(Application::APP_ID);
@@ -124,7 +113,7 @@ class PageController extends Controller {
 		return $response;
 	}
 
-	public function colorizeSvg(string $svg, string $color): string {
+	private function colorizeSvg(string $svg, string $color): string {
 		if (!preg_match('/^[0-9a-f]{3,6}$/i', $color)) {
 			// Prevent not-sane colors from being written into the SVG
 			$color = '000';
@@ -142,113 +131,38 @@ class PageController extends Controller {
 
 	/**
 	 * Main page
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
+	 *
+	 * @param string $projectId
+	 * @return TemplateResponse
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function indexProject(string $projectId): TemplateResponse {
 		return $this->index($projectId);
 	}
 
 	/**
 	 * Main page
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
+	 *
+	 * @param string $projectId
+	 * @param int $billId
+	 * @return TemplateResponse
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function indexBill(string $projectId, int $billId): TemplateResponse {
 		return $this->index($projectId, $billId);
 	}
 
+	// TODO add bruteforce protection
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
+	 * @param string $token
+	 * @return PublicTemplateResponse
 	 */
-	public function pubLoginProjectPassword(string $projectid, string $password = ''): PublicTemplateResponse {
-		// PARAMS to view
-		$params = [
-			'projectid' => $projectid,
-			'password' => $password,
-			'wrong' => false,
-		];
-		$response = new PublicTemplateResponse('cospend', 'login', $params);
-		$response->setHeaderTitle($this->trans->t('Cospend public access'));
-		$response->setHeaderDetails($this->trans->t('Enter password of project %s', [$projectid]));
-		$response->setFooterVisible(false);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			//->addAllowedChildSrcDomain('*')
-			->addAllowedFrameDomain('*')
-			->addAllowedWorkerSrcDomain('*')
-			->addAllowedObjectDomain('*')
-			->addAllowedScriptDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
-	}
-
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 */
-	public function pubLoginProject(string $projectid): PublicTemplateResponse {
-		// PARAMS to view
-		$params = [
-			'projectid' => $projectid,
-			'wrong' => false,
-		];
-		$response = new PublicTemplateResponse('cospend', 'login', $params);
-		$response->setHeaderTitle($this->trans->t('Cospend public access'));
-		$response->setHeaderDetails($this->trans->t('Enter password of project %s', [$projectid]));
-		$response->setFooterVisible(false);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			//->addAllowedChildSrcDomain('*')
-			->addAllowedFrameDomain('*')
-			->addAllowedWorkerSrcDomain('*')
-			->addAllowedObjectDomain('*')
-			->addAllowedScriptDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
-	}
-
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 */
-	public function pubLogin(): PublicTemplateResponse {
-		// PARAMS to view
-		$params = [
-			'wrong' => false,
-		];
-		$response = new PublicTemplateResponse('cospend', 'login', $params);
-		$response->setHeaderTitle($this->trans->t('Cospend public access'));
-		$response->setHeaderDetails($this->trans->t('Enter project id and password'));
-		$response->setFooterVisible(false);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			//->addAllowedChildSrcDomain('*')
-			->addAllowedFrameDomain('*')
-			->addAllowedWorkerSrcDomain('*')
-			->addAllowedObjectDomain('*')
-			->addAllowedScriptDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
-	}
-
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
 	public function publicShareLinkPage(string $token): PublicTemplateResponse {
-		$isMain = false;
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		if (!is_null($publicShareInfo)) {
 			$isPasswordProtected = !is_null($publicShareInfo['password'] ?? null);
@@ -265,81 +179,33 @@ class PageController extends Controller {
 
 				$response = new PublicTemplateResponse('cospend', 'main', []);
 				$response->setHeaderDetails($this->trans->t('Project %s', [$publicShareInfo['projectid']]));
-				$isMain = true;
 			}
 			$response->setHeaderTitle($this->trans->t('Cospend shared link access'));
 			$response->setFooterVisible(false);
 		} else {
-			$response = new PublicTemplateResponse('cospend', 'error', []);
+			$templateParams = [
+				'errors' => [
+					['error' => $this->trans->t('Access denied')],
+				],
+			];
+			$response = new PublicTemplateResponse('core', '403', $templateParams);
 			$response->setHeaderTitle($this->trans->t('No such share link'));
-			$response->setHeaderDetails($this->trans->t('Access denied'));
 		}
 		$response->setFooterVisible(false);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			//->addAllowedChildSrcDomain('*')
-			->addAllowedFrameDomain('*')
-			->addAllowedWorkerSrcDomain('*')
-			->addAllowedObjectDomain('*')
-			->addAllowedScriptDomain('*')
-			->addAllowedConnectDomain('*');
-		if ($isMain) {
-			$csp->allowEvalScript(true);
-		}
-		$response->setContentSecurityPolicy($csp);
 		return $response;
 	}
 
+	// TODO improve token param name
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
+	 * @param string $projecttoken
+	 * @param string|null $password
+	 * @return PublicTemplateResponse
 	 */
-	public function pubProject(?string $projectid = null, ?string $password = null, ?string $projecttoken = null): PublicTemplateResponse {
-		if (!is_null($projectid) && !is_null($password)) {
-			if ($this->checkLogin($projectid, $password)) {
-				$this->initialStateService->provideInitialState('projectid', $projectid);
-				$this->initialStateService->provideInitialState('password', $password);
-				$response = new PublicTemplateResponse('cospend', 'main', []);
-				$response->setHeaderTitle($this->trans->t('Cospend public access'));
-				$response->setHeaderDetails($this->trans->t('Project %s', [$projectid]));
-				$response->setFooterVisible(false);
-				$csp = new ContentSecurityPolicy();
-				$csp->addAllowedImageDomain('*')
-					->addAllowedMediaDomain('*')
-					//->addAllowedChildSrcDomain('*')
-					->addAllowedFrameDomain('*')
-					->addAllowedWorkerSrcDomain('*')
-					->allowEvalScript(true)
-					->addAllowedObjectDomain('*')
-					->addAllowedScriptDomain('*')
-					->addAllowedConnectDomain('*');
-				$response->setContentSecurityPolicy($csp);
-				return $response;
-			} else {
-				//$response = new DataResponse(null, Http::STATUS_FORBIDDEN);
-				//return $response;
-				$params = [
-					'wrong' => true,
-				];
-				$response = new PublicTemplateResponse('cospend', 'login', $params);
-				$response->setHeaderTitle($this->trans->t('Cospend public access'));
-				$response->setHeaderDetails($this->trans->t('Access denied'));
-				$response->setFooterVisible(false);
-				$csp = new ContentSecurityPolicy();
-				$csp->addAllowedImageDomain('*')
-					->addAllowedMediaDomain('*')
-					//->addAllowedChildSrcDomain('*')
-					->addAllowedFrameDomain('*')
-					->addAllowedWorkerSrcDomain('*')
-					->addAllowedObjectDomain('*')
-					->addAllowedScriptDomain('*')
-					->addAllowedConnectDomain('*');
-				$response->setContentSecurityPolicy($csp);
-				return $response;
-			}
-		} elseif (!is_null($projecttoken) && !is_null($password)) {
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
+	public function pubProject(string $projecttoken, ?string $password = null): PublicTemplateResponse {
+		if ($projecttoken && !is_null($password)) {
 			$info = $this->projectService->getProjectInfoFromShareToken($projecttoken);
 			// if the token is good and no password (or it matches the share one)
 			if (!is_null($info['projectid'] ?? null)
@@ -352,17 +218,6 @@ class PageController extends Controller {
 				$response->setHeaderTitle($this->trans->t('Cospend shared link access'));
 				$response->setHeaderDetails($this->trans->t('Project %s', [$info['projectid']]));
 				$response->setFooterVisible(false);
-				$csp = new ContentSecurityPolicy();
-				$csp->addAllowedImageDomain('*')
-					->addAllowedMediaDomain('*')
-					//->addAllowedChildSrcDomain('*')
-					->addAllowedFrameDomain('*')
-					->addAllowedWorkerSrcDomain('*')
-					->allowEvalScript(true)
-					->addAllowedObjectDomain('*')
-					->addAllowedScriptDomain('*')
-					->addAllowedConnectDomain('*');
-				$response->setContentSecurityPolicy($csp);
 				return $response;
 			} elseif (!is_null($info['projectid'] ?? null)) {
 				$params = [
@@ -373,16 +228,6 @@ class PageController extends Controller {
 				$response->setHeaderTitle($this->trans->t('Cospend shared link access'));
 				$response->setHeaderDetails($this->trans->t('Enter link password of project %s', [$info['projectid']]));
 				$response->setFooterVisible(false);
-				$csp = new ContentSecurityPolicy();
-				$csp->addAllowedImageDomain('*')
-					->addAllowedMediaDomain('*')
-					//->addAllowedChildSrcDomain('*')
-					->addAllowedFrameDomain('*')
-					->addAllowedWorkerSrcDomain('*')
-					->addAllowedObjectDomain('*')
-					->addAllowedScriptDomain('*')
-					->addAllowedConnectDomain('*');
-				$response->setContentSecurityPolicy($csp);
 				return $response;
 			}
 		}
@@ -393,9 +238,14 @@ class PageController extends Controller {
 		return $response;
 	}
 
+	// TODO remove this and cleanup UI from all guest access related stuff
 	/**
-	 * @NoAdminRequired
+	 * @param string $projectid
+	 * @param int $accesslevel
+	 * @return DataResponse
+	 * @throws Exception
 	 */
+	#[NoAdminRequired]
 	public function editGuestAccessLevel(string $projectid, int $accesslevel): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 		if ($userAccessLevel >= Application::ACCESS_LEVEL_ADMIN) {
@@ -414,57 +264,10 @@ class PageController extends Controller {
 	}
 
 	/**
-	 * Check if project password is valid
-	 *
-	 * @param string $projectId
-	 * @param string $password
-	 * @return bool
+	 * @param int|null $since
+	 * @return DataResponse
 	 */
-	private function checkLogin(string $projectId, string $password): bool {
-		if ($projectId === '' || $projectId === null
-			|| $password === '' || $password === null
-		) {
-			return false;
-		} else {
-			$qb = $this->dbconnection->getQueryBuilder();
-			$qb->select('id', 'password')
-			   ->from('cospend_projects', 'p')
-			   ->where(
-				   $qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			   );
-			$req = $qb->executeQuery();
-			$dbPassword = null;
-			$row = $req->fetch();
-			if ($row !== false) {
-				$dbPassword = $row['password'];
-			}
-			$req->closeCursor();
-			$qb->resetQueryParts();
-			return (
-				$dbPassword !== null &&
-				password_verify($password, $dbPassword)
-			);
-		}
-	}
-
-	/**
-	 * @NoAdminRequired
-	 *
-	 */
-	public function webCheckPassword(string $projectid, string $password): DataResponse {
-		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-			return new DataResponse($this->checkLogin($projectid, $password));
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to access this project')],
-				Http::STATUS_FORBIDDEN
-			);
-		}
-	}
-
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function getBillActivity(?int $since): DataResponse {
 		$result = $this->projectService->getBillActivity($this->userId, $since);
 		if (isset($result['error'])) {

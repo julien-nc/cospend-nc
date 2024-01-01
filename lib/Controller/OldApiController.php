@@ -51,6 +51,9 @@ class OldApiController extends ApiController {
 		);
 	}
 
+	// TODO get rid of checkLogin and switch to middleware auth checks (pub and priv) like in new controllers
+	// project main passwords can't be edited anymore anyway
+	// TODO get rid of anonymous project creation stuff (toggle and routes/contr methods)
 	/**
 	 * Check if project password is valid
 	 *

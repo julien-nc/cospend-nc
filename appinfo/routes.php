@@ -20,14 +20,13 @@ return [
 		['name' => 'page#getSvgFromApp', 'url' => '/svg/{fileName}', 'verb' => 'GET'],
 		['name' => 'page#indexProject', 'url' => '/p/{projectId}', 'verb' => 'GET'],
 		['name' => 'page#indexBill', 'url' => '/p/{projectId}/b/{billId}', 'verb' => 'GET'],
-		['name' => 'page#pubLoginProjectPassword', 'url' => 'loginproject/{projectid}/{password}', 'verb' => 'GET'],
-		['name' => 'page#pubLoginProject', 'url' => 'loginproject/{projectid}', 'verb' => 'GET'],
-		['name' => 'page#pubLogin', 'url' => 'login', 'verb' => 'GET'],
+//		['name' => 'page#pubLoginProjectPassword', 'url' => 'loginproject/{projectid}/{password}', 'verb' => 'GET'],
+//		['name' => 'page#pubLoginProject', 'url' => 'loginproject/{projectid}', 'verb' => 'GET'],
+//		['name' => 'page#pubLogin', 'url' => 'login', 'verb' => 'GET'],
 		['name' => 'page#pubProject', 'url' => 'project', 'verb' => 'POST'],
 		['name' => 'page#publicShareLinkPage', 'url' => 's/{token}', 'verb' => 'GET'],
 
 		['name' => 'page#editGuestAccessLevel', 'url' => '/projects/{projectid}/guest-access-level', 'verb' => 'PUT'],
-		['name' => 'page#webCheckPassword', 'url' => 'checkpassword/{projectid}/{password}', 'verb' => 'GET'],
 		['name' => 'page#getBillActivity', 'url' => '/bill-activity', 'verb' => 'GET'],
 
 		['name' => 'utils#getOptionsValues', 'url' => '/option-values', 'verb' => 'GET'],

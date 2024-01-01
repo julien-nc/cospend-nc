@@ -1340,7 +1340,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	public function apiPing(): DataResponse {
+	public function ping(): DataResponse {
 		$response = new DataResponse([$this->userId]);
 		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedImageDomain('*')
@@ -1350,6 +1350,7 @@ class ApiController extends OCSController {
 		return $response;
 	}
 
+	// TODO check if we want to use this
 	/**
 	 * Get list of bill activity items
 	 *

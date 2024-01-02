@@ -6,6 +6,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.6.0 – 2024-01-..
+
+### Added
+
+- new OCS public and authenticated API (will replace the old ones for clients, already used by public and authenticated web frontend)
+- bruteforce protection for all public API endpoints (old and new)
+- 
+
+### Changed
+
+- factorize public auth token/password/permission check in a middleware
+- factorize authenticated user permission check in a middleware
+- remove all deprecated guest access and anonymous creation related code/endpoints/frontend
+
+### Fixed
+
+- fix saving setting values broken when refactoring events in the frontend
+
 ## 1.5.14 – 2023-12-30
 
 ### Changed

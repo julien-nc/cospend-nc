@@ -604,16 +604,3 @@ export function deleteSharedAccess(projectId, access) {
 	}
 	return axios.delete(url)
 }
-
-export function setGuestAccessLevel(projectid, level) {
-	const req = {
-		accesslevel: level,
-	}
-	let url
-	if (!cospend.pageIsPublic) {
-		url = generateUrl('/apps/cospend/projects/' + projectid + '/guest-access-level')
-	} else {
-		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/guest-access-level')
-	}
-	return axios.put(url, req)
-}

@@ -1314,43 +1314,6 @@ class OldApiController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiEditGuestAccessLevel($projectid, $password, $accesslevel): DataResponse {
-		return new DataResponse(
-			['message' => $this->trans->t('You are not allowed to edit guest access level')],
-			Http::STATUS_FORBIDDEN
-		);
-		//if ($this->checkLogin($projectid, $password)) {
-		//    $guestAccessLevel = $this->projectService->getGuestAccessLevel($projectid);
-		//    if ($guestAccessLevel >= Application::ACCESS_LEVEL_PARTICIPANT and $guestAccessLevel >= $accesslevel) {
-		//        $result = $this->projectService->editGuestAccessLevel($projectid, $accesslevel);
-		//        if ($result === 'OK') {
-		//            return new DataResponse($result);
-		//        }
-		//        else {
-		//            return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-		//        }
-		//    }
-		//    else {
-		//        return new DataResponse(
-		//            ['message' => $this->trans->t('You are not allowed to give such access level')],
-		//				Http::STATUS_FORBIDDEN
-		//        );
-		//    }
-		//}
-		//else {
-		//    return new DataResponse(
-		//        ['message' => $this->trans->t('You are not allowed to access this project')],
-		//			Http::STATUS_FORBIDDEN
-		//    );
-		//}
-	}
-
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
 	public function apiAddPaymentMode(string $projectid, string $password, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (

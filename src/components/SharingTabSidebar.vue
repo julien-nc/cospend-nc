@@ -258,100 +258,6 @@
 				</NcActions>
 			</li>
 		</ul>
-		<hr><br>
-		<NcButton class="passwordAccessSwitch"
-			@click="toggleShowPasswordAccess">
-			<template #icon>
-				<MenuDownIcon v-if="showPasswordAccess" :size="20" />
-				<MenuRightIcon v-else :size="20" />
-			</template>
-			{{ t('cospend', 'Show deprecated password protected access') }}
-		</NcButton>
-		<div v-if="showPasswordAccess">
-			<NcDialog :open.sync="showOldLinkInfo"
-				:name="t('cospend', 'Info')"
-				:message="t('cospend', 'Password protected access is now deprecated. You can use the share links instead, they can be password protected too.')" />
-			<ul
-				id="guestList"
-				class="shareWithList">
-				<li>
-					<LockIcon :size="20" />
-					<span class="username">
-						<span>{{ t('cospend', 'Password protected access') }}</span>
-					</span>
-					<NcActions>
-						<NcActionButton
-							@click="showOldLinkInfo = true">
-							<template #icon>
-								<InformationVariantIcon :size="20" />
-							</template>
-							{{ t('cospend', 'More information') }}
-						</NcActionButton>
-					</NcActions>
-					<NcActions>
-						<NcActionLink
-							:href="guestLink"
-							target="_blank"
-							@click.stop.prevent="copyPasswordLink">
-							<template #icon>
-								<ClipboardCheckOutlineIcon v-if="guestLinkCopied"
-									class="success"
-									:size="20" />
-								<ClippyIcon v-else
-									:size="16" />
-							</template>
-							{{ guestLinkCopied ? t('cospend', 'Link copied') : t('cospend', 'Copy to clipboard') }}
-						</NcActionLink>
-					</NcActions>
-					<NcActions
-						:force-menu="true"
-						placement="bottom">
-						<NcActionRadio name="guestAccessLevel"
-							:disabled="myAccessLevel < constants.ACCESS.ADMIN"
-							:checked="project.guestaccesslevel === constants.ACCESS.VIEWER"
-							@change="clickGuestAccessLevel(constants.ACCESS.VIEWER)">
-							{{ t('cospend', 'Viewer') }}
-						</NcActionRadio>
-						<NcActionRadio name="guestAccessLevel"
-							:disabled="myAccessLevel < constants.ACCESS.ADMIN"
-							:checked="project.guestaccesslevel === constants.ACCESS.PARTICIPANT"
-							@change="clickGuestAccessLevel(constants.ACCESS.PARTICIPANT)">
-							{{ t('cospend', 'Participant') }}
-						</NcActionRadio>
-						<NcActionRadio name="guestAccessLevel"
-							:disabled="myAccessLevel < constants.ACCESS.ADMIN"
-							:checked="project.guestaccesslevel === constants.ACCESS.MAINTENER"
-							@change="clickGuestAccessLevel(constants.ACCESS.MAINTENER)">
-							{{ t('cospend', 'Maintainer') }}
-						</NcActionRadio>
-						<NcActionRadio name="guestAccessLevel"
-							:disabled="myAccessLevel < constants.ACCESS.ADMIN"
-							:checked="project.guestaccesslevel === constants.ACCESS.ADMIN"
-							@change="clickGuestAccessLevel(constants.ACCESS.ADMIN)">
-							{{ t('cospend', 'Admin') }}
-						</NcActionRadio>
-					</NcActions>
-				</li>
-			</ul>
-			<div v-if="myAccessLevel === constants.ACCESS.ADMIN"
-				class="enterPassword">
-				<input
-					v-model="newGuestPassword"
-					type="password"
-					autocomplete="off"
-					:placeholder="t('cospend', 'Set project password')"
-					:readonly="newPasswordReadonly"
-					@focus="newPasswordReadonly = false; $event.target.select()"
-					@keyup.enter="setPassword">
-				<NcButton
-					:aria-label="t('cospend', 'Set project password')"
-					@click="setPassword">
-					<template #icon>
-						<CheckIcon :size="20" />
-					</template>
-				</NcButton>
-			</div>
-		</div>
 	</div>
 </template>
 
@@ -359,14 +265,10 @@
 import GoogleCirclesCommunitiesIcon from 'vue-material-design-icons/GoogleCirclesCommunities.vue'
 import AccountIcon from 'vue-material-design-icons/Account.vue'
 import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
-import CheckIcon from 'vue-material-design-icons/Check.vue'
-import InformationVariantIcon from 'vue-material-design-icons/InformationVariant.vue'
 import ClipboardCheckOutlineIcon from 'vue-material-design-icons/ClipboardCheckOutline.vue'
 import LockIcon from 'vue-material-design-icons/Lock.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
-import MenuRightIcon from 'vue-material-design-icons/MenuRight.vue'
-import MenuDownIcon from 'vue-material-design-icons/MenuDown.vue'
 import TextBoxIcon from 'vue-material-design-icons/TextBox.vue'
 import LinkVariantIcon from 'vue-material-design-icons/LinkVariant.vue'
 import QrcodeIcon from 'vue-material-design-icons/Qrcode.vue'
@@ -381,8 +283,6 @@ import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js
 import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
 import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
@@ -414,20 +314,14 @@ export default {
 		NcActionSeparator,
 		NcSelect,
 		NcModal,
-		NcButton,
-		NcDialog,
 		QRCode,
 		QrcodeIcon,
 		LockIcon,
 		TextBoxIcon,
 		DeleteIcon,
 		PlusIcon,
-		MenuDownIcon,
-		MenuRightIcon,
 		ClipboardCheckOutlineIcon,
 		LinkVariantIcon,
-		InformationVariantIcon,
-		CheckIcon,
 		AccountIcon,
 		AccountGroupIcon,
 		GoogleCirclesCommunitiesIcon,
@@ -445,17 +339,12 @@ export default {
 			constants,
 			selectedSharee: null,
 			sharees: [],
-			guestLinkCopied: false,
 			linkCopied: {},
-			newGuestPassword: '',
-			newPasswordReadonly: true,
 			addingPublicLink: false,
 			shareLinkQrcodeUrl: null,
 			qrcodeColor: cospend.themeColorDark,
 			// the svg api is dead, glory to the svg api
 			qrcodeImageUrl: generateUrl('/apps/cospend/svg/cospend_square_bg?color=' + hexToDarkerHex(getComplementaryColor(cospend.themeColorDark)).replace('#', '')),
-			showPasswordAccess: false,
-			showOldLinkInfo: false,
 		}
 	},
 
@@ -517,18 +406,12 @@ export default {
 				return false
 			})
 		},
-		guestLink() {
-			return window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/loginproject/' + this.projectId)
-		},
 	},
 
 	mounted() {
 	},
 
 	methods: {
-		toggleShowPasswordAccess() {
-			this.showPasswordAccess = !this.showPasswordAccess
-		},
 		canSetAccessLevel(level, access) {
 			// i must be able to edit, have at least perms of the access, have at least same perms as what i want to set
 			// and i can't edit myself
@@ -706,39 +589,6 @@ export default {
 			this.addSharedAccess({
 				type: constants.SHARE_TYPE.PUBLIC_LINK,
 				password: null,
-			})
-		},
-		setPassword() {
-			if (this.newGuestPassword) {
-				this.$emit('project-edited', this.projectId, this.newGuestPassword)
-				this.newGuestPassword = ''
-			} else {
-				showError(t('cospend', 'Password should not be empty'))
-			}
-		},
-		async copyPasswordLink() {
-			const guestLink = this.guestLink
-			try {
-				await this.$copyText(guestLink)
-				this.guestLinkCopied = true
-				// eslint-disable-next-line
-				new Timer(() => {
-					this.guestLinkCopied = false
-				}, 5000)
-			} catch (error) {
-				console.debug(error)
-				showError(t('cospend', 'Link could not be copied to clipboard'))
-			}
-		},
-		clickGuestAccessLevel(level) {
-			network.setGuestAccessLevel(this.projectId, level).then((response) => {
-				cospend.projects[this.projectId].guestaccesslevel = level
-				showSuccess(t('cospend', 'Guest access level changed.'))
-			}).catch((error) => {
-				showError(
-					t('cospend', 'Failed to edit guest access level')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
-				)
 			})
 		},
 	},

@@ -685,8 +685,6 @@ class PublicApiController extends OCSController {
 			}
 	}
 
-	// TODO continue from here (projectId -> token, no more fallback to projectId, remove password)
-
 	/**
 	 * Create a payment mode
 	 *

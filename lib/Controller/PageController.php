@@ -257,31 +257,6 @@ class PageController extends Controller {
 		return $response;
 	}
 
-	// TODO remove this and cleanup UI from all guest access related stuff
-	/**
-	 * @param string $projectid
-	 * @param int $accesslevel
-	 * @return DataResponse
-	 * @throws Exception
-	 */
-	#[NoAdminRequired]
-	public function editGuestAccessLevel(string $projectid, int $accesslevel): DataResponse {
-		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
-		if ($userAccessLevel >= Application::ACCESS_LEVEL_ADMIN) {
-			$result = $this->projectService->editGuestAccessLevel($projectid, $accesslevel);
-			if (isset($result['success'])) {
-				return new DataResponse('OK');
-			} else {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to edit guest access level')],
-				Http::STATUS_FORBIDDEN
-			);
-		}
-	}
-
 	/**
 	 * @param int|null $since
 	 * @return DataResponse

@@ -23,7 +23,6 @@ return [
 		['name' => 'page#pubProject', 'url' => 'project', 'verb' => 'POST'],
 		['name' => 'page#publicShareLinkPage', 'url' => 's/{token}', 'verb' => 'GET'],
 
-		['name' => 'page#editGuestAccessLevel', 'url' => '/projects/{projectid}/guest-access-level', 'verb' => 'PUT'],
 		['name' => 'page#getBillActivity', 'url' => '/bill-activity', 'verb' => 'GET'],
 
 		['name' => 'utils#getOptionsValues', 'url' => '/option-values', 'verb' => 'GET'],
@@ -68,7 +67,6 @@ return [
 		['name' => 'oldApi#apiEditCategory', 'url' => '/api/projects/{projectid}/{password}/category/{categoryid}', 'verb' => 'PUT'],
 		['name' => 'oldApi#apiSaveCategoryOrder', 'url' => '/api/projects/{projectid}/{password}/category-order', 'verb' => 'PUT'],
 		['name' => 'oldApi#apiDeleteCategory', 'url' => '/api/projects/{projectid}/{password}/category/{categoryid}', 'verb' => 'DELETE'],
-		['name' => 'oldApi#apiEditGuestAccessLevel', 'url' => '/api/projects/{projectid}/{password}/guest-access-level', 'verb' => 'PUT'],
 
 		// OLD API for logged in clients
 		['name' => 'oldApi#preflighted_cors', 'url' => '/api-priv/{path}', 'verb' => 'OPTIONS', 'requirements' => ['path' => '.+']],

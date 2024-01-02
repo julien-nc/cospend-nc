@@ -107,24 +107,6 @@
 				</div>
 			</NcAppSettingsSection>
 			<NcAppSettingsSection v-if="!pageIsPublic"
-				id="guest-access"
-				:name="t('cospend', 'Guest access')"
-				:title="t('cospend', 'Guest access')"
-				class="app-settings-section">
-				<a :href="guestLink" @click.prevent.stop="onGuestLinkClick">
-					<NcButton>
-						<template #icon>
-							<CheckIcon v-if="guestLinkCopied"
-								class="success"
-								:size="20" />
-							<ClippyIcon v-else
-								:size="16" />
-						</template>
-						{{ t('cospend', 'Copy guest access link') }}
-					</NcButton>
-				</a>
-			</NcAppSettingsSection>
-			<NcAppSettingsSection v-if="!pageIsPublic"
 				id="export"
 				:name="t('cospend', 'Export location')"
 				:title="t('cospend', 'Export location')"
@@ -208,11 +190,8 @@
 </template>
 
 <script>
-import CheckIcon from 'vue-material-design-icons/Check.vue'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 import FileImportIcon from 'vue-material-design-icons/FileImport.vue'
-
-import ClippyIcon from './icons/ClippyIcon.vue'
 
 import NcAppSettingsDialog from '@nextcloud/vue/dist/Components/NcAppSettingsDialog.js'
 import NcAppSettingsSection from '@nextcloud/vue/dist/Components/NcAppSettingsSection.js'
@@ -220,22 +199,19 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 
 import { subscribe, unsubscribe, emit } from '@nextcloud/event-bus'
-import { getFilePickerBuilder, FilePickerType, showError, showSuccess } from '@nextcloud/dialogs'
+import { getFilePickerBuilder, FilePickerType, showSuccess } from '@nextcloud/dialogs'
 import cospend from '../state.js'
-import { generateUrl } from '@nextcloud/router'
-import { importCospendProject, importSWProject, Timer } from '../utils.js'
+import { importCospendProject, importSWProject } from '../utils.js'
 
 export default {
 	name: 'CospendSettingsDialog',
 
 	components: {
-		ClippyIcon,
 		NcAppSettingsDialog,
 		NcAppSettingsSection,
 		NcButton,
 		NcCheckboxRadioSwitch,
 		FileImportIcon,
-		CheckIcon,
 		OpenInNewIcon,
 	},
 
@@ -248,10 +224,8 @@ export default {
 			memberOrder: cospend.memberOrder || 'name',
 			maxPrecision: cospend.maxPrecision || 2,
 			useTime: cospend.useTime ?? true,
-			guestLink: window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/login'),
 			importingProject: false,
 			importingSWProject: false,
-			guestLinkCopied: false,
 		}
 	},
 
@@ -286,24 +260,24 @@ export default {
 					}
 					path = path.replace(/^\/+/, '/')
 					this.outputDir = path
-					emit('save-option', 'outputDirectory', path)
+					emit('save-option', { key: 'outputDirectory', value: path })
 				})
 		},
 		onSortOrderChange() {
-			emit('save-option', 'sortOrder', this.sortOrder)
+			emit('save-option', { key: 'sortOrder', value: this.sortOrder })
 			cospend.sortOrder = this.sortOrder
 		},
 		onMemberOrderChange() {
-			emit('save-option', 'memberOrder', this.memberOrder)
+			emit('save-option', { key: 'memberOrder', value: this.memberOrder })
 			cospend.memberOrder = this.memberOrder
 		},
 		onMaxPrecisionChange() {
-			emit('save-option', 'maxPrecision', this.maxPrecision)
+			emit('save-option', { key: 'maxPrecision', value: this.maxPrecision })
 			cospend.maxPrecision = this.maxPrecision
 			this.$emit('update-max-precision')
 		},
 		onUseTimeChange(checked) {
-			emit('save-option', 'useTime', checked ? '1' : '0')
+			emit('save-option', { key: 'useTime', value: checked ? '1' : '0' })
 			cospend.useTime = checked
 		},
 		onImportClick() {
@@ -325,20 +299,6 @@ export default {
 			}, () => {
 				this.importingSWProject = false
 			})
-		},
-		async onGuestLinkClick() {
-			try {
-				await this.$copyText(this.guestLink)
-				showSuccess(t('cospend', 'Guest link copied to clipboard.'))
-				this.guestLinkCopied = true
-				// eslint-disable-next-line
-				new Timer(() => {
-					this.guestLinkCopied = false
-				}, 5000)
-			} catch (error) {
-				console.debug(error)
-				showError(t('cospend', 'Guest link could not be copied to clipboard'))
-			}
 		},
 	},
 }

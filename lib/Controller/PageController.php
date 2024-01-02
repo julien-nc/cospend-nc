@@ -255,18 +255,4 @@ class PageController extends Controller {
 		}
 		return $response;
 	}
-
-	/**
-	 * @param int|null $since
-	 * @return DataResponse
-	 */
-	#[NoAdminRequired]
-	public function getBillActivity(?int $since): DataResponse {
-		$result = $this->projectService->getBillActivity($this->userId, $since);
-		if (isset($result['error'])) {
-			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-		} else {
-			return new DataResponse($result);
-		}
-	}
 }

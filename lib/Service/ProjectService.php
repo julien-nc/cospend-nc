@@ -5473,48 +5473,4 @@ class ProjectService {
 			$qb = $qb->resetQueryParts();
 		}
 	}
-
-	/**
-	 * Get Cospend bill activity
-	 *
-	 * @param string $userId
-	 * @param int|null $since
-	 * @return array
-	 */
-	public function getBillActivity(string $userId, ?int $since): array {
-		// get projects
-		$projects = $this->getProjects($userId);
-
-		// get bills (7 max)
-		$bills = [];
-		foreach ($projects as $project) {
-			$pid = $project['id'];
-			$bl = $this->billMapper->getBills($pid, null, null, null, null, null, null, null, $since, 20, true);
-
-			// get members by id
-			$membersById = [];
-			foreach ($project['members'] as $m) {
-				$membersById[$m['id']] = $m;
-			}
-			// add information
-			foreach ($bl as $i => $bill) {
-				$payerId = $bill['payer_id'];
-				$bl[$i]['payer'] = $membersById[$payerId];
-				$bl[$i]['project_id'] = $pid;
-				$bl[$i]['project_name'] = $project['name'];
-			}
-
-			$bills = array_merge($bills, $bl);
-		}
-
-		// sort bills by date
-		usort($bills, function($a, $b) {
-			$ta = $a['timestamp'];
-			$tb = $b['timestamp'];
-			return ($ta > $tb) ? -1 : 1;
-		});
-
-		// take 7 firsts
-		return array_slice($bills, 0, 7);
-	}
 }

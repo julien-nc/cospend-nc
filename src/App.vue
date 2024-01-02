@@ -681,10 +681,10 @@ export default {
 		onProjectEdited(projectid, password = null) {
 			this.editProject(projectid, password)
 		},
-		onSaveOption(key, value) {
+		onSaveOption({ key, value }) {
 			const ov = {}
 			ov[key] = value
-			network.saveOptionValue(ov)
+			network.saveOptionValues(ov)
 		},
 		getMemberNames(projectid) {
 			const res = []
@@ -705,7 +705,7 @@ export default {
 				this.getBills(projectid, null, null, false, this.trashbinEnabled)
 			}
 			if (save) {
-				network.saveOptionValue({ selectedProject: projectid })
+				network.saveOptionValues({ selectedProject: projectid })
 			}
 			cospend.currentProjectId = projectid
 			if (pushState) {

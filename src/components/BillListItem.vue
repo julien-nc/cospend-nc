@@ -12,9 +12,6 @@
 		<template #subname>
 			{{ parseFloat(bill.amount).toFixed(2) }} ({{ smartPayerName }} → {{ smartOwerNames }})
 		</template>
-		<template #subtitle>
-			{{ parseFloat(bill.amount).toFixed(2) }} ({{ smartPayerName }} → {{ smartOwerNames }})
-		</template>
 		<template #icon>
 			<CospendTogglableAvatar
 				:enabled="!payerDisabled"

@@ -25,6 +25,7 @@ use OCP\Files\File;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\IConfig;
 use OCP\IL10N;
 
 use OCP\AppFramework\Http\ContentSecurityPolicy;
@@ -54,9 +55,53 @@ class ApiController extends OCSController {
 		private ProjectService $projectService,
 		private ActivityManager $activityManager,
 		private IRootFolder $root,
+		private IConfig $config,
 		public ?string $userId
 	) {
 		parent::__construct($appName, $request, 'PUT, POST, GET, DELETE, PATCH, OPTIONS');
+	}
+
+	/**
+	 * Delete user options
+	 */
+	#[NoAdminRequired]
+	#[CORS]
+	public function deleteOptionsValues(): DataResponse	{
+		$keys = $this->config->getUserKeys($this->userId, Application::APP_ID);
+		foreach ($keys as $key) {
+			$this->config->deleteUserValue($this->userId, Application::APP_ID, $key);
+		}
+
+		return new DataResponse(['done' => 1]);
+	}
+
+	/**
+	 * Save options values to the DB for current user
+	 */
+	#[NoAdminRequired]
+	#[CORS]
+	public function saveOptionValues($options): DataResponse	{
+		foreach ($options as $key => $value) {
+			$this->config->setUserValue($this->userId, Application::APP_ID, $key, $value);
+		}
+
+		return new DataResponse(['done' => true]);
+	}
+
+	/**
+	 * get options values from the config for current user
+	 */
+	#[NoAdminRequired]
+	#[CORS]
+	public function getOptionsValues(): DataResponse {
+		$ov = array();
+		$keys = $this->config->getUserKeys($this->userId, Application::APP_ID);
+		foreach ($keys as $key) {
+			$value = $this->config->getUserValue($this->userId, Application::APP_ID, $key);
+			$ov[$key] = $value;
+		}
+
+		return new DataResponse(['values' => $ov]);
 	}
 
 	/**
@@ -1348,23 +1393,5 @@ class ApiController extends OCSController {
 			->addAllowedConnectDomain('*');
 		$response->setContentSecurityPolicy($csp);
 		return $response;
-	}
-
-	// TODO check if we want to use this
-	/**
-	 * Get list of bill activity items
-	 *
-	 * @param int|null $since
-	 * @return DataResponse
-	 */
-	#[NoAdminRequired]
-	#[CORS]
-	public function getBillActivity(?int $since): DataResponse {
-		$result = $this->projectService->getBillActivity($this->userId, $since);
-		if (isset($result['error'])) {
-			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-		} else {
-			return new DataResponse($result);
-		}
 	}
 }

@@ -41,7 +41,6 @@ class ApiControllerTest extends TestCase {
 
 	private ApiController $apiController;
 	private ApiController $apiController2;
-	private UtilsController $utilsController;
 
 	public static function setUpBeforeClass(): void {
 		$app = new Application();
@@ -145,6 +144,7 @@ class ApiControllerTest extends TestCase {
 			$this->projectService,
 			$this->activityManager,
 			$c->get(IRootFolder::class),
+			$c->get(IConfig::class),
 			'test'
 		);
 
@@ -158,14 +158,8 @@ class ApiControllerTest extends TestCase {
 			$this->projectService,
 			$this->activityManager,
 			$c->get(IRootFolder::class),
+			$c->get(IConfig::class),
 			'test2'
-		);
-
-		$this->utilsController = new UtilsController(
-			$appName,
-			$request,
-			$sc->getConfig(),
-			'test'
 		);
 	}
 
@@ -194,19 +188,19 @@ class ApiControllerTest extends TestCase {
 
 	public function testUtils() {
 		// DELETE OPTIONS VALUES
-		$resp = $this->utilsController->deleteOptionsValues();
+		$resp = $this->apiController->deleteOptionsValues();
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals(1, $done);
 
 		// SET OPTIONS
-		$resp = $this->utilsController->saveOptionValue(['lala' => 'lolo']);
+		$resp = $this->apiController->saveOptionValues(['lala' => 'lolo']);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals(1, $done);
 
 		// GET OPTIONS
-		$resp = $this->utilsController->getOptionsValues();
+		$resp = $this->apiController->getOptionsValues();
 		$data = $resp->getData();
 		$values = $data['values'];
 		$this->assertEquals('lolo', $values['lala']);
@@ -214,7 +208,7 @@ class ApiControllerTest extends TestCase {
 
 	public function testPage() {
 		// CLEAR OPTIONS
-		$resp = $this->utilsController->deleteOptionsValues();
+		$resp = $this->apiController->deleteOptionsValues();
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals(1, $done);

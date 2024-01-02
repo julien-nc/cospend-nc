@@ -1,6 +1,6 @@
 import cospend from './state.js'
 import * as constants from './constants.js'
-import { generateUrl, generateOcsUrl } from '@nextcloud/router'
+import { generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import {
 	showSuccess,
@@ -8,24 +8,25 @@ import {
 } from '@nextcloud/dialogs'
 
 export function getOptionValues() {
-	const url = generateUrl('/apps/cospend/option-values')
+	const url = generateOcsUrl('/apps/cospend/api/v1/option-values')
 	const req = {}
 	return axios.get(url, req)
 }
 
-export function saveOptionValue(optionValues) {
+export function saveOptionValues(optionValues) {
 	if (!cospend.pageIsPublic) {
 		const req = {
 			options: optionValues,
 		}
-		const url = generateUrl('/apps/cospend/option-value')
+		console.debug('save', optionValues)
+		const url = generateOcsUrl('/apps/cospend/api/v1/option-values')
 		axios.put(url, req)
 			.then((response) => {
 			})
 			.catch((error) => {
 				showError(
 					t('cospend', 'Failed to save option values')
-					+ ': ' + error.response.request.responseText,
+					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 			})
 	}

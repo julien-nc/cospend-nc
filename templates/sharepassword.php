@@ -17,9 +17,9 @@ $appId = OCA\Cospend\AppInfo\Application::APP_ID;
 			}
 			?>
 
-			<input id="projecttokenInput" name="projecttoken" type="hidden" maxlength="64" value="<?php
-			if (array_key_exists('projecttoken', $_)) {
-				p($_['projecttoken']);
+			<input id="tokenInput" name="token" type="hidden" maxlength="64" value="<?php
+			if (isset($_['token'])) {
+				p($_['token']);
 			}
 			?>"/>
 

@@ -16,6 +16,7 @@ use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
@@ -26,6 +27,7 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\DB\Exception;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IL10N;
 
 use OCP\IRequest;
@@ -46,9 +48,14 @@ class PageController extends Controller {
 		private IInitialState $initialStateService,
 		private IAppManager $appManager,
 		private IEventDispatcher $eventDispatcher,
+		private IConfig $config,
 		private ?string $userId
 	) {
 		parent::__construct($appName, $request);
+	}
+
+	protected function isDebugModeEnabled(): bool {
+		return $this->config->getSystemValueBool('debug', false);
 	}
 
 	/**
@@ -154,7 +161,6 @@ class PageController extends Controller {
 		return $this->index($projectId, $billId);
 	}
 
-	// TODO add bruteforce protection
 	/**
 	 * @param string $token
 	 * @return PublicTemplateResponse
@@ -162,17 +168,19 @@ class PageController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
-	public function publicShareLinkPage(string $token): PublicTemplateResponse {
+	#[BruteForceProtection(action: 'CospendPublicShareLinkPage')]
+	public function publicShareLinkPage(string $token): TemplateResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		if (!is_null($publicShareInfo)) {
 			$isPasswordProtected = !is_null($publicShareInfo['password'] ?? null);
 			if ($isPasswordProtected) {
 				$params = [
-					'projecttoken' => $token,
+					'token' => $token,
 					'wrong' => false,
 				];
 				$response = new PublicTemplateResponse('cospend', 'sharepassword', $params);
 				$response->setHeaderDetails($this->trans->t('Enter link password of project %s', [$publicShareInfo['projectid']]));
+				$response->setFooterVisible(false);
 			} else {
 				$this->initialStateService->provideInitialState('projectid', $token);
 				$this->initialStateService->provideInitialState('password', 'nopass');
@@ -183,35 +191,35 @@ class PageController extends Controller {
 			$response->setHeaderTitle($this->trans->t('Cospend shared link access'));
 			$response->setFooterVisible(false);
 		} else {
-			$templateParams = [
-				'errors' => [
-					['error' => $this->trans->t('Access denied')],
-				],
-			];
-			$response = new PublicTemplateResponse('core', '403', $templateParams);
-			$response->setHeaderTitle($this->trans->t('No such share link'));
+			$templateParams = ['message' => $this->trans->t('No such Cospend share link')];
+			$response = new TemplateResponse('core', '403', $templateParams, TemplateResponse::RENDER_AS_ERROR);
+			if (!$this->isDebugModeEnabled()) {
+				$throttleMetadata = [
+					'reason' => 'wrong token',
+				];
+				$response->throttle($throttleMetadata);
+			}
 		}
-		$response->setFooterVisible(false);
 		return $response;
 	}
 
-	// TODO improve token param name
 	/**
-	 * @param string $projecttoken
+	 * @param string $token
 	 * @param string|null $password
 	 * @return PublicTemplateResponse
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
-	public function pubProject(string $projecttoken, ?string $password = null): PublicTemplateResponse {
-		if ($projecttoken && !is_null($password)) {
-			$info = $this->projectService->getProjectInfoFromShareToken($projecttoken);
+	#[BruteForceProtection(action: 'CospendPublicProjectPage')]
+	public function pubProject(string $token, ?string $password = null): TemplateResponse {
+		if ($token && !is_null($password)) {
+			$info = $this->projectService->getProjectInfoFromShareToken($token);
 			// if the token is good and no password (or it matches the share one)
 			if (!is_null($info['projectid'] ?? null)
 				&& (is_null($info['password'] ?? null) || $password === $info['password'])
 			) {
-				$this->initialStateService->provideInitialState('projectid', $projecttoken);
+				$this->initialStateService->provideInitialState('projectid', $token);
 				$this->initialStateService->provideInitialState('password', $password);
 
 				$response = new PublicTemplateResponse('cospend', 'main', []);
@@ -220,21 +228,32 @@ class PageController extends Controller {
 				$response->setFooterVisible(false);
 				return $response;
 			} elseif (!is_null($info['projectid'] ?? null)) {
+				// good token, incorrect password
 				$params = [
-					'projecttoken' => $projecttoken,
+					'token' => $token,
 					'wrong' => true,
 				];
 				$response = new PublicTemplateResponse('cospend', 'sharepassword', $params);
 				$response->setHeaderTitle($this->trans->t('Cospend shared link access'));
 				$response->setHeaderDetails($this->trans->t('Enter link password of project %s', [$info['projectid']]));
 				$response->setFooterVisible(false);
+				if (!$this->isDebugModeEnabled()) {
+					$throttleMetadata = [
+						'reason' => 'wrong password',
+					];
+					$response->throttle($throttleMetadata);
+				}
 				return $response;
 			}
 		}
-		// TODO return error page
-		$response = new PublicTemplateResponse('cospend', 'error', []);
-		$response->setHeaderTitle($this->trans->t('No such share link or public access'));
-		$response->setHeaderDetails($this->trans->t('Access denied'));
+		$templateParams = ['message' => $this->trans->t('No such Cospend share link')];
+		$response = new TemplateResponse('core', '403', $templateParams, TemplateResponse::RENDER_AS_ERROR);
+		if (!$this->isDebugModeEnabled()) {
+			$throttleMetadata = [
+				'reason' => 'wrong token',
+			];
+			$response->throttle($throttleMetadata);
+		}
 		return $response;
 	}
 

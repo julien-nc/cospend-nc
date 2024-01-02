@@ -20,9 +20,6 @@ return [
 		['name' => 'page#getSvgFromApp', 'url' => '/svg/{fileName}', 'verb' => 'GET'],
 		['name' => 'page#indexProject', 'url' => '/p/{projectId}', 'verb' => 'GET'],
 		['name' => 'page#indexBill', 'url' => '/p/{projectId}/b/{billId}', 'verb' => 'GET'],
-//		['name' => 'page#pubLoginProjectPassword', 'url' => 'loginproject/{projectid}/{password}', 'verb' => 'GET'],
-//		['name' => 'page#pubLoginProject', 'url' => 'loginproject/{projectid}', 'verb' => 'GET'],
-//		['name' => 'page#pubLogin', 'url' => 'login', 'verb' => 'GET'],
 		['name' => 'page#pubProject', 'url' => 'project', 'verb' => 'POST'],
 		['name' => 'page#publicShareLinkPage', 'url' => 's/{token}', 'verb' => 'GET'],
 

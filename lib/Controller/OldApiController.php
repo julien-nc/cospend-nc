@@ -15,8 +15,10 @@ use DateTime;
 use OCA\Cospend\Attribute\CospendPublicAuth;
 use OCA\Cospend\Attribute\CospendUserPermissions;
 use OCP\AppFramework\Http;
-use OCP\DB\Exception;
-use OCP\IConfig;
+use OCP\AppFramework\Http\Attribute\CORS;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\IL10N;
 
 use OCP\AppFramework\Http\ContentSecurityPolicy;
@@ -24,8 +26,6 @@ use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\ApiController;
-use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\IDBConnection;
 
 use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Service\ProjectService;
@@ -41,7 +41,6 @@ class OldApiController extends ApiController {
 		private BillMapper $billMapper,
 		private ProjectService $projectService,
 		private ActivityManager $activityManager,
-		private IDBConnection $dbconnection,
 		public ?string $userId
 	) {
 		parent::__construct(
@@ -52,15 +51,11 @@ class OldApiController extends ApiController {
 		);
 	}
 
-	// TODO get rid of checkLogin and switch to middleware auth checks (pub and priv) like in new controllers
-	// project main passwords can't be edited anymore anyway
 	// TODO get rid of anonymous project creation stuff (toggle and routes/contr methods)
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
 	public function apiPrivSetProjectInfo(string $projectId, ?string $name = null, ?string $contact_email = null, ?string $password = null,
 										  ?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
@@ -75,11 +70,9 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	public function apiPrivCreateProject(string $name, string $id, ?string $password = null, ?string $contact_email = null): DataResponse {
 		$result = $this->projectService->createProject($name, $id, $password, $contact_email, $this->userId);
 		if (isset($result['id'])) {
@@ -89,12 +82,10 @@ class OldApiController extends ApiController {
 		}
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function apiGetProjectInfo(string $token): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -116,11 +107,9 @@ class OldApiController extends ApiController {
 		);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function apiPrivGetProjectInfo(string $projectId): DataResponse {
 		$projectInfo = $this->projectService->getProjectInfo($projectId);
@@ -135,12 +124,10 @@ class OldApiController extends ApiController {
 		);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
 	public function apiSetProjectInfo(string $token, ?string $name = null, ?string $contact_email = null,
 									  ?string $autoexport = null, ?string $currencyname = null,
@@ -156,12 +143,10 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function apiGetMembers(string $token, ?int $lastchanged = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -169,23 +154,19 @@ class OldApiController extends ApiController {
 		return new DataResponse($members);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function apiPrivGetMembers(string $projectId, ?int $lastchanged = null): DataResponse {
 		$members = $this->projectService->getMembers($projectId, null, $lastchanged);
 		return new DataResponse($members);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function apiGetBills(string $token, ?int $lastchanged = null,
 								?int $offset = 0, ?int $limit = null, bool $reverse = false, ?int $deleted = 0): DataResponse {
@@ -206,20 +187,10 @@ class OldApiController extends ApiController {
 		return new DataResponse($bills);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 *
-	 * @param string $token
-	 * @param int|null $lastchanged
-	 * @param int|null $offset
-	 * @param int|null $limit
-	 * @param bool $reverse
-	 * @param int|null $payerId
-	 * @return DataResponse
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function apiv3GetBills(
 		string $token, ?int $lastchanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false,
@@ -249,11 +220,9 @@ class OldApiController extends ApiController {
 		return new DataResponse($result);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function apiPrivGetBills(string $projectId, ?int $lastchanged = null, ?int $deleted = 0): DataResponse {
 		$bills = $this->billMapper->getBills(
@@ -269,12 +238,10 @@ class OldApiController extends ApiController {
 		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function apiv2GetBills(string $token, ?int $lastchanged = null, ?int $deleted = 0): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -292,12 +259,10 @@ class OldApiController extends ApiController {
 		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiAddMember(string $token, string $name,
 								 float  $weight = 1, int $active = 1, ?string $color = null): DataResponse {
@@ -312,12 +277,10 @@ class OldApiController extends ApiController {
 		}
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiv2AddMember(string $token, string $name, float $weight = 1, int $active = 1,
 								   ?string $color = null, ?string $userid = null): DataResponse {
@@ -331,11 +294,9 @@ class OldApiController extends ApiController {
 		return new DataResponse($result['error'], Http::STATUS_BAD_REQUEST);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivAddMember(string $projectId, string $name, float $weight = 1, int $active = 1,
 									 ?string $color = null, ?string $userid = null): DataResponse {
@@ -346,12 +307,10 @@ class OldApiController extends ApiController {
 		return new DataResponse($result['error'], Http::STATUS_BAD_REQUEST);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function apiAddBill(string $token, ?string $date = null, ?string $what = null, ?int $payer = null,
 							   ?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
@@ -384,11 +343,9 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function apiPrivAddBill(string  $projectId, ?string $date = null, ?string $what = null, ?int $payer = null,
 								   ?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
@@ -410,12 +367,10 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function apiRepeatBill(string $token, int $billId): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -427,12 +382,10 @@ class OldApiController extends ApiController {
 		return new DataResponse($result);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function apiEditBill(
 		string  $token, int $billid, ?string $date = null, ?string $what = null,
@@ -469,12 +422,10 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function apiEditBills(
 		string $token, array $billIds, ?int $categoryid = null, ?string $date = null,
@@ -514,11 +465,9 @@ class OldApiController extends ApiController {
 		return new DataResponse($billIds);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function apiPrivEditBill(
 		string $projectId, int $billid, ?string $date = null, ?string $what = null,
@@ -546,12 +495,10 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function apiClearTrashbin(string $token): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -563,12 +510,10 @@ class OldApiController extends ApiController {
 		}
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function apiDeleteBill(string $token, int $billid, bool $moveToTrash = true): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -599,12 +544,10 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_NOT_FOUND);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function apiDeleteBills(string $token, array $billIds, bool $moveToTrash = true): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -638,11 +581,9 @@ class OldApiController extends ApiController {
 		return new DataResponse('OK');
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function apiPrivClearTrashbin(string $projectId): DataResponse {
 		try {
@@ -653,11 +594,9 @@ class OldApiController extends ApiController {
 		}
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function apiPrivDeleteBill(string $projectId, int $billid, bool $moveToTrash = true): DataResponse {
 		$billObj = null;
@@ -679,12 +618,10 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_NOT_FOUND);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiDeleteMember(string $token, int $memberid): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -695,11 +632,9 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_NOT_FOUND);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivDeleteMember(string $projectId, int $memberid): DataResponse {
 		$result = $this->projectService->deleteMember($projectId, $memberid);
@@ -709,12 +644,10 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_NOT_FOUND);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
 	public function apiDeleteProject(string $token): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -725,11 +658,9 @@ class OldApiController extends ApiController {
 		return new DataResponse(['message' => $result['error']], Http::STATUS_NOT_FOUND);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
 	public function apiPrivDeleteProject(string $projectId): DataResponse {
 		$result = $this->projectService->deleteProject($projectId);
@@ -739,12 +670,10 @@ class OldApiController extends ApiController {
 		return new DataResponse(['message' => $result['error']], Http::STATUS_NOT_FOUND);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiEditMember(string $token, int $memberid,
 								  ?string $name = null, ?float $weight = null, $activated = null,
@@ -767,11 +696,9 @@ class OldApiController extends ApiController {
 		}
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivEditMember(string $projectId, int $memberid, ?string $name = null, ?float $weight = null,
 										$activated = null, ?string $color = null, ?string $userid = null): DataResponse {
@@ -790,25 +717,10 @@ class OldApiController extends ApiController {
 		}
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 *
-	 * @param string $token
-	 * @param int|null $tsMin
-	 * @param int|null $tsMax
-	 * @param int|null $paymentModeId
-	 * @param int|null $categoryId
-	 * @param float|null $amountMin
-	 * @param float|null $amountMax
-	 * @param string $showDisabled
-	 * @param int|null $currencyId
-	 * @param int|null $payerId
-	 * @return DataResponse
-	 * @throws Exception
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function apiGetProjectStatistics(string $token, ?int $tsMin = null, ?int $tsMax = null,
 											?int $paymentModeId = null, ?int $categoryId = null,
@@ -824,24 +736,9 @@ class OldApiController extends ApiController {
 		return new DataResponse($result);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 *
-	 * @param string $projectId
-	 * @param int|null $tsMin
-	 * @param int|null $tsMax
-	 * @param int|null $paymentModeId
-	 * @param int|null $categoryId
-	 * @param float|null $amountMin
-	 * @param float|null $amountMax
-	 * @param string $showDisabled
-	 * @param int|null $currencyId
-	 * @param int|null $payerId
-	 * @return DataResponse
-	 * @throws Exception
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function apiPrivGetProjectStatistics(string $projectId, ?int $tsMin = null, ?int $tsMax = null,
 												?int $paymentModeId = null,
@@ -855,12 +752,10 @@ class OldApiController extends ApiController {
 		return new DataResponse($result);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function apiGetProjectSettlement(string $token, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -870,23 +765,19 @@ class OldApiController extends ApiController {
 		return new DataResponse($result);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function apiPrivGetProjectSettlement(string $projectId, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
 		$result = $this->projectService->getProjectSettlement($projectId, $centeredOn, $maxTimestamp);
 		return new DataResponse($result);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function apiAutoSettlement(string $token, ?int $centeredOn = null,
 									  int $precision = 2, ?int $maxTimestamp = null): DataResponse {
@@ -900,11 +791,9 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function apiPrivAutoSettlement(string $projectId, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null): DataResponse {
 		$result = $this->projectService->autoSettlement($projectId, $centeredOn, $precision, $maxTimestamp);
@@ -914,12 +803,10 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiAddPaymentMode(string $token, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -932,11 +819,9 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivAddPaymentMode(string $projectId, string $name, ?string $icon = null, ?string $color = null): DataResponse {
 		$result = $this->projectService->createPaymentMode($projectId, $name, $icon, $color);
@@ -946,12 +831,10 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiEditPaymentMode(string $token, int $pmid, ?string $name = null,
 									   ?string $icon = null, ?string $color = null): DataResponse {
@@ -965,12 +848,10 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiSavePaymentModeOrder(string $token, array $order): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -980,11 +861,9 @@ class OldApiController extends ApiController {
 		return new DataResponse(false, Http::STATUS_FORBIDDEN);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivEditPaymentMode(string $projectId, int $pmid, ?string $name = null,
 										   ?string $icon = null, ?string $color = null): DataResponse {
@@ -995,12 +874,10 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiDeletePaymentMode(string $token, int $pmid): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -1011,11 +888,9 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivDeletePaymentMode(string $projectId, int $pmid): DataResponse {
 		$result = $this->projectService->deletePaymentMode($projectId, $pmid);
@@ -1025,12 +900,10 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiAddCategory(string $token, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -1044,11 +917,9 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivAddCategory(string $projectId, string $name, ?string $icon = null, ?string $color = null): DataResponse {
 		$result = $this->projectService->createCategory($projectId, $name, $icon, $color);
@@ -1059,12 +930,10 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiEditCategory(string $token, int $categoryid, ?string $name = null,
 									?string $icon = null, ?string $color = null): DataResponse {
@@ -1078,12 +947,10 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiSaveCategoryOrder(string $token, array $order): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -1093,11 +960,9 @@ class OldApiController extends ApiController {
 		return new DataResponse(false, Http::STATUS_FORBIDDEN);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivEditCategory(string $projectId, int $categoryid, ?string $name = null,
 										?string $icon = null, ?string $color = null): DataResponse {
@@ -1108,12 +973,10 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiDeleteCategory(string $token, int $categoryid): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -1124,11 +987,9 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivDeleteCategory(string $projectId, int $categoryid): DataResponse {
 		$result = $this->projectService->deleteCategory($projectId, $categoryid);
@@ -1138,12 +999,10 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiAddCurrency(string $token, string $name, float $rate): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -1155,11 +1014,9 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivAddCurrency(string $projectId, string $name, float $rate): DataResponse {
 		$result = $this->projectService->createCurrency($projectId, $name, $rate);
@@ -1170,12 +1027,10 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiEditCurrency(string $token, int $currencyid, string $name, float $rate): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -1188,11 +1043,9 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivEditCurrency(string $projectId, int $currencyid, string $name, float $rate): DataResponse {
 		$result = $this->projectService->editCurrency($projectId, $currencyid, $name, $rate);
@@ -1202,12 +1055,10 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiDeleteCurrency(string $token, int $currencyid): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -1218,11 +1069,9 @@ class OldApiController extends ApiController {
 		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @CORS
-	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivDeleteCurrency(string $projectId, int $currencyid): DataResponse {
 		$result = $this->projectService->deleteCurrency($projectId, $currencyid);
@@ -1234,9 +1083,10 @@ class OldApiController extends ApiController {
 
 	/**
 	 * Used by MoneyBuster to check if weblogin is valid
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	public function apiPing(): DataResponse {
 		$response = new DataResponse([$this->userId]);
 		$csp = new ContentSecurityPolicy();

@@ -2106,7 +2106,7 @@ class ProjectService {
 			$req = $qb->executeQuery();
 			while ($row = $req->fetch()) {
 				$dbName = $row['name'];
-				$dbIcon = urldecode($row['encoded_icon']);
+				$dbIcon = $row['encoded_icon'] === null ? null : urldecode($row['encoded_icon']);
 				$dbColor = $row['color'];
 				$dbId = (int) $row['id'];
 				$dbOrder = (int) $row['order'];
@@ -2137,7 +2137,7 @@ class ProjectService {
 			$req = $qb->executeQuery();
 			while ($row = $req->fetch()) {
 				$dbName = $row['name'];
-				$dbIcon = urldecode($row['encoded_icon']);
+				$dbIcon = $row['encoded_icon'] === null ? null : urldecode($row['encoded_icon']);
 				$dbColor = $row['color'];
 				$dbId = (int) $row['id'];
 				$elements[$dbId] = [
@@ -3298,7 +3298,7 @@ class ProjectService {
 		while ($row = $req->fetch()) {
 			$dbPmId = (int) $row['id'];
 			$dbName = $row['name'];
-			$dbIcon = urldecode($row['encoded_icon']);
+			$dbIcon = $row['encoded_icon'] === null ? null : urldecode($row['encoded_icon']);
 			$dbColor = $row['color'];
 			$dbOldId = $row['old_id'];
 			$pm = [
@@ -3472,7 +3472,7 @@ class ProjectService {
 		while ($row = $req->fetch()) {
 			$dbCategoryId = (int) $row['id'];
 			$dbName = $row['name'];
-			$dbIcon = urldecode($row['encoded_icon']);
+			$dbIcon = $row['encoded_icon'] === null ? null : urldecode($row['encoded_icon']);
 			$dbColor = $row['color'];
 			$category = [
 				'name' => $dbName,

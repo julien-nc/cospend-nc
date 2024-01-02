@@ -31,25 +31,6 @@ export function saveOptionValue(optionValues) {
 	}
 }
 
-export function setAllowAnonymousCreation(val) {
-	const url = generateUrl('/apps/cospend/allow-anonymous-creation')
-	const req = {
-		allow: val,
-	}
-	axios.put(url, req)
-		.then((response) => {
-			showSuccess(
-				t('cospend', 'Cospend setting saved'),
-			)
-		})
-		.catch((error) => {
-			showError(
-				t('cospend', 'Failed to save Cospend setting'),
-			)
-			console.debug(error)
-		})
-}
-
 export function exportProject(filename, projectId, projectName) {
 	const req = {
 		params: {

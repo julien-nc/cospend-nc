@@ -27,7 +27,6 @@ return [
 
 		['name' => 'utils#getOptionsValues', 'url' => '/option-values', 'verb' => 'GET'],
 		['name' => 'utils#saveOptionValue', 'url' => '/option-value', 'verb' => 'PUT'],
-		['name' => 'utils#setAllowAnonymousCreation', 'url' => '/allow-anonymous-creation', 'verb' => 'PUT'],
 
 		// OLD API for client using guest access (projectId + password) or public link (token + optional password)
 		['name' => 'oldApi#preflighted_cors', 'url' => '/api/{path}', 'verb' => 'OPTIONS', 'requirements' => ['path' => '.+']],

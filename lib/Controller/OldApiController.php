@@ -51,8 +51,6 @@ class OldApiController extends ApiController {
 		);
 	}
 
-	// TODO get rid of anonymous project creation stuff (toggle and routes/contr methods)
-
 	#[NoAdminRequired]
 	#[CORS]
 	#[NoCSRFRequired]

@@ -11,8 +11,9 @@
 
 namespace OCA\Cospend\Controller;
 
+use OCA\Cospend\AppInfo\Application;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\IConfig;
-use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
@@ -29,74 +30,42 @@ class UtilsController extends Controller {
 	}
 
 	/**
-	 * set global point quota
-	 */
-	public function setAllowAnonymousCreation($allow): DataResponse {
-		$this->config->setAppValue('cospend', 'allowAnonymousCreation', $allow);
-		$response = new DataResponse(['done' => '1']);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
-	}
-
-	/**
 	 * Delete user options
-	 * @NoAdminRequired
 	 */
+	#[NoAdminRequired]
 	public function deleteOptionsValues(): DataResponse	{
-		$keys = $this->config->getUserKeys($this->userId, 'cospend');
+		$keys = $this->config->getUserKeys($this->userId, Application::APP_ID);
 		foreach ($keys as $key) {
-			$this->config->deleteUserValue($this->userId, 'cospend', $key);
+			$this->config->deleteUserValue($this->userId, Application::APP_ID, $key);
 		}
 
-		$response = new DataResponse(['done' => 1]);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse(['done' => 1]);
 	}
 
 	/**
 	 * Save options values to the DB for current user
-	 * @NoAdminRequired
 	 */
+	#[NoAdminRequired]
 	public function saveOptionValue($options): DataResponse	{
 		foreach ($options as $key => $value) {
-			$this->config->setUserValue($this->userId, 'cospend', $key, $value);
+			$this->config->setUserValue($this->userId, Application::APP_ID, $key, $value);
 		}
 
-		$response = new DataResponse(['done' => true]);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse(['done' => true]);
 	}
 
 	/**
 	 * get options values from the config for current user
-	 * @NoAdminRequired
 	 */
+	#[NoAdminRequired]
 	public function getOptionsValues(): DataResponse {
 		$ov = array();
-		$keys = $this->config->getUserKeys($this->userId, 'cospend');
+		$keys = $this->config->getUserKeys($this->userId, Application::APP_ID);
 		foreach ($keys as $key) {
-			$value = $this->config->getUserValue($this->userId, 'cospend', $key);
+			$value = $this->config->getUserValue($this->userId, Application::APP_ID, $key);
 			$ov[$key] = $value;
 		}
 
-		$response = new DataResponse(['values' => $ov]);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse(['values' => $ov]);
 	}
 }

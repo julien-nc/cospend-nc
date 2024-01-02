@@ -3,14 +3,13 @@
   * [What are balances :balance_scale: ?](#s1-2)
   * [What is a member :ok_woman: ?](#s1-3)
   * [What is a bill :dollar: ?](#s1-4)
-* [Add a project](#s2)
-  * [Guest access](#s2-1)
-    * [Guest access permissions](#s2-1-1)
-* [Add a member](#s3)
-* [Add a bill](#s4)
+* [Create a project](#s2)
+  * [Shared access](#s2-1)
+    * [Share link permissions](#s2-1-1)
+* [Create a member](#s3)
+* [Create a bill](#s4)
 * [Project statistics](#s5)
 * [Settle the project](#s6)
-* [Anonymous project creation](#s7)
 
 # <a id='s1' />Introduction
 
@@ -21,25 +20,34 @@ Things you should know:
 
 ## <a id='s1-1' />What is a project :paperclip: ?
 
-A project contains members and bills. A project is a way to manage what is spent in a group of persons. It's a way to know who paid what for whom and when and who owes how much to whom.
+A project contains members and bills. A project is a way to manage what is spent in a group of persons.
+It's a way to know who paid what for whom and when and who owes how much to the group.
+Debts are not personal, a member who has a debt in the group (negative balance) can pay anyone in the group
+to bring his/her balance back to zero and leave the group. This will have an effect on other's balances.
 
 ## <a id='s1-2' />What are balances :balance_scale: ?
 
-The balance value represents the situation of a member in a project. A positive balance indicates that the member payed more for the group than the grouped payed for them. By keeping an eye on the balance, one can stop taking care of exactly how much they owe to each project member.
+The balance value represents the situation of a member in a project.
+A positive balance indicates that the member payed more for the group than the grouped payed for them.
+By keeping an eye on the balance, one can stop taking care of exactly how much they owe to each project member.
 
-If member A has a negative balance, -10 for example, it just means A owes 10$ to the group. Any payment of 10$ to the group (or a sub part of the group) will bring the balance back to zero. It does not matter who it was payed for.
+If member A has a negative balance, -10 for example, it just means A owes 10$ to the group.
+Any payment of 10$ to the group (or a sub part of the group) will bring the balance back to zero.
+It does not matter who it was payed for.
 
-All those actions have the same effect on member A's balance => bring it up:
+All those actions have the same effect on the member A's balance => Make it raise of 10:
 
-1. Member A pays 10$ to member B
-2. Member A pays 5$ to member B and 5$ to member C
-3. Member A pays a 10$ cake for the whole group
+0. Member A pays 20$ for a cake that is eaten by A and B (one bill payed by A with A and B as owers)
+1. Member A pays 10$ to member B (one bill payed by A with B as ower)
+2. Member A pays 5$ to member B and 5$ to member C (one bill payed by A with B as ower, another bill payed by A with C as ower)
+3. Member A pays a 15$ cake eaten by A, B and C (on bill payed by A with A, B and C as owers)
 
 The only difference is the effect on other members balances:
 
+0. -10 in B's balance
 1. -10 in B's balance
 2. -5 in B's balance and -5 in C's balance
-3. -1 in each member's balance (if there are 10 members in the project)
+3. -5 in each ower's balance
 
 ## <a id='s1-3' />What is a member :ok_woman: ?
 
@@ -57,54 +65,43 @@ It seems simple enough to do it intuitively with a small example but it gets rea
 
 A bill is a spending from one member which concerns one or more members in the project. A bill is defined by a name, an amount, a payer, a date and a list of owers.
 
-# <a id='s2' />Add a project
+# <a id='s2' />Create a project
 
-When you first visit the app, there is no project yet. Well let's create one!
+When you first visit the app, there is no project yet.
 
-A project is defined by an ID, a name, a contact email address and a password. When you "add" a project. When creating a project from the web interface, the user's email address will be used as contact email address.
+A project is defined by an ID and a name.
 
-## <a id='s2-1' />Guest access
+Cospend and SplitWise CSV project files can be imported in Cospend.
 
-The project ID and password are important to provide access to people who don't have an account on the Nextcloud instance. They can visit the "Guest access link", enter the project ID and the password and have access to the project just like a regular user.
+## <a id='s2-1' />Shared access
 
-This link looks like `https://YOUR.NEXTCLOUD.ORG/index.php/apps/cospend/login` or `https://YOUR.NEXTCLOUD.ORG/index.php/apps/cospend/loginproject/PROJECT_ID` . Just put the correct values for YOUR.NEXTCLOUD.ORG and PROJECT_ID and you're good to go.
+Cospend lets you share your projects with users, groups and circles.
+It is also possible to create public share links to share a project with people who don't have an account on your Nextcloud instance.
+Public share links can be password protected.
 
-This link is accessible in projects context menu => "guest link".
+## <a id='s2-1-1' />Share link permissions
 
-## <a id='s2-1-1' />Guest access permissions
+There are 4 permission levels for shared links: 
 
-There are 4 levels of guest link permissions : 
+* Viewer: read-only access
+* Participant: can create, modify or delete bills
+* Maintainer: same as participant + can create, modify, disable or delete a project member + can create, modify and delete categories, payment modes and currencies
+* Admin: same as maintainer + can rename and delete project + can toggle bill deletion and auto-export + can modify categories or payment modes order
 
-* Viewer : read-only access
-* Participant : can create, modify or delete bills
-* Maintainer : same as participant, + can create, modify, deactivate or delete a project member, and can create, modify and delete categories and currencies
-* Admin : same as maintainer, + can rename and delete project, can enable/disable bill deletion and auto-export, can modify categories order
-
-# <a id='s3' />Add a member
+# <a id='s3' />Create a member
 
 This is pretty simple. Press "+" in the project drop-down menu and then press "add a member".
 
 Just provide a user name and that's it. Member is added with a weight of 1 and is activated by default.
 
-# <a id='s4' />Add a bill
+# <a id='s4' />Create a bill
 
-Pretty simple too. Press the "new bill" button. Fill all fields and the bill will be saved automatically.
+Pretty simple too. Press the "new bill" button. Fill all fields and press the "Save bill" button.
 
 # <a id='s5' />Project statistics
 
-Well does it need explanations ?
+The filters on top of the statistics page apply to all the statistics charts and tables.
 
 # <a id='s6' />Settle the project
 
-This feature shows you a possible way to settle the bills and put everyone's balance back to 0.
-
-# <a id='s7' />Anonymous project creation
-
-There is a Cospend setting called "anonymous project creation" which is only accessible to Nextcloud admins in "additional settings".
-
-This feature aims to reproduce the behaviour of IHateMoney in which there are no users, so there is a setting to allow project creation without being authenticated while your create the project.
-
-If your Nextcloud admin enabled "anonymous project creation", then it is possible to create projects from a client (like [MoneyBuster](https://gitlab.com/eneiluj/moneybuster)) without being a Nextcloud user. An "anonymous" project will not be associated with any Nextcloud user and will therefore NOT appear in any user's Cospend project list. The only ways to access such projects are:
-
-* with the [Cospend public login web page (also called guest access link)](#guest-access).
-* with a client (like [MoneyBuster](https://gitlab.com/eneiluj/moneybuster))
+This feature gives you an optimal project settlement/reimbursement plan to put everyone's balance back to 0.

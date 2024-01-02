@@ -13,6 +13,7 @@ namespace OCA\Cospend\Controller;
 
 use DateTime;
 use OCA\Cospend\Attribute\CospendPublicAuth;
+use OCA\Cospend\Attribute\CospendUserPermissions;
 use OCP\AppFramework\Http;
 use OCP\DB\Exception;
 use OCP\IConfig;
@@ -54,64 +55,24 @@ class OldApiController extends ApiController {
 	// TODO get rid of checkLogin and switch to middleware auth checks (pub and priv) like in new controllers
 	// project main passwords can't be edited anymore anyway
 	// TODO get rid of anonymous project creation stuff (toggle and routes/contr methods)
-	/**
-	 * Check if project password is valid
-	 *
-	 * @param string $projectId
-	 * @param string $password
-	 * @return bool
-	 */
-	private function checkLogin(string $projectId, string $password): bool {
-		if ($projectId === '' || $projectId === null
-			|| $password === '' || $password === null
-		) {
-			return false;
-		} else {
-			$qb = $this->dbconnection->getQueryBuilder();
-			$qb->select('id', 'password')
-			   ->from('cospend_projects', 'p')
-			   ->where(
-				   $qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			   );
-			$req = $qb->executeQuery();
-			$dbPassword = null;
-			$row = $req->fetch();
-			if ($row !== false) {
-				$dbPassword = $row['password'];
-			}
-			$req->closeCursor();
-			$qb->resetQueryParts();
-			return (
-				$dbPassword !== null &&
-				password_verify($password, $dbPassword)
-			);
-		}
-	}
 
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivSetProjectInfo(string $projectid, ?string $name = null, ?string $contact_email = null, ?string $password = null,
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
+	public function apiPrivSetProjectInfo(string $projectId, ?string $name = null, ?string $contact_email = null, ?string $password = null,
 										  ?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
 										  ?string $categorysort = null, ?string $paymentmodesort = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVEL_ADMIN) {
-			$result = $this->projectService->editProject(
-				$projectid, $name, $contact_email, $password, $autoexport,
-				$currencyname, $deletion_disabled, $categorysort, $paymentmodesort
-			);
-			if (isset($result['success'])) {
-				return new DataResponse('UPDATED');
-			} else {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				401
-			);
+		$result = $this->projectService->editProject(
+			$projectId, $name, $contact_email, $password, $autoexport,
+			$currencyname, $deletion_disabled, $categorysort, $paymentmodesort
+		);
+		if (isset($result['success'])) {
+			return new DataResponse('UPDATED');
 		}
+		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -160,25 +121,18 @@ class OldApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivGetProjectInfo(string $projectid): DataResponse {
-		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-			$projectInfo = $this->projectService->getProjectInfo($projectid);
-			if ($projectInfo !== null) {
-				unset($projectInfo['userid']);
-				$projectInfo['myaccesslevel'] = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
-				return new DataResponse($projectInfo);
-			} else {
-				return new DataResponse(
-					['message' => $this->trans->t('Project not found')],
-					404
-				);
-			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				401
-			);
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	public function apiPrivGetProjectInfo(string $projectId): DataResponse {
+		$projectInfo = $this->projectService->getProjectInfo($projectId);
+		if ($projectInfo !== null) {
+			unset($projectInfo['userid']);
+			$projectInfo['myaccesslevel'] = $this->projectService->getUserMaxAccessLevel($this->userId, $projectId);
+			return new DataResponse($projectInfo);
 		}
+		return new DataResponse(
+			['message' => $this->trans->t('Project not found')],
+			Http::STATUS_NOT_FOUND
+		);
 	}
 
 	/**
@@ -220,16 +174,10 @@ class OldApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivGetMembers(string $projectid, ?int $lastchanged = null): DataResponse {
-		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-			$members = $this->projectService->getMembers($projectid, null, $lastchanged);
-			return new DataResponse($members);
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				Http::STATUS_FORBIDDEN
-			);
-		}
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	public function apiPrivGetMembers(string $projectId, ?int $lastchanged = null): DataResponse {
+		$members = $this->projectService->getMembers($projectId, null, $lastchanged);
+		return new DataResponse($members);
 	}
 
 	/**
@@ -306,25 +254,19 @@ class OldApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivGetBills(string $projectid, ?int $lastchanged = null, ?int $deleted = 0): DataResponse {
-		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-			$bills = $this->billMapper->getBills(
-				$projectid, null, null, null, null, null,
-				null, null, $lastchanged, null, false, null, $deleted
-			);
-			$billIds = $this->projectService->getAllBillIds($projectid, $deleted);
-			$ts = (new DateTime())->getTimestamp();
-			return new DataResponse([
-				'bills' => $bills,
-				'allBillIds' => $billIds,
-				'timestamp' => $ts,
-			]);
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				Http::STATUS_FORBIDDEN
-			);
-		}
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	public function apiPrivGetBills(string $projectId, ?int $lastchanged = null, ?int $deleted = 0): DataResponse {
+		$bills = $this->billMapper->getBills(
+			$projectId, null, null, null, null, null,
+			null, null, $lastchanged, null, false, null, $deleted
+		);
+		$billIds = $this->projectService->getAllBillIds($projectId, $deleted);
+		$ts = (new DateTime())->getTimestamp();
+		return new DataResponse([
+			'bills' => $bills,
+			'allBillIds' => $billIds,
+			'timestamp' => $ts,
+		]);
 	}
 
 	/**
@@ -394,21 +336,14 @@ class OldApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivAddMember(string $projectid, string $name, float $weight = 1, int $active = 1,
-									?string $color = null, ?string $userid = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVEL_MAINTAINER) {
-			$result = $this->projectService->createMember($projectid, $name, $weight, $active !== 0, $color, $userid);
-			if (!isset($result['error'])) {
-				return new DataResponse($result['id']);
-			} else {
-				return new DataResponse($result['error'], Http::STATUS_BAD_REQUEST);
-			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to add members')],
-				Http::STATUS_FORBIDDEN
-			);
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	public function apiPrivAddMember(string $projectId, string $name, float $weight = 1, int $active = 1,
+									 ?string $color = null, ?string $userid = null): DataResponse {
+		$result = $this->projectService->createMember($projectId, $name, $weight, $active !== 0, $color, $userid);
+		if (!isset($result['error'])) {
+			return new DataResponse($result['id']);
 		}
+		return new DataResponse($result['error'], Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -454,32 +389,25 @@ class OldApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivAddBill(string $projectid, ?string $date = null, ?string $what = null, ?int $payer = null,
-								?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
-								?string $paymentmode = null, ?int $paymentmodeid = null,
-								?int $categoryid = null, int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
-								?string $comment = null, ?int $repeatfreq = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVEL_PARTICIPANT) {
-			$result = $this->projectService->createBill($projectid, $date, $what, $payer, $payed_for, $amount,
-													 $repeat, $paymentmode, $paymentmodeid, $categoryid, $repeatallactive,
-													 $repeatuntil, $timestamp, $comment, $repeatfreq);
-			if (isset($result['inserted_id'])) {
-				$billObj = $this->billMapper->find($result['inserted_id']);
-				$this->activityManager->triggerEvent(
-					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
-					ActivityManager::SUBJECT_BILL_CREATE,
-					[]
-				);
-				return new DataResponse($result['inserted_id']);
-			} else {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to add bills')],
-				Http::STATUS_FORBIDDEN
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	public function apiPrivAddBill(string  $projectId, ?string $date = null, ?string $what = null, ?int $payer = null,
+								   ?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
+								   ?string $paymentmode = null, ?int $paymentmodeid = null,
+								   ?int $categoryid = null, int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
+								   ?string $comment = null, ?int $repeatfreq = null): DataResponse {
+		$result = $this->projectService->createBill($projectId, $date, $what, $payer, $payed_for, $amount,
+												 $repeat, $paymentmode, $paymentmodeid, $categoryid, $repeatallactive,
+												 $repeatuntil, $timestamp, $comment, $repeatfreq);
+		if (isset($result['inserted_id'])) {
+			$billObj = $this->billMapper->find($result['inserted_id']);
+			$this->activityManager->triggerEvent(
+				ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+				ActivityManager::SUBJECT_BILL_CREATE,
+				[]
 			);
+			return new DataResponse($result['inserted_id']);
 		}
+		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -591,38 +519,31 @@ class OldApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function apiPrivEditBill(
-		string $projectid, int $billid, ?string $date = null, ?string $what = null,
+		string $projectId, int $billid, ?string $date = null, ?string $what = null,
 		?int $payer = null, ?string $payed_for = null, ?float $amount = null, ?string $repeat = 'n',
 		?string $paymentmode = null, ?int $paymentmodeid = null,
 		?int $categoryid = null, ?int $repeatallactive = null,
 		?string $repeatuntil = null, ?int $timestamp = null, ?string $comment=null,
 		?int $repeatfreq = null, ?int $deleted = null
 	): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVEL_PARTICIPANT) {
-			$result = $this->projectService->editBill(
-				$projectid, $billid, $date, $what, $payer, $payed_for,
-				$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
-				$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq, null, $deleted
+		$result = $this->projectService->editBill(
+			$projectId, $billid, $date, $what, $payer, $payed_for,
+			$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
+			$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq, null, $deleted
+		);
+		if (isset($result['edited_bill_id'])) {
+			$billObj = $this->billMapper->find($billid);
+			$this->activityManager->triggerEvent(
+				ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+				ActivityManager::SUBJECT_BILL_UPDATE,
+				[]
 			);
-			if (isset($result['edited_bill_id'])) {
-				$billObj = $this->billMapper->find($billid);
-				$this->activityManager->triggerEvent(
-					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
-					ActivityManager::SUBJECT_BILL_UPDATE,
-					[]
-				);
 
-				return new DataResponse($result['edited_bill_id']);
-			} else {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				Http::STATUS_FORBIDDEN
-			);
+			return new DataResponse($result['edited_bill_id']);
 		}
+		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -722,19 +643,13 @@ class OldApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivClearTrashbin(string $projectid): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVEL_PARTICIPANT) {
-			try {
-			$this->billMapper->deleteDeletedBills($projectid);
-				return new DataResponse('');
-			} catch (\Exception | \Throwable $e) {
-				return new DataResponse('', Http::STATUS_NOT_FOUND);
-			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				Http::STATUS_FORBIDDEN
-			);
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	public function apiPrivClearTrashbin(string $projectId): DataResponse {
+		try {
+			$this->billMapper->deleteDeletedBills($projectId);
+			return new DataResponse('');
+		} catch (\Exception | \Throwable $e) {
+			return new DataResponse('', Http::STATUS_NOT_FOUND);
 		}
 	}
 
@@ -743,32 +658,25 @@ class OldApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivDeleteBill(string $projectid, int $billid, bool $moveToTrash = true): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVEL_PARTICIPANT) {
-			$billObj = null;
-			if ($this->billMapper->getBill($projectid, $billid) !== null) {
-				$billObj = $this->billMapper->find($billid);
-			}
-
-			$result = $this->projectService->deleteBill($projectid, $billid, false, $moveToTrash);
-			if (isset($result['success'])) {
-				if (!is_null($billObj)) {
-					$this->activityManager->triggerEvent(
-						ActivityManager::COSPEND_OBJECT_BILL, $billObj,
-						ActivityManager::SUBJECT_BILL_DELETE,
-						[]
-					);
-				}
-				return new DataResponse('OK');
-			} else {
-				return new DataResponse($result, 404);
-			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				Http::STATUS_FORBIDDEN
-			);
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	public function apiPrivDeleteBill(string $projectId, int $billid, bool $moveToTrash = true): DataResponse {
+		$billObj = null;
+		if ($this->billMapper->getBill($projectId, $billid) !== null) {
+			$billObj = $this->billMapper->find($billid);
 		}
+
+		$result = $this->projectService->deleteBill($projectId, $billid, false, $moveToTrash);
+		if (isset($result['success'])) {
+			if (!is_null($billObj)) {
+				$this->activityManager->triggerEvent(
+					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+					ActivityManager::SUBJECT_BILL_DELETE,
+					[]
+				);
+			}
+			return new DataResponse('OK');
+		}
+		return new DataResponse($result, Http::STATUS_NOT_FOUND);
 	}
 
 	/**
@@ -792,20 +700,13 @@ class OldApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivDeleteMember(string $projectid, int $memberid): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVEL_MAINTAINER) {
-			$result = $this->projectService->deleteMember($projectid, $memberid);
-			if (isset($result['success'])) {
-				return new DataResponse('OK');
-			} else {
-				return new DataResponse($result, 404);
-			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				Http::STATUS_FORBIDDEN
-			);
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	public function apiPrivDeleteMember(string $projectId, int $memberid): DataResponse {
+		$result = $this->projectService->deleteMember($projectId, $memberid);
+		if (isset($result['success'])) {
+			return new DataResponse('OK');
 		}
+		return new DataResponse($result, Http::STATUS_NOT_FOUND);
 	}
 
 	/**
@@ -829,20 +730,13 @@ class OldApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivDeleteProject(string $projectid): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVEL_ADMIN) {
-			$result = $this->projectService->deleteProject($projectid);
-			if (!isset($result['error'])) {
-				return new DataResponse($result);
-			} else {
-				return new DataResponse(['message' => $result['error']], 404);
-			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				Http::STATUS_FORBIDDEN
-			);
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
+	public function apiPrivDeleteProject(string $projectId): DataResponse {
+		$result = $this->projectService->deleteProject($projectId);
+		if (!isset($result['error'])) {
+			return new DataResponse($result);
 		}
+		return new DataResponse(['message' => $result['error']], Http::STATUS_NOT_FOUND);
 	}
 
 	/**
@@ -878,27 +772,21 @@ class OldApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivEditMember(string $projectid, int $memberid, ?string $name = null, ?float $weight = null,
-									$activated = null, ?string $color = null, ?string $userid = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVEL_MAINTAINER) {
-			if ($activated === 'true') {
-				$activated = true;
-			} elseif ($activated === 'false') {
-				$activated = false;
-			}
-			$result = $this->projectService->editMember($projectid, $memberid, $name, $userid, $weight, $activated, $color);
-			if (count($result) === 0) {
-				return new DataResponse(null);
-			} elseif (array_key_exists('activated', $result)) {
-				return new DataResponse($result);
-			} else {
-				return new DataResponse($result, Http::STATUS_FORBIDDEN);
-			}
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	public function apiPrivEditMember(string $projectId, int $memberid, ?string $name = null, ?float $weight = null,
+										$activated = null, ?string $color = null, ?string $userid = null): DataResponse {
+		if ($activated === 'true') {
+			$activated = true;
+		} elseif ($activated === 'false') {
+			$activated = false;
+		}
+		$result = $this->projectService->editMember($projectId, $memberid, $name, $userid, $weight, $activated, $color);
+		if (count($result) === 0) {
+			return new DataResponse(null);
+		} elseif (array_key_exists('activated', $result)) {
+			return new DataResponse($result);
 		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				Http::STATUS_FORBIDDEN
-			);
+			return new DataResponse($result, Http::STATUS_FORBIDDEN);
 		}
 	}
 
@@ -941,7 +829,7 @@ class OldApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @param int|null $tsMin
 	 * @param int|null $tsMax
 	 * @param int|null $paymentModeId
@@ -954,23 +842,17 @@ class OldApiController extends ApiController {
 	 * @return DataResponse
 	 * @throws Exception
 	 */
-	public function apiPrivGetProjectStatistics(string $projectid, ?int $tsMin = null, ?int $tsMax = null,
-												?int   $paymentModeId = null,
-												?int   $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	public function apiPrivGetProjectStatistics(string $projectId, ?int $tsMin = null, ?int $tsMax = null,
+												?int $paymentModeId = null,
+												?int $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
 												string $showDisabled = '1', ?int $currencyId = null,
 												?int $payerId = null): DataResponse {
-		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-			$result = $this->projectService->getProjectStatistics(
-				$projectid, 'lowername', $tsMin, $tsMax, $paymentModeId,
-				$categoryId, $amountMin, $amountMax, $showDisabled === '1', $currencyId, $payerId
-			);
-			return new DataResponse($result);
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				Http::STATUS_FORBIDDEN
-			);
-		}
+		$result = $this->projectService->getProjectStatistics(
+			$projectId, 'lowername', $tsMin, $tsMax, $paymentModeId,
+			$categoryId, $amountMin, $amountMax, $showDisabled === '1', $currencyId, $payerId
+		);
+		return new DataResponse($result);
 	}
 
 	/**
@@ -993,16 +875,10 @@ class OldApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivGetProjectSettlement(string $projectid, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
-		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-			$result = $this->projectService->getProjectSettlement($projectid, $centeredOn, $maxTimestamp);
-			return new DataResponse($result);
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				Http::STATUS_FORBIDDEN
-			);
-		}
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	public function apiPrivGetProjectSettlement(string $projectId, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
+		$result = $this->projectService->getProjectSettlement($projectId, $centeredOn, $maxTimestamp);
+		return new DataResponse($result);
 	}
 
 	/**
@@ -1029,20 +905,13 @@ class OldApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivAutoSettlement(string $projectid, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVEL_PARTICIPANT) {
-			$result = $this->projectService->autoSettlement($projectid, $centeredOn, $precision, $maxTimestamp);
-			if (isset($result['success'])) {
-				return new DataResponse('OK');
-			} else {
-				return new DataResponse($result, Http::STATUS_FORBIDDEN);
-			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')],
-				Http::STATUS_FORBIDDEN
-			);
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	public function apiPrivAutoSettlement(string $projectId, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null): DataResponse {
+		$result = $this->projectService->autoSettlement($projectId, $centeredOn, $precision, $maxTimestamp);
+		if (isset($result['success'])) {
+			return new DataResponse('OK');
 		}
+		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
 	/**
@@ -1068,20 +937,13 @@ class OldApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivAddPaymentMode(string $projectid, string $name, ?string $icon = null, ?string $color = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVEL_MAINTAINER) {
-			$result = $this->projectService->createPaymentMode($projectid, $name, $icon, $color);
-			if (is_numeric($result)) {
-				return new DataResponse($result);
-			} else {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage payment modes')],
-				Http::STATUS_FORBIDDEN
-			);
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	public function apiPrivAddPaymentMode(string $projectId, string $name, ?string $icon = null, ?string $color = null): DataResponse {
+		$result = $this->projectService->createPaymentMode($projectId, $name, $icon, $color);
+		if (is_numeric($result)) {
+			return new DataResponse($result);
 		}
+		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -1123,21 +985,14 @@ class OldApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivEditPaymentMode(string $projectid, int $pmid, ?string $name = null,
-										?string $icon = null, ?string $color = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVEL_MAINTAINER) {
-			$result = $this->projectService->editPaymentMode($projectid, $pmid, $name, $icon, $color);
-			if (is_array($result)) {
-				return new DataResponse($result);
-			} else {
-				return new DataResponse($result, Http::STATUS_FORBIDDEN);
-			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage payment modes')],
-				Http::STATUS_FORBIDDEN
-			);
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	public function apiPrivEditPaymentMode(string $projectId, int $pmid, ?string $name = null,
+										   ?string $icon = null, ?string $color = null): DataResponse {
+		$result = $this->projectService->editPaymentMode($projectId, $pmid, $name, $icon, $color);
+		if (is_array($result)) {
+			return new DataResponse($result);
 		}
+		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
 	/**
@@ -1161,20 +1016,13 @@ class OldApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivDeletePaymentMode(string $projectid, int $pmid): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVEL_MAINTAINER) {
-			$result = $this->projectService->deletePaymentMode($projectid, $pmid);
-			if (isset($result['success'])) {
-				return new DataResponse($pmid);
-			} else {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage payment modes')],
-				Http::STATUS_FORBIDDEN
-			);
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	public function apiPrivDeletePaymentMode(string $projectId, int $pmid): DataResponse {
+		$result = $this->projectService->deletePaymentMode($projectId, $pmid);
+		if (isset($result['success'])) {
+			return new DataResponse($pmid);
 		}
+		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -1201,21 +1049,14 @@ class OldApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivAddCategory(string $projectid, string $name, ?string $icon = null, ?string $color = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVEL_MAINTAINER) {
-			$result = $this->projectService->createCategory($projectid, $name, $icon, $color);
-			if (is_numeric($result)) {
-				// inserted category id
-				return new DataResponse($result);
-			} else {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage categories')],
-				Http::STATUS_FORBIDDEN
-			);
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	public function apiPrivAddCategory(string $projectId, string $name, ?string $icon = null, ?string $color = null): DataResponse {
+		$result = $this->projectService->createCategory($projectId, $name, $icon, $color);
+		if (is_numeric($result)) {
+			// inserted category id
+			return new DataResponse($result);
 		}
+		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -1257,21 +1098,14 @@ class OldApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivEditCategory(string $projectid, int $categoryid, ?string $name = null,
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	public function apiPrivEditCategory(string $projectId, int $categoryid, ?string $name = null,
 										?string $icon = null, ?string $color = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVEL_MAINTAINER) {
-			$result = $this->projectService->editCategory($projectid, $categoryid, $name, $icon, $color);
-			if (is_array($result)) {
-				return new DataResponse($result);
-			} else {
-				return new DataResponse($result, Http::STATUS_FORBIDDEN);
-			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage categories')],
-				Http::STATUS_FORBIDDEN
-			);
+		$result = $this->projectService->editCategory($projectId, $categoryid, $name, $icon, $color);
+		if (is_array($result)) {
+			return new DataResponse($result);
 		}
+		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
 	/**
@@ -1295,20 +1129,13 @@ class OldApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivDeleteCategory(string $projectid, int $categoryid): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVEL_MAINTAINER) {
-			$result = $this->projectService->deleteCategory($projectid, $categoryid);
-			if (isset($result['success'])) {
-				return new DataResponse($categoryid);
-			} else {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage categories')],
-				Http::STATUS_FORBIDDEN
-			);
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	public function apiPrivDeleteCategory(string $projectId, int $categoryid): DataResponse {
+		$result = $this->projectService->deleteCategory($projectId, $categoryid);
+		if (isset($result['success'])) {
+			return new DataResponse($categoryid);
 		}
+		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -1333,21 +1160,14 @@ class OldApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivAddCurrency(string $projectid, string $name, float $rate): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVEL_MAINTAINER) {
-			$result = $this->projectService->createCurrency($projectid, $name, $rate);
-			if (is_numeric($result)) {
-				// inserted bill id
-				return new DataResponse($result);
-			} else {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage currencies')],
-				Http::STATUS_FORBIDDEN
-			);
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	public function apiPrivAddCurrency(string $projectId, string $name, float $rate): DataResponse {
+		$result = $this->projectService->createCurrency($projectId, $name, $rate);
+		if (is_numeric($result)) {
+			// inserted bill id
+			return new DataResponse($result);
 		}
+		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -1373,20 +1193,13 @@ class OldApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivEditCurrency(string $projectid, int $currencyid, string $name, float $rate): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVEL_MAINTAINER) {
-			$result = $this->projectService->editCurrency($projectid, $currencyid, $name, $rate);
-			if (!isset($result['message'])) {
-				return new DataResponse($result);
-			} else {
-				return new DataResponse($result, Http::STATUS_FORBIDDEN);
-			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage currencies')],
-				Http::STATUS_FORBIDDEN
-			);
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	public function apiPrivEditCurrency(string $projectId, int $currencyid, string $name, float $rate): DataResponse {
+		$result = $this->projectService->editCurrency($projectId, $currencyid, $name, $rate);
+		if (!isset($result['message'])) {
+			return new DataResponse($result);
 		}
+		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
 	/**
@@ -1410,20 +1223,13 @@ class OldApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivDeleteCurrency(string $projectid, int $currencyid): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVEL_MAINTAINER) {
-			$result = $this->projectService->deleteCurrency($projectid, $currencyid);
-			if (isset($result['success'])) {
-				return new DataResponse($currencyid);
-			} else {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-			}
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage currencies')],
-				Http::STATUS_FORBIDDEN
-			);
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	public function apiPrivDeleteCurrency(string $projectId, int $currencyid): DataResponse {
+		$result = $this->projectService->deleteCurrency($projectId, $currencyid);
+		if (isset($result['success'])) {
+			return new DataResponse($currencyid);
 		}
+		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	/**

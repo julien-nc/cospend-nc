@@ -64,6 +64,9 @@ return [
 		['name' => 'oldApi#preflighted_cors', 'url' => '/api-priv/{path}', 'verb' => 'OPTIONS', 'requirements' => ['path' => '.+']],
 
 		['name' => 'oldApi#apiPing', 'url' => '/api/ping', 'verb' => 'GET'],
+		['name' => 'oldApi#apiPrivGetProjects', 'url' => '/api-priv/projects', 'verb' => 'GET'],
+		// Moneybuster still uses this old endpoint...
+		['name' => 'oldApi#apiPrivGetProjects2', 'url' => '/getProjects', 'verb' => 'POST'],
 		['name' => 'oldApi#apiPrivCreateProject', 'url' => '/api-priv/projects', 'verb' => 'POST'],
 		['name' => 'oldApi#apiPrivGetProjectInfo', 'url' => '/api-priv/projects/{projectId}', 'verb' => 'GET'],
 		['name' => 'oldApi#apiPrivSetProjectInfo', 'url' => '/api-priv/projects/{projectId}', 'verb' => 'PUT'],

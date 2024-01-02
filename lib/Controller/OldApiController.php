@@ -54,6 +54,22 @@ class OldApiController extends ApiController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[NoCSRFRequired]
+	public function apiPrivGetProjects(): DataResponse {
+		return new DataResponse(
+			$this->projectService->getProjects($this->userId)
+		);
+	}
+
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
+	public function apiPrivGetProjects2(): DataResponse {
+		return $this->apiPrivGetProjects();
+	}
+
+	#[NoAdminRequired]
+	#[CORS]
+	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
 	public function apiPrivSetProjectInfo(string $projectId, ?string $name = null, ?string $contact_email = null, ?string $password = null,
 										  ?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,

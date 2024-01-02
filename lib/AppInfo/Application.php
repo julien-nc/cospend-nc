@@ -84,6 +84,7 @@ class Application extends App implements IBootstrap {
 	public function __construct(array $urlParams = []) {
 		parent::__construct(self::APP_ID, $urlParams);
 		// TODO
+		// - add bruteforce protection to all public api endpoints
 		// - check if it makes sense to have a paypal integration
 		// - check if moneybuster still works after the api refactoring
 		// - adjust moneybuster to new pub/priv apis

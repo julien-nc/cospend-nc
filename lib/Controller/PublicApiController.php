@@ -14,6 +14,7 @@ namespace OCA\Cospend\Controller;
 use DateTime;
 use OCA\Cospend\Attribute\CospendPublicAuth;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\CORS;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
@@ -52,6 +53,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
+	#[BruteForceProtection(action: 'CospendPublicDeleteProject')]
 	public function publicDeleteProject(string $token): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->deleteProject($publicShareInfo['projectid']);
@@ -72,6 +74,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[BruteForceProtection(action: 'CospendPublicClearTrashbin')]
 	public function publicClearTrashbin(string $token): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		try {
@@ -95,6 +98,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[BruteForceProtection(action: 'CospendPublicDeleteBill')]
 	public function publicDeleteBill(string $token, int $billId, bool $moveToTrash = true): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$billObj = null;
@@ -138,6 +142,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[BruteForceProtection(action: 'CospendPublicDeleteBills')]
 	public function publicDeleteBills(string $token, array $billIds, bool $moveToTrash = true): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		if (is_null($publicShareInfo)) {
@@ -181,6 +186,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	#[BruteForceProtection(action: 'CospendPublicProjectInfo')]
 	public function publicGetProjectInfo(string $token): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$projectInfo = $this->projectService->getProjectInfo($publicShareInfo['projectid']);
@@ -220,6 +226,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	#[BruteForceProtection(action: 'CospendPublicGetStats')]
 	public function publicGetProjectStatistics(
 		string $token, ?int $tsMin = null, ?int $tsMax = null,
 		?int   $paymentModeId = null, ?int $categoryId = null,
@@ -247,6 +254,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	#[BruteForceProtection(action: 'CospendPublicGetSettlement')]
 	public function publicGetProjectSettlement(string $token, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->getProjectSettlement(
@@ -268,6 +276,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[BruteForceProtection(action: 'CospendPublicAutoSettlement')]
 	public function publicAutoSettlement(
 		string $token, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null
 	): DataResponse {
@@ -298,6 +307,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicEditMember')]
 	public function publicEditMember(
 		string $token, int $memberId, ?string $name = null, ?float $weight = null,
 		$activated = null, ?string $color = null, ?string $userid = null
@@ -347,6 +357,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[BruteForceProtection(action: 'CospendPublicEditBill')]
 	public function publicEditBill(
 		string $token, int $billId, ?string $date = null, ?string $what = null,
 		?int $payer = null, ?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
@@ -410,6 +421,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[BruteForceProtection(action: 'CospendPublicEditBills')]
 	public function publicEditBills(
 		string $token, array $billIds, ?int $categoryid = null, ?string $date = null,
 		?string $what = null, ?int $payer = null, ?string $payed_for = null, ?float $amount = null,
@@ -459,6 +471,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[BruteForceProtection(action: 'CospendPublicRepeatBill')]
 	public function publicRepeatBill(string $token, int $billId): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$bill = $this->billMapper->getBill($publicShareInfo['projectid'], $billId);
@@ -487,6 +500,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
+	#[BruteForceProtection(action: 'CospendPublicEditProject')]
 	public function publicEditProject(
 		string $token, ?string $name = null, ?string $contact_email = null,
 		?string $autoexport = null, ?string $currencyname = null,
@@ -529,6 +543,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[BruteForceProtection(action: 'CospendPublicCreateBill')]
 	public function publicCreateBill(
 		string $token, ?string $date = null, ?string $what = null, ?int $payer = null,
 		?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
@@ -579,6 +594,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicCreateMember')]
 	public function publicCreateMember(
 		string  $token, string $name, float $weight = 1, int $active = 1,
 		?string $color = null, ?string $userid = null
@@ -615,6 +631,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	#[BruteForceProtection(action: 'CospendPublicGetBills')]
 	public function publicGetBills(
 		string $token, ?int $lastchanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false,
 		?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $includeBillId = null,
@@ -658,6 +675,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	#[BruteForceProtection(action: 'CospendPublicGetMembers')]
 	public function publicGetMembers(string $token, ?int $lastChanged = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$members = $this->projectService->getMembers($publicShareInfo['projectid'], null, $lastChanged);
@@ -675,6 +693,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicDeleteMember')]
 	public function publicDeleteMember(string $token, int $memberId): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 			$result = $this->projectService->deleteMember($publicShareInfo['projectid'], $memberId);
@@ -699,6 +718,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicCreatePaymentMode')]
 	public function publicCreatePaymentMode(string $token, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->createPaymentMode(
@@ -725,6 +745,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicEditPaymentMode')]
 	public function publicEditPaymentMode(
 		string $token, int $pmId, ?string $name = null, ?string $icon = null, ?string $color = null
 	): DataResponse {
@@ -750,6 +771,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicSavePMOrder')]
 	public function publicSavePaymentModeOrder(string $token, array $order): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		if ($this->projectService->savePaymentModeOrder($publicShareInfo['projectid'], $order)) {
@@ -771,6 +793,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicDeletePM')]
 	public function publicDeletePaymentMode(string $token, int $pmId): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->deletePaymentMode($publicShareInfo['projectid'], $pmId);
@@ -795,6 +818,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicCreateCat')]
 	public function publicCreateCategory(string $token, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->createCategory(
@@ -823,6 +847,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicEditCat')]
 	public function publicEditCategory(
 		string  $token, int $categoryId,
 		?string $name = null, ?string $icon = null, ?string $color = null
@@ -850,6 +875,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicSaveCatOrder')]
 	public function publicSaveCategoryOrder(string $token, array $order): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		if ($this->projectService->saveCategoryOrder($publicShareInfo['projectid'], $order)) {
@@ -871,6 +897,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicDeleteCat')]
 	public function publicDeleteCategory(string $token, int $categoryId): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->deleteCategory($publicShareInfo['projectid'], $categoryId);
@@ -894,6 +921,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicCreateCur')]
 	public function publicCreateCurrency(string $token, string $name, float $rate): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->createCurrency($publicShareInfo['projectid'], $name, $rate);
@@ -919,6 +947,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicEditCur')]
 	public function publicEditCurrency(string $token, int $currencyId, string $name, float $rate): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->editCurrency(
@@ -943,6 +972,7 @@ class PublicApiController extends OCSController {
 	#[PublicPage]
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicDeleteCur')]
 	public function publicDeleteCurrency(string $token, int $currencyId): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->deleteCurrency($publicShareInfo['projectid'], $currencyId);

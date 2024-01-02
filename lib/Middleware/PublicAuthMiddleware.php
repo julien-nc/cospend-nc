@@ -14,6 +14,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
@@ -26,6 +27,7 @@ class PublicAuthMiddleware extends Middleware {
 		protected IRequest $request,
 		private IL10N $l,
 		private LoggerInterface $logger,
+		private IConfig $config,
 	) {
 	}
 
@@ -39,10 +41,16 @@ class PublicAuthMiddleware extends Middleware {
 			$paramPassword = $this->request->getParam('password');
 			$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($paramToken);
 			if ($publicShareInfo === null) {
-				throw new CospendPublicAuthNotValidException($this->l->t('Project not found'), Http::STATUS_UNAUTHORIZED);
+				throw new CospendPublicAuthNotValidException(
+					$this->l->t('Project not found'), Http::STATUS_UNAUTHORIZED,
+					$paramToken, $paramPassword, 'invalid token'
+				);
 			}
 			if (!is_null($publicShareInfo['password']) && $paramPassword !== $publicShareInfo['password']) {
-				throw new CospendPublicAuthNotValidException($this->l->t('Project password is invalid'), Http::STATUS_UNAUTHORIZED);
+				throw new CospendPublicAuthNotValidException(
+					$this->l->t('Project password is invalid'), Http::STATUS_UNAUTHORIZED,
+					$paramToken, $paramPassword, 'invalid link password'
+				);
 			}
 
 			foreach ($attributes as $attribute) {
@@ -50,7 +58,10 @@ class PublicAuthMiddleware extends Middleware {
 				$cospendAuthAttr = $attribute->newInstance();
 				$minLevel = $cospendAuthAttr->getMinimumLevel();
 				if ($publicShareInfo['accesslevel'] < $minLevel) {
-					throw new CospendPublicAuthNotValidException($this->l->t('Insufficient access level'), Http::STATUS_UNAUTHORIZED);
+					throw new CospendPublicAuthNotValidException(
+						$this->l->t('Insufficient access level'), Http::STATUS_UNAUTHORIZED,
+						$paramToken, $paramPassword, 'insufficient permissions'
+					);
 				}
 			}
 		}
@@ -70,6 +81,13 @@ class PublicAuthMiddleware extends Middleware {
 				['message' => $exception->getMessage()],
 				$exception->getCode()
 			);
+			if (!$this->config->getSystemValueBool('debug', false)) {
+				$response->throttle([
+					'reason' => $exception->reason,
+					'token' => $exception->token,
+					'password' => $exception->password,
+				]);
+			}
 
 			$this->logger->debug($exception->getMessage(), [
 				'exception' => $exception,

@@ -15,6 +15,7 @@ use DateTime;
 use OCA\Cospend\Attribute\CospendPublicAuth;
 use OCA\Cospend\Attribute\CospendUserPermissions;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\CORS;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
@@ -101,6 +102,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	#[BruteForceProtection(action: 'CospendPublicGetProjInfo')]
 	public function apiGetProjectInfo(string $token): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$projectInfo = $this->projectService->getProjectInfo($publicShareInfo['projectid']);
@@ -143,6 +145,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
+	#[BruteForceProtection(action: 'CospendPublicSetProjInfo')]
 	public function apiSetProjectInfo(string $token, ?string $name = null, ?string $contact_email = null,
 									  ?string $autoexport = null, ?string $currencyname = null,
 									  ?bool $deletion_disabled = null, ?string $categorysort = null, ?string $paymentmodesort = null): DataResponse {
@@ -162,6 +165,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	#[BruteForceProtection(action: 'CospendPublicGetMembers')]
 	public function apiGetMembers(string $token, ?int $lastchanged = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$members = $this->projectService->getMembers($publicShareInfo['projectid'], null, $lastchanged);
@@ -182,6 +186,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	#[BruteForceProtection(action: 'CospendPublicGetBills')]
 	public function apiGetBills(string $token, ?int $lastchanged = null,
 								?int $offset = 0, ?int $limit = null, bool $reverse = false, ?int $deleted = 0): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -206,6 +211,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	#[BruteForceProtection(action: 'CospendPublicGetBills3')]
 	public function apiv3GetBills(
 		string $token, ?int $lastchanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false,
 		?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $includeBillId = null,
@@ -257,6 +263,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	#[BruteForceProtection(action: 'CospendPublicGetBills2')]
 	public function apiv2GetBills(string $token, ?int $lastchanged = null, ?int $deleted = 0): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$bills = $this->billMapper->getBills(
@@ -278,6 +285,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicAddMember')]
 	public function apiAddMember(string $token, string $name,
 								 float  $weight = 1, int $active = 1, ?string $color = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -296,6 +304,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicAddMember2')]
 	public function apiv2AddMember(string $token, string $name, float $weight = 1, int $active = 1,
 								   ?string $color = null, ?string $userid = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -326,6 +335,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[BruteForceProtection(action: 'CospendPublicAddBill')]
 	public function apiAddBill(string $token, ?string $date = null, ?string $what = null, ?int $payer = null,
 							   ?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
 							   ?string $paymentmode = null, ?int $paymentmodeid = null,
@@ -386,6 +396,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[BruteForceProtection(action: 'CospendPublicRepeatBill')]
 	public function apiRepeatBill(string $token, int $billId): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$bill = $this->billMapper->getBill($publicShareInfo['projectid'], $billId);
@@ -401,6 +412,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[BruteForceProtection(action: 'CospendPublicEditBill')]
 	public function apiEditBill(
 		string  $token, int $billid, ?string $date = null, ?string $what = null,
 		?int $payer = null, ?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
@@ -441,6 +453,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[BruteForceProtection(action: 'CospendPublicEditBills')]
 	public function apiEditBills(
 		string $token, array $billIds, ?int $categoryid = null, ?string $date = null,
 		?string $what = null, ?int $payer = null, ?string $payed_for = null, ?float $amount = null,
@@ -514,6 +527,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[BruteForceProtection(action: 'CospendPublicClearTrashbin')]
 	public function apiClearTrashbin(string $token): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		try {
@@ -529,6 +543,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[BruteForceProtection(action: 'CospendPublicDeleteBill')]
 	public function apiDeleteBill(string $token, int $billid, bool $moveToTrash = true): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$billObj = null;
@@ -563,6 +578,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[BruteForceProtection(action: 'CospendPublicDeleteBills')]
 	public function apiDeleteBills(string $token, array $billIds, bool $moveToTrash = true): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		if (is_null($publicShareInfo)) {
@@ -637,6 +653,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicDeleteMember')]
 	public function apiDeleteMember(string $token, int $memberid): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->deleteMember($publicShareInfo['projectid'], $memberid);
@@ -663,6 +680,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
+	#[BruteForceProtection(action: 'CospendPublicDeleteProject')]
 	public function apiDeleteProject(string $token): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->deleteProject($publicShareInfo['projectid']);
@@ -689,6 +707,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicEditMember')]
 	public function apiEditMember(string $token, int $memberid,
 								  ?string $name = null, ?float $weight = null, $activated = null,
 								  ?string $color = null, ?string $userid = null): DataResponse {
@@ -736,6 +755,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	#[BruteForceProtection(action: 'CospendPublicGetStats')]
 	public function apiGetProjectStatistics(string $token, ?int $tsMin = null, ?int $tsMax = null,
 											?int $paymentModeId = null, ?int $categoryId = null,
 											?float $amountMin = null, ?float $amountMax=null,
@@ -771,6 +791,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	#[BruteForceProtection(action: 'CospendPublicGetSettlement')]
 	public function apiGetProjectSettlement(string $token, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->getProjectSettlement(
@@ -793,6 +814,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[BruteForceProtection(action: 'CospendPublicAutoSettlement')]
 	public function apiAutoSettlement(string $token, ?int $centeredOn = null,
 									  int $precision = 2, ?int $maxTimestamp = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -822,6 +844,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicAddPM')]
 	public function apiAddPaymentMode(string $token, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->createPaymentMode(
@@ -850,6 +873,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicEditPM')]
 	public function apiEditPaymentMode(string $token, int $pmid, ?string $name = null,
 									   ?string $icon = null, ?string $color = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -867,6 +891,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicSavePmOrder')]
 	public function apiSavePaymentModeOrder(string $token, array $order): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		if ($this->projectService->savePaymentModeOrder($publicShareInfo['projectid'], $order)) {
@@ -893,6 +918,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicDeletePM')]
 	public function apiDeletePaymentMode(string $token, int $pmid): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->deletePaymentMode($publicShareInfo['projectid'], $pmid);
@@ -919,6 +945,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicAddCat')]
 	public function apiAddCategory(string $token, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->createCategory(
@@ -949,6 +976,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicEditCat')]
 	public function apiEditCategory(string $token, int $categoryid, ?string $name = null,
 									?string $icon = null, ?string $color = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
@@ -966,6 +994,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicSaveCatOrder')]
 	public function apiSaveCategoryOrder(string $token, array $order): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		if ($this->projectService->saveCategoryOrder($publicShareInfo['projectid'], $order)) {
@@ -992,6 +1021,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicDeleteCat')]
 	public function apiDeleteCategory(string $token, int $categoryid): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->deleteCategory($publicShareInfo['projectid'], $categoryid);
@@ -1018,6 +1048,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicAddCur')]
 	public function apiAddCurrency(string $token, string $name, float $rate): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->createCurrency($publicShareInfo['projectid'], $name, $rate);
@@ -1046,6 +1077,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicEditCur')]
 	public function apiEditCurrency(string $token, int $currencyid, string $name, float $rate): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->editCurrency(
@@ -1074,6 +1106,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicDeleteCur')]
 	public function apiDeleteCurrency(string $token, int $currencyid): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->deleteCurrency($publicShareInfo['projectid'], $currencyid);

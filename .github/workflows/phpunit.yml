@@ -121,7 +121,7 @@ jobs:
       - name: Perform PhpUnit tests
         if: ${{ !(matrix.databases == 'sqlite' && matrix.php-versions == '8.1' && matrix.server-versions == 'master') }}
         run: |
-          ~/html/nextcloud/apps/${{ env.APP_ID }}/vendor/bin/phpunit --configuration ~/html/nextcloud/apps/${{ env.APP_ID }}/tests/phpunit.xml --display-deprecations && SUCCESS=yes || SUCCESS=no
+          ~/html/nextcloud/apps/${{ env.APP_ID }}/vendor/bin/phpunit --configuration ~/html/nextcloud/apps/${{ env.APP_ID }}/tests/phpunit.xml && SUCCESS=yes || SUCCESS=no
           if [ $SUCCESS = "yes" ]; then echo "TESTS PASSED"; else echo "TESTS FAILED"; exit 1; fi
 
       - name: Upload coverage

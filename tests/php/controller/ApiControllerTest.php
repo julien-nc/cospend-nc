@@ -41,6 +41,9 @@ class ApiControllerTest extends TestCase {
 
 	private ApiController $apiController;
 	private ApiController $apiController2;
+	private BillMapper $billMapper;
+	private ProjectMapper $projectMapper;
+	private ProjectService $projectService;
 
 	public static function setUpBeforeClass(): void {
 		$app = new Application();
@@ -78,19 +81,16 @@ class ApiControllerTest extends TestCase {
 		$request = $this->getMockBuilder('\OCP\IRequest')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->contacts = $this->getMockBuilder('OCP\Contacts\IManager')
-			->disableOriginalConstructor()
-			->getMock();
 
 		$app = new Application();
 		$c = $app->getContainer();
 		$sc = $c->get(IServerContainer::class);
-		$this->config = $c->get(IConfig::class);
-		$this->l10n = $c->get(IL10N::class);
+//		$sc = $c->get(ContainerInterface::class);
+		$l10n = $c->get(IL10N::class);
 		$this->billMapper = new BillMapper($sc->getDatabaseConnection());
-		$this->projectMapper = new ProjectMapper($sc->getDatabaseConnection(), $this->l10n);
+		$this->projectMapper = new ProjectMapper($sc->getDatabaseConnection(), $l10n);
 
-		$this->activityManager = new ActivityManager(
+		$activityManager = new ActivityManager(
 			$sc->getActivityManager(),
 			new UserService(
 				$this->projectMapper,
@@ -104,7 +104,7 @@ class ApiControllerTest extends TestCase {
 			'test'
 		);
 
-		$this->activityManager2 = new ActivityManager(
+		$activityManager2 = new ActivityManager(
 			$sc->getActivityManager(),
 			new UserService(
 				$this->projectMapper,
@@ -123,7 +123,7 @@ class ApiControllerTest extends TestCase {
 			$sc->getConfig(),
 			$this->projectMapper,
 			$this->billMapper,
-			$this->activityManager,
+			$activityManager,
 			$sc->getAvatarManager(),
 			$c->get(IUserManager::class),
 			$c->get(IAppManager::class),
@@ -142,7 +142,7 @@ class ApiControllerTest extends TestCase {
 			$sc->getL10N($c->get('AppName')),
 			$this->billMapper,
 			$this->projectService,
-			$this->activityManager,
+			$activityManager,
 			$c->get(IRootFolder::class),
 			$c->get(IConfig::class),
 			'test'
@@ -156,7 +156,7 @@ class ApiControllerTest extends TestCase {
 			$sc->getL10N($c->get('AppName')),
 			$this->billMapper,
 			$this->projectService,
-			$this->activityManager,
+			$activityManager2,
 			$c->get(IRootFolder::class),
 			$c->get(IConfig::class),
 			'test2'

@@ -32,7 +32,6 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
-use OCP\AppFramework\Http\DataResponse;
 
 use OCA\Cospend\Service\ProjectService;
 use OCA\Cospend\AppInfo\Application;

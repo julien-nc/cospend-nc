@@ -11,6 +11,7 @@
 
 namespace OCA\Cospend\AppInfo;
 
+use OCA\Cospend\Capabilities;
 use OCA\Cospend\Middleware\PublicAuthMiddleware;
 use OCA\Cospend\Middleware\UserPermissionMiddleware;
 use OCA\Cospend\UserMigration\UserMigrator;
@@ -84,6 +85,8 @@ class Application extends App implements IBootstrap {
 	public function __construct(array $urlParams = []) {
 		parent::__construct(self::APP_ID, $urlParams);
 		// TODO
+		// - test middlewares
+		// - expose cospend version as public capability
 		// - rename db columns with underscores, change new APIs param names, keep a second jsonSerialize method for old APIs
 		// - check if it makes sense to have a paypal integration
 		// - check if moneybuster still works after the api refactoring
@@ -100,6 +103,8 @@ class Application extends App implements IBootstrap {
 
 		$context->registerMiddleware(PublicAuthMiddleware::class);
 		$context->registerMiddleware(UserPermissionMiddleware::class);
+
+		$context->registerCapability(Capabilities::class);
 	}
 
 	public function boot(IBootContext $context): void {

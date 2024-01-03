@@ -37,6 +37,9 @@
 					{{ t('cospend', 'Thanks for using Cospend') + ' ♥' }}
 				</h3>
 				<h3 class="app-settings-section__hint">
+					{{ t('cospend', 'App version: {version}', { version: cospendVersion }) }}
+				</h3>
+				<h3 class="app-settings-section__hint">
 					{{ t('cospend', 'Bug/issue tracker') + ': ' }}
 				</h3>
 				<a href="https://github.com/julien-nc/cospend-nc/issues"
@@ -226,6 +229,7 @@ export default {
 			useTime: cospend.useTime ?? true,
 			importingProject: false,
 			importingSWProject: false,
+			cospendVersion: OC.getCapabilities()?.cospend?.version || '??',
 		}
 	},
 

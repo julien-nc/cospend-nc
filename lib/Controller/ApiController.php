@@ -110,21 +110,20 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $id
 	 * @param string $name
-	 * @param string|null $password
 	 * @param string|null $contact_email
 	 * @return DataResponse
 	 * @throws Exception
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	public function createProject(string $id, string $name, ?string $password = null, ?string $contact_email = null): DataResponse {
+	public function createProject(string $id, string $name, ?string $contact_email = null): DataResponse {
 		if ($contact_email !== null) {
 			$email = $contact_email;
 		} else {
 			$user = $this->userManager->get($this->userId);
 			$email = $user->getEMailAddress();
 		}
-		$result = $this->projectService->createProject($name, $id, $password, $email, $this->userId);
+		$result = $this->projectService->createProject($name, $id, $email, $this->userId);
 		if (isset($result['id'])) {
 			$projInfo = $this->projectService->getProjectInfo($result['id']);
 			$projInfo['myaccesslevel'] = Application::ACCESS_LEVEL_ADMIN;
@@ -549,7 +548,7 @@ class ApiController extends OCSController {
 		?string $categorysort = null, ?string $paymentmodesort = null, ?int $archived_ts = null
 	): DataResponse {
 		$result = $this->projectService->editProject(
-			$projectId, $name, $contact_email, null, $autoexport,
+			$projectId, $name, $contact_email, $autoexport,
 			$currencyname, $deletion_disabled, $categorysort, $paymentmodesort, $archived_ts
 		);
 		if (isset($result['success'])) {

@@ -388,7 +388,6 @@ class ProjectService {
 	 *
 	 * @param string $name
 	 * @param string $id
-	 * @param string|null $password
 	 * @param string|null $contact_email
 	 * @param string $userId
 	 * @param bool $createDefaultCategories
@@ -396,11 +395,11 @@ class ProjectService {
 	 * @return array
 	 */
 	public function createProject(
-		string $name, string $id, ?string $password, ?string $contact_email, string $userId = '',
-		bool   $createDefaultCategories = true, bool $createDefaultPaymentModes = true
+		string $name, string $id, ?string $contact_email, string $userId = '',
+		bool $createDefaultCategories = true, bool $createDefaultPaymentModes = true
 	): array {
 		return $this->projectMapper->createProject(
-			$name, $id, $password, $contact_email, $this->defaultCategories, $this->defaultPaymentModes,
+			$name, $id, $contact_email, $this->defaultCategories, $this->defaultPaymentModes,
 			$userId, $createDefaultCategories, $createDefaultPaymentModes
 		);
 	}
@@ -1552,7 +1551,6 @@ class ProjectService {
 	 * @param string $projectId
 	 * @param string|null $name
 	 * @param string|null $contact_email
-	 * @param string|null $password
 	 * @param string|null $autoexport
 	 * @param string|null $currencyname
 	 * @param bool|null $deletion_disabled
@@ -1563,7 +1561,7 @@ class ProjectService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function editProject(
-		string  $projectId, ?string $name = null, ?string $contact_email = null, ?string $password = null,
+		string  $projectId, ?string $name = null, ?string $contact_email = null,
 		?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
 		?string $categorysort = null, ?string $paymentmodesort = null, ?int $archivedTs = null
 	): array {
@@ -1575,11 +1573,6 @@ class ProjectService {
 			} else {
 				return ['contact_email' => [$this->l10n->t('Invalid email address')]];
 			}
-		}
-		if ($password !== null && $password !== '') {
-			$dbPassword = password_hash($password, PASSWORD_DEFAULT);
-		} else {
-			$dbPassword = null;
 		}
 		if ($autoexport !== null && $autoexport !== '') {
 			if (in_array($autoexport, Application::FREQUENCIES)) {
@@ -1602,7 +1595,7 @@ class ProjectService {
 
 		if ($this->getProjectById($projectId) !== null) {
 			$this->projectMapper->editProject(
-				$projectId, $name, $contact_email, $dbPassword, $autoexport, $currencyname, $deletion_disabled,
+				$projectId, $name, $contact_email, $autoexport, $currencyname, $deletion_disabled,
 				$categorysort, $paymentmodesort, $archivedTs
 			);
 			return ['success' => true];
@@ -5029,7 +5022,7 @@ class ProjectService {
 		$createDefaultCategories = (count($categories) === 0);
 		$createDefaultPaymentModes = (count($paymentModes) === 0);
 		$projResult = $this->createProject(
-			$projectName, $projectid, '', $userEmail, $userId,
+			$projectName, $projectid, $userEmail, $userId,
 			$createDefaultCategories, $createDefaultPaymentModes
 		);
 		if (!isset($projResult['id'])) {
@@ -5037,7 +5030,7 @@ class ProjectService {
 		}
 		// set project main currency
 		if ($mainCurrencyName !== null) {
-			$this->editProject($projectid, $projectName, null, null, null, $mainCurrencyName);
+			$this->editProject($projectid, $projectName, null, null, $mainCurrencyName);
 		}
 		// add payment modes
 		foreach ($paymentModes as $pm) {
@@ -5261,7 +5254,7 @@ class ProjectService {
 					// create default categories only if none are found in the CSV
 					$createDefaultCategories = (count($categoryNames) === 0);
 					$projResult = $this->createProject(
-						$projectName, $projectid, '', $userEmail,
+						$projectName, $projectid, $userEmail,
 						$userId, $createDefaultCategories
 					);
 					if (!isset($projResult['id'])) {

@@ -72,11 +72,11 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
-	public function apiPrivSetProjectInfo(string $projectId, ?string $name = null, ?string $contact_email = null, ?string $password = null,
+	public function apiPrivSetProjectInfo(string $projectId, ?string $name = null, ?string $contact_email = null,
 										  ?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
 										  ?string $categorysort = null, ?string $paymentmodesort = null): DataResponse {
 		$result = $this->projectService->editProject(
-			$projectId, $name, $contact_email, $password, $autoexport,
+			$projectId, $name, $contact_email, $autoexport,
 			$currencyname, $deletion_disabled, $categorysort, $paymentmodesort
 		);
 		if (isset($result['success'])) {
@@ -88,8 +88,8 @@ class OldApiController extends ApiController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[NoCSRFRequired]
-	public function apiPrivCreateProject(string $name, string $id, ?string $password = null, ?string $contact_email = null): DataResponse {
-		$result = $this->projectService->createProject($name, $id, $password, $contact_email, $this->userId);
+	public function apiPrivCreateProject(string $name, string $id, ?string $contact_email = null): DataResponse {
+		$result = $this->projectService->createProject($name, $id, $contact_email, $this->userId);
 		if (isset($result['id'])) {
 			return new DataResponse($result['id']);
 		} else {
@@ -146,7 +146,7 @@ class OldApiController extends ApiController {
 									  ?bool $deletion_disabled = null, ?string $categorysort = null, ?string $paymentmodesort = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->editProject(
-			$publicShareInfo['projectid'], $name, $contact_email, null, $autoexport,
+			$publicShareInfo['projectid'], $name, $contact_email, $autoexport,
 			$currencyname, $deletion_disabled, $categorysort, $paymentmodesort
 		);
 		if (isset($result['success'])) {

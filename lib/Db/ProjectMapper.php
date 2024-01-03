@@ -33,7 +33,7 @@ class ProjectMapper extends QBMapper {
 	}
 
 	public function createProject(
-		string $name, string $id, ?string $password, ?string $contact_email, array $defaultCategories, array $defaultPaymentModes,
+		string $name, string $id, ?string $contact_email, array $defaultCategories, array $defaultPaymentModes,
 		string $userid = '', bool $createDefaultCategories = true, bool $createDefaultPaymentModes = true
 	): array {
 		$qb = $this->db->getQueryBuilder();
@@ -57,10 +57,6 @@ class ProjectMapper extends QBMapper {
 			if (strpos($id, '/') !== false) {
 				return ['message' => $this->l10n->t('Invalid project id')];
 			}
-			$dbPassword = '';
-			if ($password !== null && $password !== '') {
-				$dbPassword = password_hash($password, PASSWORD_DEFAULT);
-			}
 			if ($contact_email === null) {
 				$contact_email = '';
 			}
@@ -70,7 +66,6 @@ class ProjectMapper extends QBMapper {
 					'userid' => $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR),
 					'id' => $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR),
 					'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
-					'password' => $qb->createNamedParameter($dbPassword, IQueryBuilder::PARAM_STR),
 					'email' => $qb->createNamedParameter($contact_email, IQueryBuilder::PARAM_STR),
 					'lastchanged' => $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT)
 				]);
@@ -198,7 +193,6 @@ class ProjectMapper extends QBMapper {
 	 * @param string $projectId
 	 * @param string|null $name
 	 * @param string|null $contact_email
-	 * @param string|null $password
 	 * @param string|null $autoexport
 	 * @param string|null $currencyname
 	 * @param bool|null $deletion_disabled
@@ -209,7 +203,7 @@ class ProjectMapper extends QBMapper {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function editProject(
-		string  $projectId, ?string $name = null, ?string $contact_email = null, ?string $password = null,
+		string  $projectId, ?string $name = null, ?string $contact_email = null,
 		?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
 		?string $categorysort = null, ?string $paymentmodesort = null, ?int $archivedTs = null
 	): void {
@@ -232,10 +226,6 @@ class ProjectMapper extends QBMapper {
 
 		if ($contact_email !== null && $contact_email !== '') {
 			$qb->set('email', $qb->createNamedParameter($contact_email, IQueryBuilder::PARAM_STR));
-		}
-
-		if ($password !== null && $password !== '') {
-			$qb->set('password', $qb->createNamedParameter($password, IQueryBuilder::PARAM_STR));
 		}
 
 		if ($autoexport !== null && $autoexport !== '') {

@@ -502,7 +502,7 @@ class PublicApiController extends OCSController {
 	): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->editProject(
-			$publicShareInfo['projectid'], $name, $contact_email, null, $autoexport,
+			$publicShareInfo['projectid'], $name, $contact_email, $autoexport,
 			$currencyname, $deletion_disabled, $categorysort, $paymentmodesort
 		);
 		if (isset($result['success'])) {

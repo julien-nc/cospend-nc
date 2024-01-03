@@ -400,7 +400,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals('#987654', $pm2['color']);
 
 		// create project with no contact email
-		$result = $this->projectService->createProject('dummy proj', 'dummyproj', 'pwd', null, 'test');
+		$result = $this->projectService->createProject('dummy proj', 'dummyproj', null, 'test');
 		$this->assertTrue(isset($result['id']));
 		$this->assertEquals('dummyproj', $result['id']);
 		// delete this project
@@ -760,7 +760,7 @@ class ApiControllerTest extends TestCase {
 
 		// set cat/pm order
 		$this->projectService->editProject(
-			'superproj', 'proj', null, null,
+			'superproj', 'proj', null,
 			null, null, null,
 			Application::SORT_ORDER_MOST_USED, Application::SORT_ORDER_MOST_USED
 		);
@@ -774,7 +774,7 @@ class ApiControllerTest extends TestCase {
 
 		// set cat/pm order
 		$this->projectService->editProject(
-			'superproj', 'proj', null, null,
+			'superproj', 'proj', null,
 			null, null, null,
 			Application::SORT_ORDER_RECENTLY_USED, Application::SORT_ORDER_RECENTLY_USED
 		);
@@ -842,7 +842,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals(Http::STATUS_BAD_REQUEST, $status);
 
 		// currencies
-		$result = $this->projectService->editProject('superproj', 'SuperProj', null, null, null, 'euro');
+		$result = $this->projectService->editProject('superproj', 'SuperProj', null, null, 'euro');
 		$this->assertTrue(isset($result['success']));
 		$currencyId = $this->projectService->createCurrency('superproj', 'dollar', 1.5);
 		$this->assertTrue($currencyId > 0);

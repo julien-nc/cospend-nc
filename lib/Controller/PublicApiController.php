@@ -192,20 +192,14 @@ class PublicApiController extends OCSController {
 		$projectInfo = $this->projectService->getProjectInfo($publicShareInfo['projectid']);
 		if ($projectInfo !== null) {
 			unset($projectInfo['userid']);
-			// for public link share: set the visible access level for frontend
-			if ($publicShareInfo !== null) {
-				$projectInfo['myaccesslevel'] = $publicShareInfo['accesslevel'];
-			} else {
-				// my access level is the guest one
-				$projectInfo['myaccesslevel'] = $projectInfo['guestaccesslevel'];
-			}
+			// set the visible access level for frontend
+			$projectInfo['myaccesslevel'] = $publicShareInfo['accesslevel'];
 			return new DataResponse($projectInfo);
-		} else {
-			return new DataResponse(
-				['message' => $this->trans->t('Project not found')],
-				Http::STATUS_NOT_FOUND
-			);
 		}
+		return new DataResponse(
+			['message' => $this->trans->t('Project not found')],
+			Http::STATUS_NOT_FOUND
+		);
 	}
 
 	/**

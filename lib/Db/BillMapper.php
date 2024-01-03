@@ -20,10 +20,10 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 class BillMapper extends QBMapper {
-	const TABLENAME = 'cospend_bills';
+	const TABLE_NAME = 'cospend_bills';
 
 	public function __construct(IDBConnection $db) {
-		parent::__construct($db, self::TABLENAME, Bill::class);
+		parent::__construct($db, self::TABLE_NAME, Bill::class);
 	}
 
 	/**

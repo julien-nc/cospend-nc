@@ -102,19 +102,14 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
-	#[BruteForceProtection(action: 'CospendPublicGetProjInfo')]
+	#[BruteForceProtection(action: 'CospendPublicGetProjectInfo')]
 	public function apiGetProjectInfo(string $token): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$projectInfo = $this->projectService->getProjectInfo($publicShareInfo['projectid']);
 		if ($projectInfo !== null) {
 			unset($projectInfo['userid']);
-			// for public link share: set the visible access level for frontend
-			if ($publicShareInfo !== null) {
-				$projectInfo['myaccesslevel'] = $publicShareInfo['accesslevel'];
-			} else {
-				// my access level is the guest one
-				$projectInfo['myaccesslevel'] = $projectInfo['guestaccesslevel'];
-			}
+			// set the visible access level for frontend
+			$projectInfo['myaccesslevel'] = $publicShareInfo['accesslevel'];
 			return new DataResponse($projectInfo);
 		}
 		return new DataResponse(

@@ -23,14 +23,10 @@ use OCP\AppFramework\Db\Entity;
  * @method void setName(string $name)
  * @method string getEmail()
  * @method void setEmail(string $email)
- * @method string getPassword()
- * @method void setPassword(string $password)
  * @method string getAutoexport()
  * @method void setAutoexport(string $autoexport)
  * @method int getLastchanged()
  * @method void setLastchanged(int $lastchanged)
- * @method int getGuestaccesslevel()
- * @method void setGuestaccesslevel(int $guestaccesslevel)
  * @method int getDeletiondisabled()
  * @method void setDeletiondisabled(int $deletiondisabled)
  * @method string getCategorysort()
@@ -47,10 +43,8 @@ class Project extends Entity implements \JsonSerializable {
 	protected $userid;
 	protected $name;
 	protected $email;
-	protected $password;
 	protected $autoexport;
 	protected $lastchanged;
-	protected $guestaccesslevel;
 	protected $deletiondisabled;
 	protected $categorysort;
 	protected $paymentmodesort;
@@ -62,10 +56,8 @@ class Project extends Entity implements \JsonSerializable {
 		$this->addType('userid', 'string');
 		$this->addType('name', 'string');
 		$this->addType('email', 'string');
-		$this->addType('password', 'string');
 		$this->addType('autoexport', 'string');
 		$this->addType('lastchanged', 'integer');
-		$this->addType('guestaccesslevel', 'integer');
 		$this->addType('deletiondisabled', 'integer');
 		$this->addType('categorysort', 'string');
 		$this->addType('paymentmodesort', 'string');
@@ -80,10 +72,8 @@ class Project extends Entity implements \JsonSerializable {
 			'userid' => $this->userid,
 			'name' => $this->name,
 			'email' => $this->email,
-			'password' => $this->password,
 			'autoexport' => $this->autoexport,
 			'lastchanged' => (int)$this->lastchanged,
-			'guestaccesslevel' => (int)$this->guestaccesslevel,
 			'deletiondisabled' => ((int)$this->deletiondisabled) === 1,
 			'categorysort' => $this->categorysort,
 			'paymentmodesort' => $this->paymentmodesort,

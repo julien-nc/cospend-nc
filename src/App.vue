@@ -864,9 +864,6 @@ export default {
 						this.selectProject(cospend.restoredCurrentProjectId, false, false, true)
 					}
 				} else {
-					if (!responseData.myaccesslevel) {
-						responseData.myaccesslevel = responseData.guestaccesslevel
-					}
 					this.addProject(responseData)
 					this.selectProject(responseData.id, false)
 				}

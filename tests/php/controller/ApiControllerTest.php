@@ -411,12 +411,6 @@ class ApiControllerTest extends TestCase {
 		$result = $this->projectService->deleteProject('dummyproj2');
 		$this->assertTrue(isset($result['error']));
 
-		// guest access level
-		$level = $this->projectService->getGuestAccessLevel('superproj');
-		$this->assertEquals(Application::ACCESS_LEVEL_PARTICIPANT, $level);
-		$level = $this->projectService->getGuestAccessLevel('superproj_doesnotexist');
-		$this->assertEquals(Application::ACCESS_LEVEL_NONE, $level);
-
 		// get members
 		$resp = $this->apiController->getProjects();
 		$status = $resp->getStatus();

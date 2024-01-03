@@ -84,6 +84,7 @@ class Application extends App implements IBootstrap {
 	public function __construct(array $urlParams = []) {
 		parent::__construct(self::APP_ID, $urlParams);
 		// TODO
+		// - rename db columns with underscores, change new APIs param names, keep a second jsonSerialize method for old APIs
 		// - check if it makes sense to have a paypal integration
 		// - check if moneybuster still works after the api refactoring
 		// - adjust moneybuster to new pub/priv apis

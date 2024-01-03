@@ -355,21 +355,6 @@ class ProjectService {
 	}
 
 	/**
-	 * Get guest access level of a given project
-	 *
-	 * @param string $projectId
-	 * @return int
-	 */
-	public function getGuestAccessLevel(string $projectId): int {
-		$projectInfo = $this->getProjectInfo($projectId);
-		if ($projectInfo !== null) {
-			return (int) $projectInfo['guestaccesslevel'];
-		} else {
-			return Application::ACCESS_LEVEL_NONE;
-		}
-	}
-
-	/**
 	 * Get access level of a shared access
 	 *
 	 * @param string $projectId
@@ -1216,7 +1201,7 @@ class ProjectService {
 		$project = null;
 
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('id', 'userid', 'name', 'email', 'password', 'currencyname', 'autoexport', 'guestaccesslevel', 'lastchanged')
+		$qb->select('id', 'userid', 'name', 'email', 'currencyname', 'autoexport', 'lastchanged')
 			->from('cospend_projects')
 			->where(
 				$qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -1225,24 +1210,20 @@ class ProjectService {
 
 		while ($row = $req->fetch()){
 			$dbId = $row['id'];
-			$dbPassword = $row['password'];
 			$dbName = $row['name'];
 			$dbUserId = $row['userid'];
 			$dbEmail = $row['email'];
 			$dbCurrencyName = $row['currencyname'];
 			$dbAutoexport = $row['autoexport'];
 			$dbLastchanged = (int) $row['lastchanged'];
-			$dbGuestAccessLevel = (int) $row['guestaccesslevel'];
 			$project = [
 				'id' => $dbId,
 				'name' => $dbName,
 				'userid' => $dbUserId,
-				'password' => $dbPassword,
 				'email' => $dbEmail,
 				'lastchanged' => $dbLastchanged,
 				'currencyname' => $dbCurrencyName,
 				'autoexport' => $dbAutoexport,
-				'guestaccesslevel' => $dbGuestAccessLevel,
 			];
 			break;
 		}
@@ -3996,30 +3977,6 @@ class ProjectService {
 		} else {
 			return ['message' => $this->l10n->t('No such share')];
 		}
-	}
-
-	/**
-	 * Change guest access permissions
-	 *
-	 * @param string $projectId
-	 * @param int $accessLevel
-	 * @return array
-	 * @throws \OCP\DB\Exception
-	 */
-	public function editGuestAccessLevel(string $projectId, int $accessLevel): array {
-		// check if project exists
-		$qb = $this->db->getQueryBuilder();
-
-		// set the access level
-		$qb->update('cospend_projects')
-			->set('guestaccesslevel', $qb->createNamedParameter($accessLevel, IQueryBuilder::PARAM_INT))
-			->where(
-				$qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			);
-		$qb->executeStatement();
-		$qb->resetQueryParts();
-
-		return ['success' => true];
 	}
 
 	/**

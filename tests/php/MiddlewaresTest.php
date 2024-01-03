@@ -18,6 +18,8 @@
 namespace OCA\Cospend;
 
 use OCA\Cospend\Controller\ApiController;
+use OCA\Cospend\Controller\PublicApiController;
+use OCA\Cospend\Exception\CospendPublicAuthNotValidException;
 use OCA\Cospend\Exception\CospendUserPermissionsException;
 use OCA\Cospend\Middleware\PublicAuthMiddleware;
 use OCA\Cospend\Middleware\UserPermissionMiddleware;
@@ -52,6 +54,7 @@ class MiddlewaresTest extends TestCase {
 	private PublicAuthMiddleware $publicAuthMiddleware;
 	private BillMapper $billMapper;
 	private ProjectService $projectService;
+	private PublicApiController $publicApiController;
 
 	public static function setUpBeforeClass(): void {
 		$app = new Application();
@@ -163,6 +166,15 @@ class MiddlewaresTest extends TestCase {
 			'test2'
 		);
 
+		$this->publicApiController = new PublicApiController(
+			$appName,
+			$this->request,
+			$l10n,
+			$this->billMapper,
+			$this->projectService,
+			$activityManager,
+		);
+
 		$this->userPermissionMiddleware = new UserPermissionMiddleware(
 			$this->projectService,
 			$this->request,
@@ -201,25 +213,145 @@ class MiddlewaresTest extends TestCase {
 	}
 
 	public function testUserPermission() {
+		$projectId = 'superproj';
 		// CREATE PROJECT owned by test
-		$resp = $this->apiController->createProject('superproj', 'SuperProj');
+		$resp = $this->apiController->createProject($projectId, 'SuperProj');
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
 		$data = $resp->getData();
-		$this->assertEquals('superproj', $data['id']);
+		$this->assertEquals($projectId, $data['id']);
 
 		$this->request
 			->expects($this->any())
 			->method('getParam')
 			->with('projectId')
-			->willReturn('superproj');
+			->willReturn($projectId);
 
+		// owner
 		$this->userPermissionMiddleware->beforeController($this->apiController, 'getProjectInfo');
+		// other user with no access
 		try {
 			$this->userPermissionMiddleware->beforeController($this->apiController2, 'getProjectInfo');
 			$this->assertTrue(false, 'Permission check should fail with apiController2');
 		} catch (\Exception $e) {
 			$this->assertInstanceOf(CospendUserPermissionsException::class, $e);
+		}
+
+		// other user
+		$resp = $this->apiController->createUserShare($projectId, 'test2', Application::ACCESS_LEVEL_PARTICIPANT);
+		$shareId = $resp->getData()['id'];
+		// other user with enough access level
+		$this->userPermissionMiddleware->beforeController($this->apiController2, 'getProjectInfo');
+		// other user with insufficient access level
+		try {
+			$this->userPermissionMiddleware->beforeController($this->apiController2, 'editMember');
+			$this->assertTrue(false, 'Permission check should fail with apiController2');
+		} catch (\Exception $e) {
+			$this->assertInstanceOf(CospendUserPermissionsException::class, $e);
+		}
+		// other user after changing share access level
+		$this->apiController->editSharedAccessLevel($projectId, $shareId, Application::ACCESS_LEVEL_MAINTAINER);
+		$this->userPermissionMiddleware->beforeController($this->apiController2, 'editMember');
+		// after deleting shared access
+		$this->apiController->deleteUserShare($projectId, $shareId);
+		try {
+			$this->userPermissionMiddleware->beforeController($this->apiController2, 'getProjectInfo');
+			$this->assertTrue(false, 'Permission check should fail with apiController2');
+		} catch (\Exception $e) {
+			$this->assertInstanceOf(CospendUserPermissionsException::class, $e);
+		}
+
+		// other user member of a group with which the project is shared
+		$resp = $this->apiController->createGroupShare($projectId, 'group2test', Application::ACCESS_LEVEL_PARTICIPANT);
+		$shareId = $resp->getData()['id'];
+		$this->userPermissionMiddleware->beforeController($this->apiController2, 'getProjectInfo');
+		try {
+			$this->userPermissionMiddleware->beforeController($this->apiController2, 'editMember');
+			$this->assertTrue(false, 'Permission check should fail with apiController2');
+		} catch (\Exception $e) {
+			$this->assertInstanceOf(CospendUserPermissionsException::class, $e);
+		}
+		$this->apiController->editSharedAccessLevel($projectId, $shareId, Application::ACCESS_LEVEL_MAINTAINER);
+		$this->userPermissionMiddleware->beforeController($this->apiController2, 'editMember');
+		$this->apiController->deleteGroupShare($projectId, $shareId);
+		try {
+			$this->userPermissionMiddleware->beforeController($this->apiController2, 'getProjectInfo');
+			$this->assertTrue(false, 'Permission check should fail with apiController2');
+		} catch (\Exception $e) {
+			$this->assertInstanceOf(CospendUserPermissionsException::class, $e);
+		}
+	}
+
+	public function testPublicAuth() {
+		$projectId = 'projtodel';
+		// CREATE PROJECT owned by test
+		$resp = $this->apiController->createProject($projectId, 'whatever');
+		$status = $resp->getStatus();
+		$this->assertEquals(Http::STATUS_OK, $status);
+		$data = $resp->getData();
+		$this->assertEquals($projectId, $data['id']);
+
+		// create public share
+		$resp = $this->apiController->createPublicShare($projectId);
+		$data = $resp->getData();
+		$shareId = $data['id'];
+		$shareToken = $data['token'];
+		$requestResponse = [
+			'token' => $shareToken,
+			'password' => 'no-password',
+		];
+
+		$this->request
+			->expects($this->any())
+			->method('getParam')
+			->willReturnCallback(static function($key) use (&$requestResponse) {
+				return $key === 'token'
+					? $requestResponse['token']
+					: $requestResponse['password'];
+			});
+
+		// success
+		$this->publicAuthMiddleware->beforeController($this->publicApiController, 'publicGetProjectInfo');
+
+		// should work with any password
+		$requestResponse['token'] = $shareToken;
+		$requestResponse['password'] = 'any password';
+		$this->publicAuthMiddleware->beforeController($this->publicApiController, 'publicGetProjectInfo');
+
+		// not enough permissions
+		try {
+			$this->publicAuthMiddleware->beforeController($this->publicApiController, 'publicEditMember');
+			$this->assertTrue(false, 'Permission check should fail');
+		} catch (\Exception $e) {
+			$this->assertInstanceOf(CospendPublicAuthNotValidException::class, $e);
+		}
+		// enough permissions
+		$this->apiController->editSharedAccessLevel($projectId, $shareId, Application::ACCESS_LEVEL_MAINTAINER);
+		$this->publicAuthMiddleware->beforeController($this->publicApiController, 'publicEditMember');
+
+		// wrong token
+		$requestResponse['token'] = 'wrong token';
+		$requestResponse['password'] = 'any password';
+
+		try {
+			$this->publicAuthMiddleware->beforeController($this->publicApiController, 'publicGetProjectInfo');
+			$this->assertTrue(false, 'Permission check should fail');
+		} catch (\Exception $e) {
+			$this->assertInstanceOf(CospendPublicAuthNotValidException::class, $e);
+		}
+
+		// set password
+		$this->apiController->editSharedAccess($projectId, $shareId, null, 'new password');
+		$requestResponse['token'] = $shareToken;
+		$requestResponse['password'] = 'new password';
+		$this->publicAuthMiddleware->beforeController($this->publicApiController, 'publicGetProjectInfo');
+		$requestResponse['token'] = $shareToken;
+		$requestResponse['password'] = 'wrong password';
+		try {
+			$this->publicAuthMiddleware->beforeController($this->publicApiController, 'publicGetProjectInfo');
+			$this->assertTrue(false, 'Permission check should fail');
+		} catch (\Exception $e) {
+			$this->assertInstanceOf(CospendPublicAuthNotValidException::class, $e);
 		}
 	}
 }

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-01-02 13:23+0100\n"
-"PO-Revision-Date: 2024-01-02 12:23\n"
+"PO-Revision-Date: 2024-01-04 12:27\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -201,7 +201,7 @@ msgstr "Es gibt bereits ein Projekt der ID \"%1$s\""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Middleware/PublicAuthMiddleware.php:45
 msgid "Project password is invalid"
-msgstr ""
+msgstr "Projektpasswort ist ungültig"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Middleware/PublicAuthMiddleware.php:53
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Middleware/UserPermissionMiddleware.php:45
@@ -821,11 +821,11 @@ msgstr "Mitglied konnte nicht gespeichert werden"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:36
 msgid "Member deleted"
-msgstr ""
+msgstr "Mitglied gelöscht"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:37
 msgid "Member saved"
-msgstr ""
+msgstr "Mitglied gespeichert"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:38
 msgid "Project saved"

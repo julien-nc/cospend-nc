@@ -126,7 +126,7 @@ class UserMigrator implements IMigrator, ISizeEstimationMigrator {
 			$settings = json_decode($settingsFileContent, true);
 			if ($settings !== false && is_array($settings)) {
 				foreach ($settings as $key => $value) {
-					$this->config->setUserValue($userId, Application::APP_ID, $key, $value);
+					$this->config->setUserValue($userId, Application::APP_ID, $key, (string)$value);
 				}
 			}
 		}

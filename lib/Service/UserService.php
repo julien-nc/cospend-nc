@@ -63,9 +63,10 @@ class UserService {
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 			);
 		$req = $qb->executeQuery();
+		/** @var string[] $groupIds */
 		$groupIds = [];
 		while ($row = $req->fetch()) {
-			array_push($groupIds, $row['userid']);
+			$groupIds[] = (string) $row['userid'];
 		}
 		$req->closeCursor();
 		$qb->resetQueryParts();

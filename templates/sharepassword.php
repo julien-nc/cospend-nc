@@ -15,22 +15,22 @@ $appId = OCA\Cospend\AppInfo\Application::APP_ID;
 				p($l->t('Wrong link password'));
 				echo '</p>';
 			}
-			?>
+?>
 
 			<input id="tokenInput" name="token" type="hidden" maxlength="64" value="<?php
-			if (isset($_['token'])) {
-				p($_['token']);
-			}
-			?>"/>
+if (isset($_['token'])) {
+	p($_['token']);
+}
+?>"/>
 
 			<br/>
 			<label for="passwordInput" id="passwordlabel"><?php p($l->t('Share link password')); ?></label>
 			<br/>
 			<input id="passwordInput" name="password" type="password" value="<?php
-			if (array_key_exists('password', $_)) {
-				p($_['password']);
-			}
-			?>"/>
+if (array_key_exists('password', $_)) {
+	p($_['password']);
+}
+?>"/>
 
 			<br/>
 			<button id="okbutton" type="submit">Submit</button>

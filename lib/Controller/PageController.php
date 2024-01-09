@@ -12,6 +12,8 @@
 namespace OCA\Cospend\Controller;
 
 use OC\Files\Filesystem;
+use OCA\Cospend\AppInfo\Application;
+use OCA\Cospend\Service\ProjectService;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -23,18 +25,16 @@ use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Http\Template\PublicTemplateResponse;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
+
 use OCP\IL10N;
-
 use OCP\IRequest;
-use OCP\AppFramework\Http\TemplateResponse;
-use OCP\AppFramework\Http\Template\PublicTemplateResponse;
-
-use OCA\Cospend\Service\ProjectService;
-use OCA\Cospend\AppInfo\Application;
 
 class PageController extends Controller {
 

@@ -20,7 +20,7 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 
 class ProjectMapper extends QBMapper {
-	const TABLENAME = 'cospend_projects';
+	public const TABLENAME = 'cospend_projects';
 
 	public const ARCHIVED_TS_UNSET = -1;
 	public const ARCHIVED_TS_NOW = 0;
@@ -46,7 +46,7 @@ class ProjectMapper extends QBMapper {
 		$req = $qb->executeQuery();
 
 		$dbId = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbId = $row['id'];
 			break;
 		}

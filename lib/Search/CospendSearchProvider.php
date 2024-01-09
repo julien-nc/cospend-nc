@@ -24,20 +24,19 @@ declare(strict_types=1);
  */
 namespace OCA\Cospend\Search;
 
+use DateTime;
+use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Service\ProjectService;
-use OCA\Cospend\AppInfo\Application;
 use OCP\App\IAppManager;
+use OCP\IDateTimeFormatter;
 use OCP\IL10N;
-use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Search\IProvider;
+
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
-
-use OCP\IDateTimeFormatter;
-use DateTime;
 use OCP\Search\SearchResultEntry;
 
 class CospendSearchProvider implements IProvider {
@@ -107,7 +106,7 @@ class CospendSearchProvider implements IProvider {
 		}
 
 		// sort by timestamp
-		usort($resultBills, function($a, $b) {
+		usort($resultBills, function ($a, $b) {
 			$ta = $a['timestamp'];
 			$tb = $b['timestamp'];
 			return ($ta > $tb) ? -1 : 1;
@@ -153,7 +152,7 @@ class CospendSearchProvider implements IProvider {
 			if (isset($project['categories'][$bill['categoryid']])) {
 				$catPmChars .= $project['categories'][$bill['categoryid']]['icon'] . ' ';
 			} elseif (isset(Application::HARDCODED_CATEGORIES[$bill['categoryid']])) {
-				$catPmChars .= 	Application::HARDCODED_CATEGORIES[$bill['categoryid']]['icon'];
+				$catPmChars .= Application::HARDCODED_CATEGORIES[$bill['categoryid']]['icon'];
 			}
 		}
 		if (isset($bill['paymentmodeid'])

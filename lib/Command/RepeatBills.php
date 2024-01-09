@@ -12,11 +12,11 @@
 
 namespace OCA\Cospend\Command;
 
+use OCA\Cospend\Service\ProjectService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
-use OCA\Cospend\Service\ProjectService;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class RepeatBills extends Command {
 
@@ -29,7 +29,7 @@ class RepeatBills extends Command {
 			->setDescription('Repeat bills if necessary');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output): int	{
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$repeated = $this->projectService->cronRepeatBills();
 		foreach ($repeated as $r) {
 			$output->writeln(

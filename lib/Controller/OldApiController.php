@@ -12,26 +12,26 @@
 namespace OCA\Cospend\Controller;
 
 use DateTime;
+use OCA\Cospend\Activity\ActivityManager;
+use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Attribute\CospendPublicAuth;
 use OCA\Cospend\Attribute\CospendUserPermissions;
+use OCA\Cospend\Db\BillMapper;
+use OCA\Cospend\Service\ProjectService;
+use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+
 use OCP\AppFramework\Http\Attribute\CORS;
+
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
-use OCP\IL10N;
 
 use OCP\AppFramework\Http\ContentSecurityPolicy;
-
-use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\ApiController;
-
-use OCA\Cospend\Db\BillMapper;
-use OCA\Cospend\Service\ProjectService;
-use OCA\Cospend\Activity\ActivityManager;
-use OCA\Cospend\AppInfo\Application;
+use OCP\IL10N;
+use OCP\IRequest;
 
 class OldApiController extends ApiController {
 
@@ -73,8 +73,8 @@ class OldApiController extends ApiController {
 	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
 	public function apiPrivSetProjectInfo(string $projectId, ?string $name = null, ?string $contact_email = null,
-										  ?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
-										  ?string $categorysort = null, ?string $paymentmodesort = null): DataResponse {
+		?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
+		?string $categorysort = null, ?string $paymentmodesort = null): DataResponse {
 		$result = $this->projectService->editProject(
 			$projectId, $name, $contact_email, $autoexport,
 			$currencyname, $deletion_disabled, $categorysort, $paymentmodesort
@@ -142,8 +142,8 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
 	#[BruteForceProtection(action: 'CospendPublicSetProjInfo')]
 	public function apiSetProjectInfo(string $token, ?string $name = null, ?string $contact_email = null,
-									  ?string $autoexport = null, ?string $currencyname = null,
-									  ?bool $deletion_disabled = null, ?string $categorysort = null, ?string $paymentmodesort = null): DataResponse {
+		?string $autoexport = null, ?string $currencyname = null,
+		?bool $deletion_disabled = null, ?string $categorysort = null, ?string $paymentmodesort = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->editProject(
 			$publicShareInfo['projectid'], $name, $contact_email, $autoexport,
@@ -183,7 +183,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	#[BruteForceProtection(action: 'CospendPublicGetBills')]
 	public function apiGetBills(string $token, ?int $lastchanged = null,
-								?int $offset = 0, ?int $limit = null, bool $reverse = false, ?int $deleted = 0): DataResponse {
+		?int $offset = 0, ?int $limit = null, bool $reverse = false, ?int $deleted = 0): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		if ($limit) {
 			$bills = $this->billMapper->getBillsWithLimit(
@@ -282,7 +282,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	#[BruteForceProtection(action: 'CospendPublicAddMember')]
 	public function apiAddMember(string $token, string $name,
-								 float  $weight = 1, int $active = 1, ?string $color = null): DataResponse {
+		float  $weight = 1, int $active = 1, ?string $color = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->createMember(
 			$publicShareInfo['projectid'], $name, $weight, $active !== 0, $color, null
@@ -301,7 +301,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	#[BruteForceProtection(action: 'CospendPublicAddMember2')]
 	public function apiv2AddMember(string $token, string $name, float $weight = 1, int $active = 1,
-								   ?string $color = null, ?string $userid = null): DataResponse {
+		?string $color = null, ?string $userid = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->createMember(
 			$publicShareInfo['projectid'], $name, $weight, $active !== 0, $color, $userid
@@ -317,7 +317,7 @@ class OldApiController extends ApiController {
 	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivAddMember(string $projectId, string $name, float $weight = 1, int $active = 1,
-									 ?string $color = null, ?string $userid = null): DataResponse {
+		?string $color = null, ?string $userid = null): DataResponse {
 		$result = $this->projectService->createMember($projectId, $name, $weight, $active !== 0, $color, $userid);
 		if (!isset($result['error'])) {
 			return new DataResponse($result['id']);
@@ -332,10 +332,10 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[BruteForceProtection(action: 'CospendPublicAddBill')]
 	public function apiAddBill(string $token, ?string $date = null, ?string $what = null, ?int $payer = null,
-							   ?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
-							   ?string $paymentmode = null, ?int $paymentmodeid = null,
-							   ?int $categoryid = null, int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
-							   ?string $comment = null, ?int $repeatfreq = null): DataResponse {
+		?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
+		?string $paymentmode = null, ?int $paymentmodeid = null,
+		?int $categoryid = null, int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
+		?string $comment = null, ?int $repeatfreq = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->createBill(
 			$publicShareInfo['projectid'], $date, $what, $payer, $payed_for, $amount,
@@ -367,13 +367,13 @@ class OldApiController extends ApiController {
 	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function apiPrivAddBill(string  $projectId, ?string $date = null, ?string $what = null, ?int $payer = null,
-								   ?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
-								   ?string $paymentmode = null, ?int $paymentmodeid = null,
-								   ?int $categoryid = null, int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
-								   ?string $comment = null, ?int $repeatfreq = null): DataResponse {
+		?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
+		?string $paymentmode = null, ?int $paymentmodeid = null,
+		?int $categoryid = null, int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
+		?string $comment = null, ?int $repeatfreq = null): DataResponse {
 		$result = $this->projectService->createBill($projectId, $date, $what, $payer, $payed_for, $amount,
-												 $repeat, $paymentmode, $paymentmodeid, $categoryid, $repeatallactive,
-												 $repeatuntil, $timestamp, $comment, $repeatfreq);
+			$repeat, $paymentmode, $paymentmodeid, $categoryid, $repeatallactive,
+			$repeatuntil, $timestamp, $comment, $repeatfreq);
 		if (isset($result['inserted_id'])) {
 			$billObj = $this->billMapper->find($result['inserted_id']);
 			$this->activityManager->triggerEvent(
@@ -496,7 +496,7 @@ class OldApiController extends ApiController {
 		?int $payer = null, ?string $payed_for = null, ?float $amount = null, ?string $repeat = 'n',
 		?string $paymentmode = null, ?int $paymentmodeid = null,
 		?int $categoryid = null, ?int $repeatallactive = null,
-		?string $repeatuntil = null, ?int $timestamp = null, ?string $comment=null,
+		?string $repeatuntil = null, ?int $timestamp = null, ?string $comment = null,
 		?int $repeatfreq = null, ?int $deleted = null
 	): DataResponse {
 		$result = $this->projectService->editBill(
@@ -704,8 +704,8 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	#[BruteForceProtection(action: 'CospendPublicEditMember')]
 	public function apiEditMember(string $token, int $memberid,
-								  ?string $name = null, ?float $weight = null, $activated = null,
-								  ?string $color = null, ?string $userid = null): DataResponse {
+		?string $name = null, ?float $weight = null, $activated = null,
+		?string $color = null, ?string $userid = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		if ($activated === 'true') {
 			$activated = true;
@@ -729,7 +729,7 @@ class OldApiController extends ApiController {
 	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivEditMember(string $projectId, int $memberid, ?string $name = null, ?float $weight = null,
-										$activated = null, ?string $color = null, ?string $userid = null): DataResponse {
+		$activated = null, ?string $color = null, ?string $userid = null): DataResponse {
 		if ($activated === 'true') {
 			$activated = true;
 		} elseif ($activated === 'false') {
@@ -752,10 +752,10 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	#[BruteForceProtection(action: 'CospendPublicGetStats')]
 	public function apiGetProjectStatistics(string $token, ?int $tsMin = null, ?int $tsMax = null,
-											?int $paymentModeId = null, ?int $categoryId = null,
-											?float $amountMin = null, ?float $amountMax=null,
-											string $showDisabled = '1', ?int $currencyId = null,
-											?int $payerId = null): DataResponse {
+		?int $paymentModeId = null, ?int $categoryId = null,
+		?float $amountMin = null, ?float $amountMax = null,
+		string $showDisabled = '1', ?int $currencyId = null,
+		?int $payerId = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->getProjectStatistics(
 			$publicShareInfo['projectid'], 'lowername', $tsMin, $tsMax,
@@ -770,10 +770,10 @@ class OldApiController extends ApiController {
 	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function apiPrivGetProjectStatistics(string $projectId, ?int $tsMin = null, ?int $tsMax = null,
-												?int $paymentModeId = null,
-												?int $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
-												string $showDisabled = '1', ?int $currencyId = null,
-												?int $payerId = null): DataResponse {
+		?int $paymentModeId = null,
+		?int $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
+		string $showDisabled = '1', ?int $currencyId = null,
+		?int $payerId = null): DataResponse {
 		$result = $this->projectService->getProjectStatistics(
 			$projectId, 'lowername', $tsMin, $tsMax, $paymentModeId,
 			$categoryId, $amountMin, $amountMax, $showDisabled === '1', $currencyId, $payerId
@@ -811,7 +811,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[BruteForceProtection(action: 'CospendPublicAutoSettlement')]
 	public function apiAutoSettlement(string $token, ?int $centeredOn = null,
-									  int $precision = 2, ?int $maxTimestamp = null): DataResponse {
+		int $precision = 2, ?int $maxTimestamp = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->autoSettlement(
 			$publicShareInfo['projectid'], $centeredOn, $precision, $maxTimestamp
@@ -870,7 +870,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	#[BruteForceProtection(action: 'CospendPublicEditPM')]
 	public function apiEditPaymentMode(string $token, int $pmid, ?string $name = null,
-									   ?string $icon = null, ?string $color = null): DataResponse {
+		?string $icon = null, ?string $color = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->editPaymentMode(
 			$publicShareInfo['projectid'], $pmid, $name, $icon, $color
@@ -900,7 +900,7 @@ class OldApiController extends ApiController {
 	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivEditPaymentMode(string $projectId, int $pmid, ?string $name = null,
-										   ?string $icon = null, ?string $color = null): DataResponse {
+		?string $icon = null, ?string $color = null): DataResponse {
 		$result = $this->projectService->editPaymentMode($projectId, $pmid, $name, $icon, $color);
 		if (is_array($result)) {
 			return new DataResponse($result);
@@ -973,7 +973,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	#[BruteForceProtection(action: 'CospendPublicEditCat')]
 	public function apiEditCategory(string $token, int $categoryid, ?string $name = null,
-									?string $icon = null, ?string $color = null): DataResponse {
+		?string $icon = null, ?string $color = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->editCategory(
 			$publicShareInfo['projectid'], $categoryid, $name, $icon, $color
@@ -1003,7 +1003,7 @@ class OldApiController extends ApiController {
 	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivEditCategory(string $projectId, int $categoryid, ?string $name = null,
-										?string $icon = null, ?string $color = null): DataResponse {
+		?string $icon = null, ?string $color = null): DataResponse {
 		$result = $this->projectService->editCategory($projectId, $categoryid, $name, $icon, $color);
 		if (is_array($result)) {
 			return new DataResponse($result);

@@ -17,25 +17,25 @@
  */
 namespace OCA\Cospend\Controller;
 
+use OCA\Cospend\Activity\ActivityManager;
+use OCA\Cospend\AppInfo\Application;
+use OCA\Cospend\Db\BillMapper;
+use OCA\Cospend\Db\ProjectMapper;
+use OCA\Cospend\Service\ProjectService;
+use OCA\Cospend\Service\UserService;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
+use OCP\Files\IRootFolder;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IL10N;
+
 use OCP\IServerContainer;
+use OCP\IUserManager;
+use OCP\Notification\IManager as INotificationManager;
+use OCP\Share\IManager as IShareManager;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use OCP\Notification\IManager as INotificationManager;
-use OCP\Files\IRootFolder;
-use OCP\IGroupManager;
-use OCP\Share\IManager as IShareManager;
-use OCP\App\IAppManager;
-use OCP\IUserManager;
-
-use OCA\Cospend\AppInfo\Application;
-use OCA\Cospend\Activity\ActivityManager;
-use OCA\Cospend\Service\UserService;
-use OCA\Cospend\Db\ProjectMapper;
-use OCA\Cospend\Db\BillMapper;
-use OCA\Cospend\Service\ProjectService;
 
 class ApiControllerTest extends TestCase {
 
@@ -85,7 +85,7 @@ class ApiControllerTest extends TestCase {
 		$app = new Application();
 		$c = $app->getContainer();
 		$sc = $c->get(IServerContainer::class);
-//		$sc = $c->get(ContainerInterface::class);
+		//		$sc = $c->get(ContainerInterface::class);
 		$l10n = $c->get(IL10N::class);
 		$this->billMapper = new BillMapper($sc->getDatabaseConnection());
 		$this->projectMapper = new ProjectMapper($sc->getDatabaseConnection(), $l10n);
@@ -436,9 +436,9 @@ class ApiControllerTest extends TestCase {
 		}
 
 		// TODO find a way to register the user permission middleware
-//		$resp = $this->apiController->getProjectInfo('superprojdoesnotexist');
-//		$status = $resp->getStatus();
-//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
+		//		$resp = $this->apiController->getProjectInfo('superprojdoesnotexist');
+		//		$status = $resp->getStatus();
+		//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
 
 		// edit member
 		$resp = $this->apiController->editMember('superproj', $idMember1, 'roberto', 1.2, true, '#112233', 'test');
@@ -457,12 +457,12 @@ class ApiControllerTest extends TestCase {
 		$data = $resp->getData();
 		$this->assertEquals(null, $data['userid']);
 
-//		$resp = $this->apiController->editMember('superprojdoesnotexist', $idMember1, 'roberto', 1, true);
-//		$status = $resp->getStatus();
-//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
-//		$data = $resp->getData();
-//		$this->assertTrue(isset($data['message']));
-//		$this->assertFalse(isset($data['id']));
+		//		$resp = $this->apiController->editMember('superprojdoesnotexist', $idMember1, 'roberto', 1, true);
+		//		$status = $resp->getStatus();
+		//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
+		//		$data = $resp->getData();
+		//		$this->assertTrue(isset($data['message']));
+		//		$this->assertFalse(isset($data['id']));
 
 		// member does not exist
 		$resp = $this->apiController->editMember('superproj', -1, 'roberto', 1, true);
@@ -662,9 +662,9 @@ class ApiControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_BAD_REQUEST, $status);
 
-//		$resp = $this->apiController->createBill('superprojdoesnotexist', '2019-01-20', 'lala', $idMember2, $idMember1, 12.3, 'n');
-//		$status = $resp->getStatus();
-//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
+		//		$resp = $this->apiController->createBill('superprojdoesnotexist', '2019-01-20', 'lala', $idMember2, $idMember1, 12.3, 'n');
+		//		$status = $resp->getStatus();
+		//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
 
 		$resp = $this->apiController->createBill('superproj', 'aa-aa', 'lala', $idMember2, $idMember1, 12.3, 'n');
 		$status = $resp->getStatus();
@@ -799,9 +799,9 @@ class ApiControllerTest extends TestCase {
 		$this->assertNotNull($bill);
 		$this->assertEquals(123456789, $bill['timestamp']);
 
-//		$resp = $this->apiController->editBill('superprojdoesnotexist', $idBill1, '2019-01-20', 'boomerang', $idMember1, $idMember1.','.$idMember2, 99, 'n');
-//		$status = $resp->getStatus();
-//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
+		//		$resp = $this->apiController->editBill('superprojdoesnotexist', $idBill1, '2019-01-20', 'boomerang', $idMember1, $idMember1.','.$idMember2, 99, 'n');
+		//		$status = $resp->getStatus();
+		//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
 
 		$resp = $this->apiController->editBill('superproj', -1, '2019-01-20', 'boomerang', $idMember1, $idMember1.','.$idMember2, 99, 'n');
 		$status = $resp->getStatus();
@@ -902,9 +902,9 @@ class ApiControllerTest extends TestCase {
 
 		// get project stats
 
-//		$resp = $this->apiController->getProjectstatistics('superprojdoesnotexist');
-//		$status = $resp->getStatus();
-//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
+		//		$resp = $this->apiController->getProjectstatistics('superprojdoesnotexist');
+		//		$status = $resp->getStatus();
+		//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
 
 		$resp = $this->apiController->getProjectstatistics('superproj');
 		$status = $resp->getStatus();
@@ -916,14 +916,14 @@ class ApiControllerTest extends TestCase {
 		$id2Found = false;
 		foreach ($stats as $stat) {
 			if ($stat['member']['id'] === $idMember1) {
-				$this->assertEquals((99/2 - 12.3), $stat['balance']);
+				$this->assertEquals((99 / 2 - 12.3), $stat['balance']);
 				$this->assertEquals(99, $stat['paid']);
-				$this->assertEquals((99/2 + 12.3), $stat['spent']);
+				$this->assertEquals((99 / 2 + 12.3), $stat['spent']);
 				$id1Found = true;
 			} elseif ($stat['member']['id'] === $idMember2) {
-				$this->assertEquals((12.3 - 99/2), $stat['balance']);
+				$this->assertEquals((12.3 - 99 / 2), $stat['balance']);
 				$this->assertEquals(12.3, $stat['paid']);
-				$this->assertEquals(99/2, $stat['spent']);
+				$this->assertEquals(99 / 2, $stat['spent']);
 				$id2Found = true;
 			}
 		}
@@ -940,9 +940,9 @@ class ApiControllerTest extends TestCase {
 
 		// get project settlement plan
 
-//		$resp = $this->apiController->getProjectsettlement('superprojdoesnotexist');
-//		$status = $resp->getStatus();
-//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
+		//		$resp = $this->apiController->getProjectsettlement('superprojdoesnotexist');
+		//		$status = $resp->getStatus();
+		//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
 
 		$resp = $this->apiController->getProjectsettlement('superproj');
 		$status = $resp->getStatus();
@@ -952,16 +952,16 @@ class ApiControllerTest extends TestCase {
 		$id1Found = false;
 		foreach ($data as $transaction) {
 			if ($transaction['from'] === $idMember2 && $transaction['to'] === $idMember1) {
-				$this->assertEquals((99/2 - 12.3), $transaction['amount']);
+				$this->assertEquals((99 / 2 - 12.3), $transaction['amount']);
 				$id1Found = true;
 			}
 		}
 		$this->assertTrue($id1Found);
 
 		// auto settlement
-//		$resp = $this->apiController->autoSettlement('superprojdoesnotexist');
-//		$status = $resp->getStatus();
-//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
+		//		$resp = $this->apiController->autoSettlement('superprojdoesnotexist');
+		//		$status = $resp->getStatus();
+		//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
 
 		$resp = $this->apiController->autoSettlement('superproj');
 		$status = $resp->getStatus();
@@ -982,12 +982,12 @@ class ApiControllerTest extends TestCase {
 			if ($stat['member']['id'] === $idMember1) {
 				$this->assertEquals(0, $stat['balance']);
 				$this->assertEquals(99, $stat['paid']);
-				$this->assertEquals((99/2 + 12.3) + (99/2 - 12.3), $stat['spent']);
+				$this->assertEquals((99 / 2 + 12.3) + (99 / 2 - 12.3), $stat['spent']);
 				$id1Found = true;
 			} elseif ($stat['member']['id'] === $idMember2) {
 				$this->assertEquals(0, $stat['balance']);
-				$this->assertEquals(12.3 + (99/2 - 12.3), $stat['paid']);
-				$this->assertEquals(99/2, $stat['spent']);
+				$this->assertEquals(12.3 + (99 / 2 - 12.3), $stat['paid']);
+				$this->assertEquals(99 / 2, $stat['spent']);
 				$id2Found = true;
 			}
 		}
@@ -1024,9 +1024,9 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals(Http::STATUS_FORBIDDEN, $status);
 
 		// DELETE BILL of unexisting project
-//		$resp = $this->apiController->deleteBill('superprojLALA', $idBill1);
-//		$status = $resp->getStatus();
-//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
+		//		$resp = $this->apiController->deleteBill('superprojLALA', $idBill1);
+		//		$status = $resp->getStatus();
+		//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
 
 		// delete bill when deletion is disabled
 		$resp = $this->apiController->editProject(
@@ -1057,9 +1057,9 @@ class ApiControllerTest extends TestCase {
 		$nbBills2 = count($data['bills']);
 		$this->assertEquals($nbBills - 1, $nbBills2);
 
-//		$resp = $this->apiController->getBills('superprojLALA');
-//		$status = $resp->getStatus();
-//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
+		//		$resp = $this->apiController->getBills('superprojLALA');
+		//		$status = $resp->getStatus();
+		//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
 
 		// EDIT PROJECT
 		$resp = $this->apiController->editProject(
@@ -1078,14 +1078,14 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals(Http::STATUS_BAD_REQUEST, $status);
 
 		// user can't edit this project (test is not the owner of superprojLALA)
-//		$resp = $this->apiController->editProject('superprojLALA', 'newname', 'new email');
-//		$status = $resp->getStatus();
-//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
+		//		$resp = $this->apiController->editProject('superprojLALA', 'newname', 'new email');
+		//		$status = $resp->getStatus();
+		//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
 
 		// project does not exist
-//		$resp = $this->apiController->editProject('doesnotexit', 'newname', 'new email');
-//		$status = $resp->getStatus();
-//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
+		//		$resp = $this->apiController->editProject('doesnotexit', 'newname', 'new email');
+		//		$status = $resp->getStatus();
+		//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
 
 		$res = $this->projectService->editProject('blabla', 'plop');
 		$this->assertTrue(isset($res['message']));
@@ -1465,9 +1465,9 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals('DELETED', $data['message'] ?? '');
 
 		// DELETE PROJECT which does not exist
-//		$resp = $this->apiController->deleteProject('superprojdontexist');
-//		$status = $resp->getStatus();
-//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
+		//		$resp = $this->apiController->deleteProject('superprojdontexist');
+		//		$status = $resp->getStatus();
+		//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
 
 		// CREATE PROJECT to delete
 		$resp = $this->apiController->createProject('projtodel', 'ProjToDel', 'weakpasswd');
@@ -1477,9 +1477,9 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals('projtodel', $data['id']);
 
 		// attempt to delete : wrong user
-//		$resp = $this->apiController2->deleteProject('projtodel');
-//		$status = $resp->getStatus();
-//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
+		//		$resp = $this->apiController2->deleteProject('projtodel');
+		//		$status = $resp->getStatus();
+		//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
 
 		// share the project with second user
 		$resp = $this->apiController->createUserShare('projtodel', 'test2', Application::ACCESS_LEVEL_MAINTAINER);
@@ -1540,9 +1540,9 @@ class ApiControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
 
-//		$resp = $this->apiController2->getProjectInfo('projtodel');
-//		$status = $resp->getStatus();
-//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
+		//		$resp = $this->apiController2->getProjectInfo('projtodel');
+		//		$status = $resp->getStatus();
+		//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
 
 		// get projects of second user to check if access to project was removed
 		$resp = $this->apiController2->getProjects();
@@ -1898,7 +1898,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals($destPaymentMode['id'], $bill['paymentmodeid']);
 
 		// find the bill that does have a category but not a payment mode
-		$bill = array_filter($bills, static function($bill) {
+		$bill = array_filter($bills, static function ($bill) {
 			return $bill['paymentmodeid'] === 0 && $bill['categoryid'] !== 0;
 		});
 		$bill = array_shift($bill);
@@ -1925,7 +1925,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertNotEquals($bill['categoryid'], $category);
 
 		// get the bill that has no category and no payment mode
-		$bill = array_filter($bills, static function($bill) {
+		$bill = array_filter($bills, static function ($bill) {
 			return $bill['paymentmodeid'] === 0 && $bill['categoryid'] === 0;
 		});
 		$bill = array_shift($bill);

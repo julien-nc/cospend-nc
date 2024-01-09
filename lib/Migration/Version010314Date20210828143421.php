@@ -6,12 +6,12 @@ namespace OCA\Cospend\Migration;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
-use OCP\DB\Types;
-use OCP\IL10N;
-use OCP\Migration\SimpleMigrationStep;
-use OCP\Migration\IOutput;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\Types;
 use OCP\IDBConnection;
+use OCP\IL10N;
+use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
 /**
  * Auto-generated migration step: Please modify to your needs!

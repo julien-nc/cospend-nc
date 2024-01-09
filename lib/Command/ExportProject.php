@@ -12,12 +12,12 @@
 
 namespace OCA\Cospend\Command;
 
+use OCA\Cospend\Service\ProjectService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
-use OCA\Cospend\Service\ProjectService;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class ExportProject extends Command {
 
@@ -51,12 +51,10 @@ class ExportProject extends Command {
 					'Project "'.$projectId.'" exported in "'.$result['path'].
 					'" of user "'.$project['userid'].'" storage'
 				);
-			}
-			else {
+			} else {
 				$output->writeln('Error: '.$result['message']);
 			}
-		}
-		else {
+		} else {
 			$output->writeln('Project '.$projectId.' not found');
 		}
 		return 0;

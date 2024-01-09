@@ -30,60 +30,27 @@ use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Service\ProjectService;
 use OCP\Activity\IEvent;
 use OCP\Activity\IProvider;
-use OCP\IConfig;
-use OCP\IURLGenerator;
-use OCP\IUserManager;
+use OCP\App\IAppManager;
 use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\App\IAppManager;
+use OCP\IURLGenerator;
+use OCP\IUserManager;
 
 class CospendProvider implements IProvider {
 
-	/** @var string */
-	private $userId;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var ActivityManager */
-	private $activityManager;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var IL10N */
-	private $l10n;
-	/** @var IConfig */
-	private $config;
-	/**
-	 * @var IGroupManager
-	 */
-	private $groupManager;
-	/**
-	 * @var IAppManager
-	 */
-	private $appManager;
-	/**
-	 * @var array
-	 */
-	private $projectNames;
-
-	public function __construct(IURLGenerator $urlGenerator,
-								ActivityManager $activityManager,
-								IUserManager $userManager,
-								IGroupManager $groupManager,
-								IAppManager $appManager,
-								IL10N $l10n,
-								IConfig $config,
-								ProjectService $projectService,
-								?string $userId) {
-		$this->userId = $userId;
-		$this->urlGenerator = $urlGenerator;
-		$this->activityManager = $activityManager;
-		$this->userManager = $userManager;
-		$this->l10n = $l10n;
-		$this->config = $config;
-		$this->groupManager = $groupManager;
-		$this->appManager = $appManager;
+	public function __construct(
+		private IURLGenerator $urlGenerator,
+		private ActivityManager $activityManager,
+		private IUserManager $userManager,
+		private IGroupManager $groupManager,
+		private IAppManager $appManager,
+		private IL10N $l10n,
+		private ProjectService $projectService,
+		private ?string $userId
+	) {
 		$this->projectNames = [];
 		if (!is_null($userId)) {
-			$this->projectNames = $projectService->getProjectNames($userId);
+			$this->projectNames = $this->projectService->getProjectNames($userId);
 		}
 	}
 

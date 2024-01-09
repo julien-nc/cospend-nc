@@ -15,33 +15,33 @@ use DateTime;
 use OC\User\NoUserException;
 use OCA\Circles\Exceptions\InitiatorNotFoundException;
 use OCA\Circles\Exceptions\RequestBuilderException;
+use OCA\Cospend\Activity\ActivityManager;
+use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Attribute\CospendUserPermissions;
+use OCA\Cospend\Db\BillMapper;
+use OCA\Cospend\Service\ProjectService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\CORS;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
+use OCP\Constants;
+
 use OCP\DB\Exception;
+
 use OCP\Files\File;
 use OCP\Files\InvalidPathException;
+use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\IL10N;
 
-use OCP\AppFramework\Http\ContentSecurityPolicy;
-
 use OCP\IRequest;
-use OCP\AppFramework\Http\DataResponse;
-use OCP\Constants;
-use OCP\Share\IShare;
 use OCP\IUserManager;
 use OCP\Share\IManager;
-use OCP\Files\IRootFolder;
-
-use OCA\Cospend\Db\BillMapper;
-use OCA\Cospend\Service\ProjectService;
-use OCA\Cospend\Activity\ActivityManager;
-use OCA\Cospend\AppInfo\Application;
+use OCP\Share\IShare;
 
 class ApiController extends OCSController {
 
@@ -66,7 +66,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	public function deleteOptionsValues(): DataResponse	{
+	public function deleteOptionsValues(): DataResponse {
 		$keys = $this->config->getUserKeys($this->userId, Application::APP_ID);
 		foreach ($keys as $key) {
 			$this->config->deleteUserValue($this->userId, Application::APP_ID, $key);
@@ -80,7 +80,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	public function saveOptionValues($options): DataResponse	{
+	public function saveOptionValues($options): DataResponse {
 		foreach ($options as $key => $value) {
 			$this->config->setUserValue($this->userId, Application::APP_ID, $key, $value);
 		}
@@ -388,7 +388,7 @@ class ApiController extends OCSController {
 		?int $categoryid = null, ?int $repeatallactive = null, ?string $repeatuntil = null,
 		?int $timestamp = null, ?string $comment = null, ?int $repeatfreq = null, ?int $deleted = null
 	): DataResponse {
-		$result =  $this->projectService->editBill(
+		$result = $this->projectService->editBill(
 			$projectId, $billId, $date, $what, $payer, $payed_for,
 			$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
 			$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq, null, $deleted
@@ -443,7 +443,7 @@ class ApiController extends OCSController {
 	): DataResponse {
 		$paymentModes = $this->projectService->getCategoriesOrPaymentModes($projectId, false);
 		foreach ($billIds as $billid) {
-			$result =  $this->projectService->editBill(
+			$result = $this->projectService->editBill(
 				$projectId, $billid, $date, $what, $payer, $payed_for,
 				$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
 				$repeatallactive, $repeatuntil, $timestamp, $comment,
@@ -482,7 +482,7 @@ class ApiController extends OCSController {
 		}
 
 		// get current bill from mapper for the activity manager
-		$oldBillObj = $this->billMapper->find ($billId);
+		$oldBillObj = $this->billMapper->find($billId);
 
 		// update the bill information
 		$result = $this->projectService->moveBill($projectId, $billId, $toProjectId);
@@ -491,16 +491,16 @@ class ApiController extends OCSController {
 			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		}
 
-		$newBillObj = $this->billMapper->find ($result ['inserted_id']);
+		$newBillObj = $this->billMapper->find($result ['inserted_id']);
 
 		// add delete activity record
-		$this->activityManager->triggerEvent (
+		$this->activityManager->triggerEvent(
 			ActivityManager::COSPEND_OBJECT_BILL, $oldBillObj,
 			ActivityManager::SUBJECT_BILL_DELETE, []
 		);
 
 		// add create activity record
-		$this->activityManager->triggerEvent (
+		$this->activityManager->triggerEvent(
 			ActivityManager::COSPEND_OBJECT_BILL, $newBillObj,
 			ActivityManager::SUBJECT_BILL_CREATE, []
 		);
@@ -1220,7 +1220,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	public function getPublicFileShare(string $path): DataResponse {
-		$cleanPath = str_replace(array('../', '..\\'), '',  $path);
+		$cleanPath = str_replace(array('../', '..\\'), '', $path);
 		$userFolder = $this->root->getUserFolder($this->userId);
 		if (!$userFolder->nodeExists($cleanPath)) {
 			return new DataResponse(['message' => $this->trans->t('Access denied')], Http::STATUS_UNAUTHORIZED);

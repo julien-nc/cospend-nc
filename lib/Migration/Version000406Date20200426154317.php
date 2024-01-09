@@ -6,11 +6,11 @@ namespace OCA\Cospend\Migration;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
-use OCP\Migration\SimpleMigrationStep;
-use OCP\Migration\IOutput;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
 /**
  * Auto-generated migration step: Please modify to your needs!
@@ -104,12 +104,12 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 		];
 		$categoryNameList = array_values($categoryNames);
 		$categoryEncodedIcons = [
-			'-1'  => urlencode('🛒'),
-			'-2'  => urlencode('🎉'),
-			'-3'  => urlencode('🏠'),
-			'-4'  => urlencode('🌩'),
-			'-5'  => urlencode('🚸'),
-			'-6'  => urlencode('💚'),
+			'-1' => urlencode('🛒'),
+			'-2' => urlencode('🎉'),
+			'-3' => urlencode('🏠'),
+			'-4' => urlencode('🌩'),
+			'-5' => urlencode('🚸'),
+			'-6' => urlencode('💚'),
 			'-10' => urlencode('🛍'),
 			//'-11' => '💰',
 			'-12' => urlencode('🍴'),
@@ -118,12 +118,12 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 			'-15' => urlencode('🎾')
 		];
 		$categoryColors = [
-			'-1'  => '#ffaa00',
-			'-2'  => '#aa55ff',
-			'-3'  => '#da8733',
-			'-4'  => '#4aa6b0',
-			'-5'  => '#0055ff',
-			'-6'  => '#bf090c',
+			'-1' => '#ffaa00',
+			'-2' => '#aa55ff',
+			'-3' => '#da8733',
+			'-4' => '#4aa6b0',
+			'-5' => '#0055ff',
+			'-6' => '#bf090c',
 			'-10' => '#e167d1',
 			//'-11' => '#e1d85a',
 			'-12' => '#d0d5e1',
@@ -151,7 +151,7 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 			$qb->select('c.name')
 			   ->from('cospend_categories', 'c')
 			   ->where(
-				   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+			   	$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			   );
 			$req = $qb->executeQuery();
 

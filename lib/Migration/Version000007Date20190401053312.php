@@ -6,8 +6,8 @@ namespace OCA\Cospend\Migration;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
-use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
 /**
  * Auto-generated migration step: Please modify to your needs!
@@ -103,8 +103,7 @@ class Version000007Date20190401053312 extends SimpleMigrationStep {
 				'default' => 0,
 			]);
 			$table->setPrimaryKey(['id']);
-		}
-		else {
+		} else {
 			// if previous version had the table
 			// but was old enough not to have isgroupshare column
 			$table = $schema->getTable('cospend_shares');

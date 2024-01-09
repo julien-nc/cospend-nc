@@ -12,23 +12,23 @@
 namespace OCA\Cospend\Controller;
 
 use DateTime;
+use OCA\Cospend\Activity\ActivityManager;
+use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Attribute\CospendPublicAuth;
+use OCA\Cospend\Db\BillMapper;
+use OCA\Cospend\Service\ProjectService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\CORS;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+
 use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\DataResponse;
+
 use OCP\AppFramework\OCSController;
 use OCP\DB\Exception;
 use OCP\IL10N;
-
 use OCP\IRequest;
-use OCP\AppFramework\Http\DataResponse;
-
-use OCA\Cospend\Db\BillMapper;
-use OCA\Cospend\Service\ProjectService;
-use OCA\Cospend\Activity\ActivityManager;
-use OCA\Cospend\AppInfo\Application;
 
 class PublicApiController extends OCSController {
 
@@ -690,12 +690,12 @@ class PublicApiController extends OCSController {
 	#[BruteForceProtection(action: 'CospendPublicDeleteMember')]
 	public function publicDeleteMember(string $token, int $memberId): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
-			$result = $this->projectService->deleteMember($publicShareInfo['projectid'], $memberId);
-			if (isset($result['success'])) {
-				return new DataResponse('OK');
-			} else {
-				return new DataResponse($result, Http::STATUS_NOT_FOUND);
-			}
+		$result = $this->projectService->deleteMember($publicShareInfo['projectid'], $memberId);
+		if (isset($result['success'])) {
+			return new DataResponse('OK');
+		} else {
+			return new DataResponse($result, Http::STATUS_NOT_FOUND);
+		}
 	}
 
 	/**

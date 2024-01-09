@@ -23,20 +23,12 @@
 
 namespace OCA\Cospend\Activity;
 
-
 use OCP\Activity\ISetting;
 use OCP\IL10N;
 
 class Setting implements ISetting {
 
-	/** @var IL10N */
-	protected $l;
-
-	/**
-	 * @param IL10N $l
-	 */
-	public function __construct(IL10N $l) {
-		$this->l = $l;
+	public function __construct(private IL10N $l) {
 	}
 
 	/**

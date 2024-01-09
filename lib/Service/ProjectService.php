@@ -12,39 +12,39 @@
 
 namespace OCA\Cospend\Service;
 
+use DateInterval;
+use DateTime;
+use DateTimeImmutable;
 use DateTimeZone;
 use Exception;
 use Generator;
 use OC\User\NoUserException;
 use OCA\Circles\Exceptions\InitiatorNotFoundException;
 use OCA\Circles\Exceptions\RequestBuilderException;
-use OCP\Files\FileInfo;
-use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
-use OCP\IL10N;
-use OCP\IConfig;
+use OCA\Cospend\Activity\ActivityManager;
+use OCA\Cospend\AppInfo\Application;
+use OCA\Cospend\Db\BillMapper;
+
+use OCA\Cospend\Db\ProjectMapper;
+use OCA\Cospend\Utils;
+use OCP\App\IAppManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
-use OCP\App\IAppManager;
-use OCP\IGroupManager;
-use OCP\IAvatarManager;
-use OCP\Notification\IManager as INotificationManager;
-
-use OCP\IUserManager;
-use OCP\IDBConnection;
-use OCP\IDateTimeZone;
+use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 
-use DateTimeImmutable;
-use DateInterval;
-use DateTime;
+use OCP\IAvatarManager;
+use OCP\IConfig;
+use OCP\IDateTimeZone;
 
-use OCA\Cospend\Utils;
-use OCA\Cospend\AppInfo\Application;
-use OCA\Cospend\Activity\ActivityManager;
-use OCA\Cospend\Db\ProjectMapper;
-use OCA\Cospend\Db\BillMapper;
+use OCP\IDBConnection;
+use OCP\IGroupManager;
+use OCP\IL10N;
+use OCP\IUserManager;
+use OCP\Notification\IManager as INotificationManager;
 use Throwable;
 use function str_replace;
 
@@ -315,7 +315,7 @@ class ProjectService {
 						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 					);
 				$req = $qb->executeQuery();
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$groupId = $row['userid'];
 					$dbAccessLevel = (int) $row['accesslevel'];
 					if ($this->groupManager->groupExists($groupId)
@@ -373,7 +373,7 @@ class ProjectService {
 				$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
 			);
 		$req = $qb->executeQuery();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$result = (int) $row['accesslevel'];
 			break;
 		}
@@ -680,8 +680,7 @@ class ProjectService {
 				];
 				$statistics[] = $statistic;
 			}
-		}
-		else {
+		} else {
 			foreach ($membersToDisplay as $memberId => $member) {
 				$statistic = [
 					'balance' => ($membersBalance[$memberId] === 0.0) ? 0 : $membersBalance[$memberId] / $currency['exchange_rate'],
@@ -1207,7 +1206,7 @@ class ProjectService {
 			);
 		$req = $qb->executeQuery();
 
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbId = $row['id'];
 			$dbName = $row['name'];
 			$dbUserId = $row['userid'];
@@ -1556,7 +1555,7 @@ class ProjectService {
 	 * @param bool|null $deletion_disabled
 	 * @param string|null $categorysort
 	 * @param string|null $paymentmodesort
-     * @param int|null $archivedTs
+	 * @param int|null $archivedTs
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
@@ -1693,7 +1692,7 @@ class ProjectService {
 		}
 		$req = $qb->executeQuery();
 
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$billIds[] = (int) $row['id'];
 		}
 		$req->closeCursor();
@@ -1736,7 +1735,7 @@ class ProjectService {
 		$qb->orderBy($sqlOrder, 'ASC');
 		$req = $qb->executeQuery();
 
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbMemberId = (int) $row['id'];
 			$dbWeight = (float) $row['weight'];
 			$dbUserid = $row['userid'];
@@ -1883,7 +1882,7 @@ class ProjectService {
 			);
 		$req = $qb->executeQuery();
 
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$projectNames[$row['id']] = $row['name'];
 		}
 		$req->closeCursor();
@@ -1902,7 +1901,7 @@ class ProjectService {
 			);
 		$req = $qb->executeQuery();
 
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			// avoid putting twice the same project
 			// this can happen with a share loop
 			if (!isset($projectNames[$row['id']])) {
@@ -1924,7 +1923,7 @@ class ProjectService {
 			)
 			->groupBy('userid');
 		$req = $qb->executeQuery();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$groupId = $row['userid'];
 			$candidateGroupIds[] = $groupId;
 		}
@@ -1947,7 +1946,7 @@ class ProjectService {
 					);
 				$req = $qb->executeQuery();
 
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					// avoid putting twice the same project
 					// this can happen with a share loop
 					if (!isset($projectNames[$row['id']])) {
@@ -1970,7 +1969,7 @@ class ProjectService {
 				)
 				->groupBy('userid');
 			$req = $qb->executeQuery();
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$circleId = $row['userid'];
 				$candidateCircleIds[] = $circleId;
 			}
@@ -1992,7 +1991,7 @@ class ProjectService {
 						);
 					$req = $qb->executeQuery();
 
-					while ($row = $req->fetch()){
+					while ($row = $req->fetch()) {
 						// avoid putting twice the same project
 						// this can happen with a share loop or multiple shares
 						if (!isset($projectNames[$row['id']])) {
@@ -2205,7 +2204,7 @@ class ProjectService {
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
 		$req = $qb->executeQuery();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbName = $row['name'];
 			$dbId = (int) $row['id'];
 			$dbExchangeRate = (float) $row['exchange_rate'];
@@ -2242,7 +2241,7 @@ class ProjectService {
 				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_USER, IQueryBuilder::PARAM_STR))
 			);
 		$req = $qb->executeQuery();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbuserId = $row['userid'];
 			$dbId = (int) $row['id'];
 			$dbAccessLevel = (int) $row['accesslevel'];
@@ -2304,7 +2303,7 @@ class ProjectService {
 			);
 		}
 		$req = $qb->executeQuery();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbToken = $row['userid'];
 			$dbId = (int) $row['id'];
 			$dbAccessLevel = (int) $row['accesslevel'];
@@ -2344,12 +2343,12 @@ class ProjectService {
 				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_PUBLIC_LINK, IQueryBuilder::PARAM_STR))
 			);
 		$req = $qb->executeQuery();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$projectId = $row['projectid'];
 			$label = $row['label'];
 			$password = $row['password'];
 			$accessLevel = (int) $row['accesslevel'];
-			$projectInfo =  [
+			$projectInfo = [
 				'projectid' => $projectId,
 				'accesslevel' => $accessLevel,
 				'label' => $label,
@@ -2384,7 +2383,7 @@ class ProjectService {
 				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR))
 			);
 		$req = $qb->executeQuery();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbGroupId = $row['userid'];
 			$dbId = (int) $row['id'];
 			$dbAccessLevel = (int) $row['accesslevel'];
@@ -2554,12 +2553,12 @@ class ProjectService {
 			);
 		$req = $qb->executeQuery();
 
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbMemberId = (int) $row['id'];
 			$dbWeight = (float) $row['weight'];
 			$dbUserid = $row['userid'];
 			$dbName = $row['name'];
-			$dbActivated= (int) $row['activated'];
+			$dbActivated = (int) $row['activated'];
 			$dbColor = $row['color'];
 			if ($dbColor === null) {
 				$av = $this->avatarManager->getGuestAvatar($dbName);
@@ -2608,12 +2607,12 @@ class ProjectService {
 				);
 			$req = $qb->executeQuery();
 
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbMemberId = (int) $row['id'];
 				$dbWeight = (float) $row['weight'];
 				$dbUserid = $row['userid'];
 				$dbName = $row['name'];
-				$dbActivated= (int) $row['activated'];
+				$dbActivated = (int) $row['activated'];
 				$dbColor = $row['color'];
 				if ($dbColor === null) {
 					$av = $this->avatarManager->getGuestAvatar($dbName);
@@ -3733,7 +3732,7 @@ class ProjectService {
 					);
 				$req = $qb->executeQuery();
 				$dbuserId = null;
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$dbuserId = $row['userid'];
 					break;
 				}
@@ -3887,7 +3886,7 @@ class ProjectService {
 			);
 		$req = $qb->executeQuery();
 		$dbId = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbId = $row['id'];
 			break;
 		}
@@ -3936,7 +3935,7 @@ class ProjectService {
 			);
 		$req = $qb->executeQuery();
 		$dbId = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbId = $row['id'];
 			break;
 		}
@@ -3998,7 +3997,7 @@ class ProjectService {
 		$req = $qb->executeQuery();
 		$dbId = null;
 		$dbUserId = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbId = $row['id'];
 			$dbUserId = $row['userid'];
 			break;
@@ -4086,7 +4085,7 @@ class ProjectService {
 			);
 		$req = $qb->executeQuery();
 		$dbId = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbId = $row['id'];
 			break;
 		}
@@ -4174,7 +4173,7 @@ class ProjectService {
 				);
 			$req = $qb->executeQuery();
 			$dbGroupId = null;
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbGroupId = $row['userid'];
 				break;
 			}
@@ -4238,7 +4237,7 @@ class ProjectService {
 			);
 		$req = $qb->executeQuery();
 		$dbGroupId = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbGroupId = $row['userid'];
 			break;
 		}
@@ -4321,7 +4320,7 @@ class ProjectService {
 					);
 				$req = $qb->executeQuery();
 				$dbCircleId = null;
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$dbCircleId = $row['userid'];
 					break;
 				}
@@ -4391,7 +4390,7 @@ class ProjectService {
 			);
 		$req = $qb->executeQuery();
 		$dbCircleId = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbCircleId = $row['userid'];
 			break;
 		}
@@ -4772,7 +4771,7 @@ class ProjectService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function importCsvProject(string $path, string $userId): array {
-		$cleanPath = str_replace(['../', '..\\'], '',  $path);
+		$cleanPath = str_replace(['../', '..\\'], '', $path);
 		$userFolder = $this->root->getUserFolder($userId);
 		if ($userFolder->nodeExists($cleanPath)) {
 			$file = $userFolder->get($cleanPath);
@@ -5117,7 +5116,7 @@ class ProjectService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function importSWProject(string $path, string $userId): array {
-		$cleanPath = str_replace(['../', '..\\'], '',  $path);
+		$cleanPath = str_replace(['../', '..\\'], '', $path);
 		$userFolder = $this->root->getUserFolder($userId);
 		if ($userFolder->nodeExists($cleanPath)) {
 			$file = $userFolder->get($cleanPath);
@@ -5210,7 +5209,7 @@ class ProjectService {
 									$negativeCols[] = $c;
 								}
 							}
-							$owersList = array_map(static function($c) use ($owersArray) {
+							$owersList = array_map(static function ($c) use ($owersArray) {
 								return $owersArray[$c - 5];
 							}, $negativeCols);
 							// each positive one: bill with member-specific amount (not the full amount), owers are the negative ones
@@ -5295,7 +5294,7 @@ class ProjectService {
 						}
 						$addBillResult = $this->createBill(
 							$projectid, null, $bill['what'], $payerId, $owerIdsStr,
-							$bill['amount'], Application::FREQUENCY_NO,null, 0, $catId,
+							$bill['amount'], Application::FREQUENCY_NO, null, 0, $catId,
 							0, null, $bill['timestamp'], null, null, []
 						);
 						if (!isset($addBillResult['inserted_id'])) {
@@ -5330,9 +5329,9 @@ class ProjectService {
 		$d = $now->format('d');
 
 		// get begining of today
-		$dateMaxDay = new DateTime($y.'-'.$m.'-'.$d);
+		$dateMaxDay = new DateTime($y . '-' . $m . '-' . $d);
 		$maxDayTimestamp = $dateMaxDay->getTimestamp();
-		$minDayTimestamp = $maxDayTimestamp - 24*60*60;
+		$minDayTimestamp = $maxDayTimestamp - (24 * 60 * 60);
 
 		$dateMaxDay->modify('-1 day');
 		$dailySuffix = '_'.$this->l10n->t('daily').'_'.$dateMaxDay->format('Y-m-d');
@@ -5347,7 +5346,7 @@ class ProjectService {
 		$d = $now->format('d');
 		$dateWeekMax = new DateTime($y.'-'.$m.'-'.$d);
 		$maxWeekTimestamp = $dateWeekMax->getTimestamp();
-		$minWeekTimestamp = $maxWeekTimestamp - 7*24*60*60;
+		$minWeekTimestamp = $maxWeekTimestamp - (7 * 24 * 60 * 60);
 		$dateWeekMin = new DateTime($y.'-'.$m.'-'.$d);
 		$dateWeekMin->modify('-7 day');
 		$weeklySuffix = '_'.$this->l10n->t('weekly').'_'.$dateWeekMin->format('Y-m-d');
@@ -5373,15 +5372,15 @@ class ProjectService {
 		$minMonthTimestamp = $dateMonthMin->getTimestamp();
 		$monthlySuffix = '_'.$this->l10n->t('monthly').'_'.$dateMonthMin->format('Y-m');
 
-//		$weekFilterArray = [];
-//		$weekFilterArray['tsmin'] = $minWeekTimestamp;
-//		$weekFilterArray['tsmax'] = $maxWeekTimestamp;
-//		$dayFilterArray = [];
-//		$dayFilterArray['tsmin'] = $minDayTimestamp;
-//		$dayFilterArray['tsmax'] = $maxDayTimestamp;
-//		$monthFilterArray = [];
-//		$monthFilterArray['tsmin'] = $minMonthTimestamp;
-//		$monthFilterArray['tsmax'] = $maxMonthTimestamp;
+		// $weekFilterArray = [];
+		// $weekFilterArray['tsmin'] = $minWeekTimestamp;
+		// $weekFilterArray['tsmax'] = $maxWeekTimestamp;
+		// $dayFilterArray = [];
+		// $dayFilterArray['tsmin'] = $minDayTimestamp;
+		// $dayFilterArray['tsmax'] = $maxDayTimestamp;
+		// $monthFilterArray = [];
+		// $monthFilterArray['tsmin'] = $minMonthTimestamp;
+		// $monthFilterArray['tsmax'] = $maxMonthTimestamp;
 
 		$qb = $this->db->getQueryBuilder();
 

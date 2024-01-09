@@ -10,7 +10,7 @@
  * @copyright Julien Veyssier 2019
  */
 
- namespace OCA\Cospend\Db;
+namespace OCA\Cospend\Db;
 
 use DateTime;
 use Exception;
@@ -20,7 +20,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 class BillMapper extends QBMapper {
-	const TABLE_NAME = 'cospend_bills';
+	public const TABLE_NAME = 'cospend_bills';
 
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, self::TABLE_NAME, Bill::class);
@@ -286,11 +286,11 @@ class BillMapper extends QBMapper {
 			);
 		$req = $qb->executeQuery();
 
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbWeight = (float) $row['weight'];
 			$dbName = $row['name'];
 			$dbActivated = (((int) $row['activated']) === 1);
-			$dbOwerId= (int) $row['memberid'];
+			$dbOwerId = (int) $row['memberid'];
 			$billOwers[] = [
 				'id' => $dbOwerId,
 				'weight' => $dbWeight,
@@ -313,7 +313,7 @@ class BillMapper extends QBMapper {
 				$qb->expr()->eq('id', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
 			);
 		$req = $qb->executeQuery();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$bill = [
 				'id' => (int) $row['id'],
 				'amount' => (float) $row['amount'],
@@ -360,10 +360,10 @@ class BillMapper extends QBMapper {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function getBills(string $projectId, ?int $tsMin = null, ?int $tsMax = null,
-							 ?string $paymentMode = null, ?int $paymentModeId = null,
-							 ?int $category = null, ?float $amountMin = null, ?float $amountMax = null,
-							 ?int $lastchanged = null, ?int $limit = null,
-							 bool $reverse = false, ?int $payerId = null, ?int $deleted = 0): array {
+		?string $paymentMode = null, ?int $paymentModeId = null,
+		?int $category = null, ?float $amountMin = null, ?float $amountMax = null,
+		?int $lastchanged = null, ?int $limit = null,
+		bool $reverse = false, ?int $payerId = null, ?int $deleted = 0): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('bi.id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
 			'paymentmode', 'paymentmodeid', 'categoryid', 'bi.lastchanged', 'repeatallactive', 'repeatuntil', 'repeatfreq',
@@ -445,7 +445,7 @@ class BillMapper extends QBMapper {
 		$billDict = [];
 		// ordered list of bill ids
 		$orderedBillIds = [];
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbBillId = (int) $row['id'];
 			// if first time we see the bill : add it to bill list
 			if (!isset($billDict[$dbBillId])) {
@@ -491,7 +491,7 @@ class BillMapper extends QBMapper {
 			$dbWeight = (float) $row['weight'];
 			$dbName = $row['name'];
 			$dbActivated = ((int) $row['activated']) === 1;
-			$dbOwerId= (int) $row['memberid'];
+			$dbOwerId = (int) $row['memberid'];
 			$billDict[$dbBillId]['owers'][] = [
 				'id' => $dbOwerId,
 				'weight' => $dbWeight,
@@ -624,7 +624,7 @@ class BillMapper extends QBMapper {
 
 		$bills = [];
 		$includeBillFound = false;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			if ($includeBillId !== null && $includeBillId === (int) $row['id']) {
 				$includeBillFound = true;
 			}
@@ -640,7 +640,7 @@ class BillMapper extends QBMapper {
 				$qb->setFirstResult($offset);
 				$req = $qb->executeQuery();
 				$lastResultCount = 0;
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					if ($includeBillId === (int) $row['id']) {
 						$includeBillFound = true;
 					}
@@ -667,11 +667,11 @@ class BillMapper extends QBMapper {
 				);
 			$qb->setFirstResult(0);
 			$req = $qb->executeQuery();
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbWeight = (float) $row['weight'];
 				$dbName = $row['name'];
 				$dbActivated = ((int) $row['activated']) === 1;
-				$dbOwerId= (int) $row['memberid'];
+				$dbOwerId = (int) $row['memberid'];
 				$billOwers[] = [
 					'id' => $dbOwerId,
 					'weight' => $dbWeight,
@@ -787,7 +787,7 @@ class BillMapper extends QBMapper {
 
 		// bills by id
 		$bills = [];
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbBillId = (int) $row['id'];
 			$dbAmount = (float) $row['amount'];
 			$dbWhat = $row['what'];

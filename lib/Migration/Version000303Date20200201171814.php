@@ -6,10 +6,10 @@ namespace OCA\Cospend\Migration;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
-use OCP\Migration\SimpleMigrationStep;
-use OCP\Migration\IOutput;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
 /**
  * Auto-generated migration step: Please modify to your needs!
@@ -66,8 +66,8 @@ class Version000303Date20200201171814 extends SimpleMigrationStep {
 		$qb->update('cospend_shares')
 		   ->set('type', $qb->createNamedParameter('g', IQueryBuilder::PARAM_STR))
 		   ->where(
-			   $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
+		   	$qb->expr()->eq('isgroupshare', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
 		   );
-	   $qb->executeStatement();
+		$qb->executeStatement();
 	}
 }

@@ -12,17 +12,17 @@
 namespace OCA\Cospend\AppInfo;
 
 use OCA\Cospend\Capabilities;
+use OCA\Cospend\Dashboard\CospendWidget;
 use OCA\Cospend\Middleware\PublicAuthMiddleware;
 use OCA\Cospend\Middleware\UserPermissionMiddleware;
+use OCA\Cospend\Notification\Notifier;
+use OCA\Cospend\Search\CospendSearchProvider;
 use OCA\Cospend\UserMigration\UserMigrator;
 use OCP\AppFramework\App;
-use OCP\AppFramework\Bootstrap\IRegistrationContext;
+
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
-
-use OCA\Cospend\Search\CospendSearchProvider;
-use OCA\Cospend\Dashboard\CospendWidget;
-use OCA\Cospend\Notification\Notifier;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Util;
 
 class Application extends App implements IBootstrap {
@@ -85,11 +85,8 @@ class Application extends App implements IBootstrap {
 	public function __construct(array $urlParams = []) {
 		parent::__construct(self::APP_ID, $urlParams);
 		// TODO
-		// - test middlewares
 		// - rename db columns with underscores, change new APIs param names, keep a second jsonSerialize method for old APIs
 		// - check if it makes sense to have a paypal integration
-		// - check if moneybuster still works after the api refactoring
-		// - adjust moneybuster to new pub/priv apis
 		// - check how to switch to numerical project IDs (keep unique slug for client compatibility)
 	}
 
@@ -110,4 +107,3 @@ class Application extends App implements IBootstrap {
 		Util::addStyle(self::APP_ID, 'cospend-search');
 	}
 }
-

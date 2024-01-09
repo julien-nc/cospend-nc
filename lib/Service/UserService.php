@@ -12,12 +12,12 @@
 
 namespace OCA\Cospend\Service;
 
-use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\IGroupManager;
-use OCP\IDBConnection;
-
 use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\ProjectMapper;
+use OCP\DB\QueryBuilder\IQueryBuilder;
+
+use OCP\IDBConnection;
+use OCP\IGroupManager;
 
 class UserService {
 

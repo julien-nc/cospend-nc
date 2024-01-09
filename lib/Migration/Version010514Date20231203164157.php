@@ -10,8 +10,8 @@ use OCP\DB\ISchemaWrapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\Types;
 use OCP\IDBConnection;
-use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
 class Version010514Date20231203164157 extends SimpleMigrationStep {
 

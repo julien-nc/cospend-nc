@@ -7,8 +7,8 @@ namespace OCA\Cospend\Migration;
 use Closure;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\Types;
-use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
 class Version010512Date20231201151136 extends SimpleMigrationStep {
 

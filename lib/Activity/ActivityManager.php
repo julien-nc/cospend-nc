@@ -25,61 +25,42 @@ namespace OCA\Cospend\Activity;
 
 use Exception;
 use InvalidArgumentException;
-use OCA\Cospend\Service\UserService;
-use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Db\Bill;
-use OCA\Cospend\Db\ProjectMapper;
+use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Db\Project;
+use OCA\Cospend\Db\ProjectMapper;
+use OCA\Cospend\Service\UserService;
 
-use OCP\AppFramework\Db\Entity;
-use Psr\Log\LoggerInterface;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\IL10N;
+use Psr\Log\LoggerInterface;
 use function get_class;
 
 class ActivityManager {
 
-	private $manager;
-	private $userId;
-	private $projectMapper;
-	private $billMapper;
-	private $l10n;
+	public const COSPEND_OBJECT_BILL = 'cospend_bill';
+	public const COSPEND_OBJECT_PROJECT = 'cospend_project';
 
-	const COSPEND_OBJECT_BILL = 'cospend_bill';
-	const COSPEND_OBJECT_PROJECT = 'cospend_project';
+	public const SUBJECT_BILL_CREATE = 'bill_create';
+	public const SUBJECT_BILL_UPDATE = 'bill_update';
+	public const SUBJECT_BILL_DELETE = 'bill_delete';
 
-	const SUBJECT_BILL_CREATE = 'bill_create';
-	const SUBJECT_BILL_UPDATE = 'bill_update';
-	const SUBJECT_BILL_DELETE = 'bill_delete';
+	public const SUBJECT_PROJECT_SHARE = 'project_share';
+	public const SUBJECT_PROJECT_UNSHARE = 'project_unshare';
 
-	const SUBJECT_PROJECT_SHARE = 'project_share';
-	const SUBJECT_PROJECT_UNSHARE = 'project_unshare';
-	/**
-	 * @var UserService
-	 */
-	private $userService;
-	/**
-	 * @var LoggerInterface
-	 */
-	private $logger;
-
-	public function __construct(IManager $manager,
-								UserService $userService,
-								ProjectMapper $projectMapper,
-								BillMapper $billMapper,
-								IL10N $l10n,
-								LoggerInterface $logger,
-								?string $userId) {
-		$this->manager = $manager;
-		$this->userService = $userService;
-		$this->projectMapper = $projectMapper;
-		$this->billMapper = $billMapper;
-		$this->l10n = $l10n;
-		$this->userId = $userId;
-		$this->logger = $logger;
+	public function __construct(
+		private IManager $manager,
+		private UserService $userService,
+		private ProjectMapper $projectMapper,
+		private BillMapper $billMapper,
+		private IL10N $l10n,
+		private LoggerInterface $logger,
+		private ?string $userId,
+	) {
 	}
 
 	/**
@@ -222,7 +203,7 @@ class ActivityManager {
 	 * @param $entity
 	 * @return Entity
 	 */
-	private function findObjectForEntity($objectType, $entity): Entity	{
+	private function findObjectForEntity($objectType, $entity): Entity {
 		$className = get_class($entity);
 		if ($objectType === self::COSPEND_OBJECT_BILL) {
 			switch ($className) {

@@ -17,32 +17,32 @@
  */
 namespace OCA\Cospend;
 
+use OCA\Cospend\Activity\ActivityManager;
+use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Controller\ApiController;
 use OCA\Cospend\Controller\PublicApiController;
+use OCA\Cospend\Db\BillMapper;
+use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Exception\CospendPublicAuthNotValidException;
 use OCA\Cospend\Exception\CospendUserPermissionsException;
 use OCA\Cospend\Middleware\PublicAuthMiddleware;
 use OCA\Cospend\Middleware\UserPermissionMiddleware;
+use OCA\Cospend\Service\ProjectService;
+use OCA\Cospend\Service\UserService;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
+use OCP\Files\IRootFolder;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
+
 use OCP\IServerContainer;
+use OCP\IUserManager;
+use OCP\Notification\IManager as INotificationManager;
+use OCP\Share\IManager as IShareManager;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use OCP\Notification\IManager as INotificationManager;
-use OCP\Files\IRootFolder;
-use OCP\IGroupManager;
-use OCP\Share\IManager as IShareManager;
-use OCP\App\IAppManager;
-use OCP\IUserManager;
-
-use OCA\Cospend\AppInfo\Application;
-use OCA\Cospend\Activity\ActivityManager;
-use OCA\Cospend\Service\UserService;
-use OCA\Cospend\Db\ProjectMapper;
-use OCA\Cospend\Db\BillMapper;
-use OCA\Cospend\Service\ProjectService;
 
 class MiddlewaresTest extends TestCase {
 
@@ -89,7 +89,7 @@ class MiddlewaresTest extends TestCase {
 		$app = new Application();
 		$c = $app->getContainer();
 		$sc = $c->get(IServerContainer::class);
-//		$sc = $c->get(ContainerInterface::class);
+		//		$sc = $c->get(ContainerInterface::class);
 		$l10n = $c->get(IL10N::class);
 		$this->billMapper = new BillMapper($sc->getDatabaseConnection());
 		$this->projectMapper = new ProjectMapper($sc->getDatabaseConnection(), $l10n);
@@ -304,7 +304,7 @@ class MiddlewaresTest extends TestCase {
 		$this->request
 			->expects($this->any())
 			->method('getParam')
-			->willReturnCallback(static function($key) use (&$requestResponse) {
+			->willReturnCallback(static function ($key) use (&$requestResponse) {
 				return $key === 'token'
 					? $requestResponse['token']
 					: $requestResponse['password'];

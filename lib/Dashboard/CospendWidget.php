@@ -23,11 +23,11 @@
 
 namespace OCA\Cospend\Dashboard;
 
+use OCA\Cospend\AppInfo\Application;
 use OCP\Dashboard\IWidget;
 use OCP\IL10N;
-use OCP\IURLGenerator;
 
-use OCA\Cospend\AppInfo\Application;
+use OCP\IURLGenerator;
 use OCP\Util;
 
 class CospendWidget implements IWidget {

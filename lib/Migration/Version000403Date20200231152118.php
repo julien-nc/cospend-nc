@@ -6,10 +6,10 @@ namespace OCA\Cospend\Migration;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
-use OCP\Migration\SimpleMigrationStep;
-use OCP\Migration\IOutput;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
 /**
  * Auto-generated migration step: Please modify to your needs!
@@ -71,7 +71,7 @@ class Version000403Date20200231152118 extends SimpleMigrationStep {
 		$qb->update('cospend_shares')
 		   ->set('accesslevel', $qb->createNamedParameter(2, IQueryBuilder::PARAM_INT))
 		   ->where(
-			   $qb->expr()->neq('permissions', $qb->createNamedParameter('', IQueryBuilder::PARAM_STR))
+		   	$qb->expr()->neq('permissions', $qb->createNamedParameter('', IQueryBuilder::PARAM_STR))
 		   );
 		$qb->executeStatement();
 		$qb = $qb->resetQueryParts();
@@ -79,7 +79,7 @@ class Version000403Date20200231152118 extends SimpleMigrationStep {
 		$qb->update('cospend_shares')
 		   ->set('accesslevel', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
 		   ->where(
-			   $qb->expr()->eq('permissions', $qb->createNamedParameter('', IQueryBuilder::PARAM_STR))
+		   	$qb->expr()->eq('permissions', $qb->createNamedParameter('', IQueryBuilder::PARAM_STR))
 		   );
 		$qb->executeStatement();
 		$qb = $qb->resetQueryParts();
@@ -88,7 +88,7 @@ class Version000403Date20200231152118 extends SimpleMigrationStep {
 		$qb->update('cospend_projects')
 		   ->set('guestaccesslevel', $qb->createNamedParameter(2, IQueryBuilder::PARAM_INT))
 		   ->where(
-			   $qb->expr()->neq('guestpermissions', $qb->createNamedParameter('', IQueryBuilder::PARAM_STR))
+		   	$qb->expr()->neq('guestpermissions', $qb->createNamedParameter('', IQueryBuilder::PARAM_STR))
 		   );
 		$qb->executeStatement();
 		$qb = $qb->resetQueryParts();
@@ -96,7 +96,7 @@ class Version000403Date20200231152118 extends SimpleMigrationStep {
 		$qb->update('cospend_projects')
 		   ->set('guestaccesslevel', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
 		   ->where(
-			   $qb->expr()->eq('guestpermissions', $qb->createNamedParameter('', IQueryBuilder::PARAM_STR))
+		   	$qb->expr()->eq('guestpermissions', $qb->createNamedParameter('', IQueryBuilder::PARAM_STR))
 		   );
 		$qb->executeStatement();
 		$qb = $qb->resetQueryParts();

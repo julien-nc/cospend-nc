@@ -11,6 +11,7 @@ $config
 	->notPath('build')
 	->notPath('l10n')
 	->notPath('src')
+	->notPath('node_modules')
 	->notPath('vendor')
 	->in(__DIR__);
 return $config;

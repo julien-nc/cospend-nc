@@ -1,6 +1,6 @@
 # Nextcloud Cospend 💰
 
-Nextcloud Cospend is a group/shared budget manager. It was inspired by the great [IHateMoney](https://github.com/spiral-project/ihatemoney/).
+Nextcloud Cospend управлява бюджет за група/споделен бюджет. It was inspired by the great [IHateMoney](https://github.com/spiral-project/ihatemoney/).
 
 Можете да го използвате, когато делите къща, когато ходите на почивка с приятели и винаги, когато делите пари с други хора.
 

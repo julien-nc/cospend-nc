@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-01-02 13:23+0100\n"
-"PO-Revision-Date: 2024-01-02 12:23\n"
+"PO-Revision-Date: 2024-01-12 10:04\n"
 "Last-Translator: \n"
 "Language-Team: Bulgarian\n"
 "Language: bg_BG\n"
@@ -85,7 +85,7 @@ msgstr "Промени в <strong>приложението Cospend</strong>"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/ApiController.php:437
 msgid "You are not allowed to access the destination project"
-msgstr ""
+msgstr "Достъпът до този проект не Ви е разрешен"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/ApiController.php:709
 msgid "You are not allowed to give such shared access level"

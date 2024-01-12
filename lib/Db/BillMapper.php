@@ -19,6 +19,9 @@ use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
+/**
+ * @extends QBMapper<Bill>
+ */
 class BillMapper extends QBMapper {
 	public const TABLE_NAME = 'cospend_bills';
 
@@ -453,7 +456,7 @@ class BillMapper extends QBMapper {
 				$dbWhat = $row['what'];
 				$dbComment = $row['comment'];
 				$dbTimestamp = (int) $row['timestamp'];
-				$dbDate = DateTime::createFromFormat('U', $dbTimestamp);
+				$dbDate = DateTime::createFromFormat('U', $row['timestamp']);
 				$dbRepeat = $row['repeat'];
 				$dbPayerId = (int) $row['payerid'];
 				$dbPaymentMode = $row['paymentmode'];
@@ -695,7 +698,7 @@ class BillMapper extends QBMapper {
 		$dbWhat = $row['what'];
 		$dbComment = $row['comment'];
 		$dbTimestamp = (int) $row['timestamp'];
-		$dbDate = DateTime::createFromFormat('U', $dbTimestamp);
+		$dbDate = DateTime::createFromFormat('U', $row['timestamp']);
 		$dbRepeat = $row['repeat'];
 		$dbPayerId = (int) $row['payerid'];
 		$dbPaymentMode = $row['paymentmode'];

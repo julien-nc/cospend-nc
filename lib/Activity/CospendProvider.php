@@ -38,6 +38,8 @@ use OCP\IUserManager;
 
 class CospendProvider implements IProvider {
 
+	private array $projectNames;
+
 	public function __construct(
 		private IURLGenerator $urlGenerator,
 		private ActivityManager $activityManager,

@@ -19,6 +19,9 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IL10N;
 
+/**
+ * @extends QBMapper<Project>
+ */
 class ProjectMapper extends QBMapper {
 	public const TABLENAME = 'cospend_projects';
 
@@ -136,7 +139,9 @@ class ProjectMapper extends QBMapper {
 			throw new Exception('Project ' . $id . ' not found');
 		}
 
-		return $this->mapRowToEntity($row);
+		/** @var Project $project */
+		$project = $this->mapRowToEntity($row);
+		return $project;
 	}
 
 	/**

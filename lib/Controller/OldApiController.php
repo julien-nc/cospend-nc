@@ -845,10 +845,7 @@ class OldApiController extends ApiController {
 		$result = $this->projectService->createPaymentMode(
 			$publicShareInfo['projectid'], $name, $icon, $color, $order
 		);
-		if (is_numeric($result)) {
-			return new DataResponse($result);
-		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+		return new DataResponse($result);
 	}
 
 	#[NoAdminRequired]
@@ -857,10 +854,7 @@ class OldApiController extends ApiController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivAddPaymentMode(string $projectId, string $name, ?string $icon = null, ?string $color = null): DataResponse {
 		$result = $this->projectService->createPaymentMode($projectId, $name, $icon, $color);
-		if (is_numeric($result)) {
-			return new DataResponse($result);
-		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+		return new DataResponse($result);
 	}
 
 	#[NoAdminRequired]
@@ -875,7 +869,7 @@ class OldApiController extends ApiController {
 		$result = $this->projectService->editPaymentMode(
 			$publicShareInfo['projectid'], $pmid, $name, $icon, $color
 		);
-		if (is_array($result)) {
+		if (isset($result['name'])) {
 			return new DataResponse($result);
 		}
 		return new DataResponse($result, Http::STATUS_FORBIDDEN);
@@ -902,7 +896,7 @@ class OldApiController extends ApiController {
 	public function apiPrivEditPaymentMode(string $projectId, int $pmid, ?string $name = null,
 		?string $icon = null, ?string $color = null): DataResponse {
 		$result = $this->projectService->editPaymentMode($projectId, $pmid, $name, $icon, $color);
-		if (is_array($result)) {
+		if (isset($result['name'])) {
 			return new DataResponse($result);
 		}
 		return new DataResponse($result, Http::STATUS_FORBIDDEN);
@@ -946,11 +940,7 @@ class OldApiController extends ApiController {
 		$result = $this->projectService->createCategory(
 			$publicShareInfo['projectid'], $name, $icon, $color, $order
 		);
-		if (is_numeric($result)) {
-			// inserted category id
-			return new DataResponse($result);
-		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+		return new DataResponse($result);
 	}
 
 	#[NoAdminRequired]
@@ -959,11 +949,7 @@ class OldApiController extends ApiController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivAddCategory(string $projectId, string $name, ?string $icon = null, ?string $color = null): DataResponse {
 		$result = $this->projectService->createCategory($projectId, $name, $icon, $color);
-		if (is_numeric($result)) {
-			// inserted category id
-			return new DataResponse($result);
-		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+		return new DataResponse($result);
 	}
 
 	#[NoAdminRequired]
@@ -978,7 +964,7 @@ class OldApiController extends ApiController {
 		$result = $this->projectService->editCategory(
 			$publicShareInfo['projectid'], $categoryid, $name, $icon, $color
 		);
-		if (is_array($result)) {
+		if (isset($result['name'])) {
 			return new DataResponse($result);
 		}
 		return new DataResponse($result, Http::STATUS_FORBIDDEN);
@@ -1005,7 +991,7 @@ class OldApiController extends ApiController {
 	public function apiPrivEditCategory(string $projectId, int $categoryid, ?string $name = null,
 		?string $icon = null, ?string $color = null): DataResponse {
 		$result = $this->projectService->editCategory($projectId, $categoryid, $name, $icon, $color);
-		if (is_array($result)) {
+		if (isset($result['name'])) {
 			return new DataResponse($result);
 		}
 		return new DataResponse($result, Http::STATUS_FORBIDDEN);
@@ -1047,11 +1033,7 @@ class OldApiController extends ApiController {
 	public function apiAddCurrency(string $token, string $name, float $rate): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->createCurrency($publicShareInfo['projectid'], $name, $rate);
-		if (is_numeric($result)) {
-			// inserted currency id
-			return new DataResponse($result);
-		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+		return new DataResponse($result);
 	}
 
 	#[NoAdminRequired]
@@ -1060,11 +1042,7 @@ class OldApiController extends ApiController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivAddCurrency(string $projectId, string $name, float $rate): DataResponse {
 		$result = $this->projectService->createCurrency($projectId, $name, $rate);
-		if (is_numeric($result)) {
-			// inserted bill id
-			return new DataResponse($result);
-		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+		return new DataResponse($result);
 	}
 
 	#[NoAdminRequired]

@@ -6,6 +6,8 @@ namespace OCA\Cospend\Middleware;
 
 use Exception;
 use OCA\Cospend\Attribute\CospendUserPermissions;
+use OCA\Cospend\Controller\ApiController;
+use OCA\Cospend\Controller\OldApiController;
 use OCA\Cospend\Exception\CospendUserPermissionsException;
 use OCA\Cospend\Service\ProjectService;
 use OCP\AppFramework\Controller;
@@ -28,6 +30,9 @@ class UserPermissionMiddleware extends Middleware {
 	}
 
 	public function beforeController($controller, $methodName): void {
+		if (!$controller instanceof ApiController && !$controller instanceof OldApiController) {
+			return;
+		}
 		$reflectionMethod = new ReflectionMethod($controller, $methodName);
 
 		$attributes = $reflectionMethod->getAttributes(CospendUserPermissions::class);

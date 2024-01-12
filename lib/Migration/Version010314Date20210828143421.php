@@ -20,6 +20,7 @@ class Version010314Date20210828143421 extends SimpleMigrationStep {
 
 	/** @var IDBConnection */
 	private $connection;
+	private IL10N $trans;
 
 	/**
 	 * @param IDBConnection $connection

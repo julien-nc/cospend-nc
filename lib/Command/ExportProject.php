@@ -12,14 +12,13 @@
 
 namespace OCA\Cospend\Command;
 
+use OC\Core\Command\Base;
 use OCA\Cospend\Service\ProjectService;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ExportProject extends Command {
+class ExportProject extends Base {
 
 	public function __construct(private ProjectService $projectService) {
 		parent::__construct();

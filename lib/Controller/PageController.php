@@ -103,7 +103,7 @@ class PageController extends Controller {
 
 		$svg = file_get_contents($path);
 
-		if ($svg === null) {
+		if ($svg === false) {
 			return new NotFoundResponse();
 		}
 
@@ -161,7 +161,7 @@ class PageController extends Controller {
 
 	/**
 	 * @param string $token
-	 * @return PublicTemplateResponse
+	 * @return TemplateResponse
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
@@ -204,7 +204,7 @@ class PageController extends Controller {
 	/**
 	 * @param string $token
 	 * @param string|null $password
-	 * @return PublicTemplateResponse
+	 * @return TemplateResponse
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]

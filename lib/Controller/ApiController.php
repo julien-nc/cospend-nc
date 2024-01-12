@@ -802,10 +802,7 @@ class ApiController extends OCSController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function createPaymentMode(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
 		$result = $this->projectService->createPaymentMode($projectId, $name, $icon, $color, $order);
-		if (is_numeric($result)) {
-			return new DataResponse($result);
-		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+		return new DataResponse($result);
 	}
 
 	/**
@@ -825,7 +822,7 @@ class ApiController extends OCSController {
 		string $projectId, int $pmId, ?string $name = null, ?string $icon = null, ?string $color = null
 	): DataResponse {
 		$result = $this->projectService->editPaymentMode($projectId, $pmId, $name, $icon, $color);
-		if (is_array($result)) {
+		if (isset($result['name'])) {
 			return new DataResponse($result);
 		}
 		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
@@ -882,10 +879,7 @@ class ApiController extends OCSController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function createCategory(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
 		$result = $this->projectService->createCategory($projectId, $name, $icon, $color, $order);
-		if (is_numeric($result)) {
-			return new DataResponse($result);
-		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+		return new DataResponse($result);
 	}
 
 	/**
@@ -906,7 +900,7 @@ class ApiController extends OCSController {
 		string $projectId, int $categoryId, ?string $name = null, ?string $icon = null, ?string $color = null
 	): DataResponse {
 		$result = $this->projectService->editCategory($projectId, $categoryId, $name, $icon, $color);
-		if (is_array($result)) {
+		if (isset($result['name'])) {
 			return new DataResponse($result);
 		}
 		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
@@ -964,10 +958,7 @@ class ApiController extends OCSController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function createCurrency(string $projectId, string $name, float $rate): DataResponse {
 		$result = $this->projectService->createCurrency($projectId, $name, $rate);
-		if (is_numeric($result)) {
-			return new DataResponse($result);
-		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+		return new DataResponse($result);
 	}
 
 	/**
@@ -1075,10 +1066,7 @@ class ApiController extends OCSController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function createPublicShare(string $projectId): DataResponse {
 		$result = $this->projectService->createPublicShare($projectId);
-		if (is_array($result)) {
-			return new DataResponse($result);
-		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+		return new DataResponse($result);
 	}
 
 	/**

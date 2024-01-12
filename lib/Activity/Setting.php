@@ -28,7 +28,7 @@ use OCP\IL10N;
 
 class Setting implements ISetting {
 
-	public function __construct(private IL10N $l) {
+	public function __construct(protected IL10N $l) {
 	}
 
 	/**

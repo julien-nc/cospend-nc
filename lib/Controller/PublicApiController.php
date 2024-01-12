@@ -718,11 +718,7 @@ class PublicApiController extends OCSController {
 		$result = $this->projectService->createPaymentMode(
 			$publicShareInfo['projectid'], $name, $icon, $color, $order
 		);
-		if (is_numeric($result)) {
-			return new DataResponse($result);
-		} else {
-			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-		}
+		return new DataResponse($result);
 	}
 
 	/**
@@ -747,7 +743,7 @@ class PublicApiController extends OCSController {
 		$result = $this->projectService->editPaymentMode(
 			$publicShareInfo['projectid'], $pmId, $name, $icon, $color
 		);
-		if (is_array($result)) {
+		if (isset($result['name'])) {
 			return new DataResponse($result);
 		} else {
 			return new DataResponse($result, Http::STATUS_FORBIDDEN);
@@ -818,12 +814,7 @@ class PublicApiController extends OCSController {
 		$result = $this->projectService->createCategory(
 			$publicShareInfo['projectid'], $name, $icon, $color, $order
 		);
-		if (is_numeric($result)) {
-			// inserted category id
-			return new DataResponse($result);
-		} else {
-			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-		}
+		return new DataResponse($result);
 	}
 
 	/**
@@ -850,7 +841,7 @@ class PublicApiController extends OCSController {
 		$result = $this->projectService->editCategory(
 			$publicShareInfo['projectid'], $categoryId, $name, $icon, $color
 		);
-		if (is_array($result)) {
+		if (isset($result['name'])) {
 			return new DataResponse($result);
 		} else {
 			return new DataResponse($result, Http::STATUS_FORBIDDEN);
@@ -919,12 +910,7 @@ class PublicApiController extends OCSController {
 	public function publicCreateCurrency(string $token, string $name, float $rate): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		$result = $this->projectService->createCurrency($publicShareInfo['projectid'], $name, $rate);
-		if (is_numeric($result)) {
-			// inserted currency id
-			return new DataResponse($result);
-		} else {
-			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-		}
+		return new DataResponse($result);
 	}
 
 	/**

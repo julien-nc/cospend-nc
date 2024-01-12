@@ -149,12 +149,13 @@ class ActivityManager {
 			case self::SUBJECT_BILL_UPDATE:
 			case self::SUBJECT_BILL_DELETE:
 				$subjectParams = $this->findDetailsForBill($object);
+				/** @var Bill $object */
 				$objectName = $object->getWhat();
 				$eventType = 'cospend_bill_event';
 				break;
 			case self::SUBJECT_PROJECT_SHARE:
 			case self::SUBJECT_PROJECT_UNSHARE:
-				$subjectParams = $this->findDetailsForProject($entity->getId());
+				$subjectParams = $this->findDetailsForProject((string) $entity->getId());
 				$objectName = $object->getId();
 				break;
 			default:
@@ -166,13 +167,15 @@ class ActivityManager {
 		$event->setApp('cospend')
 			->setType($eventType)
 			->setAuthor($author === null ? $this->userId ?? '' : $author)
-			->setObject($objectType, (int)$object->getId(), $objectName)
+			->setObject($objectType, (int)$object->getId(), (string) $objectName)
 			->setSubject($subject, array_merge($subjectParams, $additionalParams))
 			->setTimestamp(time());
 
+		/*
 		if ($message !== null) {
 			$event->setMessage($message);
 		}
+		*/
 		return $event;
 	}
 

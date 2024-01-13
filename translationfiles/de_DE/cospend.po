@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-01-02 13:23+0100\n"
-"PO-Revision-Date: 2024-01-04 12:27\n"
+"PO-Revision-Date: 2024-01-13 10:04\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -206,7 +206,7 @@ msgstr "Projektpasswort ist ungültig"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Middleware/PublicAuthMiddleware.php:53
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Middleware/UserPermissionMiddleware.php:45
 msgid "Insufficient access level"
-msgstr ""
+msgstr "Insufficient access level"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:92
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:74
@@ -256,7 +256,7 @@ msgstr "Unterkunft"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:102
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:119
 msgid "Transport"
-msgstr ""
+msgstr "Übertragung"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:103
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:124

@@ -1502,14 +1502,14 @@ class ProjectService {
 		if ($weight !== null && $weight <= 0.0) {
 			return ['error' => $this->l10n->t('Weight is not a valid decimal value')];
 		}
-		if ($color !== null && $color !== '' && (strlen($color) !== 4 || strlen($color) !== 7)) {
+		if ($color !== null && $color !== '' && strlen($color) !== 4 && strlen($color) !== 7) {
 			return ['error' => $this->l10n->t('Invalid color value')];
 		}
 		if ($this->memberMapper->getMemberByName($projectId, $name) !== null) {
 			return ['error' => $this->l10n->t('This project already has this member')];
 		}
 		if ($userId !== null && $this->memberMapper->getMemberByUserid($projectId, $userId) !== null) {
-			return ['error' => $this->l10n->t('This project already has this member')];
+			return ['error' => $this->l10n->t('This project already has this member (user)')];
 		}
 
 		$newMember = new Member();

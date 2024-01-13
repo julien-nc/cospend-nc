@@ -287,8 +287,8 @@ class ApiControllerTest extends TestCase {
 
 		$resp = $this->apiController->createMember('superproj', 'robert4', 'test', 1.2, 0, '#123456');
 		$status = $resp->getStatus();
-		$this->assertEquals(Http::STATUS_OK, $status);
 		$data = $resp->getData();
+		$this->assertEquals(Http::STATUS_OK, $status, json_encode($data));
 		$idMember4 = $data['id'];
 
 		$member = $this->projectService->getMemberByUserid('superproj', 'test');

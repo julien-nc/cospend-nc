@@ -19,6 +19,7 @@ use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Attribute\CospendUserPermissions;
 use OCA\Cospend\Db\BillMapper;
+use OCA\Cospend\ResponseDefinitions;
 use OCA\Cospend\Service\ProjectService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\CORS;
@@ -43,6 +44,10 @@ use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 
+/**
+ * @psalm-import-type CospendProjectInfoAndMyAccessLevel from ResponseDefinitions
+ * @psalm-import-type CospendMember from ResponseDefinitions
+ */
 class ApiController extends OCSController {
 
 	public function __construct(
@@ -112,7 +117,11 @@ class ApiController extends OCSController {
 	 * @param string $name
 	 * @param string|null $contact_email
 	 * @return DataResponse
+	 * <Http::STATUS_OK, CospendProjectInfoAndMyAccessLevel, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{message?: string}, array{}>
 	 * @throws Exception
+	 *
+	 * 200: Project successfully created
+	 * 400: Failed to create project
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -134,6 +143,72 @@ class ApiController extends OCSController {
 	}
 
 	/**
+	 * Get project list
+	 *
+	 * @return DataResponse
+	 */
+	#[NoAdminRequired]
+	#[CORS]
+	public function getProjects(): DataResponse {
+		return new DataResponse(
+			$this->projectService->getProjects($this->userId)
+		);
+	}
+
+	/**
+	 * Get project information
+	 *
+	 * @param string $projectId
+	 * @return DataResponse
+	 * <Http::STATUS_OK, CospendProjectInfoAndMyAccessLevel, array{}>
+	 * @throws Exception
+	 *
+	 * 200: Project info
+	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	public function getProjectInfo(string $projectId): DataResponse {
+		$projectInfo = $this->projectService->getProjectInfo($projectId);
+		$projectInfo['myaccesslevel'] = $this->projectService->getUserMaxAccessLevel($this->userId, $projectId);
+		return new DataResponse($projectInfo);
+	}
+
+	/**
+	 * Edit a project
+	 *
+	 * @param string $projectId
+	 * @param string|null $name
+	 * @param string|null $contact_email
+	 * @param string|null $autoexport
+	 * @param string|null $currencyname
+	 * @param bool|null $deletion_disabled
+	 * @param string|null $categorysort
+	 * @param string|null $paymentmodesort
+	 * @param int|null $archived_ts
+	 * @return DataResponse
+	 * @throws Exception
+	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
+	public function editProject(
+		string $projectId, ?string $name = null, ?string $contact_email = null,
+		?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
+		?string $categorysort = null, ?string $paymentmodesort = null, ?int $archived_ts = null
+	): DataResponse {
+		$result = $this->projectService->editProject(
+			$projectId, $name, $contact_email, $autoexport,
+			$currencyname, $deletion_disabled, $categorysort, $paymentmodesort, $archived_ts
+		);
+		if (isset($result['success'])) {
+			return new DataResponse('UPDATED');
+		} else {
+			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+		}
+	}
+
+	/**
 	 * Delete a project
 	 *
 	 * @param string $projectId
@@ -149,107 +224,6 @@ class ApiController extends OCSController {
 		} else {
 			return new DataResponse(['message' => $result['error']], Http::STATUS_NOT_FOUND);
 		}
-	}
-
-	/**
-	 * Clear the trashbin
-	 *
-	 * @param string $projectId
-	 * @return DataResponse
-	 */
-	#[NoAdminRequired]
-	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
-	public function clearTrashbin(string $projectId): DataResponse {
-		try {
-			$this->billMapper->deleteDeletedBills($projectId);
-			return new DataResponse('');
-		} catch (\Exception | \Throwable $e) {
-			return new DataResponse('', Http::STATUS_BAD_REQUEST);
-		}
-	}
-
-	/**
-	 * Delete a bill
-	 *
-	 * @param string $projectId
-	 * @param int $billId
-	 * @param bool $moveToTrash
-	 * @return DataResponse
-	 * @throws Exception
-	 */
-	#[NoAdminRequired]
-	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
-	public function deleteBill(string $projectId, int $billId, bool $moveToTrash = true): DataResponse {
-		$billObj = null;
-		if ($this->billMapper->getBill($projectId, $billId) !== null) {
-			$billObj = $this->billMapper->find($billId);
-		}
-
-		$result = $this->projectService->deleteBill($projectId, $billId, false, $moveToTrash);
-		if (isset($result['success'])) {
-			if (!is_null($billObj)) {
-				$this->activityManager->triggerEvent(
-					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
-					ActivityManager::SUBJECT_BILL_DELETE,
-					[]
-				);
-			}
-			return new DataResponse('OK');
-		} else {
-			return new DataResponse($result, Http::STATUS_FORBIDDEN);
-		}
-	}
-
-	/**
-	 * Delete multiple bills
-	 *
-	 * @param string $projectId
-	 * @param array $billIds
-	 * @param bool $moveToTrash
-	 * @return DataResponse
-	 * @throws Exception
-	 */
-	#[NoAdminRequired]
-	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
-	public function deleteBills(string $projectId, array $billIds, bool $moveToTrash = true): DataResponse {
-		foreach ($billIds as $billid) {
-			$billObj = null;
-			if ($this->billMapper->getBill($projectId, $billid) !== null) {
-				$billObj = $this->billMapper->find($billid);
-			}
-			$result = $this->projectService->deleteBill($projectId, $billid, false, $moveToTrash);
-			if (!isset($result['success'])) {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-			} else {
-				if (!is_null($billObj)) {
-					$this->activityManager->triggerEvent(
-						ActivityManager::COSPEND_OBJECT_BILL, $billObj,
-						ActivityManager::SUBJECT_BILL_DELETE,
-						[]
-					);
-				}
-			}
-		}
-		return new DataResponse('OK');
-	}
-
-	/**
-	 * Get project information
-	 *
-	 * @param string $projectId
-	 * @return DataResponse
-	 * @throws Exception
-	 */
-	#[NoAdminRequired]
-	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
-	public function getProjectInfo(string $projectId): DataResponse {
-		$projectInfo = $this->projectService->getProjectInfo($projectId);
-		$projectInfo['myaccesslevel'] = $this->projectService->getUserMaxAccessLevel($this->userId, $projectId);
-		return new DataResponse($projectInfo);
 	}
 
 	/**
@@ -321,6 +295,44 @@ class ApiController extends OCSController {
 	}
 
 	/**
+	 * Get a project's member list
+	 *
+	 * @param string $projectId
+	 * @param int|null $lastChanged
+	 * @return DataResponse<Http::STATUS_OK, CospendMember[], array{}>
+	 *
+	 * 200: List of members
+	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	public function getMembers(string $projectId, ?int $lastChanged = null): DataResponse {
+		$members = $this->projectService->getMembers($projectId, null, $lastChanged);
+		return new DataResponse($members);
+	}
+
+	/**
+	 * Delete or disable a member
+	 *
+	 * @param string $projectId
+	 * @param int $memberId
+	 * @return DataResponse<Http::STATUS_OK, string, array{}>|DataResponse<Http::STATUS_NOT_FOUND, array{error: string}, array{}>
+	 *
+	 * 200: Member was successfully disabled or deleted
+	 * 404: Member does not exist
+	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	public function deleteMember(string $projectId, int $memberId): DataResponse {
+		$result = $this->projectService->deleteMember($projectId, $memberId);
+		if (isset($result['success'])) {
+			return new DataResponse('OK');
+		}
+		return new DataResponse($result, Http::STATUS_NOT_FOUND);
+	}
+
+	/**
 	 * Edit a project member
 	 *
 	 * @param string $projectId
@@ -330,7 +342,10 @@ class ApiController extends OCSController {
 	 * @param null $activated
 	 * @param string|null $color
 	 * @param string|null $userid
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, null, array{}>|DataResponse<Http::STATUS_OK, CospendMember, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 *
+	 * 200: Member was successfully edited (and deleted if it was disabled and wasn't ower of any bill)
+	 * 400: Failed to edit the member
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -345,7 +360,7 @@ class ApiController extends OCSController {
 			$activated = false;
 		}
 		$result = $this->projectService->editMember($projectId, $memberId, $name, $userid, $weight, $activated, $color);
-		if (count($result) === 0) {
+		if (empty($result)) {
 			return new DataResponse(null);
 		} elseif (isset($result['activated'])) {
 			return new DataResponse($result);
@@ -354,6 +369,34 @@ class ApiController extends OCSController {
 		}
 	}
 
+	/**
+	 * Create a project member
+	 *
+	 * @param string $projectId
+	 * @param string $name
+	 * @param string|null $userid
+	 * @param float $weight
+	 * @param int $active
+	 * @param string|null $color
+	 * @return DataResponse<Http::STATUS_OK, CospendMember, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 * @throws Exception
+	 *
+	 * 200: The member was successfully created
+	 * 400: Failed to create the member
+	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	public function createMember(
+		string $projectId, string $name, ?string $userid = null, float $weight = 1,
+		int $active = 1, ?string $color = null
+	): DataResponse {
+		$result = $this->projectService->createMember($projectId, $name, $weight, $active !== 0, $color, $userid);
+		if (!isset($result['error'])) {
+			return new DataResponse($result);
+		}
+		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+	}
 
 	/**
 	 * Edit a bill
@@ -525,40 +568,6 @@ class ApiController extends OCSController {
 	}
 
 	/**
-	 * Edit a project
-	 *
-	 * @param string $projectId
-	 * @param string|null $name
-	 * @param string|null $contact_email
-	 * @param string|null $autoexport
-	 * @param string|null $currencyname
-	 * @param bool|null $deletion_disabled
-	 * @param string|null $categorysort
-	 * @param string|null $paymentmodesort
-	 * @param int|null $archived_ts
-	 * @return DataResponse
-	 * @throws Exception
-	 */
-	#[NoAdminRequired]
-	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
-	public function editProject(
-		string $projectId, ?string $name = null, ?string $contact_email = null,
-		?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
-		?string $categorysort = null, ?string $paymentmodesort = null, ?int $archived_ts = null
-	): DataResponse {
-		$result = $this->projectService->editProject(
-			$projectId, $name, $contact_email, $autoexport,
-			$currencyname, $deletion_disabled, $categorysort, $paymentmodesort, $archived_ts
-		);
-		if (isset($result['success'])) {
-			return new DataResponse('UPDATED');
-		} else {
-			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-		}
-	}
-
-	/**
 	 * Create a bill
 	 *
 	 * @param string $projectId
@@ -606,29 +615,88 @@ class ApiController extends OCSController {
 	}
 
 	/**
-	 * Create a project member
+	 * Clear the trashbin
 	 *
 	 * @param string $projectId
-	 * @param string $name
-	 * @param string|null $userid
-	 * @param float $weight
-	 * @param int $active
-	 * @param string|null $color
+	 * @return DataResponse
+	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	public function clearTrashbin(string $projectId): DataResponse {
+		try {
+			$this->billMapper->deleteDeletedBills($projectId);
+			return new DataResponse('');
+		} catch (\Exception | \Throwable $e) {
+			return new DataResponse('', Http::STATUS_BAD_REQUEST);
+		}
+	}
+
+	/**
+	 * Delete a bill
+	 *
+	 * @param string $projectId
+	 * @param int $billId
+	 * @param bool $moveToTrash
 	 * @return DataResponse
 	 * @throws Exception
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
-	public function createMember(
-		string $projectId, string $name, ?string $userid = null, float $weight = 1,
-		int $active = 1, ?string $color = null
-	): DataResponse {
-		$result = $this->projectService->createMember($projectId, $name, $weight, $active !== 0, $color, $userid);
-		if (!isset($result['error'])) {
-			return new DataResponse($result);
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	public function deleteBill(string $projectId, int $billId, bool $moveToTrash = true): DataResponse {
+		$billObj = null;
+		if ($this->billMapper->getBill($projectId, $billId) !== null) {
+			$billObj = $this->billMapper->find($billId);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+
+		$result = $this->projectService->deleteBill($projectId, $billId, false, $moveToTrash);
+		if (isset($result['success'])) {
+			if (!is_null($billObj)) {
+				$this->activityManager->triggerEvent(
+					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+					ActivityManager::SUBJECT_BILL_DELETE,
+					[]
+				);
+			}
+			return new DataResponse('OK');
+		} else {
+			return new DataResponse($result, Http::STATUS_FORBIDDEN);
+		}
+	}
+
+	/**
+	 * Delete multiple bills
+	 *
+	 * @param string $projectId
+	 * @param array $billIds
+	 * @param bool $moveToTrash
+	 * @return DataResponse
+	 * @throws Exception
+	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	public function deleteBills(string $projectId, array $billIds, bool $moveToTrash = true): DataResponse {
+		foreach ($billIds as $billid) {
+			$billObj = null;
+			if ($this->billMapper->getBill($projectId, $billid) !== null) {
+				$billObj = $this->billMapper->find($billid);
+			}
+			$result = $this->projectService->deleteBill($projectId, $billid, false, $moveToTrash);
+			if (!isset($result['success'])) {
+				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+			} else {
+				if (!is_null($billObj)) {
+					$this->activityManager->triggerEvent(
+						ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+						ActivityManager::SUBJECT_BILL_DELETE,
+						[]
+					);
+				}
+			}
+		}
+		return new DataResponse('OK');
 	}
 
 	/**
@@ -676,52 +744,6 @@ class ApiController extends OCSController {
 			'timestamp' => $ts,
 		];
 		return new DataResponse($result);
-	}
-
-	/**
-	 * Get project list
-	 *
-	 * @return DataResponse
-	 */
-	#[NoAdminRequired]
-	#[CORS]
-	public function getProjects(): DataResponse {
-		return new DataResponse(
-			$this->projectService->getProjects($this->userId)
-		);
-	}
-
-	/**
-	 * Get a project's member list
-	 *
-	 * @param string $projectId
-	 * @param int|null $lastChanged
-	 * @return DataResponse
-	 */
-	#[NoAdminRequired]
-	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
-	public function getMembers(string $projectId, ?int $lastChanged = null): DataResponse {
-		$members = $this->projectService->getMembers($projectId, null, $lastChanged);
-		return new DataResponse($members);
-	}
-
-	/**
-	 * Delete or disable a member
-	 *
-	 * @param string $projectId
-	 * @param int $memberId
-	 * @return DataResponse
-	 */
-	#[NoAdminRequired]
-	#[CORS]
-	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
-	public function deleteMember(string $projectId, int $memberId): DataResponse {
-		$result = $this->projectService->deleteMember($projectId, $memberId);
-		if (isset($result['success'])) {
-			return new DataResponse('OK');
-		}
-		return new DataResponse($result, Http::STATUS_NOT_FOUND);
 	}
 
 	/**

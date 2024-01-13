@@ -64,6 +64,13 @@ class Application extends App implements IBootstrap {
 	public const ACCESS_LEVEL_PARTICIPANT = 2;
 	public const ACCESS_LEVEL_MAINTAINER = 3;
 	public const ACCESS_LEVEL_ADMIN = 4;
+	public const ACCESS_LEVELS = [
+		self::ACCESS_LEVEL_NONE,
+		self::ACCESS_LEVEL_VIEWER,
+		self::ACCESS_LEVEL_PARTICIPANT,
+		self::ACCESS_LEVEL_MAINTAINER,
+		self::ACCESS_LEVEL_ADMIN,
+	];
 
 	public const SHARE_TYPE_PUBLIC_LINK = 'l';
 	public const SHARE_TYPE_USER = 'u';

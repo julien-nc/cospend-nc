@@ -519,7 +519,7 @@ class ProjectService {
 			);
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()) {
-			$totalSpent = (int) $row['sum_amount'];
+			$totalSpent = (float) $row['sum_amount'];
 		}
 		$qb->resetQueryParts();
 
@@ -1144,7 +1144,7 @@ class ProjectService {
 		$member = null;
 
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('id', 'userid', 'name', 'weight', 'color', 'activated')
+		$qb->select('id', 'userid', 'name', 'weight', 'color', 'activated', 'lastchanged')
 			->from('cospend_members')
 			->where(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -1160,6 +1160,7 @@ class ProjectService {
 			$dbUserid = $row['userid'];
 			$dbName = $row['name'];
 			$dbActivated = (int) $row['activated'];
+			$dbLastchanged = (int) $row['lastchanged'];
 			$dbColor = $row['color'];
 			if ($dbColor === null) {
 				$av = $this->avatarManager->getGuestAvatar($dbName);
@@ -1174,12 +1175,13 @@ class ProjectService {
 			}
 
 			$member = [
-				'activated' => ($dbActivated === 1),
+				'activated' => $dbActivated === 1,
 				'userid' => $dbUserid,
 				'name' => $dbName,
 				'id' => $dbMemberId,
 				'weight' => $dbWeight,
 				'color' => $dbColor,
+				'lastchanged' => $dbLastchanged,
 			];
 			break;
 		}
@@ -2506,7 +2508,7 @@ class ProjectService {
 			}
 			return ['success' => true];
 		} else {
-			return ['Not Found'];
+			return ['error' => 'Not Found'];
 		}
 	}
 
@@ -2551,7 +2553,7 @@ class ProjectService {
 	public function getMemberByName(string $projectId, string $name): ?array {
 		$member = null;
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('id', 'userid', 'name', 'weight', 'color', 'activated')
+		$qb->select('id', 'userid', 'name', 'weight', 'color', 'activated', 'lastchanged')
 			->from('cospend_members')
 			->where(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -2567,6 +2569,7 @@ class ProjectService {
 			$dbUserid = $row['userid'];
 			$dbName = $row['name'];
 			$dbActivated = (int) $row['activated'];
+			$dbLastchanged = (int) $row['lastchanged'];
 			$dbColor = $row['color'];
 			if ($dbColor === null) {
 				$av = $this->avatarManager->getGuestAvatar($dbName);
@@ -2586,6 +2589,7 @@ class ProjectService {
 				'id' => $dbMemberId,
 				'weight' => $dbWeight,
 				'color' => $dbColor,
+				'lastchanged' => $dbLastchanged,
 			];
 			break;
 		}
@@ -2605,7 +2609,7 @@ class ProjectService {
 		$member = null;
 		if ($userId !== null) {
 			$qb = $this->db->getQueryBuilder();
-			$qb->select('id', 'userid', 'name', 'weight', 'color', 'activated')
+			$qb->select('id', 'userid', 'name', 'weight', 'color', 'activated', 'lastchanged')
 				->from('cospend_members')
 				->where(
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -2621,6 +2625,7 @@ class ProjectService {
 				$dbUserid = $row['userid'];
 				$dbName = $row['name'];
 				$dbActivated = (int) $row['activated'];
+				$dbLastchanged = (int) $row['lastchanged'];
 				$dbColor = $row['color'];
 				if ($dbColor === null) {
 					$av = $this->avatarManager->getGuestAvatar($dbName);
@@ -2640,6 +2645,7 @@ class ProjectService {
 					'id' => $dbMemberId,
 					'weight' => $dbWeight,
 					'color' => $dbColor,
+					'lastchanged' => $dbLastchanged,
 				];
 				break;
 			}

@@ -25,6 +25,8 @@ use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\BillMapper;
 
+use OCA\Cospend\Db\Member;
+use OCA\Cospend\Db\MemberMapper;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Utils;
 use OCP\App\IAppManager;
@@ -55,19 +57,20 @@ class ProjectService {
 	private array $hardCodedCategoryNames;
 
 	public function __construct(
-		private IL10N           $l10n,
-		private IConfig         $config,
-		private ProjectMapper   $projectMapper,
-		private BillMapper      $billMapper,
+		private IL10N $l10n,
+		private IConfig $config,
+		private ProjectMapper $projectMapper,
+		private BillMapper $billMapper,
+		private MemberMapper $memberMapper,
 		private ActivityManager $activityManager,
-		private IAvatarManager  $avatarManager,
-		private IUserManager    $userManager,
-		private IAppManager     $appManager,
-		private IGroupManager   $groupManager,
-		private IDateTimeZone   $dateTimeZone,
-		private IRootFolder     $root,
+		private IAvatarManager $avatarManager,
+		private IUserManager $userManager,
+		private IAppManager $appManager,
+		private IGroupManager $groupManager,
+		private IDateTimeZone $dateTimeZone,
+		private IRootFolder $root,
 		private INotificationManager $notificationManager,
-		private IDBConnection $db
+		private IDBConnection $db,
 	) {
 		$this->defaultCategories = [
 			[
@@ -1141,53 +1144,8 @@ class ProjectService {
 	 * @return array|null
 	 */
 	public function getMemberById(string $projectId, int $memberId): ?array {
-		$member = null;
-
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('id', 'userid', 'name', 'weight', 'color', 'activated', 'lastchanged')
-			->from('cospend_members')
-			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('id', $qb->createNamedParameter($memberId, IQueryBuilder::PARAM_INT))
-			);
-		$req = $qb->executeQuery();
-
-		while ($row = $req->fetch()) {
-			$dbMemberId = (int) $row['id'];
-			$dbWeight = (float) $row['weight'];
-			$dbUserid = $row['userid'];
-			$dbName = $row['name'];
-			$dbActivated = (int) $row['activated'];
-			$dbLastchanged = (int) $row['lastchanged'];
-			$dbColor = $row['color'];
-			if ($dbColor === null) {
-				$av = $this->avatarManager->getGuestAvatar($dbName);
-				$dbColor = $av->avatarBackgroundColor($dbName);
-				$dbColor = [
-					'r' => $dbColor->red(),
-					'g' => $dbColor->green(),
-					'b' => $dbColor->blue(),
-				];
-			} else {
-				$dbColor = Utils::hexToRgb($dbColor);
-			}
-
-			$member = [
-				'activated' => $dbActivated === 1,
-				'userid' => $dbUserid,
-				'name' => $dbName,
-				'id' => $dbMemberId,
-				'weight' => $dbWeight,
-				'color' => $dbColor,
-				'lastchanged' => $dbLastchanged,
-			];
-			break;
-		}
-		$req->closeCursor();
-		$qb->resetQueryParts();
-		return $member;
+		$member = $this->memberMapper->getMemberById($projectId, $memberId);
+		return $member?->jsonSerialize();
 	}
 
 	/**
@@ -1720,64 +1678,10 @@ class ProjectService {
 	 * @return array
 	 */
 	public function getMembers(string $projectId, ?string $order = null, ?int $lastchanged = null): array {
-		$members = [];
-		$qb = $this->db->getQueryBuilder();
-
-		$sqlOrder = 'name';
-		if ($order !== null) {
-			if ($order === 'lowername') {
-				$sqlOrder = $qb->func()->lower('name');
-			} else {
-				$sqlOrder = $order;
-			}
-		}
-
-		$qb->select('id', 'userid', 'name', 'weight', 'color', 'activated', 'lastchanged')
-			->from('cospend_members')
-			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			);
-		if ($lastchanged !== null) {
-			$qb->andWhere(
-				$qb->expr()->gt('lastchanged', $qb->createNamedParameter($lastchanged, IQueryBuilder::PARAM_INT))
-			);
-		}
-		$qb->orderBy($sqlOrder, 'ASC');
-		$req = $qb->executeQuery();
-
-		while ($row = $req->fetch()) {
-			$dbMemberId = (int) $row['id'];
-			$dbWeight = (float) $row['weight'];
-			$dbUserid = $row['userid'];
-			$dbName = $row['name'];
-			$dbActivated = (int) $row['activated'];
-			$dbLastchanged = (int) $row['lastchanged'];
-			$dbColor = $row['color'];
-			if ($dbColor === null) {
-				$av = $this->avatarManager->getGuestAvatar($dbName);
-				$avatarBgColor = $av->avatarBackgroundColor($dbName);
-				$dbColor = [
-					'r' => $avatarBgColor->red(),
-					'g' => $avatarBgColor->green(),
-					'b' => $avatarBgColor->blue(),
-				];
-			} else {
-				$dbColor = Utils::hexToRgb($dbColor);
-			}
-
-			$members[] = [
-				'activated' => $dbActivated === 1,
-				'userid' => $dbUserid,
-				'name' => $dbName,
-				'id' => $dbMemberId,
-				'weight' => $dbWeight,
-				'color' => $dbColor,
-				'lastchanged' => $dbLastchanged,
-			];
-		}
-		$req->closeCursor();
-		$qb->resetQueryParts();
-		return $members;
+		$members = $this->memberMapper->getMembers($projectId, $order, $lastchanged);
+		return array_map(static function (Member $dbMember) {
+			return $dbMember->jsonSerialize();
+		}, $members);
 	}
 
 	/**
@@ -2551,51 +2455,8 @@ class ProjectService {
 	 * @return array|null
 	 */
 	public function getMemberByName(string $projectId, string $name): ?array {
-		$member = null;
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('id', 'userid', 'name', 'weight', 'color', 'activated', 'lastchanged')
-			->from('cospend_members')
-			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR))
-			);
-		$req = $qb->executeQuery();
-
-		while ($row = $req->fetch()) {
-			$dbMemberId = (int) $row['id'];
-			$dbWeight = (float) $row['weight'];
-			$dbUserid = $row['userid'];
-			$dbName = $row['name'];
-			$dbActivated = (int) $row['activated'];
-			$dbLastchanged = (int) $row['lastchanged'];
-			$dbColor = $row['color'];
-			if ($dbColor === null) {
-				$av = $this->avatarManager->getGuestAvatar($dbName);
-				$dbColor = $av->avatarBackgroundColor($dbName);
-				$dbColor = [
-					'r' => $dbColor->red(),
-					'g' => $dbColor->green(),
-					'b' => $dbColor->blue(),
-				];
-			} else {
-				$dbColor = Utils::hexToRgb($dbColor);
-			}
-			$member = [
-				'activated' => $dbActivated === 1,
-				'userid' => $dbUserid,
-				'name' => $dbName,
-				'id' => $dbMemberId,
-				'weight' => $dbWeight,
-				'color' => $dbColor,
-				'lastchanged' => $dbLastchanged,
-			];
-			break;
-		}
-		$req->closeCursor();
-		$qb->resetQueryParts();
-		return $member;
+		$member = $this->memberMapper->getMemberByName($projectId, $name);
+		return $member?->jsonSerialize();
 	}
 
 	/**
@@ -2606,53 +2467,11 @@ class ProjectService {
 	 * @return array|null
 	 */
 	public function getMemberByUserid(string $projectId, ?string $userId): ?array {
-		$member = null;
-		if ($userId !== null) {
-			$qb = $this->db->getQueryBuilder();
-			$qb->select('id', 'userid', 'name', 'weight', 'color', 'activated', 'lastchanged')
-				->from('cospend_members')
-				->where(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-				)
-				->andWhere(
-					$qb->expr()->eq('userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
-				);
-			$req = $qb->executeQuery();
-
-			while ($row = $req->fetch()) {
-				$dbMemberId = (int) $row['id'];
-				$dbWeight = (float) $row['weight'];
-				$dbUserid = $row['userid'];
-				$dbName = $row['name'];
-				$dbActivated = (int) $row['activated'];
-				$dbLastchanged = (int) $row['lastchanged'];
-				$dbColor = $row['color'];
-				if ($dbColor === null) {
-					$av = $this->avatarManager->getGuestAvatar($dbName);
-					$dbColor = $av->avatarBackgroundColor($dbName);
-					$dbColor = [
-						'r' => $dbColor->red(),
-						'g' => $dbColor->green(),
-						'b' => $dbColor->blue(),
-					];
-				} else {
-					$dbColor = Utils::hexToRgb($dbColor);
-				}
-				$member = [
-					'activated' => $dbActivated === 1,
-					'userid' => $dbUserid,
-					'name' => $dbName,
-					'id' => $dbMemberId,
-					'weight' => $dbWeight,
-					'color' => $dbColor,
-					'lastchanged' => $dbLastchanged,
-				];
-				break;
-			}
-			$req->closeCursor();
-			$qb->resetQueryParts();
+		if ($userId === null) {
+			return null;
 		}
-		return $member;
+		$member = $this->memberMapper->getMemberByUserid($projectId, $userId);
+		return $member?->jsonSerialize();
 	}
 
 	/**

@@ -20,6 +20,7 @@ namespace OCA\Cospend\Controller;
 use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\BillMapper;
+use OCA\Cospend\Db\MemberMapper;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Service\ProjectService;
 use OCA\Cospend\Service\UserService;
@@ -44,6 +45,7 @@ class ApiControllerTest extends TestCase {
 	private BillMapper $billMapper;
 	private ProjectMapper $projectMapper;
 	private ProjectService $projectService;
+	private MemberMapper $memberMapper;
 
 	public static function setUpBeforeClass(): void {
 		$app = new Application();
@@ -88,6 +90,7 @@ class ApiControllerTest extends TestCase {
 		//		$sc = $c->get(ContainerInterface::class);
 		$l10n = $c->get(IL10N::class);
 		$this->billMapper = new BillMapper($sc->getDatabaseConnection());
+		$this->memberMapper = new MemberMapper($sc->getDatabaseConnection());
 		$this->projectMapper = new ProjectMapper($sc->getDatabaseConnection(), $l10n);
 
 		$activityManager = new ActivityManager(
@@ -123,6 +126,7 @@ class ApiControllerTest extends TestCase {
 			$sc->getConfig(),
 			$this->projectMapper,
 			$this->billMapper,
+			$this->memberMapper,
 			$activityManager,
 			$sc->getAvatarManager(),
 			$c->get(IUserManager::class),

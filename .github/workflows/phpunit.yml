@@ -31,8 +31,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # test with min and max supported PHP and server versions
-        php-versions: ['8.0', '8.2']
+        php-versions: ['8.1', '8.2']
         server-versions: ['stable27', 'master']
         databases: ['sqlite', 'mysql', 'pgsql']
         #php-versions: ['8.2']

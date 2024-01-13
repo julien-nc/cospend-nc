@@ -735,7 +735,7 @@ class ApiController extends OCSController {
 				$lastchanged, null, $reverse, $payerId, $deleted
 			);
 		}
-		$billIds = $this->projectService->getAllBillIds($projectId, $deleted);
+		$billIds = $this->billMapper->getAllBillIds($projectId, $deleted);
 		$ts = (new DateTime())->getTimestamp();
 		$result = [
 			'nb_bills' => $this->billMapper->countBills($projectId, $payerId, $categoryId, $paymentModeId, $deleted),

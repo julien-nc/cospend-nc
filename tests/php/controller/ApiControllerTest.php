@@ -727,7 +727,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertFalse(isset($data['inserted_id']));
 
 		// get all bill ids
-		$ids = $this->projectService->getAllBillIds('superproj');
+		$ids = $this->billMapper->getAllBillIds('superproj');
 		$this->assertTrue(in_array($idBill1, $ids));
 
 		// edit bill

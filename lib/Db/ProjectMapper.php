@@ -13,7 +13,6 @@
 namespace OCA\Cospend\Db;
 
 use DateTime;
-use Exception;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\QBMapper;

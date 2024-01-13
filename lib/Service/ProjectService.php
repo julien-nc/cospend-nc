@@ -23,6 +23,7 @@ use OCA\Circles\Exceptions\InitiatorNotFoundException;
 use OCA\Circles\Exceptions\RequestBuilderException;
 use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\AppInfo\Application;
+use OCA\Cospend\Db\Bill;
 use OCA\Cospend\Db\BillMapper;
 
 use OCA\Cospend\Db\Member;
@@ -166,101 +167,6 @@ class ProjectService {
 		$this->hardCodedCategoryNames = [
 			'-11' => $this->l10n->t('Reimbursement'),
 		];
-	}
-
-	/**
-	 * check if user owns the project
-	 * or if the project is shared with the user
-	 *
-	 * @param string $userId
-	 * @param string $projectId
-	 * @return bool
-	 */
-	public function userCanAccessProject(string $userId, string $projectId): bool {
-		$projectInfo = $this->getProjectInfo($projectId);
-		if ($projectInfo !== null) {
-			// does the user own the project ?
-			if ($projectInfo['userid'] === $userId) {
-				return true;
-			} else {
-				$qb = $this->db->getQueryBuilder();
-				// is the project shared with the user ?
-				$qb->select('userid', 'projectid')
-					->from('cospend_shares', 's')
-					->where(
-						$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_USER, IQueryBuilder::PARAM_STR))
-					)
-					->andWhere(
-						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-					)
-					->andWhere(
-						$qb->expr()->eq('userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
-					);
-				$req = $qb->executeQuery();
-				$dbProjectId = null;
-				while ($row = $req->fetch()) {
-					$dbProjectId = $row['projectid'];
-					break;
-				}
-				$req->closeCursor();
-				$qb = $qb->resetQueryParts();
-
-				if ($dbProjectId !== null) {
-					return true;
-				} else {
-					// if not, is the project shared with a group containing the user?
-					$userO = $this->userManager->get($userId);
-					$accessWithGroup = null;
-
-					$qb->select('userid')
-						->from('cospend_shares', 's')
-						->where(
-							$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR))
-						)
-						->andWhere(
-							$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-						);
-					$req = $qb->executeQuery();
-					while ($row = $req->fetch()) {
-						$groupId = $row['userid'];
-						if ($this->groupManager->groupExists($groupId) && $this->groupManager->get($groupId)->inGroup($userO)) {
-							$accessWithGroup = $groupId;
-							break;
-						}
-					}
-					$req->closeCursor();
-					$qb = $qb->resetQueryParts();
-
-					if ($accessWithGroup !== null) {
-						return true;
-					} else {
-						// if not, are circles enabled and is the project shared with a circle containing the user?
-						$circlesEnabled = $this->appManager->isEnabledForUser('circles');
-						if ($circlesEnabled) {
-							$qb->select('userid')
-								->from('cospend_shares', 's')
-								->where(
-									$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_CIRCLE, IQueryBuilder::PARAM_STR))
-								)
-								->andWhere(
-									$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-								);
-							$req = $qb->executeQuery();
-							while ($row = $req->fetch()) {
-								$circleId = $row['userid'];
-								if ($this->isUserInCircle($userId, $circleId)) {
-									return true;
-								}
-							}
-						}
-						return false;
-					}
-
-				}
-			}
-		} else {
-			return false;
-		}
 	}
 
 	/**
@@ -416,8 +322,6 @@ class ProjectService {
 	public function deleteProject(string $projectId): array {
 		$projectToDelete = $this->getProjectById($projectId);
 		if ($projectToDelete !== null) {
-			$qb = $this->db->getQueryBuilder();
-
 			$this->projectMapper->deleteBillOwersOfProject($projectId);
 
 			$associatedTableNames = [
@@ -429,6 +333,7 @@ class ProjectService {
 				'cospend_paymentmodes'
 			];
 
+			$qb = $this->db->getQueryBuilder();
 			foreach ($associatedTableNames as $tableName) {
 				$qb->delete($tableName)
 					->where(
@@ -438,14 +343,8 @@ class ProjectService {
 				$qb = $qb->resetQueryParts();
 			}
 
-			// delete project
-			$qb->delete('cospend_projects')
-				->where(
-					$qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-				);
-			$qb->executeStatement();
-			$qb->resetQueryParts();
-
+			$dbProject = $this->projectMapper->find($projectId);
+			$this->projectMapper->delete($dbProject);
 			return ['message' => 'DELETED'];
 		} else {
 			return ['error' => $this->l10n->t('Not Found')];
@@ -986,7 +885,7 @@ class ProjectService {
 		?array $paymentModes = null, int $deleted = 0
 	): array {
 		// if we don't have the payment modes, get them now
-		if (is_null($paymentModes)) {
+		if ($paymentModes === null) {
 			$paymentModes = $this->getCategoriesOrPaymentModes($projectId, false);
 		}
 
@@ -1061,32 +960,31 @@ class ProjectService {
 		// last modification timestamp is now
 		$ts = (new DateTime())->getTimestamp();
 
-		// do it already !
-		$qb = $this->db->getQueryBuilder();
-		$qb->insert('cospend_bills')
-			->values([
-				'projectid' => $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR),
-				'what' => $qb->createNamedParameter($what, IQueryBuilder::PARAM_STR),
-				'comment' => $qb->createNamedParameter($comment, IQueryBuilder::PARAM_STR),
-				'timestamp' => $qb->createNamedParameter($dateTs, IQueryBuilder::PARAM_INT),
-				'amount' => $qb->createNamedParameter($amount, IQueryBuilder::PARAM_STR),
-				'payerid' => $qb->createNamedParameter($payer, IQueryBuilder::PARAM_INT),
-				'repeat' => $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR),
-				'repeatallactive' => $qb->createNamedParameter($repeatallactive, IQueryBuilder::PARAM_INT),
-				'repeatuntil' => $qb->createNamedParameter($repeatuntil, IQueryBuilder::PARAM_STR),
-				'repeatfreq' => $qb->createNamedParameter($repeatfreq ?? 1, IQueryBuilder::PARAM_INT),
-				'categoryid' => $qb->createNamedParameter($categoryid ?? 0, IQueryBuilder::PARAM_INT),
-				'paymentmode' => $qb->createNamedParameter($paymentmode ?? 'n', IQueryBuilder::PARAM_STR),
-				'paymentmodeid' => $qb->createNamedParameter($paymentmodeid ?? 0, IQueryBuilder::PARAM_INT),
-				'lastchanged' => $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT),
-				'deleted' => $qb->createNamedParameter($deleted, IQueryBuilder::PARAM_INT),
-			]);
-		$qb->executeStatement();
-		$qb = $qb->resetQueryParts();
+		$newBill = new Bill();
+		$newBill->setProjectid($projectId);
+		$newBill->setWhat($what);
+		if ($comment !== null) {
+			$newBill->setComment($comment);
+		}
+		$newBill->setTimestamp($dateTs);
+		$newBill->setAmount($amount);
+		$newBill->setPayerid($payer);
+		$newBill->setRepeat($repeat);
+		$newBill->setRepeatallactive($repeatallactive);
+		$newBill->setRepeatuntil($repeatuntil);
+		$newBill->setRepeatfreq($repeatfreq ?? 1);
+		$newBill->setCategoryid($categoryid ?? 0);
+		$newBill->setPaymentmode($paymentmode ?? 'n');
+		$newBill->setPaymentmodeid($paymentmodeid ?? 0);
+		$newBill->setLastchanged($ts);
+		$newBill->setDeleted($deleted);
 
-		$insertedBillId = $qb->getLastInsertId();
+		$createdBill = $this->billMapper->insert($newBill);
+
+		$insertedBillId = $createdBill->getId();
 
 		// insert bill owers
+		$qb = $this->db->getQueryBuilder();
 		foreach ($owerIds as $owerId) {
 			$qb->insert('cospend_bill_owers')
 				->values([
@@ -1592,93 +1490,51 @@ class ProjectService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function createMember(
-		string  $projectId, string $name, ?float $weight = 1.0, bool $active = true,
+		string $projectId, string $name, ?float $weight = 1.0, bool $active = true,
 		?string $color = null, ?string $userId = null
 	): array {
-		if ($name !== '') {
-			if ($this->getMemberByName($projectId, $name) === null && $this->getMemberByUserid($projectId, $userId) === null) {
-				if (strpos($name, '/') !== false) {
-					return ['error' => $this->l10n->t('Invalid member name')];
-				}
-
-				$weightToInsert = 1.0;
-				if ($weight !== null) {
-					if ($weight > 0.0) {
-						$weightToInsert = $weight;
-					} else {
-						return ['error' => $this->l10n->t('Weight is not a valid decimal value')];
-					}
-				}
-
-				if ($color !== null) {
-					if ($color === '') {
-						$color = null;
-					} elseif ((strlen($color) === 4 || strlen($color) === 7)
-						&& preg_match('/^#[0-9A-Fa-f]+/', $color) !== false
-					) {
-						// fine
-					} else {
-						return ['error' => $this->l10n->t('Invalid color value')];
-					}
-				}
-
-				$ts = (new DateTime())->getTimestamp();
-
-				$qb = $this->db->getQueryBuilder();
-				$qb->insert('cospend_members')
-					->values([
-						'projectid' => $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR),
-						'userid' => $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR),
-						'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
-						'weight' => $qb->createNamedParameter($weightToInsert, IQueryBuilder::PARAM_STR),
-						'activated' => $qb->createNamedParameter($active ? 1 : 0, IQueryBuilder::PARAM_INT),
-						'color' => $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR),
-						'lastchanged' => $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT)
-					]);
-				$qb->executeStatement();
-				$qb->resetQueryParts();
-
-				$member = $this->getMemberByName($projectId, $name);
-				if ($member === null) {
-					return ['error' => $this->l10n->t('Impossible to get the created member')];
-				}
-				return $member;
-			} else {
-				return ['error' => $this->l10n->t('This project already has this member')];
-			}
-		} else {
+		if ($name === '') {
 			return ['error' => $this->l10n->t('Name field is required')];
 		}
-	}
-
-	/**
-	 * Get all bill IDs of a project
-	 *
-	 * @param string $projectId
-	 * @return array
-	 */
-	public function getAllBillIds(string $projectId, ?int $deleted = 0): array {
-		$billIds = [];
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('id')
-			->from('cospend_bills', 'b')
-			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			);
-		if ($deleted !== null) {
-			$qb->andWhere(
-				$qb->expr()->eq('deleted', $qb->createNamedParameter($deleted, IQueryBuilder::PARAM_INT))
-			);
+		if (str_contains($name, '/')) {
+			return ['error' => $this->l10n->t('Invalid member name')];
 		}
-		$req = $qb->executeQuery();
-
-		while ($row = $req->fetch()) {
-			$billIds[] = (int) $row['id'];
+		if ($weight !== null && $weight <= 0.0) {
+			return ['error' => $this->l10n->t('Weight is not a valid decimal value')];
 		}
-		$req->closeCursor();
-		$qb->resetQueryParts();
+		if ($color !== null && $color !== '' && (strlen($color) !== 4 || strlen($color) !== 7)) {
+			return ['error' => $this->l10n->t('Invalid color value')];
+		}
+		if ($this->memberMapper->getMemberByName($projectId, $name) !== null) {
+			return ['error' => $this->l10n->t('This project already has this member')];
+		}
+		if ($userId !== null && $this->memberMapper->getMemberByUserid($projectId, $userId) !== null) {
+			return ['error' => $this->l10n->t('This project already has this member')];
+		}
 
-		return $billIds;
+		$newMember = new Member();
+
+		$weightToInsert = $weight === null ? 1.0 : $weight;
+		$newMember->setWeight($weightToInsert);
+
+		if ($color !== null
+			&& (strlen($color) === 4 || strlen($color) === 7)
+			&& preg_match('/^#[0-9A-Fa-f]+/', $color) !== false
+		) {
+			$newMember->setColor($color);
+		}
+
+		$ts = (new DateTime())->getTimestamp();
+		$newMember->setLastchanged($ts);
+		$newMember->setProjectid($projectId);
+		if ($userId !== null) {
+			$newMember->setUserid($userId);
+		}
+		$newMember->setActivated($active ? 1 : 0);
+		$newMember->setName($name);
+
+		$createdMember = $this->memberMapper->insert($newMember);
+		return $createdMember->jsonSerialize();
 	}
 
 	/**

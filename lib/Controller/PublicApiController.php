@@ -645,7 +645,7 @@ class PublicApiController extends OCSController {
 				$lastchanged, null, $reverse, $payerId, $deleted
 			);
 		}
-		$billIds = $this->projectService->getAllBillIds($publicShareInfo['projectid'], $deleted);
+		$billIds = $this->billMapper->getAllBillIds($publicShareInfo['projectid'], $deleted);
 		$ts = (new DateTime())->getTimestamp();
 		$result = [
 			'nb_bills' => $this->billMapper->countBills(

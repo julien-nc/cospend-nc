@@ -888,4 +888,36 @@ class BillMapper extends QBMapper {
 		}
 		return 0;
 	}
+
+	/**
+	 * Get all bill IDs of a project
+	 *
+	 * @param string $projectId
+	 * @param int|null $deleted
+	 * @return array
+	 * @throws \OCP\DB\Exception
+	 */
+	public function getAllBillIds(string $projectId, ?int $deleted = 0): array {
+		$billIds = [];
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('id')
+			->from(self::TABLE_NAME, 'b')
+			->where(
+				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+			);
+		if ($deleted !== null) {
+			$qb->andWhere(
+				$qb->expr()->eq('deleted', $qb->createNamedParameter($deleted, IQueryBuilder::PARAM_INT))
+			);
+		}
+		$req = $qb->executeQuery();
+
+		while ($row = $req->fetch()) {
+			$billIds[] = (int) $row['id'];
+		}
+		$req->closeCursor();
+		$qb->resetQueryParts();
+
+		return $billIds;
+	}
 }

@@ -244,7 +244,7 @@ class OldApiController extends ApiController {
 			$projectId, null, null, null, null, null,
 			null, null, $lastchanged, null, false, null, $deleted
 		);
-		$billIds = $this->projectService->getAllBillIds($projectId, $deleted);
+		$billIds = $this->billMapper->getAllBillIds($projectId, $deleted);
 		$ts = (new DateTime())->getTimestamp();
 		return new DataResponse([
 			'bills' => $bills,
@@ -266,7 +266,7 @@ class OldApiController extends ApiController {
 			null, null, null, null, null, $lastchanged,
 			null, false, null, $deleted
 		);
-		$billIds = $this->projectService->getAllBillIds($publicShareInfo['projectid'], $deleted);
+		$billIds = $this->billMapper->getAllBillIds($publicShareInfo['projectid'], $deleted);
 		$ts = (new DateTime())->getTimestamp();
 		return new DataResponse([
 			'bills' => $bills,

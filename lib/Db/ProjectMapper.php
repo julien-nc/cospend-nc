@@ -14,6 +14,8 @@ namespace OCA\Cospend\Db;
 
 use DateTime;
 use Exception;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -23,7 +25,7 @@ use OCP\IL10N;
  * @extends QBMapper<Project>
  */
 class ProjectMapper extends QBMapper {
-	public const TABLENAME = 'cospend_projects';
+	public const TABLE_NAME = 'cospend_projects';
 
 	public const ARCHIVED_TS_UNSET = -1;
 	public const ARCHIVED_TS_NOW = 0;
@@ -32,7 +34,7 @@ class ProjectMapper extends QBMapper {
 		IDBConnection $db,
 		private IL10N $l10n,
 	) {
-		parent::__construct($db, self::TABLENAME, Project::class);
+		parent::__construct($db, self::TABLE_NAME, Project::class);
 	}
 
 	public function createProject(
@@ -121,25 +123,21 @@ class ProjectMapper extends QBMapper {
 
 	/**
 	 * @param string $id
-	 * @return Project
-	 * @throws \OCP\DB\Exception
+	 * @return Project|null
 	 */
-	public function find(string $id): Project {
+	public function find(string $id): ?Project {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
 			->from($this->getTableName())
 			->where(
 				$qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR))
 			);
-		$result = $qb->executeQuery();
-		$row = $result->fetch();
-		$result->closeCursor();
 
-		if ($row === false) {
-			throw new Exception('Project ' . $id . ' not found');
+		try {
+			return $this->findEntity($qb);
+		} catch (DoesNotExistException | MultipleObjectsReturnedException |\OCP\DB\Exception $e) {
+			return null;
 		}
-
-		return $this->mapRowToEntity($row);
 	}
 
 	/**
@@ -188,73 +186,6 @@ class ProjectMapper extends QBMapper {
 			->where(
 				$qb2->expr()->in('billid', $qb->createFunction($qb2->getSQL()), IQueryBuilder::PARAM_STR_ARRAY)
 			);
-		$qb->executeStatement();
-		$qb->resetQueryParts();
-	}
-
-	/**
-	 * @param string $projectId
-	 * @param string|null $name
-	 * @param string|null $contact_email
-	 * @param string|null $autoexport
-	 * @param string|null $currencyname
-	 * @param bool|null $deletion_disabled
-	 * @param string|null $categorysort
-	 * @param string|null $paymentmodesort
-	 * @param int|null $archivedTs
-	 * @return void
-	 * @throws \OCP\DB\Exception
-	 */
-	public function editProject(
-		string  $projectId, ?string $name = null, ?string $contact_email = null,
-		?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
-		?string $categorysort = null, ?string $paymentmodesort = null, ?int $archivedTs = null
-	): void {
-		$qb = $this->db->getQueryBuilder();
-		$qb->update($this->getTableName());
-		if ($archivedTs !== null) {
-			if ($archivedTs === self::ARCHIVED_TS_NOW) {
-				$dbTs = (new DateTime())->getTimestamp();
-			} elseif ($archivedTs === self::ARCHIVED_TS_UNSET) {
-				$dbTs = null;
-			} else {
-				$dbTs = $archivedTs;
-			}
-			$qb->set('archived_ts', $qb->createNamedParameter($dbTs, IQueryBuilder::PARAM_STR));
-		}
-
-		if ($name !== null) {
-			$qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
-		}
-
-		if ($contact_email !== null && $contact_email !== '') {
-			$qb->set('email', $qb->createNamedParameter($contact_email, IQueryBuilder::PARAM_STR));
-		}
-
-		if ($autoexport !== null && $autoexport !== '') {
-			$qb->set('autoexport', $qb->createNamedParameter($autoexport, IQueryBuilder::PARAM_STR));
-		}
-		if ($categorysort !== null && $categorysort !== '') {
-			$qb->set('categorysort', $qb->createNamedParameter($categorysort, IQueryBuilder::PARAM_STR));
-		}
-		if ($paymentmodesort !== null && $paymentmodesort !== '') {
-			$qb->set('paymentmodesort', $qb->createNamedParameter($paymentmodesort, IQueryBuilder::PARAM_STR));
-		}
-		if ($deletion_disabled !== null) {
-			$qb->set('deletiondisabled', $qb->createNamedParameter($deletion_disabled ? 1 : 0, IQueryBuilder::PARAM_INT));
-		}
-		if ($currencyname !== null) {
-			if ($currencyname === '') {
-				$qb->set('currencyname', $qb->createNamedParameter(null, IQueryBuilder::PARAM_STR));
-			} else {
-				$qb->set('currencyname', $qb->createNamedParameter($currencyname, IQueryBuilder::PARAM_STR));
-			}
-		}
-		$ts = (new DateTime())->getTimestamp();
-		$qb->set('lastchanged', $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT));
-		$qb->where(
-			$qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-		);
 		$qb->executeStatement();
 		$qb->resetQueryParts();
 	}

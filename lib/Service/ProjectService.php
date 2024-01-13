@@ -1506,6 +1506,11 @@ class ProjectService {
 		?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
 		?string $categorysort = null, ?string $paymentmodesort = null, ?int $archivedTs = null
 	): array {
+		$dbProject = $this->projectMapper->find($projectId);
+		if ($dbProject === null) {
+			return ['message' => $this->l10n->t('There is no such project')];
+		}
+
 		if ($name === '') {
 			return ['name' => [$this->l10n->t('Name can\'t be empty')]];
 		}
@@ -1534,15 +1539,44 @@ class ProjectService {
 			}
 		}
 
-		if ($this->getProjectById($projectId) !== null) {
-			$this->projectMapper->editProject(
-				$projectId, $name, $contact_email, $autoexport, $currencyname, $deletion_disabled,
-				$categorysort, $paymentmodesort, $archivedTs
-			);
-			return ['success' => true];
-		} else {
-			return ['message' => $this->l10n->t('There is no such project')];
+		if ($archivedTs !== null) {
+			if ($archivedTs === ProjectMapper::ARCHIVED_TS_NOW) {
+				$dbTs = (new DateTime())->getTimestamp();
+			} elseif ($archivedTs === ProjectMapper::ARCHIVED_TS_UNSET) {
+				$dbTs = null;
+			} else {
+				$dbTs = $archivedTs;
+			}
+			$dbProject->setArchivedTs($dbTs);
 		}
+
+		if ($name !== null) {
+			$dbProject->setName($name);
+		}
+
+		if ($contact_email !== null && $contact_email !== '') {
+			$dbProject->setEmail($contact_email);
+		}
+
+		if ($autoexport !== null && $autoexport !== '') {
+			$dbProject->setAutoexport($autoexport);
+		}
+		if ($categorysort !== null && $categorysort !== '') {
+			$dbProject->setCategorysort($categorysort);
+		}
+		if ($paymentmodesort !== null && $paymentmodesort !== '') {
+			$dbProject->setPaymentmodesort($paymentmodesort);
+		}
+		if ($deletion_disabled !== null) {
+			$dbProject->setDeletiondisabled($deletion_disabled ? 1 : 0);
+		}
+		if ($currencyname !== null) {
+			$dbProject->setCurrencyname($currencyname === '' ? null : $currencyname);
+		}
+		$ts = (new DateTime())->getTimestamp();
+		$dbProject->setLastchanged($ts);
+		$this->projectMapper->update($dbProject);
+		return ['success' => true];
 	}
 
 	/**

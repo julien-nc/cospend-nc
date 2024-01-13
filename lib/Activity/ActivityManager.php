@@ -226,7 +226,11 @@ class ActivityManager {
 				default:
 					throw new InvalidArgumentException('No entity relation present for '. $className . ' to ' . $objectType);
 			}
-			return $this->projectMapper->find($objectId);
+			$dbProject = $this->projectMapper->find($objectId);
+			if ($dbProject === null) {
+				throw new InvalidArgumentException('No entity relation present for '. $className . ' to ' . $objectType);
+			}
+			return $dbProject;
 		}
 		throw new InvalidArgumentException('No entity relation present for '. $className . ' to ' . $objectType);
 	}

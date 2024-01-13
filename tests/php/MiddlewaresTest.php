@@ -22,6 +22,7 @@ use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Controller\ApiController;
 use OCA\Cospend\Controller\PublicApiController;
 use OCA\Cospend\Db\BillMapper;
+use OCA\Cospend\Db\MemberMapper;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Exception\CospendPublicAuthNotValidException;
 use OCA\Cospend\Exception\CospendUserPermissionsException;
@@ -92,6 +93,7 @@ class MiddlewaresTest extends TestCase {
 		//		$sc = $c->get(ContainerInterface::class);
 		$l10n = $c->get(IL10N::class);
 		$this->billMapper = new BillMapper($sc->getDatabaseConnection());
+		$this->memberMapper = new MemberMapper($sc->getDatabaseConnection());
 		$this->projectMapper = new ProjectMapper($sc->getDatabaseConnection(), $l10n);
 
 		$activityManager = new ActivityManager(
@@ -127,6 +129,7 @@ class MiddlewaresTest extends TestCase {
 			$sc->getConfig(),
 			$this->projectMapper,
 			$this->billMapper,
+			$this->memberMapper,
 			$activityManager,
 			$sc->getAvatarManager(),
 			$c->get(IUserManager::class),

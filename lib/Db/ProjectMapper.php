@@ -139,9 +139,7 @@ class ProjectMapper extends QBMapper {
 			throw new Exception('Project ' . $id . ' not found');
 		}
 
-		/** @var Project $project */
-		$project = $this->mapRowToEntity($row);
-		return $project;
+		return $this->mapRowToEntity($row);
 	}
 
 	/**

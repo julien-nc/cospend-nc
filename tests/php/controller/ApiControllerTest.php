@@ -557,8 +557,8 @@ class ApiControllerTest extends TestCase {
 		$data = $resp->getData();
 		$idBill3 = $data;
 
-		$bills = $this->projectService->getBillsOfMember($idMember2);
-		$this->assertTrue(in_array($idBill3, $bills));
+		$member2BillIds = $this->memberMapper->getBillIdsOfMember($idMember2);
+		$this->assertTrue(in_array($idBill3, $member2BillIds));
 
 		$this->projectService->deleteBill('superproj', $idBill3);
 

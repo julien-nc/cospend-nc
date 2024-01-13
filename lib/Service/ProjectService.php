@@ -1416,96 +1416,74 @@ class ProjectService {
 		string $projectId, int $memberId, ?string $name = null, ?string $userId = null,
 		?float $weight = null, ?bool $activated = null, ?string $color = null
 	): array {
-		$member = $this->getMemberById($projectId, $memberId);
-		if (!is_null($member)) {
-			$qb = $this->db->getQueryBuilder();
-			// delete member if it has no bill and we are disabling it
-			if ($member['activated']
-				&& (!is_null($activated) && $activated === false)
-				&& count($this->getBillsOfMember($memberId)) === 0
-			) {
-				$qb->delete('cospend_members')
-					->where(
-						$qb->expr()->eq('id', $qb->createNamedParameter($memberId, IQueryBuilder::PARAM_INT))
-					);
-				$qb->executeStatement();
-				$qb->resetQueryParts();
-				return [];
-			}
-
-			if (!is_null($name)) {
-				if (strpos($name, '/') !== false) {
-					return ['name' => $this->l10n->t('Invalid member name')];
-				} else {
-					// get existing member with this name
-					$memberWithSameName = $this->getMemberByName($projectId, $name);
-					if ($memberWithSameName && $memberWithSameName['id'] !== $memberId) {
-						return ['name' => $this->l10n->t('Name already exists')];
-					}
-				}
-			}
-
-			if ($color !== null) {
-				$color = preg_replace('/^#/', '', $color);
-				if ($color === ''
-					|| ((strlen($color) === 3 || strlen($color) === 6)
-						&& preg_match('/^[0-9A-Fa-f]+/', $color) !== false)
-				) {
-					// fine
-				} else {
-					return ['color' => $this->l10n->t('Invalid value')];
-				}
-			}
-
-			$qb->update('cospend_members');
-			if ($weight !== null) {
-				if ($weight > 0.0) {
-					$qb->set('weight', $qb->createNamedParameter($weight, IQueryBuilder::PARAM_STR));
-				} else {
-					return ['weight' => $this->l10n->t('Not a valid decimal value')];
-				}
-			}
-			if (!is_null($activated)) {
-				$qb->set('activated', $qb->createNamedParameter(($activated ? 1 : 0), IQueryBuilder::PARAM_INT));
-			}
-
-			$ts = (new DateTime())->getTimestamp();
-			$qb->set('lastchanged', $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT));
-
-			if (!is_null($name)) {
-				$qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
-			}
-			if ($color !== null) {
-				if ($color === '') {
-					$qb->set('color', $qb->createNamedParameter(null, IQueryBuilder::PARAM_STR));
-				} else {
-					$qb->set('color', $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR));
-				}
-			}
-			if ($userId !== null) {
-				if ($userId === '') {
-					$qb->set('userid', $qb->createNamedParameter(null, IQueryBuilder::PARAM_STR));
-				} else {
-					$qb->set('userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR));
-				}
-			}
-			$qb->where(
-				$qb->expr()->eq('id', $qb->createNamedParameter($memberId, IQueryBuilder::PARAM_INT))
-			)
-				->andWhere(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-				);
-			$qb->executeStatement();
-			$qb->resetQueryParts();
-
-			$member = $this->getMemberById($projectId, $memberId);
-			if ($member === null) {
-				return ['error' => $this->l10n->t('Impossible to get the edited member')];
-			}
-			return $member;
-		} else {
+		$dbMember = $this->memberMapper->getMemberById($projectId, $memberId);
+		if ($dbMember === null) {
 			return ['name' => $this->l10n->t('This project have no such member')];
 		}
+		$member = $dbMember->jsonSerialize();
+		// delete member if it has no bill and we are disabling it
+		if ($member['activated']
+			&& $activated === false
+			&& count($this->memberMapper->getBillIdsOfMember($memberId)) === 0
+		) {
+			$this->memberMapper->delete($dbMember);
+			return [];
+		}
+
+		if ($name !== null) {
+			if (str_contains($name, '/')) {
+				return ['name' => $this->l10n->t('Invalid member name')];
+			} else {
+				// get existing member with this name
+				$memberWithSameName = $this->getMemberByName($projectId, $name);
+				if ($memberWithSameName && $memberWithSameName['id'] !== $memberId) {
+					return ['name' => $this->l10n->t('Name already exists')];
+				}
+			}
+		}
+
+		if ($color !== null) {
+			$color = preg_replace('/^#/', '', $color);
+			if ($color === ''
+				|| ((strlen($color) === 3 || strlen($color) === 6)
+					&& preg_match('/^[0-9A-Fa-f]+/', $color) !== false)
+			) {
+				// fine
+			} else {
+				return ['color' => $this->l10n->t('Invalid value')];
+			}
+		}
+
+		if ($weight !== null && $weight < 0.0) {
+			return ['weight' => $this->l10n->t('Not a valid decimal value')];
+		}
+
+		// UPDATE
+
+		$ts = (new DateTime())->getTimestamp();
+		$dbMember->setLastchanged($ts);
+
+		if ($weight !== null) {
+			$dbMember->setWeight($weight);
+		}
+		if ($activated !== null) {
+			$dbMember->setActivated($activated ? 1 : 0);
+		}
+
+		if ($name !== null) {
+			$dbMember->setName($name);
+		}
+
+		if ($color !== null) {
+			$dbMember->setColor($color === '' ? null : $color);
+		}
+
+		if ($userId !== null) {
+			$dbMember->setUserid($userId === '' ? null : $userId);
+		}
+
+		$this->memberMapper->update($dbMember);
+		return $dbMember->jsonSerialize();
 	}
 
 	/**
@@ -2388,63 +2366,19 @@ class ProjectService {
 	 * @return array
 	 */
 	public function deleteMember(string $projectId, int $memberId): array {
-		$memberToDelete = $this->getMemberById($projectId, $memberId);
-		if ($memberToDelete !== null) {
-			$qb = $this->db->getQueryBuilder();
-			if (count($this->getBillsOfMember($memberId)) === 0) {
-				$qb->delete('cospend_members')
-					->where(
-						$qb->expr()->eq('id', $qb->createNamedParameter($memberId, IQueryBuilder::PARAM_INT))
-					);
-				$qb->executeStatement();
-				$qb->resetQueryParts();
+		$dbMemberToDelete = $this->memberMapper->getMemberById($projectId, $memberId);
+		if ($dbMemberToDelete !== null) {
+			$memberToDelete = $dbMemberToDelete->jsonSerialize();
+			if (count($this->memberMapper->getBillIdsOfMember($memberId)) === 0) {
+				$this->memberMapper->delete($dbMemberToDelete);
 			} elseif ($memberToDelete['activated']) {
-				$qb->update('cospend_members');
-				$qb->set('activated', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT));
-				$qb->where(
-					$qb->expr()->eq('id', $qb->createNamedParameter($memberId, IQueryBuilder::PARAM_INT))
-				)
-					->andWhere(
-						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-					);
-				$qb->executeStatement();
-				$qb->resetQueryParts();
+				$dbMemberToDelete->setActivated(0);
+				$this->memberMapper->update($dbMemberToDelete);
 			}
 			return ['success' => true];
 		} else {
 			return ['error' => 'Not Found'];
 		}
-	}
-
-	/**
-	 * Get bills involving a member (as a payer or an ower)
-	 *
-	 * @param int $memberId
-	 * @return array
-	 * @throws \OCP\DB\Exception
-	 */
-	public function getBillsOfMember(int $memberId, ?int $deleted = 0): array {
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('bi.id')
-			->from('cospend_bill_owers', 'bo')
-			->innerJoin('bo', 'cospend_bills', 'bi', $qb->expr()->eq('bo.billid', 'bi.id'))
-			->innerJoin('bo', 'cospend_members', 'm', $qb->expr()->eq('bo.memberid', 'm.id'));
-		$or = $qb->expr()->orx();
-		$or->add($qb->expr()->eq('bi.payerid', $qb->createNamedParameter($memberId, IQueryBuilder::PARAM_INT)));
-		$or->add($qb->expr()->eq('bo.memberid', $qb->createNamedParameter($memberId, IQueryBuilder::PARAM_INT)));
-		$qb->where($or);
-		if ($deleted !== null) {
-			$qb->andWhere(
-				$qb->expr()->eq('bi.deleted', $qb->createNamedParameter($deleted, IQueryBuilder::PARAM_INT))
-			);
-		}
-		$req = $qb->executeQuery();
-
-		$billIds = [];
-		while ($row = $req->fetch()) {
-			$billIds[] = $row['id'];
-		}
-		return $billIds;
 	}
 
 	/**

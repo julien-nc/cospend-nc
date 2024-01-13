@@ -136,4 +136,36 @@ class MemberMapper extends QBMapper {
 			return [];
 		}
 	}
+
+	/**
+	 * Get bills involving a member (as a payer or an ower)
+	 *
+	 * @param int $memberId
+	 * @param int|null $deleted
+	 * @return array
+	 * @throws Exception
+	 */
+	public function getBillIdsOfMember(int $memberId, ?int $deleted = 0): array {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('bi.id')
+			->from('cospend_bill_owers', 'bo')
+			->innerJoin('bo', 'cospend_bills', 'bi', $qb->expr()->eq('bo.billid', 'bi.id'))
+			->innerJoin('bo', self::TABLE_NAME, 'm', $qb->expr()->eq('bo.memberid', 'm.id'));
+		$or = $qb->expr()->orx();
+		$or->add($qb->expr()->eq('bi.payerid', $qb->createNamedParameter($memberId, IQueryBuilder::PARAM_INT)));
+		$or->add($qb->expr()->eq('bo.memberid', $qb->createNamedParameter($memberId, IQueryBuilder::PARAM_INT)));
+		$qb->where($or);
+		if ($deleted !== null) {
+			$qb->andWhere(
+				$qb->expr()->eq('bi.deleted', $qb->createNamedParameter($deleted, IQueryBuilder::PARAM_INT))
+			);
+		}
+		$req = $qb->executeQuery();
+
+		$billIds = [];
+		while ($row = $req->fetch()) {
+			$billIds[] = $row['id'];
+		}
+		return $billIds;
+	}
 }

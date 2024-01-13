@@ -15,6 +15,8 @@ namespace OCA\Cospend\Db;
 use DateTime;
 use Exception;
 use OCA\Cospend\AppInfo\Application;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -264,6 +266,25 @@ class BillMapper extends QBMapper {
 			);
 		}
 		return $this->findEntities($qb);
+	}
+
+	public function getBillEntity(string $projectId, int $billId): ?Bill {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from(self::TABLE_NAME)
+			->where(
+				$qb->expr()->eq('id', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
+			)
+			->andWhere(
+				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+			);
+
+		try {
+			return $this->findEntity($qb);
+		} catch (DoesNotExistException | MultipleObjectsReturnedException | \OCP\DB\Exception $e) {
+			return null;
+		}
 	}
 
 	/**

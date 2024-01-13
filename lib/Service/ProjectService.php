@@ -1454,7 +1454,7 @@ class ProjectService {
 			}
 		}
 
-		if ($weight !== null && $weight < 0.0) {
+		if ($weight !== null && $weight <= 0.0) {
 			return ['weight' => $this->l10n->t('Not a valid decimal value')];
 		}
 
@@ -2440,107 +2440,39 @@ class ProjectService {
 		?array $paymentModes = null, ?int $deleted = null
 	): array {
 		// if we don't have the payment modes, get them now
-		if (is_null($paymentModes)) {
+		if ($paymentModes === null) {
 			$paymentModes = $this->getCategoriesOrPaymentModes($projectId, false);
 		}
 
-		$qb = $this->db->getQueryBuilder();
-		$qb->update('cospend_bills');
-
-		// set last modification timestamp
-		$ts = (new DateTime())->getTimestamp();
-		$qb->set('lastchanged', $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT));
-
+		$dbBill = $this->billMapper->getBillEntity($projectId, $billId);
 		// first check the bill exists
-		if ($this->billMapper->getBill($projectId, $billId) === null) {
+		if ($dbBill === null) {
 			return ['message' => $this->l10n->t('There is no such bill')];
 		}
-		// then edit the hell of it
-		if ($what !== null) {
-			$qb->set('what', $qb->createNamedParameter($what, IQueryBuilder::PARAM_STR));
-		}
 
-		if ($comment !== null) {
-			$qb->set('comment', $qb->createNamedParameter($comment, IQueryBuilder::PARAM_STR));
-		}
-
-		if ($deleted !== null) {
-			$qb->set('deleted', $qb->createNamedParameter($deleted, IQueryBuilder::PARAM_INT));
-		}
+		// validate params
 
 		if ($repeat !== null && $repeat !== '') {
-			if (in_array($repeat, Application::FREQUENCIES)) {
-				$qb->set('repeat', $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR));
-			} else {
+			if (!in_array($repeat, Application::FREQUENCIES)) {
 				return ['repeat' => $this->l10n->t('Invalid value')];
 			}
 		}
 
-		if ($repeatfreq !== null) {
-			$qb->set('repeatfreq', $qb->createNamedParameter($repeatfreq, IQueryBuilder::PARAM_INT));
-		}
-
-		if ($repeatuntil !== null) {
-			if ($repeatuntil === '') {
-				$qb->set('repeatuntil', $qb->createNamedParameter(null, IQueryBuilder::PARAM_STR));
-			} else {
-				$qb->set('repeatuntil', $qb->createNamedParameter($repeatuntil, IQueryBuilder::PARAM_STR));
-			}
-		}
-		if ($repeatallactive !== null) {
-			$qb->set('repeatallactive', $qb->createNamedParameter($repeatallactive, IQueryBuilder::PARAM_INT));
-		}
-		// payment mode
-		if (!is_null($paymentmodeid)) {
-			// is the old_id set for this payment mode? if yes, use it for old 'paymentmode' column
-			$paymentmode = 'n';
-			if (isset($paymentModes[$paymentmodeid], $paymentModes[$paymentmodeid]['old_id'])
-				&& $paymentModes[$paymentmodeid]['old_id'] !== null
-				&& $paymentModes[$paymentmodeid]['old_id'] !== ''
-			) {
-				$paymentmode = $paymentModes[$paymentmodeid]['old_id'];
-			}
-			$qb->set('paymentmodeid', $qb->createNamedParameter($paymentmodeid, IQueryBuilder::PARAM_INT));
-			$qb->set('paymentmode', $qb->createNamedParameter($paymentmode, IQueryBuilder::PARAM_STR));
-		} elseif (!is_null($paymentmode)) {
-			// is there a pm with this old id? if yes, use it for new id
-			$paymentmodeid = 0;
-			foreach ($paymentModes as $id => $pm) {
-				if ($pm['old_id'] === $paymentmode) {
-					$paymentmodeid = $id;
-					break;
-				}
-			}
-			$qb->set('paymentmodeid', $qb->createNamedParameter($paymentmodeid, IQueryBuilder::PARAM_INT));
-			$qb->set('paymentmode', $qb->createNamedParameter($paymentmode, IQueryBuilder::PARAM_STR));
-		}
-		if ($categoryid !== null) {
-			$qb->set('categoryid', $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT));
-		}
-		// priority to timestamp (moneybuster might send both for a moment)
-		if ($timestamp !== null) {
-			$qb->set('timestamp', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT));
-		} elseif ($date !== null && $date !== '') {
+		if ($timestamp === null && $date !== null && $date !== '') {
 			$datetime = DateTime::createFromFormat('Y-m-d', $date);
-			if ($datetime !== false) {
-				$dateTs = $datetime->getTimestamp();
-				$qb->set('timestamp', $qb->createNamedParameter($dateTs, IQueryBuilder::PARAM_INT));
-			} else {
+			if ($datetime === false) {
 				return ['date' => $this->l10n->t('Invalid value')];
 			}
 		}
-		if ($amount !== null) {
-			$qb->set('amount', $qb->createNamedParameter($amount, IQueryBuilder::PARAM_STR));
-		}
+
 		if ($payer !== null) {
-			$member = $this->getMemberById($projectId, $payer);
-			if ($member === null) {
+			$dbPayer = $this->memberMapper->getMemberById($projectId, $payer);
+			if ($dbPayer === null) {
 				return ['payer' => $this->l10n->t('Not a valid choice')];
-			} else {
-				$qb->set('payerid', $qb->createNamedParameter($payer, IQueryBuilder::PARAM_INT));
 			}
 		}
 
+		// validate owers
 		$owerIds = null;
 		// check owers
 		if ($payed_for !== null && $payed_for !== '') {
@@ -2559,15 +2491,88 @@ class ProjectService {
 			}
 		}
 
-		// do it already!
-		$qb->where(
-			$qb->expr()->eq('id', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
-		)
-			->andWhere(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			);
-		$qb->executeStatement();
-		$qb = $qb->resetQueryParts();
+		// UPDATE
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->update('cospend_bills');
+
+		// set last modification timestamp
+		$ts = (new DateTime())->getTimestamp();
+		$dbBill->setLastchanged($ts);
+
+		if ($what !== null) {
+			$dbBill->setWhat($what);
+		}
+
+		if ($comment !== null) {
+			$dbBill->setComment($comment);
+		}
+
+		if ($deleted !== null) {
+			$dbBill->setDeleted($deleted);
+		}
+
+		if ($repeat !== null && $repeat !== '') {
+			if (in_array($repeat, Application::FREQUENCIES)) {
+				$dbBill->setRepeat($repeat);
+			}
+		}
+
+		if ($repeatfreq !== null) {
+			$dbBill->setRepeatfreq($repeatfreq);
+		}
+
+		if ($repeatuntil !== null) {
+			$dbBill->setRepeatuntil($repeatuntil === '' ? null : $repeatuntil);
+		}
+		if ($repeatallactive !== null) {
+			$dbBill->setRepeatallactive($repeatallactive);
+		}
+		// payment mode
+		if ($paymentmodeid !== null) {
+			// is the old_id set for this payment mode? if yes, use it for old 'paymentmode' column
+			$paymentmode = 'n';
+			if (isset($paymentModes[$paymentmodeid], $paymentModes[$paymentmodeid]['old_id'])
+				&& $paymentModes[$paymentmodeid]['old_id'] !== null
+				&& $paymentModes[$paymentmodeid]['old_id'] !== ''
+			) {
+				$paymentmode = $paymentModes[$paymentmodeid]['old_id'];
+			}
+			$dbBill->setPaymentmodeid($paymentmodeid);
+			$dbBill->setPaymentmode($paymentmode);
+		} elseif ($paymentmode !== null) {
+			// is there a pm with this old id? if yes, use it for new id
+			$paymentmodeid = 0;
+			foreach ($paymentModes as $id => $pm) {
+				if ($pm['old_id'] === $paymentmode) {
+					$paymentmodeid = $id;
+					break;
+				}
+			}
+			$dbBill->setPaymentmodeid($paymentmodeid);
+			$dbBill->setPaymentmode($paymentmode);
+		}
+		if ($categoryid !== null) {
+			$dbBill->setCategoryid($categoryid);
+		}
+		// priority to timestamp (moneybuster might send both for a moment)
+		if ($timestamp !== null) {
+			$dbBill->setTimestamp($timestamp);
+		} elseif ($date !== null && $date !== '') {
+			$datetime = DateTime::createFromFormat('Y-m-d', $date);
+			if ($datetime !== false) {
+				$dateTs = $datetime->getTimestamp();
+				$dbBill->setTimestamp($dateTs);
+			}
+		}
+		if ($amount !== null) {
+			$dbBill->setAmount($amount);
+		}
+		if ($payer !== null) {
+			$dbBill->setPayerid($payer);
+		}
+
+		$this->billMapper->update($dbBill);
 
 		// edit the bill owers
 		if ($owerIds !== null) {

@@ -267,6 +267,10 @@ class BillMapper extends QBMapper {
 	 * @return array|null
 	 */
 	public function getBill(string $projectId, int $billId): ?array {
+		$dbBbill = $this->getBillEntity($projectId, $billId);
+		if ($dbBbill === null) {
+			return null;
+		}
 		// get bill owers
 		$billOwers = [];
 		$billOwerIds = [];
@@ -298,7 +302,6 @@ class BillMapper extends QBMapper {
 		$qb->resetQueryParts();
 
 		// get the bill
-		$dbBbill = $this->getBillEntity($projectId, $billId);
 		$bill = $dbBbill->jsonSerialize();
 		$bill['owers'] = $billOwers;
 		$bill['owerIds'] = $billOwerIds;

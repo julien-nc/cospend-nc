@@ -3076,11 +3076,11 @@ class ProjectService {
 			$dbIcon = $row['encoded_icon'] === null ? null : urldecode($row['encoded_icon']);
 			$dbColor = $row['color'];
 			$category = [
+				'id' => $dbCategoryId,
+				'projectid' => $projectId,
 				'name' => $dbName,
 				'icon' => $dbIcon,
 				'color' => $dbColor,
-				'id' => $dbCategoryId,
-				'projectid' => $projectId,
 			];
 			break;
 		}
@@ -3345,7 +3345,7 @@ class ProjectService {
 	 */
 	public function createUserShare(
 		string $projectId, string $userId, string $fromUserId, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT,
-		bool   $manually_added = true
+		bool $manually_added = true
 	): array {
 		$user = $this->userManager->get($userId);
 		if ($user !== null && $userId !== $fromUserId) {
@@ -3392,6 +3392,10 @@ class ProjectService {
 						$response = [
 							'id' => $insertedShareId,
 							'name' => $userName,
+							'accesslevel' => $accesslevel,
+							'manually_added' => $manually_added,
+							'userid' => $userId,
+							'type' => Application::SHARE_TYPE_USER,
 						];
 
 						// activity
@@ -3443,10 +3447,15 @@ class ProjectService {
 	 * Add public share access (public link with token)
 	 *
 	 * @param string $projectId
+	 * @param string|null $label
+	 * @param string|null $password
+	 * @param int $accesslevel
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
-	public function createPublicShare(string $projectId): array {
+	public function createPublicShare(
+		string $projectId, ?string $label = null, ?string $password = null, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT
+	): array {
 		$qb = $this->db->getQueryBuilder();
 		// generate token
 		$token = md5($projectId.rand());
@@ -3455,7 +3464,10 @@ class ProjectService {
 			->values([
 				'projectid' => $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR),
 				'userid' => $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR),
-				'type' => $qb->createNamedParameter(Application::SHARE_TYPE_PUBLIC_LINK, IQueryBuilder::PARAM_STR)
+				'type' => $qb->createNamedParameter(Application::SHARE_TYPE_PUBLIC_LINK, IQueryBuilder::PARAM_STR),
+				'accesslevel' => $qb->createNamedParameter($accesslevel, IQueryBuilder::PARAM_INT),
+				'label' => $qb->createNamedParameter($label, IQueryBuilder::PARAM_STR),
+				'password' => $qb->createNamedParameter($password, IQueryBuilder::PARAM_STR),
 			]);
 		$qb->executeStatement();
 		$qb = $qb->resetQueryParts();
@@ -3496,7 +3508,11 @@ class ProjectService {
 
 		return [
 			'token' => $token,
-			'id' => $insertedShareId
+			'id' => $insertedShareId,
+			'accesslevel' => $accesslevel,
+			'label' => $label,
+			'password' => $password,
+			'type' => Application::SHARE_TYPE_PUBLIC_LINK,
 		];
 	}
 
@@ -3788,10 +3804,13 @@ class ProjectService {
 	 * @param string $projectId
 	 * @param string $groupId
 	 * @param string|null $fromUserId
+	 * @param int $accesslevel
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
-	public function createGroupShare(string $projectId, string $groupId, ?string $fromUserId = null): array {
+	public function createGroupShare(
+		string $projectId, string $groupId, ?string $fromUserId = null, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT
+	): array {
 		if ($this->groupManager->groupExists($groupId)) {
 			$groupName = $this->groupManager->get($groupId)->getDisplayName();
 			$qb = $this->db->getQueryBuilder();
@@ -3821,7 +3840,8 @@ class ProjectService {
 					->values([
 						'projectid' => $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR),
 						'userid' => $qb->createNamedParameter($groupId, IQueryBuilder::PARAM_STR),
-						'type' => $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR)
+						'type' => $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR),
+						'accesslevel' => $qb->createNamedParameter($accesslevel, IQueryBuilder::PARAM_INT),
 					]);
 				$qb->executeStatement();
 				$qb = $qb->resetQueryParts();
@@ -3839,6 +3859,9 @@ class ProjectService {
 				return [
 					'id' => $insertedShareId,
 					'name' => $groupName,
+					'groupid' => $groupId,
+					'accesslevel' => $accesslevel,
+					'type' => Application::SHARE_TYPE_GROUP,
 				];
 			} else {
 				return ['message' => $this->l10n->t('Already shared with this group')];
@@ -3915,12 +3938,13 @@ class ProjectService {
 	 * @param string $projectId
 	 * @param string $circleId
 	 * @param string|null $fromUserId
+	 * @param int $accesslevel
 	 * @return array
 	 * @throws InitiatorNotFoundException
 	 * @throws RequestBuilderException
 	 * @throws \OCP\DB\Exception
 	 */
-	public function createCircleShare(string $projectId, string $circleId, ?string $fromUserId = null): array {
+	public function createCircleShare(string $projectId, string $circleId, ?string $fromUserId = null, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT): array {
 		// check if circleId exists
 		$circlesEnabled = $this->appManager->isEnabledForUser('circles');
 		if ($circlesEnabled) {
@@ -3968,7 +3992,8 @@ class ProjectService {
 						->values([
 							'projectid' => $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR),
 							'userid' => $qb->createNamedParameter($circleId, IQueryBuilder::PARAM_STR),
-							'type' => $qb->createNamedParameter(Application::SHARE_TYPE_CIRCLE, IQueryBuilder::PARAM_STR)
+							'type' => $qb->createNamedParameter(Application::SHARE_TYPE_CIRCLE, IQueryBuilder::PARAM_STR),
+							'accesslevel' => $qb->createNamedParameter($accesslevel, IQueryBuilder::PARAM_INT),
 						]);
 					$qb->executeStatement();
 					$qb = $qb->resetQueryParts();
@@ -3987,6 +4012,9 @@ class ProjectService {
 					return [
 						'id' => $insertedShareId,
 						'name' => $circleName,
+						'circleid' => $circleId,
+						'accesslevel' => $accesslevel,
+						'type' => Application::SHARE_TYPE_CIRCLE,
 					];
 				} else {
 					$circlesManager->stopSession();

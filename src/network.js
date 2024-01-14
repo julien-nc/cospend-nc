@@ -576,13 +576,13 @@ export function deleteSharedAccess(projectId, access) {
 	const shId = access.id
 	let url
 	if (access.type === constants.SHARE_TYPE.USER) {
-		url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/user-share/{shId}', { shId })
+		url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/user-share/{shId}', { projectId, shId })
 	} else if (access.type === constants.SHARE_TYPE.GROUP) {
-		url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/group-share/{shId}', { shId })
+		url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/group-share/{shId}', { projectId, shId })
 	} else if (access.type === constants.SHARE_TYPE.CIRCLE) {
-		url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/circle-share/{shId}', { shId })
+		url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/circle-share/{shId}', { projectId, shId })
 	} else if (access.type === constants.SHARE_TYPE.PUBLIC_LINK) {
-		url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/public-share/{shId}', { shId })
+		url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/public-share/{shId}', { projectId, shId })
 	}
 	return axios.delete(url)
 }

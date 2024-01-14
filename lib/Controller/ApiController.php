@@ -48,7 +48,13 @@ use OCP\Share\IShare;
  * @psalm-import-type CospendFullProjectInfo from ResponseDefinitions
  * @psalm-import-type CospendMember from ResponseDefinitions
  * @psalm-import-type CospendBill from ResponseDefinitions
- * @psalm-import-type PaymentMode from ResponseDefinitions
+ * @psalm-import-type CospendPaymentMode from ResponseDefinitions
+ * @psalm-import-type CospendCategory from ResponseDefinitions
+ * @psalm-import-type CospendCurrency from ResponseDefinitions
+ * @psalm-import-type CospendUserShare from ResponseDefinitions
+ * @psalm-import-type CospendPublicShare from ResponseDefinitions
+ * @psalm-import-type CospendGroupShare from ResponseDefinitions
+ * @psalm-import-type CospendCircleShare from ResponseDefinitions
  */
 class ApiController extends OCSController {
 
@@ -893,7 +899,10 @@ class ApiController extends OCSController {
 	 * @param string|null $name
 	 * @param string|null $icon
 	 * @param string|null $color
-	 * @return DataResponse<Http::STATUS_OK, PaymentMode, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, CospendPaymentMode, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 *
+	 * 200: The payment mode was successfully edited
+	 * 400: Failed to edit the payment mode
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -914,6 +923,9 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param array $order
 	 * @return DataResponse<Http::STATUS_OK, true, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, false, array{}>
+	 *
+	 * 200: The payment mode order was successfully saved
+	 * 400: Failed to save the payment mode order
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -930,8 +942,11 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param int $pmId
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
+	 *
+	 * 200: The payment mode was successfully deleted
+	 * 400: Failed to delete the payment mode
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -939,7 +954,7 @@ class ApiController extends OCSController {
 	public function deletePaymentMode(string $projectId, int $pmId): DataResponse {
 		$result = $this->projectService->deletePaymentMode($projectId, $pmId);
 		if (isset($result['success'])) {
-			return new DataResponse($pmId);
+			return new DataResponse('');
 		}
 		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
@@ -952,7 +967,10 @@ class ApiController extends OCSController {
 	 * @param string|null $icon
 	 * @param string $color
 	 * @param int|null $order
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>
+	 *
+	 * 200: The category was successfully created
+	 * 400: Failed to create the category
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -970,8 +988,11 @@ class ApiController extends OCSController {
 	 * @param string|null $name
 	 * @param string|null $icon
 	 * @param string|null $color
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, CospendCategory, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
+	 *
+	 * 200: The category was successfully edited
+	 * 400: Failed to edit the category
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -992,8 +1013,11 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param array $order
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, true, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, false, array{}>
 	 * @throws Exception
+	 *
+	 * 200: The category order was successfully saved
+	 * 400: Failed to save the category order
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -1010,8 +1034,11 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param int $categoryId
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
+	 *
+	 * 200: The category was successfully deleted
+	 * 400: Failed to delete the category
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -1019,7 +1046,7 @@ class ApiController extends OCSController {
 	public function deleteCategory(string $projectId, int $categoryId): DataResponse {
 		$result = $this->projectService->deleteCategory($projectId, $categoryId);
 		if (isset($result['success'])) {
-			return new DataResponse($categoryId);
+			return new DataResponse('');
 		}
 		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
@@ -1030,8 +1057,11 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param string $name
 	 * @param float $rate
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>
 	 * @throws Exception
+	 *
+	 * 200: The currency was successfully created
+	 * 400: Failed to create the currency
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -1048,8 +1078,11 @@ class ApiController extends OCSController {
 	 * @param int $currencyId
 	 * @param string $name
 	 * @param float $rate
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, CospendCurrency, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
+	 *
+	 * 200: The currency was successfully edited
+	 * 400: Failed to edit the currency
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -1067,8 +1100,11 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param int $currencyId
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
+	 *
+	 * 200: The currency was successfully deleted
+	 * 400: Failed to delete the currency
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -1076,7 +1112,7 @@ class ApiController extends OCSController {
 	public function deleteCurrency(string $projectId, int $currencyId): DataResponse {
 		$result = $this->projectService->deleteCurrency($projectId, $currencyId);
 		if (isset($result['success'])) {
-			return new DataResponse($currencyId);
+			return new DataResponse('');
 		}
 		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
@@ -1088,8 +1124,11 @@ class ApiController extends OCSController {
 	 * @param string $userId
 	 * @param int $accessLevel
 	 * @param bool $manuallyAdded
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, CospendUserShare, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
+	 *
+	 * 200: The user share was successfully created
+	 * 400: Failed to create the user share
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -1110,8 +1149,11 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param int $shId
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
 	 * @throws Exception
+	 *
+	 * 200: The user share was successfully deleted
+	 * 400: Failed to delete the user share
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -1123,7 +1165,7 @@ class ApiController extends OCSController {
 		if ($userAccessLevel >= $shareAccessLevel) {
 			$result = $this->projectService->deleteUserShare($projectId, $shId, $this->userId);
 			if (isset($result['success'])) {
-				return new DataResponse('OK');
+				return new DataResponse('');
 			}
 			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		} else {
@@ -1138,14 +1180,22 @@ class ApiController extends OCSController {
 	 * Create a public share link
 	 *
 	 * @param string $projectId
-	 * @return DataResponse
+	 * @param string|null $label
+	 * @param string|null $password
+	 * @param int $accesslevel
+	 * @return DataResponse<Http::STATUS_OK, CospendPublicShare, array{}>
 	 * @throws Exception
+	 *
+	 * 200: The public share was successfully created
+	 * 400: Failed to create the public share
 	 */
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
-	public function createPublicShare(string $projectId): DataResponse {
-		$result = $this->projectService->createPublicShare($projectId);
+	public function createPublicShare(
+		string $projectId, ?string $label = null, ?string $password = null, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT
+	): DataResponse {
+		$result = $this->projectService->createPublicShare($projectId, $label, $password, $accesslevel);
 		return new DataResponse($result);
 	}
 
@@ -1154,8 +1204,11 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param int $shId
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
 	 * @throws Exception
+	 *
+	 * 200: The public share was successfully deleted
+	 * 400: Failed to delete the public share
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -1166,7 +1219,7 @@ class ApiController extends OCSController {
 		if ($userAccessLevel >= $shareAccessLevel) {
 			$result = $this->projectService->deletePublicShare($projectId, $shId);
 			if (isset($result['success'])) {
-				return new DataResponse('OK');
+				return new DataResponse('');
 			}
 			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		} else {
@@ -1182,14 +1235,18 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param string $groupId
-	 * @return DataResponse
+	 * @param int $accesslevel
+	 * @return DataResponse<Http::STATUS_OK, CospendGroupShare, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
+	 *
+	 * 200: The group share was successfully created
+	 * 400: Failed to create the group share
 	 */
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
-	public function createGroupShare(string $projectId, string $groupId): DataResponse {
-		$result = $this->projectService->createGroupShare($projectId, $groupId, $this->userId);
+	public function createGroupShare(string $projectId, string $groupId, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT): DataResponse {
+		$result = $this->projectService->createGroupShare($projectId, $groupId, $this->userId, $accesslevel);
 		if (!isset($result['message'])) {
 			return new DataResponse($result);
 		}
@@ -1201,8 +1258,11 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param int $shId
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
 	 * @throws Exception
+	 *
+	 * 200: The group share was successfully deleted
+	 * 400: Failed to delete the group share
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -1214,7 +1274,7 @@ class ApiController extends OCSController {
 		if ($userAccessLevel >= $shareAccessLevel) {
 			$result = $this->projectService->deleteGroupShare($projectId, $shId, $this->userId);
 			if (isset($result['success'])) {
-				return new DataResponse('OK');
+				return new DataResponse('');
 			}
 			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		} else {
@@ -1230,16 +1290,20 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param string $circleId
-	 * @return DataResponse
+	 * @param int $accesslevel
+	 * @return DataResponse<Http::STATUS_OK, CospendCircleShare, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
 	 * @throws InitiatorNotFoundException
 	 * @throws RequestBuilderException
+	 *
+	 * 200: The circle share was successfully created
+	 * 400: Failed to create the circle share
 	 */
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
-	public function createCircleShare(string $projectId, string $circleId): DataResponse {
-		$result = $this->projectService->createCircleShare($projectId, $circleId, $this->userId);
+	public function createCircleShare(string $projectId, string $circleId, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT): DataResponse {
+		$result = $this->projectService->createCircleShare($projectId, $circleId, $this->userId, $accesslevel);
 		if (!isset($result['message'])) {
 			return new DataResponse($result);
 		}
@@ -1251,8 +1315,11 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param int $shId
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
 	 * @throws Exception
+	 *
+	 * 200: The circle share was successfully deleted
+	 * 400: Failed to delete the circle share
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -1264,7 +1331,7 @@ class ApiController extends OCSController {
 		if ($userAccessLevel >= $shareAccessLevel) {
 			$result = $this->projectService->deleteCircleShare($projectId, $shId, $this->userId);
 			if (isset($result['success'])) {
-				return new DataResponse('OK');
+				return new DataResponse('');
 			}
 			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		} else {

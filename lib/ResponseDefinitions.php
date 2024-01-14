@@ -80,6 +80,7 @@ use OCA\Cospend\AppInfo\Application;
  *     id: int,
  *     name: string,
  *     exchange_rate: float,
+ *     projectid: string,
  *  }
  *
  * @psalm-type CospendCategoryOrPaymentMode = array{
@@ -87,10 +88,13 @@ use OCA\Cospend\AppInfo\Application;
  *     projectid: string,
  *     name: ?string,
  *     color: ?string,
+ *     icon: ?string,
  *     order: int,
  *  }
  *
- * @psalm-type PaymentMode = CospendCategoryOrPaymentMode&array{
+ * @psalm-type CospendCategory = CospendCategoryOrPaymentMode
+ *
+ * @psalm-type CospendPaymentMode = CospendCategoryOrPaymentMode&array{
  *     old_id: string,
  *  }
  *

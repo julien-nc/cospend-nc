@@ -417,41 +417,7 @@ class BillMapper extends QBMapper {
 			$dbBillId = (int) $row['id'];
 			// if first time we see the bill : add it to bill list
 			if (!isset($billDict[$dbBillId])) {
-				$dbAmount = (float) $row['amount'];
-				$dbWhat = $row['what'];
-				$dbComment = $row['comment'];
-				$dbTimestamp = (int) $row['timestamp'];
-				$dbDate = DateTime::createFromFormat('U', $row['timestamp']);
-				$dbRepeat = $row['repeat'];
-				$dbPayerId = (int) $row['payerid'];
-				$dbPaymentMode = $row['paymentmode'];
-				$dbPaymentModeId = (int) $row['paymentmodeid'];
-				$dbCategoryId = (int) $row['categoryid'];
-				$dbLastchanged = (int) $row['lastchanged'];
-				$dbRepeatAllActive = (int) $row['repeatallactive'];
-				$dbRepeatUntil = $row['repeatuntil'];
-				$dbRepeatFreq = (int) $row['repeatfreq'];
-				$dbDeleted = (int) $row['deleted'];
-				$billDict[$dbBillId] = [
-					'id' => $dbBillId,
-					'amount' => $dbAmount,
-					'what' => $dbWhat,
-					'comment' => $dbComment,
-					'timestamp' => $dbTimestamp,
-					'date' => $dbDate->format('Y-m-d'),
-					'payer_id' => $dbPayerId,
-					'owers' => [],
-					'owerIds' => [],
-					'repeat' => $dbRepeat,
-					'paymentmode' => $dbPaymentMode,
-					'paymentmodeid' => $dbPaymentModeId,
-					'categoryid' => $dbCategoryId,
-					'lastchanged' => $dbLastchanged,
-					'repeatallactive' => $dbRepeatAllActive,
-					'repeatuntil' => $dbRepeatUntil,
-					'repeatfreq' => $dbRepeatFreq,
-					'deleted' => $dbDeleted,
-				];
+				$billDict[$dbBillId] = $this->getBillFromRow($row);
 				// keep order of bills
 				$orderedBillIds[] = $dbBillId;
 			}

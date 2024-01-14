@@ -181,10 +181,10 @@ class ProjectService {
 	 */
 	public function getUserMaxAccessLevel(string $userId, string $projectId): int {
 		$result = Application::ACCESS_LEVEL_NONE;
-		$projectInfo = $this->getProjectInfo($projectId);
-		if ($projectInfo !== null) {
+		$dbProject = $this->projectMapper->find($projectId);
+		if ($dbProject !== null) {
 			// does the user own the project ?
-			if ($projectInfo['userid'] === $userId) {
+			if ($dbProject->getUserid() === $userId) {
 				return Application::ACCESS_LEVEL_ADMIN;
 			} else {
 				$qb = $this->db->getQueryBuilder();

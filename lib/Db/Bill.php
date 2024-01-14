@@ -86,22 +86,22 @@ class Bill extends Entity implements \JsonSerializable {
 	#[\ReturnTypeWillChange]
 	public function jsonSerialize() {
 		return [
-			'id' => $this->id,
-			'projectid' => $this->projectid,
-			'what' => $this->what,
-			'comment' => $this->comment,
-			'payer_id' => $this->payerid,
-			'timestamp' => $this->timestamp,
-			'date' => DateTime::createFromFormat('U', $this->timestamp)->format('Y-m-d'),
-			'amount' => (int)$this->amount,
-			'repeat' => $this->repeat,
-			'repeatallactive' => (int)$this->repeatallactive,
-			'repeatuntil' => $this->repeatuntil,
-			'repeatfreq' => (int)$this->repeatfreq,
-			'categoryid' => (int)$this->categoryid,
-			'paymentmode' => $this->paymentmode,
-			'paymentmodeid' => (int)$this->paymentmodeid,
-			'deleted' => (int)$this->deleted,
+			'id' => $this->getId(),
+			'projectid' => $this->getProjectid(),
+			'what' => $this->getWhat(),
+			'comment' => $this->getComment(),
+			'payer_id' => $this->getPayerid(),
+			'timestamp' => $this->getTimestamp(),
+			'date' => DateTime::createFromFormat('U', (string)$this->getTimestamp())->format('Y-m-d'),
+			'amount' => $this->getAmount(),
+			'repeat' => $this->getRepeat(),
+			'repeatallactive' => $this->getRepeatallactive(),
+			'repeatuntil' => $this->getRepeatuntil(),
+			'repeatfreq' => $this->getRepeatfreq(),
+			'categoryid' => $this->getCategoryid(),
+			'paymentmode' => $this->getPaymentmode(),
+			'paymentmodeid' => $this->getPaymentmodeid(),
+			'deleted' => $this->getDeleted(),
 		];
 	}
 }

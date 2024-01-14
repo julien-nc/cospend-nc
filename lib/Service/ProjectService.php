@@ -319,7 +319,7 @@ class ProjectService {
 	 * @param string $projectId
 	 * @return array
 	 */
-	public function deleteProject(string $projectId): array	{
+	public function deleteProject(string $projectId): array {
 		$dbProjectToDelete = $this->projectMapper->find($projectId);
 		if ($dbProjectToDelete === null) {
 			return ['error' => $this->l10n->t('Not Found')];

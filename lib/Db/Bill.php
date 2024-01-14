@@ -18,8 +18,8 @@ use OCP\AppFramework\Db\Entity;
 /**
  * @method string getWhat()
  * @method void setWhat(string $what)
- * @method string getComment()
- * @method void setComment(string $comment)
+ * @method string|null getComment()
+ * @method void setComment(string|null $comment)
  * @method int getPayerid()
  * @method void setPayerid(int $payerid)
  * @method float getAmount()
@@ -89,7 +89,7 @@ class Bill extends Entity implements \JsonSerializable {
 			'id' => $this->getId(),
 			'projectid' => $this->getProjectid(),
 			'what' => $this->getWhat(),
-			'comment' => $this->getComment(),
+			'comment' => $this->getComment() ?? '',
 			'payer_id' => $this->getPayerid(),
 			'timestamp' => $this->getTimestamp(),
 			'date' => DateTime::createFromFormat('U', (string)$this->getTimestamp())->format('Y-m-d'),

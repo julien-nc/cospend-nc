@@ -554,17 +554,18 @@ class BillMapper extends QBMapper {
 		if ($offset) {
 			$qb->setFirstResult($offset);
 		}
-		$req = $qb->executeQuery();
 
-		$bills = [];
+		$billEntities = $this->findEntities($qb);
 		$includeBillFound = false;
-		while ($row = $req->fetch()) {
-			if ($includeBillId === (int) $row['id']) {
+		foreach ($billEntities as $bill) {
+			if ($bill->getId() === $includeBillId) {
 				$includeBillFound = true;
+				break;
 			}
-			$bills[] = $this->getBillFromRow($row);
 		}
-		$req->closeCursor();
+		$bills = array_map(static function (Bill $bill) {
+			return $bill->jsonSerialize();
+		}, $billEntities);
 
 		// look further if we want to include a specific bill
 		if ($includeBillId !== null && $includeBillFound === false && $limit && $offset === 0) {
@@ -572,16 +573,19 @@ class BillMapper extends QBMapper {
 			while ($lastResultCount > 0 && $includeBillFound === false) {
 				$offset = $offset + $limit;
 				$qb->setFirstResult($offset);
-				$req = $qb->executeQuery();
-				$lastResultCount = 0;
-				while ($row = $req->fetch()) {
-					if ($includeBillId === (int) $row['id']) {
+				$billEntities = $this->findEntities($qb);
+				$lastResultCount = count($billEntities);
+
+				foreach ($billEntities as $bill) {
+					if ($bill->getId() === $includeBillId) {
 						$includeBillFound = true;
+						break;
 					}
-					$lastResultCount++;
-					$bills[] = $this->getBillFromRow($row);
 				}
-				$req->closeCursor();
+				$moreBills = array_map(static function (Bill $bill) {
+					return $bill->jsonSerialize();
+				}, $billEntities);
+				$bills = array_merge($bills, $moreBills);
 			}
 		}
 

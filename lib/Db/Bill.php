@@ -12,6 +12,7 @@
 
 namespace OCA\Cospend\Db;
 
+use DateTime;
 use OCP\AppFramework\Db\Entity;
 
 /**
@@ -86,16 +87,17 @@ class Bill extends Entity implements \JsonSerializable {
 	public function jsonSerialize() {
 		return [
 			'id' => $this->id,
+			'projectid' => $this->projectid,
 			'what' => $this->what,
 			'comment' => $this->comment,
-			'payerid' => (int)$this->payerid,
-			'timestamp' => (int)$this->timestamp,
+			'payer_id' => $this->payerid,
+			'timestamp' => $this->timestamp,
+			'date' => DateTime::createFromFormat('U', $this->timestamp)->format('Y-m-d'),
 			'amount' => (int)$this->amount,
 			'repeat' => $this->repeat,
 			'repeatallactive' => (int)$this->repeatallactive,
 			'repeatuntil' => $this->repeatuntil,
 			'repeatfreq' => (int)$this->repeatfreq,
-			'projectid' => $this->projectid,
 			'categoryid' => (int)$this->categoryid,
 			'paymentmode' => $this->paymentmode,
 			'paymentmodeid' => (int)$this->paymentmodeid,

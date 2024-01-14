@@ -1861,7 +1861,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertTrue(isset($result['id']));
 		$token = $result['token'];
 
-		$projInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		$projInfo = $this->projectService->getShareInfoFromShareToken($token);
 		$this->assertEquals($projectId, $projInfo['projectid']);
 
 		$this->projectService->deleteProject($projectId);

@@ -119,23 +119,6 @@ class BillMapper extends QBMapper {
 		$qb->executeStatement();
 	}
 
-	public function deleteBill(string $projectId, int $billId): array {
-		$nbBillOwersDeleted = $this->deleteBillOwersOfBill($billId);
-
-		$qb = $this->db->getQueryBuilder();
-		$qb->delete('cospend_bills')
-			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('id', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
-			);
-		$qb->executeStatement();
-		return [
-			'billOwers' => $nbBillOwersDeleted,
-		];
-	}
-
 	/**
 	 * @param string $projectId
 	 * @param string|null $what
@@ -224,22 +207,6 @@ class BillMapper extends QBMapper {
 		];
 	}
 
-	public function moveBillToTrash(string $projectId, int $billId): array {
-		$qb = $this->db->getQueryBuilder();
-		$qb->update('cospend_bills')
-			->set('deleted', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
-			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('id', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
-			);
-		$nbBillsDeleted = $qb->executeStatement();
-		return [
-			'bills' => $nbBillsDeleted,
-		];
-	}
-
 	/**
 	 * @param string $projectId
 	 * @param string|null $what
@@ -268,6 +235,11 @@ class BillMapper extends QBMapper {
 		return $this->findEntities($qb);
 	}
 
+	/**
+	 * @param string $projectId
+	 * @param int $billId
+	 * @return Bill|null
+	 */
 	public function getBillEntity(string $projectId, int $billId): ?Bill {
 		$qb = $this->db->getQueryBuilder();
 
@@ -295,7 +267,6 @@ class BillMapper extends QBMapper {
 	 * @return array|null
 	 */
 	public function getBill(string $projectId, int $billId): ?array {
-		$bill = null;
 		// get bill owers
 		$billOwers = [];
 		$billOwerIds = [];
@@ -324,43 +295,13 @@ class BillMapper extends QBMapper {
 			$billOwerIds[] = $dbOwerId;
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
-
-		// get the bill
-		$qb->select('id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
-			'repeatallactive', 'paymentmode', 'paymentmodeid', 'categoryid', 'repeatuntil', 'repeatfreq', 'deleted')
-			->from('cospend_bills')
-			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('id', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
-			);
-		$req = $qb->executeQuery();
-		while ($row = $req->fetch()) {
-			$bill = [
-				'id' => (int) $row['id'],
-				'amount' => (float) $row['amount'],
-				'what' => $row['what'],
-				'comment' => $row['comment'],
-				'date' => DateTime::createFromFormat('U', $row['timestamp'])->format('Y-m-d'),
-				'timestamp' => (int) $row['timestamp'],
-				'payer_id' => (int) $row['payerid'],
-				'owers' => $billOwers,
-				'owerIds' => $billOwerIds,
-				'repeat' => $row['repeat'],
-				'repeatallactive' => (int) $row['repeatallactive'],
-				'repeatuntil' => $row['repeatuntil'],
-				'repeatfreq' => (int) $row['repeatfreq'],
-				'paymentmode' => $row['paymentmode'],
-				'paymentmodeid' => (int) $row['paymentmodeid'],
-				'categoryid' => (int) $row['categoryid'],
-				'deleted' => (int) $row['deleted'],
-			];
-		}
-		$req->closeCursor();
 		$qb->resetQueryParts();
 
+		// get the bill
+		$dbBbill = $this->getBillEntity($projectId, $billId);
+		$bill = $dbBbill->jsonSerialize();
+		$bill['owers'] = $billOwers;
+		$bill['owerIds'] = $billOwerIds;
 		return $bill;
 	}
 
@@ -570,12 +511,12 @@ class BillMapper extends QBMapper {
 			'repeatuntil', 'repeatfreq', 'deleted')
 			->from('cospend_bills', 'bi')
 			->where(
-				$qb->expr()->eq('bi.projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
 		// take bills that have changed after $lastchanged
 		if ($lastchanged !== null) {
 			$qb->andWhere(
-				$qb->expr()->gt('bi.lastchanged', $qb->createNamedParameter($lastchanged, IQueryBuilder::PARAM_INT))
+				$qb->expr()->gt('lastchanged', $qb->createNamedParameter($lastchanged, IQueryBuilder::PARAM_INT))
 			);
 		}
 		if ($payerId !== null) {
@@ -649,7 +590,7 @@ class BillMapper extends QBMapper {
 		$bills = [];
 		$includeBillFound = false;
 		while ($row = $req->fetch()) {
-			if ($includeBillId !== null && $includeBillId === (int) $row['id']) {
+			if ($includeBillId === (int) $row['id']) {
 				$includeBillFound = true;
 			}
 			$bills[] = $this->getBillFromRow($row);

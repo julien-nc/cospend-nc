@@ -39,7 +39,7 @@ class PublicAuthMiddleware extends Middleware {
 		if (!empty($attributes)) {
 			$paramToken = $this->request->getParam('token');
 			$paramPassword = $this->request->getParam('password');
-			$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($paramToken);
+			$publicShareInfo = $this->projectService->getShareInfoFromShareToken($paramToken);
 			if ($publicShareInfo === null) {
 				throw new CospendPublicAuthNotValidException(
 					$this->l->t('Project not found'), Http::STATUS_UNAUTHORIZED,

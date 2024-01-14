@@ -319,36 +319,34 @@ class ProjectService {
 	 * @param string $projectId
 	 * @return array
 	 */
-	public function deleteProject(string $projectId): array {
-		$projectToDelete = $this->getProjectById($projectId);
-		if ($projectToDelete !== null) {
-			$this->projectMapper->deleteBillOwersOfProject($projectId);
-
-			$associatedTableNames = [
-				'cospend_bills',
-				'cospend_members',
-				'cospend_shares',
-				'cospend_currencies',
-				'cospend_categories',
-				'cospend_paymentmodes'
-			];
-
-			$qb = $this->db->getQueryBuilder();
-			foreach ($associatedTableNames as $tableName) {
-				$qb->delete($tableName)
-					->where(
-						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-					);
-				$qb->executeStatement();
-				$qb = $qb->resetQueryParts();
-			}
-
-			$dbProject = $this->projectMapper->find($projectId);
-			$this->projectMapper->delete($dbProject);
-			return ['message' => 'DELETED'];
-		} else {
+	public function deleteProject(string $projectId): array	{
+		$dbProjectToDelete = $this->projectMapper->find($projectId);
+		if ($dbProjectToDelete === null) {
 			return ['error' => $this->l10n->t('Not Found')];
 		}
+		$this->projectMapper->deleteBillOwersOfProject($projectId);
+
+		$associatedTableNames = [
+			'cospend_bills',
+			'cospend_members',
+			'cospend_shares',
+			'cospend_currencies',
+			'cospend_categories',
+			'cospend_paymentmodes'
+		];
+
+		$qb = $this->db->getQueryBuilder();
+		foreach ($associatedTableNames as $tableName) {
+			$qb->delete($tableName)
+				->where(
+					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+				);
+			$qb->executeStatement();
+			$qb = $qb->resetQueryParts();
+		}
+
+		$this->projectMapper->delete($dbProjectToDelete);
+		return ['message' => 'DELETED'];
 	}
 
 	/**
@@ -1016,13 +1014,15 @@ class ProjectService {
 				return ['message' => 'Forbidden'];
 			}
 		}
-		$billToDelete = $this->billMapper->getBill($projectId, $billId);
+		$billToDelete = $this->billMapper->getBillEntity($projectId, $billId);
 		if ($billToDelete !== null) {
 			// really delete bills that already are in the trashbin
-			if ($moveToTrash && $billToDelete['deleted'] === 0) {
-				$this->billMapper->moveBillToTrash($projectId, $billId);
+			if ($moveToTrash && $billToDelete->getDeleted() === 0) {
+				$billToDelete->setDeleted(1);
+				$this->billMapper->update($billToDelete);
 			} else {
-				$this->billMapper->deleteBill($projectId, $billId);
+				$this->billMapper->deleteBillOwersOfBill($billId);
+				$this->billMapper->delete($billToDelete);
 			}
 
 			$ts = (new DateTime())->getTimestamp();
@@ -1044,48 +1044,6 @@ class ProjectService {
 	public function getMemberById(string $projectId, int $memberId): ?array {
 		$member = $this->memberMapper->getMemberById($projectId, $memberId);
 		return $member?->jsonSerialize();
-	}
-
-	/**
-	 * Get project info
-	 *
-	 * @param string $projectId
-	 * @return array|null
-	 * @throws \OCP\DB\Exception
-	 */
-	public function getProjectById(string $projectId): ?array {
-		$project = null;
-
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('id', 'userid', 'name', 'email', 'currencyname', 'autoexport', 'lastchanged')
-			->from('cospend_projects')
-			->where(
-				$qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			);
-		$req = $qb->executeQuery();
-
-		while ($row = $req->fetch()) {
-			$dbId = $row['id'];
-			$dbName = $row['name'];
-			$dbUserId = $row['userid'];
-			$dbEmail = $row['email'];
-			$dbCurrencyName = $row['currencyname'];
-			$dbAutoexport = $row['autoexport'];
-			$dbLastchanged = (int) $row['lastchanged'];
-			$project = [
-				'id' => $dbId,
-				'name' => $dbName,
-				'userid' => $dbUserId,
-				'email' => $dbEmail,
-				'lastchanged' => $dbLastchanged,
-				'currencyname' => $dbCurrencyName,
-				'autoexport' => $dbAutoexport,
-			];
-			break;
-		}
-		$req->closeCursor();
-		$qb->resetQueryParts();
-		return $project;
 	}
 
 	/**
@@ -1644,7 +1602,7 @@ class ProjectService {
 	/**
 	 * For all projects the user has access to, get id => name
 	 *
-	 * @param string $userId
+	 * @param string|null $userId
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
@@ -2110,9 +2068,10 @@ class ProjectService {
 	 * Get project info for a given public share token
 	 *
 	 * @param string $token
-	 * @return array
+	 * @return array|null
+	 * @throws \OCP\DB\Exception
 	 */
-	public function getProjectInfoFromShareToken(string $token): ?array {
+	public function getShareInfoFromShareToken(string $token): ?array {
 		$projectInfo = null;
 
 		$qb = $this->db->getQueryBuilder();

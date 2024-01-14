@@ -13,6 +13,7 @@
 namespace OCA\Cospend\Command;
 
 use OC\Core\Command\Base;
+use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Service\ProjectService;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,7 +21,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ExportProject extends Base {
 
-	public function __construct(private ProjectService $projectService) {
+	public function __construct(
+		private ProjectService $projectService,
+		private ProjectMapper $projectMapper,
+	) {
 		parent::__construct();
 	}
 
@@ -42,13 +46,13 @@ class ExportProject extends Base {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$projectId = $input->getArgument('project_id');
 		$name = $input->getArgument('filename');
-		$project = $this->projectService->getProjectById($projectId);
-		if ($project !== null) {
-			$result = $this->projectService->exportCsvProject($projectId, $project['userid'], $name);
+		$dbProject = $this->projectMapper->find($projectId);
+		if ($dbProject !== null) {
+			$result = $this->projectService->exportCsvProject($projectId, $dbProject->getUserid(), $name);
 			if (array_key_exists('path', $result)) {
 				$output->writeln(
 					'Project "'.$projectId.'" exported in "'.$result['path'].
-					'" of user "'.$project['userid'].'" storage'
+					'" of user "'.$dbProject->getUserid().'" storage'
 				);
 			} else {
 				$output->writeln('Error: '.$result['message']);

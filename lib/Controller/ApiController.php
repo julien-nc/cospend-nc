@@ -48,6 +48,7 @@ use OCP\Share\IShare;
  * @psalm-import-type CospendFullProjectInfo from ResponseDefinitions
  * @psalm-import-type CospendMember from ResponseDefinitions
  * @psalm-import-type CospendBill from ResponseDefinitions
+ * @psalm-import-type PaymentMode from ResponseDefinitions
  */
 class ApiController extends OCSController {
 
@@ -799,8 +800,12 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param int $shId
 	 * @param int $accessLevel
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, 'OK', array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
 	 * @throws Exception
+	 *
+	 * 200: The shared access level was successfully edited
+	 * 401: The current user cannot set this access level
+	 * 400: Failed to edit the access level
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -832,8 +837,12 @@ class ApiController extends OCSController {
 	 * @param int $shId
 	 * @param string|null $label
 	 * @param string|null $password
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, 'OK', array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
 	 * @throws Exception
+	 *
+	 * 200: The shared access was successfully edited
+	 * 401: The current user is not allowed to edit this shared access
+	 * 400: Failed to edit the access level
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -864,7 +873,9 @@ class ApiController extends OCSController {
 	 * @param string|null $icon
 	 * @param string $color
 	 * @param int|null $order
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>
+	 *
+	 * 200: Payment mode was successfully created
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -882,7 +893,7 @@ class ApiController extends OCSController {
 	 * @param string|null $name
 	 * @param string|null $icon
 	 * @param string|null $color
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, PaymentMode, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -902,7 +913,7 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param array $order
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, true, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, false, array{}>
 	 */
 	#[NoAdminRequired]
 	#[CORS]

@@ -90,6 +90,10 @@ use OCA\Cospend\AppInfo\Application;
  *     order: int,
  *  }
  *
+ * @psalm-type PaymentMode = CospendCategoryOrPaymentMode&array{
+ *     old_id: string,
+ *  }
+ *
  * @psalm-type CospendExtraProjectInfo = array{
  *      active_members: CospendMember[],
  *      members: CospendMember[],

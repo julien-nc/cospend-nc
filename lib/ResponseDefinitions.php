@@ -31,6 +31,7 @@ use OCA\Cospend\AppInfo\Application;
 /**
  * @psalm-type CospendAccessLevel = value-of<Application::ACCESS_LEVELS>
  * @psalm-type CospendShareType = value-of<Application::SHARE_TYPES>
+ * @psalm-type CospendFrequency = value-of<Application::FREQUENCIES>
  *
  * @psalm-type CospendMember = array{
  *     activated: bool,
@@ -89,7 +90,7 @@ use OCA\Cospend\AppInfo\Application;
  *     order: int,
  *  }
  *
- * @psalm-type CospendProjectInfo = array{
+ * @psalm-type CospendExtraProjectInfo = array{
  *      active_members: CospendMember[],
  *      members: CospendMember[],
  *      balance: array<int, float>,
@@ -102,9 +103,53 @@ use OCA\Cospend\AppInfo\Application;
  *      paymentmodes: CospendCategoryOrPaymentMode[],
  *  }
  *
- * @psalm-type CospendProjectInfoAndMyAccessLevel = CospendProjectInfo&array{
+ * @psalm-type CospendProjectInfo = array{
+ *     id: int,
+ *     userid: string,
+ *     name: string,
+ *     email: ?string,
+ *     autoexport: string,
+ *     lastchanged: int,
+ *     deletiondisabled: bool,
+ *     categorysort: string,
+ *     paymentmodesort: string,
+ *     currencyname: string,
+ *     archived_ts: int,
+ * }
+ *
+ * @psalm-type CospendProjectInfoPlusExtra = CospendProjectInfo&CospendExtraProjectInfo
+ *
+ * @psalm-type CospendFullProjectInfo = CospendProjectInfoPlusExtra&array{
  *      myaccesslevel: int,
- *  }
+ * }
+ *
+ * @psalm-type CospendOwer = array{
+ *     id: int,
+ *     weight: float,
+ *     name: string,
+ *     activated: bool,
+ * }
+ *
+ * @psalm-type CospendBill = array{
+ *     id: int,
+ *     amount: float,
+ *     what: string,
+ *     comment: string,
+ *     timestamp: int,
+ *     date: string,
+ *     payer_id: int,
+ *     owers: CospendOwer[],
+ *     owerIds: int[],
+ *     repeat: CospendFrequency,
+ *     paymentmode: string,
+ *     paymentmodeid: int,
+ *     categoryid: int,
+ *     lastchanged: int,
+ *     repeatallactive: int,
+ *     repeatuntil: string,
+ *     repeatfreq: int,
+ *     deleted: int,
+ * }
  */
 class ResponseDefinitions {
 }

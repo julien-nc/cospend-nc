@@ -45,8 +45,9 @@ use OCP\Share\IManager;
 use OCP\Share\IShare;
 
 /**
- * @psalm-import-type CospendProjectInfoAndMyAccessLevel from ResponseDefinitions
+ * @psalm-import-type CospendFullProjectInfo from ResponseDefinitions
  * @psalm-import-type CospendMember from ResponseDefinitions
+ * @psalm-import-type CospendBill from ResponseDefinitions
  */
 class ApiController extends OCSController {
 
@@ -116,8 +117,7 @@ class ApiController extends OCSController {
 	 * @param string $id
 	 * @param string $name
 	 * @param string|null $contact_email
-	 * @return DataResponse
-	 * <Http::STATUS_OK, CospendProjectInfoAndMyAccessLevel, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{message?: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, CospendFullProjectInfo, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
 	 *
 	 * 200: Project successfully created
@@ -145,22 +145,21 @@ class ApiController extends OCSController {
 	/**
 	 * Get project list
 	 *
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, CospendFullProjectInfo[], array{}>
+	 *
+	 * 200: Project list
 	 */
 	#[NoAdminRequired]
 	#[CORS]
 	public function getProjects(): DataResponse {
-		return new DataResponse(
-			$this->projectService->getProjects($this->userId)
-		);
+		return new DataResponse($this->projectService->getProjects($this->userId));
 	}
 
 	/**
 	 * Get project information
 	 *
 	 * @param string $projectId
-	 * @return DataResponse
-	 * <Http::STATUS_OK, CospendProjectInfoAndMyAccessLevel, array{}>
+	 * @return DataResponse<Http::STATUS_OK, CospendFullProjectInfo, array{}>
 	 * @throws Exception
 	 *
 	 * 200: Project info
@@ -186,8 +185,11 @@ class ApiController extends OCSController {
 	 * @param string|null $categorysort
 	 * @param string|null $paymentmodesort
 	 * @param int|null $archived_ts
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, 'UPDATED', array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
+	 *
+	 * 200: The project was successfully update
+	 * 400: Failed to edit the project
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -212,7 +214,10 @@ class ApiController extends OCSController {
 	 * Delete a project
 	 *
 	 * @param string $projectId
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 *
+	 * 200: The project was successfully deleted
+	 * 404: The project was not found
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -316,7 +321,7 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param int $memberId
-	 * @return DataResponse<Http::STATUS_OK, string, array{}>|DataResponse<Http::STATUS_NOT_FOUND, array{error: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, 'OK', array{}>|DataResponse<Http::STATUS_NOT_FOUND, array{error: string}, array{}>
 	 *
 	 * 200: Member was successfully disabled or deleted
 	 * 404: Member does not exist
@@ -378,7 +383,7 @@ class ApiController extends OCSController {
 	 * @param float $weight
 	 * @param int $active
 	 * @param string|null $color
-	 * @return DataResponse<Http::STATUS_OK, CospendMember, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, CospendMember, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{error: string}, array{}>
 	 * @throws Exception
 	 *
 	 * 200: The member was successfully created
@@ -418,8 +423,11 @@ class ApiController extends OCSController {
 	 * @param string|null $comment
 	 * @param int|null $repeatfreq
 	 * @param int|null $deleted
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
+	 *
+	 * 200: The bill was successfully edited
+	 * 400: Failed to edit the bill
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -470,8 +478,11 @@ class ApiController extends OCSController {
 	 * @param string|null $comment
 	 * @param int|null $repeatfreq
 	 * @param int|null $deleted
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, int[], array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
+	 *
+	 * 200: The bills were successfully edited
+	 * 400: Failed to edit the bills
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -512,8 +523,12 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param int $billId
 	 * @param string $toProjectId
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{message: string}, array{}>|DataResponse<Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
 	 * @throws Exception
+	 *
+	 * 200: The bill was moved successfully
+	 * 401: Current user is not allowed to create a bill in the target project
+	 * 400: Failed to move the bill
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -548,7 +563,6 @@ class ApiController extends OCSController {
 			ActivityManager::SUBJECT_BILL_CREATE, []
 		);
 
-		// return a 200 response
 		return new DataResponse($result['inserted_id']);
 	}
 
@@ -557,7 +571,7 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param int $billId
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, array<array{new_bill_id: int, date_orig: string, date_repeat: string, what: string, project_name: string}>, array{}>
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -585,8 +599,11 @@ class ApiController extends OCSController {
 	 * @param int|null $timestamp
 	 * @param string|null $comment
 	 * @param int|null $repeatfreq
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{error: array<string, string>}, array{}>
 	 * @throws Exception
+	 *
+	 * 200: The bill was successfully created
+	 * 400: Failed to create the bill
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -618,7 +635,10 @@ class ApiController extends OCSController {
 	 * Clear the trashbin
 	 *
 	 * @param string $projectId
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST, '', array{}>
+	 *
+	 * 200: The trashbin was successfully cleared
+	 * 400: Failed to clear the trashbin
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -638,8 +658,11 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param int $billId
 	 * @param bool $moveToTrash
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, 'OK', array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{message: string}, array{}>
 	 * @throws Exception
+	 *
+	 * 200: Bill was successfully deleted
+	 * 403: This action is forbidden
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -671,8 +694,11 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param array $billIds
 	 * @param bool $moveToTrash
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, 'OK', array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{message: string}, array{}>
 	 * @throws Exception
+	 *
+	 * 200: Bills were successfully deleted
+	 * 403: This action is forbidden
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -713,8 +739,10 @@ class ApiController extends OCSController {
 	 * @param int|null $includeBillId
 	 * @param string|null $searchTerm
 	 * @param int|null $deleted
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, array{nb_bills: int, allBillIds: int[], timestamp: int, bills: CospendBill[]}, array{}>
 	 * @throws Exception
+	 *
+	 * 200: The bill list was successfully obtained
 	 */
 	#[NoAdminRequired]
 	#[CORS]

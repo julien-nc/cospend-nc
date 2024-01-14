@@ -29,6 +29,7 @@ use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Db\Member;
 use OCA\Cospend\Db\MemberMapper;
 use OCA\Cospend\Db\ProjectMapper;
+use OCA\Cospend\ResponseDefinitions;
 use OCA\Cospend\Utils;
 use OCP\App\IAppManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -39,7 +40,6 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 
-use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
 
@@ -51,6 +51,10 @@ use OCP\Notification\IManager as INotificationManager;
 use Throwable;
 use function str_replace;
 
+/**
+ * @psalm-import-type CospendProjectInfoPlusExtra from ResponseDefinitions
+ * @psalm-import-type CospendMember from ResponseDefinitions
+ */
 class ProjectService {
 
 	public array $defaultCategories;
@@ -64,7 +68,6 @@ class ProjectService {
 		private BillMapper $billMapper,
 		private MemberMapper $memberMapper,
 		private ActivityManager $activityManager,
-		private IAvatarManager $avatarManager,
 		private IUserManager $userManager,
 		private IAppManager $appManager,
 		private IGroupManager $groupManager,
@@ -353,7 +356,7 @@ class ProjectService {
 	 * Get all project data
 	 *
 	 * @param string $projectId
-	 * @return array|null
+	 * @return CospendProjectInfoPlusExtra|null
 	 * @throws \OCP\DB\Exception
 	 */
 	public function getProjectInfo(string $projectId): ?array {
@@ -1444,7 +1447,7 @@ class ProjectService {
 	 * @param bool $active
 	 * @param string|null $color
 	 * @param string|null $userId
-	 * @return array
+	 * @return array{error: string}|CospendMember
 	 * @throws \OCP\DB\Exception
 	 */
 	public function createMember(

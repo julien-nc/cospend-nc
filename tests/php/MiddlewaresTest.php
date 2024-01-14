@@ -131,7 +131,6 @@ class MiddlewaresTest extends TestCase {
 			$this->billMapper,
 			$this->memberMapper,
 			$activityManager,
-			$sc->getAvatarManager(),
 			$c->get(IUserManager::class),
 			$c->get(IAppManager::class),
 			$c->get(IGroupManager::class),

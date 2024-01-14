@@ -123,6 +123,7 @@ return [
 		['name' => 'publicApi#publicAutoSettlement', 'url' => '/api/{apiVersion}/public/projects/{token}/{password}/auto-settlement', 'verb' => 'GET', 'requirements' => $requirements],
 		// bills
 		['name' => 'api#createBill', 'url' => '/api/{apiVersion}/projects/{projectId}/bills', 'verb' => 'POST', 'requirements' => $requirements],
+		['name' => 'api#getBill', 'url' => '/api/{apiVersion}/projects/{projectId}/bills/{billId}', 'verb' => 'GET', 'requirements' => $requirements],
 		['name' => 'api#getBills', 'url' => '/api/{apiVersion}/projects/{projectId}/bills', 'verb' => 'GET', 'requirements' => $requirements],
 		['name' => 'api#clearTrashbin', 'url' => '/api/{apiVersion}/projects/{projectId}/trashbin', 'verb' => 'DELETE', 'requirements' => $requirements],
 		['name' => 'api#deleteBill', 'url' => '/api/{apiVersion}/projects/{projectId}/bills/{billId}', 'verb' => 'DELETE', 'requirements' => $requirements],
@@ -133,6 +134,7 @@ return [
 		['name' => 'api#repeatBill', 'url' => '/api/{apiVersion}/projects/{projectId}/bills/{billId}/repeat', 'verb' => 'GET', 'requirements' => $requirements],
 		['name' => 'publicApi#publicCreateBill', 'url' => '/api/{apiVersion}/public/projects/{token}/{password}/bills', 'verb' => 'POST', 'requirements' => $requirements],
 		['name' => 'publicApi#publicRepeatBill', 'url' => '/api/{apiVersion}/public/projects/{token}/{password}/bills/{billId}/repeat', 'verb' => 'GET', 'requirements' => $requirements],
+		['name' => 'publicApi#publicGetBill', 'url' => '/api/{apiVersion}/public/projects/{token}/{password}/bills/{billId}', 'verb' => 'GET', 'requirements' => $requirements],
 		['name' => 'publicApi#publicGetBills', 'url' => '/api/{apiVersion}/public/projects/{token}/{password}/bills', 'verb' => 'GET', 'requirements' => $requirements],
 		['name' => 'publicApi#publicClearTrashbin', 'url' => '/api/{apiVersion}/public/projects/{token}/{password}/trashbin', 'verb' => 'DELETE', 'requirements' => $requirements],
 		['name' => 'publicApi#publicDeleteBill', 'url' => '/api/{apiVersion}/public/projects/{token}/{password}/bills/{billId}', 'verb' => 'DELETE', 'requirements' => $requirements],

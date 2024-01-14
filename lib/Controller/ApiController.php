@@ -775,6 +775,25 @@ class ApiController extends OCSController {
 	}
 
 	/**
+	 * @param string $projectId
+	 * @param int $billId
+	 * @return DataResponse<Http::STATUS_OK, CospendBill, array{}>|DataResponse<Http::STATUS_NOT_FOUND, '', array{}>
+	 *
+	 * 200: The bill was successfully obtained
+	 * 404: The bill was not found
+	 */
+	#[NoAdminRequired]
+	#[CORS]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	public function getBill(string $projectId, int $billId): DataResponse {
+		$dbBillArray = $this->billMapper->getBill($projectId, $billId);
+		if ($dbBillArray === null) {
+			return new DataResponse('', Http::STATUS_NOT_FOUND);
+		}
+		return new DataResponse($dbBillArray);
+	}
+
+	/**
 	 * Edit a shared access level
 	 *
 	 * @param string $projectId

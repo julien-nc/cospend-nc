@@ -16,6 +16,7 @@ use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Attribute\CospendPublicAuth;
 use OCA\Cospend\Db\BillMapper;
+use OCA\Cospend\ResponseDefinitions;
 use OCA\Cospend\Service\ProjectService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
@@ -30,6 +31,9 @@ use OCP\DB\Exception;
 use OCP\IL10N;
 use OCP\IRequest;
 
+/**
+ * @psalm-import-type CospendBill from ResponseDefinitions
+ */
 class PublicApiController extends OCSController {
 
 	public function __construct(
@@ -656,6 +660,29 @@ class PublicApiController extends OCSController {
 			'timestamp' => $ts,
 		];
 		return new DataResponse($result);
+	}
+
+	/**
+	 * @param string $token
+	 * @param int $billId
+	 * @return DataResponse<Http::STATUS_OK, CospendBill, array{}>|DataResponse<Http::STATUS_NOT_FOUND, '', array{}>
+	 *
+	 * 200: The bill was successfully obtained
+	 * 404: The bill was not found
+	 * @throws Exception
+	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	#[BruteForceProtection(action: 'CospendPublicGetBills')]
+	public function publicGetBill(string $token, int $billId): DataResponse {
+		$publicShareInfo = $this->projectService->getShareInfoFromShareToken($token);
+		$dbBillArray = $this->billMapper->getBill($publicShareInfo['projectid'], $billId);
+		if ($dbBillArray === null) {
+			return new DataResponse('', Http::STATUS_NOT_FOUND);
+		}
+		return new DataResponse($dbBillArray);
 	}
 
 	/**

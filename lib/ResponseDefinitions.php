@@ -29,9 +29,9 @@ namespace OCA\Cospend;
 use OCA\Cospend\AppInfo\Application;
 
 /**
- * @psalm-type CospendAccessLevel = value-of<Application::ACCESS_LEVELS>
- * @psalm-type CospendShareType = value-of<Application::SHARE_TYPES>
- * @psalm-type CospendFrequency = value-of<Application::FREQUENCIES>
+ * @psalm-type CospendAccessLevel = Application::ACCESS_LEVEL_NONE|Application::ACCESS_LEVEL_VIEWER|Application::ACCESS_LEVEL_PARTICIPANT|Application::ACCESS_LEVEL_MAINTAINER|Application::ACCESS_LEVEL_ADMIN
+ * @psalm-type CospendShareType = Application::SHARE_TYPE_PUBLIC_LINK|Application::SHARE_TYPE_USER|Application::SHARE_TYPE_GROUP|Application::SHARE_TYPE_CIRCLE
+ * @psalm-type CospendFrequency = Application::FREQUENCY_NO|Application::FREQUENCY_DAILY|Application::FREQUENCY_WEEKLY|Application::FREQUENCY_BI_WEEKLY|Application::FREQUENCY_SEMI_MONTHLY|Application::FREQUENCY_MONTHLY|Application::FREQUENCY_YEARLY
  *
  * @psalm-type CospendMember = array{
  *     activated: bool,

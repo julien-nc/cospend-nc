@@ -41,6 +41,7 @@ use OCP\IL10N;
 
 use OCP\IRequest;
 use OCP\IUserManager;
+use OCP\PreConditionNotMetException;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 
@@ -76,6 +77,8 @@ class ApiController extends OCSController {
 
 	/**
 	 * Delete user options
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{done: bool}, array{}>
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -85,15 +88,19 @@ class ApiController extends OCSController {
 			$this->config->deleteUserValue($this->userId, Application::APP_ID, $key);
 		}
 
-		return new DataResponse(['done' => 1]);
+		return new DataResponse(['done' => true]);
 	}
 
 	/**
 	 * Save options values to the DB for current user
+	 *
+	 * @param array<string, string> $options
+	 * @return DataResponse<Http::STATUS_OK, array{done: bool}, array{}>
+	 * @throws PreConditionNotMetException
 	 */
 	#[NoAdminRequired]
 	#[CORS]
-	public function saveOptionValues($options): DataResponse {
+	public function saveOptionValues(array $options): DataResponse {
 		foreach ($options as $key => $value) {
 			$this->config->setUserValue($this->userId, Application::APP_ID, $key, $value);
 		}
@@ -103,6 +110,8 @@ class ApiController extends OCSController {
 
 	/**
 	 * get options values from the config for current user
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array<string, string>, array{}>
 	 */
 	#[NoAdminRequired]
 	#[CORS]

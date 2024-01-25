@@ -21,6 +21,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
@@ -63,6 +64,7 @@ class PageController extends Controller {
 	 * @param int|null $billId
 	 * @return TemplateResponse
 	 */
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	public function index(?string $projectId = null, ?int $billId = null): TemplateResponse {
@@ -79,6 +81,7 @@ class PageController extends Controller {
 	 * @param string $color
 	 * @return NotFoundResponse|Response
 	 */
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	public function getSvgFromApp(string $fileName, string $color = 'ffffff') {
@@ -140,6 +143,7 @@ class PageController extends Controller {
 	 * @param string $projectId
 	 * @return TemplateResponse
 	 */
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	public function indexProject(string $projectId): TemplateResponse {
@@ -153,6 +157,7 @@ class PageController extends Controller {
 	 * @param int $billId
 	 * @return TemplateResponse
 	 */
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	public function indexBill(string $projectId, int $billId): TemplateResponse {
@@ -163,6 +168,7 @@ class PageController extends Controller {
 	 * @param string $token
 	 * @return TemplateResponse
 	 */
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
@@ -206,6 +212,7 @@ class PageController extends Controller {
 	 * @param string|null $password
 	 * @return TemplateResponse
 	 */
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]

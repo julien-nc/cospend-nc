@@ -26,13 +26,16 @@ use OCP\AppFramework\Http\Attribute\CORS;
 
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\DB\Exception;
 use OCP\IL10N;
 use OCP\IRequest;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class OldApiController extends ApiController {
 
 	public function __construct(
@@ -97,6 +100,11 @@ class OldApiController extends ApiController {
 		}
 	}
 
+	/**
+	 * @param string $token
+	 * @return DataResponse
+	 * @throws Exception
+	 */
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[CORS]

@@ -26,12 +26,10 @@ declare(strict_types=1);
 
 namespace OCA\Cospend;
 
-use OCA\Cospend\AppInfo\Application;
-
 /**
- * @psalm-type CospendAccessLevel = Application::ACCESS_LEVEL_NONE|Application::ACCESS_LEVEL_VIEWER|Application::ACCESS_LEVEL_PARTICIPANT|Application::ACCESS_LEVEL_MAINTAINER|Application::ACCESS_LEVEL_ADMIN
- * @psalm-type CospendShareType = Application::SHARE_TYPE_PUBLIC_LINK|Application::SHARE_TYPE_USER|Application::SHARE_TYPE_GROUP|Application::SHARE_TYPE_CIRCLE
- * @psalm-type CospendFrequency = Application::FREQUENCY_NO|Application::FREQUENCY_DAILY|Application::FREQUENCY_WEEKLY|Application::FREQUENCY_BI_WEEKLY|Application::FREQUENCY_SEMI_MONTHLY|Application::FREQUENCY_MONTHLY|Application::FREQUENCY_YEARLY
+ * @psalm-type CospendAccessLevel = 0|1|2|3|4
+ * @psalm-type CospendShareType = 'l'|'u'|'g'|'c'
+ * @psalm-type CospendFrequency = 'n'|'d'|'w'|'b'|'s'|'m'|'y'
  *
  * @psalm-type CospendMember = array{
  *     activated: bool,
@@ -49,26 +47,26 @@ use OCA\Cospend\AppInfo\Application;
  * }
  *
  * @psalm-type CospendUserShare = CospendBaseShare&array{
- *      type: Application::SHARE_TYPE_USER,
+ *      type: 'u',
  *      userid: string,
  *      name: string,
  *      manually_added: bool,
  *  }
  *
  * @psalm-type CospendGroupShare = CospendBaseShare&array{
- *      type: Application::SHARE_TYPE_GROUP,
+ *      type: 'g',
  *      groupid: string,
  *      name: string,
  *  }
  *
  * @psalm-type CospendCircleShare = CospendBaseShare&array{
- *     type: Application::SHARE_TYPE_CIRCLE,
+ *     type: 'c',
  *     circleid: string,
  *     name: string,
  * }
  *
  * @psalm-type CospendPublicShare = CospendBaseShare&array{
- *     type: Application::SHARE_TYPE_PUBLIC_LINK,
+ *     type: 'l',
  *     token: string,
  *     label: ?string,
  *     password: ?string,
@@ -101,7 +99,7 @@ use OCA\Cospend\AppInfo\Application;
  * @psalm-type CospendExtraProjectInfo = array{
  *      active_members: CospendMember[],
  *      members: CospendMember[],
- *      balance: array<int, float>,
+ *      balance: array<float>,
  *      nb_bills: int,
  *      total_spent: float,
  *      nb_trashbin_bills: int,

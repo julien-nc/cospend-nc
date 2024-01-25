@@ -193,14 +193,12 @@ class ApiControllerTest extends TestCase {
 		// DELETE OPTIONS VALUES
 		$resp = $this->apiController->deleteOptionsValues();
 		$data = $resp->getData();
-		$done = $data['done'];
-		$this->assertEquals(1, $done);
+		$this->assertEquals('', $data);
 
 		// SET OPTIONS
 		$resp = $this->apiController->saveOptionValues(['lala' => 'lolo']);
 		$data = $resp->getData();
-		$done = $data['done'];
-		$this->assertEquals(1, $done);
+		$this->assertEquals('', $data);
 
 		// GET OPTIONS
 		$resp = $this->apiController->getOptionsValues();
@@ -213,8 +211,7 @@ class ApiControllerTest extends TestCase {
 		// CLEAR OPTIONS
 		$resp = $this->apiController->deleteOptionsValues();
 		$data = $resp->getData();
-		$done = $data['done'];
-		$this->assertEquals(1, $done);
+		$this->assertEquals('', $data);
 
 		// CREATE PROJECT
 		$resp = $this->apiController->createProject('superproj', 'SuperProj', 'toto');

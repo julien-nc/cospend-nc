@@ -24,7 +24,7 @@ use OCA\Cospend\Service\ProjectService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\CORS;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
-use OCP\AppFramework\Http\ContentSecurityPolicy;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\Constants;
@@ -76,45 +76,52 @@ class ApiController extends OCSController {
 	}
 
 	/**
-	 * Delete user options
+	 * Delete user settings
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{done: bool}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>
 	 */
 	#[NoAdminRequired]
 	#[CORS]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Settings'])]
 	public function deleteOptionsValues(): DataResponse {
 		$keys = $this->config->getUserKeys($this->userId, Application::APP_ID);
 		foreach ($keys as $key) {
 			$this->config->deleteUserValue($this->userId, Application::APP_ID, $key);
 		}
 
-		return new DataResponse(['done' => true]);
+		return new DataResponse('');
 	}
 
 	/**
-	 * Save options values to the DB for current user
+	 * Save setting values
 	 *
-	 * @param array<string, string> $options
-	 * @return DataResponse<Http::STATUS_OK, array{done: bool}, array{}>
+	 * Save setting values to the database for the current user
+	 *
+	 * @param array<string> $options Array of setting key/values to save
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>
 	 * @throws PreConditionNotMetException
 	 */
 	#[NoAdminRequired]
 	#[CORS]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Settings'])]
 	public function saveOptionValues(array $options): DataResponse {
 		foreach ($options as $key => $value) {
 			$this->config->setUserValue($this->userId, Application::APP_ID, $key, $value);
 		}
 
-		return new DataResponse(['done' => true]);
+		return new DataResponse('');
 	}
 
 	/**
-	 * get options values from the config for current user
+	 * Get setting values
+	 *
+	 * Get setting values from the database for the current user
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{values: array<string, string>}, array{}>
 	 */
 	#[NoAdminRequired]
 	#[CORS]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Settings'])]
 	public function getOptionsValues(): DataResponse {
 		$ov = [];
 		$keys = $this->config->getUserKeys($this->userId, Application::APP_ID);
@@ -128,7 +135,8 @@ class ApiController extends OCSController {
 
 	/**
 	 * Create a project
-	 * Change for clients: response contains full project info
+	 *
+	 * Change for clients: response now contains full project info
 	 *
 	 * @param string $id
 	 * @param string $name
@@ -141,6 +149,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	public function createProject(string $id, string $name, ?string $contact_email = null): DataResponse {
 		if ($contact_email !== null) {
 			$email = $contact_email;
@@ -167,6 +176,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	public function getProjects(): DataResponse {
 		return new DataResponse($this->projectService->getProjects($this->userId));
 	}
@@ -183,6 +193,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	public function getProjectInfo(string $projectId): DataResponse {
 		$projectInfo = $this->projectService->getProjectInfo($projectId);
 		$projectInfo['myaccesslevel'] = $this->projectService->getUserMaxAccessLevel($this->userId, $projectId);
@@ -210,6 +221,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	public function editProject(
 		string $projectId, ?string $name = null, ?string $contact_email = null,
 		?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
@@ -238,6 +250,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	public function deleteProject(string $projectId): DataResponse {
 		$result = $this->projectService->deleteProject($projectId);
 		if (!isset($result['error'])) {
@@ -266,6 +279,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	public function getProjectStatistics(
 		string $projectId, ?int $tsMin = null, ?int $tsMax = null, ?int $paymentModeId = null,
 		?int   $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
@@ -289,6 +303,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	public function getProjectSettlement(string $projectId, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
 		$result = $this->projectService->getProjectSettlement($projectId, $centeredOn, $maxTimestamp);
 		return new DataResponse($result);
@@ -306,6 +321,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	public function autoSettlement(string $projectId, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null): DataResponse {
 		$result = $this->projectService->autoSettlement($projectId, $centeredOn, $precision, $maxTimestamp);
 		if (isset($result['success'])) {
@@ -327,6 +343,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Members'])]
 	public function getMembers(string $projectId, ?int $lastChanged = null): DataResponse {
 		$members = $this->projectService->getMembers($projectId, null, $lastChanged);
 		return new DataResponse($members);
@@ -345,6 +362,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Members'])]
 	public function deleteMember(string $projectId, int $memberId): DataResponse {
 		$result = $this->projectService->deleteMember($projectId, $memberId);
 		if (isset($result['success'])) {
@@ -371,6 +389,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Members'])]
 	public function editMember(
 		string $projectId, int $memberId, ?string $name = null, ?float $weight = null, $activated = null,
 		?string $color = null, ?string $userid = null
@@ -408,6 +427,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Members'])]
 	public function createMember(
 		string $projectId, string $name, ?string $userid = null, float $weight = 1,
 		int $active = 1, ?string $color = null
@@ -448,6 +468,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Bills'])]
 	public function editBill(
 		string $projectId, int $billId, ?string $date = null, ?string $what = null,
 		?int $payer = null, ?string $payed_for = null, ?float $amount = null, ?string $repeat = null,
@@ -503,6 +524,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Bills'])]
 	public function editBills(
 		string $projectId, array $billIds, ?int $categoryid = null, ?string $date = null,
 		?string $what = null, ?int $payer = null, ?string $payed_for = null,
@@ -549,6 +571,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Bills'])]
 	public function moveBill(string $projectId, int $billId, string $toProjectId): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $toProjectId);
 		if ($userAccessLevel < Application::ACCESS_LEVEL_PARTICIPANT) {
@@ -592,6 +615,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Bills'])]
 	public function repeatBill(string $projectId, int $billId): DataResponse {
 		$result = $this->projectService->cronRepeatBills($billId);
 		return new DataResponse($result);
@@ -624,6 +648,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Bills'])]
 	public function createBill(
 		string $projectId, ?string $date = null, ?string $what = null, ?int $payer = null, ?string $payed_for = null,
 		?float $amount = null, ?string $repeat = null, ?string $paymentmode = null, ?int $paymentmodeid = null,
@@ -659,6 +684,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Bills'])]
 	public function clearTrashbin(string $projectId): DataResponse {
 		try {
 			$this->billMapper->deleteDeletedBills($projectId);
@@ -683,6 +709,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Bills'])]
 	public function deleteBill(string $projectId, int $billId, bool $moveToTrash = true): DataResponse {
 		$billObj = null;
 		if ($this->billMapper->getBill($projectId, $billId) !== null) {
@@ -719,6 +746,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Bills'])]
 	public function deleteBills(string $projectId, array $billIds, bool $moveToTrash = true): DataResponse {
 		foreach ($billIds as $billid) {
 			$billObj = null;
@@ -763,6 +791,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Bills'])]
 	public function getBills(
 		string $projectId, ?int $lastchanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false,
 		?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $includeBillId = null,
@@ -801,6 +830,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Bills'])]
 	public function getBill(string $projectId, int $billId): DataResponse {
 		$dbBillArray = $this->billMapper->getBill($projectId, $billId);
 		if ($dbBillArray === null) {
@@ -825,6 +855,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function editSharedAccessLevel(string $projectId, int $shId, int $accessLevel): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectId);
 		$shareAccessLevel = $this->projectService->getShareAccessLevel($projectId, $shId);
@@ -862,6 +893,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function editSharedAccess(string $projectId, int $shId, ?string $label = null, ?string $password = null): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectId);
 		$shareAccessLevel = $this->projectService->getShareAccessLevel($projectId, $shId);
@@ -895,6 +927,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Payment modes'])]
 	public function createPaymentMode(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
 		$result = $this->projectService->createPaymentMode($projectId, $name, $icon, $color, $order);
 		return new DataResponse($result);
@@ -916,6 +949,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Payment modes'])]
 	public function editPaymentMode(
 		string $projectId, int $pmId, ?string $name = null, ?string $icon = null, ?string $color = null
 	): DataResponse {
@@ -930,7 +964,7 @@ class ApiController extends OCSController {
 	 * Save payment modes order
 	 *
 	 * @param string $projectId
-	 * @param array<array{order: int, id: int}> $order
+	 * @param array<array{order: int, id: int}> $order Array of objects, each object contains the order number and the payment mode ID
 	 * @return DataResponse<Http::STATUS_OK, true, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, false, array{}>
 	 *
 	 * 200: The payment mode order was successfully saved
@@ -939,6 +973,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Payment modes'])]
 	public function savePaymentModeOrder(string $projectId, array $order): DataResponse {
 		if ($this->projectService->savePaymentModeOrder($projectId, $order)) {
 			return new DataResponse(true);
@@ -960,6 +995,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Payment modes'])]
 	public function deletePaymentMode(string $projectId, int $pmId): DataResponse {
 		$result = $this->projectService->deletePaymentMode($projectId, $pmId);
 		if (isset($result['success'])) {
@@ -984,6 +1020,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Categories'])]
 	public function createCategory(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
 		$result = $this->projectService->createCategory($projectId, $name, $icon, $color, $order);
 		return new DataResponse($result);
@@ -1006,6 +1043,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Categories'])]
 	public function editCategory(
 		string $projectId, int $categoryId, ?string $name = null, ?string $icon = null, ?string $color = null
 	): DataResponse {
@@ -1031,6 +1069,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Categories'])]
 	public function saveCategoryOrder(string $projectId, array $order): DataResponse {
 		if ($this->projectService->saveCategoryOrder($projectId, $order)) {
 			return new DataResponse(true);
@@ -1052,6 +1091,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Categories'])]
 	public function deleteCategory(string $projectId, int $categoryId): DataResponse {
 		$result = $this->projectService->deleteCategory($projectId, $categoryId);
 		if (isset($result['success'])) {
@@ -1075,6 +1115,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Currencies'])]
 	public function createCurrency(string $projectId, string $name, float $rate): DataResponse {
 		$result = $this->projectService->createCurrency($projectId, $name, $rate);
 		return new DataResponse($result);
@@ -1096,6 +1137,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Currencies'])]
 	public function editCurrency(string $projectId, int $currencyId, string $name, float $rate): DataResponse {
 		$result = $this->projectService->editCurrency($projectId, $currencyId, $name, $rate);
 		if (!isset($result['message'])) {
@@ -1118,6 +1160,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Currencies'])]
 	public function deleteCurrency(string $projectId, int $currencyId): DataResponse {
 		$result = $this->projectService->deleteCurrency($projectId, $currencyId);
 		if (isset($result['success'])) {
@@ -1142,6 +1185,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function createUserShare(
 		string $projectId, string $userId, int $accessLevel = Application::ACCESS_LEVEL_PARTICIPANT,
 		bool $manuallyAdded = true
@@ -1167,6 +1211,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function deleteUserShare(string $projectId, int $shId): DataResponse {
 		// allow to delete share if user perms are at least participant AND if this share perms are <= user perms
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectId);
@@ -1201,6 +1246,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function createPublicShare(
 		string $projectId, ?string $label = null, ?string $password = null, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT
 	): DataResponse {
@@ -1222,6 +1268,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function deletePublicShare(string $projectId, int $shId): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectId);
 		$shareAccessLevel = $this->projectService->getShareAccessLevel($projectId, $shId);
@@ -1254,6 +1301,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function createGroupShare(string $projectId, string $groupId, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT): DataResponse {
 		$result = $this->projectService->createGroupShare($projectId, $groupId, $this->userId, $accesslevel);
 		if (!isset($result['message'])) {
@@ -1276,6 +1324,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function deleteGroupShare(string $projectId, int $shId): DataResponse {
 		// allow to delete share if user perms are at least participant AND if this share perms are <= user perms
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectId);
@@ -1311,6 +1360,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function createCircleShare(string $projectId, string $circleId, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT): DataResponse {
 		$result = $this->projectService->createCircleShare($projectId, $circleId, $this->userId, $accesslevel);
 		if (!isset($result['message'])) {
@@ -1333,6 +1383,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function deleteCircleShare(string $projectId, int $shId): DataResponse {
 		// allow to delete share if user perms are at least participant AND if this share perms are <= user perms
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectId);
@@ -1363,6 +1414,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function getPublicFileShare(string $path): DataResponse {
 		$cleanPath = str_replace(array('../', '..\\'), '', $path);
 		$userFolder = $this->root->getUserFolder($this->userId);
@@ -1411,6 +1463,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	public function exportCsvSettlement(string $projectId, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
 		$result = $this->projectService->exportCsvSettlement($projectId, $this->userId, $centeredOn, $maxTimestamp);
 		if (isset($result['path'])) {
@@ -1440,6 +1493,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	public function exportCsvStatistics(
 		string $projectId, ?int $tsMin = null, ?int $tsMax = null,
 		?int $paymentModeId = null, ?int $category = null,
@@ -1470,6 +1524,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	public function exportCsvProject(string $projectId, ?string $name = null): DataResponse {
 		$result = $this->projectService->exportCsvProject($projectId, $this->userId, $name);
 		if (isset($result['path'])) {
@@ -1491,6 +1546,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	public function importCsvProject(string $path): DataResponse {
 		$result = $this->projectService->importCsvProject($path, $this->userId);
 		if (isset($result['project_id'])) {
@@ -1513,6 +1569,7 @@ class ApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[CORS]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	public function importSWProject(string $path): DataResponse {
 		$result = $this->projectService->importSWProject($path, $this->userId);
 		if (isset($result['project_id'])) {
@@ -1524,6 +1581,8 @@ class ApiController extends OCSController {
 	}
 
 	/**
+	 * Ping
+	 *
 	 * Used by MoneyBuster to check if weblogin is valid
 	 * @return DataResponse<Http::STATUS_OK, array<?string>, array{}>
 	 */

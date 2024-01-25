@@ -111,12 +111,12 @@ class ApiController extends OCSController {
 	/**
 	 * get options values from the config for current user
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array<string, string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{values: array<string, string>}, array{}>
 	 */
 	#[NoAdminRequired]
 	#[CORS]
 	public function getOptionsValues(): DataResponse {
-		$ov = array();
+		$ov = [];
 		$keys = $this->config->getUserKeys($this->userId, Application::APP_ID);
 		foreach ($keys as $key) {
 			$value = $this->config->getUserValue($this->userId, Application::APP_ID, $key);
@@ -260,7 +260,7 @@ class ApiController extends OCSController {
 	 * @param string $showDisabled
 	 * @param int|null $currencyId
 	 * @param int|null $payerId
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, array<string, mixed>, array{}>
 	 * @throws Exception
 	 */
 	#[NoAdminRequired]
@@ -284,7 +284,7 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param int|null $centeredOn
 	 * @param int|null $maxTimestamp
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, array{transactions: ?array<array{to: int, amount: float, from: int}>, balances: array<string, float>}, array{}>
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -301,7 +301,7 @@ class ApiController extends OCSController {
 	 * @param int|null $centeredOn
 	 * @param int $precision
 	 * @param int|null $maxTimestamp
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{message: string}, array{}>
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -309,9 +309,9 @@ class ApiController extends OCSController {
 	public function autoSettlement(string $projectId, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null): DataResponse {
 		$result = $this->projectService->autoSettlement($projectId, $centeredOn, $precision, $maxTimestamp);
 		if (isset($result['success'])) {
-			return new DataResponse('OK');
+			return new DataResponse('');
 		} else {
-			return new DataResponse($result, Http::STATUS_FORBIDDEN);
+			return new DataResponse(['message' => $result['message']], Http::STATUS_FORBIDDEN);
 		}
 	}
 
@@ -478,7 +478,7 @@ class ApiController extends OCSController {
 	 * Edit multiple bills
 	 *
 	 * @param string $projectId
-	 * @param array $billIds
+	 * @param array<int> $billIds
 	 * @param int|null $categoryid
 	 * @param string|null $date
 	 * @param string|null $what
@@ -708,7 +708,7 @@ class ApiController extends OCSController {
 	 * Delete multiple bills
 	 *
 	 * @param string $projectId
-	 * @param array $billIds
+	 * @param array<int> $billIds
 	 * @param bool $moveToTrash
 	 * @return DataResponse<Http::STATUS_OK, 'OK', array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{message: string}, array{}>
 	 * @throws Exception
@@ -930,7 +930,7 @@ class ApiController extends OCSController {
 	 * Save payment modes order
 	 *
 	 * @param string $projectId
-	 * @param array $order
+	 * @param array<array{order: int, id: int}> $order
 	 * @return DataResponse<Http::STATUS_OK, true, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, false, array{}>
 	 *
 	 * 200: The payment mode order was successfully saved
@@ -1021,7 +1021,7 @@ class ApiController extends OCSController {
 	 * Save categories order
 	 *
 	 * @param string $projectId
-	 * @param array $order
+	 * @param array<array{order: int, id: int}> $order
 	 * @return DataResponse<Http::STATUS_OK, true, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, false, array{}>
 	 * @throws Exception
 	 *
@@ -1355,7 +1355,7 @@ class ApiController extends OCSController {
 	 * Get a public file share from a node path
 	 *
 	 * @param string $path
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, array{token: string}, array{}>|DataResponse<Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
@@ -1403,7 +1403,7 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param int|null $centeredOn
 	 * @param int|null $maxTimestamp
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, array{path: string}, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{message: string}, array{}>
 	 * @throws NoUserException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
@@ -1414,9 +1414,9 @@ class ApiController extends OCSController {
 	public function exportCsvSettlement(string $projectId, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
 		$result = $this->projectService->exportCsvSettlement($projectId, $this->userId, $centeredOn, $maxTimestamp);
 		if (isset($result['path'])) {
-			return new DataResponse($result);
+			return new DataResponse(['path' => $result['path']]);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+		return new DataResponse(['message' => $result['message']], Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -1431,7 +1431,7 @@ class ApiController extends OCSController {
 	 * @param float|null $amountMax
 	 * @param int $showDisabled
 	 * @param int|null $currencyId
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, array{path: string}, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{message: string}, array{}>
 	 * @throws Exception
 	 * @throws NoUserException
 	 * @throws NotFoundException
@@ -1452,9 +1452,9 @@ class ApiController extends OCSController {
 			$showDisabled !== 0, $currencyId
 		);
 		if (isset($result['path'])) {
-			return new DataResponse($result);
+			return new DataResponse(['path' => $result['path']]);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+		return new DataResponse(['message' => $result['message']], Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -1462,7 +1462,7 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param string|null $name
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, array{path: string}, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{message: string}, array{}>
 	 * @throws NoUserException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
@@ -1473,16 +1473,16 @@ class ApiController extends OCSController {
 	public function exportCsvProject(string $projectId, ?string $name = null): DataResponse {
 		$result = $this->projectService->exportCsvProject($projectId, $this->userId, $name);
 		if (isset($result['path'])) {
-			return new DataResponse($result);
+			return new DataResponse(['path' => $result['path']]);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+		return new DataResponse(['message' => $result['message']], Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
 	 * Import a project from a CSV file
 	 *
 	 * @param string $path
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, CospendFullProjectInfo, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{message: string}, array{}>
 	 * @throws Exception
 	 * @throws NoUserException
 	 * @throws NotFoundException
@@ -1498,14 +1498,14 @@ class ApiController extends OCSController {
 			$projInfo['myaccesslevel'] = Application::ACCESS_LEVEL_ADMIN;
 			return new DataResponse($projInfo);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+		return new DataResponse(['message' => $result['message']], Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
 	 * Import a SplitWise project from a CSV file
 	 *
 	 * @param string $path
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, CospendFullProjectInfo, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{message: string}, array{}>
 	 * @throws Exception
 	 * @throws NoUserException
 	 * @throws NotFoundException
@@ -1520,21 +1520,16 @@ class ApiController extends OCSController {
 			$projInfo['myaccesslevel'] = Application::ACCESS_LEVEL_ADMIN;
 			return new DataResponse($projInfo);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+		return new DataResponse(['message' => $result['message']], Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
 	 * Used by MoneyBuster to check if weblogin is valid
+	 * @return DataResponse<Http::STATUS_OK, array<?string>, array{}>
 	 */
 	#[NoAdminRequired]
 	#[CORS]
 	public function ping(): DataResponse {
-		$response = new DataResponse([$this->userId]);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([$this->userId]);
 	}
 }

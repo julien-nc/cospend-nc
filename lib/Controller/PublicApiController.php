@@ -23,6 +23,7 @@ use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\CORS;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 
@@ -34,6 +35,7 @@ use OCP\IRequest;
 /**
  * @psalm-import-type CospendBill from ResponseDefinitions
  */
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class PublicApiController extends OCSController {
 
 	public function __construct(
@@ -137,7 +139,7 @@ class PublicApiController extends OCSController {
 	 * Delete multiple bills
 	 *
 	 * @param string $token
-	 * @param array $billIds
+	 * @param array<int> $billIds
 	 * @param bool $moveToTrash
 	 * @return DataResponse
 	 * @throws Exception
@@ -396,7 +398,7 @@ class PublicApiController extends OCSController {
 	 * Edit multiple bills
 	 *
 	 * @param string $token
-	 * @param array $billIds
+	 * @param array<int> $billIds
 	 * @param int|null $categoryid
 	 * @param string|null $date
 	 * @param string|null $what
@@ -781,7 +783,7 @@ class PublicApiController extends OCSController {
 	 * Save payment modes order
 	 *
 	 * @param string $token
-	 * @param array $order
+	 * @param array<array{order: int, id: int}> $order
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
@@ -879,7 +881,7 @@ class PublicApiController extends OCSController {
 	 * Save categories order
 	 *
 	 * @param string $token
-	 * @param array $order
+	 * @param array<array{order: int, id: int}> $order
 	 * @return DataResponse
 	 * @throws Exception
 	 */

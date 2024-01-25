@@ -967,7 +967,7 @@ class ApiControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
 		$data = $resp->getData();
-		$this->assertEquals('OK', $data);
+		$this->assertEquals('', $data);
 
 		// check balances are back to zero
 		$resp = $this->apiController->getProjectstatistics('superproj');

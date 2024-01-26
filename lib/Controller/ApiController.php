@@ -261,7 +261,7 @@ class ApiController extends OCSController {
 	}
 
 	/**
-	 * Get project statistics
+	 * Get statistics data
 	 *
 	 * @param string $projectId
 	 * @param int|null $tsMin
@@ -293,11 +293,11 @@ class ApiController extends OCSController {
 	}
 
 	/**
-	 * Get project settlement info
+	 * Get settlement data
 	 *
 	 * @param string $projectId
-	 * @param int|null $centeredOn
-	 * @param int|null $maxTimestamp
+	 * @param int|null $centeredOn Member ID to center the settlement on. All suggested transactions will involve this member.
+	 * @param int|null $maxTimestamp Settle at a precise date. So the member balances are all back to zero at this date.
 	 * @return DataResponse<Http::STATUS_OK, array{transactions: ?array<array{to: int, amount: float, from: int}>, balances: array<string, float>}, array{}>
 	 */
 	#[NoAdminRequired]
@@ -310,7 +310,9 @@ class ApiController extends OCSController {
 	}
 
 	/**
-	 * Get automatic settlement plan
+	 * Automatic settlement plan
+	 *
+	 * Create reimbursement bills to automatically settle a project
 	 *
 	 * @param string $projectId
 	 * @param int|null $centeredOn
@@ -332,7 +334,7 @@ class ApiController extends OCSController {
 	}
 
 	/**
-	 * Get a project's member list
+	 * Get members
 	 *
 	 * @param string $projectId
 	 * @param int|null $lastChanged
@@ -372,7 +374,7 @@ class ApiController extends OCSController {
 	}
 
 	/**
-	 * Edit a project member
+	 * Edit a member
 	 *
 	 * @param string $projectId
 	 * @param int $memberId
@@ -410,7 +412,7 @@ class ApiController extends OCSController {
 	}
 
 	/**
-	 * Create a project member
+	 * Create a member
 	 *
 	 * @param string $projectId
 	 * @param string $name
@@ -556,6 +558,8 @@ class ApiController extends OCSController {
 	}
 
 	/**
+	 * Move a bill
+	 *
 	 * Move a bill from one project to another
 	 *
 	 * @param string $projectId
@@ -606,6 +610,8 @@ class ApiController extends OCSController {
 	}
 
 	/**
+	 * Repeat a bill
+	 *
 	 * Trigger bill repetition for a specific bill
 	 *
 	 * @param string $projectId
@@ -820,6 +826,8 @@ class ApiController extends OCSController {
 	}
 
 	/**
+	 * Get a bill
+	 *
 	 * @param string $projectId
 	 * @param int $billId
 	 * @return DataResponse<Http::STATUS_OK, CospendBill, array{}>|DataResponse<Http::STATUS_NOT_FOUND, '', array{}>
@@ -1403,7 +1411,9 @@ class ApiController extends OCSController {
 	}
 
 	/**
-	 * Get a public file share from a node path
+	 * Get or create file share
+	 *
+	 * Get or create a public file share from a node path
 	 *
 	 * @param string $path
 	 * @return DataResponse<Http::STATUS_OK, array{token: string}, array{}>|DataResponse<Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
@@ -1450,7 +1460,9 @@ class ApiController extends OCSController {
 	}
 
 	/**
-	 * Get CSV settlement plan
+	 * Export settlement plan
+	 *
+	 * Export settlement plan as CSV
 	 *
 	 * @param string $projectId
 	 * @param int|null $centeredOn
@@ -1473,7 +1485,9 @@ class ApiController extends OCSController {
 	}
 
 	/**
-	 * Get CSV statistics
+	 * Export statistics
+	 *
+	 * Export statistics to CSV
 	 *
 	 * @param string $projectId
 	 * @param int|null $tsMin
@@ -1512,7 +1526,9 @@ class ApiController extends OCSController {
 	}
 
 	/**
-	 * Get CSV project export
+	 * Export project
+	 *
+	 * Export project to CSV
 	 *
 	 * @param string $projectId
 	 * @param string|null $name
@@ -1534,7 +1550,9 @@ class ApiController extends OCSController {
 	}
 
 	/**
-	 * Import a project from a CSV file
+	 * Import project
+	 *
+	 * Import a project from a Cospend CSV file
 	 *
 	 * @param string $path
 	 * @return DataResponse<Http::STATUS_OK, CospendFullProjectInfo, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{message: string}, array{}>
@@ -1558,7 +1576,9 @@ class ApiController extends OCSController {
 	}
 
 	/**
-	 * Import a SplitWise project from a CSV file
+	 * Import a SplitWise project
+	 *
+	 * Import a project from a SplitWise CSV file
 	 *
 	 * @param string $path
 	 * @return DataResponse<Http::STATUS_OK, CospendFullProjectInfo, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{message: string}, array{}>

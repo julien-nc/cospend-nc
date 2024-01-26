@@ -1526,7 +1526,8 @@
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/export-csv-project": {
             "get": {
                 "operationId": "projects-export-csv-project",
-                "summary": "Get CSV project export",
+                "summary": "Export project",
+                "description": "Export project to CSV",
                 "tags": [
                     "Projects"
                 ],
@@ -1668,7 +1669,8 @@
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/import-csv-project": {
             "get": {
                 "operationId": "projects-import-csv-project",
-                "summary": "Import a project from a CSV file",
+                "summary": "Import project",
+                "description": "Import a project from a Cospend CSV file",
                 "tags": [
                     "Projects"
                 ],
@@ -1794,7 +1796,8 @@
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/import-sw-project": {
             "get": {
                 "operationId": "projects-importsw-project",
-                "summary": "Import a SplitWise project from a CSV file",
+                "summary": "Import a SplitWise project",
+                "description": "Import a project from a SplitWise CSV file",
                 "tags": [
                     "Projects"
                 ],
@@ -1920,7 +1923,7 @@
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/statistics": {
             "get": {
                 "operationId": "projects-get-project-statistics",
-                "summary": "Get project statistics",
+                "summary": "Get statistics data",
                 "tags": [
                     "Projects"
                 ],
@@ -2091,7 +2094,8 @@
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/export-csv-statistics": {
             "get": {
                 "operationId": "projects-export-csv-statistics",
-                "summary": "Get CSV statistics",
+                "summary": "Export statistics",
+                "description": "Export statistics to CSV",
                 "tags": [
                     "Projects"
                 ],
@@ -2297,7 +2301,7 @@
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/settlement": {
             "get": {
                 "operationId": "projects-get-project-settlement",
-                "summary": "Get project settlement info",
+                "summary": "Get settlement data",
                 "tags": [
                     "Projects"
                 ],
@@ -2310,6 +2314,7 @@
                     {
                         "name": "centeredOn",
                         "in": "query",
+                        "description": "Member ID to center the settlement on. All suggested transactions will involve this member.",
                         "schema": {
                             "type": "integer",
                             "format": "int64",
@@ -2319,6 +2324,7 @@
                     {
                         "name": "maxTimestamp",
                         "in": "query",
+                        "description": "Settle at a precise date. So the member balances are all back to zero at this date.",
                         "schema": {
                             "type": "integer",
                             "format": "int64",
@@ -2432,7 +2438,8 @@
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/auto-settlement": {
             "get": {
                 "operationId": "projects-auto-settlement",
-                "summary": "Get automatic settlement plan",
+                "summary": "Automatic settlement plan",
+                "description": "Create reimbursement bills to automatically settle a project",
                 "tags": [
                     "Projects"
                 ],
@@ -2575,7 +2582,8 @@
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/export-csv-settlement": {
             "get": {
                 "operationId": "projects-export-csv-settlement",
-                "summary": "Get CSV settlement plan",
+                "summary": "Export settlement plan",
+                "description": "Export settlement plan as CSV",
                 "tags": [
                     "Projects"
                 ],
@@ -2727,7 +2735,8 @@
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public-file-share": {
             "post": {
                 "operationId": "sharing-get-public-file-share",
-                "summary": "Get a public file share from a node path",
+                "summary": "Get or create file share",
+                "description": "Get or create a public file share from a node path",
                 "tags": [
                     "Sharing"
                 ],
@@ -3733,6 +3742,7 @@
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/bills/{billId}": {
             "get": {
                 "operationId": "bills-get-bill",
+                "summary": "Get a bill",
                 "tags": [
                     "Bills"
                 ],
@@ -4362,7 +4372,8 @@
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/bills/{billId}/move": {
             "post": {
                 "operationId": "bills-move-bill",
-                "summary": "Move a bill from one project to another",
+                "summary": "Move a bill",
+                "description": "Move a bill from one project to another",
                 "tags": [
                     "Bills"
                 ],
@@ -4544,7 +4555,8 @@
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/bills/{billId}/repeat": {
             "get": {
                 "operationId": "bills-repeat-bill",
-                "summary": "Trigger bill repetition for a specific bill",
+                "summary": "Repeat a bill",
+                "description": "Trigger bill repetition for a specific bill",
                 "tags": [
                     "Bills"
                 ],
@@ -4659,7 +4671,7 @@
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/members": {
             "get": {
                 "operationId": "members-get-members",
-                "summary": "Get a project's member list",
+                "summary": "Get members",
                 "tags": [
                     "Members"
                 ],
@@ -4747,7 +4759,7 @@
             },
             "post": {
                 "operationId": "members-create-member",
-                "summary": "Create a project member",
+                "summary": "Create a member",
                 "tags": [
                     "Members"
                 ],
@@ -4915,7 +4927,7 @@
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/members/{memberId}": {
             "put": {
                 "operationId": "members-edit-member",
-                "summary": "Edit a project member",
+                "summary": "Edit a member",
                 "tags": [
                     "Members"
                 ],

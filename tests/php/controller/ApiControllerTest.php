@@ -1070,7 +1070,7 @@ class ApiControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
 		$data = $resp->getData();
-		$this->assertEquals('UPDATED', $data);
+		$this->assertEquals('', $data);
 
 		// invalid email
 		$resp = $this->apiController->editProject('superproj', 'newname', 'invalid email!');

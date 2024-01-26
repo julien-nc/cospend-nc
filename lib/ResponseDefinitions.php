@@ -109,9 +109,8 @@ namespace OCA\Cospend;
  *      paymentmodes: CospendCategoryOrPaymentMode[],
  *  }
  *
- * @psalm-type CospendProjectInfo = array{
+ * @psalm-type CospendPublicProjectInfo = array{
  *     id: int,
- *     userid: string,
  *     name: string,
  *     email: ?string,
  *     autoexport: string,
@@ -123,8 +122,16 @@ namespace OCA\Cospend;
  *     archived_ts: int,
  * }
  *
+ * @psalm-type CospendProjectInfo = CospendPublicProjectInfo&array{
+ *     userid: string,
+ * }
+ *
+ * @psalm-type CospendPublicProjectInfoPlusExtra = CospendPublicProjectInfo&CospendExtraProjectInfo
  * @psalm-type CospendProjectInfoPlusExtra = CospendProjectInfo&CospendExtraProjectInfo
  *
+ * @psalm-type CospendFullPublicProjectInfo = CospendPublicProjectInfoPlusExtra&array{
+ *       myaccesslevel: int,
+ *  }
  * @psalm-type CospendFullProjectInfo = CospendProjectInfoPlusExtra&array{
  *      myaccesslevel: int,
  * }

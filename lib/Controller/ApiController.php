@@ -212,7 +212,7 @@ class ApiController extends OCSController {
 	 * @param string|null $categorysort
 	 * @param string|null $paymentmodesort
 	 * @param int|null $archived_ts
-	 * @return DataResponse<Http::STATUS_OK, 'UPDATED', array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
 	 *
 	 * 200: The project was successfully update
@@ -232,7 +232,7 @@ class ApiController extends OCSController {
 			$currencyname, $deletion_disabled, $categorysort, $paymentmodesort, $archived_ts
 		);
 		if (isset($result['success'])) {
-			return new DataResponse('UPDATED');
+			return new DataResponse('');
 		} else {
 			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		}

@@ -1016,12 +1016,12 @@ class ApiControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
 		$data = $resp->getData();
-		$this->assertEquals('OK', $data);
+		$this->assertEquals('', $data);
 
 		// delete bill that does not exist
 		$resp = $this->apiController->deleteBill('superproj', -1);
 		$status = $resp->getStatus();
-		$this->assertEquals(Http::STATUS_FORBIDDEN, $status);
+		$this->assertEquals(Http::STATUS_NOT_FOUND, $status);
 
 		// DELETE BILL of unexisting project
 		//		$resp = $this->apiController->deleteBill('superprojLALA', $idBill1);
@@ -1040,7 +1040,7 @@ class ApiControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_FORBIDDEN, $status);
 		$data = $resp->getData();
-		$this->assertTrue(isset($data['message']));
+		$this->assertEquals('', $data);
 		// reset bill deletion in project
 		$resp = $this->apiController->editProject(
 			'superproj', null, null, null,

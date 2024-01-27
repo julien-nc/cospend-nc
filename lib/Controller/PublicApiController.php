@@ -713,7 +713,7 @@ class PublicApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['[Public API] Members'])]
 	public function publicEditMember(
 		string $token, int $memberId, ?string $name = null, ?float $weight = null,
-			   $activated = null, ?string $color = null, ?string $userid = null
+		$activated = null, ?string $color = null, ?string $userid = null
 	): DataResponse {
 		$publicShareInfo = $this->projectService->getShareInfoFromShareToken($token);
 		if ($activated === 'true') {

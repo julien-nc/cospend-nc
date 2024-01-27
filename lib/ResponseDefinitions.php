@@ -163,6 +163,13 @@ namespace OCA\Cospend;
  *     repeatfreq: int,
  *     deleted: int,
  * }
+ *
+ * @psalm-type CospendProjectSettlement = array{
+ *     transactions: ?array<array{to: int, amount: float, from: int}>,
+ *     balances: array<string, float>,
+ * }
+ *
+ * @psalm-type CospendProjectStatistics = array<string, mixed>
  */
 class ResponseDefinitions {
 }

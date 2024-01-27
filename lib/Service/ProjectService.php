@@ -1014,7 +1014,7 @@ class ProjectService {
 		if ($force === false) {
 			$project = $this->getProjectInfo($projectId);
 			if ($project['deletiondisabled']) {
-				return ['message' => 'Forbidden'];
+				return ['message' => 'forbidden'];
 			}
 		}
 		$billToDelete = $this->billMapper->getBillEntity($projectId, $billId);
@@ -1033,7 +1033,7 @@ class ProjectService {
 
 			return ['success' => true];
 		} else {
-			return ['message' => $this->l10n->t('Not Found')];
+			return ['message' => 'not found'];
 		}
 	}
 

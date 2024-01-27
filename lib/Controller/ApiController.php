@@ -47,6 +47,8 @@ use OCP\Share\IShare;
 
 /**
  * @psalm-import-type CospendFullProjectInfo from ResponseDefinitions
+ * @psalm-import-type CospendProjectSettlement from ResponseDefinitions
+ * @psalm-import-type CospendProjectStatistics from ResponseDefinitions
  * @psalm-import-type CospendMember from ResponseDefinitions
  * @psalm-import-type CospendBill from ResponseDefinitions
  * @psalm-import-type CospendPaymentMode from ResponseDefinitions
@@ -273,7 +275,7 @@ class ApiController extends OCSController {
 	 * @param string $showDisabled
 	 * @param int|null $currencyId
 	 * @param int|null $payerId
-	 * @return DataResponse<Http::STATUS_OK, array<string, mixed>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, CospendProjectStatistics, array{}>
 	 * @throws Exception
 	 */
 	#[NoAdminRequired]
@@ -298,7 +300,7 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param int|null $centeredOn Member ID to center the settlement on. All suggested transactions will involve this member.
 	 * @param int|null $maxTimestamp Settle at a precise date. So the member balances are all back to zero at this date.
-	 * @return DataResponse<Http::STATUS_OK, array{transactions: ?array<array{to: int, amount: float, from: int}>, balances: array<string, float>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, CospendProjectSettlement, array{}>
 	 */
 	#[NoAdminRequired]
 	#[CORS]
@@ -356,7 +358,7 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param int $memberId
-	 * @return DataResponse<Http::STATUS_OK, 'OK', array{}>|DataResponse<Http::STATUS_NOT_FOUND, array{error: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_NOT_FOUND, array{error: string}, array{}>
 	 *
 	 * 200: Member was successfully disabled or deleted
 	 * 404: Member does not exist
@@ -368,7 +370,7 @@ class ApiController extends OCSController {
 	public function deleteMember(string $projectId, int $memberId): DataResponse {
 		$result = $this->projectService->deleteMember($projectId, $memberId);
 		if (isset($result['success'])) {
-			return new DataResponse('OK');
+			return new DataResponse('');
 		}
 		return new DataResponse($result, Http::STATUS_NOT_FOUND);
 	}
@@ -616,13 +618,17 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param int $billId
-	 * @return DataResponse<Http::STATUS_OK, array<array{new_bill_id: int, date_orig: string, date_repeat: string, what: string, project_name: string}>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array<array{new_bill_id: int, date_orig: string, date_repeat: string, what: string, project_name: string}>, array{}>|DataResponse<Http::STATUS_NOT_FOUND, '', array{}>
 	 */
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Bills'])]
 	public function repeatBill(string $projectId, int $billId): DataResponse {
+		$bill = $this->billMapper->getBill($projectId, $billId);
+		if ($bill === null) {
+			return new DataResponse('', Http::STATUS_NOT_FOUND);
+		}
 		$result = $this->projectService->cronRepeatBills($billId);
 		return new DataResponse($result);
 	}
@@ -706,7 +712,7 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param int $billId
 	 * @param bool $moveToTrash
-	 * @return DataResponse<Http::STATUS_OK, 'OK', array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND|Http::STATUS_BAD_REQUEST, '', array{}>
 	 * @throws Exception
 	 *
 	 * 200: Bill was successfully deleted
@@ -731,10 +737,15 @@ class ApiController extends OCSController {
 					[]
 				);
 			}
-			return new DataResponse('OK');
-		} else {
-			return new DataResponse($result, Http::STATUS_FORBIDDEN);
+			return new DataResponse('');
+		} elseif (isset($result['message'])) {
+			if ($result['message'] === 'forbidden') {
+				return new DataResponse('', Http::STATUS_FORBIDDEN);
+			} elseif ($result['message'] === 'not found') {
+				return new DataResponse('', Http::STATUS_NOT_FOUND);
+			}
 		}
+		return new DataResponse('', Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -743,7 +754,7 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param array<int> $billIds
 	 * @param bool $moveToTrash
-	 * @return DataResponse<Http::STATUS_OK, 'OK', array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, '', array{}>
 	 * @throws Exception
 	 *
 	 * 200: Bills were successfully deleted
@@ -754,25 +765,33 @@ class ApiController extends OCSController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Bills'])]
 	public function deleteBills(string $projectId, array $billIds, bool $moveToTrash = true): DataResponse {
-		foreach ($billIds as $billid) {
-			$billObj = null;
-			if ($this->billMapper->getBill($projectId, $billid) !== null) {
-				$billObj = $this->billMapper->find($billid);
-			}
-			$result = $this->projectService->deleteBill($projectId, $billid, false, $moveToTrash);
-			if (!isset($result['success'])) {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-			} else {
-				if (!is_null($billObj)) {
-					$this->activityManager->triggerEvent(
-						ActivityManager::COSPEND_OBJECT_BILL, $billObj,
-						ActivityManager::SUBJECT_BILL_DELETE,
-						[]
-					);
-				}
+		foreach ($billIds as $billId) {
+			if ($this->billMapper->getBill($projectId, $billId) === null) {
+				return new DataResponse('', Http::STATUS_NOT_FOUND);
 			}
 		}
-		return new DataResponse('OK');
+
+		foreach ($billIds as $billId) {
+			$billObj = $this->billMapper->find($billId);
+			$result = $this->projectService->deleteBill($projectId, $billId, false, $moveToTrash);
+			if (!isset($result['success'])) {
+				if (isset($result['message'])) {
+					if ($result['message'] === 'forbidden') {
+						return new DataResponse('', Http::STATUS_FORBIDDEN);
+					} elseif ($result['message'] === 'not found') {
+						return new DataResponse('', Http::STATUS_NOT_FOUND);
+					}
+				}
+				return new DataResponse('', Http::STATUS_BAD_REQUEST);
+			} else {
+				$this->activityManager->triggerEvent(
+					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+					ActivityManager::SUBJECT_BILL_DELETE,
+					[]
+				);
+			}
+		}
+		return new DataResponse('');
 	}
 
 	/**
@@ -973,7 +992,7 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param array<array{order: int, id: int}> $order Array of objects, each object contains the order number and the payment mode ID
-	 * @return DataResponse<Http::STATUS_OK, true, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, false, array{}>
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST, '', array{}>
 	 *
 	 * 200: The payment mode order was successfully saved
 	 * 400: Failed to save the payment mode order
@@ -984,9 +1003,9 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Payment modes'])]
 	public function savePaymentModeOrder(string $projectId, array $order): DataResponse {
 		if ($this->projectService->savePaymentModeOrder($projectId, $order)) {
-			return new DataResponse(true);
+			return new DataResponse('');
 		}
-		return new DataResponse(false, Http::STATUS_BAD_REQUEST);
+		return new DataResponse('', Http::STATUS_BAD_REQUEST);
 	}
 
 	/**

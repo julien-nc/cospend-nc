@@ -35,6 +35,12 @@ use OCP\IRequest;
 /**
  * @psalm-import-type CospendBill from ResponseDefinitions
  * @psalm-import-type CospendFullPublicProjectInfo from ResponseDefinitions
+ * @psalm-import-type CospendProjectSettlement from ResponseDefinitions
+ * @psalm-import-type CospendProjectStatistics from ResponseDefinitions
+ * @psalm-import-type CospendMember from ResponseDefinitions
+ * @psalm-import-type CospendCurrency from ResponseDefinitions
+ * @psalm-import-type CospendPaymentMode from ResponseDefinitions
+ * @psalm-import-type CospendCategory from ResponseDefinitions
  */
 class PublicApiController extends OCSController {
 
@@ -75,7 +81,7 @@ class PublicApiController extends OCSController {
 	 * Clear the trashbin
 	 *
 	 * @param string $token
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST, '', array{}>
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -99,7 +105,7 @@ class PublicApiController extends OCSController {
 	 * @param string $token
 	 * @param int $billId
 	 * @param bool $moveToTrash
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND|Http::STATUS_BAD_REQUEST, '', array{}>
 	 * @throws Exception
 	 */
 	#[NoAdminRequired]
@@ -132,10 +138,15 @@ class PublicApiController extends OCSController {
 					['author' => $authorFullText]
 				);
 			}
-			return new DataResponse('OK');
-		} else {
-			return new DataResponse($result, Http::STATUS_NOT_FOUND);
+			return new DataResponse('');
+		} elseif (isset($result['message'])) {
+			if ($result['message'] === 'forbidden') {
+				return new DataResponse('', Http::STATUS_FORBIDDEN);
+			} elseif ($result['message'] === 'not found') {
+				return new DataResponse('', Http::STATUS_NOT_FOUND);
+			}
 		}
+		return new DataResponse('', Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -144,7 +155,7 @@ class PublicApiController extends OCSController {
 	 * @param string $token
 	 * @param array<int> $billIds
 	 * @param bool $moveToTrash
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, '', array{}>
 	 * @throws Exception
 	 */
 	#[NoAdminRequired]
@@ -163,26 +174,33 @@ class PublicApiController extends OCSController {
 		} else {
 			$authorFullText = $this->trans->t('Share link');
 		}
-		foreach ($billIds as $billid) {
-			$billObj = null;
-			if ($this->billMapper->getBill($publicShareInfo['projectid'], $billid) !== null) {
-				$billObj = $this->billMapper->find($billid);
-			}
-
-			$result = $this->projectService->deleteBill($publicShareInfo['projectid'], $billid, false, $moveToTrash);
-			if (!isset($result['success'])) {
-				return new DataResponse($result, Http::STATUS_NOT_FOUND);
-			} else {
-				if (!is_null($billObj)) {
-					$this->activityManager->triggerEvent(
-						ActivityManager::COSPEND_OBJECT_BILL, $billObj,
-						ActivityManager::SUBJECT_BILL_DELETE,
-						['author' => $authorFullText]
-					);
-				}
+		foreach ($billIds as $billId) {
+			if ($this->billMapper->getBill($publicShareInfo['projectid'], $billId) === null) {
+				return new DataResponse('', Http::STATUS_NOT_FOUND);
 			}
 		}
-		return new DataResponse('OK');
+
+		foreach ($billIds as $billId) {
+			$billObj = $this->billMapper->find($billId);
+			$result = $this->projectService->deleteBill($publicShareInfo['projectid'], $billId, false, $moveToTrash);
+			if (!isset($result['success'])) {
+				if (isset($result['message'])) {
+					if ($result['message'] === 'forbidden') {
+						return new DataResponse('', Http::STATUS_FORBIDDEN);
+					} elseif ($result['message'] === 'not found') {
+						return new DataResponse('', Http::STATUS_NOT_FOUND);
+					}
+				}
+				return new DataResponse('', Http::STATUS_BAD_REQUEST);
+			} else {
+				$this->activityManager->triggerEvent(
+					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+					ActivityManager::SUBJECT_BILL_DELETE,
+					['author' => $authorFullText]
+				);
+			}
+		}
+		return new DataResponse('');
 	}
 
 	/**
@@ -214,6 +232,8 @@ class PublicApiController extends OCSController {
 	}
 
 	/**
+	 * Get statistics data
+	 *
 	 * @param string $token
 	 * @param int|null $tsMin
 	 * @param int|null $tsMax
@@ -224,7 +244,7 @@ class PublicApiController extends OCSController {
 	 * @param string $showDisabled
 	 * @param int|null $currencyId
 	 * @param int|null $payerId
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, CospendProjectStatistics, array{}>
 	 * @throws Exception
 	 */
 	#[NoAdminRequired]
@@ -254,7 +274,7 @@ class PublicApiController extends OCSController {
 	 * @param string $token
 	 * @param int|null $centeredOn
 	 * @param int|null $maxTimestamp
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, CospendProjectSettlement, array{}>
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -277,7 +297,7 @@ class PublicApiController extends OCSController {
 	 * @param int|null $centeredOn
 	 * @param int $precision
 	 * @param int|null $maxTimestamp
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{message: string}, array{}>
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -293,49 +313,9 @@ class PublicApiController extends OCSController {
 			$publicShareInfo['projectid'], $centeredOn, $precision, $maxTimestamp
 		);
 		if (isset($result['success'])) {
-			return new DataResponse('OK');
+			return new DataResponse('');
 		} else {
-			return new DataResponse($result, Http::STATUS_FORBIDDEN);
-		}
-	}
-
-	/**
-	 * Edit a project member
-	 *
-	 * @param string $token
-	 * @param int $memberId
-	 * @param string|null $name
-	 * @param float|null $weight
-	 * @param null $activated
-	 * @param string|null $color
-	 * @param string|null $userid
-	 * @return DataResponse
-	 */
-	#[NoAdminRequired]
-	#[PublicPage]
-	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
-	#[BruteForceProtection(action: 'CospendPublicEditMember')]
-	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['[Public API] Members'])]
-	public function publicEditMember(
-		string $token, int $memberId, ?string $name = null, ?float $weight = null,
-		$activated = null, ?string $color = null, ?string $userid = null
-	): DataResponse {
-		$publicShareInfo = $this->projectService->getShareInfoFromShareToken($token);
-		if ($activated === 'true') {
-			$activated = true;
-		} elseif ($activated === 'false') {
-			$activated = false;
-		}
-		$result = $this->projectService->editMember(
-			$publicShareInfo['projectid'], $memberId, $name, $userid, $weight, $activated, $color
-		);
-		if (count($result) === 0) {
-			return new DataResponse(null);
-		} elseif (array_key_exists('activated', $result)) {
-			return new DataResponse($result);
-		} else {
-			return new DataResponse($result, Http::STATUS_FORBIDDEN);
+			return new DataResponse(['message' => $result['message']], Http::STATUS_FORBIDDEN);
 		}
 	}
 
@@ -359,7 +339,7 @@ class PublicApiController extends OCSController {
 	 * @param string|null $comment
 	 * @param int|null $repeatfreq
 	 * @param int|null $deleted
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
 	 */
 	#[NoAdminRequired]
@@ -424,7 +404,7 @@ class PublicApiController extends OCSController {
 	 * @param string|null $comment
 	 * @param int|null $repeatfreq
 	 * @param int|null $deleted
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, int[], array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
 	 */
 	#[NoAdminRequired]
@@ -476,7 +456,7 @@ class PublicApiController extends OCSController {
 	 *
 	 * @param string $token
 	 * @param int $billId
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, array<array{new_bill_id: int, date_orig: string, date_repeat: string, what: string, project_name: string}>, array{}>|DataResponse<Http::STATUS_NOT_FOUND, '', array{}>
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -488,7 +468,7 @@ class PublicApiController extends OCSController {
 		$publicShareInfo = $this->projectService->getShareInfoFromShareToken($token);
 		$bill = $this->billMapper->getBill($publicShareInfo['projectid'], $billId);
 		if ($bill === null) {
-			return new DataResponse('Bill not found', Http::STATUS_NOT_FOUND);
+			return new DataResponse('', Http::STATUS_NOT_FOUND);
 		}
 		$result = $this->projectService->cronRepeatBills($billId);
 		return new DataResponse($result);
@@ -549,7 +529,7 @@ class PublicApiController extends OCSController {
 	 * @param int|null $timestamp
 	 * @param string|null $comment
 	 * @param int|null $repeatfreq
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{error: array<string, string>}, array{}>
 	 * @throws Exception
 	 */
 	#[NoAdminRequired]
@@ -593,39 +573,6 @@ class PublicApiController extends OCSController {
 	}
 
 	/**
-	 * Create a project member
-	 *
-	 * @param string $token
-	 * @param string $name
-	 * @param float $weight
-	 * @param int $active
-	 * @param string|null $color
-	 * @param string|null $userid
-	 * @return DataResponse
-	 * @throws Exception
-	 */
-	#[NoAdminRequired]
-	#[PublicPage]
-	#[CORS]
-	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
-	#[BruteForceProtection(action: 'CospendPublicCreateMember')]
-	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['[Public API] Members'])]
-	public function publicCreateMember(
-		string  $token, string $name, float $weight = 1, int $active = 1,
-		?string $color = null, ?string $userid = null
-	): DataResponse {
-		$publicShareInfo = $this->projectService->getShareInfoFromShareToken($token);
-		$result = $this->projectService->createMember(
-			$publicShareInfo['projectid'], $name, $weight, $active !== 0, $color, $userid
-		);
-		if (!isset($result['error'])) {
-			return new DataResponse($result);
-		} else {
-			return new DataResponse($result['error'], Http::STATUS_BAD_REQUEST);
-		}
-	}
-
-	/**
 	 * Get a project's bill list
 	 *
 	 * @param string $token
@@ -639,7 +586,7 @@ class PublicApiController extends OCSController {
 	 * @param int|null $includeBillId
 	 * @param string|null $searchTerm
 	 * @param int|null $deleted
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, array{nb_bills: int, allBillIds: int[], timestamp: int, bills: CospendBill[]}, array{}>
 	 * @throws Exception
 	 */
 	#[NoAdminRequired]
@@ -709,7 +656,7 @@ class PublicApiController extends OCSController {
 	 *
 	 * @param string $token
 	 * @param int|null $lastChanged
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, CospendMember[], array{}>
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -728,7 +675,7 @@ class PublicApiController extends OCSController {
 	 *
 	 * @param string $token
 	 * @param int $memberId
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_NOT_FOUND, array{error: string}, array{}>
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -740,10 +687,84 @@ class PublicApiController extends OCSController {
 		$publicShareInfo = $this->projectService->getShareInfoFromShareToken($token);
 		$result = $this->projectService->deleteMember($publicShareInfo['projectid'], $memberId);
 		if (isset($result['success'])) {
-			return new DataResponse('OK');
+			return new DataResponse('');
 		} else {
 			return new DataResponse($result, Http::STATUS_NOT_FOUND);
 		}
+	}
+
+	/**
+	 * Edit a project member
+	 *
+	 * @param string $token
+	 * @param int $memberId
+	 * @param string|null $name
+	 * @param float|null $weight
+	 * @param null $activated
+	 * @param string|null $color
+	 * @param string|null $userid
+	 * @return DataResponse<Http::STATUS_OK, null, array{}>|DataResponse<Http::STATUS_OK, CospendMember, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array<string, string>, array{}>
+	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicEditMember')]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['[Public API] Members'])]
+	public function publicEditMember(
+		string $token, int $memberId, ?string $name = null, ?float $weight = null,
+			   $activated = null, ?string $color = null, ?string $userid = null
+	): DataResponse {
+		$publicShareInfo = $this->projectService->getShareInfoFromShareToken($token);
+		if ($activated === 'true') {
+			$activated = true;
+		} elseif ($activated === 'false') {
+			$activated = false;
+		}
+		$result = $this->projectService->editMember(
+			$publicShareInfo['projectid'], $memberId, $name, $userid, $weight, $activated, $color
+		);
+		if (count($result) === 0) {
+			return new DataResponse(null);
+		} elseif (isset($result['activated'])) {
+			return new DataResponse($result);
+		} else {
+			return new DataResponse($result, Http::STATUS_FORBIDDEN);
+		}
+	}
+
+	/**
+	 * Create a project member
+	 *
+	 * @param string $token
+	 * @param string $name
+	 * @param float $weight
+	 * @param int $active
+	 * @param string|null $color
+	 * @param string|null $userid
+	 * @return DataResponse<Http::STATUS_OK, CospendMember, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, string, array{}>
+	 * @throws Exception
+	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[CORS]
+	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[BruteForceProtection(action: 'CospendPublicCreateMember')]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['[Public API] Members'])]
+	public function publicCreateMember(
+		string  $token, string $name, float $weight = 1, int $active = 1,
+		?string $color = null, ?string $userid = null
+	): DataResponse {
+		$publicShareInfo = $this->projectService->getShareInfoFromShareToken($token);
+		$result = $this->projectService->createMember(
+			$publicShareInfo['projectid'], $name, $weight, $active !== 0, $color, $userid
+		);
+		if (!isset($result['error'])) {
+			/** @var CospendMember $newMember */
+			$newMember = $result;
+			return new DataResponse($newMember);
+		}
+		return new DataResponse($result['error'], Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -754,7 +775,7 @@ class PublicApiController extends OCSController {
 	 * @param string|null $icon
 	 * @param string $color
 	 * @param int|null $order
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -778,7 +799,7 @@ class PublicApiController extends OCSController {
 	 * @param string|null $name
 	 * @param string|null $icon
 	 * @param string|null $color
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, CospendPaymentMode, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array<string, string>, array{}>
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -794,7 +815,9 @@ class PublicApiController extends OCSController {
 			$publicShareInfo['projectid'], $pmId, $name, $icon, $color
 		);
 		if (isset($result['name'])) {
-			return new DataResponse($result);
+			/** @var CospendPaymentMode $pm */
+			$pm = $result;
+			return new DataResponse($pm);
 		} else {
 			return new DataResponse($result, Http::STATUS_FORBIDDEN);
 		}
@@ -805,7 +828,7 @@ class PublicApiController extends OCSController {
 	 *
 	 * @param string $token
 	 * @param array<array{order: int, id: int}> $order
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_FORBIDDEN, '', array{}>
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -816,9 +839,9 @@ class PublicApiController extends OCSController {
 	public function publicSavePaymentModeOrder(string $token, array $order): DataResponse {
 		$publicShareInfo = $this->projectService->getShareInfoFromShareToken($token);
 		if ($this->projectService->savePaymentModeOrder($publicShareInfo['projectid'], $order)) {
-			return new DataResponse(true);
+			return new DataResponse('');
 		} else {
-			return new DataResponse(false, Http::STATUS_FORBIDDEN);
+			return new DataResponse('', Http::STATUS_FORBIDDEN);
 		}
 	}
 
@@ -827,7 +850,7 @@ class PublicApiController extends OCSController {
 	 *
 	 * @param string $token
 	 * @param int $pmId
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
 	 */
 	#[NoAdminRequired]
@@ -854,7 +877,7 @@ class PublicApiController extends OCSController {
 	 * @param string|null $icon
 	 * @param string $color
 	 * @param int|null $order
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -878,7 +901,7 @@ class PublicApiController extends OCSController {
 	 * @param string|null $name
 	 * @param string|null $icon
 	 * @param string|null $color
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, CospendCategory, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array<string, string>, array{}>
 	 * @throws Exception
 	 */
 	#[NoAdminRequired]
@@ -907,7 +930,7 @@ class PublicApiController extends OCSController {
 	 *
 	 * @param string $token
 	 * @param array<array{order: int, id: int}> $order
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_FORBIDDEN, '', array{}>
 	 * @throws Exception
 	 */
 	#[NoAdminRequired]
@@ -919,9 +942,9 @@ class PublicApiController extends OCSController {
 	public function publicSaveCategoryOrder(string $token, array $order): DataResponse {
 		$publicShareInfo = $this->projectService->getShareInfoFromShareToken($token);
 		if ($this->projectService->saveCategoryOrder($publicShareInfo['projectid'], $order)) {
-			return new DataResponse(true);
+			return new DataResponse('');
 		} else {
-			return new DataResponse(false, Http::STATUS_FORBIDDEN);
+			return new DataResponse('', Http::STATUS_FORBIDDEN);
 		}
 	}
 
@@ -930,7 +953,7 @@ class PublicApiController extends OCSController {
 	 *
 	 * @param string $token
 	 * @param int $categoryId
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
 	 */
 	#[NoAdminRequired]
@@ -955,7 +978,7 @@ class PublicApiController extends OCSController {
 	 * @param string $token
 	 * @param string $name
 	 * @param float $rate
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>
 	 * @throws Exception
 	 */
 	#[NoAdminRequired]
@@ -977,7 +1000,7 @@ class PublicApiController extends OCSController {
 	 * @param int $currencyId
 	 * @param string $name
 	 * @param float $rate
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, CospendCurrency, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array<string, string>, array{}>
 	 * @throws Exception
 	 */
 	#[NoAdminRequired]
@@ -1003,7 +1026,7 @@ class PublicApiController extends OCSController {
 	 *
 	 * @param string $token
 	 * @param int $currencyId
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
 	 */
 	#[NoAdminRequired]
@@ -1016,7 +1039,7 @@ class PublicApiController extends OCSController {
 		$publicShareInfo = $this->projectService->getShareInfoFromShareToken($token);
 		$result = $this->projectService->deleteCurrency($publicShareInfo['projectid'], $currencyId);
 		if (isset($result['success'])) {
-			return new DataResponse($currencyId);
+			return new DataResponse('');
 		} else {
 			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		}

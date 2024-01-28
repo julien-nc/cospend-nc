@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Cospend" : "Cospend",
     "Changes in the <strong>Cospend app</strong>" : "Canvis a <strong>l'aplicació Cospend </strong>",
-    "Cospend public access" : "Accés públic a Cospend",
     "Guest access" : "Accés de visitant",
     "Share link (%s)" : "Compartir l'enllaç (%s)",
     "Share link" : "Compartir l'enllaç",
@@ -112,7 +111,6 @@ OC.L10N.register(
     "Total paid" : "Total pagat",
     "All except reimbursement" : "Tot excepte reemborsament",
     "All" : "Tot",
-    "Payed" : "Pagat",
-    "Project ID/name" : "ID/nom del projecte"
+    "Payed" : "Pagat"
 },
 "nplurals=2; plural=(n != 1);");

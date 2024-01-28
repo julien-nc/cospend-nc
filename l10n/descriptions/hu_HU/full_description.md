@@ -2,51 +2,56 @@
 
 A Nextcloud Cospend egy csoportos/megosztott költségkezelő. A nagy [IHateMoney](https://github.com/spiral-project/ihatemoney/) inspirálta.
 
-Használhatod, ha közös házban laksz mással, ha barátokkal vakációzol, bármikor, amikor másokkal osztasz meg pénzt.
+You can use it when you share a house, when you go on vacation with friends, whenever you share expenses with a group of people.
 
-Létre tudsz hozni benne projekteket tagokkal és számlákkal. Minden tagnak van egy egyenlege, melyet a projekt számláiból számítunk ki. Így láthatod, ki tartozik a csoportnak és a csoport kinek tartozik. Végül kérhetsz elszámolási tervet, mely megmondja, milyen kifizetésekre van szükség, hogy a tagok tartozásai rendezve legyenek.
+Létre tudsz hozni benne projekteket tagokkal és számlákkal. Minden tagnak van egy egyenlege, melyet a projekt számláiból számítunk ki. Balances are not an absolute amount of money at members disposal but rather a relative information showing if a member has spent more for the group than the group has spent for her/him, independently of exactly who spent money for whom. Így láthatod, ki tartozik a csoportnak és a csoport kinek tartozik. Végül kérhetsz elszámolási tervet, mely megmondja, milyen kifizetésekre van szükség, hogy a tagok tartozásai rendezve legyenek.
 
-A projekttagok függetlenek a Nextcloud felhasználóitól. A projekteket Nextcloud fiókkal nem rendelkező emberek is elérhetik és módosíthatják. Minden projektnek van egy azonosítója és egy jelszava a vendégeléréshez.
+A projekttagok függetlenek a Nextcloud felhasználóitól. Projects can be shared with other Nextcloud users or via public links.
 
 A [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android kliens elérhető [F-Droid-on](https://f-droid.org/packages/net.eneiluj.moneybuster/) és a [Play store-ban](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
-A [PayForMe](https://github.com/mayflower/PayForMe) iOS klienst épp most fejlesztjük!
+[PayForMe](https://github.com/mayflower/PayForMe) iOS client is currently under developpement!
+
+The private and public APIs are documented using [the Nextcloud OpenAPI extractor](https://github.com/nextcloud/openapi-extractor/). This documentation can be accessed directly in Nextcloud. All you need is to install Cospend (>= v1.6.0) and use the [the OCS API Viewer app](https://apps.nextcloud.com/apps/ocs_api_viewer) to browse the OpenAPI documentation.
 
 ## Funkciók
 
-* ✎ projektek létrehozása/szerkesztése/törlése, tagok, számlák, számlakategóriák, pénznemek
-* ⚖ tagok egyenlegeinek ellenőrzése
-* 🗠 projektstatisztika megjelenítése
-* ♻ elszámolási terv megjelenítése
-* 🎇 elszámolási tervből visszafizetési számlák automatikus készítése
-* 🗓 ismétlődő számlák készítése (napi/heti/havi/éves)
-* 📊 minden tagnak egyéni összeg megadható az új számlákon
-* 🔗 számlák saját fájlokhoz kapcsolása (pl. a fizikai számla fotója)
-* 👩 vendégelérés a Nextcloudon kívüli emberek számára
-* 👫 projektek megosztása Nextcloud felhasználókkal/csoportokkal/körökkel
-* 🖫 Projektek importálása/exportálása csv-ként (kompatibilis az IHateMoney csv fájljaival)
-* 🔗 hivatkozás/QR-kód előállítása projektek MoneyBusterbe történő könnyű importálásához
-* 🗲 Nextcloud értesítések és aktivitásfolyam megvalósítása
+* ✎ Create/edit/delete projects, members, bills, bill categories, currencies
+* ⚖ Check member balances
+* 🗠 Display project statistics
+* ♻ Display settlement plan
+* Move bills from one project to another
+* Move bills to trash before actually deleting them
+* Archive old projects before deleting them
+* 🎇 Automatically create reimbursement bills from settlement plan
+* 🗓 Create recurring bills (day/week/month/year)
+* 📊 Optionally provide custom amount for each member in new bills
+* 🔗 Link personal files to bills (picture of physical receipt for example)
+* 👩 Public links for people outside Nextcloud (can be password protected)
+* 👫 Share projects with Nextcloud users/groups/circles
+* 🖫 Import/export projects as csv (compatible with csv files from IHateMoney and SplitWise)
+* 🔗 Generate link/QRCode to easily add projects in MoneyBuster
+* 🗲 Implement Nextcloud notifications and activity stream
 
-Ezt az alkalmazást Nextcloud 20+-on teszteljük Firefox 57+ és Chromium böngészőkkel.
+This app usually support the 2 or 3 last major versions of Nextcloud.
 
 Ez az alkalmazás fejlesztés alatt áll.
 
 🌍 Segíts nekünk a fordításban a [Nextcloud-Cospend/MoneyBuster Crowdin projektben](https://crowdin.com/project/moneybuster).
 
-⚒ Nézd meg, még miben segíthetsz a [hozzájárulási irányelveinkben](https://github.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
+⚒ Check out other ways to help in the [contribution guidelines](https://github.com/julien-nc/cospend-nc/blob/master/CONTRIBUTING.md).
 
 ## Dokumentáció
 
-* [Felhasználói dokumentáció](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
-* [Rendszergazdai dokumentáció](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
-* [Fejlesztői dokumentáció](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
-* [VÁLTOZÁSOK](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
-* [SZERZŐK](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
+* [Felhasználói dokumentáció](https://github.com/julien-nc/cospend-nc/blob/master/docs/user.md)
+* [Rendszergazdai dokumentáció](https://github.com/julien-nc/cospend-nc/blob/master/docs/admin.md)
+* [Fejlesztői dokumentáció](https://github.com/julien-nc/cospend-nc/blob/master/docs/dev.md)
+* [VÁLTOZÁSOK](https://github.com/julien-nc/cospend-nc/blob/master/CHANGELOG.md#change-log)
+* [SZERZŐK](https://github.com/julien-nc/cospend-nc/blob/master/AUTHORS.md#authors)
 
 ## Ismert problémák
 
-* nem leszel tőle gazdag
+* It does not make you rich
 
 Bármilyen visszajelzést nagyra értékelünk.
 

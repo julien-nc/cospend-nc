@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-01-28 17:08+0100\n"
-"PO-Revision-Date: 2024-01-28 17:19\n"
+"PO-Revision-Date: 2024-01-28 17:33\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -436,7 +436,7 @@ msgstr "Ce projet a déjà ce membre"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1473
 msgid "This project already has this member (user)"
-msgstr ""
+msgstr "Ce projet a déjà ce membre (utilisateur)"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2302
 msgid "There is no such bill"
@@ -459,7 +459,7 @@ msgstr "Non trouvé"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3010
 msgid "Impossible to get the edited payment mode"
-msgstr ""
+msgstr "Impossible d'obtenir le mode de paiement modifié"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3014
 msgid "This project has no such payment mode"
@@ -473,7 +473,7 @@ msgstr "Valeurs de champs incorrectes"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3194
 msgid "Impossible to get the edited category"
-msgstr ""
+msgstr "Impossible d'obtenir la catégorie modifiée"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3198
 msgid "This project has no such category"
@@ -481,7 +481,7 @@ msgstr "Ce projet n'a pas cette catégorie"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3324
 msgid "Impossible to get the edited currency"
-msgstr ""
+msgstr "Impossible d'obtenir la devise modifiée"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3328
 msgid "This project have no such currency"
@@ -1990,7 +1990,7 @@ msgstr "Merci d'utiliser Cospend"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:359
 msgid "App version: {version}"
-msgstr ""
+msgstr "Version de l'application : {version}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:360
 msgid "Bug/issue tracker"
@@ -2078,7 +2078,7 @@ msgstr "Choisissez où écrire les fichiers de sortie (stats, plan de remboursem
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:400
 msgid "Member select"
-msgstr ""
+msgstr "Sélection de membre"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:402
 msgid "Move bill \"{bill}\" to a different project:"
@@ -2178,7 +2178,7 @@ msgstr "Créer un membre simple"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:437
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:438
 msgid "Share project with a user, group or circle"
-msgstr ""
+msgstr "Partager le projet avec un utilisateur, un groupe ou un cercle"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:439
 msgid "Start typing to search"

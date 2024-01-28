@@ -87,6 +87,7 @@
 				ref="addUserInput"
 				v-model="selectedAddUser"
 				class="addUserInput"
+				:aria-label-combobox="t('cospend', 'Add a member')"
 				label="displayName"
 				track-by="multiselectKey"
 				:append-to-body="false"
@@ -154,6 +155,7 @@
 					<NcSelect
 						v-if="maintenerAccess"
 						v-model="selectedAffectUser"
+						:aria-label-combobox="t('cospend', 'Choose a Nextcloud user')"
 						class="affectUserInput"
 						label="displayName"
 						:disabled="!selectedMemberId"

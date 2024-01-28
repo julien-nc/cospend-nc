@@ -195,6 +195,7 @@
 					<NcSelect
 						:value="selectedPaymentModeItem"
 						class="paymentModeMultiSelect"
+						:aria-label-combobox="t('cospend', 'Payment mode')"
 						:placeholder="t('cospend', 'Choose a payment mode')"
 						:options="formattedPaymentModes"
 						:no-wrap="true"
@@ -215,6 +216,7 @@
 					<NcSelect
 						:value="selectedCategoryItem"
 						class="categoryMultiSelect"
+						:aria-label-combobox="t('cospend', 'Category')"
 						:placeholder="t('cospend', 'Choose or add a category')"
 						:options="formattedCategories"
 						:no-wrap="true"

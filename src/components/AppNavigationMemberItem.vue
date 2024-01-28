@@ -17,16 +17,19 @@
 				class="app-navigation-entry-bullet-wrapper memberColorPicker"
 				:value="`#${member.color}`"
 				@input="updateColor">
-				<CospendTogglableAvatar
-					ref="avatar"
-					:enabled="member.activated"
-					:color="member.color"
-					:size="24"
-					:disable-menu="true"
-					:disable-tooltip="true"
-					:is-no-user="!isUser"
-					:user="member.userid || ''"
-					:display-name="member.name" />
+				<template #default="{ attrs }">
+					<CospendTogglableAvatar
+						v-bind="attrs"
+						ref="avatar"
+						:enabled="member.activated"
+						:color="member.color"
+						:size="24"
+						:disable-menu="true"
+						:disable-tooltip="true"
+						:is-no-user="!isUser"
+						:user="member.userid || ''"
+						:display-name="member.name" />
+				</template>
 			</NcColorPicker>
 		</div>
 		<div v-else

@@ -2,6 +2,7 @@
 	<NcSelect
 		:value="selectedMemberItem"
 		class="memberMultiSelect"
+		:aria-label-combobox="t('cospend', 'Member select')"
 		label="displayName"
 		:disabled="disabled"
 		:placeholder="placeholder"

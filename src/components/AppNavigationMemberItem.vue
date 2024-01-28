@@ -400,4 +400,8 @@ export default {
 .nopad {
 	left: 8px;
 }
+
+.balance {
+	max-width: 64px !important;
+}
 </style>

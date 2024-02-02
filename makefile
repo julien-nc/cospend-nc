@@ -104,6 +104,9 @@ build_release: clean
 	--exclude=/.editorconfig \
 	--exclude=ci \
 	--exclude=vendor/bin \
+	--exclude=/.l10nignore \
+	--exclude=/.php* \
+	--exclude=/psalm.xml \
 	$(project_dir) $(sign_dir)/$(app_name)
 	# generate info.xml with translations
 	cd $(sign_dir)/$(app_name)/l10n/descriptions && ./gen_info.xml.sh && mv info.xml ../../appinfo/

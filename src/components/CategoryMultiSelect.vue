@@ -2,6 +2,7 @@
 	<NcSelect
 		:value="selectedCategoryItem"
 		class="categoryMultiSelect"
+		:aria-label-combobox="t('cospend', 'Category selector')"
 		label="displayName"
 		:disabled="disabled"
 		:clearable="false"

@@ -42,7 +42,7 @@
 					:aria-label="t('cospend', 'Information on settlement date')"
 					@click="showDateInfo = true">
 					<template #icon>
-						<InformationVariantIcon />
+						<InformationOutlineIcon />
 					</template>
 				</NcButton>
 				<NcDialog :open.sync="showDateInfo"
@@ -97,10 +97,10 @@
 			class="coloredTable avatarTable"
 			:data="transactions">
 			<thead slot="head">
-				<v-th sort-key="from">
+				<v-th sort-key="fromName">
 					{{ t('cospend', 'Who pays?') }}
 				</v-th>
-				<v-th sort-key="to">
+				<v-th sort-key="toName">
 					{{ t('cospend', 'To whom?') }}
 				</v-th>
 				<v-th sort-key="amount">
@@ -120,7 +120,7 @@
 								:show-user-status="false"
 								:is-no-user="getMemberUserId(value.from) === ''"
 								:user="getMemberUserId(value.from)"
-								:display-name="getMemberName(value.from)" />
+								:display-name="value.fromName" />
 						</div>
 						{{ myGetSmartMemberName(project.id, value.from) }}
 					</td>
@@ -135,7 +135,7 @@
 								:show-user-status="false"
 								:is-no-user="getMemberUserId(value.to) === ''"
 								:user="getMemberUserId(value.to)"
-								:display-name="getMemberName(value.to)" />
+								:display-name="value.toName" />
 						</div>
 						{{ myGetSmartMemberName(project.id, value.to) }}
 					</td>
@@ -161,7 +161,7 @@
 			class="coloredTable avatarTable"
 			:data="balances">
 			<thead slot="head">
-				<v-th sort-key="member.name">
+				<v-th sort-key="memberName">
 					{{ t('cospend', 'Member name') }}
 				</v-th>
 				<v-th sort-key="balance">
@@ -182,7 +182,7 @@
 								:show-user-status="false"
 								:is-no-user="getMemberUserId(value.mid) === ''"
 								:user="getMemberUserId(value.mid)"
-								:display-name="getMemberName(value.mid)" />
+								:display-name="value.memberName" />
 						</div>{{ myGetSmartMemberName(project.id, value.mid) }}
 					</td>
 					<td :class="getBalanceClass(value.balance)"
@@ -209,7 +209,7 @@
 				:aria-label="t('cospend', 'Information on individual reimbursement')"
 				@click="showIndividualInfo = true">
 				<template #icon>
-					<InformationVariantIcon :size="20" />
+					<InformationOutlineIcon />
 				</template>
 			</NcButton>
 			<span>{{ t('cospend', 'Individual reimbursement') }}</span>
@@ -229,7 +229,7 @@
 					{{ member.name }}
 				</option>
 			</select>
-			→
+			&nbsp;→&nbsp;&nbsp;
 			<select id="individual-receiver" v-model="individualReceiverId" @change="onChangeIndividual">
 				<option :value="0">
 					{{ t('cospend', 'Receiver') }}
@@ -250,7 +250,7 @@
 </template>
 
 <script>
-import InformationVariantIcon from 'vue-material-design-icons/InformationVariant.vue'
+import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
 import ContentSaveIcon from 'vue-material-design-icons/ContentSave.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import CalendarTodayIcon from 'vue-material-design-icons/CalendarToday.vue'
@@ -290,7 +290,7 @@ export default {
 		NcDialog,
 		ContentSaveIcon,
 		PlusIcon,
-		InformationVariantIcon,
+		InformationOutlineIcon,
 		CalendarTodayIcon,
 		CalendarWeekIcon,
 		CalendarMonthIcon,
@@ -360,6 +360,7 @@ export default {
 					return {
 						mid: k,
 						balance: this.balancesObject[k],
+						memberName: this.getMemberName(k),
 					}
 				})
 				: null
@@ -440,7 +441,11 @@ export default {
 		},
 		getSettlementSuccess(response) {
 			if (Array.isArray(response.transactions) && response.transactions.length > 0) {
-				this.transactions = response.transactions
+				this.transactions = response.transactions.map(t => {
+					t.fromName = this.getMemberName(t.from)
+					t.toName = this.getMemberName(t.to)
+					return t
+				})
 				this.balancesObject = response.balances
 			} else {
 				this.getSettlementFail()

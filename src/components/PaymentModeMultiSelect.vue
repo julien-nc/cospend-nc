@@ -2,6 +2,7 @@
 	<NcSelect
 		:value="selectedPmItem"
 		class="pmMultiSelect"
+		:aria-label-combobox="t('cospend', 'Payment mode selector')"
 		label="displayName"
 		:disabled="disabled"
 		:clearable="false"

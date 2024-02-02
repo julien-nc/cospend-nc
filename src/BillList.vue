@@ -131,7 +131,8 @@
 								@input="onMultiActionPaymentModeChange" />
 							<div class="multiSelectFooter">
 								<span v-show="selectedBillIds.length === 0">
-									<InformationVariantIcon :size="20" />
+									<InformationOutlineIcon :size="20" />
+									&nbsp;
 									{{ t('cospend', 'Select bills to make grouped actions') }}
 								</span>
 								<NcActions v-show="deletionEnabled || trashbinEnabled"
@@ -259,7 +260,7 @@
 import DeleteEmptyIcon from 'vue-material-design-icons/DeleteEmpty.vue'
 import RestoreIcon from 'vue-material-design-icons/Restore.vue'
 import DeleteVariantIcon from 'vue-material-design-icons/DeleteVariant.vue'
-import InformationVariantIcon from 'vue-material-design-icons/InformationVariant.vue'
+import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 import FilterIcon from 'vue-material-design-icons/Filter.vue'
@@ -309,7 +310,7 @@ export default {
 		DeleteIcon,
 		FilterIcon,
 		FormatListCheckboxIcon,
-		InformationVariantIcon,
+		InformationOutlineIcon,
 		DeleteVariantIcon,
 		RestoreIcon,
 		DeleteEmptyIcon,

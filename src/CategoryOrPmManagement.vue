@@ -84,7 +84,7 @@
 				{{ listLabel }}
 			</h3>
 			<label v-if="hasElements && editionAccess && sortOrderValue === constants.SORT_ORDER.MANUAL" class="hint">
-				<InformationVariantIcon :size="20" />
+				<InformationOutlineIcon :size="20" />
 				<span>{{ dragText }}</span>
 			</label>
 			<div v-if="hasElements && editionAccess && sortOrderValue === constants.SORT_ORDER.MANUAL"
@@ -131,7 +131,7 @@
 </template>
 
 <script>
-import InformationVariantIcon from 'vue-material-design-icons/InformationVariant.vue'
+import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
 import PaletteIcon from 'vue-material-design-icons/Palette.vue'
 import SortIcon from 'vue-material-design-icons/Sort.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
@@ -172,7 +172,7 @@ export default {
 		PlusIcon,
 		SortIcon,
 		PaletteIcon,
-		InformationVariantIcon,
+		InformationOutlineIcon,
 		NcButton,
 	},
 

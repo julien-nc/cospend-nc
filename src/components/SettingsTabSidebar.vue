@@ -69,7 +69,7 @@
 					:aria-label="t('cospend', 'More information on adding members')"
 					@click="showInfoAdd = true">
 					<template #icon>
-						<InformationVariantIcon />
+						<InformationOutlineIcon />
 					</template>
 				</NcButton>
 				<NcDialog :open.sync="showInfoAdd"
@@ -136,7 +136,7 @@
 						:aria-label="t('cospend', 'More information on adding Nextcloud users as members')"
 						@click="showInfoAssociate = true">
 						<template #icon>
-							<InformationVariantIcon />
+							<InformationOutlineIcon />
 						</template>
 					</NcButton>
 					<NcDialog :open.sync="showInfoAssociate"
@@ -188,7 +188,7 @@
 </template>
 
 <script>
-import InformationVariantIcon from 'vue-material-design-icons/InformationVariant.vue'
+import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
 import AccountIcon from 'vue-material-design-icons/Account.vue'
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
@@ -232,7 +232,7 @@ export default {
 		AccountIcon,
 		AccountPlusIcon,
 		PlusIcon,
-		InformationVariantIcon,
+		InformationOutlineIcon,
 	},
 	props: {
 		project: {

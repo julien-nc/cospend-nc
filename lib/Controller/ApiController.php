@@ -1437,7 +1437,7 @@ class ApiController extends OCSController {
 	#[CORS]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function getPublicFileShare(string $path): DataResponse {
-		$cleanPath = str_replace(array('../', '..\\'), '', $path);
+		$cleanPath = str_replace(['../', '..\\'], '', $path);
 		$userFolder = $this->root->getUserFolder($this->userId);
 		if (!$userFolder->nodeExists($cleanPath)) {
 			return new DataResponse(['message' => $this->trans->t('Access denied')], Http::STATUS_UNAUTHORIZED);

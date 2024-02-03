@@ -1030,7 +1030,7 @@ class ApiControllerTest extends TestCase {
 
 		// delete bill when deletion is disabled
 		$resp = $this->apiController->editProject(
-			'superproj', null, null, null,
+			'superproj', null, null,
 			null, true,
 		);
 		$status = $resp->getStatus();
@@ -1043,7 +1043,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals('', $data);
 		// reset bill deletion in project
 		$resp = $this->apiController->editProject(
-			'superproj', null, null, null,
+			'superproj', null, null,
 			null, false,
 		);
 		$status = $resp->getStatus();
@@ -1063,7 +1063,7 @@ class ApiControllerTest extends TestCase {
 
 		// EDIT PROJECT
 		$resp = $this->apiController->editProject(
-			'superproj', 'newname', 'email@yep.yop',
+			'superproj', 'newname',
 			Application::FREQUENCY_MONTHLY, '', false,
 			Application::SORT_ORDER_MANUAL, Application::SORT_ORDER_MANUAL
 		);
@@ -1078,12 +1078,12 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals(Http::STATUS_BAD_REQUEST, $status);
 
 		// user can't edit this project (test is not the owner of superprojLALA)
-		//		$resp = $this->apiController->editProject('superprojLALA', 'newname', 'new email');
+		//		$resp = $this->apiController->editProject('superprojLALA', 'newname');
 		//		$status = $resp->getStatus();
 		//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
 
 		// project does not exist
-		//		$resp = $this->apiController->editProject('doesnotexit', 'newname', 'new email');
+		//		$resp = $this->apiController->editProject('doesnotexit', 'newname');
 		//		$status = $resp->getStatus();
 		//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
 
@@ -1092,13 +1092,13 @@ class ApiControllerTest extends TestCase {
 		$this->assertFalse(isset($res['success']));
 
 		// invalid name
-		$resp = $this->apiController->editProject('superproj', '', 'new email');
+		$resp = $this->apiController->editProject('superproj', '');
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_BAD_REQUEST, $status);
 
 		// invalid category sort
 		$resp = $this->apiController->editProject(
-			'superproj', 'newname', 'email@yep.yop',
+			'superproj', 'newname',
 			Application::FREQUENCY_MONTHLY, 'euro', null,
 			'zzz', Application::SORT_ORDER_MANUAL
 		);
@@ -1107,7 +1107,7 @@ class ApiControllerTest extends TestCase {
 
 		// invalid payment mode sort
 		$resp = $this->apiController->editProject(
-			'superproj', 'newname', 'email@yep.yop',
+			'superproj', 'newname',
 			Application::FREQUENCY_MONTHLY, 'euro', null,
 			Application::SORT_ORDER_MANUAL, 'zzz'
 		);
@@ -1116,7 +1116,7 @@ class ApiControllerTest extends TestCase {
 
 		// invalid auto export frequency
 		$resp = $this->apiController->editProject(
-			'superproj', 'newname', 'email@yep.yop',
+			'superproj', 'newname',
 			'zzz', 'euro', null,
 			Application::SORT_ORDER_MANUAL, Application::SORT_ORDER_MANUAL
 		);

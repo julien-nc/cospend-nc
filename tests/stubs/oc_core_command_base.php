@@ -15,7 +15,7 @@ namespace OC\Core\Command {
 
 		protected string $defaultOutputFormat = self::OUTPUT_FORMAT_PLAIN;
 
-		public function __construct(string $name = null) {
+		public function __construct(?string $name = null) {
 		}
 
 		protected function configure() {
@@ -30,7 +30,7 @@ namespace OC\Core\Command {
 		public function getDefinition(): InputDefinition {
 		}
 
-		public function addArgument(string $name, int $mode = null, string $description = '', $default = null) {
+		public function addArgument(string $name, ?int $mode = null, string $description = '', $default = null) {
 		}
 
 		protected function writeArrayInOutputFormat(InputInterface $input, OutputInterface $output, array $items, string $prefix = '  - '): void {

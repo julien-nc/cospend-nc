@@ -64,7 +64,7 @@
 					v-else-if="mode === 'settle'"
 					:project-id="currentProjectId"
 					@auto-settled="onAutoSettled" />
-				<NcEmptyContent v-show="mode === 'normal' && currentProjectId"
+				<NcEmptyContent v-show="showProjectEmptyContent"
 					class="central-empty-content"
 					:name="t('cospend', 'What do you want to do?')"
 					:title="t('cospend', 'What do you want to do?')"
@@ -73,7 +73,7 @@
 						<CospendIcon />
 					</template>
 				</NcEmptyContent>
-				<div v-show="mode === 'normal' && currentProjectId"
+				<div v-show="showProjectEmptyContent"
 					class="project-actions">
 					<NcButton
 						@click="onNewBillClicked(null)">
@@ -260,6 +260,11 @@ export default {
 	computed: {
 		shouldShowDetailsToggle() {
 			return ((this.currentBill && this.currentBill !== null) || this.mode !== 'edition')
+		},
+		showProjectEmptyContent() {
+			return this.currentProjectId
+				&& (this.mode === 'normal'
+					|| (this.mode === 'edition' && this.currentBill === null))
 		},
 		currentProjectId() {
 			return this.cospend.currentProjectId
@@ -650,10 +655,14 @@ export default {
 				this.trashbinEnabled = true
 			}
 			this.selectProject(projectid, true, true, false, true)
+			// to show bill list instead of details view in mobile view
+			this.mode = 'edition'
 		},
 		onCloseTrashbinClicked(projectid) {
 			this.trashbinEnabled = false
 			this.selectProject(projectid, true, true, false, false)
+			// to show bill list instead of details view in mobile view
+			this.mode = 'edition'
 		},
 		onClearTrashBinClicked(projectId) {
 			network.clearTrashBin(projectId)

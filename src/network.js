@@ -110,12 +110,12 @@ export function getProjectInfo(projectId) {
 	return axios.get(url)
 }
 
-export function createMember(projectId, name, userid) {
+export function createMember(projectId, name, userId) {
 	const req = {
 		name,
 	}
-	if (userid !== null) {
-		req.userid = userid
+	if (userId !== null) {
+		req.userId = userId
 	}
 	const url = cospend.pageIsPublic
 		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/members', { projectId: cospend.projectid, password: cospend.password })
@@ -130,7 +130,7 @@ export function editMember(projectId, member) {
 		weight: member.weight,
 		activated: member.activated ? 'true' : 'false',
 		color: member.color,
-		userid: (member.userid === null) ? '' : member.userid,
+		userId: (member.userid === null) ? '' : member.userid,
 	}
 	const url = cospend.pageIsPublic
 		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/members/{memberId}', { projectId: cospend.projectid, password: cospend.password, memberId })
@@ -142,13 +142,12 @@ export function editProject(project, password) {
 	const projectId = project.id
 	const req = {
 		name: project.name,
-		contact_email: null,
-		autoexport: project.autoexport,
-		currencyname: project.currencyname,
-		deletion_disabled: project.deletiondisabled,
-		categorysort: project.categorysort,
-		paymentmodesort: project.paymentmodesort,
-		archived_ts: project.archived_ts,
+		autoExport: project.autoexport,
+		currencyName: project.currencyname,
+		deletionDisabled: project.deletiondisabled,
+		categorySort: project.categorysort,
+		paymentModeSort: project.paymentmodesort,
+		archivedTs: project.archived_ts,
 	}
 	const url = cospend.pageIsPublic
 		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}', { projectId: cospend.projectid, password: cospend.password })
@@ -169,14 +168,14 @@ export function editBill(projectId, bill) {
 		comment: bill.comment,
 		timestamp: bill.timestamp,
 		payer: bill.payer_id,
-		payed_for: bill.owerIds.join(','),
+		payedFor: bill.owerIds.join(','),
 		amount: bill.amount,
 		repeat: bill.repeat,
-		repeatallactive: bill.repeatallactive ? 1 : 0,
-		repeatuntil: bill.repeatuntil,
-		repeatfreq: bill.repeatfreq ? bill.repeatfreq : 1,
-		paymentmodeid: bill.paymentmodeid,
-		categoryid: bill.categoryid,
+		repeatAllActive: bill.repeatallactive ? 1 : 0,
+		repeatUntil: bill.repeatuntil,
+		repeatFreq: bill.repeatfreq ? bill.repeatfreq : 1,
+		paymentModeId: bill.paymentmodeid,
+		categoryId: bill.categoryid,
 	}
 	const url = cospend.pageIsPublic
 		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/bills/{billId}', { projectId: cospend.projectid, password: cospend.password, billId: bill.id })
@@ -184,19 +183,19 @@ export function editBill(projectId, bill) {
 	return axios.put(url, req)
 }
 
-export function editBills(projectId, billIds, categoryid, paymentmodeid) {
+export function editBills(projectId, billIds, categoryId, paymentModeId) {
 	const req = {
 		what: null,
 		comment: null,
 		timestamp: null,
 		payer: null,
-		payed_for: null,
+		payedFor: null,
 		amount: null,
 		repeat: null,
-		repeatallactive: null,
-		repeatuntil: null,
-		paymentmodeid,
-		categoryid,
+		repeatAllActive: null,
+		repeatUntil: null,
+		paymentModeId,
+		categoryId,
 		billIds,
 	}
 	const url = cospend.pageIsPublic
@@ -248,10 +247,10 @@ export function generatePublicLinkToFile(targetPath) {
 	return axios.post(url, req)
 }
 
-export function clearTrashbin(projectId) {
+export function clearTrashBin(projectId) {
 	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/trashbin', { projectId: cospend.projectid, password: cospend.password })
-		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/trashbin', { projectId })
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/trash-bin', { projectId: cospend.projectid, password: cospend.password })
+		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/trash-bin', { projectId })
 	return axios.delete(url)
 }
 
@@ -536,8 +535,8 @@ export function exportSettlement(projectId, centeredOn, maxTimestamp, successCB)
 
 export function createSharedAccess(projectId, sh) {
 	const req = {
-		accesslevel: sh.accesslevel || constants.ACCESS.PARTICIPANT,
-		manually_added: sh.manually_added,
+		accessLevel: sh.accesslevel || constants.ACCESS.PARTICIPANT,
+		manuallyAdded: sh.manually_added,
 	}
 	let url
 	if (sh.type === constants.SHARE_TYPE.USER) {

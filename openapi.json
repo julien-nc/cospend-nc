@@ -1105,14 +1105,6 @@
                         }
                     },
                     {
-                        "name": "contact_email",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -1356,7 +1348,7 @@
                         }
                     },
                     {
-                        "name": "contact_email",
+                        "name": "autoExport",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -1364,7 +1356,7 @@
                         }
                     },
                     {
-                        "name": "autoexport",
+                        "name": "currencyName",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -1372,15 +1364,7 @@
                         }
                     },
                     {
-                        "name": "currencyname",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "deletion_disabled",
+                        "name": "deletionDisabled",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -1393,7 +1377,7 @@
                         }
                     },
                     {
-                        "name": "categorysort",
+                        "name": "categorySort",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -1401,7 +1385,7 @@
                         }
                     },
                     {
-                        "name": "paymentmodesort",
+                        "name": "paymentModeSort",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -1409,7 +1393,7 @@
                         }
                     },
                     {
-                        "name": "archived_ts",
+                        "name": "archivedTs",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -3068,7 +3052,7 @@
                         }
                     },
                     {
-                        "name": "contact_email",
+                        "name": "autoExport",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -3076,7 +3060,7 @@
                         }
                     },
                     {
-                        "name": "autoexport",
+                        "name": "currencyName",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -3084,15 +3068,7 @@
                         }
                     },
                     {
-                        "name": "currencyname",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "deletion_disabled",
+                        "name": "deletionDisabled",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -3105,7 +3081,7 @@
                         }
                     },
                     {
-                        "name": "categorysort",
+                        "name": "categorySort",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -3113,10 +3089,19 @@
                         }
                     },
                     {
-                        "name": "paymentmodesort",
+                        "name": "paymentModeSort",
                         "in": "query",
                         "schema": {
                             "type": "string",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "archivedTs",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
                             "nullable": true
                         }
                     },
@@ -3847,7 +3832,7 @@
                         }
                     },
                     {
-                        "name": "payed_for",
+                        "name": "payedFor",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -3872,7 +3857,7 @@
                         }
                     },
                     {
-                        "name": "paymentmode",
+                        "name": "paymentMode",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -3880,7 +3865,7 @@
                         }
                     },
                     {
-                        "name": "paymentmodeid",
+                        "name": "paymentModeId",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -3889,7 +3874,7 @@
                         }
                     },
                     {
-                        "name": "categoryid",
+                        "name": "categoryId",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -3898,7 +3883,7 @@
                         }
                     },
                     {
-                        "name": "repeatallactive",
+                        "name": "repeatAllActive",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -3907,7 +3892,7 @@
                         }
                     },
                     {
-                        "name": "repeatuntil",
+                        "name": "repeatUntil",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -3932,7 +3917,7 @@
                         }
                     },
                     {
-                        "name": "repeatfreq",
+                        "name": "repeatFreq",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -4069,7 +4054,7 @@
                 ],
                 "parameters": [
                     {
-                        "name": "lastchanged",
+                        "name": "lastChanged",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -4490,7 +4475,7 @@
                         }
                     },
                     {
-                        "name": "categoryid",
+                        "name": "categoryId",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -4524,7 +4509,7 @@
                         }
                     },
                     {
-                        "name": "payed_for",
+                        "name": "payedFor",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -4549,7 +4534,7 @@
                         }
                     },
                     {
-                        "name": "paymentmode",
+                        "name": "paymentMode",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -4557,7 +4542,7 @@
                         }
                     },
                     {
-                        "name": "paymentmodeid",
+                        "name": "paymentModeId",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -4566,7 +4551,7 @@
                         }
                     },
                     {
-                        "name": "repeatallactive",
+                        "name": "repeatAllActive",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -4575,7 +4560,7 @@
                         }
                     },
                     {
-                        "name": "repeatuntil",
+                        "name": "repeatUntil",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -4600,7 +4585,7 @@
                         }
                     },
                     {
-                        "name": "repeatfreq",
+                        "name": "repeatFreq",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -5080,7 +5065,7 @@
                         }
                     },
                     {
-                        "name": "payed_for",
+                        "name": "payedFor",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -5105,7 +5090,7 @@
                         }
                     },
                     {
-                        "name": "paymentmode",
+                        "name": "paymentMode",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -5113,7 +5098,7 @@
                         }
                     },
                     {
-                        "name": "paymentmodeid",
+                        "name": "paymentModeId",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -5122,7 +5107,7 @@
                         }
                     },
                     {
-                        "name": "categoryid",
+                        "name": "categoryId",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -5131,7 +5116,7 @@
                         }
                     },
                     {
-                        "name": "repeatallactive",
+                        "name": "repeatAllActive",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -5140,7 +5125,7 @@
                         }
                     },
                     {
-                        "name": "repeatuntil",
+                        "name": "repeatUntil",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -5165,7 +5150,7 @@
                         }
                     },
                     {
-                        "name": "repeatfreq",
+                        "name": "repeatFreq",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -5300,10 +5285,10 @@
                 }
             }
         },
-        "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/trashbin": {
+        "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/trash-bin": {
             "delete": {
-                "operationId": "bills-clear-trashbin",
-                "summary": "Clear the trashbin",
+                "operationId": "bills-clear-trash-bin",
+                "summary": "Clear the trash bin",
                 "tags": [
                     "Bills"
                 ],
@@ -5346,7 +5331,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "The trashbin was successfully cleared",
+                        "description": "The trash bin was successfully cleared",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -5376,7 +5361,7 @@
                         }
                     },
                     "400": {
-                        "description": "Failed to clear the trashbin",
+                        "description": "Failed to clear the trash bin",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -5777,7 +5762,7 @@
                         }
                     },
                     {
-                        "name": "payed_for",
+                        "name": "payedFor",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -5802,7 +5787,7 @@
                         }
                     },
                     {
-                        "name": "paymentmode",
+                        "name": "paymentMode",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -5810,7 +5795,7 @@
                         }
                     },
                     {
-                        "name": "paymentmodeid",
+                        "name": "paymentModeId",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -5819,7 +5804,7 @@
                         }
                     },
                     {
-                        "name": "categoryid",
+                        "name": "categoryId",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -5828,7 +5813,7 @@
                         }
                     },
                     {
-                        "name": "repeatallactive",
+                        "name": "repeatAllActive",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -5837,7 +5822,7 @@
                         }
                     },
                     {
-                        "name": "repeatuntil",
+                        "name": "repeatUntil",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -5862,7 +5847,7 @@
                         }
                     },
                     {
-                        "name": "repeatfreq",
+                        "name": "repeatFreq",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -6009,7 +5994,7 @@
                 ],
                 "parameters": [
                     {
-                        "name": "lastchanged",
+                        "name": "lastChanged",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -6450,7 +6435,7 @@
                         }
                     },
                     {
-                        "name": "categoryid",
+                        "name": "categoryId",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -6484,7 +6469,7 @@
                         }
                     },
                     {
-                        "name": "payed_for",
+                        "name": "payedFor",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -6510,7 +6495,7 @@
                         }
                     },
                     {
-                        "name": "paymentmode",
+                        "name": "paymentMode",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -6518,7 +6503,7 @@
                         }
                     },
                     {
-                        "name": "paymentmodeid",
+                        "name": "paymentModeId",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -6527,7 +6512,7 @@
                         }
                     },
                     {
-                        "name": "repeatallactive",
+                        "name": "repeatAllActive",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -6536,7 +6521,7 @@
                         }
                     },
                     {
-                        "name": "repeatuntil",
+                        "name": "repeatUntil",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -6561,7 +6546,7 @@
                         }
                     },
                     {
-                        "name": "repeatfreq",
+                        "name": "repeatFreq",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -6847,6 +6832,16 @@
                                             }
                                         }
                                     }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -7235,7 +7230,7 @@
                         }
                     },
                     {
-                        "name": "payed_for",
+                        "name": "payedFor",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -7260,7 +7255,7 @@
                         }
                     },
                     {
-                        "name": "paymentmode",
+                        "name": "paymentMode",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -7268,7 +7263,7 @@
                         }
                     },
                     {
-                        "name": "paymentmodeid",
+                        "name": "paymentModeId",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -7277,7 +7272,7 @@
                         }
                     },
                     {
-                        "name": "categoryid",
+                        "name": "categoryId",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -7286,7 +7281,7 @@
                         }
                     },
                     {
-                        "name": "repeatallactive",
+                        "name": "repeatAllActive",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -7295,7 +7290,7 @@
                         }
                     },
                     {
-                        "name": "repeatuntil",
+                        "name": "repeatUntil",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -7320,7 +7315,7 @@
                         }
                     },
                     {
-                        "name": "repeatfreq",
+                        "name": "repeatFreq",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -7464,10 +7459,10 @@
                 }
             }
         },
-        "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/trashbin": {
+        "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/trash-bin": {
             "delete": {
-                "operationId": "[public api] projects-public-clear-trashbin",
-                "summary": "Clear the trashbin",
+                "operationId": "[public api] projects-public-clear-trash-bin",
+                "summary": "Clear the trash bin",
                 "tags": [
                     "[Public API] Projects"
                 ],
@@ -7575,6 +7570,16 @@
                                             }
                                         }
                                     }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -7692,7 +7697,7 @@
                         }
                     },
                     {
-                        "name": "userid",
+                        "name": "userId",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -7884,7 +7889,7 @@
                         }
                     },
                     {
-                        "name": "userid",
+                        "name": "userId",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -8297,7 +8302,7 @@
                         }
                     },
                     {
-                        "name": "userid",
+                        "name": "userId",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -8465,7 +8470,7 @@
                         }
                     },
                     {
-                        "name": "userid",
+                        "name": "userId",
                         "in": "query",
                         "schema": {
                             "type": "string",
@@ -8610,6 +8615,16 @@
                                             }
                                         }
                                     }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -9094,7 +9109,7 @@
                         }
                     },
                     {
-                        "name": "accesslevel",
+                        "name": "accessLevel",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -9404,7 +9419,7 @@
                         }
                     },
                     {
-                        "name": "accesslevel",
+                        "name": "accessLevel",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -9722,7 +9737,7 @@
                         }
                     },
                     {
-                        "name": "accesslevel",
+                        "name": "accessLevel",
                         "in": "query",
                         "schema": {
                             "type": "integer",
@@ -11781,6 +11796,16 @@
                                             }
                                         }
                                     }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
                                 }
                             }
                         }

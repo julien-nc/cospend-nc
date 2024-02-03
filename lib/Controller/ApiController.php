@@ -142,7 +142,6 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $id
 	 * @param string $name
-	 * @param string|null $contact_email
 	 * @return DataResponse<Http::STATUS_OK, CospendFullProjectInfo, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
 	 *
@@ -152,14 +151,8 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
-	public function createProject(string $id, string $name, ?string $contact_email = null): DataResponse {
-		if ($contact_email !== null) {
-			$email = $contact_email;
-		} else {
-			$user = $this->userManager->get($this->userId);
-			$email = $user->getEMailAddress();
-		}
-		$result = $this->projectService->createProject($name, $id, $email, $this->userId);
+	public function createProject(string $id, string $name): DataResponse {
+		$result = $this->projectService->createProject($name, $id, null, $this->userId);
 		if (isset($result['id'])) {
 			$projInfo = $this->projectService->getProjectInfo($result['id']);
 			$projInfo['myaccesslevel'] = Application::ACCESS_LEVEL_ADMIN;
@@ -207,13 +200,12 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param string|null $name
-	 * @param string|null $contact_email
-	 * @param string|null $autoexport
-	 * @param string|null $currencyname
-	 * @param bool|null $deletion_disabled
-	 * @param string|null $categorysort
-	 * @param string|null $paymentmodesort
-	 * @param int|null $archived_ts
+	 * @param string|null $autoExport
+	 * @param string|null $currencyName
+	 * @param bool|null $deletionDisabled
+	 * @param string|null $categorySort
+	 * @param string|null $paymentModeSort
+	 * @param int|null $archivedTs
 	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
 	 *
@@ -225,13 +217,13 @@ class ApiController extends OCSController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	public function editProject(
-		string $projectId, ?string $name = null, ?string $contact_email = null,
-		?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
-		?string $categorysort = null, ?string $paymentmodesort = null, ?int $archived_ts = null
+		string  $projectId, ?string $name = null,
+		?string $autoExport = null, ?string $currencyName = null, ?bool $deletionDisabled = null,
+		?string $categorySort = null, ?string $paymentModeSort = null, ?int $archivedTs = null
 	): DataResponse {
 		$result = $this->projectService->editProject(
-			$projectId, $name, $contact_email, $autoexport,
-			$currencyname, $deletion_disabled, $categorysort, $paymentmodesort, $archived_ts
+			$projectId, $name, null, $autoExport,
+			$currencyName, $deletionDisabled, $categorySort, $paymentModeSort, $archivedTs
 		);
 		if (isset($result['success'])) {
 			return new DataResponse('');
@@ -284,7 +276,7 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	public function getProjectStatistics(
 		string $projectId, ?int $tsMin = null, ?int $tsMax = null, ?int $paymentModeId = null,
-		?int   $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
+		?int $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
 		string $showDisabled = '1', ?int $currencyId = null, ?int $payerId = null
 	): DataResponse {
 		$result = $this->projectService->getProjectStatistics(
@@ -384,7 +376,7 @@ class ApiController extends OCSController {
 	 * @param float|null $weight
 	 * @param null $activated
 	 * @param string|null $color
-	 * @param string|null $userid
+	 * @param string|null $userId
 	 * @return DataResponse<Http::STATUS_OK, null, array{}>|DataResponse<Http::STATUS_OK, CospendMember, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 *
 	 * 200: Member was successfully edited (and deleted if it was disabled and wasn't ower of any bill)
@@ -396,14 +388,14 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Members'])]
 	public function editMember(
 		string $projectId, int $memberId, ?string $name = null, ?float $weight = null, $activated = null,
-		?string $color = null, ?string $userid = null
+		?string $color = null, ?string $userId = null
 	): DataResponse {
 		if ($activated === 'true') {
 			$activated = true;
 		} elseif ($activated === 'false') {
 			$activated = false;
 		}
-		$result = $this->projectService->editMember($projectId, $memberId, $name, $userid, $weight, $activated, $color);
+		$result = $this->projectService->editMember($projectId, $memberId, $name, $userId, $weight, $activated, $color);
 		if (empty($result)) {
 			return new DataResponse(null);
 		} elseif (isset($result['activated'])) {
@@ -418,7 +410,7 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param string $name
-	 * @param string|null $userid
+	 * @param string|null $userId
 	 * @param float $weight
 	 * @param int $active
 	 * @param string|null $color
@@ -433,10 +425,10 @@ class ApiController extends OCSController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Members'])]
 	public function createMember(
-		string $projectId, string $name, ?string $userid = null, float $weight = 1,
+		string $projectId, string $name, ?string $userId = null, float $weight = 1,
 		int $active = 1, ?string $color = null
 	): DataResponse {
-		$result = $this->projectService->createMember($projectId, $name, $weight, $active !== 0, $color, $userid);
+		$result = $this->projectService->createMember($projectId, $name, $weight, $active !== 0, $color, $userId);
 		if (!isset($result['error'])) {
 			return new DataResponse($result);
 		}
@@ -451,17 +443,17 @@ class ApiController extends OCSController {
 	 * @param string|null $date
 	 * @param string|null $what
 	 * @param int|null $payer
-	 * @param string|null $payed_for
+	 * @param string|null $payedFor
 	 * @param float|null $amount
 	 * @param string|null $repeat
-	 * @param string|null $paymentmode
-	 * @param int|null $paymentmodeid
-	 * @param int|null $categoryid
-	 * @param int|null $repeatallactive
-	 * @param string|null $repeatuntil
+	 * @param string|null $paymentMode
+	 * @param int|null $paymentModeId
+	 * @param int|null $categoryId
+	 * @param int|null $repeatAllActive
+	 * @param string|null $repeatUntil
 	 * @param int|null $timestamp
 	 * @param string|null $comment
-	 * @param int|null $repeatfreq
+	 * @param int|null $repeatFreq
 	 * @param int|null $deleted
 	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
@@ -475,15 +467,15 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Bills'])]
 	public function editBill(
 		string $projectId, int $billId, ?string $date = null, ?string $what = null,
-		?int $payer = null, ?string $payed_for = null, ?float $amount = null, ?string $repeat = null,
-		?string $paymentmode = null, ?int $paymentmodeid = null,
-		?int $categoryid = null, ?int $repeatallactive = null, ?string $repeatuntil = null,
-		?int $timestamp = null, ?string $comment = null, ?int $repeatfreq = null, ?int $deleted = null
+		?int $payer = null, ?string $payedFor = null, ?float $amount = null, ?string $repeat = null,
+		?string $paymentMode = null, ?int $paymentModeId = null,
+		?int $categoryId = null, ?int $repeatAllActive = null, ?string $repeatUntil = null,
+		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null, ?int $deleted = null
 	): DataResponse {
 		$result = $this->projectService->editBill(
-			$projectId, $billId, $date, $what, $payer, $payed_for,
-			$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
-			$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq, null, $deleted
+			$projectId, $billId, $date, $what, $payer, $payedFor,
+			$amount, $repeat, $paymentMode, $paymentModeId, $categoryId,
+			$repeatAllActive, $repeatUntil, $timestamp, $comment, $repeatFreq, null, $deleted
 		);
 		if (isset($result['edited_bill_id'])) {
 			$billObj = $this->billMapper->find($billId);
@@ -504,20 +496,20 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param array<int> $billIds
-	 * @param int|null $categoryid
+	 * @param int|null $categoryId
 	 * @param string|null $date
 	 * @param string|null $what
 	 * @param int|null $payer
-	 * @param string|null $payed_for
+	 * @param string|null $payedFor
 	 * @param float|null $amount
 	 * @param string|null $repeat
-	 * @param string|null $paymentmode
-	 * @param int|null $paymentmodeid
-	 * @param int|null $repeatallactive
-	 * @param string|null $repeatuntil
+	 * @param string|null $paymentMode
+	 * @param int|null $paymentModeId
+	 * @param int|null $repeatAllActive
+	 * @param string|null $repeatUntil
 	 * @param int|null $timestamp
 	 * @param string|null $comment
-	 * @param int|null $repeatfreq
+	 * @param int|null $repeatFreq
 	 * @param int|null $deleted
 	 * @return DataResponse<Http::STATUS_OK, int[], array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
@@ -530,23 +522,23 @@ class ApiController extends OCSController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Bills'])]
 	public function editBills(
-		string $projectId, array $billIds, ?int $categoryid = null, ?string $date = null,
-		?string $what = null, ?int $payer = null, ?string $payed_for = null,
+		string $projectId, array $billIds, ?int $categoryId = null, ?string $date = null,
+		?string $what = null, ?int $payer = null, ?string $payedFor = null,
 		?float $amount = null, ?string $repeat = null,
-		?string $paymentmode = null, ?int $paymentmodeid = null,
-		?int $repeatallactive = null, ?string $repeatuntil = null, ?int $timestamp = null,
-		?string $comment = null, ?int $repeatfreq = null, ?int $deleted = null
+		?string $paymentMode = null, ?int $paymentModeId = null,
+		?int $repeatAllActive = null, ?string $repeatUntil = null, ?int $timestamp = null,
+		?string $comment = null, ?int $repeatFreq = null, ?int $deleted = null
 	): DataResponse {
 		$paymentModes = $this->projectService->getCategoriesOrPaymentModes($projectId, false);
-		foreach ($billIds as $billid) {
+		foreach ($billIds as $billId) {
 			$result = $this->projectService->editBill(
-				$projectId, $billid, $date, $what, $payer, $payed_for,
-				$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
-				$repeatallactive, $repeatuntil, $timestamp, $comment,
-				$repeatfreq, $paymentModes, $deleted
+				$projectId, $billId, $date, $what, $payer, $payedFor,
+				$amount, $repeat, $paymentMode, $paymentModeId, $categoryId,
+				$repeatAllActive, $repeatUntil, $timestamp, $comment,
+				$repeatFreq, $paymentModes, $deleted
 			);
 			if (isset($result['edited_bill_id'])) {
-				$billObj = $this->billMapper->find($billid);
+				$billObj = $this->billMapper->find($billId);
 				$this->activityManager->triggerEvent(
 					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
 					ActivityManager::SUBJECT_BILL_UPDATE,
@@ -640,17 +632,17 @@ class ApiController extends OCSController {
 	 * @param string|null $date
 	 * @param string|null $what
 	 * @param int|null $payer
-	 * @param string|null $payed_for
+	 * @param string|null $payedFor
 	 * @param float|null $amount
 	 * @param string|null $repeat
-	 * @param string|null $paymentmode
-	 * @param int|null $paymentmodeid
-	 * @param int|null $categoryid
-	 * @param int $repeatallactive
-	 * @param string|null $repeatuntil
+	 * @param string|null $paymentMode
+	 * @param int|null $paymentModeId
+	 * @param int|null $categoryId
+	 * @param int $repeatAllActive
+	 * @param string|null $repeatUntil
 	 * @param int|null $timestamp
 	 * @param string|null $comment
-	 * @param int|null $repeatfreq
+	 * @param int|null $repeatFreq
 	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{error: array<string, string>}, array{}>
 	 * @throws Exception
 	 *
@@ -662,15 +654,15 @@ class ApiController extends OCSController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Bills'])]
 	public function createBill(
-		string $projectId, ?string $date = null, ?string $what = null, ?int $payer = null, ?string $payed_for = null,
-		?float $amount = null, ?string $repeat = null, ?string $paymentmode = null, ?int $paymentmodeid = null,
-		?int $categoryid = null, int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
-		?string $comment = null, ?int $repeatfreq = null
+		string $projectId, ?string $date = null, ?string $what = null, ?int $payer = null, ?string $payedFor = null,
+		?float $amount = null, ?string $repeat = null, ?string $paymentMode = null, ?int $paymentModeId = null,
+		?int $categoryId = null, int $repeatAllActive = 0, ?string $repeatUntil = null, ?int $timestamp = null,
+		?string $comment = null, ?int $repeatFreq = null
 	): DataResponse {
 		$result = $this->projectService->createBill(
-			$projectId, $date, $what, $payer, $payed_for, $amount,
-			$repeat, $paymentmode, $paymentmodeid, $categoryid, $repeatallactive,
-			$repeatuntil, $timestamp, $comment, $repeatfreq
+			$projectId, $date, $what, $payer, $payedFor, $amount,
+			$repeat, $paymentMode, $paymentModeId, $categoryId, $repeatAllActive,
+			$repeatUntil, $timestamp, $comment, $repeatFreq
 		);
 		if (isset($result['inserted_id'])) {
 			$billObj = $this->billMapper->find($result['inserted_id']);
@@ -685,19 +677,19 @@ class ApiController extends OCSController {
 	}
 
 	/**
-	 * Clear the trashbin
+	 * Clear the trash bin
 	 *
 	 * @param string $projectId
 	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST, '', array{}>
 	 *
-	 * 200: The trashbin was successfully cleared
-	 * 400: Failed to clear the trashbin
+	 * 200: The trash bin was successfully cleared
+	 * 400: Failed to clear the trash bin
 	 */
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Bills'])]
-	public function clearTrashbin(string $projectId): DataResponse {
+	public function clearTrashBin(string $projectId): DataResponse {
 		try {
 			$this->billMapper->deleteDeletedBills($projectId);
 			return new DataResponse('');
@@ -798,7 +790,7 @@ class ApiController extends OCSController {
 	 * Get a project's bill list
 	 *
 	 * @param string $projectId
-	 * @param int|null $lastchanged
+	 * @param int|null $lastChanged
 	 * @param int|null $offset
 	 * @param int|null $limit
 	 * @param bool $reverse
@@ -818,19 +810,19 @@ class ApiController extends OCSController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Bills'])]
 	public function getBills(
-		string $projectId, ?int $lastchanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false,
+		string $projectId, ?int $lastChanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false,
 		?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $includeBillId = null,
 		?string $searchTerm = null, ?int $deleted = 0
 	): DataResponse {
 		if ($limit) {
 			$bills = $this->billMapper->getBillsWithLimit(
 				$projectId, null, null, null, $paymentModeId, $categoryId, null, null,
-				$lastchanged, $limit, $reverse, $offset, $payerId, $includeBillId, $searchTerm, $deleted
+				$lastChanged, $limit, $reverse, $offset, $payerId, $includeBillId, $searchTerm, $deleted
 			);
 		} else {
 			$bills = $this->billMapper->getBills(
 				$projectId, null, null, null, $paymentModeId, $categoryId, null, null,
-				$lastchanged, null, $reverse, $payerId, $deleted
+				$lastChanged, null, $reverse, $payerId, $deleted
 			);
 		}
 		$billIds = $this->billMapper->getAllBillIds($projectId, $deleted);
@@ -1263,7 +1255,7 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param string|null $label
 	 * @param string|null $password
-	 * @param int $accesslevel
+	 * @param int $accessLevel
 	 * @return DataResponse<Http::STATUS_OK, CospendPublicShare, array{}>
 	 * @throws Exception
 	 *
@@ -1275,9 +1267,9 @@ class ApiController extends OCSController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function createPublicShare(
-		string $projectId, ?string $label = null, ?string $password = null, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT
+		string $projectId, ?string $label = null, ?string $password = null, int $accessLevel = Application::ACCESS_LEVEL_PARTICIPANT
 	): DataResponse {
-		$result = $this->projectService->createPublicShare($projectId, $label, $password, $accesslevel);
+		$result = $this->projectService->createPublicShare($projectId, $label, $password, $accessLevel);
 		return new DataResponse($result);
 	}
 
@@ -1318,7 +1310,7 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param string $groupId
-	 * @param int $accesslevel
+	 * @param int $accessLevel
 	 * @return DataResponse<Http::STATUS_OK, CospendGroupShare, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
 	 *
@@ -1329,8 +1321,8 @@ class ApiController extends OCSController {
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
-	public function createGroupShare(string $projectId, string $groupId, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT): DataResponse {
-		$result = $this->projectService->createGroupShare($projectId, $groupId, $this->userId, $accesslevel);
+	public function createGroupShare(string $projectId, string $groupId, int $accessLevel = Application::ACCESS_LEVEL_PARTICIPANT): DataResponse {
+		$result = $this->projectService->createGroupShare($projectId, $groupId, $this->userId, $accessLevel);
 		if (!isset($result['message'])) {
 			return new DataResponse($result);
 		}
@@ -1375,7 +1367,7 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param string $circleId
-	 * @param int $accesslevel
+	 * @param int $accessLevel
 	 * @return DataResponse<Http::STATUS_OK, CospendCircleShare, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
 	 * @throws InitiatorNotFoundException
@@ -1388,8 +1380,8 @@ class ApiController extends OCSController {
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
-	public function createCircleShare(string $projectId, string $circleId, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT): DataResponse {
-		$result = $this->projectService->createCircleShare($projectId, $circleId, $this->userId, $accesslevel);
+	public function createCircleShare(string $projectId, string $circleId, int $accessLevel = Application::ACCESS_LEVEL_PARTICIPANT): DataResponse {
+		$result = $this->projectService->createCircleShare($projectId, $circleId, $this->userId, $accessLevel);
 		if (!isset($result['message'])) {
 			return new DataResponse($result);
 		}

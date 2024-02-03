@@ -101,7 +101,7 @@
 						<template #icon>
 							<DeleteVariantIcon />
 						</template>
-						{{ trashbinEnabled ? t('cospend', 'Close the trashbin') : t('cospend', 'Show the trashbin') }}
+						{{ trashbinEnabled ? t('cospend', 'Close the trash bin') : t('cospend', 'Show the trash bin') }}
 					</NcButton>
 					<NcButton
 						@click="onStatsClicked(currentProjectId)">
@@ -359,7 +359,7 @@ export default {
 
 		subscribe('trashbin-clicked', this.onTrashbinClicked)
 		subscribe('close-trashbin', this.onCloseTrashbinClicked)
-		subscribe('clear-trashbin-clicked', this.onClearTrashbinClicked)
+		subscribe('clear-trashbin-clicked', this.onClearTrashBinClicked)
 	},
 	beforeDestroy() {
 		unsubscribe('nextcloud:unified-search.search', this.filter)
@@ -385,7 +385,7 @@ export default {
 
 		unsubscribe('trashbin-clicked', this.onTrashbinClicked)
 		unsubscribe('close-trashbin', this.onCloseTrashbinClicked)
-		unsubscribe('clear-trashbin-clicked', this.onClearTrashbinClicked)
+		unsubscribe('clear-trashbin-clicked', this.onClearTrashBinClicked)
 	},
 	methods: {
 		onResetFilters() {
@@ -655,8 +655,8 @@ export default {
 			this.trashbinEnabled = false
 			this.selectProject(projectid, true, true, false, false)
 		},
-		onClearTrashbinClicked(projectId) {
-			network.clearTrashbin(projectId)
+		onClearTrashBinClicked(projectId) {
+			network.clearTrashBin(projectId)
 				.then(() => {
 					showSuccess(t('cospend', 'Trashbin has been cleared'))
 				})

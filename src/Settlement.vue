@@ -522,10 +522,10 @@ export default {
 				what: t('cospend', 'Reimbursement'),
 				timestamp: moment().unix(),
 				payer: this.individualPayerId,
-				payed_for: '' + this.individualReceiverId,
+				payedFor: '' + this.individualReceiverId,
 				amount: -this.members[this.individualPayerId].balance,
 				repeat: 'n',
-				categoryid: '-11',
+				categoryId: '-11',
 			}
 			network.createBill(this.projectId, req).then((response) => {
 				this.$emit('auto-settled', this.projectId)

@@ -16,7 +16,7 @@
 				<NcAppNavigationItem
 					v-show="!loading && trashbinEnabled"
 					class="list-header-item"
-					:name="t('cospend', 'Trashbin')"
+					:name="t('cospend', 'Trash bin')"
 					:force-display-actions="true">
 					<template #icon>
 						<DeleteVariantIcon class="header-trashbin-icon" />
@@ -41,7 +41,7 @@
 					</NcActionButton>
 					<NcActionButton v-if="trashbinEnabled && editionAccess && bills.length > 0"
 						:close-after-click="true"
-						@click="showClearTrashbinConfirmation = true">
+						@click="showClearTrashBinConfirmation = true">
 						<template #icon>
 							<DeleteEmptyIcon />
 						</template>
@@ -235,17 +235,17 @@
 				</NcButton>
 			</template>
 		</NcDialog>
-		<NcDialog :open.sync="showClearTrashbinConfirmation"
-			:name="t('cospend', 'Confirm clear trashbin')"
-			:message="clearTrashbinConfirmationMessage">
+		<NcDialog :open.sync="showClearTrashBinConfirmation"
+			:name="t('cospend', 'Confirm clear trash bin')"
+			:message="clearTrashBinConfirmationMessage">
 			<template #actions>
 				<NcButton
-					@click="showClearTrashbinConfirmation = false">
+					@click="showClearTrashBinConfirmation = false">
 					{{ t('cospend', 'Cancel') }}
 				</NcButton>
 				<NcButton
 					type="error"
-					@click="clearTrashbin">
+					@click="clearTrashBin">
 					<template #icon>
 						<DeleteIcon />
 					</template>
@@ -365,7 +365,7 @@ export default {
 			filterMode: false,
 			showDeletionConfirmation: false,
 			showRestorationConfirmation: false,
-			showClearTrashbinConfirmation: false,
+			showClearTrashBinConfirmation: false,
 		}
 	},
 
@@ -529,8 +529,8 @@ export default {
 					{ nb: this.selectedBillIds.length },
 				)
 				: n('cospend',
-					'Are you sure you want to move {nb} bill to the trashbin?',
-					'Are you sure you want to move {nb} bills to the trashbin?',
+					'Are you sure you want to move {nb} bill to the trash bin?',
+					'Are you sure you want to move {nb} bills to the trash bin?',
 					this.selectedBillIds.length,
 					{ nb: this.selectedBillIds.length },
 				)
@@ -543,10 +543,10 @@ export default {
 				{ nb: this.selectedBillIds.length },
 			)
 		},
-		clearTrashbinConfirmationMessage() {
+		clearTrashBinConfirmationMessage() {
 			return n('cospend',
-				'Are you sure you want to clear the trashbin? ({nb} bill)',
-				'Are you sure you want to clear the trashbin? ({nb} bills)',
+				'Are you sure you want to clear the trash bin? ({nb} bill)',
+				'Are you sure you want to clear the trash bin? ({nb} bills)',
 				this.bills.length,
 				{ nb: this.bills.length },
 			)
@@ -603,8 +603,8 @@ export default {
 			this.selectedBillIds = []
 			emit('trashbin-clicked', this.projectId)
 		},
-		clearTrashbin() {
-			this.showClearTrashbinConfirmation = false
+		clearTrashBin() {
+			this.showClearTrashBinConfirmation = false
 			this.selectedBillIds = []
 			emit('clear-trashbin-clicked', this.projectId)
 		},

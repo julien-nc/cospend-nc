@@ -530,8 +530,8 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
-	#[BruteForceProtection(action: 'CospendPublicClearTrashbin')]
-	public function apiClearTrashbin(string $token): DataResponse {
+	#[BruteForceProtection(action: 'CospendPublicClearTrashBin')]
+	public function apiClearTrashBin(string $token): DataResponse {
 		$publicShareInfo = $this->projectService->getShareInfoFromShareToken($token);
 		try {
 			$this->billMapper->deleteDeletedBills($publicShareInfo['projectid']);
@@ -618,7 +618,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
-	public function apiPrivClearTrashbin(string $projectId): DataResponse {
+	public function apiPrivClearTrashBin(string $projectId): DataResponse {
 		try {
 			$this->billMapper->deleteDeletedBills($projectId);
 			return new DataResponse('');

@@ -1592,14 +1592,14 @@ export default {
 				comment,
 				timestamp,
 				payer: payerId,
-				payed_for: owerIds.join(','),
+				payedFor: owerIds.join(','),
 				amount,
 				repeat,
-				repeatallactive: repeatallactive ? 1 : 0,
-				repeatuntil,
-				repeatfreq: repeatfreq ? parseInt(repeatfreq) : 1,
-				paymentmodeid,
-				categoryid,
+				repeatAllActive: repeatallactive ? 1 : 0,
+				repeatUntil: repeatuntil,
+				repeatFreq: repeatfreq ? parseInt(repeatfreq) : 1,
+				paymentModeId: paymentmodeid,
+				categoryId: categoryid,
 			}
 			this.billLoading = true
 			network.createBill(this.projectId, req).then((response) => {

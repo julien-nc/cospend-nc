@@ -23,6 +23,7 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
@@ -73,7 +74,11 @@ class PageController extends Controller {
 		$this->initialStateService->provideInitialState('pathProjectId', $projectId ?? '');
 		$this->initialStateService->provideInitialState('pathBillId', $billId ?? 0);
 		$this->eventDispatcher->dispatchTyped(new RenderReferenceEvent());
-		return new TemplateResponse('cospend', 'main');
+		$response = new TemplateResponse('cospend', 'main');
+		$csp = new ContentSecurityPolicy();
+		$csp->allowEvalScript();
+		$response->setContentSecurityPolicy($csp);
+		return $response;
 	}
 
 	/**
@@ -190,6 +195,9 @@ class PageController extends Controller {
 				$this->initialStateService->provideInitialState('password', 'nopass');
 
 				$response = new PublicTemplateResponse('cospend', 'main', []);
+				$csp = new ContentSecurityPolicy();
+				$csp->allowEvalScript();
+				$response->setContentSecurityPolicy($csp);
 				$response->setHeaderDetails($this->trans->t('Project %s', [$publicShareInfo['projectid']]));
 			}
 			$response->setHeaderTitle($this->trans->t('Cospend shared link access'));
@@ -231,6 +239,9 @@ class PageController extends Controller {
 				$response->setHeaderTitle($this->trans->t('Cospend shared link access'));
 				$response->setHeaderDetails($this->trans->t('Project %s', [$info['projectid']]));
 				$response->setFooterVisible(false);
+				$csp = new ContentSecurityPolicy();
+				$csp->allowEvalScript();
+				$response->setContentSecurityPolicy($csp);
 				return $response;
 			} elseif (!is_null($info['projectid'] ?? null)) {
 				// good token, incorrect password

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-01-28 17:08+0100\n"
-"PO-Revision-Date: 2024-01-28 17:20\n"
+"PO-Revision-Date: 2024-02-15 09:26\n"
 "Last-Translator: \n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
@@ -1329,7 +1329,7 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:161
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:316
 msgid "Restore"
-msgstr ""
+msgstr "Obnovit"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:162
 msgid "Confirm clear trashbin"
@@ -1337,7 +1337,7 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:164
 msgid "Clear"
-msgstr ""
+msgstr "Vymazat"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:165
 msgid "All payment modes"
@@ -1375,7 +1375,7 @@ msgstr "Otevřít filtry"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:175
 msgid "Move selected bills to trash"
-msgstr ""
+msgstr "Přesunout vybrané účty do koše"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:176
 msgid "Delete selected bills"
@@ -1405,7 +1405,7 @@ msgstr[3] "Opravdu chcete smazat {nb} účty?"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:183
 msgid "Are you sure you want to move {nb} bill to the trashbin?"
 msgid_plural "Are you sure you want to move {nb} bills to the trashbin?"
-msgstr[0] ""
+msgstr[0] "Opravdu chcete přesunout účet {nb} do koše?"
 msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
@@ -1618,7 +1618,7 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:229
 msgid "Currency {n} added"
-msgstr ""
+msgstr "Měna {n} přidána"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:231
 msgid "Settlement of project {name}"
@@ -1888,11 +1888,11 @@ msgstr "Vypořádání projektu"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:310
 msgid "Archive"
-msgstr ""
+msgstr "Archivovat"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:311
 msgid "Unarchive"
-msgstr ""
+msgstr "Obnovit z archivu"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:313
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:422
@@ -1919,11 +1919,11 @@ msgstr "Seznam členů není aktuální. Za 5 sekund bude načten znovu."
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:325
 msgid "Move to trash"
-msgstr ""
+msgstr "Přesunout do koše"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:326
 msgid "Move to other project"
-msgstr ""
+msgstr "Přesunout do jiného projektu"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:327
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:328
@@ -1939,7 +1939,7 @@ msgstr "Nový projekt"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:341
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:344
 msgid "Create empty project"
-msgstr ""
+msgstr "Vytvořit prázdný projekt"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:342
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:367
@@ -1953,15 +1953,15 @@ msgstr "Importovat SplitWise projekt"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:345
 msgid "Project name"
-msgstr ""
+msgstr "Název projektu"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:346
 msgid "My new project"
-msgstr ""
+msgstr "Můj nový projekt"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:347
 msgid "Create"
-msgstr ""
+msgstr "Vytvořit"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:348
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:349
@@ -1970,11 +1970,11 @@ msgstr "Zatím žádné projekty"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:350
 msgid "Show active projects"
-msgstr ""
+msgstr "Zobrazit aktivní projekty"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:350
 msgid "Show archived projects"
-msgstr ""
+msgstr "Zobrazit archivované projekty"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:351
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:354
@@ -2000,7 +2000,7 @@ msgstr "Děkujeme, že používáte Cospend"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:359
 msgid "App version: {version}"
-msgstr ""
+msgstr "Verze aplikace: {version}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:360
 msgid "Bug/issue tracker"
@@ -2088,7 +2088,7 @@ msgstr "Vyberte kam vytvořit výstupní soubory (statistiky, vypořádání, ex
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:400
 msgid "Member select"
-msgstr ""
+msgstr "Výběr člena"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:402
 msgid "Move bill \"{bill}\" to a different project:"

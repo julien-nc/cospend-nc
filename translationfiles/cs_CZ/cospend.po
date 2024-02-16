@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-01-28 17:08+0100\n"
-"PO-Revision-Date: 2024-02-15 09:26\n"
+"PO-Revision-Date: 2024-02-16 10:18\n"
 "Last-Translator: \n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
@@ -719,11 +719,11 @@ msgstr "Nasdílet projekt"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:7
 msgid "Close the trashbin"
-msgstr ""
+msgstr "Zavřít koš"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:7
 msgid "Show the trashbin"
-msgstr ""
+msgstr "Zobrazit koš"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:8
 msgid "Show project statistics"
@@ -2188,7 +2188,7 @@ msgstr "Vytvořit jednoduchého člena"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:437
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:438
 msgid "Share project with a user, group or circle"
-msgstr ""
+msgstr "Sdílejte projekt s uživatelem, skupinou nebo okruhem"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:439
 msgid "Start typing to search"
@@ -2258,7 +2258,7 @@ msgstr "Upravení odkazu pro sdílení se nezdařilo"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:469
 msgid "Link could not be copied to clipboard"
-msgstr ""
+msgstr "Odkaz nelze zkopírovat do schránky"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:470
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:471

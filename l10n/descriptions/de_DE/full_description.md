@@ -2,17 +2,17 @@
 
 Nextcloud Cospend ist ein gemeinsamer Budget-Manager für Gruppen. [IHateMoney](https://github.com/spiral-project/ihatemoney/) diente hierbei als Vorbild.
 
-You can use it when you share a house, when you go on vacation with friends, whenever you share expenses with a group of people.
+Immer wenn du Geld mit anderen teilst, z. B. in einer WG oder im Urlaub mit Freunden, kannst du diese App verwenden.
 
-Du kannst Projekte erstellen sowie Mitglieder und Ausgaben hinzufügen. Anhand der Ausgaben im Projekt wird für jedes Mitglied eine Bilanz erstellt. Balances are not an absolute amount of money at members disposal but rather a relative information showing if a member has spent more for the group than the group has spent for her/him, independently of exactly who spent money for whom. Somit ist ersichtlich, wer wem etwas schuldet. Letztendlich kannst du dir dann in der Abrechnung anzeigen lassen, welche Zahlungen zu leisten sind, um die Bilanzen der Mitglieder auszugleichen.
+Du kannst Projekte erstellen sowie Mitglieder und Ausgaben hinzufügen. Anhand der Ausgaben im Projekt wird für jedes Mitglied eine Bilanz erstellt. Bilanzen sind keine absolute Summe an Geld, die den Mitgliedern zur Verfügung steht, sondern eine relative Information, die anzeigt, ob ein Mitglied mehr für die Gruppe ausgegeben hat als die Gruppe für sie/ihn (unabhängig davon wer genau gezahlt hat). Somit ist ersichtlich, wer wem etwas schuldet. Letztendlich kannst du dir dann in der Abrechnung anzeigen lassen, welche Zahlungen zu leisten sind, um die Bilanzen der Mitglieder auszugleichen.
 
-Projektmitglieder sind unabhängig von Nextcloud Benutzern. Projects can be shared with other Nextcloud users or via public links.
+Projektmitglieder sind unabhängig von Nextcloud Benutzern. Projekte können mit anderen Nextcloud-Nutzern oder mit öffentlichen Links geteilt werden.
 
-[MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android Client ist [erhältlich in F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) und im [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
+Der Android Client [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) ist [erhältlich auf F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) und im [Play Store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
-[PayForMe](https://github.com/mayflower/PayForMe) iOS client is currently under developpement!
+Der iOS-Client [PayForMe](https://github.com/mayflower/PayForMe) wird aktuell noch entwickelt!
 
-The private and public APIs are documented using [the Nextcloud OpenAPI extractor](https://github.com/nextcloud/openapi-extractor/). This documentation can be accessed directly in Nextcloud. All you need is to install Cospend (>= v1.6.0) and use the [the OCS API Viewer app](https://apps.nextcloud.com/apps/ocs_api_viewer) to browse the OpenAPI documentation.
+Die privaten und öffentlichen APIs sind mit [der Nextcloud OpenAPI Extractor App](https://github.com/nextcloud/openapi-extractor/) dokumentiert. Diese Dokumentation kann direkt in Nextcloud aufgerufen werden. Installiere einfach Cospend (>= v1.6.0) und benutze die [OCS API Viewer App](https://apps.nextcloud.com/apps/ocs_api_viewer) um die OpenAPI-Dokumentation zu sehen.
 
 ## Funktionen
 
@@ -33,13 +33,13 @@ The private and public APIs are documented using [the Nextcloud OpenAPI extracto
 * 🔗 Generate link/QRCode to easily add projects in MoneyBuster
 * 🗲 Implement Nextcloud notifications and activity stream
 
-This app usually support the 2 or 3 last major versions of Nextcloud.
+Diese App unterstützt in der Regel die 2 oder 3 letzten Hauptversionen von Nextcloud.
 
 Diese App ist in Entwicklung.
 
 🌍 Hilf uns bei der Übersetzung dieser App auf [Nextcloud-Cospend/MoneyBuster Crowdin project](https://crowdin.com/project/moneybuster).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://github.com/julien-nc/cospend-nc/blob/master/CONTRIBUTING.md).
+⚒️ Weitere Möglichkeiten zu Helfen findest du in der [Contribution-Richtlinie](https://github.com/julien-nc/cospend-nc/blob/master/CONTRIBUTING.md).
 
 ## Dokumentation
 
@@ -51,7 +51,7 @@ Diese App ist in Entwicklung.
 
 ## Bekannte Probleme
 
-* It does not make you rich
+* Es macht dich nicht reich
 
 Jedes Feedback ist willkommen.
 

@@ -1,6 +1,6 @@
 <template>
 	<NcAvatar v-if="showMe"
-		class="avatar"
+		class="colored-avatar"
 		:is-no-user="isNoUser"
 		:show-user-status="showUserStatus"
 		:display-name="displayName"
@@ -108,5 +108,8 @@ export default {
 	border-radius: 50%;
 	background-color: var(--member-bg-color) !important;
 	color: var(--member-text-color) !important;
+	position: absolute;
+	left: 0;
+	width: 100%;
 }
 </style>

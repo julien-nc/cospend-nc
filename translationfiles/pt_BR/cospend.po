@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-03-03 17:57+0100\n"
-"PO-Revision-Date: 2024-03-03 17:00\n"
+"PO-Revision-Date: 2024-03-07 21:40\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -184,7 +184,7 @@ msgstr "Acesso do link compartilhado Cospend"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:206
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:265
 msgid "No such Cospend share link"
-msgstr ""
+msgstr "Link de compartilhamento Cospend não encontrado"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Dashboard/CospendWidget.php:52
 msgid "Cospend activity"
@@ -201,12 +201,12 @@ msgstr "Já existe um projeto com este id \"%1$s\""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Middleware/PublicAuthMiddleware.php:51
 msgid "Project password is invalid"
-msgstr ""
+msgstr "A senha do projeto é inválida"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Middleware/PublicAuthMiddleware.php:62
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Middleware/UserPermissionMiddleware.php:50
 msgid "Insufficient access level"
-msgstr ""
+msgstr "Nível de acesso insuficiente"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:92
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:81
@@ -436,7 +436,7 @@ msgstr "Este projeto já tem este membro"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1473
 msgid "This project already has this member (user)"
-msgstr ""
+msgstr "Este projeto já possui este membro (usuário)"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2302
 msgid "There is no such bill"
@@ -459,7 +459,7 @@ msgstr "Não encontrado"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3010
 msgid "Impossible to get the edited payment mode"
-msgstr ""
+msgstr "Impossível obter o modo de pagamento editado"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3014
 msgid "This project has no such payment mode"
@@ -473,7 +473,7 @@ msgstr "Valores do campo estão incorretos"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3194
 msgid "Impossible to get the edited category"
-msgstr ""
+msgstr "Impossível obter a categoria editada"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3198
 msgid "This project has no such category"
@@ -481,7 +481,7 @@ msgstr "Esse projeto não possui essa categoria"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3324
 msgid "Impossible to get the edited currency"
-msgstr ""
+msgstr "Impossível obter a moeda editada"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3328
 msgid "This project have no such currency"
@@ -674,7 +674,7 @@ msgstr "CSV mal formatado, sem devedor na linha %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4913
 msgid "Malformed CSV, impossible to find the column names. Make sure your Splitwise account language is set to English first, then export the project again."
-msgstr ""
+msgstr "CSV malformado, impossível encontrar os nomes das colunas. Primeiro, certifique-se de que o idioma da conta do Splitwise esteja definido em Inglês e depois exporte novamente o projeto."
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:5011
 msgid "daily"
@@ -719,11 +719,11 @@ msgstr "Compartilhar projeto"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:7
 msgid "Close the trash bin"
-msgstr ""
+msgstr "Feche a lixeira"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:7
 msgid "Show the trash bin"
-msgstr ""
+msgstr "Mostrar a lixeira"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:8
 msgid "Show project statistics"
@@ -757,15 +757,15 @@ msgstr "Falha ao excluir despesa"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:17
 msgid "Bill restored"
-msgstr ""
+msgstr "Despesa restaurada"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:18
 msgid "Failed to restore bill"
-msgstr ""
+msgstr "Falha ao restaurar despesa"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:19
 msgid "Bills restored"
-msgstr ""
+msgstr "Despesas restauradas"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:20
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:181
@@ -774,7 +774,7 @@ msgstr "Falha ao excluir despesas"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:21
 msgid "Trashbin has been cleared"
-msgstr ""
+msgstr "Lixeira foi limpa"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:22
 msgid "Member {name} already exists"
@@ -834,11 +834,11 @@ msgstr "Falha ao salvar membro"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:36
 msgid "Member deleted"
-msgstr ""
+msgstr "Membro excluído"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:37
 msgid "Member saved"
-msgstr ""
+msgstr "Membro salvo"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:38
 msgid "Project saved"
@@ -966,11 +966,11 @@ msgstr "Mais detalhes sobre a fatura (max 300 car)"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:70
 msgid "More details about the bill"
-msgstr ""
+msgstr "Mais detalhes sobre a despesa"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:70
 msgid "({n} characters max)"
-msgstr ""
+msgstr "(Máximo de {n} caracteres)"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:71
 msgid "Repeat"
@@ -1106,7 +1106,7 @@ msgstr "Excluir esta despesa"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:107
 msgid "Move this bill to the trashbin"
-msgstr ""
+msgstr "Mova esta despesa para a lixeira"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:108
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:109
@@ -1219,19 +1219,19 @@ msgstr "Nova despesa"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:137
 msgid "Trash bin"
-msgstr ""
+msgstr "Lixeira"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:138
 msgid "Close trashbin"
-msgstr ""
+msgstr "Feche a lixeira"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:139
 msgid "Show trashbin"
-msgstr ""
+msgstr "Mostrar a lixeira"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:140
 msgid "Clear trashbin"
-msgstr ""
+msgstr "Limpar a lixeira"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:141
 msgid "Filters"
@@ -1275,7 +1275,7 @@ msgstr "Selecione despesas para fazer ações agrupadas"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:150
 msgid "Restore selected bills"
-msgstr ""
+msgstr "Restaurar despesas selecionados"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:151
 msgid "Add at least 2 members to start creating bills"
@@ -1320,20 +1320,20 @@ msgstr "Excluir"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:159
 msgid "Confirm restoration"
-msgstr ""
+msgstr "Confirmar restauração"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:161
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:316
 msgid "Restore"
-msgstr ""
+msgstr "Restaurar"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:162
 msgid "Confirm clear trash bin"
-msgstr ""
+msgstr "Confirmar limpeza da lixeira"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:164
 msgid "Clear"
-msgstr ""
+msgstr "Limpar"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:165
 msgid "All payment modes"
@@ -1371,7 +1371,7 @@ msgstr "Abrir filtros"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:175
 msgid "Move selected bills to trash"
-msgstr ""
+msgstr "Mover despesas selecionados para a lixeira"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:176
 msgid "Delete selected bills"
@@ -1401,19 +1401,19 @@ msgstr[1] "Tem certeza que deseja excluir esta {nb} despesa?\n\n"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:183
 msgid "Are you sure you want to move {nb} bill to the trash bin?"
 msgid_plural "Are you sure you want to move {nb} bills to the trash bin?"
-msgstr[0] ""
+msgstr[0] "Tem certeza de que deseja mover a despesa {nb} para a lixeira?"
 msgstr[1] ""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:184
 msgid "Are you sure you want to restore {nb} bill?"
 msgid_plural "Are you sure you want to restore {nb} bills?"
-msgstr[0] ""
+msgstr[0] "Tem certeza que deseja restaurar a despesa {nb}?"
 msgstr[1] ""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:185
 msgid "Are you sure you want to clear the trash bin? ({nb} bill)"
 msgid_plural "Are you sure you want to clear the trash bin? ({nb} bills)"
-msgstr[0] ""
+msgstr[0] "Tem certeza de que deseja limpar a lixeira? ({nb} despesas)"
 msgstr[1] ""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:186
@@ -1600,15 +1600,15 @@ msgstr "Nenhuma categoria para exibir"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:227
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:230
 msgid "Currency name should not be empty"
-msgstr ""
+msgstr "Nome da moeda não deve ser vazio"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:228
 msgid "Exchange rate should be a number"
-msgstr ""
+msgstr "A taxa de câmbio deve ser um número"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:229
 msgid "Currency {n} added"
-msgstr ""
+msgstr "Moeda {n} adicionada"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:231
 msgid "Settlement of project {name}"
@@ -1838,7 +1838,7 @@ msgstr "Reativar"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:300
 msgid "A member is already named like that"
-msgstr ""
+msgstr "Já existe um membro com este nome"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:302
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:465
@@ -1878,11 +1878,11 @@ msgstr "Plano de quitação do projeto"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:310
 msgid "Archive"
-msgstr ""
+msgstr "Arquivar"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:311
 msgid "Unarchive"
-msgstr ""
+msgstr "Desarquivar"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:313
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:424
@@ -1892,11 +1892,11 @@ msgstr "Adicionar membro"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:314
 msgid "Close trash bin"
-msgstr ""
+msgstr "Feche a lixeira"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:315
 msgid "Show trash bin"
-msgstr ""
+msgstr "Mostrar a lixeira"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:318
 msgid "Everyone"
@@ -1917,15 +1917,15 @@ msgstr "Lista de membros não está atualizada. Recarregando em 5 segundos."
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:325
 msgid "Move to trash"
-msgstr ""
+msgstr "Mover para lixeira"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:326
 msgid "Move to other project"
-msgstr ""
+msgstr "Copiar para outro projeto"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:327
 msgid "Category selector"
-msgstr ""
+msgstr "Seletor de Categoria"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:328
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:329
@@ -1941,7 +1941,7 @@ msgstr "Novo projeto"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:342
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:345
 msgid "Create empty project"
-msgstr ""
+msgstr "Criar projeto em branco"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:343
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:368
@@ -1955,15 +1955,15 @@ msgstr "Importar arquivo de projeto SplitWise"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:346
 msgid "Project name"
-msgstr ""
+msgstr "Nome do projeto"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:347
 msgid "My new project"
-msgstr ""
+msgstr "Novo projeto"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:348
 msgid "Create"
-msgstr ""
+msgstr "Criar"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:349
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:350
@@ -1972,11 +1972,11 @@ msgstr "Ainda não há projetos"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:351
 msgid "Show active projects"
-msgstr ""
+msgstr "Mostrar projetos ativos"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:351
 msgid "Show archived projects"
-msgstr ""
+msgstr "Mostrar projetos arquivados"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:352
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:355
@@ -2002,7 +2002,7 @@ msgstr "Obrigado por usar o Cospend"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:360
 msgid "App version: {version}"
-msgstr ""
+msgstr "Versão do aplicativo: {version}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:361
 msgid "Bug/issue tracker"
@@ -2090,7 +2090,7 @@ msgstr "Escolha onde escrever arquivos de saída (estatísticas, quitação, exp
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:401
 msgid "Member select"
-msgstr ""
+msgstr "Seleção de membro"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:403
 msgid "Move bill \"{bill}\" to a different project:"
@@ -2116,7 +2116,7 @@ msgstr "Falha ao mover despesa"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:410
 msgid "Payment mode selector"
-msgstr ""
+msgstr "Seletor de modo de pagamento"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:411
 msgid "Rename project {n}"
@@ -2194,7 +2194,7 @@ msgstr "Criar membro simples"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:439
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:440
 msgid "Share project with a user, group or circle"
-msgstr ""
+msgstr "Compartilhar projeto com um usuário, grupo ou círculo"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:441
 msgid "Start typing to search"
@@ -2264,7 +2264,7 @@ msgstr "Falha ao editar link de compartilhamento"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:471
 msgid "Link could not be copied to clipboard"
-msgstr ""
+msgstr "Link não pôde ser copiado para a área de transferência"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:472
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:473
@@ -2504,7 +2504,7 @@ msgstr "{user} editou {bill}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/src/main.js:41
 msgid "Failed to restore options values"
-msgstr ""
+msgstr "Falha ao restaurar valores das opções"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/src/network.js:28
 msgid "Failed to save option values"
@@ -2532,7 +2532,7 @@ msgstr "Falha ao editar moeda"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/src/network.js:447
 msgid "Failed to get statistics"
-msgstr ""
+msgstr "Falha ao obter estatísticas"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/src/network.js:464
 msgid "Project statistics exported in {path}"

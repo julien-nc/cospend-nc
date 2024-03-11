@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.6.1 – 2024-03-11
+
+### Changed
+
+- update npm pkgs
+
+### Fixed
+
+- fix amount calculations in bill form [#257](https://github.com/julien-nc/cospend-nc/issues/257)
+- fix avatar style in safari [#262](https://github.com/julien-nc/cospend-nc/issues/262)
+
 ## 1.6.0 – 2024-01-28
 
 ### Added

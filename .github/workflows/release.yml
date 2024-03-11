@@ -1,6 +1,6 @@
 on:
-  push:
-    branches: [release]
+  release:
+    types: [published]
 
 name: Publish release
 
@@ -12,13 +12,13 @@ jobs:
       APP_ID: cospend
     runs-on: ubuntu-latest
     steps:
-      - name: Use Node 16
+      - name: Use Node 20
         uses: actions/setup-node@v2
         with:
-          node-version: 16
+          node-version: 20
 
       - name: Set up npm
-        run: npm i -g npm@^8.0.0
+        run: npm i -g npm@^10.0.0
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -47,7 +47,7 @@ jobs:
           echo "##[set-output name=app_id;]$APP_ID"
           echo "###### copy app certificate"
           mkdir -p ~/.nextcloud/certificates
-          echo "$APP_CRT" > ~/.nextcloud/certificates/${APP_ID}.crt
+          wget --quiet "https://github.com/nextcloud/app-certificate-requests/raw/master/${APP_ID}/${APP_ID}.crt" -O ~/.nextcloud/certificates/${APP_ID}.crt
           echo "$APP_KEY" > ~/.nextcloud/certificates/${APP_ID}.key
           echo "###### install dependencies"
           export DEBIAN_FRONTEND=noninteractive
@@ -71,32 +71,18 @@ jobs:
           webserveruser=runner occ_dir=~/html/nextcloud version=$version make build_release
           echo "##[set-output name=version;]$version"
         env:
-          APP_CRT: ${{ secrets.APP_CRT }}
           APP_KEY: ${{ secrets.APP_KEY }}
 
-      - name: Create Release
+      - name: Attach tarball to github release
         if: ${{ startsWith( steps.tag.outputs.currenttag , 'v' ) }}
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: svenstaro/upload-release-action@2b9d2847a97b04d02ad5c3df2d3a27baa97ce689 # v2
+        id: attach_to_release
         with:
-          tag_name: ${{ steps.tag.outputs.currenttag }}
-          release_name: ${{ steps.tag.outputs.currenttag }}
-          draft: false
-          prerelease: false
-
-      - name: Upload Release Asset
-        if: ${{ startsWith( steps.tag.outputs.currenttag , 'v' ) }}
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: /tmp/build/${{ steps.build_release.outputs.app_id }}-${{ steps.build_release.outputs.version }}.tar.gz
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: /tmp/build/${{ steps.build_release.outputs.app_id }}-${{ steps.build_release.outputs.version }}.tar.gz
           asset_name: ${{ steps.build_release.outputs.app_id }}-${{ steps.build_release.outputs.version }}.tar.gz
-          asset_content_type: application/gzip
+          tag: ${{ github.ref }}
+          overwrite: true
 
       - name: Publish normal release to appstore
         if: ${{ startsWith( steps.tag.outputs.currenttag , 'v' ) && !endsWith( steps.tag.outputs.currenttag , 'nightly' ) }}

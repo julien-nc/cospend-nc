@@ -862,27 +862,27 @@ class ProjectService {
 	 * @param string|null $date
 	 * @param string|null $what
 	 * @param int|null $payer
-	 * @param string|null $payed_for
+	 * @param string|null $payedFor
 	 * @param float|null $amount
 	 * @param string|null $repeat
-	 * @param string|null $paymentmode
-	 * @param int|null $paymentmodeid
-	 * @param int|null $categoryid
-	 * @param int $repeatallactive
-	 * @param string|null $repeatuntil
+	 * @param string|null $paymentMode
+	 * @param int|null $paymentModeId
+	 * @param int|null $categoryId
+	 * @param int $repeatAllActive
+	 * @param string|null $repeatUntil
 	 * @param int|null $timestamp
 	 * @param string|null $comment
-	 * @param int|null $repeatfreq
+	 * @param int|null $repeatFreq
 	 * @param array|null $paymentModes
 	 * @param int $deleted
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
 	public function createBill(
-		string $projectId, ?string $date, ?string $what, ?int $payer, ?string $payed_for,
-		?float $amount, ?string $repeat, ?string $paymentmode = null, ?int $paymentmodeid = null,
-		?int $categoryid = null, int $repeatallactive = 0, ?string $repeatuntil = null,
-		?int $timestamp = null, ?string $comment = null, ?int $repeatfreq = null,
+		string $projectId, ?string $date, ?string $what, ?int $payer, ?string $payedFor,
+		?float $amount, ?string $repeat, ?string $paymentMode = null, ?int $paymentModeId = null,
+		?int $categoryId = null, int $repeatAllActive = 0, ?string $repeatUntil = null,
+		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null,
 		?array $paymentModes = null, int $deleted = 0
 	): array {
 		// if we don't have the payment modes, get them now
@@ -891,21 +891,21 @@ class ProjectService {
 		}
 
 		if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
-			return ['repeat' => $this->l10n->t('Invalid value')];
+			return ['repeat' => 'Invalid value (' . $repeat . ')'];
 		} elseif (!in_array($repeat, Application::FREQUENCIES)) {
-			return ['repeat' => $this->l10n->t('Invalid frequency')];
+			return ['repeat' => 'Invalid frequency (' . $repeat . ')'];
 		}
-		if ($repeatuntil !== null && $repeatuntil === '') {
-			$repeatuntil = null;
+		if ($repeatUntil !== null && $repeatUntil === '') {
+			$repeatUntil = null;
 		}
 		// priority to timestamp (moneybuster might send both for a moment)
 		if ($timestamp === null) {
 			if ($date === null || $date === '') {
-				return ['message' => $this->l10n->t('Timestamp (or date) field is required')];
+				return ['message' => 'Timestamp (or date) field is required'];
 			} else {
 				$datetime = DateTime::createFromFormat('Y-m-d', $date);
 				if ($datetime === false) {
-					return ['date' => $this->l10n->t('Invalid date')];
+					return ['date' => 'Invalid date'];
 				}
 				$dateTs = $datetime->getTimestamp();
 			}
@@ -916,43 +916,43 @@ class ProjectService {
 			$what = '';
 		}
 		if ($amount === null) {
-			return ['amount' => $this->l10n->t('This field is required')];
+			return ['amount' => 'This field is required'];
 		}
 		if ($payer === null) {
-			return ['payer' => $this->l10n->t('This field is required')];
+			return ['payer' => 'This field is required'];
 		}
 		if ($this->getMemberById($projectId, $payer) === null) {
-			return ['payer' => $this->l10n->t('Not a valid choice')];
+			return ['payer' => 'Not a valid choice'];
 		}
 		// check owers
-		$owerIds = explode(',', $payed_for);
-		if ($payed_for === null || $payed_for === '' || empty($owerIds)) {
-			return ['payed_for' => $this->l10n->t('Invalid value')];
+		$owerIds = explode(',', $payedFor);
+		if ($payedFor === null || $payedFor === '' || empty($owerIds)) {
+			return ['payed_for' => 'Invalid value (' . $payedFor . ')'];
 		}
 		foreach ($owerIds as $owerId) {
 			if (!is_numeric($owerId)) {
-				return ['payed_for' => $this->l10n->t('Invalid value')];
+				return ['payed_for' => 'Invalid value'];
 			}
 			if ($this->getMemberById($projectId, (int) $owerId) === null) {
-				return ['payed_for' => $this->l10n->t('Not a valid choice')];
+				return ['payed_for' => 'Not a valid choice'];
 			}
 		}
 		// payment mode
-		if (!is_null($paymentmodeid)) {
+		if (!is_null($paymentModeId)) {
 			// is the old_id set for this payment mode? if yes, use it for old 'paymentmode' column
-			$paymentmode = 'n';
-			if (isset($paymentModes[$paymentmodeid], $paymentModes[$paymentmodeid]['old_id'])
-				&& $paymentModes[$paymentmodeid]['old_id'] !== null
-				&& $paymentModes[$paymentmodeid]['old_id'] !== ''
+			$paymentMode = 'n';
+			if (isset($paymentModes[$paymentModeId], $paymentModes[$paymentModeId]['old_id'])
+				&& $paymentModes[$paymentModeId]['old_id'] !== null
+				&& $paymentModes[$paymentModeId]['old_id'] !== ''
 			) {
-				$paymentmode = $paymentModes[$paymentmodeid]['old_id'];
+				$paymentMode = $paymentModes[$paymentModeId]['old_id'];
 			}
-		} elseif (!is_null($paymentmode)) {
+		} elseif (!is_null($paymentMode)) {
 			// is there a pm with this old id? if yes, use it for new id
-			$paymentmodeid = 0;
+			$paymentModeId = 0;
 			foreach ($paymentModes as $id => $pm) {
-				if ($pm['old_id'] === $paymentmode) {
-					$paymentmodeid = $id;
+				if ($pm['old_id'] === $paymentMode) {
+					$paymentModeId = $id;
 					break;
 				}
 			}
@@ -971,12 +971,12 @@ class ProjectService {
 		$newBill->setAmount($amount);
 		$newBill->setPayerid($payer);
 		$newBill->setRepeat($repeat);
-		$newBill->setRepeatallactive($repeatallactive);
-		$newBill->setRepeatuntil($repeatuntil);
-		$newBill->setRepeatfreq($repeatfreq ?? 1);
-		$newBill->setCategoryid($categoryid ?? 0);
-		$newBill->setPaymentmode($paymentmode ?? 'n');
-		$newBill->setPaymentmodeid($paymentmodeid ?? 0);
+		$newBill->setRepeatallactive($repeatAllActive);
+		$newBill->setRepeatuntil($repeatUntil);
+		$newBill->setRepeatfreq($repeatFreq ?? 1);
+		$newBill->setCategoryid($categoryId ?? 0);
+		$newBill->setPaymentmode($paymentMode ?? 'n');
+		$newBill->setPaymentmodeid($paymentModeId ?? 0);
 		$newBill->setLastchanged($ts);
 		$newBill->setDeleted($deleted);
 

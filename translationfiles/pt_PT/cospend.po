@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-03-03 17:57+0100\n"
-"PO-Revision-Date: 2024-03-06 21:33\n"
+"PO-Revision-Date: 2024-03-15 17:00\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -719,7 +719,7 @@ msgstr "Partilhar o planeamento"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:7
 msgid "Close the trash bin"
-msgstr ""
+msgstr "Fechar o cesto do lixo"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:7
 msgid "Show the trash bin"
@@ -1219,7 +1219,7 @@ msgstr "Nova despesa"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:137
 msgid "Trash bin"
-msgstr ""
+msgstr "Cesto do lixo"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:138
 msgid "Close trashbin"
@@ -1329,7 +1329,7 @@ msgstr "Recuperar"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:162
 msgid "Confirm clear trash bin"
-msgstr ""
+msgstr "Confirmar o esvaziamento do cesto do lixo"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:164
 msgid "Clear"
@@ -1399,20 +1399,20 @@ msgstr[1] "Tem a certeza que quer eliminar {nb} despesas?"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:183
 msgid "Are you sure you want to move {nb} bill to the trash bin?"
 msgid_plural "Are you sure you want to move {nb} bills to the trash bin?"
-msgstr[0] "Tem certeza de que deseja mover a factura {nb} para a lixo?"
-msgstr[1] ""
+msgstr[0] "Tem a certeza que quer mandar {nb} despesa para a lixo?"
+msgstr[1] "Tem a certeza que quer mandar {nb} despesas para a lixo?"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:184
 msgid "Are you sure you want to restore {nb} bill?"
 msgid_plural "Are you sure you want to restore {nb} bills?"
-msgstr[0] ""
-msgstr[1] "Tem a certeza que quer recuperar estas  ({nb}) facturas?"
+msgstr[0] "Tem a certeza que quer recuperar {nb} despesa?"
+msgstr[1] "Tem a certeza que quer recuperar {nb} despesas?"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:185
 msgid "Are you sure you want to clear the trash bin? ({nb} bill)"
 msgid_plural "Are you sure you want to clear the trash bin? ({nb} bills)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Tem a certeza que quer esvaziar o cesto do lixo? ({nb} despesa)"
+msgstr[1] "Tem a certeza que quer esvaziar o cesto do lixo? ({nb} despesas)"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:186
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:187
@@ -1890,11 +1890,11 @@ msgstr "Adicionar um membro"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:314
 msgid "Close trash bin"
-msgstr ""
+msgstr "Fechar cesto do lixo"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:315
 msgid "Show trash bin"
-msgstr ""
+msgstr "Mostrar cesto do lixo"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:318
 msgid "Everyone"
@@ -1923,7 +1923,7 @@ msgstr "Mover para outro planeamento"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:327
 msgid "Category selector"
-msgstr ""
+msgstr "Comutador de categoria"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:328
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:329
@@ -2114,7 +2114,7 @@ msgstr "Falhou ao mover a despesa"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:410
 msgid "Payment mode selector"
-msgstr ""
+msgstr "Comutador de modo de pagamento"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:411
 msgid "Rename project {n}"

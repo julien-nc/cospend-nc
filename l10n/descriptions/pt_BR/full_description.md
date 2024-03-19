@@ -16,30 +16,30 @@ As APIs privadas e públicas são documentadas usando [o extrator Nextcloud Open
 
 ## Funcionalidades
 
-* ✎ Create/edit/delete projects, members, bills, bill categories, currencies
-* ⚖ Check member balances
-* 🗠 Display project statistics
-* ♻ Display settlement plan
-* Move bills from one project to another
-* Move bills to trash before actually deleting them
-* Archive old projects before deleting them
-* 🎇 Automatically create reimbursement bills from settlement plan
-* 🗓 Create recurring bills (day/week/month/year)
-* 📊 Optionally provide custom amount for each member in new bills
-* 🔗 Link personal files to bills (picture of physical receipt for example)
-* 👩 Public links for people outside Nextcloud (can be password protected)
-* 👫 Share projects with Nextcloud users/groups/circles
-* 🖫 Import/export projects as csv (compatible with csv files from IHateMoney and SplitWise)
-* 🔗 Generate link/QRCode to easily add projects in MoneyBuster
-* 🗲 Implement Nextcloud notifications and activity stream
+* ✎ Criar/editar/excluir projetos, membros, contas, categorias de contas, moedas
+* ⚖ Verifique os saldos dos membros
+* 🗠 Exibir estatísticas do projeto
+* ♻ Exibir plano de liquidação
+* Mover contas de um projeto para outro
+* Mova as contas para a lixeira antes de excluí-las
+* Arquive projetos antigos antes de excluí-los
+* 🎇 Crie automaticamente faturas de reembolso a partir do plano de liquidação
+* 🗓 Crie contas recorrentes (dia/semana/mês/ano)
+* 📊 Opcionalmente, forneça um valor personalizado para cada membro em novas contas
+* 🔗 Vincule arquivos pessoais a contas (foto do recibo físico, por exemplo)
+* 👩 Links públicos para pessoas fora do Nextcloud (podem ser protegidos por senha)
+* 👫 Compartilhe projetos com usuários/grupos/círculos Nextcloud
+* 🖫 Importar/exportar projetos como csv (compatível com arquivos csv de IHateMoney e SplitWise)
+* 🔗 Gere link/QRCode para adicionar projetos facilmente no MoneyBuster
+* 🗲 Implementar notificações Nextcloud e fluxo de atividades
 
-This app usually support the 2 or 3 last major versions of Nextcloud.
+Este aplicativo geralmente suporta as 2 ou 3 últimas versões principais do Nextcloud.
 
 Este aplicativo está em desenvolvimento.
 
 🌍 Ajude-nos a traduzir esta aplicação no [Nextcloud-Cospend/MoneyBuster Crowdin](https://crowdin.com/project/moneybuster).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://github.com/julien-nc/cospend-nc/blob/master/CONTRIBUTING.md).
+⚒ Confira outras maneiras de ajudar nas [diretrizes de contribuição](https://github.com/julien-nc/cospend-nc/blob/master/CONTRIBUTING.md).
 
 ## Documentação
 
@@ -51,7 +51,7 @@ Este aplicativo está em desenvolvimento.
 
 ## Problemas conhecidos
 
-* It does not make you rich
+* Isso não te deixa rico
 
 Qualquer retorno será apreciado.
 

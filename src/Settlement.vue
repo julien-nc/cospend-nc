@@ -258,7 +258,12 @@
 			</select>
 			<NcButton v-if="individualPayerId && individualReceiverId"
 				@click="createIndividual">
-				{{ t('cospend', 'Create bill ({amount}{currencyName})', { amount: (-members[individualPayerId].balance).toFixed(precision), currencyName: project.currencyname ? ' ' + project.currencyname : '' }) }}
+				<span v-if="project.currencyname">
+					{{ t('cospend', 'Create bill ({amount} {currencyName})', { amount: (-members[individualPayerId].balance).toFixed(precision), currencyName: project.currencyname }) }}
+				</span>
+				<span v-else>
+					{{ t('cospend', 'Create bill ({amount})', { amount: (-members[individualPayerId].balance).toFixed(precision) }) }}
+				</span>
 			</NcButton>
 		</div>
 	</NcAppContentDetails>

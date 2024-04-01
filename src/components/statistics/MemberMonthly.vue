@@ -42,6 +42,7 @@
 							:style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'"
 							@mouseenter="hoveredTableMonth = month">
 							{{ value[month].toFixed(2) }}
+							{{ currencyName }}
 						</td>
 					</tr>
 				</tbody>
@@ -96,6 +97,10 @@ export default {
 		baseLineChartOptions: {
 			type: Object,
 			required: true,
+		},
+		currencyName: {
+			type: String,
+			default: '',
 		},
 	},
 

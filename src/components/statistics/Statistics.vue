@@ -87,8 +87,9 @@
 			</label>
 			<select id="currency-stats"
 				ref="currencySelect"
+				v-model="selectedCurrencyId"
 				@change="getStats">
-				<option value="0">
+				<option :value="0">
 					{{ project.currencyname || t('cospend', 'Main project\'s currency') }}
 				</option>
 				<option v-for="currency in currencies"
@@ -137,7 +138,12 @@
 		<br>
 		<p v-if="stats"
 			class="totalPayedText">
-			{{ t('cospend', 'Total paid by all the members: {t}', { t: totalPayed.toFixed(2) }) }}
+			<span v-if="selectedCurrencyName">
+				{{ t('cospend', 'Total paid by all the members: {t} {currencyName}', { t: totalPayed.toFixed(2), currencyName: selectedCurrencyName }) }}
+			</span>
+			<span v-else>
+				{{ t('cospend', 'Total paid by all the members: {t}', { t: totalPayed.toFixed(2) }) }}
+			</span>
 		</p>
 		<br><hr>
 		<h2 class="statTableTitle">
@@ -184,18 +190,22 @@
 					</td>
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
 						{{ value.paid.toFixed(2) }}
+						{{ selectedCurrencyName }}
 					</td>
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) +';'">
 						{{ value.spent.toFixed(2) }}
+						{{ selectedCurrencyName }}
 					</td>
 					<td v-if="isFiltered"
 						:class="getBalanceClass(value.filtered_balance)"
 						:style="'border: 2px solid #' + myGetMemberColor(value.member.id) +';'">
 						{{ value.filtered_balance.toFixed(2) }}
+						{{ selectedCurrencyName }}
 					</td>
 					<td :class="getBalanceClass(value.balance)"
 						:style="'border: 2px solid #' + myGetMemberColor(value.member.id) +';'">
 						{{ value.balance.toFixed(2) }}
+						{{ selectedCurrencyName }}
 					</td>
 				</tr>
 			</tbody>
@@ -212,7 +222,8 @@
 			:member-ids="stats.memberIds"
 			:real-months="stats.realMonths"
 			:chart-title="t('cospend', 'Payments per member per month')"
-			:base-line-chart-options="baseLineChartOptions" />
+			:base-line-chart-options="baseLineChartOptions"
+			:currency-name="selectedCurrencyName" />
 		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		<hr>
 		<h2 class="statTableTitle">
@@ -224,7 +235,8 @@
 			:member-ids="stats.memberIds"
 			:real-months="stats.realMonths"
 			:chart-title="t('cospend', 'Spendings per member per month')"
-			:base-line-chart-options="baseLineChartOptions" />
+			:base-line-chart-options="baseLineChartOptions"
+			:currency-name="selectedCurrencyName" />
 		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		<hr>
 		<h2 class="statTableTitle">
@@ -236,7 +248,8 @@
 			:distinct-months="distinctMonths"
 			:chart-title="t('cospend', 'Payments per category per month')"
 			:first-column-title="t('cospend', 'Category/Month')"
-			:base-line-chart-options="baseLineChartOptions" />
+			:base-line-chart-options="baseLineChartOptions"
+			:currency-name="selectedCurrencyName" />
 		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		<hr>
 		<h2 class="statTableTitle">
@@ -248,7 +261,8 @@
 			:distinct-months="distinctMonths"
 			:chart-title="t('cospend', 'Payments per payment mode per month')"
 			:first-column-title="t('cospend', 'Payment mode/Month')"
-			:base-line-chart-options="baseLineChartOptions" />
+			:base-line-chart-options="baseLineChartOptions"
+			:currency-name="selectedCurrencyName" />
 		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		<hr>
 		<div id="memberChart">
@@ -338,7 +352,7 @@
 				<v-th v-for="mid in stats.allMemberIds"
 					:key="mid"
 					:sort-key="mid.toString()"
-					class="avatared"
+					class="avatared centered-cell"
 					:style="'border: 2px solid #' + myGetMemberColor(mid) + ';'">
 					<div class="owerAvatar">
 						<CospendTogglableAvatar
@@ -351,7 +365,8 @@
 							:is-no-user="getMemberUserId(mid) === ''"
 							:user="getMemberUserId(mid)"
 							:display-name="getMemberName(mid)" />
-					</div>{{ myGetSmartMemberName(mid) }}
+					</div>
+					<span>{{ myGetSmartMemberName(mid) }}</span>
 				</v-th>
 				<v-th sort-key="total">
 					{{ t('cospend', 'Total paid') }}
@@ -360,7 +375,9 @@
 			<tbody slot="body" slot-scope="{displayData}">
 				<tr v-for="value in displayData"
 					:key="value.memberid">
-					<td v-if="value.memberid !== 0" :style="'border: 2px solid #' + myGetMemberColor(value.memberid) + ';'">
+					<td v-if="value.memberid !== 0"
+						class="centered-cell"
+						:style="'border: 2px solid #' + myGetMemberColor(value.memberid) + ';'">
 						<div class="owerAvatar">
 							<CospendTogglableAvatar
 								:enabled="!isMemberDisabled(value.memberid)"
@@ -372,7 +389,8 @@
 								:is-no-user="getMemberUserId(value.memberid) === ''"
 								:user="getMemberUserId(value.memberid)"
 								:display-name="getMemberName(value.memberid)" />
-						</div>{{ myGetSmartMemberName(value.memberid) }}
+						</div>
+						<span>{{ myGetSmartMemberName(value.memberid) }}</span>
 					</td>
 					<td v-else style="padding-left: 5px; border: 2px solid lightgrey;">
 						{{ t('cospend', 'Total owed') }}
@@ -386,11 +404,13 @@
 						}"
 						:style="'border: 2px solid ' + (value.memberid === 0 ? 'lightgrey' : '#' + myGetMemberColor(value.memberid)) + ';'">
 						{{ value[mid].toFixed(2) }}
+						{{ selectedCurrencyName }}
 					</td>
 					<td v-if="value.memberid !== 0"
 						v-tooltip.top="{ content: t('cospend', 'Total paid by {name}', { name: myGetSmartMemberName(value.memberid) }) }"
 						style="border: 2px solid lightgrey;">
 						{{ value.total.toFixed(2) }}
+						{{ selectedCurrencyName }}
 					</td>
 				</tr>
 			</tbody>
@@ -484,6 +504,7 @@ export default {
 			},
 			selectedCategoryId: -1,
 			selectedMemberId: -1,
+			selectedCurrencyId: 0,
 			isFiltered: true,
 			cospend,
 			exporting: false,
@@ -509,6 +530,16 @@ export default {
 					return this.stats.memberIds.includes(member.id)
 				})
 				: this.membersArray
+		},
+		selectedCurrencyName() {
+			if (this.selectedCurrencyId === 0) {
+				return this.project.currencyname || ''
+			}
+			const selectedCurrency = this.currencies.find(c => c.id === this.selectedCurrencyId)
+			if (selectedCurrency) {
+				return selectedCurrency.name
+			}
+			return ''
 		},
 		filterMembers() {
 			return [
@@ -1168,7 +1199,7 @@ export default {
 			const categoryId = this.selectedFilterCategory.id
 			const amountMin = this.$refs.amountMinFilter.value || null
 			const amountMax = this.$refs.amountMaxFilter.value || null
-			const currencyId = this.$refs.currencySelect.value
+			const currencyId = this.selectedCurrencyId
 			const payerId = this.selectedFilterPayer.id
 			const req = {
 				tsMin,
@@ -1382,6 +1413,10 @@ export default {
 
 .loading-stats-animation {
 	height: 70px;
+}
+
+.centered-cell span {
+	vertical-align: middle;
 }
 
 ::v-deep #memberPerCategoryMultiSelect input {

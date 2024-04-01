@@ -139,7 +139,12 @@
 						</div>
 						{{ myGetSmartMemberName(project.id, value.to) }}
 					</td>
-					<td>{{ value.amount.toFixed(precision) }}</td>
+					<td>
+						{{ value.amount.toFixed(precision) }}
+						<span v-if="project.currencyname">
+							{{ project.currencyname }}
+						</span>
+					</td>
 				</tr>
 			</tbody>
 		</v-table>
@@ -188,6 +193,9 @@
 					<td :class="getBalanceClass(value.balance)"
 						:style="'border: 2px solid #' + myGetMemberColor(value.mid) +';'">
 						{{ value.balance.toFixed(2) }}
+						<span v-if="project.currencyname">
+							{{ project.currencyname }}
+						</span>
 					</td>
 				</tr>
 			</tbody>
@@ -243,7 +251,7 @@
 			</select>
 			<NcButton v-if="individualPayerId && individualReceiverId"
 				@click="createIndividual">
-				{{ t('cospend', 'Create bill ({amount})', { amount: (-members[individualPayerId].balance).toFixed(precision) }) }}
+				{{ t('cospend', 'Create bill ({amount}{currencyName})', { amount: (-members[individualPayerId].balance).toFixed(precision), currencyName: project.currencyname ? ' ' + project.currencyname : '' }) }}
 			</NcButton>
 		</div>
 	</NcAppContentDetails>

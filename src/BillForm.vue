@@ -93,6 +93,10 @@
 							class="icon"
 							:size="20" />
 						{{ t('cospend', 'How much?') }}
+						<span v-if="project.currencyname">
+							&nbsp;
+							({{ project.currencyname }})
+						</span>
 					</label>
 					<div class="field-with-info">
 						<input
@@ -474,7 +478,7 @@
 									</span>
 									<span v-if="myBill.owerIds.includes(ower.id)"
 										class="spentlabel">
-										&nbsp;({{ owerAmount[ower.id] || 0 }})
+										&nbsp;({{ (owerAmount[ower.id] || 0) + (project.currencyname ? ' ' + project.currencyname : '') }})
 									</span>
 								</div>
 							</NcCheckboxRadioSwitch>
@@ -579,7 +583,10 @@
 								@input="onCustomShareAmountChange">
 							<label v-if="owerCustomShareAmount[ower.id]"
 								class="spentlabel">
-								({{ owerCustomShareAmount[ower.id] ? owerCustomShareAmount[ower.id].toFixed(2) : 0 }})
+								({{
+									(owerCustomShareAmount[ower.id] ? owerCustomShareAmount[ower.id].toFixed(2) : 0)
+										+ (project.currencyname ? ' ' + project.currencyname : '')
+								}})
 							</label>
 						</div>
 					</div>

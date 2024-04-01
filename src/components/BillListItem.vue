@@ -12,6 +12,9 @@
 		<template #subname>
 			<div class="subname">
 				{{ parseFloat(bill.amount).toFixed(2) }}
+				<span v-if="currencyName">
+					{{ currencyName }}
+				</span>
 				<CalendarSyncIcon v-if="bill.repeat !== 'n'"
 					:size="16" />
 				({{ smartPayerName }} → {{ smartOwerNames }})
@@ -188,6 +191,9 @@ export default {
 		},
 		deletionEnabled() {
 			return !cospend.projects[this.projectId].deletiondisabled
+		},
+		currencyName() {
+			return cospend.projects[this.projectId].currencyname
 		},
 		billFormattedTitle() {
 			const links = this.bill.what.match(/https?:\/\/[^\s]+/gi) || []

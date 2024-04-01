@@ -30,6 +30,7 @@
 							:style="'border: 2px solid ' + vals.color + ';'"
 							@mouseenter="hoveredTableMonth = month">
 							{{ (vals[month] || 0).toFixed(2) }}
+							{{ currencyName }}
 						</td>
 					</tr>
 				</tbody>
@@ -79,6 +80,10 @@ export default {
 		baseLineChartOptions: {
 			type: Object,
 			required: true,
+		},
+		currencyName: {
+			type: String,
+			default: '',
 		},
 	},
 

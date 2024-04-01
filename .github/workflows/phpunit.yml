@@ -69,7 +69,7 @@ jobs:
           extensions: mbstring, intl, sqlite3, curl, xml, json, zip, gd
           ini-values: post_max_size=256M, max_execution_time=180
           coverage: xdebug
-          tools: php-cs-fixer, phpunit
+          tools: php-cs-fixer
 
       - uses: actions/checkout@v2
 

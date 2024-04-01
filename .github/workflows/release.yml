@@ -27,7 +27,6 @@ jobs:
           extensions: mbstring, intl, sqlite3
           ini-values: post_max_size=256M, max_execution_time=180
           coverage: xdebug
-          tools: php-cs-fixer, phpunit
 
       - name: Checkout code
         uses: actions/checkout@v2
@@ -63,8 +62,6 @@ jobs:
           php ~/html/nextcloud/occ app:enable ${APP_ID}
           php ~/html/nextcloud/occ maintenance:mode --off
           cd ~/html/nextcloud/apps/${APP_ID}
-          echo "###### make"
-          make
           echo "###### make appstore"
           tag=${{ steps.tag.outputs.currenttag }}
           version=${tag/v/}

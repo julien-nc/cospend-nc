@@ -28,6 +28,6 @@
 		"psalm/phar": "^5.16",
 		"nextcloud/ocp": "dev-master",
 		"phpunit/phpunit": "^9.5",
-		"nextcloud/openapi-extractor": "dev-feat/openapitype/better-error-messages"
+		"nextcloud/openapi-extractor": "dev-main"
 	}
 }

@@ -5,7 +5,7 @@ build_dir=/tmp/build
 sign_dir=/tmp/sign
 cert_dir=$(HOME)/.nextcloud/certificates
 webserveruser ?= www-data
-occ_dir ?= /var/www/html/dev/server21
+occ_dir ?= /var/www/html/dev/server
 
 GITHUB_TOKEN := $(shell cat ~/.nextcloud/secrets/GITHUB_TOKEN | tr -d '\n')
 GITHUB_REPO=julien-nc/cospend-nc
@@ -48,6 +48,18 @@ else
 	composer install --prefer-dist
 endif
 
+.PHONY: composer_release
+composer_release:
+ifeq (, $(composer))
+	@echo "No composer command available, downloading a copy from the web"
+	mkdir -p $(build_tools_directory)
+	curl -sS https://getcomposer.org/installer | php
+	mv composer.phar $(build_tools_directory)
+	php $(build_tools_directory)/composer.phar install --prefer-dist
+else
+	composer install --no-dev -a
+endif
+
 .PHONY: npm
 npm:
 	$(npm) ci
@@ -61,14 +73,16 @@ npm-dev:
 clean:
 	sudo rm -rf $(build_dir)
 	sudo rm -rf $(sign_dir)
+	rm -rf js/* vendor
 
-build_release: clean
+build_release: clean composer_release npm
 	mkdir -p $(sign_dir)
 	mkdir -p $(build_dir)
 	@rsync -a \
 	--exclude=.git \
 	--exclude=appinfo/signature.json \
 	--exclude=*.swp \
+	--exclude=/.idea \
 	--exclude=build \
 	--exclude=.gitignore \
 	--exclude=.travis.yml \

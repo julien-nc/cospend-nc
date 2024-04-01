@@ -14,8 +14,7 @@ on:
       - 'tests/**'
       - 'vendor/**'
       - 'vendor-bin/**'
-      - composer.lock
-      - composer.json
+      - composer.*
   pull_request:
     paths:
       - 'lib/**'
@@ -23,8 +22,7 @@ on:
       - 'tests/**'
       - 'vendor/**'
       - 'vendor-bin/**'
-      - composer.lock
-      - composer.json
+      - composer.*
 
 permissions:
   contents: read

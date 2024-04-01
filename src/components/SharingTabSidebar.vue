@@ -178,7 +178,7 @@
 						{{ t('cospend', 'Admin') }}
 					</NcActionRadio>
 					<NcActionSeparator />
-					<NcActionButton v-if="editionAccess && myAccessLevel > access.accesslevel"
+					<NcActionButton v-if="editionAccess && myAccessLevel >= access.accesslevel"
 						@click="clickDeleteAccess(access)">
 						<template #icon>
 							<DeleteIcon :size="20" />
@@ -249,7 +249,7 @@
 						@change="clickAccessLevel(access, constants.ACCESS.ADMIN)">
 						{{ t('cospend', 'Admin') }}
 					</NcActionRadio>
-					<NcActionButton v-if="editionAccess && myAccessLevel > access.accesslevel"
+					<NcActionButton v-if="editionAccess && myAccessLevel >= access.accesslevel"
 						@click="clickDeleteAccess(access)">
 						<template #icon>
 							<DeleteIcon :size="20" />

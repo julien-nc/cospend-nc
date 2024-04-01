@@ -34,7 +34,10 @@
 									:is-no-user="getMemberUserId(value.member.id) === ''"
 									:user="getMemberUserId(value.member.id)"
 									:display-name="getMemberName(value.member.id)" />
-							</div>{{ (value.member.id !== 0) ? myGetSmartMemberName(value.member.id) : value.member.name }}
+							</div>
+							<span>
+								{{ (value.member.id !== 0) ? myGetSmartMemberName(value.member.id) : value.member.name }}
+							</span>
 						</td>
 						<td v-for="(st, month) in stats"
 							:key="month"
@@ -297,8 +300,12 @@ export default {
 		background-color: var(--color-primary-light);
 		font-weight: bold;
 	}
-	tr.all-members td:first-child {
+	td:first-child {
 		padding: 0px 5px 0px 5px;
 	}
+}
+
+table td span {
+	vertical-align: middle;
 }
 </style>

@@ -186,7 +186,10 @@
 								:is-no-user="getMemberUserId(value.member.id) === ''"
 								:user="getMemberUserId(value.member.id)"
 								:display-name="getMemberName(value.member.id)" />
-						</div>{{ myGetSmartMemberName(value.member.id) }}
+						</div>
+						<span>
+							{{ myGetSmartMemberName(value.member.id) }}
+						</span>
 					</td>
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
 						{{ value.paid.toFixed(2) }}
@@ -1409,13 +1412,16 @@ export default {
 		z-index: 8;
 		background-color: var(--color-main-background);
 	}
+	td:first-child {
+		padding: 0px 5px 0px 5px;
+	}
 }
 
 .loading-stats-animation {
 	height: 70px;
 }
 
-.centered-cell span {
+table td span {
 	vertical-align: middle;
 }
 

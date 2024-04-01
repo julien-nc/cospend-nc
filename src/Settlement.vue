@@ -122,7 +122,9 @@
 								:user="getMemberUserId(value.from)"
 								:display-name="value.fromName" />
 						</div>
-						{{ myGetSmartMemberName(project.id, value.from) }}
+						<span>
+							{{ myGetSmartMemberName(project.id, value.from) }}
+						</span>
 					</td>
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.to) + ';'">
 						<div class="owerAvatar">
@@ -137,7 +139,9 @@
 								:user="getMemberUserId(value.to)"
 								:display-name="value.toName" />
 						</div>
-						{{ myGetSmartMemberName(project.id, value.to) }}
+						<span>
+							{{ myGetSmartMemberName(project.id, value.to) }}
+						</span>
 					</td>
 					<td>
 						{{ value.amount.toFixed(precision) }}
@@ -188,7 +192,10 @@
 								:is-no-user="getMemberUserId(value.mid) === ''"
 								:user="getMemberUserId(value.mid)"
 								:display-name="value.memberName" />
-						</div>{{ myGetSmartMemberName(project.id, value.mid) }}
+						</div>
+						<span>
+							{{ myGetSmartMemberName(project.id, value.mid) }}
+						</span>
 					</td>
 					<td :class="getBalanceClass(value.balance)"
 						:style="'border: 2px solid #' + myGetMemberColor(value.mid) +';'">
@@ -608,6 +615,9 @@ export default {
 #balanceTable {
 	display: table;
 	margin: 20px auto 20px auto;
+	td {
+		padding: 0 5px 0 5px;
+	}
 }
 
 #settlementTable {
@@ -616,7 +626,7 @@ export default {
 
 	td {
 		border: 1px solid var(--color-border-dark);
-		padding: 0 5px 0 0;
+		padding: 0 5px 0 5px;
 		text-align: left;
 	}
 
@@ -624,6 +634,10 @@ export default {
 		text-align: right;
 		padding-right: 2px;
 	}
+}
+
+table td span {
+	vertical-align: middle;
 }
 
 .loading-animation {

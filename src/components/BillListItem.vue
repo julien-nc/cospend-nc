@@ -10,7 +10,12 @@
 		:force-display-actions="true"
 		@click="onItemClick">
 		<template #subname>
-			{{ parseFloat(bill.amount).toFixed(2) }} ({{ smartPayerName }} → {{ smartOwerNames }})
+			<div class="subname">
+				{{ parseFloat(bill.amount).toFixed(2) }}
+				<CalendarSyncIcon v-if="bill.repeat !== 'n'"
+					:size="16" />
+				({{ smartPayerName }} → {{ smartOwerNames }})
+			</div>
 		</template>
 		<template #icon>
 			<CospendTogglableAvatar
@@ -23,9 +28,6 @@
 				:is-no-user="payerUserId === ''"
 				:user="payerUserId"
 				:display-name="payerName" />
-			<div v-if="bill.repeat !== 'n'" class="billItemRepeatMask show">
-				<CalendarSyncIcon :size="16" />
-			</div>
 		</template>
 		<template #actions>
 			<NcActionButton v-if="editionAccess && !selectMode && bill.id !== 0 && bill.deleted === 1 && !timerOn"
@@ -93,7 +95,7 @@ import cospend from '../state.js'
 import { generateUrl } from '@nextcloud/router'
 import moment from '@nextcloud/moment'
 import { emit } from '@nextcloud/event-bus'
-import { reload, Timer, getCategory, getPaymentMode, getSmartMemberName } from '../utils.js'
+import { reload, Timer, getCategory, getSmartMemberName } from '../utils.js'
 
 export default {
 	name: 'BillListItem',
@@ -193,15 +195,10 @@ export default {
 			for (let i = 0; i < links.length; i++) {
 				linkChars = linkChars + '  🔗'
 			}
-			let paymentmodeChar = ''
-			let categoryChar = ''
-			if (parseInt(this.bill.categoryid) !== 0) {
-				categoryChar = getCategory(this.projectId, this.bill.categoryid).icon + ' '
-			}
-			if (parseInt(this.bill.paymentmodeid) !== 0) {
-				paymentmodeChar = getPaymentMode(this.projectId, this.bill.paymentmodeid).icon + ' '
-			}
-			return paymentmodeChar + categoryChar + this.bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars
+			const categoryChar = (parseInt(this.bill.categoryid) === 0)
+				? ''
+				: getCategory(this.projectId, this.bill.categoryid).icon + ' '
+			return categoryChar + this.bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars
 		},
 		smartPayerName() {
 			return this.bill.payer_id !== 0
@@ -357,12 +354,8 @@ export default {
 	bottom: 12px;
 }
 
-::v-deep .billItemRepeatMask.show {
-	display: block;
-	color: var(--color-main-text);
-	width: 16px;
-	height: 16px;
-	margin: 33px 0 0 -4px;
-	position: absolute;
+.subname {
+	display: flex;
+	gap: 4px;
 }
 </style>

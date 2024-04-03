@@ -120,6 +120,8 @@ class ApiController extends OCSController {
 	 * Get setting values from the database for the current user
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{values: array<string, string>}, array{}>
+	 *
+	 * 200: Values are returned
 	 */
 	#[NoAdminRequired]
 	#[CORS]

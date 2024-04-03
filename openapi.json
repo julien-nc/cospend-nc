@@ -590,17 +590,20 @@
             },
             "PublicCapabilities": {
                 "type": "object",
-                "additionalProperties": {
-                    "type": "object",
-                    "additionalProperties": {
-                        "oneOf": [
-                            {
-                                "type": "boolean"
-                            },
-                            {
+                "required": [
+                    "cospend"
+                ],
+                "properties": {
+                    "cospend": {
+                        "type": "object",
+                        "required": [
+                            "version"
+                        ],
+                        "properties": {
+                            "version": {
                                 "type": "string"
                             }
-                        ]
+                        }
                     }
                 }
             },
@@ -794,7 +797,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Values are returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1089,22 +1092,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "id",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -1340,68 +1327,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "name",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "autoExport",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "currencyName",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "deletionDisabled",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "nullable": true,
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
-                        }
-                    },
-                    {
-                        "name": "categorySort",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "paymentModeSort",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "archivedTs",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -1610,14 +1535,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "name",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -1753,14 +1670,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "path",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -1880,14 +1789,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "path",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -2006,86 +1907,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "tsMin",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "tsMax",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "paymentModeId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "categoryId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "amountMin",
-                        "in": "query",
-                        "schema": {
-                            "type": "number",
-                            "format": "float",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "amountMax",
-                        "in": "query",
-                        "schema": {
-                            "type": "number",
-                            "format": "float",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "showDisabled",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "default": "1"
-                        }
-                    },
-                    {
-                        "name": "currencyId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "payerId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -2174,78 +1995,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "tsMin",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "tsMax",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "paymentModeId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "category",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "amountMin",
-                        "in": "query",
-                        "schema": {
-                            "type": "number",
-                            "format": "float",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "amountMax",
-                        "in": "query",
-                        "schema": {
-                            "type": "number",
-                            "format": "float",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "showDisabled",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "default": 1
-                        }
-                    },
-                    {
-                        "name": "currencyId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -2480,33 +2229,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "centeredOn",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "precision",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "default": 2
-                        }
-                    },
-                    {
-                        "name": "maxTimestamp",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -2623,24 +2345,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "centeredOn",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "maxTimestamp",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -2777,14 +2481,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "path",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -2899,10 +2595,10 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}": {
             "delete": {
-                "operationId": "[public api] projects-public-delete-project",
+                "operationId": "public-api_projects-public-delete-project",
                 "summary": "Delete a project",
                 "tags": [
-                    "[Public API] Projects"
+                    "Public-API_Projects"
                 ],
                 "security": [
                     {},
@@ -3031,10 +2727,10 @@
                 }
             },
             "put": {
-                "operationId": "[public api] projects-public-edit-project",
+                "operationId": "public-api_projects-public-edit-project",
                 "summary": "Edit a project",
                 "tags": [
-                    "[Public API] Projects"
+                    "Public-API_Projects"
                 ],
                 "security": [
                     {},
@@ -3043,68 +2739,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "autoExport",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "currencyName",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "deletionDisabled",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "nullable": true,
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
-                        }
-                    },
-                    {
-                        "name": "categorySort",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "paymentModeSort",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "archivedTs",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -3222,10 +2856,10 @@
                 }
             },
             "get": {
-                "operationId": "[public api] projects-public-get-project-info",
+                "operationId": "public-api_projects-public-get-project-info",
                 "summary": "Get project information",
                 "tags": [
-                    "[Public API] Projects"
+                    "Public-API_Projects"
                 ],
                 "security": [
                     {},
@@ -3358,10 +2992,10 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/statistics": {
             "get": {
-                "operationId": "[public api] projects-public-get-project-statistics",
+                "operationId": "public-api_projects-public-get-project-statistics",
                 "summary": "Get statistics data",
                 "tags": [
-                    "[Public API] Projects"
+                    "Public-API_Projects"
                 ],
                 "security": [
                     {},
@@ -3370,86 +3004,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "tsMin",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "tsMax",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "paymentModeId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "categoryId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "amountMin",
-                        "in": "query",
-                        "schema": {
-                            "type": "number",
-                            "format": "float",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "amountMax",
-                        "in": "query",
-                        "schema": {
-                            "type": "number",
-                            "format": "float",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "showDisabled",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "default": "1"
-                        }
-                    },
-                    {
-                        "name": "currencyId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "payerId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -3536,10 +3090,10 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/settlement": {
             "get": {
-                "operationId": "[public api] projects-public-get-project-settlement",
+                "operationId": "public-api_projects-public-get-project-settlement",
                 "summary": "Get project settlement info",
                 "tags": [
-                    "[Public API] Projects"
+                    "Public-API_Projects"
                 ],
                 "security": [
                     {},
@@ -3548,24 +3102,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "centeredOn",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "maxTimestamp",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -3642,10 +3178,10 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/auto-settlement": {
             "get": {
-                "operationId": "[public api] projects-public-auto-settlement",
+                "operationId": "public-api_projects-public-auto-settlement",
                 "summary": "Get automatic settlement plan",
                 "tags": [
-                    "[Public API] Projects"
+                    "Public-API_Projects"
                 ],
                 "security": [
                     {},
@@ -3654,33 +3190,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "centeredOn",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "precision",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "default": 2
-                        }
-                    },
-                    {
-                        "name": "maxTimestamp",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -3806,125 +3315,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "date",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "what",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "payer",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "payedFor",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "amount",
-                        "in": "query",
-                        "schema": {
-                            "type": "number",
-                            "format": "float",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "repeat",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "paymentMode",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "paymentModeId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "categoryId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "repeatAllActive",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "default": 0
-                        }
-                    },
-                    {
-                        "name": "repeatUntil",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "timestamp",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "comment",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "repeatFreq",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -4054,100 +3444,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "lastChanged",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "offset",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true,
-                            "default": 0
-                        }
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "reverse",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
-                        }
-                    },
-                    {
-                        "name": "payerId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "categoryId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "paymentModeId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "includeBillId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "searchTerm",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "deleted",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true,
-                            "default": 0
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -4262,30 +3558,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "billIds[]",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "integer",
-                                "format": "int64"
-                            }
-                        }
-                    },
-                    {
-                        "name": "moveToTrash",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "default": 1,
-                            "enum": [
-                                0,
-                                1
-                            ]
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -4463,146 +3735,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "billIds[]",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "integer",
-                                "format": "int64"
-                            }
-                        }
-                    },
-                    {
-                        "name": "categoryId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "date",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "what",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "payer",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "payedFor",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "amount",
-                        "in": "query",
-                        "schema": {
-                            "type": "number",
-                            "format": "float",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "repeat",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "paymentMode",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "paymentModeId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "repeatAllActive",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "repeatUntil",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "timestamp",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "comment",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "repeatFreq",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "deleted",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -4752,8 +3884,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -4843,18 +3974,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "moveToTrash",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "default": 1,
-                            "enum": [
-                                0,
-                                1
-                            ]
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -4879,8 +3998,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -5040,134 +4158,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "date",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "what",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "payer",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "payedFor",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "amount",
-                        "in": "query",
-                        "schema": {
-                            "type": "number",
-                            "format": "float",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "repeat",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "paymentMode",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "paymentModeId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "categoryId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "repeatAllActive",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "repeatUntil",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "timestamp",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "comment",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "repeatFreq",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "deleted",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -5192,8 +4182,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -5408,14 +4397,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "toProjectId",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -5440,8 +4421,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -5615,8 +4595,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -5724,10 +4703,10 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/bills": {
             "post": {
-                "operationId": "[public api] bills-public-create-bill",
+                "operationId": "public-api_bills-public-create-bill",
                 "summary": "Create a bill",
                 "tags": [
-                    "[Public API] Bills"
+                    "Public-API_Bills"
                 ],
                 "security": [
                     {},
@@ -5736,125 +4715,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "date",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "what",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "payer",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "payedFor",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "amount",
-                        "in": "query",
-                        "schema": {
-                            "type": "number",
-                            "format": "float",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "repeat",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "default": "n"
-                        }
-                    },
-                    {
-                        "name": "paymentMode",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "paymentModeId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "categoryId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "repeatAllActive",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "default": 0
-                        }
-                    },
-                    {
-                        "name": "repeatUntil",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "timestamp",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "comment",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "repeatFreq",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -5981,10 +4841,10 @@
                 }
             },
             "get": {
-                "operationId": "[public api] bills-public-get-bills",
+                "operationId": "public-api_bills-public-get-bills",
                 "summary": "Get a project's bill list",
                 "tags": [
-                    "[Public API] Bills"
+                    "Public-API_Bills"
                 ],
                 "security": [
                     {},
@@ -5993,100 +4853,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "lastChanged",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "offset",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true,
-                            "default": 0
-                        }
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "reverse",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
-                        }
-                    },
-                    {
-                        "name": "payerId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "categoryId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "paymentModeId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "includeBillId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "searchTerm",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "deleted",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true,
-                            "default": 0
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -6200,10 +4966,10 @@
                 }
             },
             "delete": {
-                "operationId": "[public api] bills-public-delete-bills",
+                "operationId": "public-api_bills-public-delete-bills",
                 "summary": "Delete multiple bills",
                 "tags": [
-                    "[Public API] Bills"
+                    "Public-API_Bills"
                 ],
                 "security": [
                     {},
@@ -6212,30 +4978,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "billIds[]",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "integer",
-                                "format": "int64"
-                            }
-                        }
-                    },
-                    {
-                        "name": "moveToTrash",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "default": 1,
-                            "enum": [
-                                0,
-                                1
-                            ]
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -6410,10 +5152,10 @@
                 }
             },
             "put": {
-                "operationId": "[public api] bills-public-edit-bills",
+                "operationId": "public-api_bills-public-edit-bills",
                 "summary": "Edit multiple bills",
                 "tags": [
-                    "[Public API] Bills"
+                    "Public-API_Bills"
                 ],
                 "security": [
                     {},
@@ -6422,147 +5164,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "billIds[]",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "integer",
-                                "format": "int64"
-                            }
-                        }
-                    },
-                    {
-                        "name": "categoryId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "date",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "what",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "payer",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "payedFor",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "amount",
-                        "in": "query",
-                        "schema": {
-                            "type": "number",
-                            "format": "float",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "repeat",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true,
-                            "default": "n"
-                        }
-                    },
-                    {
-                        "name": "paymentMode",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "paymentModeId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "repeatAllActive",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "repeatUntil",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "timestamp",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "comment",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "repeatFreq",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "deleted",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -6686,10 +5287,10 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/bills/{billId}/repeat": {
             "get": {
-                "operationId": "[public api] bills-public-repeat-bill",
+                "operationId": "public-api_bills-public-repeat-bill",
                 "summary": "Trigger bill repetition for a specific bill",
                 "tags": [
-                    "[Public API] Bills"
+                    "Public-API_Bills"
                 ],
                 "security": [
                     {},
@@ -6732,8 +5333,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -6851,9 +5451,9 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/bills/{billId}": {
             "get": {
-                "operationId": "[public api] bills-public-get-bill",
+                "operationId": "public-api_bills-public-get-bill",
                 "tags": [
-                    "[Public API] Bills"
+                    "Public-API_Bills"
                 ],
                 "security": [
                     {},
@@ -6896,8 +5496,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -6985,10 +5584,10 @@
                 }
             },
             "delete": {
-                "operationId": "[public api] bills-public-delete-bill",
+                "operationId": "public-api_bills-public-delete-bill",
                 "summary": "Delete a bill",
                 "tags": [
-                    "[Public API] Bills"
+                    "Public-API_Bills"
                 ],
                 "security": [
                     {},
@@ -6997,18 +5596,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "moveToTrash",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "default": 1,
-                            "enum": [
-                                0,
-                                1
-                            ]
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -7043,8 +5630,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -7192,10 +5778,10 @@
                 }
             },
             "put": {
-                "operationId": "[public api] bills-public-edit-bill",
+                "operationId": "public-api_bills-public-edit-bill",
                 "summary": "Edit a bill",
                 "tags": [
-                    "[Public API] Bills"
+                    "Public-API_Bills"
                 ],
                 "security": [
                     {},
@@ -7204,134 +5790,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "date",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "what",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "payer",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "payedFor",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "amount",
-                        "in": "query",
-                        "schema": {
-                            "type": "number",
-                            "format": "float",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "repeat",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "default": "n"
-                        }
-                    },
-                    {
-                        "name": "paymentMode",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "paymentModeId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "categoryId",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "repeatAllActive",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "repeatUntil",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "timestamp",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "comment",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "repeatFreq",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "deleted",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -7366,8 +5824,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -7461,10 +5918,10 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/trash-bin": {
             "delete": {
-                "operationId": "[public api] projects-public-clear-trash-bin",
+                "operationId": "public-api_projects-public-clear-trash-bin",
                 "summary": "Clear the trash bin",
                 "tags": [
-                    "[Public API] Projects"
+                    "Public-API_Projects"
                 ],
                 "security": [
                     {},
@@ -7601,15 +6058,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "lastChanged",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -7688,48 +6136,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "userId",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "weight",
-                        "in": "query",
-                        "schema": {
-                            "type": "number",
-                            "format": "float",
-                            "default": 1
-                        }
-                    },
-                    {
-                        "name": "active",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "default": 1
-                        }
-                    },
-                    {
-                        "name": "color",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -7857,46 +6263,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "name",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "weight",
-                        "in": "query",
-                        "schema": {
-                            "type": "number",
-                            "format": "float",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "activated",
-                        "in": "query",
-                        "schema": {
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "color",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "userId",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -7921,8 +6287,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -8068,8 +6433,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -8157,10 +6521,10 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/members": {
             "get": {
-                "operationId": "[public api] members-public-get-members",
+                "operationId": "public-api_members-public-get-members",
                 "summary": "Get a project's member list",
                 "tags": [
-                    "[Public API] Members"
+                    "Public-API_Members"
                 ],
                 "security": [
                     {},
@@ -8169,15 +6533,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "lastChanged",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -8255,10 +6610,10 @@
                 }
             },
             "post": {
-                "operationId": "[public api] members-public-create-member",
+                "operationId": "public-api_members-public-create-member",
                 "summary": "Create a project member",
                 "tags": [
-                    "[Public API] Members"
+                    "Public-API_Members"
                 ],
                 "security": [
                     {},
@@ -8267,48 +6622,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "weight",
-                        "in": "query",
-                        "schema": {
-                            "type": "number",
-                            "format": "float",
-                            "default": 1
-                        }
-                    },
-                    {
-                        "name": "active",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "default": 1
-                        }
-                    },
-                    {
-                        "name": "color",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "userId",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -8425,10 +6738,10 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/members/{memberId}": {
             "put": {
-                "operationId": "[public api] members-public-edit-member",
+                "operationId": "public-api_members-public-edit-member",
                 "summary": "Edit a project member",
                 "tags": [
-                    "[Public API] Members"
+                    "Public-API_Members"
                 ],
                 "security": [
                     {},
@@ -8437,46 +6750,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "weight",
-                        "in": "query",
-                        "schema": {
-                            "type": "number",
-                            "format": "float",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "activated",
-                        "in": "query",
-                        "schema": {
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "color",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "userId",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -8511,8 +6784,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -8632,10 +6904,10 @@
                 }
             },
             "delete": {
-                "operationId": "[public api] members-public-delete-member",
+                "operationId": "public-api_members-public-delete-member",
                 "summary": "Delete or disable a member",
                 "tags": [
-                    "[Public API] Members"
+                    "Public-API_Members"
                 ],
                 "security": [
                     {},
@@ -8678,8 +6950,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -8778,35 +7049,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "userId",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "accessLevel",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    },
-                    {
-                        "name": "manuallyAdded",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "default": 1,
-                            "enum": [
-                                0,
-                                1
-                            ]
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -8953,8 +7195,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -9102,23 +7343,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "groupId",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "accessLevel",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -9264,8 +7488,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -9413,23 +7636,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "circleId",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "accessLevel",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -9575,8 +7781,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -9724,31 +7929,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "label",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "password",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "accessLevel",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -9861,8 +8041,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -10010,15 +8189,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "accessLevel",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -10043,8 +8213,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -10195,22 +8364,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "label",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "password",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -10235,8 +8388,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -10387,23 +8539,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "name",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "rate",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "number",
-                            "format": "float"
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -10493,23 +8628,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "name",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "rate",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "number",
-                            "format": "float"
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -10534,8 +8652,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -10662,8 +8779,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -10756,10 +8872,10 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/currency": {
             "post": {
-                "operationId": "[public api] currencies-public-create-currency",
+                "operationId": "public-api_currencies-public-create-currency",
                 "summary": "Create a currency",
                 "tags": [
-                    "[Public API] Currencies"
+                    "Public-API_Currencies"
                 ],
                 "security": [
                     {},
@@ -10768,23 +8884,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "rate",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "number",
-                            "format": "float"
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -10872,10 +8971,10 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/currency/{currencyId}": {
             "put": {
-                "operationId": "[public api] currencies-public-edit-currency",
+                "operationId": "public-api_currencies-public-edit-currency",
                 "summary": "Edit a currency",
                 "tags": [
-                    "[Public API] Currencies"
+                    "Public-API_Currencies"
                 ],
                 "security": [
                     {},
@@ -10884,23 +8983,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "rate",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "number",
-                            "format": "float"
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -10935,8 +9017,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -11027,10 +9108,10 @@
                 }
             },
             "delete": {
-                "operationId": "[public api] currencies-public-delete-currency",
+                "operationId": "public-api_currencies-public-delete-currency",
                 "summary": "Delete a currency",
                 "tags": [
-                    "[Public API] Currencies"
+                    "Public-API_Currencies"
                 ],
                 "security": [
                     {},
@@ -11073,8 +9154,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -11179,40 +9259,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "name",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "icon",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "color",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "order",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true,
-                            "default": 0
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -11292,30 +9338,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "name",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "icon",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "color",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -11340,8 +9362,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -11458,8 +9479,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -11686,10 +9706,10 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/paymentmode": {
             "post": {
-                "operationId": "[public api] payment modes-public-create-payment-mode",
+                "operationId": "public-api_payment modes-public-create-payment-mode",
                 "summary": "Create a payment mode",
                 "tags": [
-                    "[Public API] Payment modes"
+                    "Public-API_Payment modes"
                 ],
                 "security": [
                     {},
@@ -11698,40 +9718,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "icon",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "color",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "order",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true,
-                            "default": 0
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -11819,10 +9805,10 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/paymentmode/{pmId}": {
             "put": {
-                "operationId": "[public api] payment modes-public-edit-payment-mode",
+                "operationId": "public-api_payment modes-public-edit-payment-mode",
                 "summary": "Edit a payment mode",
                 "tags": [
-                    "[Public API] Payment modes"
+                    "Public-API_Payment modes"
                 ],
                 "security": [
                     {},
@@ -11831,30 +9817,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "icon",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "color",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -11889,8 +9851,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -11971,10 +9932,10 @@
                 }
             },
             "delete": {
-                "operationId": "[public api] payment modes-public-delete-payment-mode",
+                "operationId": "public-api_payment modes-public-delete-payment-mode",
                 "summary": "Delete a payment mode",
                 "tags": [
-                    "[Public API] Payment modes"
+                    "Public-API_Payment modes"
                 ],
                 "security": [
                     {},
@@ -12017,8 +9978,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -12112,10 +10072,10 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/paymentmode-order": {
             "put": {
-                "operationId": "[public api] payment modes-public-save-payment-mode-order",
+                "operationId": "public-api_payment modes-public-save-payment-mode-order",
                 "summary": "Save payment modes order",
                 "tags": [
-                    "[Public API] Payment modes"
+                    "Public-API_Payment modes"
                 ],
                 "security": [
                     {},
@@ -12124,31 +10084,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "order[]",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "object",
-                                "required": [
-                                    "order",
-                                    "id"
-                                ],
-                                "properties": {
-                                    "order": {
-                                        "type": "integer",
-                                        "format": "int64"
-                                    },
-                                    "id": {
-                                        "type": "integer",
-                                        "format": "int64"
-                                    }
-                                }
-                            }
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -12267,40 +10202,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "name",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "icon",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "color",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "order",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true,
-                            "default": 0
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -12380,30 +10281,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "name",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "icon",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "color",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
                         "name": "apiVersion",
                         "in": "path",
                         "required": true,
@@ -12428,8 +10305,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -12556,8 +10432,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -12661,31 +10536,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "order[]",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "object",
-                                "required": [
-                                    "order",
-                                    "id"
-                                ],
-                                "properties": {
-                                    "order": {
-                                        "type": "integer",
-                                        "format": "int64"
-                                    },
-                                    "id": {
-                                        "type": "integer",
-                                        "format": "int64"
-                                    }
-                                }
-                            }
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -12799,10 +10649,10 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/category": {
             "post": {
-                "operationId": "[public api] categories-public-create-category",
+                "operationId": "public-api_categories-public-create-category",
                 "summary": "Create a category",
                 "tags": [
-                    "[Public API] Categories"
+                    "Public-API_Categories"
                 ],
                 "security": [
                     {},
@@ -12811,40 +10661,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "icon",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "color",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "order",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true,
-                            "default": 0
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -12922,10 +10738,10 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/category/{categoryId}": {
             "put": {
-                "operationId": "[public api] categories-public-edit-category",
+                "operationId": "public-api_categories-public-edit-category",
                 "summary": "Edit a category",
                 "tags": [
-                    "[Public API] Categories"
+                    "Public-API_Categories"
                 ],
                 "security": [
                     {},
@@ -12934,30 +10750,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "icon",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "color",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -12992,8 +10784,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -13084,10 +10875,10 @@
                 }
             },
             "delete": {
-                "operationId": "[public api] categories-public-delete-category",
+                "operationId": "public-api_categories-public-delete-category",
                 "summary": "Delete a category",
                 "tags": [
-                    "[Public API] Categories"
+                    "Public-API_Categories"
                 ],
                 "security": [
                     {},
@@ -13111,6 +10902,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "Project share token",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -13128,6 +10920,7 @@
                     {
                         "name": "categoryId",
                         "in": "path",
+                        "description": "Category ID",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -13147,7 +10940,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Category is deleted",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -13178,7 +10971,7 @@
                         }
                     },
                     "400": {
-                        "description": "",
+                        "description": "Category is not deleted",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -13225,10 +11018,10 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/category-order": {
             "put": {
-                "operationId": "[public api] categories-public-save-category-order",
+                "operationId": "public-api_categories-public-save-category-order",
                 "summary": "Save categories order",
                 "tags": [
-                    "[Public API] Categories"
+                    "Public-API_Categories"
                 ],
                 "security": [
                     {},
@@ -13240,6 +11033,7 @@
                     {
                         "name": "order[]",
                         "in": "query",
+                        "description": "Array describing the categories ordering",
                         "required": true,
                         "schema": {
                             "type": "array",
@@ -13277,6 +11071,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "Project share token",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -13304,7 +11099,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Categories order is saved",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -13334,7 +11129,7 @@
                         }
                     },
                     "403": {
-                        "description": "",
+                        "description": "Not saved",
                         "content": {
                             "application/json": {
                                 "schema": {

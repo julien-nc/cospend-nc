@@ -3126,7 +3126,7 @@ class ProjectService {
 
 			return ['success' => true];
 		} else {
-			return ['message' => $this->l10n->t('Not found')];
+			return ['message' => 'Not found'];
 		}
 	}
 

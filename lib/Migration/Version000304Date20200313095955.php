@@ -34,10 +34,13 @@ class Version000304Date20200313095955 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('cospend_bills')) {
 			$table = $schema->getTable('cospend_bills');
-			$table->dropColumn('date');
+			if ($table->hasColumn('date')) {
+				$table->dropColumn('date');
+				return $schema;
+			}
 		}
 
-		return $schema;
+		return null;
 	}
 
 	/**

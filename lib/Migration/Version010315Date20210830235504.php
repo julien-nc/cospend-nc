@@ -32,14 +32,19 @@ class Version010315Date20210830235504 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
-		$table = $schema->getTable('cospend_shares');
-		if (!$table->hasColumn('password')) {
-			$table->addColumn('password', Types::STRING, [
-				'notnull' => false,
-				'length' => 64,
-			]);
+
+		if ($schema->hasTable('cospend_shares')) {
+			$table = $schema->getTable('cospend_shares');
+			if (!$table->hasColumn('password')) {
+				$table->addColumn('password', Types::STRING, [
+					'notnull' => false,
+					'length' => 64,
+				]);
+				return $schema;
+			}
 		}
-		return $schema;
+
+		return null;
 	}
 
 	/**

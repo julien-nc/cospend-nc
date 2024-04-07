@@ -34,14 +34,17 @@ class Version000102Date20190907142139 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('cospend_projects')) {
 			$table = $schema->getTable('cospend_projects');
-			$table->addColumn('autoexport', 'string', [
-				'notnull' => true,
-				'length' => 1,
-				'default' => 'n',
-			]);
+			if (!$table->hasColumn('autoexport')) {
+				$table->addColumn('autoexport', 'string', [
+					'notnull' => true,
+					'length' => 1,
+					'default' => 'n',
+				]);
+				return $schema;
+			}
 		}
 
-		return $schema;
+		return null;
 	}
 
 	/**

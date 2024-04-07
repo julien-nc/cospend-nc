@@ -32,10 +32,19 @@ class Version000403Date20200323173321 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		$table = $schema->getTable('cospend_shares');
-		$table->dropColumn('permissions');
-		$table = $schema->getTable('cospend_projects');
-		$table->dropColumn('guestpermissions');
+		if ($schema->hasTable('cospend_shares')) {
+			$table = $schema->getTable('cospend_shares');
+			if ($table->hasColumn('permissions')) {
+				$table->dropColumn('permissions');
+			}
+		}
+
+		if ($schema->hasTable('cospend_projects')) {
+			$table = $schema->getTable('cospend_projects');
+			if ($table->hasColumn('guestpermissions')) {
+				$table->dropColumn('guestpermissions');
+			}
+		}
 
 		return $schema;
 	}

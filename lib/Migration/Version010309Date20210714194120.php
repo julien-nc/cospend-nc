@@ -35,14 +35,19 @@ class Version010309Date20210714194120 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
-		$table = $schema->getTable('cospend_shares');
-		if (!$table->hasColumn('label')) {
-			$table->addColumn('label', Types::STRING, [
-				'notnull' => false,
-				'length' => 100,
-			]);
+
+		if ($schema->hasTable('cospend_shares')) {
+			$table = $schema->getTable('cospend_shares');
+			if (!$table->hasColumn('label')) {
+				$table->addColumn('label', Types::STRING, [
+					'notnull' => false,
+					'length' => 100,
+				]);
+				return $schema;
+			}
 		}
-		return $schema;
+
+		return null;
 	}
 
 	/**

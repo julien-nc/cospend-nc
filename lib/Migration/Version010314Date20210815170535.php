@@ -9,7 +9,6 @@ use OCP\DB\ISchemaWrapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\Types;
 use OCP\IDBConnection;
-use OCP\IL10N;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
@@ -20,14 +19,12 @@ class Version010314Date20210815170535 extends SimpleMigrationStep {
 
 	/** @var IDBConnection */
 	private $connection;
-	private $trans;
 
 	/**
 	 * @param IDBConnection $connection
 	 */
-	public function __construct(IDBConnection $connection, IL10N $l10n) {
+	public function __construct(IDBConnection $connection) {
 		$this->connection = $connection;
-		$this->trans = $l10n;
 	}
 
 	/**
@@ -81,22 +78,26 @@ class Version010314Date20210815170535 extends SimpleMigrationStep {
 			$table->setPrimaryKey(['id']);
 		}
 
-		$table = $schema->getTable('cospend_bills');
-		if (!$table->hasColumn('paymentmodeid')) {
-			$table->addColumn('paymentmodeid', Types::INTEGER, [
-				'notnull' => true,
-				'length' => 4,
-				'default' => 0,
-			]);
+		if ($schema->hasTable('cospend_bills')) {
+			$table = $schema->getTable('cospend_bills');
+			if (!$table->hasColumn('paymentmodeid')) {
+				$table->addColumn('paymentmodeid', Types::INTEGER, [
+					'notnull' => true,
+					'length' => 4,
+					'default' => 0,
+				]);
+			}
 		}
 
-		$table = $schema->getTable('cospend_projects');
-		if (!$table->hasColumn('paymentmodesort')) {
-			$table->addColumn('paymentmodesort', Types::STRING, [
-				'notnull' => true,
-				'length' => 1,
-				'default' => 'a',
-			]);
+		if ($schema->hasTable('cospend_projects')) {
+			$table = $schema->getTable('cospend_projects');
+			if (!$table->hasColumn('paymentmodesort')) {
+				$table->addColumn('paymentmodesort', Types::STRING, [
+					'notnull' => true,
+					'length' => 1,
+					'default' => 'a',
+				]);
+			}
 		}
 
 		return $schema;

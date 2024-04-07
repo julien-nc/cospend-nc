@@ -6,7 +6,6 @@ namespace OCA\Cospend\Migration;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
-use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
@@ -14,16 +13,6 @@ use OCP\Migration\SimpleMigrationStep;
  * Auto-generated migration step: Please modify to your needs!
  */
 class Version010206Date20201223134353 extends SimpleMigrationStep {
-
-	/** @var IDBConnection */
-	private $connection;
-
-	/**
-	 * @param IDBConnection $connection
-	 */
-	public function __construct(IDBConnection $connection) {
-		$this->connection = $connection;
-	}
 
 	/**
 	 * @param IOutput $output
@@ -42,30 +31,36 @@ class Version010206Date20201223134353 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
-		$table = $schema->getTable('cospend_projects');
-		if (!$table->hasColumn('deletiondisabled')) {
-			$table->addColumn('deletiondisabled', 'integer', [
-				'notnull' => true,
-				'length' => 4,
-				'default' => 0,
-			]);
-		}
-		if (!$table->hasColumn('categorysort')) {
-			$table->addColumn('categorysort', 'string', [
-				'notnull' => true,
-				'length' => 1,
-				'default' => 'a',
-			]);
+
+		if ($schema->hasTable('cospend_projects')) {
+			$table = $schema->getTable('cospend_projects');
+			if (!$table->hasColumn('deletiondisabled')) {
+				$table->addColumn('deletiondisabled', 'integer', [
+					'notnull' => true,
+					'length' => 4,
+					'default' => 0,
+				]);
+			}
+			if (!$table->hasColumn('categorysort')) {
+				$table->addColumn('categorysort', 'string', [
+					'notnull' => true,
+					'length' => 1,
+					'default' => 'a',
+				]);
+			}
 		}
 
-		$table = $schema->getTable('cospend_categories');
-		if (!$table->hasColumn('order')) {
-			$table->addColumn('order', 'integer', [
-				'notnull' => true,
-				'length' => 4,
-				'default' => 0,
-			]);
+		if ($schema->hasTable('cospend_categories')) {
+			$table = $schema->getTable('cospend_categories');
+			if (!$table->hasColumn('order')) {
+				$table->addColumn('order', 'integer', [
+					'notnull' => true,
+					'length' => 4,
+					'default' => 0,
+				]);
+			}
 		}
+
 		return $schema;
 	}
 

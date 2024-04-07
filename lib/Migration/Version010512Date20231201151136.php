@@ -24,6 +24,7 @@ class Version010512Date20231201151136 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
+
 		if ($schema->hasTable('cospend_projects')) {
 			$table = $schema->getTable('cospend_projects');
 			if (!$table->hasColumn('archived_ts')) {
@@ -35,6 +36,7 @@ class Version010512Date20231201151136 extends SimpleMigrationStep {
 				return $schema;
 			}
 		}
+
 		return null;
 	}
 }

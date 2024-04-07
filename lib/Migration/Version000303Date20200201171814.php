@@ -46,14 +46,17 @@ class Version000303Date20200201171814 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('cospend_shares')) {
 			$table = $schema->getTable('cospend_shares');
-			$table->addColumn('type', 'string', [
-				'notnull' => true,
-				'length' => 1,
-				'default' => 'u'
-			]);
+			if (!$table->hasColumn('type')) {
+				$table->addColumn('type', 'string', [
+					'notnull' => true,
+					'length' => 1,
+					'default' => 'u'
+				]);
+				return $schema;
+			}
 		}
 
-		return $schema;
+		return null;
 	}
 
 	/**

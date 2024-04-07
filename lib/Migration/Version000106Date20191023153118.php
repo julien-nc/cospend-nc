@@ -35,26 +35,32 @@ class Version000106Date20191023153118 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('cospend_projects')) {
 			$table = $schema->getTable('cospend_projects');
-			$table->addColumn('lastchanged', Types::INTEGER, [
-				'notnull' => true,
-				'default' => 0,
-			]);
+			if (!$table->hasColumn('lastchanged')) {
+				$table->addColumn('lastchanged', Types::INTEGER, [
+					'notnull' => true,
+					'default' => 0,
+				]);
+			}
 		}
 
 		if ($schema->hasTable('cospend_bills')) {
 			$table = $schema->getTable('cospend_bills');
-			$table->addColumn('lastchanged', Types::INTEGER, [
-				'notnull' => true,
-				'default' => 0,
-			]);
+			if (!$table->hasColumn('lastchanged')) {
+				$table->addColumn('lastchanged', Types::INTEGER, [
+					'notnull' => true,
+					'default' => 0,
+				]);
+			}
 		}
 
 		if ($schema->hasTable('cospend_members')) {
 			$table = $schema->getTable('cospend_members');
-			$table->addColumn('lastchanged', Types::INTEGER, [
-				'notnull' => true,
-				'default' => 0,
-			]);
+			if (!$table->hasColumn('lastchanged')) {
+				$table->addColumn('lastchanged', Types::INTEGER, [
+					'notnull' => true,
+					'default' => 0,
+				]);
+			}
 		}
 
 		return $schema;

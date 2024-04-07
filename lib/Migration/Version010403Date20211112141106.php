@@ -85,6 +85,7 @@ class Version010403Date20211112141106 extends SimpleMigrationStep {
 			]);
 			$table->setPrimaryKey(['id']);
 		}
+
 		if (!$schema->hasTable('cospend_paymentmodes')) {
 			if ($schema->hasTable('cospend_project_paymentmodes')) {
 				$this->shouldCopyPaymentmodesData = true;

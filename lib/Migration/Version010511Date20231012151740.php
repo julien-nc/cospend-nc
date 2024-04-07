@@ -24,6 +24,7 @@ class Version010511Date20231012151740 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
+
 		if ($schema->hasTable('cospend_bills')) {
 			$table = $schema->getTable('cospend_bills');
 			if (!$table->hasColumn('deleted')) {
@@ -35,6 +36,7 @@ class Version010511Date20231012151740 extends SimpleMigrationStep {
 				return $schema;
 			}
 		}
+
 		return null;
 	}
 }

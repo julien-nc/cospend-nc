@@ -32,14 +32,19 @@ class Version000406Date20200417185442 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		$table = $schema->getTable('cospend_members');
-		$table->addColumn('userid', 'string', [
-			'notnull' => false,
-			'length' => 64,
-			'default' => null
-		]);
+		if ($schema->hasTable('cospend_members')) {
+			$table = $schema->getTable('cospend_members');
+			if (!$table->hasColumn('userid')) {
+				$table->addColumn('userid', 'string', [
+					'notnull' => false,
+					'length' => 64,
+					'default' => null
+				]);
+				return $schema;
+			}
+		}
 
-		return $schema;
+		return null;
 	}
 
 	/**

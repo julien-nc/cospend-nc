@@ -46,14 +46,17 @@ class Version000304Date20200313092247 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('cospend_bills')) {
 			$table = $schema->getTable('cospend_bills');
-			$table->addColumn('timestamp', 'bigint', [
-				'notnull' => true,
-				'length' => 10,
-				'default' => 0
-			]);
+			if (!$table->hasColumn('timestamp')) {
+				$table->addColumn('timestamp', 'bigint', [
+					'notnull' => true,
+					'length' => 10,
+					'default' => 0
+				]);
+				return $schema;
+			}
 		}
 
-		return $schema;
+		return null;
 	}
 
 	/**

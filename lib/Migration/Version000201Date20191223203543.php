@@ -34,14 +34,17 @@ class Version000201Date20191223203543 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('cospend_members')) {
 			$table = $schema->getTable('cospend_shares');
-			$table->addColumn('permissions', 'string', [
-				'notnull' => true,
-				'length' => 4,
-				'default' => 'edc'
-			]);
+			if (!$table->hasColumn('permissions')) {
+				$table->addColumn('permissions', 'string', [
+					'notnull' => true,
+					'length' => 4,
+					'default' => 'edc'
+				]);
+				return $schema;
+			}
 		}
 
-		return $schema;
+		return null;
 	}
 
 	/**

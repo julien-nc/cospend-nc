@@ -34,14 +34,17 @@ class Version000205Date20200102013739 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('cospend_members')) {
 			$table = $schema->getTable('cospend_members');
-			$table->addColumn('color', 'string', [
-				'notnull' => false,
-				'length' => 10,
-				'default' => null
-			]);
+			if (!$table->hasColumn('color')) {
+				$table->addColumn('color', 'string', [
+					'notnull' => false,
+					'length' => 10,
+					'default' => null
+				]);
+				return $schema;
+			}
 		}
 
-		return $schema;
+		return null;
 	}
 
 	/**

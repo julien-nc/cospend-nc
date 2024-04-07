@@ -56,11 +56,13 @@ class Version000301Date20200108160931 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('cospend_projects')) {
 			$table = $schema->getTable('cospend_projects');
-			$table->addColumn('currencyname', 'string', [
-				'notnull' => false,
-				'length' => 64,
-				'default' => null
-			]);
+			if (!$table->hasColumn('currencyname')) {
+				$table->addColumn('currencyname', 'string', [
+					'notnull' => false,
+					'length' => 64,
+					'default' => null
+				]);
+			}
 		}
 
 		return $schema;

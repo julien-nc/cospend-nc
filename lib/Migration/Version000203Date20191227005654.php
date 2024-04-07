@@ -34,14 +34,17 @@ class Version000203Date20191227005654 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('cospend_projects')) {
 			$table = $schema->getTable('cospend_projects');
-			$table->addColumn('guestpermissions', 'string', [
-				'notnull' => true,
-				'length' => 4,
-				'default' => 'edc'
-			]);
+			if (!$table->hasColumn('guestpermissions')) {
+				$table->addColumn('guestpermissions', 'string', [
+					'notnull' => true,
+					'length' => 4,
+					'default' => 'edc'
+				]);
+				return $schema;
+			}
 		}
 
-		return $schema;
+		return null;
 	}
 
 	/**

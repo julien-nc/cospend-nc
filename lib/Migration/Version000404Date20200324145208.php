@@ -34,9 +34,10 @@ class Version000404Date20200324145208 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('cospend_ext_projects')) {
 			$schema->dropTable('cospend_ext_projects');
+			return $schema;
 		}
 
-		return $schema;
+		return null;
 	}
 
 	/**

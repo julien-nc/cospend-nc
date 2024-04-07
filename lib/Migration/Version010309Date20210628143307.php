@@ -8,7 +8,6 @@ use Closure;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use OCP\IL10N;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
@@ -19,14 +18,12 @@ class Version010309Date20210628143307 extends SimpleMigrationStep {
 
 	/** @var IDBConnection */
 	private $connection;
-	private $trans;
 
 	/**
 	 * @param IDBConnection $connection
 	 */
-	public function __construct(IDBConnection $connection, IL10N $l10n) {
+	public function __construct(IDBConnection $connection) {
 		$this->connection = $connection;
-		$this->trans = $l10n;
 	}
 
 	/**

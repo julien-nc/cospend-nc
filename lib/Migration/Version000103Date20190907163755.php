@@ -52,14 +52,18 @@ class Version000103Date20190907163755 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('cospend_bills')) {
 			$table = $schema->getTable('cospend_bills');
-			$table->addColumn('categoryid', 'integer', [
-				'notnull' => false,
-				'length' => 255
-			]);
-			$table->addColumn('paymentmode', 'string', [
-				'notnull' => false,
-				'length' => 1
-			]);
+			if (!$table->hasColumn('categoryid')) {
+				$table->addColumn('categoryid', 'integer', [
+					'notnull' => false,
+					'length' => 255
+				]);
+			}
+			if (!$table->hasColumn('paymentmode')) {
+				$table->addColumn('paymentmode', 'string', [
+					'notnull' => false,
+					'length' => 1
+				]);
+			}
 		}
 
 		return $schema;

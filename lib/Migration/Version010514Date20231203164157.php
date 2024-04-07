@@ -25,6 +25,7 @@ class Version010514Date20231203164157 extends SimpleMigrationStep {
 	 */
 	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
 		$qb = $this->connection->getQueryBuilder();
+
 		$qb->update('cospend_projects')
 			->set('lastchanged', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 			->where(

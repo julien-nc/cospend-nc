@@ -34,10 +34,13 @@ class Version000303Date20200201172933 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('cospend_shares')) {
 			$table = $schema->getTable('cospend_shares');
-			$table->dropColumn('isgroupshare');
+			if ($table->hasColumn('isgroupshare')) {
+				$table->dropColumn('isgroupshare');
+				return $schema;
+			}
 		}
 
-		return $schema;
+		return null;
 	}
 
 	/**

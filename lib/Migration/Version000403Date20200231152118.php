@@ -43,18 +43,29 @@ class Version000403Date20200231152118 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
-		$table = $schema->getTable('cospend_projects');
-		$table->addColumn('guestaccesslevel', 'integer', [
-			'notnull' => true,
-			'length' => 4,
-			'default' => 2
-		]);
-		$table = $schema->getTable('cospend_shares');
-		$table->addColumn('accesslevel', 'integer', [
-			'notnull' => true,
-			'length' => 4,
-			'default' => 2
-		]);
+
+		if ($schema->hasTable('cospend_projects')) {
+			$table = $schema->getTable('cospend_projects');
+			if (!$table->hasColumn('guestaccesslevel')) {
+				$table->addColumn('guestaccesslevel', 'integer', [
+					'notnull' => true,
+					'length' => 4,
+					'default' => 2
+				]);
+			}
+		}
+
+		if ($schema->hasTable('cospend_shares')) {
+			$table = $schema->getTable('cospend_shares');
+			if (!$table->hasColumn('accesslevel')) {
+				$table->addColumn('accesslevel', 'integer', [
+					'notnull' => true,
+					'length' => 4,
+					'default' => 2
+				]);
+			}
+		}
+
 		return $schema;
 	}
 

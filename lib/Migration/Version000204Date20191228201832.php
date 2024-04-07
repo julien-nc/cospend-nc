@@ -34,14 +34,17 @@ class Version000204Date20191228201832 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('cospend_bills')) {
 			$table = $schema->getTable('cospend_bills');
-			$table->addColumn('repeatuntil', 'string', [
-				'notnull' => false,
-				'length' => 20,
-				'default' => null
-			]);
+			if (!$table->hasColumn('repeatuntil')) {
+				$table->addColumn('repeatuntil', 'string', [
+					'notnull' => false,
+					'length' => 20,
+					'default' => null
+				]);
+				return $schema;
+			}
 		}
 
-		return $schema;
+		return null;
 	}
 
 	/**

@@ -32,10 +32,15 @@ class Version000406Date20200426163311 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		$table = $schema->getTable('cospend_categories');
-		$table->dropColumn('icon');
+		if ($schema->hasTable('cospend_categories')) {
+			$table = $schema->getTable('cospend_categories');
+			if ($table->hasColumn('icon')) {
+				$table->dropColumn('icon');
+				return $schema;
+			}
+		}
 
-		return $schema;
+		return null;
 	}
 
 	/**

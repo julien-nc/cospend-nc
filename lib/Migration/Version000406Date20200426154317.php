@@ -46,13 +46,19 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
-		$table = $schema->getTable('cospend_categories');
-		$table->addColumn('encoded_icon', 'string', [
-			'notnull' => false,
-			'length' => 64,
-			'default' => null
-		]);
-		return $schema;
+
+		if ($schema->hasTable('cospend_categories')) {
+			$table = $schema->getTable('cospend_categories');
+			if (!$table->hasColumn('encoded_icon')) {
+				$table->addColumn('encoded_icon', 'string', [
+					'notnull' => false,
+					'length' => 64,
+					'default' => null
+				]);
+				return $schema;
+			}
+		}
+		return null;
 	}
 
 	/**

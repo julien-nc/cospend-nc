@@ -6,7 +6,6 @@ namespace OCA\Cospend\Migration;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
-use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
@@ -14,16 +13,6 @@ use OCP\Migration\SimpleMigrationStep;
  * Auto-generated migration step: Please modify to your needs!
  */
 class Version010203Date20201208131054 extends SimpleMigrationStep {
-
-	/** @var IDBConnection */
-	private $connection;
-
-	/**
-	 * @param IDBConnection $connection
-	 */
-	public function __construct(IDBConnection $connection) {
-		$this->connection = $connection;
-	}
 
 	/**
 	 * @param IOutput $output
@@ -42,9 +31,14 @@ class Version010203Date20201208131054 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
-		$table = $schema->getTable('cospend_projects');
-		$table->setPrimaryKey(['id']);
-		return $schema;
+
+		if ($schema->hasTable('cospend_projects')) {
+			$table = $schema->getTable('cospend_projects');
+			$table->setPrimaryKey(['id']);
+			return $schema;
+		}
+
+		return null;
 	}
 
 	/**

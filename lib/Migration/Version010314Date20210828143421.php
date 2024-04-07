@@ -47,15 +47,20 @@ class Version010314Date20210828143421 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
-		$table = $schema->getTable('cospend_paymentmodes');
-		if (!$table->hasColumn('old_id')) {
-			$table->addColumn('old_id', Types::STRING, [
-				'notnull' => false,
-				'length' => 1,
-				'default' => null,
-			]);
+
+		if ($schema->hasTable('cospend_paymentmodes')) {
+			$table = $schema->getTable('cospend_paymentmodes');
+			if (!$table->hasColumn('old_id')) {
+				$table->addColumn('old_id', Types::STRING, [
+					'notnull' => false,
+					'length' => 1,
+					'default' => null,
+				]);
+				return $schema;
+			}
 		}
-		return $schema;
+
+		return null;
 	}
 
 	/**

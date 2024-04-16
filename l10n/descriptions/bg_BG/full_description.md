@@ -1,10 +1,10 @@
 # Nextcloud Cospend 💰
 
-Nextcloud Cospend управлява бюджет за група/споделен бюджет. It was inspired by the great [IHateMoney](https://github.com/spiral-project/ihatemoney/).
+Nextcloud Cospend управлява бюджет за група/споделен бюджет. Вдъхновен е от великолепния [IHateMoney](https://github.com/spiral-project/ihatemoney/).
 
-You can use it when you share a house, when you go on vacation with friends, whenever you share expenses with a group of people.
+Можете да го използвате, когато споделят къща, когато отивате на почивка с приятели, винаги когато споделяте разходи с група хора.
 
-It lets you create projects with members and bills. Each member has a balance computed from the project bills. Balances are not an absolute amount of money at members disposal but rather a relative information showing if a member has spent more for the group than the group has spent for her/him, independently of exactly who spent money for whom. This way you can see who owes the group and who the group owes. Ultimately you can ask for a settlement plan telling you which payments to make to reset members balances.
+Дава ви възможност да създавате проекти с членове и сметки. За всеки член се изчислява салдо от сметките по проекта. Balances are not an absolute amount of money at members disposal but rather a relative information showing if a member has spent more for the group than the group has spent for her/him, independently of exactly who spent money for whom. This way you can see who owes the group and who the group owes. Ultimately you can ask for a settlement plan telling you which payments to make to reset members balances.
 
 Project members are independent from Nextcloud users. Projects can be shared with other Nextcloud users or via public links.
 

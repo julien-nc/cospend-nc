@@ -4,7 +4,7 @@ Nextcloud Cospend управлява бюджет за група/споделе
 
 Можете да го използвате, когато споделят къща, когато отивате на почивка с приятели, винаги когато споделяте разходи с група хора.
 
-Дава ви възможност да създавате проекти с членове и сметки. За всеки член се изчислява салдо от сметките по проекта. Balances are not an absolute amount of money at members disposal but rather a relative information showing if a member has spent more for the group than the group has spent for her/him, independently of exactly who spent money for whom. This way you can see who owes the group and who the group owes. Ultimately you can ask for a settlement plan telling you which payments to make to reset members balances.
+Дава ви възможност да създавате проекти с членове и сметки. За всеки член се изчислява салдо от сметките по проекта. Салдата не представляват абсолютна сума парични средства на разположение на членовете, а по-скоро относителна информация, показваща дали даден член е похарчил повече от групата, отколкото групата е похарчила за нея/него, без значение точно кой е похарчил за кого. Така можете да виждате кой ръководи групата и кои са нейни членове. Ultimately you can ask for a settlement plan telling you which payments to make to reset members balances.
 
 Project members are independent from Nextcloud users. Projects can be shared with other Nextcloud users or via public links.
 

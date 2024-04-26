@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-04-01 20:23+0200\n"
-"PO-Revision-Date: 2024-04-01 18:24\n"
+"PO-Revision-Date: 2024-04-26 07:10\n"
 "Last-Translator: \n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
@@ -206,7 +206,7 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Middleware/PublicAuthMiddleware.php:62
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Middleware/UserPermissionMiddleware.php:50
 msgid "Insufficient access level"
-msgstr ""
+msgstr "Недостаточный уровень доступа"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:92
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:81
@@ -412,7 +412,7 @@ msgstr "В этом проекте уже есть этот участник"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1473
 msgid "This project already has this member (user)"
-msgstr ""
+msgstr "В этом проекте уже есть этот участник (пользователь)"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2302
 msgid "There is no such bill"
@@ -1190,11 +1190,11 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:134
 msgid "Choose file"
-msgstr ""
+msgstr "Выберите файл"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:135
 msgid "Failed to generate share link to file"
-msgstr ""
+msgstr "Не удалось создать ссылку на файл"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:136
 msgid "New bill"
@@ -1202,23 +1202,23 @@ msgstr "Новый счет"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:137
 msgid "Trash bin"
-msgstr ""
+msgstr "Корзина"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:138
 msgid "Close trashbin"
-msgstr ""
+msgstr "Закрыть корзину"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:139
 msgid "Show trashbin"
-msgstr ""
+msgstr "Показать корзину"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:140
 msgid "Clear trashbin"
-msgstr ""
+msgstr "Очистить корзину"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:141
 msgid "Filters"
-msgstr ""
+msgstr "Фильтры"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:142
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:173

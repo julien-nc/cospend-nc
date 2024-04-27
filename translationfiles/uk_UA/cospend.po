@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-04-01 20:23+0200\n"
-"PO-Revision-Date: 2024-04-01 18:24\n"
+"PO-Revision-Date: 2024-04-27 07:45\n"
 "Last-Translator: \n"
 "Language-Team: Ukrainian\n"
 "Language: uk_UA\n"
@@ -19,57 +19,57 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:76
 msgid "You have created a new bill {bill} in project {project}"
-msgstr ""
+msgstr "Ви створили новий рахунок {bill} в проєкті {project}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:76
 msgid "{user} has created a new bill {bill} in project {project}"
-msgstr ""
+msgstr "{user} створив новий рахунок {bill} в проєкті {project}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:79
 msgid "You have deleted the bill {bill} of project {project}"
-msgstr ""
+msgstr "Ви видалили рахунок {bill} проєкту {project}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:79
 msgid "{user} has deleted the bill {bill} of project {project}"
-msgstr ""
+msgstr "{user} видалив рахунок {bill} проєкту {project}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:82
 msgid "You have shared the project {project} with {who}"
-msgstr ""
+msgstr "Ви поділилися проєктом {project} з {who}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:82
 msgid "{user} has shared the project {project} with {who}"
-msgstr ""
+msgstr "{user} поділився проєктом {project} з {who}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:85
 msgid "You have removed {who} from the project {project}"
-msgstr ""
+msgstr "Ви видалили {who} з проєкту {project}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:85
 msgid "{user} has removed {who} from the project {project}"
-msgstr ""
+msgstr "{user} видалив {who} з проєкту {project}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:88
 msgid "You have updated the bill {bill} of project {project}"
-msgstr ""
+msgstr "Ви оновили рахунок {bill} проєкту {project}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:88
 msgid "{user} has updated the bill {bill} of project {project}"
-msgstr ""
+msgstr "{user} оновив рахунок {bill} проєкту {project}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:164
 msgid "A guest user"
-msgstr ""
+msgstr "Гість"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/BillSetting.php:41
 msgid "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted"
-msgstr ""
+msgstr "<strong>Рахунок</strong> всередині програми Cospend був змінений/створений/видалений"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/CospendProvider.php:254
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/CospendProvider.php:262
 #, php-format
 msgid "circle %1$s"
-msgstr ""
+msgstr "коло %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/Filter.php:51
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Notification/Notifier.php:50
@@ -77,30 +77,30 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/UserMigration/UserMigrator.php:150
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:2
 msgid "Cospend"
-msgstr ""
+msgstr "Cospend"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/Setting.php:47
 msgid "Changes in the <strong>Cospend app</strong>"
-msgstr ""
+msgstr "Зміни <strong>в додатку Cospend</strong>"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/ApiController.php:576
 msgid "You are not allowed to access the destination project"
-msgstr ""
+msgstr "У вас немає доступу до цього проєкту"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/ApiController.php:892
 msgid "You are not allowed to give such shared access level"
-msgstr ""
+msgstr "Вам не дозволено давати такий рівень спільного доступу"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/ApiController.php:928
 msgid "You are not allowed to edit this shared access"
-msgstr ""
+msgstr "Ви не можете редагувати цей спільний доступ"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/ApiController.php:1246
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/ApiController.php:1302
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/ApiController.php:1359
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/ApiController.php:1418
 msgid "You are not allowed to remove this shared access"
-msgstr ""
+msgstr "Ви не можете видалити цей спільний доступ"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/ApiController.php:1443
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/ApiController.php:1447
@@ -112,14 +112,14 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4984
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4987
 msgid "Access denied"
-msgstr ""
+msgstr "Доступ заборонено"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:124
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:141
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PublicApiController.php:230
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Middleware/PublicAuthMiddleware.php:45
 msgid "Project not found"
-msgstr ""
+msgstr "Проєкт не знайдено"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:356
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:436
@@ -132,7 +132,7 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PublicApiController.php:427
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PublicApiController.php:559
 msgid "Guest access"
-msgstr ""
+msgstr "Гостьовий доступ"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:359
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:439
@@ -146,7 +146,7 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PublicApiController.php:562
 #, php-format
 msgid "Share link (%s)"
-msgstr ""
+msgstr "Поділитися посиланням (%s)"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:361
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:441
@@ -161,38 +161,38 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:445
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:447
 msgid "Share link"
-msgstr ""
+msgstr "Поділитися посиланням"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:191
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:254
 #, php-format
 msgid "Enter link password of project %s"
-msgstr ""
+msgstr "Введіть пароль посилання для проєкта %s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:201
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:240
 #, php-format
 msgid "Project %s"
-msgstr ""
+msgstr "Проєкт %s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:203
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:239
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:253
 msgid "Cospend shared link access"
-msgstr ""
+msgstr "Доступ до спільного посилання Cospend"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:206
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:265
 msgid "No such Cospend share link"
-msgstr ""
+msgstr "На Cospend немає такого посилання, яким можна поділитися"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Dashboard/CospendWidget.php:52
 msgid "Cospend activity"
-msgstr ""
+msgstr "Діяльність в Cospend"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Db/ProjectMapper.php:62
 msgid "Invalid project id"
-msgstr ""
+msgstr "Невірний ID проєкту"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Db/ProjectMapper.php:119
 #, php-format

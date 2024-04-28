@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-04-01 20:23+0200\n"
-"PO-Revision-Date: 2024-04-01 18:24\n"
+"PO-Revision-Date: 2024-04-28 08:02\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -462,7 +462,7 @@ msgstr "Dieses Projekt hat keine solche Kategorie"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3324
 msgid "Impossible to get the edited currency"
-msgstr ""
+msgstr "Die bearbeitete Währung kann nicht abgerufen werden"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3328
 msgid "This project have no such currency"
@@ -506,7 +506,7 @@ msgstr "Keine solche Gruppe"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3955
 msgid "Impossible to get the circle manager"
-msgstr ""
+msgstr "Der Kreis Manager kann nicht abgerufen werden"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4021
 msgid "Already shared with this circle"
@@ -655,7 +655,7 @@ msgstr "Fehlerhaftes CSV, kein Zahler in Zeile %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4913
 msgid "Malformed CSV, impossible to find the column names. Make sure your Splitwise account language is set to English first, then export the project again."
-msgstr ""
+msgstr "Fehlgebildete CSV, Spaltennamen können nicht gefunden werden. Stelle sicher, dass Deine Splitwise Kontosprache zuerst auf Englisch gesetzt ist, dann exportieren das Projekt erneut."
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:5011
 msgid "daily"
@@ -700,7 +700,7 @@ msgstr "Projekt teilen"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:7
 msgid "Close the trash bin"
-msgstr ""
+msgstr "Papierkorb schließen"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:7
 msgid "Show the trash bin"
@@ -763,7 +763,7 @@ msgstr "Mitglied {name} existiert bereits"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:23
 msgid "Impossible to move bill. No candidate project found."
-msgstr ""
+msgstr "Rechnung kann nicht verschoben werden. Kein Kandidaten-Projekt gefunden."
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:24
 msgid "Failed to get projects"
@@ -991,7 +991,7 @@ msgstr "Jährlich"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:80
 msgid "More information on bill repetition"
-msgstr ""
+msgstr "Weitere Informationen zur Rechnungswiederholung"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:82
 msgid "Frequency"
@@ -1039,7 +1039,7 @@ msgstr "Benutzerdefinierte Anteile"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:94
 msgid "More information on bill mode"
-msgstr ""
+msgstr "Weitere Informationen über den Rechnungsmodus"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:95
 msgid "Ignore member weights"
@@ -1200,7 +1200,7 @@ msgstr "Neue Ausgabe"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:137
 msgid "Trash bin"
-msgstr ""
+msgstr "Papierkorb"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:138
 msgid "Close trashbin"
@@ -1310,7 +1310,7 @@ msgstr "Wiederherstellen"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:162
 msgid "Confirm clear trash bin"
-msgstr ""
+msgstr "Bestätige das Ausleeren des Papierkorbs"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:164
 msgid "Clear"
@@ -1380,20 +1380,20 @@ msgstr[1] "Möchtest du {nb} Ausgaben wirklich löschen?"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:183
 msgid "Are you sure you want to move {nb} bill to the trash bin?"
 msgid_plural "Are you sure you want to move {nb} bills to the trash bin?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Bist du sicher, dass du {nb} Ausgabe in den Papierkorb verschieben möchtest?"
+msgstr[1] "Bist du sicher, dass du {nb} Rechnungen in den Papierkorb verschieben möchtest?"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:184
 msgid "Are you sure you want to restore {nb} bill?"
 msgid_plural "Are you sure you want to restore {nb} bills?"
-msgstr[0] "Möchtest du wirklich {nb} Ausgaben wiederherstellen?"
-msgstr[1] ""
+msgstr[0] "Möchtest du wirklich {nb} Ausgabe wiederherstellen?"
+msgstr[1] "Möchtest du wirklich {nb} Ausgaben wiederherstellen?"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:185
 msgid "Are you sure you want to clear the trash bin? ({nb} bill)"
 msgid_plural "Are you sure you want to clear the trash bin? ({nb} bills)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Bist du sicher, dass du den Papierkorb leeren möchtest? ({nb} Ausgaben)"
+msgstr[1] "Bist du sicher, dass du den Papierkorb leeren möchtest? ({nb} Rechnungen)"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:186
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:187
@@ -1680,7 +1680,7 @@ msgstr "Empfänger"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:264
 msgid "Create bill ({amount} {currencyName})"
-msgstr ""
+msgstr "Rechnung erstellen ({amount} {currencyName})"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:265
 msgid "Create bill ({amount})"
@@ -1875,11 +1875,11 @@ msgstr "Mitglied hinzufügen"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:315
 msgid "Close trash bin"
-msgstr ""
+msgstr "Papierkorb schließen"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:316
 msgid "Show trash bin"
-msgstr ""
+msgstr "Papierkorb öffnen"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:319
 msgid "Everyone"
@@ -1908,7 +1908,7 @@ msgstr "In anderes Projekt verschieben"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:328
 msgid "Category selector"
-msgstr ""
+msgstr "Kategorieauswahl"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:329
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:330
@@ -2073,7 +2073,7 @@ msgstr "Wähle, wo die Ausgabedateien gespeichert werden sollen (Statistiken, Ab
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:402
 msgid "Member select"
-msgstr ""
+msgstr "Mitgliederauswahl"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:404
 msgid "Move bill \"{bill}\" to a different project:"
@@ -2099,7 +2099,7 @@ msgstr "Die Ausgabe konnte nicht verschoben werden"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:411
 msgid "Payment mode selector"
-msgstr ""
+msgstr "Liste der Zahlungsarten"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:412
 msgid "Rename project {n}"
@@ -2339,7 +2339,7 @@ msgstr "Balken"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:509
 msgid "Total paid by all the members: {t} {currencyName}"
-msgstr ""
+msgstr "Insgesamt bezahlt von allen Mitgliedern: {t} {currencyName}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:510
 msgid "Total paid by all the members: {t}"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-04-01 20:23+0200\n"
-"PO-Revision-Date: 2024-04-01 18:24\n"
+"PO-Revision-Date: 2024-05-07 00:26\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -184,7 +184,7 @@ msgstr "Cospend共享链接访问权限"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:206
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:265
 msgid "No such Cospend share link"
-msgstr ""
+msgstr "没有这样的 Cospend 分享链接"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Dashboard/CospendWidget.php:52
 msgid "Cospend activity"
@@ -201,12 +201,12 @@ msgstr "一个 id 为%1$s的项目已存在"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Middleware/PublicAuthMiddleware.php:51
 msgid "Project password is invalid"
-msgstr ""
+msgstr "项目密码无效"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Middleware/PublicAuthMiddleware.php:62
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Middleware/UserPermissionMiddleware.php:50
 msgid "Insufficient access level"
-msgstr ""
+msgstr "访问级别不足"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:92
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:81
@@ -412,7 +412,7 @@ msgstr "这个项目已经有这个成员"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1473
 msgid "This project already has this member (user)"
-msgstr ""
+msgstr "该项目已有该成员（用户）"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2302
 msgid "There is no such bill"
@@ -440,7 +440,7 @@ msgstr "找不到"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3010
 msgid "Impossible to get the edited payment mode"
-msgstr ""
+msgstr "无法获取修改后的支付方式"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3014
 msgid "This project has no such payment mode"
@@ -454,7 +454,7 @@ msgstr "不正确的字段值"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3194
 msgid "Impossible to get the edited category"
-msgstr ""
+msgstr "无法获取已编辑的类别"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3198
 msgid "This project has no such category"
@@ -462,7 +462,7 @@ msgstr "此项目没有此类别"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3324
 msgid "Impossible to get the edited currency"
-msgstr ""
+msgstr "无法获得编辑后的货币"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3328
 msgid "This project have no such currency"
@@ -506,7 +506,7 @@ msgstr "无此组"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3955
 msgid "Impossible to get the circle manager"
-msgstr ""
+msgstr "找不到圈子管理员"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4021
 msgid "Already shared with this circle"
@@ -655,7 +655,7 @@ msgstr "错误的 CSV，第 %1$s 行上没有付款人"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4913
 msgid "Malformed CSV, impossible to find the column names. Make sure your Splitwise account language is set to English first, then export the project again."
-msgstr ""
+msgstr "CSV 格式错误，无法找到列名称。 确保您的 Splitwise 帐户语言首先设置为英语，然后再次导出项目。"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:5011
 msgid "daily"
@@ -671,7 +671,7 @@ msgstr "每月"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/UserMigration/UserMigrator.php:159
 msgid "Cospend projects and user settings"
-msgstr ""
+msgstr "Cospend 项目和用户设置"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:3
 msgid " "
@@ -684,7 +684,7 @@ msgstr "您想要做什么？"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:3
 msgid "These actions are also available in the sidebar project context menu."
-msgstr ""
+msgstr "这些操作也可在侧边栏项目上下文菜单中使用。"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:4
 msgid "Create a bill"
@@ -1351,7 +1351,7 @@ msgstr "打开过滤器"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:175
 msgid "Move selected bills to trash"
-msgstr ""
+msgstr "将选定的账单移至垃圾箱"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:176
 msgid "Delete selected bills"
@@ -1378,17 +1378,17 @@ msgstr[0] "您确定要删除 {nb} 账单吗？"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:183
 msgid "Are you sure you want to move {nb} bill to the trash bin?"
 msgid_plural "Are you sure you want to move {nb} bills to the trash bin?"
-msgstr[0] ""
+msgstr[0] "您确定要将 {nb} 账单移至垃圾桶吗？"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:184
 msgid "Are you sure you want to restore {nb} bill?"
 msgid_plural "Are you sure you want to restore {nb} bills?"
-msgstr[0] ""
+msgstr[0] "您确定要恢复 {nb} 账单吗？"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:185
 msgid "Are you sure you want to clear the trash bin? ({nb} bill)"
 msgid_plural "Are you sure you want to clear the trash bin? ({nb} bills)"
-msgstr[0] ""
+msgstr[0] "您确定要清除垃圾箱吗？ ({nb} 账单)"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:186
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:187
@@ -1520,7 +1520,7 @@ msgstr "主要货币名称"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:215
 msgid "Cancel currency edition"
-msgstr ""
+msgstr "取消编辑货币"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:216
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:340
@@ -1532,7 +1532,7 @@ msgstr "保存"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:217
 msgid "Save currency"
-msgstr ""
+msgstr "保存货币"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:218
 msgid "Add currency"
@@ -1574,15 +1574,15 @@ msgstr "没有要显示的货币"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:227
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:230
 msgid "Currency name should not be empty"
-msgstr ""
+msgstr "货币名称不能为空"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:228
 msgid "Exchange rate should be a number"
-msgstr ""
+msgstr "汇率应该是一个数字"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:229
 msgid "Currency {n} added"
-msgstr ""
+msgstr "添加了货币 {n}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:231
 msgid "Settlement of project {name}"
@@ -1612,7 +1612,7 @@ msgstr "结算日期"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:237
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:238
 msgid "Information on settlement date"
-msgstr ""
+msgstr "结算日期信息"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:241
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:242
@@ -1658,7 +1658,7 @@ msgstr "未找到余额"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:258
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:259
 msgid "Information on individual reimbursement"
-msgstr ""
+msgstr "个人报销信息"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:260
 msgid "Individual reimbursement"
@@ -1816,7 +1816,7 @@ msgstr "重新激活"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:301
 msgid "A member is already named like that"
-msgstr ""
+msgstr "已经有一个成员这样命名了"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:303
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:466
@@ -1856,11 +1856,11 @@ msgstr "项目解决"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:311
 msgid "Archive"
-msgstr ""
+msgstr "档案"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:312
 msgid "Unarchive"
-msgstr ""
+msgstr "取消归档"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:314
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:425

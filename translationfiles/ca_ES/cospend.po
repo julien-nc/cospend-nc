@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-04-01 20:23+0200\n"
-"PO-Revision-Date: 2024-04-01 18:24\n"
+"PO-Revision-Date: 2024-05-13 09:15\n"
 "Last-Translator: \n"
 "Language-Team: Catalan\n"
 "Language: ca_ES\n"
@@ -19,39 +19,39 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:76
 msgid "You have created a new bill {bill} in project {project}"
-msgstr ""
+msgstr "Heu creat una nova factura {bill} en el projecte {project}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:76
 msgid "{user} has created a new bill {bill} in project {project}"
-msgstr ""
+msgstr "{user} ha creat una nova factura {bill} en el projecte {project}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:79
 msgid "You have deleted the bill {bill} of project {project}"
-msgstr ""
+msgstr "Heu suprimit la factura {bill} del projecte {project}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:79
 msgid "{user} has deleted the bill {bill} of project {project}"
-msgstr ""
+msgstr "{user} ha suprimit la factura {bill} del projecte {project}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:82
 msgid "You have shared the project {project} with {who}"
-msgstr ""
+msgstr "Has compartit el projecte {project} amb {who}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:82
 msgid "{user} has shared the project {project} with {who}"
-msgstr ""
+msgstr "{user} ha compartit el projecte {project} amb {who}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:85
 msgid "You have removed {who} from the project {project}"
-msgstr ""
+msgstr "Heu eliminat l'usuari {who} del projecte {project}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:85
 msgid "{user} has removed {who} from the project {project}"
-msgstr ""
+msgstr "{user} ha eliminat {who} del projecte {project}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:88
 msgid "You have updated the bill {bill} of project {project}"
-msgstr ""
+msgstr "Heu actualitzat la factura {bill} del projecte {project}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:88
 msgid "{user} has updated the bill {bill} of project {project}"
@@ -478,11 +478,11 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3439
 msgid "Impossible to share the project with its owner"
-msgstr ""
+msgstr "Impossible compartir el projecte amb el seu propietari"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3442
 msgid "No such user"
-msgstr ""
+msgstr "Aquest usuari no existeix"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3563
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3622
@@ -490,23 +490,23 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3931
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4089
 msgid "No such share"
-msgstr ""
+msgstr "No es pot compartir"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3797
 msgid "No such shared access"
-msgstr ""
+msgstr "Aquest accés compartit no existeix"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3867
 msgid "Already shared with this group"
-msgstr ""
+msgstr "Ja compartit amb aquest grup"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3870
 msgid "No such group"
-msgstr ""
+msgstr "No hi ha tal grup"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3955
 msgid "Impossible to get the circle manager"
-msgstr ""
+msgstr "Impossible aconseguir el gestor del grup"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4021
 msgid "Already shared with this circle"
@@ -514,7 +514,7 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4025
 msgid "No such circle"
-msgstr ""
+msgstr "Aquest grup no existeix"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4028
 msgid "Circles app is not enabled"
@@ -523,57 +523,57 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4127
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:248
 msgid "Who pays?"
-msgstr ""
+msgstr "Qui paga?"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4128
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:249
 msgid "To whom?"
-msgstr ""
+msgstr "A qui?"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4129
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:49
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:250
 msgid "How much?"
-msgstr ""
+msgstr "Quant?"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4172
 #, php-format
 msgid "%1$s is not a folder"
-msgstr ""
+msgstr "%1$s no és una carpeta"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4174
 #, php-format
 msgid "%1$s is not writeable"
-msgstr ""
+msgstr "No es pot escriure a %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4179
 #, php-format
 msgid "Impossible to create %1$s"
-msgstr ""
+msgstr "Impossible crear %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4226
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:254
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:512
 msgid "Member name"
-msgstr ""
+msgstr "Nom del membre"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4227
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:513
 msgid "Paid"
-msgstr ""
+msgstr "Pagat"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4228
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:514
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:547
 msgid "Spent"
-msgstr ""
+msgstr "Gastat"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4229
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:255
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:383
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:516
 msgid "Balance"
-msgstr ""
+msgstr "Balanç"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4531
 #, php-format
@@ -583,49 +583,49 @@ msgstr "CSV mal format, nom de columna incorrecta a la línia %1$s"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4546
 #, php-format
 msgid "Error when adding category %1$s"
-msgstr ""
+msgstr "Error al afegir la categoria %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4564
 #, php-format
 msgid "Error when adding payment mode %1$s"
-msgstr ""
+msgstr "Error al afegir el mode de pagament %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4578
 #, php-format
 msgid "Error when adding currency %1$s"
-msgstr ""
+msgstr "Error al afegir la divisa %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4593
 #, php-format
 msgid "Error when adding member %1$s"
-msgstr ""
+msgstr "Error al afegir el membre %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4608
 #, php-format
 msgid "Malformed CSV, invalid member on line %1$s"
-msgstr ""
+msgstr "CSV amb format incorrecte, membre no vàlid a la línia %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4614
 #, php-format
 msgid "Malformed CSV, invalid amount on line %1$s"
-msgstr ""
+msgstr "CSV amb format incorrecte, import no vàlid a la línia %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4630
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4854
 #, php-format
 msgid "Malformed CSV, missing or invalid date/timestamp on line %1$s"
-msgstr ""
+msgstr "CSV amb format incorrecte, falta la data/marca d'hora o no és vàlida a la línia %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4657
 #, php-format
 msgid "Malformed CSV, invalid payer weight on line %1$s"
-msgstr ""
+msgstr "CSV amb format incorrecte, pes del pagador no vàlid a la línia %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4662
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4670
 #, php-format
 msgid "Malformed CSV, invalid owers on line %1$s"
-msgstr ""
+msgstr "CSV amb format incorrecte, propietaris no vàlids a la línia %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4714
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4930

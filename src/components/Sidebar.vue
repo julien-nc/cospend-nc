@@ -2,6 +2,7 @@
 	<NcAppSidebar
 		:open="open"
 		:name="title"
+		:name-editable="nameEditable"
 		:title="title"
 		:compact="true"
 		:background="backgroundImageUrl"
@@ -10,16 +11,17 @@
 		:active="activeTab"
 		@update:active="onActiveChanged"
 		@update:open="$emit('update:open', $event)"
+		@update:name="tmpName = $event"
+		@submit-name="onNameSubmit"
 		@close="$emit('close')">
 		<!--template #description /-->
-		<template v-if="false" slot="secondary-actions">
-			<NcActionButton icon="icon-edit" @click="alert('Edit')">
-				Edit
+		<template #secondary-actions>
+			<NcActionButton @click="onRenameClick">
+				<template #icon>
+					<PencilIcon />
+				</template>
+				{{ t('cospend', 'Rename') }}
 			</NcActionButton>
-			<NcActionButton icon="icon-delete" @click="alert('Delete')">
-				Delete
-			</NcActionButton>
-			<NcActionLink icon="icon-external" title="Link" href="https://nextcloud.com" />
 		</template>
 		<NcAppSidebarTab v-if="!pageIsPublic"
 			id="sharing"
@@ -110,6 +112,7 @@
 </template>
 
 <script>
+import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import LightningBoltIcon from 'vue-material-design-icons/LightningBolt.vue'
 import ShapeIcon from 'vue-material-design-icons/Shape.vue'
 import TagIcon from 'vue-material-design-icons/Tag.vue'
@@ -121,7 +124,6 @@ import CurrencyIcon from './icons/CurrencyIcon.vue'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcAppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar.js'
 import NcAppSidebarTab from '@nextcloud/vue/dist/Components/NcAppSidebarTab.js'
-import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
 
 import SharingTabSidebar from './SharingTabSidebar.vue'
 import SettingsTabSidebar from './SettingsTabSidebar.vue'
@@ -140,7 +142,6 @@ export default {
 		NcActionButton,
 		NcAppSidebar,
 		NcAppSidebarTab,
-		NcActionLink,
 		SharingTabSidebar,
 		SettingsTabSidebar,
 		CategoryOrPmManagement,
@@ -151,6 +152,7 @@ export default {
 		CogIcon,
 		ShareVariantIcon,
 		TagIcon,
+		PencilIcon,
 	},
 	props: {
 		open: {
@@ -177,6 +179,8 @@ export default {
 	data() {
 		return {
 			backgroundImageUrl: generateUrl('/apps/theming/img/core/filetypes/folder.svg?v=' + (window.OCA?.Theming?.cacheBuster || 0)),
+			nameEditable: false,
+			tmpName: '',
 		}
 	},
 	computed: {
@@ -246,6 +250,17 @@ export default {
 		},
 		focusOnAddMember() {
 			this.$refs.settingsTab.focusOnAddMember()
+		},
+		onRenameClick() {
+			this.nameEditable = true
+			this.tmpName = this.project.name
+		},
+		onNameSubmit() {
+			this.nameEditable = false
+			if (this.project.name !== this.tmpName) {
+				cospend.projects[this.projectId].name = this.tmpName
+				this.$emit('project-edited', this.projectId)
+			}
 		},
 	},
 }

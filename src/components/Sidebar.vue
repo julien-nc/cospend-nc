@@ -1,5 +1,6 @@
 <template>
-	<NcAppSidebar v-show="show"
+	<NcAppSidebar
+		:open="open"
 		:name="title"
 		:title="title"
 		:compact="true"
@@ -8,6 +9,7 @@
 		:subtitle="subtitle"
 		:active="activeTab"
 		@update:active="onActiveChanged"
+		@update:open="$emit('update:open', $event)"
 		@close="$emit('close')">
 		<!--template #description /-->
 		<template v-if="false" slot="secondary-actions">
@@ -151,7 +153,7 @@ export default {
 		TagIcon,
 	},
 	props: {
-		show: {
+		open: {
 			type: Boolean,
 			required: true,
 		},

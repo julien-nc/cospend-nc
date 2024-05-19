@@ -7,9 +7,9 @@
 			:trashbin-enabled="trashbinEnabled"
 			:loading="projectsLoading" />
 		<NcAppContent
-			:list-max-width="showSidebar ? 40 : 50"
-			:list-min-width="showSidebar ? 30 : 20"
-			:list-size="showSidebar ? 30 : 20"
+			:list-max-width="isSidebarOpen ? 40 : 50"
+			:list-min-width="isSidebarOpen ? 30 : 20"
+			:list-size="isSidebarOpen ? 30 : 20"
 			:show-details="shouldShowDetailsToggle"
 			@update:showDetails="showList">
 			<template #list>
@@ -126,18 +126,6 @@
 						<CospendIcon />
 					</template>
 				</NcEmptyContent>
-				<div v-if="!isMobile"
-					class="content-buttons">
-					<NcButton
-						:title="t('cospend', 'Toggle sidebar')"
-						:aria-label="t('cospend', 'Toggle sidebar')"
-						class="icon-menu"
-						@click="onMainDetailClicked">
-						<template #icon>
-							<MenuIcon />
-						</template>
-					</NcButton>
-				</div>
 				<div @click="() => {}" />
 			</div>
 		</NcAppContent>
@@ -149,10 +137,11 @@
 			:project-id="currentProjectId"
 			:bills="currentBills"
 			:members="currentMembers"
-			:show="showSidebar"
+			:open="currentProjectId && isSidebarOpen"
 			:active-tab="activeSidebarTab"
+			@update:open="onSidebarUpdateOpen"
 			@active-changed="onActiveSidebarTabChanged"
-			@close="showSidebar = false"
+			@close="isSidebarOpen = false"
 			@project-edited="onProjectEdited"
 			@user-added="onNewMember"
 			@new-member="onNewMember"
@@ -182,7 +171,6 @@ import { rgbObjToHex, slugify } from './utils.js'
 
 import DeleteVariantIcon from 'vue-material-design-icons/DeleteVariant.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
-import MenuIcon from 'vue-material-design-icons/Menu.vue'
 import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
 import ChartLineIcon from 'vue-material-design-icons/ChartLine.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
@@ -224,7 +212,6 @@ export default {
 		MoveToProjectList,
 		NcModal,
 		PlusIcon,
-		MenuIcon,
 		CogIcon,
 		ShareVariantIcon,
 		ChartLineIcon,
@@ -250,7 +237,7 @@ export default {
 			filterQuery: null,
 			selectedCategoryFilter: null,
 			selectedPaymentModeFilter: null,
-			showSidebar: false,
+			isSidebarOpen: false,
 			activeSidebarTab: 'sharing',
 			selectedMemberId: null,
 			showMoveModal: false,
@@ -428,8 +415,8 @@ export default {
 		onActiveSidebarTabChanged(newActive) {
 			this.activeSidebarTab = newActive
 		},
-		onMainDetailClicked() {
-			this.showSidebar = !this.showSidebar
+		onSidebarUpdateOpen(open) {
+			this.isSidebarOpen = open
 			this.activeSidebarTab = 'project-settings'
 		},
 		onDetailClicked(projectid) {
@@ -438,7 +425,7 @@ export default {
 				this.selectProject(projectid, true, true)
 			}
 			const sameTab = this.activeSidebarTab === 'project-settings'
-			this.showSidebar = (sameProj && sameTab) ? !this.showSidebar : true
+			this.isSidebarOpen = (sameProj && sameTab) ? !this.isSidebarOpen : true
 			this.activeSidebarTab = 'project-settings'
 		},
 		onShareClicked(projectid) {
@@ -447,7 +434,7 @@ export default {
 				this.selectProject(projectid, true, true)
 			}
 			const sameTab = this.activeSidebarTab === 'sharing'
-			this.showSidebar = (sameProj && sameTab) ? !this.showSidebar : true
+			this.isSidebarOpen = (sameProj && sameTab) ? !this.isSidebarOpen : true
 			this.activeSidebarTab = 'sharing'
 		},
 		filter({ query }) {
@@ -677,7 +664,7 @@ export default {
 			}
 			this.currentBill = null
 			this.activeSidebarTab = 'project-settings'
-			this.showSidebar = true
+			this.isSidebarOpen = true
 			this.$nextTick(() => { this.$refs.sidebar?.focusOnAddMember() })
 		},
 		onNewMember(projectid, name, userid = null) {
@@ -1214,28 +1201,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/*#content {
-	#app-content {
-		transition: margin-left 100ms ease;
-		position: relative;
-		overflow-x: hidden;
-		align-items: stretch;
-	}
-	#app-sidebar {
-		transition: max-width 100ms ease;
-	}
-	&.nav-hidden {
-		#app-content {
-			margin-left: 0;
-		}
-	}
-	&.sidebar-hidden {
-		#app-sidebar {
-			max-width: 0;
-			min-width: 0;
-		}
-	}
-}*/
 .content-buttons {
 	position: fixed !important;
 	top: 56px;
@@ -1258,7 +1223,7 @@ export default {
 }
 
 .iconButton {
-	padding: 0;
+	padding: 0px;
 }
 </style>
 

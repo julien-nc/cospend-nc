@@ -212,7 +212,7 @@ export default {
 	computed: {
 		filteredProjectIds() {
 			return this.showArchivedProjects
-				? this.sortedProjectIds.filter(id => this.projects[id].archived_ts !== null && this.projects[id].name.toLowerCase().includes(this.search))
+				? this.sortedProjectIds.filter(id => this.projects[id].archived_ts !== null && this.projects[id].name.toLowerCase().includes(this.search.toLowerCase()))
 			    : this.sortedProjectIds.filter(id => this.projects[id].archived_ts === null)
 		},
 		sortedProjectIds() {

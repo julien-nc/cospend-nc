@@ -63,6 +63,13 @@
 					<FolderIcon />
 				</template>
 			</NcEmptyContent>
+			<input
+				id="Search"
+				v-model="search"
+				:style="`display: ${showArchivedProjects ? 'block' : 'none'}`"
+				type="text"
+				value=""
+				:placeholder="t('cospend', 'Search')">
 			<AppNavigationProjectItem
 				v-for="id in filteredProjectIds"
 				:key="id"
@@ -188,12 +195,13 @@ export default {
 			showCreationModal: false,
 			newProjectName: '',
 			showArchivedProjects: false,
+			search: '',
 		}
 	},
 	computed: {
-		filteredProjectIds(opposite = false) {
+		filteredProjectIds() {
 			return this.showArchivedProjects
-			    ? this.sortedProjectIds.filter(id => this.projects[id].archived_ts !== null)
+				? this.sortedProjectIds.filter(id => this.projects[id].archived_ts !== null && this.projects[id].name.toLowerCase().includes(this.search))
 			    : this.sortedProjectIds.filter(id => this.projects[id].archived_ts === null)
 		},
 		sortedProjectIds() {
@@ -315,5 +323,9 @@ export default {
 	.submit {
 		align-self: end;
 	}
+}
+
+#Search {
+	width: 100%;
 }
 </style>

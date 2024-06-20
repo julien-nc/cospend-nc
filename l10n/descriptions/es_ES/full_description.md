@@ -4,7 +4,7 @@ Nextcloud Cospend es un gestor de presupuesto compartido. Fue inspirado por el m
 
 Puedes utilizarlo cuando compartes casa, cuando vas de vacaciones con amigos, o siempre que compartas gastos con un grupo de personas.
 
-Te permite crear proyectos con miembros y facturas. Cada miembro tiene un saldo calculado a partir de las facturas del proyecto. Balances are not an absolute amount of money at members disposal but rather a relative information showing if a member has spent more for the group than the group has spent for her/him, independently of exactly who spent money for whom. De esta manera se puede ver quién debe al grupo y a quién debe el grupo. En última instancia, puedes pedir un plan de liquidación que indique qué pagos hay que hacer para restablecer los saldos de los miembros.
+Te permite crear proyectos con miembros y facturas. Cada miembro tiene un saldo calculado a partir de las facturas del proyecto. Los saldos no son una cantidad absoluta de dinero a disposición de los miembros, sino más bien una información relativa que muestra si un miembro ha gastado más en el grupo de lo que el grupo ha gastado por él/ella, independientemente de quién gastó dinero para quién. De esta manera se puede ver quién debe al grupo y a quién debe el grupo. En última instancia, puedes pedir un plan de liquidación que indique qué pagos hay que hacer para restablecer los saldos de los miembros.
 
 Los miembros del proyecto son independientes de los usuarios de Nextcloud. Los proyectos pueden compartirse con otros usuarios de Nextcloud o a través de enlaces públicos.
 
@@ -31,7 +31,7 @@ Las APIs privadas y públicas están documentadas usando el extractor [Nextcloud
 * 👫 Compartir proyectos con usuarios/grupos/círculos de Nextcloud
 * ► Importar/exportar proyectos como csv (compatible con archivos csv de IHateMoney y SplitWise)
 * 🔗 Generar enlaces o códigos QRs para agregar proyectos fácilmente en MoneyBuster
-* 🗲 Implement Nextcloud notifications and activity stream
+* Implementar notificaciones de Nextcloud y flujo de actividad
 
 Esta aplicación normalmente soporta las 2 o 3 últimas versiones mayores de Nextcloud.
 

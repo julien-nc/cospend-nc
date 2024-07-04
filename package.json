@@ -51,7 +51,6 @@
 		"chart.js": "^3.9.1",
 		"kjua-svg": "^1.13.1",
 		"sass": "^1.54.5",
-		"stylelint": "^16.5.0",
 		"vue": "^2.7.13",
 		"vue-awesome-countdown": "^1.1.4",
 		"vue-chartjs": "^4.1.1",
@@ -69,6 +68,7 @@
 		"@nextcloud/stylelint-config": "^3.0.1",
 		"@nextcloud/webpack-vue-config": "^6.0.0",
 		"eslint-webpack-plugin": "^4.0.0",
+		"stylelint": "^16.5.0",
 		"stylelint-webpack-plugin": "^5.0.0"
 	}
 }

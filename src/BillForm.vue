@@ -1900,6 +1900,7 @@ button {
 
 .field-with-info {
 	display: flex;
+	align-items: center;
 }
 
 .field-with-info select,

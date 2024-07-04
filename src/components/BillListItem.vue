@@ -71,7 +71,9 @@
 			</NcActionButton>
 		</template>
 		<template #extra>
-			<div v-if="editionAccess && selectMode" class="icon-selector">
+			<div v-if="editionAccess && selectMode"
+				class="icon-selector"
+				@click="onItemClick">
 				<CheckboxMarkedIcon v-if="selected" class="selected" :size="20" />
 				<CheckboxBlankOutlineIcon v-else :size="20" />
 			</div>
@@ -352,12 +354,17 @@ export default {
 }
 
 .icon-selector {
+	cursor: pointer !important;
 	display: flex;
 	justify-content: right;
-	padding-right: 8px;
+	padding-right: 0px;
 	position: absolute;
-	right: 14px;
-	bottom: 12px;
+	right: 0px;
+	bottom: 15px;
+
+	> * {
+		cursor: pointer !important;
+	}
 }
 
 .subname {

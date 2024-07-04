@@ -553,6 +553,7 @@ export default {
 
 .renameProject {
 	display: flex;
+	align-items: center;
 	input[type='text'] {
 		flex-grow: 1;
 	}

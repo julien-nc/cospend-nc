@@ -295,9 +295,7 @@ export default {
 
 <style scoped lang="scss">
 .memberItem {
-	height: 44px;
-	// padding-left: 30px !important;
-	padding-right: 0 !important;
+	padding-left: 20px !important;
 }
 
 ::v-deep .detailButton {

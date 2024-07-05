@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-04-01 20:23+0200\n"
-"PO-Revision-Date: 2024-04-28 08:02\n"
+"PO-Revision-Date: 2024-07-05 23:57\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -387,7 +387,7 @@ msgstr "Ungültige E-Mail-Addresse"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1385
 msgid "Invalid frequency"
-msgstr "Ungültige Wiederholung"
+msgstr "Ungültiges Intervall"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1391
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1397
@@ -995,11 +995,11 @@ msgstr "Weitere Informationen zur Rechnungswiederholung"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:82
 msgid "Frequency"
-msgstr "Wiederholung"
+msgstr "Intervall"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:83
 msgid "Leave empty for maximum frequency"
-msgstr "Für maximale Wiederholung leer lassen"
+msgstr "Für kürzestes Intervall leer lassen"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:84
 msgid "Include all active members on repeat"

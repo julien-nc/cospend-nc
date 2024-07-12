@@ -33,13 +33,13 @@ Nextcloud Cospend управлява бюджет за група/споделе
 * 🔗 Генериране на хипервръзка/QR код за лесно добавяне на проекти в MoneyBuster
 * 🗲 Изпълнение на уведомления в Nextcloud и на поток на дейността
 
-This app usually support the 2 or 3 last major versions of Nextcloud.
+Това приложение обичайно поддържа последните 2 или 3 от основните версии на Nextcloud.
 
 Приложението се разработва.
 
 🌍 Помогнете ни да преведем това приложение в Crowdin проекта [Nextcloud-Cospend/MoneyBuster ](https://crowdin.com/project/moneybuster).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://github.com/julien-nc/cospend-nc/blob/master/CONTRIBUTING.md).
+⚒ Проверете други начини за подкрепа в [насоките за принос](https://github.com/julien-nc/cospend-nc/blob/master/CONTRIBUTING.md).
 
 ## Документация
 
@@ -51,7 +51,7 @@ This app usually support the 2 or 3 last major versions of Nextcloud.
 
 ## Известни проблеми
 
-* It does not make you rich
+* Не ви прави богати
 
 Всяка обратна връзка ще бъде оценена.
 

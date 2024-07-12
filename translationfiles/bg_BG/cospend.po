@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-04-01 20:23+0200\n"
-"PO-Revision-Date: 2024-04-17 15:26\n"
+"PO-Revision-Date: 2024-07-12 12:21\n"
 "Last-Translator: \n"
 "Language-Team: Bulgarian\n"
 "Language: bg_BG\n"
@@ -1392,8 +1392,8 @@ msgstr[1] "Сигурни ли сте, че искате да възстанов
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:185
 msgid "Are you sure you want to clear the trash bin? ({nb} bill)"
 msgid_plural "Are you sure you want to clear the trash bin? ({nb} bills)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Сигурни ли сте, че искате да изчистите кошчето? ({nb} сметки)"
+msgstr[1] "Сигурни ли сте, че искате да изчистите кошчето? ({nb} сметки)"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:186
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:187
@@ -1525,7 +1525,7 @@ msgstr "Име на основната валута"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:215
 msgid "Cancel currency edition"
-msgstr ""
+msgstr "Отмяна на промяната на валутата"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:216
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:340
@@ -1537,7 +1537,7 @@ msgstr "Записване"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:217
 msgid "Save currency"
-msgstr ""
+msgstr "Запази валутата"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:218
 msgid "Add currency"
@@ -1579,15 +1579,15 @@ msgstr "Няма валути за показване"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:227
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:230
 msgid "Currency name should not be empty"
-msgstr ""
+msgstr "Името на валутата не трябва да бъде празно"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:228
 msgid "Exchange rate should be a number"
-msgstr ""
+msgstr "Обменният курс трябва да бъде число"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:229
 msgid "Currency {n} added"
-msgstr ""
+msgstr "Добавена валута {n}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:231
 msgid "Settlement of project {name}"
@@ -1600,7 +1600,7 @@ msgstr "Изнасяне"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:233
 msgid "Add these payments to the project"
-msgstr ""
+msgstr "Добавяне на тези плащания към проекта"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:234
 msgid "Center settlement on"
@@ -1617,7 +1617,7 @@ msgstr "Дата на плащане"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:237
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:238
 msgid "Information on settlement date"
-msgstr ""
+msgstr "Информация за датата на изплащане"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:241
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:242
@@ -1663,7 +1663,7 @@ msgstr "Не са открити салда"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:258
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:259
 msgid "Information on individual reimbursement"
-msgstr ""
+msgstr "Информация за отделното възстановяване"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:260
 msgid "Individual reimbursement"
@@ -1680,7 +1680,7 @@ msgstr "Получател"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:264
 msgid "Create bill ({amount} {currencyName})"
-msgstr ""
+msgstr "Създаване на сметка ({amount}{currencyName})"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:265
 msgid "Create bill ({amount})"
@@ -1821,7 +1821,7 @@ msgstr "Повторно активиране"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:301
 msgid "A member is already named like that"
-msgstr ""
+msgstr "Вече има член с такова име"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:303
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:466
@@ -1835,7 +1835,7 @@ msgstr "Неуспешно изтриване на споделения дост
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:305
 msgid "Are you sure?"
-msgstr ""
+msgstr "Сигурни ли сте?"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:306
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:475
@@ -1845,7 +1845,7 @@ msgstr "Настройки"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:307
 msgid "Share"
-msgstr ""
+msgstr "Споделяне"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:308
 msgid "Add member"
@@ -1861,11 +1861,11 @@ msgstr "Изплащане по проекта"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:311
 msgid "Archive"
-msgstr ""
+msgstr "Архивиране"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:312
 msgid "Unarchive"
-msgstr ""
+msgstr "Разархивиране"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:314
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:425
@@ -1875,11 +1875,11 @@ msgstr "Добавяне на член"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:315
 msgid "Close trash bin"
-msgstr ""
+msgstr "Затвори кошчето"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:316
 msgid "Show trash bin"
-msgstr ""
+msgstr "Покажи кошчето"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:319
 msgid "Everyone"
@@ -1900,15 +1900,15 @@ msgstr "Списъкът с членове не е актуален. Преза�
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:326
 msgid "Move to trash"
-msgstr ""
+msgstr "Премести в кошчето"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:327
 msgid "Move to other project"
-msgstr ""
+msgstr "Премести в друг проект"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:328
 msgid "Category selector"
-msgstr ""
+msgstr "Избор на категория"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:329
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:330
@@ -1924,7 +1924,7 @@ msgstr "Нов проект"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:343
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:346
 msgid "Create empty project"
-msgstr ""
+msgstr "Създаване на празен проект"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:344
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:369
@@ -1938,15 +1938,15 @@ msgstr "Внасяне на проект от SplitWise"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:347
 msgid "Project name"
-msgstr ""
+msgstr "Име на проекта"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:348
 msgid "My new project"
-msgstr ""
+msgstr "Моят нов проект"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:349
 msgid "Create"
-msgstr ""
+msgstr "Създаване"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:350
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:351
@@ -1955,11 +1955,11 @@ msgstr "Все още няма проекти"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:352
 msgid "Show active projects"
-msgstr ""
+msgstr "Покажи активните проекти"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:352
 msgid "Show archived projects"
-msgstr ""
+msgstr "Покажи архивираните проекти"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:353
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:356
@@ -1985,7 +1985,7 @@ msgstr "Благодарим, че използвате Cospend"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:361
 msgid "App version: {version}"
-msgstr ""
+msgstr "Версия на приложението: {version}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:362
 msgid "Bug/issue tracker"
@@ -2073,33 +2073,33 @@ msgstr "Избиране на място за записване на резул
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:402
 msgid "Member select"
-msgstr ""
+msgstr "Избор на член"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:404
 msgid "Move bill \"{bill}\" to a different project:"
-msgstr ""
+msgstr "Премести сметка „{bill}“ в друг проект:"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:405
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:406
 msgid "Only one project available, in which this bill already exists"
-msgstr ""
+msgstr "Наличен е само един проект, в който тази сметка вече съществува"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:407
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:408
 msgid "No projects found"
-msgstr ""
+msgstr "Не са открити проекти"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:409
 msgid "Bill moved to \"{project}\" successfully"
-msgstr ""
+msgstr "Успешно преместване на сметката в „{project}“"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:410
 msgid "Failed to move bill"
-msgstr ""
+msgstr "Неуспешно преместване на сметката"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:411
 msgid "Payment mode selector"
-msgstr ""
+msgstr "Избор на начин на плащане"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:412
 msgid "Rename project {n}"
@@ -2107,7 +2107,7 @@ msgstr "Преименуване на проекта {n}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:413
 msgid "Rename project"
-msgstr ""
+msgstr "Преименувай проекта"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:414
 msgid "Disable bill deletion"
@@ -2127,7 +2127,7 @@ msgstr "Членове"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:422
 msgid "More information on adding members"
-msgstr ""
+msgstr "Повече информация за добавянето на членове"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:424
 msgid "You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab."
@@ -2135,7 +2135,7 @@ msgstr "Можете да добавите обикновен потребите
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:427
 msgid "Enter a member name"
-msgstr ""
+msgstr "Въведете името на член"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:428
 msgid "Associate a project member with a Nextcloud user"
@@ -2143,7 +2143,7 @@ msgstr "Свързване на член по проекта с потребит
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:429
 msgid "More information on adding Nextcloud users as members"
-msgstr ""
+msgstr "Повече информация относно добавянето на потребители на Nextcloud като членове"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:431
 msgid "Choose a project member, then a Nextcloud user to associate with."
@@ -2160,7 +2160,7 @@ msgstr "Избиране на потребител на Nextcloud"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:435
 msgid "Type to search users"
-msgstr ""
+msgstr "Въведете, за да потърсите потребители"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:436
 msgid "New member name"
@@ -2177,11 +2177,11 @@ msgstr "Създаване на обикновен потребител"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:440
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:441
 msgid "Share project with a user, group or circle"
-msgstr ""
+msgstr "Споделяне на проект с потребител, група или кръг"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:442
 msgid "Start typing to search"
-msgstr ""
+msgstr "Започнете да въвеждате, за да потърсите"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:443
 msgid "Scan this QRCode with your mobile device to add project \"{name}\" in MoneyBuster or PayForMe"
@@ -2247,7 +2247,7 @@ msgstr "Неуспешно редактиране на хипервръзка з
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:472
 msgid "Link could not be copied to clipboard"
-msgstr ""
+msgstr "Хипервръзката не може да се копира в клипборда"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:473
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:474
@@ -2315,7 +2315,7 @@ msgstr "Максимална сума"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:501
 msgid "Convert in currency"
-msgstr ""
+msgstr "Преобразуване във валута"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:502
 msgid "Main project's currency"
@@ -2327,19 +2327,19 @@ msgstr "Показване на изключените членове"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:506
 msgid "Chart type"
-msgstr ""
+msgstr "Вид графика"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:507
 msgid "Pie"
-msgstr ""
+msgstr "Кръгова"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:508
 msgid "Bar"
-msgstr ""
+msgstr "Лента"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:509
 msgid "Total paid by all the members: {t} {currencyName}"
-msgstr ""
+msgstr "Изцяло платено от всичките членове: {t} {currencyName}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:510
 msgid "Total paid by all the members: {t}"
@@ -2399,7 +2399,7 @@ msgstr "Кой е платил за тази категория?"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:529
 msgid "What did they pay for?"
-msgstr ""
+msgstr "За какво са платили?"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:530
 msgid "Select a member"
@@ -2442,7 +2442,7 @@ msgstr "Всички"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:546
 msgid "Payed"
-msgstr ""
+msgstr "Платено"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:548
 msgid "Who paid (outside circle) and spent (inside pie)?"
@@ -2450,7 +2450,7 @@ msgstr "Кой е платил (външен кръг) и изхарчил (въ
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:549
 msgid "Who paid and spent?"
-msgstr ""
+msgstr "Кой плати и похарчи?"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:550
 msgid "How much was paid per category?"
@@ -2491,7 +2491,7 @@ msgstr "{user} редактира {bill}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/src/main.js:41
 msgid "Failed to restore options values"
-msgstr ""
+msgstr "Неуспешно възстановяване на стойностите на опциите"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/src/network.js:28
 msgid "Failed to save option values"
@@ -2519,7 +2519,7 @@ msgstr "Неуспешно редактиране на валутата"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/src/network.js:447
 msgid "Failed to get statistics"
-msgstr ""
+msgstr "Неуспешно извеждане на статистиката"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/src/network.js:464
 msgid "Project statistics exported in {path}"

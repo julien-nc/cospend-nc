@@ -1,63 +1,59 @@
 <template>
-	<div>
-		<br>
-		<div v-if="adminAccess" class="renameProject">
-			<input
-				v-model="newProjectName"
-				type="text"
-				:placeholder="t('cospend', 'Rename project {n}', { n: project.name }, undefined, { escape: false })"
-				@keyup.enter="onRenameProject">
-			<NcButton
-				:aria-label="t('cospend', 'Rename project')"
-				@click="onRenameProject">
+	<div class="settings">
+		<div class="settings-project">
+			<div v-if="adminAccess" class="renameProject">
+				<NcTextField
+					:value.sync="newProjectName"
+					:label="t('cospend', 'Rename project {n}', { n: project.name }, undefined, { escape: false })"
+					placeholder="..."
+					trailing-button-icon="arrowRight"
+					:show-trailing-button="newProjectName !== ''"
+					@trailing-button-click="onRenameProject"
+					@keyup.enter="onRenameProject" />
+			</div>
+			<div v-if="adminAccess" class="deletion-disabled-line">
+				<NcCheckboxRadioSwitch
+					id="deletion-disabled"
+					:checked="project.deletiondisabled"
+					@update:checked="onDisableDeletionChange">
+					{{ t('cospend', 'Disable bill deletion') }}
+				</NcCheckboxRadioSwitch>
+			</div>
+			<div id="autoExport">
+				<label for="autoExportSelect">
+					<CalendarMonthIcon
+						class="material-icon"
+						:size="20" />
+					<span>{{ t('cospend', 'Automatic export') }}</span>
+				</label>
+				<select id="autoExportSelect"
+					:disabled="!adminAccess"
+					:value="project.autoexport"
+					@input="onAutoExportSet">
+					<option :value="constants.FREQUENCY.NO">
+						{{ t('cospend', 'No') }}
+					</option>
+					<option :value="constants.FREQUENCY.DAILY">
+						{{ t('cospend', 'Daily') }}
+					</option>
+					<option :value="constants.FREQUENCY.WEEKLY">
+						{{ t('cospend', 'Weekly') }}
+					</option>
+					<option :value="constants.FREQUENCY.MONTHLY">
+						{{ t('cospend', 'Monthly') }}
+					</option>
+				</select>
+			</div>
+			<NcAppNavigationItem v-if="!pageIsPublic"
+				class="exportItem"
+				:name="t('cospend', 'Export project')"
+				@click="onExportClick">
 				<template #icon>
-					<CheckIcon :size="20" />
+					<ContentSaveIcon
+						:size="20" />
 				</template>
-			</NcButton>
-			<br>
+			</NcAppNavigationItem>
 		</div>
-		<div v-if="adminAccess" class="deletion-disabled-line">
-			<NcCheckboxRadioSwitch
-				id="deletion-disabled"
-				:checked="project.deletiondisabled"
-				@update:checked="onDisableDeletionChange">
-				{{ t('cospend', 'Disable bill deletion') }}
-			</NcCheckboxRadioSwitch>
-		</div>
-		<div id="autoExport">
-			<label for="autoExportSelect">
-				<CalendarMonthIcon
-					class="material-icon"
-					:size="20" />
-				<span>{{ t('cospend', 'Automatic export') }}</span>
-			</label>
-			<select id="autoExportSelect"
-				:disabled="!adminAccess"
-				:value="project.autoexport"
-				@input="onAutoExportSet">
-				<option :value="constants.FREQUENCY.NO">
-					{{ t('cospend', 'No') }}
-				</option>
-				<option :value="constants.FREQUENCY.DAILY">
-					{{ t('cospend', 'Daily') }}
-				</option>
-				<option :value="constants.FREQUENCY.WEEKLY">
-					{{ t('cospend', 'Weekly') }}
-				</option>
-				<option :value="constants.FREQUENCY.MONTHLY">
-					{{ t('cospend', 'Monthly') }}
-				</option>
-			</select>
-		</div>
-		<NcAppNavigationItem v-if="!pageIsPublic"
-			class="exportItem"
-			:name="t('cospend', 'Export project')"
-			@click="onExportClick">
-			<template #icon>
-				<ContentSaveIcon
-					:size="20" />
-			</template>
-		</NcAppNavigationItem>
 		<div>
 			<br><hr>
 			<h3>
@@ -191,7 +187,6 @@
 import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
 import AccountIcon from 'vue-material-design-icons/Account.vue'
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
-import CheckIcon from 'vue-material-design-icons/Check.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import ContentSaveIcon from 'vue-material-design-icons/ContentSave.vue'
 import CalendarMonthIcon from 'vue-material-design-icons/CalendarMonth.vue'
@@ -202,6 +197,7 @@ import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationI
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 import AppNavigationMemberItem from './AppNavigationMemberItem.vue'
 import MemberMultiSelect from './MemberMultiSelect.vue'
@@ -224,10 +220,10 @@ export default {
 		NcAvatar,
 		NcCheckboxRadioSwitch,
 		NcDialog,
+		NcTextField,
 		MemberMultiSelect,
 		CalendarMonthIcon,
 		ContentSaveIcon,
-		CheckIcon,
 		NcButton,
 		AccountIcon,
 		AccountPlusIcon,
@@ -476,9 +472,11 @@ export default {
 			this.selectedMemberId = null
 		},
 		onRenameProject() {
-			cospend.projects[this.projectId].name = this.newProjectName
-			this.$emit('project-edited', this.projectId)
-			this.newProjectName = ''
+			if (this.newProjectName) {
+				cospend.projects[this.projectId].name = this.newProjectName
+				this.$emit('project-edited', this.projectId)
+				this.newProjectName = ''
+			}
 		},
 		onDisableDeletionChange(checked) {
 			cospend.projects[this.projectId].deletiondisabled = checked
@@ -501,6 +499,17 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.settings {
+	display: flex;
+	flex-direction: column;
+
+	&-project {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+}
+
 #autoExport {
 	width: 100%;
 	display: inline-flex;
@@ -519,16 +528,17 @@ export default {
 	select {
 		display: inline-flex;
 		width: 49%;
+		margin: 0;
 
 		.material-icon {
-			margin: 0 12px 0 12px;
+			margin: 0 8px 0 6px;
 		}
 	}
 }
 
 .addUserInput {
 	width: 100%;
-	margin: 0 0 20px 0;
+	margin: 0 0 20px 0 !important;
 
 	.addUserSelectOption {
 		display: flex;
@@ -559,10 +569,6 @@ export default {
 	}
 }
 
-.deletion-disabled-line {
-	margin-left: 12px;
-}
-
 .exportItem {
 	z-index: 0;
 }
@@ -570,19 +576,15 @@ export default {
 h3, h4 {
 	display: flex;
 	align-items: center;
-	margin-bottom: 20px;
+	gap: 8px;
 
 	> .tcontent {
 		flex-grow: 1;
 	}
-
-	> span.icon {
-		padding: 12px 12px 12px 12px;
-	}
 }
 
-h4 {
-	margin: 0;
+h3 {
+	margin-top: 12px;
 }
 
 .select-display-name {
@@ -592,10 +594,5 @@ h4 {
 
 .select-icon {
 	opacity: 0.5;
-}
-
-.memberItem {
-	height: 44px;
-	padding-right: 0 !important;
 }
 </style>

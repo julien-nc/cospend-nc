@@ -38,22 +38,8 @@
 					</NcActionButton>
 				</template>
 			</NcAppNavigationItem>
-			<NcModal v-if="showCreationModal"
-				@close="showCreationModal = false">
-				<div class="creation-modal-content">
-					<h2>{{ t('cospend', 'Create empty project') }}</h2>
-					<NcTextField :value.sync="newProjectName"
-						:label="t('cospend', 'Project name')"
-						:placeholder="t('cospend', 'My new project')" />
-					<NcButton class="submit"
-						@click="createProject">
-						<template #icon>
-							<ArrowRightIcon />
-						</template>
-						{{ t('cospend', 'Create') }}
-					</NcButton>
-				</div>
-			</NcModal>
+			<NewProjectModal v-if="showCreationModal"
+				@close="showCreationModal = false" />
 			<h2 v-if="loading"
 				class="icon-loading-small loading-icon" />
 			<NcEmptyContent v-else-if="sortedProjectIds.length === 0"
@@ -103,7 +89,6 @@
 </template>
 
 <script>
-import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue'
 import FolderPlusIcon from 'vue-material-design-icons/FolderPlus.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
@@ -116,12 +101,10 @@ import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
 
 import AppNavigationProjectItem from './AppNavigationProjectItem.vue'
+import NewProjectModal from './NewProjectModal.vue'
 
 import cospend from '../state.js'
 import * as constants from '../constants.js'
@@ -134,21 +117,18 @@ import { showSuccess } from '@nextcloud/dialogs'
 export default {
 	name: 'CospendNavigation',
 	components: {
+		NewProjectModal,
 		AppNavigationProjectItem,
 		NcAppNavigation,
 		NcEmptyContent,
 		NcAppNavigationItem,
 		NcActionButton,
-		NcButton,
-		NcModal,
-		NcTextField,
 		NcCounterBubble,
 		CogIcon,
 		FileImportIcon,
 		PlusIcon,
 		FolderIcon,
 		FolderPlusIcon,
-		ArrowRightIcon,
 		ArchiveLockIcon,
 		CalendarIcon,
 	},
@@ -186,7 +166,6 @@ export default {
 			importMenuOpen: false,
 			importingProject: false,
 			showCreationModal: false,
-			newProjectName: '',
 			showArchivedProjects: false,
 		}
 	},
@@ -228,11 +207,6 @@ export default {
 		},
 		closeMenu() {
 			this.opened = false
-		},
-		createProject() {
-			emit('create-project', this.newProjectName)
-			this.showCreationModal = false
-			this.newProjectName = ''
 		},
 		onImportClick() {
 			importCospendProject(() => {

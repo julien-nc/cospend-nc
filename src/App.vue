@@ -1168,10 +1168,8 @@ export default {
 					}
 				})
 			}).catch((error) => {
-				showError(
-					t('cospend', 'Failed to edit project')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
-				)
+				showError(t('cospend', 'Failed to edit project'))
+				console.error(error)
 			})
 		},
 		onCategoryDeleted(catid) {

@@ -1,12 +1,12 @@
 <template>
 	<div id="manage-currencies">
 		<div id="main-currency-div">
-			<label class="title-label">
+			<h3 class="title-label">
 				<CurrencyUsdIcon
 					class="icon"
 					:size="20" />
 				{{ t('cospend', 'Main currency') }}
-			</label>
+			</h3>
 			<div v-show="!editMode"
 				id="main-currency-label">
 				<label id="main-currency-label-label">{{ project.currencyname || t('cospend', 'None') }}</label>
@@ -52,35 +52,23 @@
 		<div id="currencies-div">
 			<div v-show="project.myaccesslevel >= constants.ACCESS.MAINTENER"
 				id="add-currency-div">
-				<label class="title-label">
+				<h3 class="title-label">
 					<PlusIcon
 						class="icon"
 						:size="20" />
 					{{ t('cospend', 'Add currency') }}
-				</label>
+				</h3>
 				<div id="add-currency">
-					<label for="addCurrencyNameInput">
-						{{ t('cospend', 'Name') }}
-					</label>
-					<input
-						id="addCurrencyNameInput"
-						ref="newCurrencyName"
-						type="text"
-						value=""
-						maxlength="64"
-						:placeholder="t('cospend', 'Currency name')"
-						@keyup.enter="onAddCurrency">
-					<label for="addCurrencyRateInput">
-						{{ t('cospend', 'Exchange rate to main currency') }}
-					</label>
-					<input
-						id="addCurrencyRateInput"
-						ref="newCurrencyRate"
+					<NcTextField
+						:value.sync="newCurrencyName"
+						:label="t('cospend', 'Currency name')"
+						placeholder="..."
+						@keyup.enter="onAddCurrency" />
+					<NcInputField
+						:value.sync="newCurrencyRate"
 						type="number"
-						value="1"
-						step="0.0001"
-						min="0"
-						@keyup.enter="onAddCurrency">
+						:label="t('cospend', 'Exchange rate to main currency')"
+						placeholder="..." />
 					<label class="addCurrencyRateHint">
 						{{ t('cospend', '(1 of this currency = X of main currency)') }}
 					</label>
@@ -98,10 +86,10 @@
 				</div>
 				<hr>
 			</div>
-			<label class="currencyListLabel">
+			<h3 class="title-label">
 				<CurrencyIcon class="icon" :size="20" />
 				{{ t('cospend', 'Currency list') }}
-			</label>
+			</h3>
 			<div v-if="currencies.length"
 				id="currency-list">
 				<Currency
@@ -129,6 +117,8 @@ import CurrencyUsdIcon from 'vue-material-design-icons/CurrencyUsd.vue'
 import CurrencyIcon from './components/icons/CurrencyIcon.vue'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 import Currency from './components/Currency.vue'
 
@@ -153,6 +143,8 @@ export default {
 		CheckIcon,
 		UndoIcon,
 		NcButton,
+		NcInputField,
+		NcTextField,
 	},
 
 	props: {
@@ -165,6 +157,8 @@ export default {
 		return {
 			constants,
 			editMode: false,
+			newCurrencyName: '',
+			newCurrencyRate: 1,
 		}
 	},
 
@@ -196,6 +190,8 @@ export default {
 				return
 			}
 			network.createCurrency(this.project.id, name, rate, this.addCurrencySuccess)
+			this.newCurrencyName = ''
+			this.newCurrencyRate = 1
 		},
 		addCurrencySuccess(currencyId, name, rate) {
 			this.project.currencies.push({
@@ -241,11 +237,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-#manage-currencies .icon {
-	line-height: 44px;
-	padding: 0 12px 0 12px;
-}
-
 .editMainCurrencyInput {
 	flex-grow: 1;
 }
@@ -258,20 +249,15 @@ export default {
 	}
 }
 
-#main-currency-edit,
-#add-currency,
-#main-currency-label {
-	margin-left: 37px;
+#add-currency {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
 }
 
 #main-currency-label {
 	display: grid;
 	grid-template: 1fr / 90% 1fr;
-}
-
-#add-currency {
-	display: grid;
-	grid-template: 1fr / 2fr 1fr;
 }
 
 .addCurrencyButtonWrapper {
@@ -301,15 +287,10 @@ export default {
 	margin-left: 37px;
 }
 
-.currencyListLabel {
+.title-label {
+	margin-top: 12px;
 	display: flex;
 	align-items: center;
-}
-
-.title-label {
-	display: flex;
-	.icon {
-		padding-left: 12px !important;
-	}
+	gap: 12px;
 }
 </style>

@@ -414,17 +414,10 @@ export default {
 
 <style scoped lang="scss">
 h3 {
+	margin-top: 12px;
 	display: flex;
-}
-
-.manage-elements {
-	.icon {
-		line-height: 44px;
-		padding: 0 12px 0 25px;
-	}
-	h3 .icon {
-		padding-left: 12px;
-	}
+	align-items: center;
+	gap: 8px;
 }
 
 .element-list {
@@ -462,8 +455,5 @@ h3 {
 	display: flex;
 	flex-direction: column;
 	align-items: start;
-	select {
-		margin-left: 38px;
-	}
 }
 </style>

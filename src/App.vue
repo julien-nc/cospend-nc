@@ -10,7 +10,7 @@
 			:list-max-width="isSidebarOpen ? 40 : 50"
 			:list-min-width="isSidebarOpen ? 30 : 20"
 			:list-size="isSidebarOpen ? 30 : 20"
-			:show-details="shouldShowDetailsToggle"
+			:show-details="shouldShowDetails"
 			@update:showDetails="showList">
 			<template #list>
 				<BillList
@@ -245,8 +245,8 @@ export default {
 		}
 	},
 	computed: {
-		shouldShowDetailsToggle() {
-			return ((this.currentBill && this.currentBill !== null) || this.mode !== 'edition')
+		shouldShowDetails() {
+			return this.currentBill || !['edition', 'normal'].includes(this.mode)
 		},
 		showProjectEmptyContent() {
 			return this.currentProjectId

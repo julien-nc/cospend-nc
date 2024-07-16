@@ -2,6 +2,7 @@
 	<NcSelect
 		:value="selectedMemberItem"
 		class="memberMultiSelect"
+		:input-label="inputLabel"
 		:aria-label-combobox="t('cospend', 'Member select')"
 		label="displayName"
 		:disabled="disabled"
@@ -69,6 +70,10 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		inputLabel: {
+			type: [String, null],
+			default: null,
+		},
 		placeholder: {
 			type: String,
 			required: true,
@@ -126,7 +131,7 @@ export default {
 
 <style scoped lang="scss">
 .memberMultiSelect {
-	height: 44px;
+	//height: 44px;
 
 	.memberSelectOption {
 		display: flex;

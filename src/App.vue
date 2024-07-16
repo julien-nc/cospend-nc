@@ -246,7 +246,7 @@ export default {
 	},
 	computed: {
 		shouldShowDetails() {
-			return this.currentBill || !['edition', 'normal'].includes(this.mode)
+			return (this.currentBill && this.currentBill !== null) || !['edition', 'normal'].includes(this.mode)
 		},
 		showProjectEmptyContent() {
 			return this.currentProjectId

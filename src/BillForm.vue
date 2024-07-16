@@ -54,62 +54,52 @@
 		</h2>
 		<div class="bill-form">
 			<div class="bill-left">
-				<div class="bill-what">
-					<label for="what">
-						<TextLongIcon
-							class="icon"
-							:size="20" />
-						{{ t('cospend', 'What?') }}
-					</label>
-					<input
-						id="what"
+				<div class="bill-field">
+					<TextLongIcon
+						class="icon"
+						:size="20" />
+					<NcTextField
 						ref="what"
-						v-model="myBill.what"
-						type="text"
-						maxlength="300"
-						class="input-bill-what"
-						:readonly="!editionAccess"
+						:value.sync="myBill.what"
+						:label="t('cospend', 'What?')"
 						:placeholder="t('cospend', 'What is the bill about?')"
-						@input="onBillEdited"
-						@focus="$event.target.select()">
+						:show-trailing-button="!!myBill.what && myBill.what.trim() !== ''"
+						maxlength="300"
+						:readonly="!editionAccess"
+						@trailing-button-click="myBill.what = ''; onBillEdited(null, false)"
+						@update:value="onBillEdited"
+						@keyup.enter="onBillEdited(null, false)"
+						@focus="$refs.what.select()" />
 				</div>
 				<div v-if="!pageIsPublic"
 					class="bill-link-button">
-					<label>&nbsp;</label>
-					<div class="link-button">
-						<NcButton
-							:title="t('cospend', 'Attach share link to personal file')"
-							@click="onGeneratePubLinkClick">
-							<template #icon>
-								<LinkVariantIcon />
-							</template>
-							{{ t('cospend', 'Attach share link to personal file') }}
-						</NcButton>
-					</div>
+					<NcButton
+						:title="t('cospend', 'Attach share link to personal file')"
+						@click="onGeneratePubLinkClick">
+						<template #icon>
+							<LinkVariantIcon />
+						</template>
+						{{ t('cospend', 'Attach share link to personal file') }}
+					</NcButton>
 				</div>
-				<div class="bill-amount">
-					<label for="amount">
-						<CospendIcon
-							class="icon"
-							:size="20" />
-						{{ t('cospend', 'How much?') }}
-						<span v-if="project.currencyname">
-							&nbsp;
-							({{ project.currencyname }})
-						</span>
-					</label>
+				<div class="bill-field">
+					<CospendIcon
+						class="icon"
+						:size="20" />
 					<div class="field-with-info">
-						<input
-							id="amount"
-							v-model="uiAmount"
-							type="text"
-							class="input-bill-amount"
+						<NcTextField
+							:value.sync="uiAmount"
+							:label="t('cospend', 'How much?') + (project.currencyname ? (' (' + project.currencyname + ')') : '')"
+							placeholder="..."
 							:disabled="isNewBill && newBillMode === 'custom'"
 							:readonly="!editionAccess"
-							@input="onAmountChanged"
+							:show-trailing-button="!!uiAmount && uiAmount !== 0"
+							@trailing-button-click="uiAmount = '0'; onBillEdited(null, false)"
+							@update:value="onAmountChanged"
 							@keyup.enter="onAmountEnterPressed"
-							@focus="$event.target.select()">
+							@focus="$event.target.select()" />
 						<NcButton
+							class="more-info"
 							:title="t('cospend', 'More information')"
 							:aria-label="t('cospend', 'More information on amount input field')"
 							@click="showAmountInfo = true">
@@ -154,80 +144,74 @@
 							:message="convertInfoText" />
 					</div>
 				</div>
-				<div class="bill-payer">
-					<label>
-						<AccountIcon
-							class="icon"
-							:size="20" />
-						{{ t('cospend', 'Who paid?') }}
-					</label>
+				<div class="bill-field bill-payer">
+					<AccountIcon
+						class="icon"
+						:size="20" />
 					<MemberMultiSelect
-						id="memberMultiSelect"
+						class="member-select"
 						:project-id="projectId"
 						:value="selectedMember"
 						:disabled="!editionAccess || (!isNewBill && !members[myBill.payer_id].activated)"
+						:input-label="t('cospend', 'Who paid?')"
 						:placeholder="t('cospend', 'Choose a member')"
 						:members="activatedOrPayer"
 						@input="memberSelected" />
 				</div>
-				<div class="bill-date">
-					<label for="dateInput">
-						<CalendarIcon
-							class="icon"
-							:size="20" />
-						{{ t('cospend', 'When?') }}
-					</label>
-					<NcDateTimePicker v-if="showDatePicker"
-						id="dateInput"
-						v-model="billDatetime"
-						class="datetime-picker"
-						:type="useTime ? 'datetime' : 'date'"
-						:placeholder="t('cospend', 'When?')"
-						:minute-step="1"
-						:show-second="false"
-						:formatter="formatWhen"
-						:disabled="!editionAccess"
-						:confirm="true" />
+				<div class="bill-field bill-date">
+					<CalendarIcon
+						class="icon"
+						:size="20" />
+					<div class="input">
+						<label for="dateInput">
+							{{ t('cospend', 'When?') }}
+						</label>
+						<NcDateTimePicker v-if="showDatePicker"
+							id="dateInput"
+							v-model="billDatetime"
+							class="datetime-picker"
+							:type="useTime ? 'datetime' : 'date'"
+							:placeholder="t('cospend', 'When?')"
+							:minute-step="1"
+							:show-second="false"
+							:formatter="formatWhen"
+							:disabled="!editionAccess"
+							:confirm="true" />
+					</div>
 				</div>
-				<div class="bill-payment-mode">
-					<label for="paymentModeMultiSelect">
-						<TagIcon
-							class="icon"
-							:size="20" />
-						{{ t('cospend', 'Payment mode') }}
-					</label>
+				<div class="bill-field bill-payment-mode">
+					<TagIcon
+						class="icon"
+						:size="20" />
 					<NcSelect
 						:value="selectedPaymentModeItem"
-						class="paymentModeMultiSelect"
+						class="select"
 						:aria-label-combobox="t('cospend', 'Payment mode')"
 						:placeholder="t('cospend', 'Choose a payment mode')"
+						:input-label="t('cospend', 'Payment mode')"
 						:options="formattedPaymentModes"
 						:no-wrap="true"
 						label="name"
 						:disabled="!editionAccess"
 						:clearable="false"
-						input-id="paymentModeMultiSelect"
 						@search="pmQueryChanged"
 						@input="paymentModeSelected" />
 				</div>
-				<div class="bill-category">
-					<label for="categoryMultiSelect">
-						<ShapeIcon
-							class="icon"
-							:size="20" />
-						{{ t('cospend', 'Category') }}
-					</label>
+				<div class="bill-field bill-category">
+					<ShapeIcon
+						class="icon"
+						:size="20" />
 					<NcSelect
 						:value="selectedCategoryItem"
-						class="categoryMultiSelect"
+						class="select"
 						:aria-label-combobox="t('cospend', 'Category')"
 						:placeholder="t('cospend', 'Choose or add a category')"
+						:input-label="t('cospend', 'Category')"
 						:options="formattedCategories"
 						:no-wrap="true"
 						label="name"
 						:disabled="!editionAccess"
 						:clearable="false"
-						input-id="categoryMultiSelect"
 						@search="categoryQueryChanged"
 						@input="categorySelected" />
 				</div>
@@ -635,6 +619,7 @@ import NcRichContenteditable from '@nextcloud/vue/dist/Components/NcRichContente
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 import CospendTogglableAvatar from './components/avatar/CospendTogglableAvatar.vue'
 import MemberMultiSelect from './components/MemberMultiSelect.vue'
@@ -668,6 +653,7 @@ export default {
 		NcAppContentDetails,
 		NcSelect,
 		NcCheckboxRadioSwitch,
+		NcTextField,
 		MemberMultiSelect,
 		NcButton,
 		NcRichContenteditable,
@@ -1278,6 +1264,7 @@ export default {
 			this.onBillEdited(null, false)
 		},
 		onBillEdited(e, delayed = true) {
+			console.debug('onBillEdited', this.myBill)
 			this.computeAmountFormula()
 			if (!this.isNewBill && !this.noBill) {
 				if (delayed) {
@@ -1802,7 +1789,6 @@ export default {
 	.datetime-picker,
 	.multiSelect,
 	.repeat-now,
-	.link-button,
 	input {
 		width: 260px;
 	}
@@ -1832,7 +1818,7 @@ button {
 			align-items: center;
 
 			span.icon {
-				width: 44px;
+				margin-right: 8px;
 			}
 		}
 
@@ -1901,31 +1887,46 @@ button {
 .field-with-info {
 	display: flex;
 	align-items: center;
+	flex-grow: 1;
 }
 
-.field-with-info select,
-.field-with-info input {
-	flex-grow: 100;
-}
-
-.bill-date,
 .bill-payment-mode,
 .bill-category,
 .bill-repeat,
 .bill-repeat-until,
 .bill-repeat-freq,
 .bill-repeat-now,
-.bill-payer,
-.bill-amount,
 .bill-currency-convert,
 .bill-comment,
-.bill-link-button,
-.bill-what {
+.bill-field {
 	display: flex;
-	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
 
-	> label {
-		width: 200px;
+	.more-info {
+		align-self: end;
+	}
+}
+
+.bill-link-button {
+	display: flex;
+	justify-content: end;
+	margin: 8px 0 8px 0;
+}
+
+.bill-date {
+	.icon {
+		align-self: end;
+		margin-bottom: 8px;
+	}
+	.input {
+		flex-direction: column;
+		align-items: start;
+		gap: 0;
+
+		.datetime-picker {
+			width: 100%;
+		}
 	}
 }
 
@@ -1954,6 +1955,13 @@ button {
 .bill-payment-mode,
 .bill-category {
 	margin: 8px 0 8px 0;
+	.select {
+		flex-grow: 1;
+	}
+	.icon {
+		align-self: end;
+		margin-bottom: 12px;
+	}
 }
 
 .bill-currency-convert {
@@ -1968,6 +1976,13 @@ button {
 
 .bill-payer {
 	margin-bottom: 5px;
+	.member-select {
+		flex-grow: 1;
+	}
+	.icon {
+		align-self: end;
+		margin-bottom: 12px;
+	}
 }
 
 .bill-repeat-include {
@@ -1987,12 +2002,6 @@ button {
 
 #billTypeLine {
 	display: flex;
-}
-
-::v-deep #categoryMultiSelect,
-::v-deep #paymentModeMultiSelect,
-::v-deep #memberMultiSelect input {
-	padding: 0 0 0 5px !important;
 }
 
 ::v-deep .owerAvatar {

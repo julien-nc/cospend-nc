@@ -54,7 +54,7 @@
 		</h2>
 		<div class="bill-form">
 			<div class="bill-left">
-				<div class="bill-field">
+				<div class="bill-field bill-what">
 					<TextLongIcon
 						class="icon"
 						:size="20" />
@@ -82,7 +82,7 @@
 						{{ t('cospend', 'Attach share link to personal file') }}
 					</NcButton>
 				</div>
-				<div class="bill-field">
+				<div class="bill-field bill-amount">
 					<CospendIcon
 						class="icon"
 						:size="20" />
@@ -114,34 +114,36 @@
 				</div>
 				<div
 					v-if="project.currencyname && project.currencies.length > 0 && editionAccess"
-					class="bill-currency-convert">
-					<label for="bill-currency">
-						<CurrencyIcon class="icon"
-							:size="20" />
-						{{ t('cospend', 'Convert to') }}
-					</label>
-					<div class="field-with-info">
-						<select id="bill-currency" ref="currencySelect" @change="onCurrencyConvert">
-							<option value="">
-								{{ project.currencyname }}
-							</option>
-							<option v-for="currency in project.currencies"
-								:key="currency.id"
-								:value="currency.id">
-								{{ currency.name }} ⇒ {{ project.currencyname }} (x{{ currency.exchange_rate }})
-							</option>
-						</select>
-						<NcButton
-							:title="t('cospend', 'More information')"
-							:aria-label="t('cospend', 'More information on currency conversion')"
-							@click="showConvertInfo = true">
-							<template #icon>
-								<InformationOutlineIcon />
-							</template>
-						</NcButton>
-						<NcDialog :open.sync="showConvertInfo"
-							:name="t('cospend', 'Info')"
-							:message="convertInfoText" />
+					class="bill-field bill-currency-convert">
+					<CurrencyIcon class="icon"
+						:size="20" />
+					<div class="input">
+						<label for="bill-currency">
+							{{ t('cospend', 'Convert to') }}
+						</label>
+						<div class="field-with-info">
+							<select id="bill-currency" ref="currencySelect" @change="onCurrencyConvert">
+								<option value="">
+									{{ project.currencyname }}
+								</option>
+								<option v-for="currency in project.currencies"
+									:key="currency.id"
+									:value="currency.id">
+									{{ currency.name }} ⇒ {{ project.currencyname }} (x{{ currency.exchange_rate }})
+								</option>
+							</select>
+							<NcButton
+								:title="t('cospend', 'More information')"
+								:aria-label="t('cospend', 'More information on currency conversion')"
+								@click="showConvertInfo = true">
+								<template #icon>
+									<InformationOutlineIcon />
+								</template>
+							</NcButton>
+							<NcDialog :open.sync="showConvertInfo"
+								:name="t('cospend', 'Info')"
+								:message="convertInfoText" />
+						</div>
 					</div>
 				</div>
 				<div class="bill-field bill-payer">
@@ -149,7 +151,7 @@
 						class="icon"
 						:size="20" />
 					<MemberMultiSelect
-						class="member-select"
+						class="member-select select"
 						:project-id="projectId"
 						:value="selectedMember"
 						:disabled="!editionAccess || (!isNewBill && !members[myBill.payer_id].activated)"
@@ -186,7 +188,6 @@
 					<NcSelect
 						:value="selectedPaymentModeItem"
 						class="select"
-						:aria-label-combobox="t('cospend', 'Payment mode')"
 						:placeholder="t('cospend', 'Choose a payment mode')"
 						:input-label="t('cospend', 'Payment mode')"
 						:options="formattedPaymentModes"
@@ -204,7 +205,6 @@
 					<NcSelect
 						:value="selectedCategoryItem"
 						class="select"
-						:aria-label-combobox="t('cospend', 'Category')"
 						:placeholder="t('cospend', 'Choose or add a category')"
 						:input-label="t('cospend', 'Category')"
 						:options="formattedCategories"
@@ -215,99 +215,97 @@
 						@search="categoryQueryChanged"
 						@input="categorySelected" />
 				</div>
-				<div class="bill-comment">
-					<label for="comment">
-						<CommentTextIcon
-							class="icon"
-							:size="20" />
-						{{ t('cospend', 'Comment') }}
-					</label>
-					<!--textarea
-						id="comment"
-						v-model="myBill.comment"
-						maxlength="300"
-						class="input-bill-comment"
-						:readonly="!editionAccess"
-						:placeholder="t('cospend', 'More details about the bill (300 char. max)')"
-						@input="onBillEdited" /-->
-					<NcRichContenteditable
-						:value.sync="myBill.comment"
-						class="input-bill-comment"
-						:maxlength="300"
-						:multiline="true"
-						:contenteditable="editionAccess"
-						:placeholder="t('cospend', 'More details about the bill') + '\n' + t('cospend', '({n} characters max)', { n: 300 })"
-						@update:value="onBillEdited" />
+				<div class="bill-field bill-comment">
+					<CommentTextIcon
+						class="icon"
+						:size="20" />
+					<div class="input">
+						<label for="comment">
+							{{ t('cospend', 'Comment') }}
+						</label>
+						<NcRichContenteditable
+							:value.sync="myBill.comment"
+							class="input-bill-comment"
+							:maxlength="300"
+							:multiline="true"
+							:contenteditable="editionAccess"
+							:placeholder="t('cospend', 'More details about the bill') + '\n' + t('cospend', '({n} characters max)', { n: 300 })"
+							@update:value="onBillEdited" />
+					</div>
 				</div>
-				<div class="bill-repeat">
-					<label for="repeatbill">
-						<CalendarSyncIcon
-							class="icon"
-							:size="20" />
-						{{ t('cospend', 'Repeat') }}
-					</label>
-					<div class="field-with-info">
-						<select
-							id="repeatbill"
-							:value="myBill.repeat"
-							:disabled="!editionAccess"
-							@input="onRepeatChanged">
-							<option :value="constants.FREQUENCY.NO" selected="selected">
-								{{ t('cospend', 'No') }}
-							</option>
-							<option :value="constants.FREQUENCY.DAILY">
-								{{ t('cospend', 'Daily') }}
-							</option>
-							<option :value="constants.FREQUENCY.WEEKLY">
-								{{ t('cospend', 'Weekly') }}
-							</option>
-							<option :value="constants.FREQUENCY.BI_WEEKLY">
-								{{ t('cospend', 'Bi-weekly (every 2 weeks)') }}
-							</option>
-							<option :value="constants.FREQUENCY.SEMI_MONTHLY">
-								{{ t('cospend', 'Semi-monthly (twice a month)') }}
-							</option>
-							<option :value="constants.FREQUENCY.MONTHLY">
-								{{ t('cospend', 'Monthly') }}
-							</option>
-							<option :value="constants.FREQUENCY.YEARLY">
-								{{ t('cospend', 'Yearly') }}
-							</option>
-						</select>
-						<NcButton
-							:title="t('cospend', 'More information')"
-							:aria-label="t('cospend', 'More information on bill repetition')"
-							@click="showRepeatInfo = true">
-							<template #icon>
-								<InformationOutlineIcon />
-							</template>
-						</NcButton>
-						<NcDialog :open.sync="showRepeatInfo"
-							:name="t('cospend', 'Info')"
-							:message="repeatInfoText" />
+				<div class="bill-field bill-repeat">
+					<CalendarSyncIcon
+						class="icon"
+						:size="20" />
+					<div class="input">
+						<label for="repeatbill">
+							{{ t('cospend', 'Repeat') }}
+						</label>
+						<div class="field-with-info">
+							<select
+								id="repeatbill"
+								:value="myBill.repeat"
+								:disabled="!editionAccess"
+								@input="onRepeatChanged">
+								<option :value="constants.FREQUENCY.NO" selected="selected">
+									{{ t('cospend', 'No') }}
+								</option>
+								<option :value="constants.FREQUENCY.DAILY">
+									{{ t('cospend', 'Daily') }}
+								</option>
+								<option :value="constants.FREQUENCY.WEEKLY">
+									{{ t('cospend', 'Weekly') }}
+								</option>
+								<option :value="constants.FREQUENCY.BI_WEEKLY">
+									{{ t('cospend', 'Bi-weekly (every 2 weeks)') }}
+								</option>
+								<option :value="constants.FREQUENCY.SEMI_MONTHLY">
+									{{ t('cospend', 'Semi-monthly (twice a month)') }}
+								</option>
+								<option :value="constants.FREQUENCY.MONTHLY">
+									{{ t('cospend', 'Monthly') }}
+								</option>
+								<option :value="constants.FREQUENCY.YEARLY">
+									{{ t('cospend', 'Yearly') }}
+								</option>
+							</select>
+							<NcButton
+								:title="t('cospend', 'More information')"
+								:aria-label="t('cospend', 'More information on bill repetition')"
+								@click="showRepeatInfo = true">
+								<template #icon>
+									<InformationOutlineIcon />
+								</template>
+							</NcButton>
+							<NcDialog :open.sync="showRepeatInfo"
+								:name="t('cospend', 'Info')"
+								:message="repeatInfoText" />
+						</div>
 					</div>
 				</div>
 				<div v-if="myBill.repeat !== 'n'"
 					class="bill-repeat-extra">
 					<div v-if="[constants.FREQUENCY.DAILY, constants.FREQUENCY.WEEKLY, constants.FREQUENCY.MONTHLY, constants.FREQUENCY.YEARLY].includes(myBill.repeat)"
-						class="bill-repeat-freq">
-						<label for="repeat-freq">
-							<CounterIcon
-								class="icon"
-								:size="20" />
-							{{ t('cospend', 'Frequency') }}
-						</label>
-						<div class="field-with-info">
-							<input
-								id="repeat-freq"
-								:value="myBill.repeatfreq"
-								type="number"
-								class="input-repeat-freq"
-								min="1"
-								step="1"
-								:placeholder="t('cospend', 'Leave empty for maximum frequency')"
-								:readonly="!editionAccess"
-								@input="onRepeatFreqChanged">
+						class="bill-field bill-repeat-freq">
+						<CounterIcon
+							class="icon"
+							:size="20" />
+						<div class="input">
+							<label for="repeat-freq">
+								{{ t('cospend', 'Frequency') }}
+							</label>
+							<div class="field-with-info">
+								<input
+									id="repeat-freq"
+									:value="myBill.repeatfreq"
+									type="number"
+									class="input-repeat-freq"
+									min="1"
+									step="1"
+									:placeholder="t('cospend', 'Leave empty for maximum frequency')"
+									:readonly="!editionAccess"
+									@input="onRepeatFreqChanged">
+							</div>
 						</div>
 					</div>
 					<div class="bill-repeat-include">
@@ -319,23 +317,25 @@
 							{{ t('cospend', 'Include all active members on repeat') }}
 						</NcCheckboxRadioSwitch>
 					</div>
-					<div class="bill-repeat-until">
-						<label>
-							<CalendarEndIcon
-								class="icon"
-								:size="20" />
-							{{ t('cospend', 'Repeat until') }}
-						</label>
-						<NcDateTimePicker v-if="showDatePicker"
-							v-model="billStringRepeatUntil"
-							class="datetime-picker"
-							type="date"
-							:clearable="true"
-							:disabled-date="isRepeatUntilDateDisabled"
-							:placeholder="t('cospend', 'No limit')"
-							:formatter="formatRepeatUntil"
-							:readonly="!editionAccess"
-							:confirm="true" />
+					<div class="bill-field bill-repeat-until">
+						<CalendarEndIcon
+							class="icon"
+							:size="20" />
+						<div class="input">
+							<label>
+								{{ t('cospend', 'Repeat until') }}
+							</label>
+							<NcDateTimePicker v-if="showDatePicker"
+								v-model="billStringRepeatUntil"
+								class="datetime-picker"
+								type="date"
+								:clearable="true"
+								:disabled-date="isRepeatUntilDateDisabled"
+								:placeholder="t('cospend', 'No limit')"
+								:formatter="formatRepeatUntil"
+								:readonly="!editionAccess"
+								:confirm="true" />
+						</div>
 					</div>
 					<div v-if="editionAccess && !isNewBill"
 						class="bill-repeat-now">
@@ -1783,17 +1783,6 @@ export default {
 	}
 }
 
-.bill-left {
-	select,
-	textarea,
-	.datetime-picker,
-	.multiSelect,
-	.repeat-now,
-	input {
-		width: 260px;
-	}
-}
-
 button {
 	display: flex;
 	align-items: center;
@@ -1809,9 +1798,22 @@ button {
 
 	.bill-form {
 		height: 100%;
-		margin-left: auto;
-		margin-right: auto;
-		padding-bottom: 24px;
+		display: flex;
+		gap: 32px;
+		flex-wrap: wrap;
+		margin: 0 32px 0 32px;
+		padding-bottom: 32px;
+
+		.bill-left,
+		.bill-right {
+			flex-grow: 1;
+		}
+
+		.bill-left {
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+		}
 
 		label:not(.checkboxlabel):not(.spentlabel) {
 			display: flex;
@@ -1826,12 +1828,6 @@ button {
 			margin-left: 6px;
 		}
 	}
-}
-
-.bill-left,
-.bill-right {
-	padding: 0px 15px 0px 15px;
-	float: left;
 }
 
 .owerAllNoneDiv label,
@@ -1885,26 +1881,14 @@ button {
 }
 
 .field-with-info {
+	width: 100%;
 	display: flex;
 	align-items: center;
 	flex-grow: 1;
-}
-
-.bill-payment-mode,
-.bill-category,
-.bill-repeat,
-.bill-repeat-until,
-.bill-repeat-freq,
-.bill-repeat-now,
-.bill-currency-convert,
-.bill-comment,
-.bill-field {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-
-	.more-info {
-		align-self: end;
+	input,
+	select {
+		flex-grow: 1;
+		margin: 0;
 	}
 }
 
@@ -1914,24 +1898,38 @@ button {
 	margin: 8px 0 8px 0;
 }
 
-.bill-date {
-	.icon {
+.bill-field {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+
+	.more-info {
 		align-self: end;
-		margin-bottom: 8px;
+	}
+	.icon {
+		margin-top: 24px;
+	}
+	&.bill-what,
+	&.bill-amount {
+		.icon {
+			margin-top: 6px;
+		}
+	}
+	.select {
+		flex-grow: 1;
 	}
 	.input {
+		flex-grow: 1;
+		display: flex;
 		flex-direction: column;
 		align-items: start;
 		gap: 0;
 
+		.input-bill-comment,
 		.datetime-picker {
 			width: 100%;
 		}
 	}
-}
-
-.input-bill-comment {
-	width: 260px;
 }
 
 .bill-repeat-now,
@@ -1952,37 +1950,8 @@ button {
 	}
 }
 
-.bill-payment-mode,
-.bill-category {
-	margin: 8px 0 8px 0;
-	.select {
-		flex-grow: 1;
-	}
-	.icon {
-		align-self: end;
-		margin-bottom: 12px;
-	}
-}
-
 .bill-currency-convert {
 	margin-top: 10px;
-}
-
-.bill-repeat,
-.bill-payer,
-.bill-amount {
-	margin-top: 25px;
-}
-
-.bill-payer {
-	margin-bottom: 5px;
-	.member-select {
-		flex-grow: 1;
-	}
-	.icon {
-		align-self: end;
-		margin-bottom: 12px;
-	}
 }
 
 .bill-repeat-include {

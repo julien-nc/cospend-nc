@@ -3,7 +3,7 @@
 		:value="selectedMemberItem"
 		class="memberMultiSelect"
 		:input-label="inputLabel"
-		:aria-label-combobox="t('cospend', 'Member select')"
+		:aria-label-combobox="inputLabel ? undefined : t('cospend', 'Member select')"
 		label="displayName"
 		:disabled="disabled"
 		:placeholder="placeholder"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-04-01 20:23+0200\n"
-"PO-Revision-Date: 2024-04-27 07:45\n"
+"PO-Revision-Date: 2024-07-20 09:50\n"
 "Last-Translator: \n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
@@ -454,7 +454,7 @@ msgstr "Недопустимые значения поля"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3194
 msgid "Impossible to get the edited category"
-msgstr ""
+msgstr "Невозможно получить отредактированную категорию"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3198
 msgid "This project has no such category"
@@ -1358,7 +1358,7 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:176
 msgid "Delete selected bills"
-msgstr ""
+msgstr "Удалить выбранные счета"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:177
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:178
@@ -1367,11 +1367,11 @@ msgstr "Не удалось сохранить счет"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:179
 msgid "Bills edited"
-msgstr ""
+msgstr "Счета отредактированы"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:180
 msgid "Bills deleted"
-msgstr ""
+msgstr "Счет удален"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:182
 msgid "Are you sure you want to delete {nb} bill?"
@@ -1429,11 +1429,11 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:192
 msgid "Most used"
-msgstr ""
+msgstr "Часто используемые"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:193
 msgid "Most recently used"
-msgstr ""
+msgstr "Добавленные недавно"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:194
 msgid "Category sort method"
@@ -1449,7 +1449,7 @@ msgstr "Добавить категорию"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:195
 msgid "Add payment mode"
-msgstr ""
+msgstr "Добавление способа оплаты: \"\""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:196
 msgid "Category name"

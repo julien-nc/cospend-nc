@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-04-01 20:23+0200\n"
-"PO-Revision-Date: 2024-05-13 09:15\n"
+"PO-Revision-Date: 2024-07-23 11:10\n"
 "Last-Translator: \n"
 "Language-Team: Catalan\n"
 "Language: ca_ES\n"
@@ -55,21 +55,21 @@ msgstr "Heu actualitzat la factura {bill} del projecte {project}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:88
 msgid "{user} has updated the bill {bill} of project {project}"
-msgstr ""
+msgstr "{user} ha actualitzat la factura {bill} del projecte {project}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:164
 msgid "A guest user"
-msgstr ""
+msgstr "Un usuari convidat"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/BillSetting.php:41
 msgid "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted"
-msgstr ""
+msgstr "Una <strong>factura</strong> s'ha actualitzat/creat/eliminat des de l'app de Cospend"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/CospendProvider.php:254
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/CospendProvider.php:262
 #, php-format
 msgid "circle %1$s"
-msgstr ""
+msgstr "cercle %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/Filter.php:51
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Notification/Notifier.php:50
@@ -85,7 +85,7 @@ msgstr "Canvis a <strong>l'aplicació Cospend </strong>"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/ApiController.php:576
 msgid "You are not allowed to access the destination project"
-msgstr ""
+msgstr "No tens permís per accedir al projecte destí"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/ApiController.php:892
 msgid "You are not allowed to give such shared access level"

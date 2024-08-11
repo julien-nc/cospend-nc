@@ -4,7 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## 2.0.0 – 2024-08-11
+
+### Changed
+
+- Set min and max NC version to 30
+- Improve style of bill list item
+- Show project currency everywhere amounts are displayed
+
+### Fixed
+
+- Fix needed permission to delete link or user share in the frontend @julien-nc [#269](https://github.com/julien-nc/cospend-nc/issues/269)
+- In mobile view, show bill list on load @julien-nc [#280](https://github.com/julien-nc/cospend-nc/issues/280)
 
 ## 1.6.1 – 2024-03-11
 

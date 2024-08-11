@@ -184,3 +184,15 @@ a.billitem .app-content-list-item-icon {
 .multiselect__content-wrapper {
 	z-index: 10000 !important;
 }
+/* fix NcSelect style in 30 */
+.vs__selected-options {
+	align-items: center !important;
+}
+/* fix input borders */
+select,
+.mx-datepicker .mx-input,
+input[type=date],
+input[type=number],
+.rich-contenteditable__input {
+	border: 1px solid var(--color-border-maxcontrast) !important;
+}

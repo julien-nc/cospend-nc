@@ -76,7 +76,7 @@
                     },
                     "amount": {
                         "type": "number",
-                        "format": "float"
+                        "format": "double"
                     },
                     "what": {
                         "type": "string"
@@ -229,7 +229,7 @@
                     },
                     "exchange_rate": {
                         "type": "number",
-                        "format": "float"
+                        "format": "double"
                     },
                     "projectid": {
                         "type": "string"
@@ -267,7 +267,7 @@
                         "type": "array",
                         "items": {
                             "type": "number",
-                            "format": "float"
+                            "format": "double"
                         }
                     },
                     "nb_bills": {
@@ -276,7 +276,7 @@
                     },
                     "total_spent": {
                         "type": "number",
-                        "format": "float"
+                        "format": "double"
                     },
                     "nb_trashbin_bills": {
                         "type": "integer",
@@ -415,7 +415,7 @@
                     },
                     "weight": {
                         "type": "number",
-                        "format": "float"
+                        "format": "double"
                     },
                     "color": {
                         "type": "object",
@@ -484,7 +484,7 @@
                     },
                     "weight": {
                         "type": "number",
-                        "format": "float"
+                        "format": "double"
                     },
                     "name": {
                         "type": "string"
@@ -564,7 +564,7 @@
                                 },
                                 "amount": {
                                     "type": "number",
-                                    "format": "float"
+                                    "format": "double"
                                 },
                                 "from": {
                                     "type": "integer",
@@ -577,7 +577,7 @@
                         "type": "object",
                         "additionalProperties": {
                             "type": "number",
-                            "format": "float"
+                            "format": "double"
                         }
                     }
                 }
@@ -706,7 +706,7 @@
             "Share": {
                 "type": "array",
                 "items": {
-                    "oneOf": [
+                    "anyOf": [
                         {
                             "$ref": "#/components/schemas/UserShare"
                         },
@@ -760,7 +760,7 @@
     "paths": {
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/option-values": {
             "get": {
-                "operationId": "settings-get-options-values",
+                "operationId": "api-get-options-values",
                 "summary": "Get setting values",
                 "description": "Get setting values from the database for the current user",
                 "tags": [
@@ -840,7 +840,7 @@
                 }
             },
             "put": {
-                "operationId": "settings-save-option-values",
+                "operationId": "api-save-option-values",
                 "summary": "Save setting values",
                 "description": "Save setting values to the database for the current user",
                 "tags": [
@@ -851,19 +851,29 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "options[]",
-                        "in": "query",
-                        "description": "Array of setting key/values to save",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "options"
+                                ],
+                                "properties": {
+                                    "options": {
+                                        "type": "array",
+                                        "description": "Array of setting key/values to save",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
                             }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -1008,7 +1018,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects": {
             "get": {
-                "operationId": "projects-get-projects",
+                "operationId": "api-get-projects",
                 "summary": "Get project list",
                 "tags": [
                     "Projects"
@@ -1079,7 +1089,7 @@
                 }
             },
             "post": {
-                "operationId": "projects-create-project",
+                "operationId": "api-create-project",
                 "summary": "Create a project",
                 "description": "Change for clients: response now contains full project info",
                 "tags": [
@@ -1193,7 +1203,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}": {
             "delete": {
-                "operationId": "projects-delete-project",
+                "operationId": "api-delete-project",
                 "summary": "Delete a project",
                 "tags": [
                     "Projects"
@@ -1315,7 +1325,7 @@
                 }
             },
             "put": {
-                "operationId": "projects-edit-project",
+                "operationId": "api-edit-project",
                 "summary": "Edit a project",
                 "tags": [
                     "Projects"
@@ -1434,7 +1444,7 @@
                 }
             },
             "get": {
-                "operationId": "projects-get-project-info",
+                "operationId": "api-get-project-info",
                 "summary": "Get project information",
                 "tags": [
                     "Projects"
@@ -1522,7 +1532,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/export-csv-project": {
             "get": {
-                "operationId": "projects-export-csv-project",
+                "operationId": "api-export-csv-project",
                 "summary": "Export project",
                 "description": "Export project to CSV",
                 "tags": [
@@ -1657,7 +1667,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/import-csv-project": {
             "get": {
-                "operationId": "projects-import-csv-project",
+                "operationId": "api-import-csv-project",
                 "summary": "Import project",
                 "description": "Import a project from a Cospend CSV file",
                 "tags": [
@@ -1776,7 +1786,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/import-sw-project": {
             "get": {
-                "operationId": "projects-importsw-project",
+                "operationId": "api-importsw-project",
                 "summary": "Import a SplitWise project",
                 "description": "Import a project from a SplitWise CSV file",
                 "tags": [
@@ -1895,7 +1905,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/statistics": {
             "get": {
-                "operationId": "projects-get-project-statistics",
+                "operationId": "api-get-project-statistics",
                 "summary": "Get statistics data",
                 "tags": [
                     "Projects"
@@ -1983,7 +1993,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/export-csv-statistics": {
             "get": {
-                "operationId": "projects-export-csv-statistics",
+                "operationId": "api-export-csv-statistics",
                 "summary": "Export statistics",
                 "description": "Export statistics to CSV",
                 "tags": [
@@ -2118,7 +2128,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/settlement": {
             "get": {
-                "operationId": "projects-get-project-settlement",
+                "operationId": "api-get-project-settlement",
                 "summary": "Get settlement data",
                 "tags": [
                     "Projects"
@@ -2129,26 +2139,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "centeredOn",
-                        "in": "query",
-                        "description": "Member ID to center the settlement on. All suggested transactions will involve this member.",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "maxTimestamp",
-                        "in": "query",
-                        "description": "Settle at a precise date. So the member balances are all back to zero at this date.",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -2167,6 +2157,26 @@
                         "required": true,
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "name": "centeredOn",
+                        "in": "query",
+                        "description": "Member ID to center the settlement on. All suggested transactions will involve this member.",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "maxTimestamp",
+                        "in": "query",
+                        "description": "Settle at a precise date. So the member balances are all back to zero at this date.",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
                         }
                     },
                     {
@@ -2216,7 +2226,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/auto-settlement": {
             "get": {
-                "operationId": "projects-auto-settlement",
+                "operationId": "api-auto-settlement",
                 "summary": "Automatic settlement plan",
                 "description": "Create reimbursement bills to automatically settle a project",
                 "tags": [
@@ -2333,7 +2343,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/export-csv-settlement": {
             "get": {
-                "operationId": "projects-export-csv-settlement",
+                "operationId": "api-export-csv-settlement",
                 "summary": "Export settlement plan",
                 "description": "Export settlement plan as CSV",
                 "tags": [
@@ -2468,7 +2478,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public-file-share": {
             "post": {
-                "operationId": "sharing-get-public-file-share",
+                "operationId": "api-get-public-file-share",
                 "summary": "Get or create file share",
                 "description": "Get or create a public file share from a node path",
                 "tags": [
@@ -2595,7 +2605,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}": {
             "delete": {
-                "operationId": "public-api_projects-public-delete-project",
+                "operationId": "public_api-public-delete-project",
                 "summary": "Delete a project",
                 "tags": [
                     "Public-API_Projects"
@@ -2727,7 +2737,7 @@
                 }
             },
             "put": {
-                "operationId": "public-api_projects-public-edit-project",
+                "operationId": "public_api-public-edit-project",
                 "summary": "Edit a project",
                 "tags": [
                     "Public-API_Projects"
@@ -2856,7 +2866,7 @@
                 }
             },
             "get": {
-                "operationId": "public-api_projects-public-get-project-info",
+                "operationId": "public_api-public-get-project-info",
                 "summary": "Get project information",
                 "tags": [
                     "Public-API_Projects"
@@ -2992,7 +3002,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/statistics": {
             "get": {
-                "operationId": "public-api_projects-public-get-project-statistics",
+                "operationId": "public_api-public-get-project-statistics",
                 "summary": "Get statistics data",
                 "tags": [
                     "Public-API_Projects"
@@ -3090,7 +3100,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/settlement": {
             "get": {
-                "operationId": "public-api_projects-public-get-project-settlement",
+                "operationId": "public_api-public-get-project-settlement",
                 "summary": "Get project settlement info",
                 "tags": [
                     "Public-API_Projects"
@@ -3178,7 +3188,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/auto-settlement": {
             "get": {
-                "operationId": "public-api_projects-public-auto-settlement",
+                "operationId": "public_api-public-auto-settlement",
                 "summary": "Get automatic settlement plan",
                 "tags": [
                     "Public-API_Projects"
@@ -3304,7 +3314,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/bills": {
             "post": {
-                "operationId": "bills-create-bill",
+                "operationId": "api-create-bill",
                 "summary": "Create a bill",
                 "tags": [
                     "Bills"
@@ -3432,7 +3442,7 @@
                 }
             },
             "get": {
-                "operationId": "bills-get-bills",
+                "operationId": "api-get-bills",
                 "summary": "Get a project's bill list",
                 "tags": [
                     "Bills"
@@ -3547,7 +3557,7 @@
                 }
             },
             "delete": {
-                "operationId": "bills-delete-bills",
+                "operationId": "api-delete-bills",
                 "summary": "Delete multiple bills",
                 "tags": [
                     "Bills"
@@ -3723,7 +3733,7 @@
                 }
             },
             "put": {
-                "operationId": "bills-edit-bills",
+                "operationId": "api-edit-bills",
                 "summary": "Edit multiple bills",
                 "tags": [
                     "Bills"
@@ -3848,7 +3858,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/bills/{billId}": {
             "get": {
-                "operationId": "bills-get-bill",
+                "operationId": "api-get-bill",
                 "summary": "Get a bill",
                 "tags": [
                     "Bills"
@@ -3962,7 +3972,7 @@
                 }
             },
             "delete": {
-                "operationId": "bills-delete-bill",
+                "operationId": "api-delete-bill",
                 "summary": "Delete a bill",
                 "tags": [
                     "Bills"
@@ -4146,7 +4156,7 @@
                 }
             },
             "put": {
-                "operationId": "bills-edit-bill",
+                "operationId": "api-edit-bill",
                 "summary": "Edit a bill",
                 "tags": [
                     "Bills"
@@ -4276,7 +4286,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/trash-bin": {
             "delete": {
-                "operationId": "bills-clear-trash-bin",
+                "operationId": "api-clear-trash-bin",
                 "summary": "Clear the trash bin",
                 "tags": [
                     "Bills"
@@ -4384,7 +4394,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/bills/{billId}/move": {
             "post": {
-                "operationId": "bills-move-bill",
+                "operationId": "api-move-bill",
                 "summary": "Move a bill",
                 "description": "Move a bill from one project to another",
                 "tags": [
@@ -4558,7 +4568,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/bills/{billId}/repeat": {
             "get": {
-                "operationId": "bills-repeat-bill",
+                "operationId": "api-repeat-bill",
                 "summary": "Repeat a bill",
                 "description": "Trigger bill repetition for a specific bill",
                 "tags": [
@@ -4703,7 +4713,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/bills": {
             "post": {
-                "operationId": "public-api_bills-public-create-bill",
+                "operationId": "public_api-public-create-bill",
                 "summary": "Create a bill",
                 "tags": [
                     "Public-API_Bills"
@@ -4841,7 +4851,7 @@
                 }
             },
             "get": {
-                "operationId": "public-api_bills-public-get-bills",
+                "operationId": "public_api-public-get-bills",
                 "summary": "Get a project's bill list",
                 "tags": [
                     "Public-API_Bills"
@@ -4966,7 +4976,7 @@
                 }
             },
             "delete": {
-                "operationId": "public-api_bills-public-delete-bills",
+                "operationId": "public_api-public-delete-bills",
                 "summary": "Delete multiple bills",
                 "tags": [
                     "Public-API_Bills"
@@ -5152,7 +5162,7 @@
                 }
             },
             "put": {
-                "operationId": "public-api_bills-public-edit-bills",
+                "operationId": "public_api-public-edit-bills",
                 "summary": "Edit multiple bills",
                 "tags": [
                     "Public-API_Bills"
@@ -5287,7 +5297,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/bills/{billId}/repeat": {
             "get": {
-                "operationId": "public-api_bills-public-repeat-bill",
+                "operationId": "public_api-public-repeat-bill",
                 "summary": "Trigger bill repetition for a specific bill",
                 "tags": [
                     "Public-API_Bills"
@@ -5451,7 +5461,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/bills/{billId}": {
             "get": {
-                "operationId": "public-api_bills-public-get-bill",
+                "operationId": "public_api-public-get-bill",
                 "tags": [
                     "Public-API_Bills"
                 ],
@@ -5584,7 +5594,7 @@
                 }
             },
             "delete": {
-                "operationId": "public-api_bills-public-delete-bill",
+                "operationId": "public_api-public-delete-bill",
                 "summary": "Delete a bill",
                 "tags": [
                     "Public-API_Bills"
@@ -5778,7 +5788,7 @@
                 }
             },
             "put": {
-                "operationId": "public-api_bills-public-edit-bill",
+                "operationId": "public_api-public-edit-bill",
                 "summary": "Edit a bill",
                 "tags": [
                     "Public-API_Bills"
@@ -5918,7 +5928,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/trash-bin": {
             "delete": {
-                "operationId": "public-api_projects-public-clear-trash-bin",
+                "operationId": "public_api-public-clear-trash-bin",
                 "summary": "Clear the trash bin",
                 "tags": [
                     "Public-API_Projects"
@@ -6046,7 +6056,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/members": {
             "get": {
-                "operationId": "members-get-members",
+                "operationId": "api-get-members",
                 "summary": "Get members",
                 "tags": [
                     "Members"
@@ -6125,7 +6135,7 @@
                 }
             },
             "post": {
-                "operationId": "members-create-member",
+                "operationId": "api-create-member",
                 "summary": "Create a member",
                 "tags": [
                     "Members"
@@ -6251,7 +6261,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/members/{memberId}": {
             "put": {
-                "operationId": "members-edit-member",
+                "operationId": "api-edit-member",
                 "summary": "Edit a member",
                 "tags": [
                     "Members"
@@ -6397,7 +6407,7 @@
                 }
             },
             "delete": {
-                "operationId": "members-delete-member",
+                "operationId": "api-delete-member",
                 "summary": "Delete or disable a member",
                 "tags": [
                     "Members"
@@ -6521,7 +6531,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/members": {
             "get": {
-                "operationId": "public-api_members-public-get-members",
+                "operationId": "public_api-public-get-members",
                 "summary": "Get a project's member list",
                 "tags": [
                     "Public-API_Members"
@@ -6610,7 +6620,7 @@
                 }
             },
             "post": {
-                "operationId": "public-api_members-public-create-member",
+                "operationId": "public_api-public-create-member",
                 "summary": "Create a project member",
                 "tags": [
                     "Public-API_Members"
@@ -6738,7 +6748,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/members/{memberId}": {
             "put": {
-                "operationId": "public-api_members-public-edit-member",
+                "operationId": "public_api-public-edit-member",
                 "summary": "Edit a project member",
                 "tags": [
                     "Public-API_Members"
@@ -6904,7 +6914,7 @@
                 }
             },
             "delete": {
-                "operationId": "public-api_members-public-delete-member",
+                "operationId": "public_api-public-delete-member",
                 "summary": "Delete or disable a member",
                 "tags": [
                     "Public-API_Members"
@@ -7038,7 +7048,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/user-share": {
             "post": {
-                "operationId": "sharing-create-user-share",
+                "operationId": "api-create-user-share",
                 "summary": "Create a user share",
                 "tags": [
                     "Sharing"
@@ -7159,7 +7169,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/user-share/{shId}": {
             "delete": {
-                "operationId": "sharing-delete-user-share",
+                "operationId": "api-delete-user-share",
                 "summary": "Delete a user share",
                 "tags": [
                     "Sharing"
@@ -7331,7 +7341,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/group-share": {
             "post": {
-                "operationId": "sharing-create-group-share",
+                "operationId": "api-create-group-share",
                 "summary": "Create a group share",
                 "tags": [
                     "Sharing"
@@ -7452,7 +7462,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/group-share/{shId}": {
             "delete": {
-                "operationId": "sharing-delete-group-share",
+                "operationId": "api-delete-group-share",
                 "summary": "Delete a group share",
                 "tags": [
                     "Sharing"
@@ -7624,7 +7634,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/circle-share": {
             "post": {
-                "operationId": "sharing-create-circle-share",
+                "operationId": "api-create-circle-share",
                 "summary": "Create a circle share",
                 "tags": [
                     "Sharing"
@@ -7745,7 +7755,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/circle-share/{shId}": {
             "delete": {
-                "operationId": "sharing-delete-circle-share",
+                "operationId": "api-delete-circle-share",
                 "summary": "Delete a circle share",
                 "tags": [
                     "Sharing"
@@ -7917,7 +7927,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/public-share": {
             "post": {
-                "operationId": "sharing-create-public-share",
+                "operationId": "api-create-public-share",
                 "summary": "Create a public share link",
                 "tags": [
                     "Sharing"
@@ -8005,7 +8015,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/public-share/{shId}": {
             "delete": {
-                "operationId": "sharing-delete-public-share",
+                "operationId": "api-delete-public-share",
                 "summary": "Delete a public share link",
                 "tags": [
                     "Sharing"
@@ -8177,7 +8187,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/share-access-level/{shId}": {
             "put": {
-                "operationId": "sharing-edit-shared-access-level",
+                "operationId": "api-edit-shared-access-level",
                 "summary": "Edit a shared access level",
                 "tags": [
                     "Sharing"
@@ -8352,7 +8362,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/share-access/{shId}": {
             "put": {
-                "operationId": "sharing-edit-shared-access",
+                "operationId": "api-edit-shared-access",
                 "summary": "Edit a shared access",
                 "tags": [
                     "Sharing"
@@ -8527,7 +8537,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/currency": {
             "post": {
-                "operationId": "currencies-create-currency",
+                "operationId": "api-create-currency",
                 "summary": "Create a currency",
                 "tags": [
                     "Currencies"
@@ -8616,7 +8626,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/currency/{currencyId}": {
             "put": {
-                "operationId": "currencies-edit-currency",
+                "operationId": "api-edit-currency",
                 "summary": "Edit a currency",
                 "tags": [
                     "Currencies"
@@ -8743,7 +8753,7 @@
                 }
             },
             "delete": {
-                "operationId": "currencies-delete-currency",
+                "operationId": "api-delete-currency",
                 "summary": "Delete a currency",
                 "tags": [
                     "Currencies"
@@ -8872,7 +8882,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/currency": {
             "post": {
-                "operationId": "public-api_currencies-public-create-currency",
+                "operationId": "public_api-public-create-currency",
                 "summary": "Create a currency",
                 "tags": [
                     "Public-API_Currencies"
@@ -8971,7 +8981,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/currency/{currencyId}": {
             "put": {
-                "operationId": "public-api_currencies-public-edit-currency",
+                "operationId": "public_api-public-edit-currency",
                 "summary": "Edit a currency",
                 "tags": [
                     "Public-API_Currencies"
@@ -9108,7 +9118,7 @@
                 }
             },
             "delete": {
-                "operationId": "public-api_currencies-public-delete-currency",
+                "operationId": "public_api-public-delete-currency",
                 "summary": "Delete a currency",
                 "tags": [
                     "Public-API_Currencies"
@@ -9247,7 +9257,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/paymentmode": {
             "post": {
-                "operationId": "payment modes-create-payment-mode",
+                "operationId": "api-create-payment-mode",
                 "summary": "Create a payment mode",
                 "tags": [
                     "Payment modes"
@@ -9326,7 +9336,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/paymentmode/{pmId}": {
             "put": {
-                "operationId": "payment modes-edit-payment-mode",
+                "operationId": "api-edit-payment-mode",
                 "summary": "Edit a payment mode",
                 "tags": [
                     "Payment modes"
@@ -9443,7 +9453,7 @@
                 }
             },
             "delete": {
-                "operationId": "payment modes-delete-payment-mode",
+                "operationId": "api-delete-payment-mode",
                 "summary": "Delete a payment mode",
                 "tags": [
                     "Payment modes"
@@ -9572,7 +9582,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/paymentmode-order": {
             "put": {
-                "operationId": "payment modes-save-payment-mode-order",
+                "operationId": "api-save-payment-mode-order",
                 "summary": "Save payment modes order",
                 "tags": [
                     "Payment modes"
@@ -9582,33 +9592,43 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "order[]",
-                        "in": "query",
-                        "description": "Array of objects, each object contains the order number and the payment mode ID",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
                                 "type": "object",
                                 "required": [
-                                    "order",
-                                    "id"
+                                    "order"
                                 ],
                                 "properties": {
                                     "order": {
-                                        "type": "integer",
-                                        "format": "int64"
-                                    },
-                                    "id": {
-                                        "type": "integer",
-                                        "format": "int64"
+                                        "type": "array",
+                                        "description": "Array of objects, each object contains the order number and the payment mode ID",
+                                        "items": {
+                                            "type": "object",
+                                            "required": [
+                                                "order",
+                                                "id"
+                                            ],
+                                            "properties": {
+                                                "order": {
+                                                    "type": "integer",
+                                                    "format": "int64"
+                                                },
+                                                "id": {
+                                                    "type": "integer",
+                                                    "format": "int64"
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "apiVersion",
                         "in": "path",
@@ -9706,7 +9726,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/paymentmode": {
             "post": {
-                "operationId": "public-api_payment modes-public-create-payment-mode",
+                "operationId": "public_api-public-create-payment-mode",
                 "summary": "Create a payment mode",
                 "tags": [
                     "Public-API_Payment modes"
@@ -9805,7 +9825,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/paymentmode/{pmId}": {
             "put": {
-                "operationId": "public-api_payment modes-public-edit-payment-mode",
+                "operationId": "public_api-public-edit-payment-mode",
                 "summary": "Edit a payment mode",
                 "tags": [
                     "Public-API_Payment modes"
@@ -9932,7 +9952,7 @@
                 }
             },
             "delete": {
-                "operationId": "public-api_payment modes-public-delete-payment-mode",
+                "operationId": "public_api-public-delete-payment-mode",
                 "summary": "Delete a payment mode",
                 "tags": [
                     "Public-API_Payment modes"
@@ -10072,7 +10092,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/paymentmode-order": {
             "put": {
-                "operationId": "public-api_payment modes-public-save-payment-mode-order",
+                "operationId": "public_api-public-save-payment-mode-order",
                 "summary": "Save payment modes order",
                 "tags": [
                     "Public-API_Payment modes"
@@ -10190,7 +10210,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/category": {
             "post": {
-                "operationId": "categories-create-category",
+                "operationId": "api-create-category",
                 "summary": "Create a category",
                 "tags": [
                     "Categories"
@@ -10269,7 +10289,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/category/{categoryId}": {
             "put": {
-                "operationId": "categories-edit-category",
+                "operationId": "api-edit-category",
                 "summary": "Edit a category",
                 "tags": [
                     "Categories"
@@ -10396,7 +10416,7 @@
                 }
             },
             "delete": {
-                "operationId": "categories-delete-category",
+                "operationId": "api-delete-category",
                 "summary": "Delete a category",
                 "tags": [
                     "Categories"
@@ -10525,7 +10545,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/category-order": {
             "put": {
-                "operationId": "categories-save-category-order",
+                "operationId": "api-save-category-order",
                 "summary": "Save categories order",
                 "tags": [
                     "Categories"
@@ -10649,7 +10669,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/category": {
             "post": {
-                "operationId": "public-api_categories-public-create-category",
+                "operationId": "public_api-public-create-category",
                 "summary": "Create a category",
                 "tags": [
                     "Public-API_Categories"
@@ -10738,7 +10758,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/category/{categoryId}": {
             "put": {
-                "operationId": "public-api_categories-public-edit-category",
+                "operationId": "public_api-public-edit-category",
                 "summary": "Edit a category",
                 "tags": [
                     "Public-API_Categories"
@@ -10875,7 +10895,7 @@
                 }
             },
             "delete": {
-                "operationId": "public-api_categories-public-delete-category",
+                "operationId": "public_api-public-delete-category",
                 "summary": "Delete a category",
                 "tags": [
                     "Public-API_Categories"
@@ -11018,7 +11038,7 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/category-order": {
             "put": {
-                "operationId": "public-api_categories-public-save-category-order",
+                "operationId": "public_api-public-save-category-order",
                 "summary": "Save categories order",
                 "tags": [
                     "Public-API_Categories"
@@ -11029,33 +11049,43 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "order[]",
-                        "in": "query",
-                        "description": "Array describing the categories ordering",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
                                 "type": "object",
                                 "required": [
-                                    "order",
-                                    "id"
+                                    "order"
                                 ],
                                 "properties": {
                                     "order": {
-                                        "type": "integer",
-                                        "format": "int64"
-                                    },
-                                    "id": {
-                                        "type": "integer",
-                                        "format": "int64"
+                                        "type": "array",
+                                        "description": "Array describing the categories ordering",
+                                        "items": {
+                                            "type": "object",
+                                            "required": [
+                                                "order",
+                                                "id"
+                                            ],
+                                            "properties": {
+                                                "order": {
+                                                    "type": "integer",
+                                                    "format": "int64"
+                                                },
+                                                "id": {
+                                                    "type": "integer",
+                                                    "format": "int64"
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "apiVersion",
                         "in": "path",

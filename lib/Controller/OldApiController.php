@@ -723,13 +723,11 @@ class OldApiController extends ApiController {
 		$result = $this->projectService->editMember(
 			$publicShareInfo['projectid'], $memberid, $name, $userid, $weight, $activated, $color
 		);
-		if (count($result) === 0) {
-			return new DataResponse(null);
-		} elseif (array_key_exists('activated', $result)) {
+		if ($result === null || isset($result['activated'])) {
 			return new DataResponse($result);
-		} else {
-			return new DataResponse($result, Http::STATUS_FORBIDDEN);
 		}
+
+		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
 	#[NoAdminRequired]
@@ -744,13 +742,11 @@ class OldApiController extends ApiController {
 			$activated = false;
 		}
 		$result = $this->projectService->editMember($projectId, $memberid, $name, $userid, $weight, $activated, $color);
-		if (count($result) === 0) {
-			return new DataResponse(null);
-		} elseif (array_key_exists('activated', $result)) {
+		if ($result === null || isset($result['activated'])) {
 			return new DataResponse($result);
-		} else {
-			return new DataResponse($result, Http::STATUS_FORBIDDEN);
 		}
+
+		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
 	#[NoAdminRequired]

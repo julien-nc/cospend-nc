@@ -786,7 +786,7 @@ class PublicApiController extends OCSController {
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	#[BruteForceProtection(action: 'CospendPublicCreatePaymentMode')]
-	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Payment modes'])]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Payment-modes'])]
 	public function publicCreatePaymentMode(string $token, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
 		$publicShareInfo = $this->projectService->getShareInfoFromShareToken($token);
 		$result = $this->projectService->createPaymentMode(
@@ -810,7 +810,7 @@ class PublicApiController extends OCSController {
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	#[BruteForceProtection(action: 'CospendPublicEditPaymentMode')]
-	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Payment modes'])]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Payment-modes'])]
 	public function publicEditPaymentMode(
 		string $token, int $pmId, ?string $name = null, ?string $icon = null, ?string $color = null
 	): DataResponse {
@@ -839,7 +839,7 @@ class PublicApiController extends OCSController {
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	#[BruteForceProtection(action: 'CospendPublicSavePMOrder')]
-	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Payment modes'])]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Payment-modes'])]
 	public function publicSavePaymentModeOrder(string $token, array $order): DataResponse {
 		$publicShareInfo = $this->projectService->getShareInfoFromShareToken($token);
 		if ($this->projectService->savePaymentModeOrder($publicShareInfo['projectid'], $order)) {
@@ -862,7 +862,7 @@ class PublicApiController extends OCSController {
 	#[CORS]
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	#[BruteForceProtection(action: 'CospendPublicDeletePM')]
-	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Payment modes'])]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Payment-modes'])]
 	public function publicDeletePaymentMode(string $token, int $pmId): DataResponse {
 		$publicShareInfo = $this->projectService->getShareInfoFromShareToken($token);
 		$result = $this->projectService->deletePaymentMode($publicShareInfo['projectid'], $pmId);

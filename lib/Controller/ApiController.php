@@ -379,7 +379,7 @@ class ApiController extends OCSController {
 	 * @param null $activated
 	 * @param string|null $color
 	 * @param string|null $userId
-	 * @return DataResponse<Http::STATUS_OK, null, array{}>|DataResponse<Http::STATUS_OK, CospendMember, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, ?CospendMember, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 *
 	 * 200: Member was successfully edited (and deleted if it was disabled and wasn't ower of any bill)
 	 * 400: Failed to edit the member
@@ -398,13 +398,11 @@ class ApiController extends OCSController {
 			$activated = false;
 		}
 		$result = $this->projectService->editMember($projectId, $memberId, $name, $userId, $weight, $activated, $color);
-		if (empty($result)) {
-			return new DataResponse(null);
-		} elseif (isset($result['activated'])) {
+		if ($result === null || isset($result['activated'])) {
 			return new DataResponse($result);
-		} else {
-			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		}
+
+		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	/**

@@ -1269,12 +1269,12 @@ class ProjectService {
 	 * @param float|null $weight
 	 * @param bool $activated
 	 * @param string|null $color
-	 * @return array
+	 * @return array|null
 	 */
 	public function editMember(
 		string $projectId, int $memberId, ?string $name = null, ?string $userId = null,
 		?float $weight = null, ?bool $activated = null, ?string $color = null
-	): array {
+	): array|null {
 		$dbMember = $this->memberMapper->getMemberById($projectId, $memberId);
 		if ($dbMember === null) {
 			return ['name' => $this->l10n->t('This project have no such member')];
@@ -1286,7 +1286,7 @@ class ProjectService {
 			&& count($this->memberMapper->getBillIdsOfMember($memberId)) === 0
 		) {
 			$this->memberMapper->delete($dbMember);
-			return [];
+			return null;
 		}
 
 		if ($name !== null) {

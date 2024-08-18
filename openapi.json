@@ -7640,58 +7640,30 @@
                         "description": "Member was successfully edited (and deleted if it was disabled and wasn't ower of any bill)",
                         "content": {
                             "application/json": {
-                                "schema": [
-                                    {
-                                        "oneOf": [
-                                            {
-                                                "type": "object",
-                                                "required": [
-                                                    "ocs"
-                                                ],
-                                                "properties": {
-                                                    "ocs": {
-                                                        "type": "object",
-                                                        "required": [
-                                                            "meta",
-                                                            "data"
-                                                        ],
-                                                        "properties": {
-                                                            "meta": {
-                                                                "$ref": "#/components/schemas/OCSMeta"
-                                                            },
-                                                            "data": {
-                                                                "nullable": true
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            },
-                                            {
-                                                "type": "object",
-                                                "required": [
-                                                    "ocs"
-                                                ],
-                                                "properties": {
-                                                    "ocs": {
-                                                        "type": "object",
-                                                        "required": [
-                                                            "meta",
-                                                            "data"
-                                                        ],
-                                                        "properties": {
-                                                            "meta": {
-                                                                "$ref": "#/components/schemas/OCSMeta"
-                                                            },
-                                                            "data": {
-                                                                "$ref": "#/components/schemas/Member"
-                                                            }
-                                                        }
-                                                    }
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Member",
+                                                    "nullable": true
                                                 }
                                             }
-                                        ]
+                                        }
                                     }
-                                ]
+                                }
                             }
                         }
                     },
@@ -8216,58 +8188,30 @@
                         "description": "",
                         "content": {
                             "application/json": {
-                                "schema": [
-                                    {
-                                        "oneOf": [
-                                            {
-                                                "type": "object",
-                                                "required": [
-                                                    "ocs"
-                                                ],
-                                                "properties": {
-                                                    "ocs": {
-                                                        "type": "object",
-                                                        "required": [
-                                                            "meta",
-                                                            "data"
-                                                        ],
-                                                        "properties": {
-                                                            "meta": {
-                                                                "$ref": "#/components/schemas/OCSMeta"
-                                                            },
-                                                            "data": {
-                                                                "nullable": true
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            },
-                                            {
-                                                "type": "object",
-                                                "required": [
-                                                    "ocs"
-                                                ],
-                                                "properties": {
-                                                    "ocs": {
-                                                        "type": "object",
-                                                        "required": [
-                                                            "meta",
-                                                            "data"
-                                                        ],
-                                                        "properties": {
-                                                            "meta": {
-                                                                "$ref": "#/components/schemas/OCSMeta"
-                                                            },
-                                                            "data": {
-                                                                "$ref": "#/components/schemas/Member"
-                                                            }
-                                                        }
-                                                    }
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Member",
+                                                    "nullable": true
                                                 }
                                             }
-                                        ]
+                                        }
                                     }
-                                ]
+                                }
                             }
                         }
                     },

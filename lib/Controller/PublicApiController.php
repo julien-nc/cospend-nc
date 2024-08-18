@@ -705,7 +705,7 @@ class PublicApiController extends OCSController {
 	 * @param null $activated
 	 * @param string|null $color
 	 * @param string|null $userId
-	 * @return DataResponse<Http::STATUS_OK, null, array{}>|DataResponse<Http::STATUS_OK, CospendMember, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array<string, string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, ?CospendMember, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array<string, string>, array{}>
 	 * @throws Exception
 	 */
 	#[NoAdminRequired]
@@ -727,13 +727,11 @@ class PublicApiController extends OCSController {
 		$result = $this->projectService->editMember(
 			$publicShareInfo['projectid'], $memberId, $name, $userId, $weight, $activated, $color
 		);
-		if (count($result) === 0) {
-			return new DataResponse(null);
-		} elseif (isset($result['activated'])) {
+		if ($result === null || isset($result['activated'])) {
 			return new DataResponse($result);
-		} else {
-			return new DataResponse($result, Http::STATUS_FORBIDDEN);
 		}
+
+		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
 	/**

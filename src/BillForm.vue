@@ -1956,9 +1956,7 @@ button {
 
 .bill-repeat-include {
 	text-align: left;
-	margin-top: 5px;
-	margin-bottom: 5px;
-	padding-left: 8px;
+	margin: 5px 0 5px 20px;
 }
 
 .modehint {

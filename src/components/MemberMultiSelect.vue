@@ -33,7 +33,7 @@
 					v-if="option.id"
 					:enabled="option.activated"
 					:color="option.color"
-					:size="34"
+					:size="24"
 					:disable-menu="true"
 					:disable-tooltip="true"
 					:show-user-status="false"

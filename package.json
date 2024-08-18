@@ -40,7 +40,7 @@
 		"@juliushaertl/vue-richtext": "^1.0.1",
 		"@nextcloud/auth": "^2.0.0",
 		"@nextcloud/axios": "^2.0.0",
-		"@nextcloud/dialogs": "^5.0.0",
+		"@nextcloud/dialogs": "^6.0.0",
 		"@nextcloud/event-bus": "^3.0.0",
 		"@nextcloud/initial-state": "^2.0.0",
 		"@nextcloud/l10n": "^3.1.0",

@@ -12,7 +12,7 @@
 		"cs:fix": "php-cs-fixer fix",
 		"psalm": "psalm.phar --no-cache",
 		"test:unit": "phpunit --config tests/phpunit.xml",
-		"openapi": "generate-spec --verbose --continue-on-error"
+		"openapi": "generate-spec --verbose --allow-missing-docs"
 	},
 	"repositories": [
 		{

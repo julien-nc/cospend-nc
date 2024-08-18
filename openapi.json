@@ -1100,6 +1100,28 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "id",
+                                    "name"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -1335,6 +1357,47 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "autoExport": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "currencyName": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "deletionDisabled": {
+                                        "type": "boolean",
+                                        "nullable": true
+                                    },
+                                    "categorySort": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "paymentModeSort": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "archivedTs": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -1565,6 +1628,14 @@
                         }
                     },
                     {
+                        "name": "name",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -1692,6 +1763,14 @@
                         }
                     },
                     {
+                        "name": "path",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -1808,6 +1887,14 @@
                                 "v1"
                             ],
                             "default": "v1"
+                        }
+                    },
+                    {
+                        "name": "path",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
                         }
                     },
                     {
@@ -1937,6 +2024,86 @@
                         }
                     },
                     {
+                        "name": "tsMin",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "tsMax",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "paymentModeId",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "categoryId",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "amountMin",
+                        "in": "query",
+                        "schema": {
+                            "type": "number",
+                            "format": "double",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "amountMax",
+                        "in": "query",
+                        "schema": {
+                            "type": "number",
+                            "format": "double",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "showDisabled",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "default": "1"
+                        }
+                    },
+                    {
+                        "name": "currencyId",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "payerId",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -2023,6 +2190,78 @@
                         "required": true,
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "name": "tsMin",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "tsMax",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "paymentModeId",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "amountMin",
+                        "in": "query",
+                        "schema": {
+                            "type": "number",
+                            "format": "double",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "amountMax",
+                        "in": "query",
+                        "schema": {
+                            "type": "number",
+                            "format": "double",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "showDisabled",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "currencyId",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
                         }
                     },
                     {
@@ -2259,6 +2498,33 @@
                         }
                     },
                     {
+                        "name": "centeredOn",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "precision",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 2
+                        }
+                    },
+                    {
+                        "name": "maxTimestamp",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -2376,6 +2642,24 @@
                         }
                     },
                     {
+                        "name": "centeredOn",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "maxTimestamp",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -2489,6 +2773,24 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "path"
+                                ],
+                                "properties": {
+                                    "path": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -2748,6 +3050,47 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "autoExport": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "currencyName": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "deletionDisabled": {
+                                        "type": "boolean",
+                                        "nullable": true
+                                    },
+                                    "categorySort": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "paymentModeSort": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "archivedTs": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -3044,6 +3387,86 @@
                         }
                     },
                     {
+                        "name": "tsMin",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "tsMax",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "paymentModeId",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "categoryId",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "amountMin",
+                        "in": "query",
+                        "schema": {
+                            "type": "number",
+                            "format": "double",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "amountMax",
+                        "in": "query",
+                        "schema": {
+                            "type": "number",
+                            "format": "double",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "showDisabled",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "default": "1"
+                        }
+                    },
+                    {
+                        "name": "currencyId",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "payerId",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -3142,6 +3565,24 @@
                         }
                     },
                     {
+                        "name": "centeredOn",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "maxTimestamp",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -3227,6 +3668,33 @@
                         "required": true,
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "name": "centeredOn",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "precision",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 2
+                        }
+                    },
+                    {
+                        "name": "maxTimestamp",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
                         }
                     },
                     {
@@ -3324,6 +3792,81 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "date": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "what": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "payer": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "payedFor": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "nullable": true
+                                    },
+                                    "repeat": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "paymentMode": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "paymentModeId": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "categoryId": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "repeatAllActive": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "default": 0
+                                    },
+                                    "repeatUntil": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "timestamp": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "comment": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "repeatFreq": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -3474,6 +4017,100 @@
                         }
                     },
                     {
+                        "name": "lastChanged",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true,
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "reverse",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        }
+                    },
+                    {
+                        "name": "payerId",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "categoryId",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "paymentModeId",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "includeBillId",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "searchTerm",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "deleted",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true,
+                            "default": 0
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -3586,6 +4223,30 @@
                         "required": true,
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "name": "billIds[]",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer",
+                                "format": "int64"
+                            }
+                        }
+                    },
+                    {
+                        "name": "moveToTrash",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 1,
+                            "enum": [
+                                0,
+                                1
+                            ]
                         }
                     },
                     {
@@ -3743,6 +4404,96 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "billIds"
+                                ],
+                                "properties": {
+                                    "billIds": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer",
+                                            "format": "int64"
+                                        }
+                                    },
+                                    "categoryId": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "what": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "payer": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "payedFor": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "nullable": true
+                                    },
+                                    "repeat": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "paymentMode": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "paymentModeId": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "repeatAllActive": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "repeatUntil": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "timestamp": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "comment": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "repeatFreq": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "deleted": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -3894,7 +4645,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -4008,7 +4760,20 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "moveToTrash",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 1,
+                            "enum": [
+                                0,
+                                1
+                            ]
                         }
                     },
                     {
@@ -4166,6 +4931,86 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "date": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "what": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "payer": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "payedFor": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "nullable": true
+                                    },
+                                    "repeat": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "paymentMode": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "paymentModeId": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "categoryId": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "repeatAllActive": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "repeatUntil": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "timestamp": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "comment": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "repeatFreq": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "deleted": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -4192,7 +5037,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -4405,6 +5251,24 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "toProjectId"
+                                ],
+                                "properties": {
+                                    "toProjectId": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -4431,7 +5295,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -4605,7 +5470,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -4724,6 +5590,81 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "date": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "what": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "payer": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "payedFor": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "nullable": true
+                                    },
+                                    "repeat": {
+                                        "type": "string",
+                                        "default": "n"
+                                    },
+                                    "paymentMode": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "paymentModeId": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "categoryId": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "repeatAllActive": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "default": 0
+                                    },
+                                    "repeatUntil": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "timestamp": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "comment": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "repeatFreq": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -4893,6 +5834,100 @@
                         }
                     },
                     {
+                        "name": "lastChanged",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true,
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "reverse",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        }
+                    },
+                    {
+                        "name": "payerId",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "categoryId",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "paymentModeId",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "includeBillId",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "searchTerm",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "deleted",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true,
+                            "default": 0
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -5015,6 +6050,30 @@
                         "required": true,
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "name": "billIds[]",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer",
+                                "format": "int64"
+                            }
+                        }
+                    },
+                    {
+                        "name": "moveToTrash",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 1,
+                            "enum": [
+                                0,
+                                1
+                            ]
                         }
                     },
                     {
@@ -5173,6 +6232,97 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "billIds"
+                                ],
+                                "properties": {
+                                    "billIds": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer",
+                                            "format": "int64"
+                                        }
+                                    },
+                                    "categoryId": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "what": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "payer": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "payedFor": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "nullable": true
+                                    },
+                                    "repeat": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": "n"
+                                    },
+                                    "paymentMode": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "paymentModeId": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "repeatAllActive": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "repeatUntil": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "timestamp": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "comment": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "repeatFreq": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "deleted": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -5343,7 +6493,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -5506,7 +6657,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -5640,7 +6792,20 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "moveToTrash",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 1,
+                            "enum": [
+                                0,
+                                1
+                            ]
                         }
                     },
                     {
@@ -5799,6 +6964,86 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "date": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "what": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "payer": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "payedFor": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "nullable": true
+                                    },
+                                    "repeat": {
+                                        "type": "string",
+                                        "default": "n"
+                                    },
+                                    "paymentMode": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "paymentModeId": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "categoryId": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "repeatAllActive": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "repeatUntil": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "timestamp": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "comment": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "repeatFreq": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    },
+                                    "deleted": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -5834,7 +7079,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -6088,6 +7334,15 @@
                         }
                     },
                     {
+                        "name": "lastChanged",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -6145,6 +7400,42 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "userId": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "weight": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "default": 1
+                                    },
+                                    "active": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "default": 1
+                                    },
+                                    "color": {
+                                        "type": "string",
+                                        "nullable": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -6271,6 +7562,38 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "weight": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "nullable": true
+                                    },
+                                    "activated": {
+                                        "nullable": true
+                                    },
+                                    "color": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "userId": {
+                                        "type": "string",
+                                        "nullable": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -6297,7 +7620,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -6443,7 +7767,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -6573,6 +7898,15 @@
                         }
                     },
                     {
+                        "name": "lastChanged",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -6631,6 +7965,42 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "weight": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "default": 1
+                                    },
+                                    "active": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "default": 1
+                                    },
+                                    "color": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "userId": {
+                                        "type": "string",
+                                        "nullable": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -6759,6 +8129,38 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "weight": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "nullable": true
+                                    },
+                                    "activated": {
+                                        "nullable": true
+                                    },
+                                    "color": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "userId": {
+                                        "type": "string",
+                                        "nullable": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -6794,7 +8196,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -6960,7 +8363,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -7058,6 +8462,33 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "userId",
+                                    "accessLevel"
+                                ],
+                                "properties": {
+                                    "userId": {
+                                        "type": "string"
+                                    },
+                                    "accessLevel": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "manuallyAdded": {
+                                        "type": "boolean",
+                                        "default": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -7205,7 +8636,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -7351,6 +8783,29 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "groupId",
+                                    "accessLevel"
+                                ],
+                                "properties": {
+                                    "groupId": {
+                                        "type": "string"
+                                    },
+                                    "accessLevel": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -7498,7 +8953,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -7644,6 +9100,29 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "circleId",
+                                    "accessLevel"
+                                ],
+                                "properties": {
+                                    "circleId": {
+                                        "type": "string"
+                                    },
+                                    "accessLevel": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -7791,7 +9270,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -7937,6 +9417,33 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "accessLevel"
+                                ],
+                                "properties": {
+                                    "label": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "accessLevel": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -8051,7 +9558,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -8197,6 +9705,25 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "accessLevel"
+                                ],
+                                "properties": {
+                                    "accessLevel": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -8223,7 +9750,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -8372,6 +9900,26 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "label": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "nullable": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -8398,7 +9946,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -8547,6 +10096,29 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "name",
+                                    "rate"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "rate": {
+                                        "type": "number",
+                                        "format": "double"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -8636,6 +10208,29 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "name",
+                                    "rate"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "rate": {
+                                        "type": "number",
+                                        "format": "double"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -8662,7 +10257,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -8789,7 +10385,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -8893,6 +10490,29 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "name",
+                                    "rate"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "rate": {
+                                        "type": "number",
+                                        "format": "double"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -8992,6 +10612,29 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "name",
+                                    "rate"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "rate": {
+                                        "type": "number",
+                                        "format": "double"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -9027,7 +10670,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -9164,7 +10808,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -9267,6 +10912,38 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "name",
+                                    "color"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "icon": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "color": {
+                                        "type": "string"
+                                    },
+                                    "order": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true,
+                                        "default": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -9346,6 +11023,30 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "icon": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "color": {
+                                        "type": "string",
+                                        "nullable": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -9372,7 +11073,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -9489,7 +11191,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -9737,6 +11440,38 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "name",
+                                    "color"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "icon": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "color": {
+                                        "type": "string"
+                                    },
+                                    "order": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true,
+                                        "default": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -9836,6 +11571,30 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "icon": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "color": {
+                                        "type": "string",
+                                        "nullable": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -9871,7 +11630,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -9998,7 +11758,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -10103,6 +11864,41 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "order"
+                                ],
+                                "properties": {
+                                    "order": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "required": [
+                                                "order",
+                                                "id"
+                                            ],
+                                            "properties": {
+                                                "order": {
+                                                    "type": "integer",
+                                                    "format": "int64"
+                                                },
+                                                "id": {
+                                                    "type": "integer",
+                                                    "format": "int64"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -10220,6 +12016,38 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "name",
+                                    "color"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "icon": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "color": {
+                                        "type": "string"
+                                    },
+                                    "order": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true,
+                                        "default": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -10299,6 +12127,30 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "icon": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "color": {
+                                        "type": "string",
+                                        "nullable": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -10325,7 +12177,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -10452,7 +12305,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {
@@ -10555,6 +12409,41 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "order"
+                                ],
+                                "properties": {
+                                    "order": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "required": [
+                                                "order",
+                                                "id"
+                                            ],
+                                            "properties": {
+                                                "order": {
+                                                    "type": "integer",
+                                                    "format": "int64"
+                                                },
+                                                "id": {
+                                                    "type": "integer",
+                                                    "format": "int64"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -10680,6 +12569,38 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "name",
+                                    "color"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "icon": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "color": {
+                                        "type": "string"
+                                    },
+                                    "order": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true,
+                                        "default": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -10769,6 +12690,30 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "icon": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "color": {
+                                        "type": "string",
+                                        "nullable": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -10804,7 +12749,8 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
                     {

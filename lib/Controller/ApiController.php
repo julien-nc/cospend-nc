@@ -948,7 +948,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
-	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Payment modes'])]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Payment-modes'])]
 	public function createPaymentMode(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
 		$result = $this->projectService->createPaymentMode($projectId, $name, $icon, $color, $order);
 		return new DataResponse($result);
@@ -970,7 +970,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
-	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Payment modes'])]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Payment-modes'])]
 	public function editPaymentMode(
 		string $projectId, int $pmId, ?string $name = null, ?string $icon = null, ?string $color = null
 	): DataResponse {
@@ -994,7 +994,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
-	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Payment modes'])]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Payment-modes'])]
 	public function savePaymentModeOrder(string $projectId, array $order): DataResponse {
 		if ($this->projectService->savePaymentModeOrder($projectId, $order)) {
 			return new DataResponse('');
@@ -1016,7 +1016,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CORS]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
-	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Payment modes'])]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Payment-modes'])]
 	public function deletePaymentMode(string $projectId, int $pmId): DataResponse {
 		$result = $this->projectService->deletePaymentMode($projectId, $pmId);
 		if (isset($result['success'])) {

@@ -9260,7 +9260,7 @@
                 "operationId": "api-create-payment-mode",
                 "summary": "Create a payment mode",
                 "tags": [
-                    "Payment modes"
+                    "Payment-modes"
                 ],
                 "security": [
                     {
@@ -9339,7 +9339,7 @@
                 "operationId": "api-edit-payment-mode",
                 "summary": "Edit a payment mode",
                 "tags": [
-                    "Payment modes"
+                    "Payment-modes"
                 ],
                 "security": [
                     {
@@ -9456,7 +9456,7 @@
                 "operationId": "api-delete-payment-mode",
                 "summary": "Delete a payment mode",
                 "tags": [
-                    "Payment modes"
+                    "Payment-modes"
                 ],
                 "security": [
                     {
@@ -9585,7 +9585,7 @@
                 "operationId": "api-save-payment-mode-order",
                 "summary": "Save payment modes order",
                 "tags": [
-                    "Payment modes"
+                    "Payment-modes"
                 ],
                 "security": [
                     {
@@ -9729,7 +9729,7 @@
                 "operationId": "public_api-public-create-payment-mode",
                 "summary": "Create a payment mode",
                 "tags": [
-                    "Public-API_Payment modes"
+                    "Public-API_Payment-modes"
                 ],
                 "security": [
                     {},
@@ -9828,7 +9828,7 @@
                 "operationId": "public_api-public-edit-payment-mode",
                 "summary": "Edit a payment mode",
                 "tags": [
-                    "Public-API_Payment modes"
+                    "Public-API_Payment-modes"
                 ],
                 "security": [
                     {},
@@ -9955,7 +9955,7 @@
                 "operationId": "public_api-public-delete-payment-mode",
                 "summary": "Delete a payment mode",
                 "tags": [
-                    "Public-API_Payment modes"
+                    "Public-API_Payment-modes"
                 ],
                 "security": [
                     {},
@@ -10095,7 +10095,7 @@
                 "operationId": "public_api-public-save-payment-mode-order",
                 "summary": "Save payment modes order",
                 "tags": [
-                    "Public-API_Payment modes"
+                    "Public-API_Payment-modes"
                 ],
                 "security": [
                     {},

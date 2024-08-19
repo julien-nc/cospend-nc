@@ -52,6 +52,10 @@ export function exportProject(filename, projectId, projectName) {
 		})
 }
 
+export function getTotalAmountOwed(userId) {
+	const url = generateOcsUrl('/apps/cospend/api/v1/total-amount-owed/{userId}', { userId })
+	return axios.get(url)
+}
 export function getProjects() {
 	const url = cospend.pageIsPublic
 		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}', { projectId: cospend.projectid, password: cospend.password })

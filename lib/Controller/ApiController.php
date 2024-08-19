@@ -1622,4 +1622,15 @@ class ApiController extends OCSController {
 	public function ping(): DataResponse {
 		return new DataResponse([$this->userId]);
 	}
+
+	#[NoAdminRequired]
+	#[CORS]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
+	public function getTotalAmountOwed(string $userId): DataResponse {
+		if (!$userId) {
+			$userId = $this->userId;
+		}
+		$totalOwed = $this->projectService->getTotalAmountOwedByUser($userId);
+		return new DataResponse(['total_amount_owed' => $totalOwed]);
+	}
 }

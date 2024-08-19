@@ -75,6 +75,15 @@
 							</NcCounterBubble>
 						</template>
 					</NcAppNavigationItem>
+					<NcAppNavigationItem v-if="!pageIsPublic"
+						:name="t('cospend', 'Total amount owed')">
+						<template #icon>
+							<CreditCardIcon />
+						</template>
+						<template #counter>
+							{{ formattedTotalOwed }}
+						</template>
+					</NcAppNavigationItem>
 					<NcAppNavigationItem
 						:name="t('cospend', 'Cospend settings')"
 						@click="showSettings">
@@ -96,6 +105,7 @@ import FileImportIcon from 'vue-material-design-icons/FileImport.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
 import ArchiveLockIcon from 'vue-material-design-icons/ArchiveLock.vue'
 import CalendarIcon from 'vue-material-design-icons/Calendar.vue'
+import CreditCardIcon from 'vue-material-design-icons/CreditCard.vue'
 
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
@@ -109,6 +119,8 @@ import NewProjectModal from './NewProjectModal.vue'
 import cospend from '../state.js'
 import * as constants from '../constants.js'
 import { strcmp, importCospendProject, importSWProject } from '../utils.js'
+import { getCurrentUser } from '@nextcloud/auth'
+import * as network from './../network.js'
 
 import ClickOutside from 'vue-click-outside'
 import { emit } from '@nextcloud/event-bus'
@@ -131,6 +143,7 @@ export default {
 		FolderPlusIcon,
 		ArchiveLockIcon,
 		CalendarIcon,
+		CreditCardIcon,
 	},
 	directives: {
 		ClickOutside,
@@ -167,9 +180,13 @@ export default {
 			importingProject: false,
 			showCreationModal: false,
 			showArchivedProjects: false,
+			totalOwed: 0,
 		}
 	},
 	computed: {
+		formattedTotalOwed() {
+			return this.totalOwed.toFixed(2)
+		},
 		filteredProjectIds(opposite = false) {
 			return this.showArchivedProjects
 			    ? this.sortedProjectIds.filter(id => this.projects[id].archived_ts !== null)
@@ -193,8 +210,20 @@ export default {
 		},
 	},
 	beforeMount() {
+		if(!this.pageIsPublic){
+			this.fetchTotalAmountOwed()
+		}
 	},
 	methods: {
+		async fetchTotalAmountOwed() {
+			const currentUser = getCurrentUser()
+			try {
+				const response = await network.getTotalAmountOwed(currentUser.uid)
+				this.totalOwed = response.data.ocs.data.total_amount_owed
+			} catch (error) {
+				console.error('Failed to fetch total amount owed:', error)
+			}
+		},
 		toggleArchivedProjects() {
 			this.showArchivedProjects = !this.showArchivedProjects
 			emit('deselect-project')

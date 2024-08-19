@@ -115,6 +115,7 @@ return [
 		['name' => 'api#autoSettlement', 'url' => '/api/{apiVersion}/projects/{projectId}/auto-settlement', 'verb' => 'GET', 'requirements' => $requirements],
 		['name' => 'api#exportCsvSettlement', 'url' => '/api/{apiVersion}/projects/{projectId}/export-csv-settlement', 'verb' => 'GET', 'requirements' => $requirements],
 		['name' => 'api#getPublicFileShare', 'url' => '/api/{apiVersion}/public-file-share', 'verb' => 'POST', 'requirements' => $requirements],
+		['name' => 'api#getTotalAmountOwed', 'url' => '/api/{apiVersion}/total-amount-owed/{userId}', 'verb' => 'GET', 'requirements' => $requirements],
 		['name' => 'publicApi#publicDeleteProject', 'url' => '/api/{apiVersion}/public/projects/{token}/{password}', 'verb' => 'DELETE', 'requirements' => $requirements],
 		['name' => 'publicApi#publicEditProject', 'url' => '/api/{apiVersion}/public/projects/{token}/{password}', 'verb' => 'PUT', 'requirements' => $requirements],
 		['name' => 'publicApi#publicGetProjectInfo', 'url' => '/api/{apiVersion}/public/projects/{token}/{password}', 'verb' => 'GET', 'requirements' => $requirements],

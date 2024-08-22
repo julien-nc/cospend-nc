@@ -1,1 +1,1 @@
-Shared budget manager
+Xestor de orzamento compartido

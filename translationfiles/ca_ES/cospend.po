@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-04-01 20:23+0200\n"
-"PO-Revision-Date: 2024-07-23 11:10\n"
+"PO-Revision-Date: 2024-08-23 12:55\n"
 "Last-Translator: \n"
 "Language-Team: Catalan\n"
 "Language: ca_ES\n"
@@ -112,14 +112,14 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4984
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4987
 msgid "Access denied"
-msgstr ""
+msgstr "Accés denegat"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:124
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:141
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PublicApiController.php:230
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Middleware/PublicAuthMiddleware.php:45
 msgid "Project not found"
-msgstr ""
+msgstr "Projecte no trobat"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:356
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:436
@@ -173,7 +173,7 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:240
 #, php-format
 msgid "Project %s"
-msgstr ""
+msgstr "Projecte %s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:203
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:239
@@ -474,7 +474,7 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3436
 msgid "Already shared with this user"
-msgstr ""
+msgstr "Ja compartit amb aquest usuari"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3439
 msgid "Impossible to share the project with its owner"
@@ -510,7 +510,7 @@ msgstr "Impossible aconseguir el gestor del grup"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4021
 msgid "Already shared with this circle"
-msgstr ""
+msgstr "Ja compartit amb aquest cercle"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4025
 msgid "No such circle"

@@ -2,7 +2,7 @@
 
 Nextcloud Cospend je správce skupinových/sdílených rozpočtů. Inspirováno skvělým [IHateMoney](https://github.com/spiral-project/ihatemoney/).
 
-You can use it when you share a house, when you go on vacation with friends, whenever you share expenses with a group of people.
+Můžete ji používat když sdílíte dům, jste s příteli na dovolené a nebo kdykoliv máte ze skupinou lidí sdílené výdaje.
 
 Umožňuje vytvářet projekty se členy a účty. Každý člen má zůstek vypočítaný z projektových účtů. Balances are not an absolute amount of money at members disposal but rather a relative information showing if a member has spent more for the group than the group has spent for her/him, independently of exactly who spent money for whom. Tak je možné vidět kdo dluží skupině a naopak komu dluží skupina. V konečném důsledku můžete požádat o plán vypořádání, který vám oznámí, které platby mají být provedeny za účelem vynulování zůstatků členů.
 

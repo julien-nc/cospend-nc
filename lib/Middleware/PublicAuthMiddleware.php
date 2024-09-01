@@ -6,10 +6,12 @@ namespace OCA\Cospend\Middleware;
 
 use Exception;
 use OCA\Cospend\Attribute\CospendPublicAuth;
+use OCA\Cospend\Db\Share;
+use OCA\Cospend\Db\ShareMapper;
 use OCA\Cospend\Exception\CospendPublicAuthNotValidException;
 
-use OCA\Cospend\Service\ProjectService;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
@@ -23,7 +25,7 @@ use ReflectionMethod;
 class PublicAuthMiddleware extends Middleware {
 
 	public function __construct(
-		private ProjectService $projectService,
+		private ShareMapper $shareMapper,
 		protected IRequest $request,
 		private IL10N $l,
 		private LoggerInterface $logger,
@@ -39,14 +41,15 @@ class PublicAuthMiddleware extends Middleware {
 		if (!empty($attributes)) {
 			$paramToken = $this->request->getParam('token');
 			$paramPassword = $this->request->getParam('password');
-			$publicShareInfo = $this->projectService->getShareInfoFromShareToken($paramToken);
-			if ($publicShareInfo === null) {
+			try {
+				$share = $this->shareMapper->getLinkOrFederatedShareByToken($paramToken);
+			} catch (DoesNotExistException $e) {
 				throw new CospendPublicAuthNotValidException(
 					$this->l->t('Project not found'), Http::STATUS_UNAUTHORIZED,
 					$paramToken, $paramPassword, 'invalid token'
 				);
 			}
-			if (!is_null($publicShareInfo['password']) && $paramPassword !== $publicShareInfo['password']) {
+			if ($share->getType() === Share::TYPE_PUBLIC_LINK && $share->getPassword() !== null && $paramPassword !== $share->getPassword()) {
 				throw new CospendPublicAuthNotValidException(
 					$this->l->t('Project password is invalid'), Http::STATUS_UNAUTHORIZED,
 					$paramToken, $paramPassword, 'invalid link password'
@@ -57,7 +60,7 @@ class PublicAuthMiddleware extends Middleware {
 				/** @var CospendPublicAuth $cospendAuthAttr */
 				$cospendAuthAttr = $attribute->newInstance();
 				$minLevel = $cospendAuthAttr->getMinimumLevel();
-				if ($publicShareInfo['accesslevel'] < $minLevel) {
+				if ($share->getAccesslevel() < $minLevel) {
 					throw new CospendPublicAuthNotValidException(
 						$this->l->t('Insufficient access level'), Http::STATUS_UNAUTHORIZED,
 						$paramToken, $paramPassword, 'insufficient permissions'

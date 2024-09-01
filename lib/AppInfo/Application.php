@@ -72,11 +72,13 @@ class Application extends App implements IBootstrap {
 		self::ACCESS_LEVEL_ADMIN,
 	];
 
+	public const SHARE_TYPE_FEDERATION = 'f';
 	public const SHARE_TYPE_PUBLIC_LINK = 'l';
 	public const SHARE_TYPE_USER = 'u';
 	public const SHARE_TYPE_GROUP = 'g';
 	public const SHARE_TYPE_CIRCLE = 'c';
 	public const SHARE_TYPES = [
+		self::SHARE_TYPE_FEDERATION,
 		self::SHARE_TYPE_PUBLIC_LINK,
 		self::SHARE_TYPE_USER,
 		self::SHARE_TYPE_GROUP,

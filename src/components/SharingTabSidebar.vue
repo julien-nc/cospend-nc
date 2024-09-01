@@ -274,6 +274,8 @@ import TextBoxIcon from 'vue-material-design-icons/TextBox.vue'
 import LinkVariantIcon from 'vue-material-design-icons/LinkVariant.vue'
 import QrcodeIcon from 'vue-material-design-icons/Qrcode.vue'
 
+import ClippyIcon from './icons/ClippyIcon.vue'
+
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
@@ -285,6 +287,8 @@ import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
 import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 
+import QRCode from './QRCode.vue'
+
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import {
@@ -295,10 +299,8 @@ import cospend from '../state.js'
 import * as constants from '../constants.js'
 import * as network from '../network.js'
 import axios from '@nextcloud/axios'
-import { Timer, hexToDarkerHex, getComplementaryColor } from '../utils.js'
-import ClippyIcon from './icons/ClippyIcon.vue'
 
-import QRCode from './QRCode.vue'
+import { Timer, hexToDarkerHex, getComplementaryColor } from '../utils.js'
 
 export default {
 	name: 'SharingTabSidebar',

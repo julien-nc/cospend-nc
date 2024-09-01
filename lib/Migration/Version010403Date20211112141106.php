@@ -153,7 +153,7 @@ class Version010403Date20211112141106 extends SimpleMigrationStep {
 				];
 			}
 			$req->closeCursor();
-			$qb = $qb->resetQueryParts();
+			$qb = $this->connection->getQueryBuilder();
 
 			foreach ($categories as $cat) {
 				$qb->insert('cospend_categories')
@@ -166,7 +166,7 @@ class Version010403Date20211112141106 extends SimpleMigrationStep {
 						'order' => $qb->createNamedParameter($cat['order'], IQueryBuilder::PARAM_INT),
 					]);
 				$qb->executeStatement();
-				$qb->resetQueryParts();
+				$qb = $this->connection->getQueryBuilder();
 			}
 		}
 
@@ -188,7 +188,7 @@ class Version010403Date20211112141106 extends SimpleMigrationStep {
 				];
 			}
 			$req->closeCursor();
-			$qb = $qb->resetQueryParts();
+			$qb = $this->connection->getQueryBuilder();
 
 			foreach ($pms as $pm) {
 				$qb->insert('cospend_paymentmodes')
@@ -202,7 +202,7 @@ class Version010403Date20211112141106 extends SimpleMigrationStep {
 						'order' => $qb->createNamedParameter($pm['order'], IQueryBuilder::PARAM_INT),
 					]);
 				$qb->executeStatement();
-				$qb->resetQueryParts();
+				$qb = $this->connection->getQueryBuilder();
 			}
 		}
 	}

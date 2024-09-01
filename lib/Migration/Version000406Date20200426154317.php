@@ -79,7 +79,7 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 			$categoryIconDict[$row['id']] = $row['icon'];
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb = $this->connection->getQueryBuilder();
 
 		foreach ($categoryIconDict as $id => $icon) {
 			$qb->update('cospend_categories');
@@ -88,7 +88,7 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 				$qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT))
 			);
 			$req = $qb->executeStatement();
-			$qb = $qb->resetQueryParts();
+			$qb = $this->connection->getQueryBuilder();
 		}
 
 		// then add default categories only if none of them is there already
@@ -149,7 +149,7 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 			array_push($projectIdList, $row['id']);
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb = $this->connection->getQueryBuilder();
 
 		foreach ($projectIdList as $projectId) {
 			// is there at least one default category already?
@@ -168,7 +168,7 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 				}
 			}
 			$req->closeCursor();
-			$qb = $qb->resetQueryParts();
+			$qb = $this->connection->getQueryBuilder();
 
 			// if there is at least one default category found, do not add default categories
 			if (!$oneDefaultFound) {
@@ -184,8 +184,8 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 							'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR)
 						]);
 					$req = $qb->executeStatement();
-					$qb = $qb->resetQueryParts();
 					$insertedCategoryId = $qb->getLastInsertId();
+					$qb = $this->connection->getQueryBuilder();
 
 					// convert category ids in existing bills
 					$qb->update('cospend_bills')
@@ -198,7 +198,7 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 							$qb->expr()->eq('categoryid', $qb->createNamedParameter((int) $strId, IQueryBuilder::PARAM_INT))
 						);
 					$qb->executeStatement();
-					$qb = $qb->resetQueryParts();
+					$qb = $this->connection->getQueryBuilder();
 				}
 			}
 		}

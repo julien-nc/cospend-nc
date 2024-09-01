@@ -9,7 +9,9 @@ declare(strict_types=1);
 namespace OCA\Cospend\Db;
 
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\QBMapper;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
@@ -44,33 +46,43 @@ class InvitationMapper extends QBMapper {
 	}
 
 	/**
+	 * @param string $remoteServerUrl
+	 * @param string $remoteProjectId
+	 * @return Invitation
 	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 */
-	public function getByRemoteAndToken(
+	public function getByRemoteServerAndId(
 		string $remoteServerUrl,
-		#[SensitiveParameter]
-		string $token,
+		string $remoteProjectId,
 	): Invitation {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
 			->from($this->getTableName())
 			->where($qb->expr()->eq('remote_server_url', $qb->createNamedParameter($remoteServerUrl)))
-			->andWhere($qb->expr()->eq('access_token', $qb->createNamedParameter($token)));
+			->andWhere($qb->expr()->eq('remote_project_id', $qb->createNamedParameter($remoteProjectId)));
 
 		return $this->findEntity($qb);
 	}
 
 	/**
-	 * @param IUser $user
+	 * @param string $userId
+	 * @param int|null $state
 	 * @return Invitation[]
+	 * @throws Exception
 	 */
-	public function getInvitationsForUser(IUser $user): array {
+	public function getInvitationsForUser(string $userId, ?int $state = null): array {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
 			->from($this->getTableName())
-			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($user->getUID())));
+			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR)));
+
+		if ($state !== null) {
+			$qb->andWhere($qb->expr()->eq('state', $qb->createNamedParameter($state, IQueryBuilder::PARAM_INT)));
+		}
 
 		return $this->findEntities($qb);
 	}
@@ -78,15 +90,15 @@ class InvitationMapper extends QBMapper {
 	/**
 	 * @psalm-param Invitation::STATE_*|null $state
 	 */
-	public function countInvitationsForUser(IUser $user, ?int $state = null): int {
+	public function countInvitationsForUser(string $userId, ?int $state = null): int {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select($qb->func()->count('*'))
 			->from($this->getTableName())
-			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($user->getUID())));
+			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR)));
 
 		if ($state !== null) {
-			$qb->andWhere($qb->expr()->eq('state', $qb->createNamedParameter($state)));
+			$qb->andWhere($qb->expr()->eq('state', $qb->createNamedParameter($state, IQueryBuilder::PARAM_INT)));
 		}
 
 		$result = $qb->executeQuery();

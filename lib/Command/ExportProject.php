@@ -14,7 +14,7 @@ namespace OCA\Cospend\Command;
 
 use OC\Core\Command\Base;
 use OCA\Cospend\Db\ProjectMapper;
-use OCA\Cospend\Service\ProjectService;
+use OCA\Cospend\Service\LocalProjectService;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,8 +22,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ExportProject extends Base {
 
 	public function __construct(
-		private ProjectService $projectService,
-		private ProjectMapper $projectMapper,
+		private LocalProjectService $projectService,
+		private ProjectMapper       $projectMapper,
 	) {
 		parent::__construct();
 	}

@@ -27,7 +27,7 @@ namespace OCA\Cospend\Search;
 use DateTime;
 use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\BillMapper;
-use OCA\Cospend\Service\ProjectService;
+use OCA\Cospend\Service\LocalProjectService;
 use OCP\App\IAppManager;
 use OCP\IDateTimeFormatter;
 use OCP\IL10N;
@@ -42,12 +42,12 @@ use OCP\Search\SearchResultEntry;
 class CospendSearchProvider implements IProvider {
 
 	public function __construct(
-		private IAppManager $appManager,
-		private IL10N $l10n,
-		private IURLGenerator $urlGenerator,
-		private IDateTimeFormatter $dateFormatter,
-		private ProjectService $projectService,
-		private BillMapper $billMapper,
+		private IAppManager         $appManager,
+		private IL10N               $l10n,
+		private IURLGenerator       $urlGenerator,
+		private IDateTimeFormatter  $dateFormatter,
+		private LocalProjectService $projectService,
+		private BillMapper          $billMapper,
 	) {
 	}
 

@@ -9,7 +9,7 @@
 
 namespace OCA\Cospend\Cron;
 
-use OCA\Cospend\Service\ProjectService;
+use OCA\Cospend\Service\LocalProjectService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 
@@ -17,7 +17,7 @@ class RepeatBills extends TimedJob {
 
 	public function __construct(
 		ITimeFactory $time,
-		private ProjectService $projectService
+		private LocalProjectService $projectService
 	) {
 		parent::__construct($time);
 		// Run each day

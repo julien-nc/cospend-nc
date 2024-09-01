@@ -65,6 +65,5 @@ class Version010309Date20210628143307 extends SimpleMigrationStep {
 			$qb->expr()->neq('categoryid', $qb->createNamedParameter(-11, IQueryBuilder::PARAM_INT))
 		);
 		$qb->executeStatement();
-		$qb->resetQueryParts();
 	}
 }

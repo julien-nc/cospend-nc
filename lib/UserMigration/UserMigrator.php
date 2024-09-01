@@ -7,7 +7,7 @@ namespace OCA\Cospend\UserMigration;
 use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\Project;
 use OCA\Cospend\Db\ProjectMapper;
-use OCA\Cospend\Service\ProjectService;
+use OCA\Cospend\Service\LocalProjectService;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUser;
@@ -28,10 +28,10 @@ class UserMigrator implements IMigrator, ISizeEstimationMigrator {
 	private const SETTINGS_PATH = self::PATH_ROOT . '/settings.json';
 
 	public function __construct(
-		private ProjectService $projectService,
-		private ProjectMapper $projectMapper,
-		private IConfig $config,
-		private IL10N $l10n
+		private LocalProjectService $projectService,
+		private ProjectMapper       $projectMapper,
+		private IConfig             $config,
+		private IL10N               $l10n
 	) {
 	}
 

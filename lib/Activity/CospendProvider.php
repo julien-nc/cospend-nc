@@ -27,7 +27,7 @@ use Exception;
 use InvalidArgumentException;
 
 use OCA\Cospend\AppInfo\Application;
-use OCA\Cospend\Service\ProjectService;
+use OCA\Cospend\Service\LocalProjectService;
 use OCP\Activity\IEvent;
 use OCP\Activity\IProvider;
 use OCP\App\IAppManager;
@@ -41,14 +41,14 @@ class CospendProvider implements IProvider {
 	private array $projectNames;
 
 	public function __construct(
-		private IURLGenerator $urlGenerator,
-		private ActivityManager $activityManager,
-		private IUserManager $userManager,
-		private IGroupManager $groupManager,
-		private IAppManager $appManager,
-		private IL10N $l10n,
-		private ProjectService $projectService,
-		private ?string $userId
+		private IURLGenerator       $urlGenerator,
+		private ActivityManager     $activityManager,
+		private IUserManager        $userManager,
+		private IGroupManager       $groupManager,
+		private IAppManager         $appManager,
+		private IL10N               $l10n,
+		private LocalProjectService $projectService,
+		private ?string             $userId
 	) {
 		$this->projectNames = [];
 		if (!is_null($userId)) {

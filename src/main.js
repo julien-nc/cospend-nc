@@ -36,7 +36,7 @@ __webpack_public_path__ = generateFilePath('cospend', '', 'js/') // eslint-disab
 
 function restoreOptions() {
 	network.getOptionValues().then((response) => {
-		getOptionValuesSuccess(response.data.ocs.data)
+		getOptionValuesSuccess(response.data)
 	}).catch((error) => {
 		showError(t('cospend', 'Failed to restore options values'))
 		console.error(error)

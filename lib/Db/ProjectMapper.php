@@ -55,7 +55,7 @@ class ProjectMapper extends QBMapper {
 			break;
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb = $this->db->getQueryBuilder();
 		if ($dbId === null) {
 			// check if id is valid
 			if (strpos($id, '/') !== false) {
@@ -74,7 +74,7 @@ class ProjectMapper extends QBMapper {
 					'lastchanged' => $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT)
 				]);
 			$qb->executeStatement();
-			$qb = $qb->resetQueryParts();
+			$qb = $this->db->getQueryBuilder();
 
 			// create default categories
 			if ($createDefaultCategories) {
@@ -90,7 +90,7 @@ class ProjectMapper extends QBMapper {
 							'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
 						]);
 					$qb->executeStatement();
-					$qb = $qb->resetQueryParts();
+					$qb = $this->db->getQueryBuilder();
 				}
 			}
 
@@ -110,7 +110,7 @@ class ProjectMapper extends QBMapper {
 							'old_id' => $qb->createNamedParameter($oldId, IQueryBuilder::PARAM_STR),
 						]);
 					$qb->executeStatement();
-					$qb = $qb->resetQueryParts();
+					$qb = $this->db->getQueryBuilder();
 				}
 			}
 
@@ -186,7 +186,6 @@ class ProjectMapper extends QBMapper {
 				$qb2->expr()->in('billid', $qb->createFunction($qb2->getSQL()), IQueryBuilder::PARAM_STR_ARRAY)
 			);
 		$qb->executeStatement();
-		$qb->resetQueryParts();
 	}
 
 	/**
@@ -205,6 +204,5 @@ class ProjectMapper extends QBMapper {
 			$qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 		);
 		$qb->executeStatement();
-		$qb->resetQueryParts();
 	}
 }

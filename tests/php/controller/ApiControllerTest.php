@@ -22,7 +22,7 @@ use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Db\MemberMapper;
 use OCA\Cospend\Db\ProjectMapper;
-use OCA\Cospend\Service\ProjectService;
+use OCA\Cospend\Service\LocalProjectService;
 use OCA\Cospend\Service\UserService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -44,7 +44,7 @@ class ApiControllerTest extends TestCase {
 	private ApiController $apiController2;
 	private BillMapper $billMapper;
 	private ProjectMapper $projectMapper;
-	private ProjectService $projectService;
+	private LocalProjectService $projectService;
 	private MemberMapper $memberMapper;
 
 	public static function setUpBeforeClass(): void {
@@ -121,7 +121,7 @@ class ApiControllerTest extends TestCase {
 			'test2'
 		);
 
-		$this->projectService = new ProjectService(
+		$this->projectService = new LocalProjectService(
 			$sc->getL10N($c->get('AppName')),
 			$sc->getConfig(),
 			$this->projectMapper,
@@ -141,13 +141,11 @@ class ApiControllerTest extends TestCase {
 			$appName,
 			$request,
 			$c->get(IShareManager::class),
-			$c->get(IUserManager::class),
 			$sc->getL10N($c->get('AppName')),
 			$this->billMapper,
 			$this->projectService,
 			$activityManager,
 			$c->get(IRootFolder::class),
-			$c->get(IConfig::class),
 			'test'
 		);
 
@@ -155,13 +153,11 @@ class ApiControllerTest extends TestCase {
 			$appName,
 			$request,
 			$c->get(IShareManager::class),
-			$c->get(IUserManager::class),
 			$sc->getL10N($c->get('AppName')),
 			$this->billMapper,
 			$this->projectService,
 			$activityManager2,
 			$c->get(IRootFolder::class),
-			$c->get(IConfig::class),
 			'test2'
 		);
 	}

@@ -82,7 +82,6 @@ class BillMapper extends QBMapper {
 				$qb->expr()->eq('billid', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
 			);
 		$nbDeleted = $qb->executeStatement();
-		$qb->resetQueryParts();
 		return $nbDeleted;
 	}
 
@@ -105,7 +104,6 @@ class BillMapper extends QBMapper {
 				$qb2->expr()->in('billid', $qb->createFunction($qb2->getSQL()), IQueryBuilder::PARAM_STR_ARRAY)
 			);
 		$qb->executeStatement();
-		$qb->resetQueryParts();
 
 		// delete the bills
 		$qb = $this->db->getQueryBuilder();
@@ -152,7 +150,7 @@ class BillMapper extends QBMapper {
 				$qb2->expr()->in('billid', $qb->createFunction($qb2->getSQL()), IQueryBuilder::PARAM_STR_ARRAY)
 			);
 		$nbBillOwersDeleted = $qb->executeStatement();
-		$qb->resetQueryParts();
+		$qb = $this->db->getQueryBuilder();
 
 		///////////////////
 		// delete the bills
@@ -299,7 +297,6 @@ class BillMapper extends QBMapper {
 			$billOwerIds[] = $dbOwerId;
 		}
 		$req->closeCursor();
-		$qb->resetQueryParts();
 
 		// get the bill
 		$bill = $dbBbill->jsonSerialize();
@@ -435,7 +432,6 @@ class BillMapper extends QBMapper {
 			$billDict[$dbBillId]['owerIds'][] = $dbOwerId;
 		}
 		$req->closeCursor();
-		$qb->resetQueryParts();
 
 		$resultBills = [];
 		foreach ($orderedBillIds as $bid) {
@@ -589,7 +585,7 @@ class BillMapper extends QBMapper {
 			}
 		}
 
-		$qb = $qb->resetQueryParts();
+		$qb = $this->db->getQueryBuilder();
 
 		// get owers
 		foreach ($bills as $i => $bill) {
@@ -619,7 +615,6 @@ class BillMapper extends QBMapper {
 				$billOwerIds[] = $dbOwerId;
 			}
 			$req->closeCursor();
-			$qb = $qb->resetQueryParts();
 			$bills[$i]['owers'] = $billOwers;
 			$bills[$i]['owerIds'] = $billOwerIds;
 		}
@@ -753,7 +748,6 @@ class BillMapper extends QBMapper {
 			];
 		}
 		$req->closeCursor();
-		$qb->resetQueryParts();
 
 		return $bills;
 	}
@@ -830,7 +824,6 @@ class BillMapper extends QBMapper {
 			$billIds[] = (int) $row['id'];
 		}
 		$req->closeCursor();
-		$qb->resetQueryParts();
 
 		return $billIds;
 	}

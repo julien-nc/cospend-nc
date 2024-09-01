@@ -17,7 +17,7 @@ use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Attribute\CospendPublicAuth;
 use OCA\Cospend\Attribute\CospendUserPermissions;
 use OCA\Cospend\Db\BillMapper;
-use OCA\Cospend\Service\ProjectService;
+use OCA\Cospend\Service\LocalProjectService;
 use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
@@ -39,13 +39,13 @@ use OCP\IRequest;
 class OldApiController extends ApiController {
 
 	public function __construct(
-		string $appName,
-		IRequest $request,
-		private IL10N $trans,
-		private BillMapper $billMapper,
-		private ProjectService $projectService,
-		private ActivityManager $activityManager,
-		public ?string $userId
+		string                      $appName,
+		IRequest                    $request,
+		private IL10N               $trans,
+		private BillMapper          $billMapper,
+		private LocalProjectService $projectService,
+		private ActivityManager     $activityManager,
+		public ?string              $userId
 	) {
 		parent::__construct(
 			$appName, $request,

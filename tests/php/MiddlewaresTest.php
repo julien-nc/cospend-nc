@@ -28,7 +28,7 @@ use OCA\Cospend\Exception\CospendPublicAuthNotValidException;
 use OCA\Cospend\Exception\CospendUserPermissionsException;
 use OCA\Cospend\Middleware\PublicAuthMiddleware;
 use OCA\Cospend\Middleware\UserPermissionMiddleware;
-use OCA\Cospend\Service\ProjectService;
+use OCA\Cospend\Service\LocalProjectService;
 use OCA\Cospend\Service\UserService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -54,7 +54,7 @@ class MiddlewaresTest extends TestCase {
 	private UserPermissionMiddleware $userPermissionMiddleware;
 	private PublicAuthMiddleware $publicAuthMiddleware;
 	private BillMapper $billMapper;
-	private ProjectService $projectService;
+	private LocalProjectService $projectService;
 	private PublicApiController $publicApiController;
 
 	public static function setUpBeforeClass(): void {
@@ -124,7 +124,7 @@ class MiddlewaresTest extends TestCase {
 			'test2'
 		);
 
-		$this->projectService = new ProjectService(
+		$this->projectService = new LocalProjectService(
 			$sc->getL10N($c->get('AppName')),
 			$sc->getConfig(),
 			$this->projectMapper,

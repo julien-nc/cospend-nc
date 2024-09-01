@@ -126,7 +126,7 @@ class Version010314Date20210828143421 extends SimpleMigrationStep {
 			$projectIdList[] = $row['id'];
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb = $this->connection->getQueryBuilder();
 
 		foreach ($projectIdList as $projectId) {
 			// is there at least one default payment mode already?
@@ -145,7 +145,7 @@ class Version010314Date20210828143421 extends SimpleMigrationStep {
 				}
 			}
 			$req->closeCursor();
-			$qb = $qb->resetQueryParts();
+			$qb = $this->connection->getQueryBuilder();
 
 			// if there is at least one default pm found, do not add default pms
 			if (!$oneDefaultFound) {
@@ -160,8 +160,8 @@ class Version010314Date20210828143421 extends SimpleMigrationStep {
 							'old_id' => $qb->createNamedParameter($pm['old_id'], IQueryBuilder::PARAM_STR),
 						]);
 					$req = $qb->executeStatement();
-					$qb = $qb->resetQueryParts();
 					$insertedPmId = $qb->getLastInsertId();
+					$qb = $this->connection->getQueryBuilder();
 
 					// convert pm ids in existing bills
 					$qb->update('cospend_bills')
@@ -174,7 +174,7 @@ class Version010314Date20210828143421 extends SimpleMigrationStep {
 							$qb->expr()->eq('paymentmodeid', $qb->createNamedParameter($pm['hardcoded_id'], IQueryBuilder::PARAM_INT))
 						);
 					$qb->executeStatement();
-					$qb = $qb->resetQueryParts();
+					$qb = $this->connection->getQueryBuilder();
 				}
 			}
 		}

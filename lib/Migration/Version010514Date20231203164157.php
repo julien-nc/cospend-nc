@@ -32,7 +32,7 @@ class Version010514Date20231203164157 extends SimpleMigrationStep {
 				$qb->expr()->lt('lastchanged', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 			);
 		$qb->executeStatement();
-		$qb = $qb->resetQueryParts();
+		$qb = $this->connection->getQueryBuilder();
 
 		$qb->update('cospend_bills')
 			->set('lastchanged', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
@@ -40,7 +40,7 @@ class Version010514Date20231203164157 extends SimpleMigrationStep {
 				$qb->expr()->lt('lastchanged', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 			);
 		$qb->executeStatement();
-		$qb = $qb->resetQueryParts();
+		$qb = $this->connection->getQueryBuilder();
 
 		$qb->update('cospend_bills')
 			->set('timestamp', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
@@ -48,7 +48,7 @@ class Version010514Date20231203164157 extends SimpleMigrationStep {
 				$qb->expr()->lt('timestamp', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 			);
 		$qb->executeStatement();
-		$qb = $qb->resetQueryParts();
+		$qb = $this->connection->getQueryBuilder();
 
 		$qb->update('cospend_members')
 			->set('lastchanged', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
@@ -56,7 +56,6 @@ class Version010514Date20231203164157 extends SimpleMigrationStep {
 				$qb->expr()->lt('lastchanged', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 			);
 		$qb->executeStatement();
-		$qb = $qb->resetQueryParts();
 	}
 
 	/**

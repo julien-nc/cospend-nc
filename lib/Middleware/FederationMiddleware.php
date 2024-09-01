@@ -5,27 +5,25 @@ declare(strict_types=1);
 namespace OCA\Cospend\Middleware;
 
 use Exception;
-use OCA\Cospend\Attribute\CospendUserPermissions;
+use OCA\Cospend\Attribute\CospendFederation;
 use OCA\Cospend\Controller\ApiController;
 use OCA\Cospend\Controller\OldApiController;
+use OCA\Cospend\Db\InvitationMapper;
 use OCA\Cospend\Exception\CospendUserPermissionsException;
-use OCA\Cospend\Service\LocalProjectService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
-use OCP\IL10N;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 use ReflectionMethod;
 
-class UserPermissionMiddleware extends Middleware {
+class FederationMiddleware extends Middleware {
 
 	public function __construct(
-		private LocalProjectService $projectService,
-		protected IRequest          $request,
-		private IL10N               $l,
-		private LoggerInterface     $logger,
+		protected IRequest $request,
+		private LoggerInterface $logger,
+		private InvitationMapper $invitationMapper,
 	) {
 	}
 
@@ -35,24 +33,15 @@ class UserPermissionMiddleware extends Middleware {
 		}
 		$reflectionMethod = new ReflectionMethod($controller, $methodName);
 
-		$attributes = $reflectionMethod->getAttributes(CospendUserPermissions::class);
+		$attributes = $reflectionMethod->getAttributes(CospendFederation::class);
 
 		if (!empty($attributes)) {
 			$paramProjectId = $this->request->getParam('projectId');
-			// skip federated projects
+			// federated projects only
 			if (str_contains($paramProjectId, '@')) {
-				return;
-			}
-			$userId = $controller->userId;
-			$userAccessLevel = $this->projectService->getUserMaxAccessLevel($userId, $paramProjectId);
-
-			foreach ($attributes as $attribute) {
-				/** @var CospendUserPermissions $cospendAuthAttr */
-				$cospendAuthAttr = $attribute->newInstance();
-				$minLevel = $cospendAuthAttr->getMinimumLevel();
-				if ($userAccessLevel < $minLevel) {
-					throw new CospendUserPermissionsException($this->l->t('Insufficient access level'));
-				}
+				[$remoteServerUrl, $remoteProjectId] = explode('@', $paramProjectId);
+				$invitation = $this->invitationMapper->getByRemoteServerAndId($remoteServerUrl, $remoteProjectId);
+				$controller->projectService = \OC::$server->get(FederatedProjectService::class);
 			}
 		}
 	}

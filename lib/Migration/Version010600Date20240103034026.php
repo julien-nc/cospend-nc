@@ -117,7 +117,6 @@ class Version010600Date20240103034026 extends SimpleMigrationStep {
 		$qb->set('auto_export', 'autoexport');
 		$qb->set('last_changed', 'lastchanged');
 		$qb->executeStatement();
-		$qb->resetQueryParts();
 		*/
 	}
 }

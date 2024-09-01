@@ -23,6 +23,9 @@ return [
 		['name' => 'page#pubProject', 'url' => 'project', 'verb' => 'POST'],
 		['name' => 'page#publicShareLinkPage', 'url' => 's/{token}', 'verb' => 'GET'],
 
+		['name' => 'page#getOptionsValues', 'url' => '/option-values', 'verb' => 'GET'],
+		['name' => 'page#saveOptionValues', 'url' => '/option-values', 'verb' => 'PUT'],
+
 		// OLD API for client using guest access (projectId + password) or public link (token + optional password)
 		['name' => 'oldApi#preflighted_cors', 'url' => '/api/{path}', 'verb' => 'OPTIONS', 'requirements' => ['path' => '.+']],
 		['name' => 'oldApi#preflighted_cors', 'url' => '/apiv2/{path}', 'verb' => 'OPTIONS', 'requirements' => ['path' => '.+']],
@@ -97,11 +100,10 @@ return [
 	// - same API for logged in web interface and logged in clients
 	// - same API for public access (share link) with web page or clients
 	'ocs' => [
-		['name' => 'api#getOptionsValues', 'url' => '/api/{apiVersion}/option-values', 'verb' => 'GET', 'requirements' => $requirements],
-		['name' => 'api#saveOptionValues', 'url' => '/api/{apiVersion}/option-values', 'verb' => 'PUT', 'requirements' => $requirements],
 		['name' => 'api#ping', 'url' => '/api/{apiVersion}/ping', 'verb' => 'GET', 'requirements' => $requirements],
 		// projects
-		['name' => 'api#getProjects', 'url' => '/api/{apiVersion}/projects', 'verb' => 'GET', 'requirements' => $requirements],
+		['name' => 'api#getLocalProjects', 'url' => '/api/{apiVersion}/projects', 'verb' => 'GET', 'requirements' => $requirements],
+		['name' => 'api#getFederatedProjects', 'url' => '/api/{apiVersion}/federated-projects', 'verb' => 'GET', 'requirements' => $requirements],
 		['name' => 'api#createProject', 'url' => '/api/{apiVersion}/projects', 'verb' => 'POST', 'requirements' => $requirements],
 		['name' => 'api#deleteProject', 'url' => '/api/{apiVersion}/projects/{projectId}', 'verb' => 'DELETE', 'requirements' => $requirements],
 		['name' => 'api#editProject', 'url' => '/api/{apiVersion}/projects/{projectId}', 'verb' => 'PUT', 'requirements' => $requirements],

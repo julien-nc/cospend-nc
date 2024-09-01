@@ -26,6 +26,8 @@ use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\Bill;
 use OCA\Cospend\Db\BillMapper;
 
+use OCA\Cospend\Db\Invitation;
+use OCA\Cospend\Db\InvitationMapper;
 use OCA\Cospend\Db\Member;
 use OCA\Cospend\Db\MemberMapper;
 use OCA\Cospend\Db\ProjectMapper;
@@ -55,7 +57,7 @@ use function str_replace;
  * @psalm-import-type CospendProjectInfoPlusExtra from ResponseDefinitions
  * @psalm-import-type CospendMember from ResponseDefinitions
  */
-class ProjectService {
+class LocalProjectService {
 
 	public array $defaultCategories;
 	public array $defaultPaymentModes;
@@ -67,6 +69,7 @@ class ProjectService {
 		private ProjectMapper $projectMapper,
 		private BillMapper $billMapper,
 		private MemberMapper $memberMapper,
+		private InvitationMapper $invitationMapper,
 		private ActivityManager $activityManager,
 		private IUserManager $userManager,
 		private IAppManager $appManager,
@@ -209,7 +212,7 @@ class ProjectService {
 					break;
 				}
 				$req->closeCursor();
-				$qb = $qb->resetQueryParts();
+				$qb = $this->db->getQueryBuilder();
 
 				if ($dbProjectId !== null && $dbAccessLevel > $result) {
 					$result = $dbAccessLevel;
@@ -238,7 +241,7 @@ class ProjectService {
 					}
 				}
 				$req->closeCursor();
-				$qb = $qb->resetQueryParts();
+				$qb = $this->db->getQueryBuilder();
 
 				// are circles enabled and is the project shared with a circle containing the user
 				$circlesEnabled = $this->appManager->isEnabledForUser('circles');
@@ -290,7 +293,6 @@ class ProjectService {
 			break;
 		}
 		$req->closeCursor();
-		$qb->resetQueryParts();
 
 		return $result;
 	}
@@ -345,7 +347,7 @@ class ProjectService {
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
-			$qb = $qb->resetQueryParts();
+			$qb = $this->db->getQueryBuilder();
 		}
 
 		$this->projectMapper->delete($dbProjectToDelete);
@@ -403,6 +405,18 @@ class ProjectService {
 	}
 
 	/**
+	 * @param string $projectId
+	 * @param string $userId
+	 * @return array|null
+	 * @throws \OCP\DB\Exception
+	 */
+	public function getProjectInfoWithAccessLevel(string $projectId, string $userId): ?array {
+		$projectInfo = $this->getProjectInfo($projectId);
+		$projectInfo['myaccesslevel'] = $this->getUserMaxAccessLevel($userId, $projectId);
+		return $projectInfo;
+	}
+
+	/**
 	 * Get number of bills and total spent amount for a given project
 	 *
 	 * @param string $projectId
@@ -424,7 +438,6 @@ class ProjectService {
 		while ($row = $req->fetch()) {
 			$totalSpent = (float) $row['sum_amount'];
 		}
-		$qb->resetQueryParts();
 
 		return [
 			'nb_bills' => $this->billMapper->countBills($projectId, null, null, null, 0),
@@ -993,7 +1006,6 @@ class ProjectService {
 					'memberid' => $qb->createNamedParameter($owerId, IQueryBuilder::PARAM_INT)
 				]);
 			$qb->executeStatement();
-			$qb = $qb->resetQueryParts();
 		}
 
 		$this->projectMapper->updateProjectLastChanged($projectId, $ts);
@@ -1630,7 +1642,7 @@ class ProjectService {
 		}
 		$req->closeCursor();
 
-		$qb = $qb->resetQueryParts();
+		$qb = $this->db->getQueryBuilder();
 
 		// shared with user
 		$qb->select('p.id', 'p.name')
@@ -1652,7 +1664,7 @@ class ProjectService {
 			}
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb = $this->db->getQueryBuilder();
 
 		// shared with one of the groups the user is member of
 		$userO = $this->userManager->get($userId);
@@ -1671,7 +1683,7 @@ class ProjectService {
 			$candidateGroupIds[] = $groupId;
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb = $this->db->getQueryBuilder();
 
 		// is the user member of these groups?
 		foreach ($candidateGroupIds as $candidateGroupId) {
@@ -1697,7 +1709,7 @@ class ProjectService {
 					}
 				}
 				$req->closeCursor();
-				$qb = $qb->resetQueryParts();
+				$qb = $this->db->getQueryBuilder();
 			}
 		}
 
@@ -1717,7 +1729,7 @@ class ProjectService {
 				$candidateCircleIds[] = $circleId;
 			}
 			$req->closeCursor();
-			$qb = $qb->resetQueryParts();
+			$qb = $this->db->getQueryBuilder();
 
 			// is the user member of these circles?
 			foreach ($candidateCircleIds as $candidateCircleId) {
@@ -1742,7 +1754,7 @@ class ProjectService {
 						}
 					}
 					$req->closeCursor();
-					$qb = $qb->resetQueryParts();
+					$qb = $this->db->getQueryBuilder();
 				}
 			}
 		}
@@ -1767,6 +1779,13 @@ class ProjectService {
 		}
 
 		return $projects;
+	}
+
+	public function getFederatedProjects(string $userId): array {
+		$invitations = $this->invitationMapper->getInvitationsForUser($userId, Invitation::STATE_ACCEPTED);
+		return array_map(static function (Invitation $invitation) {
+			return $invitation->getRemoteProjectId() . '@' . $invitation->getRemoteServerUrl();
+		}, $invitations);
 	}
 
 	/**
@@ -1807,7 +1826,7 @@ class ProjectService {
 			break;
 		}
 		$req->closeCursor();
-		$qb->resetQueryParts();
+		$qb = $this->db->getQueryBuilder();
 
 		if ($sortMethod === Application::SORT_ORDER_MANUAL || $sortMethod === Application::SORT_ORDER_ALPHA) {
 			if ($getCategories) {
@@ -1838,7 +1857,7 @@ class ProjectService {
 				}
 			}
 			$req->closeCursor();
-			$qb->resetQueryParts();
+			$qb = $this->db->getQueryBuilder();
 		} elseif ($sortMethod === Application::SORT_ORDER_MOST_USED || $sortMethod === Application::SORT_ORDER_RECENTLY_USED) {
 			// get all categories/paymentmodes
 			if ($getCategories) {
@@ -1868,7 +1887,7 @@ class ProjectService {
 				}
 			}
 			$req->closeCursor();
-			$qb->resetQueryParts();
+			$qb = $this->db->getQueryBuilder();
 			// now we get the order
 			if ($sortMethod === Application::SORT_ORDER_MOST_USED) {
 				// sort by most used
@@ -1892,7 +1911,7 @@ class ProjectService {
 					$mostUsedOrder[$dbId] = $order++;
 				}
 				$req->closeCursor();
-				$qb->resetQueryParts();
+				$qb = $this->db->getQueryBuilder();
 				// affect order
 				foreach ($elements as $cid => $cat) {
 					// fallback order is more than max order
@@ -1919,7 +1938,7 @@ class ProjectService {
 					$mostUsedOrder[$dbId] = $order++;
 				}
 				$req->closeCursor();
-				$qb->resetQueryParts();
+				$qb = $this->db->getQueryBuilder();
 				// affect order
 				foreach ($elements as $elemId => $element) {
 					// fallback order is more than max order
@@ -1958,7 +1977,6 @@ class ProjectService {
 			];
 		}
 		$req->closeCursor();
-		$qb->resetQueryParts();
 
 		return $currencies;
 	}
@@ -2011,7 +2029,6 @@ class ProjectService {
 			];
 		}
 		$req->closeCursor();
-		$qb->resetQueryParts();
 
 		// delete shares pointing to unfound users
 		foreach ($sharesToDelete as $shId) {
@@ -2062,7 +2079,6 @@ class ProjectService {
 			];
 		}
 		$req->closeCursor();
-		$qb->resetQueryParts();
 
 		return $shares;
 	}
@@ -2101,7 +2117,6 @@ class ProjectService {
 			break;
 		}
 		$req->closeCursor();
-		$qb->resetQueryParts();
 
 		return $projectInfo;
 	}
@@ -2151,7 +2166,6 @@ class ProjectService {
 			];
 		}
 		$req->closeCursor();
-		$qb->resetQueryParts();
 
 		foreach ($sharesToDelete as $shId) {
 			$this->deleteGroupShare($projectId, $shId);
@@ -2204,7 +2218,6 @@ class ProjectService {
 				}
 			}
 			$req->closeCursor();
-			$qb->resetQueryParts();
 			$circlesManager->stopSession();
 		}
 		return $shares;
@@ -2438,7 +2451,7 @@ class ProjectService {
 						'memberid' => $qb->createNamedParameter($owerId, IQueryBuilder::PARAM_INT)
 					]);
 				$qb->executeStatement();
-				$qb = $qb->resetQueryParts();
+				$qb = $this->db->getQueryBuilder();
 			}
 		}
 
@@ -2504,7 +2517,7 @@ class ProjectService {
 				}
 			}
 			$req->closeCursor();
-			$qb->resetQueryParts();
+			$qb = $this->db->getQueryBuilder();
 
 			foreach ($bills as $bill) {
 				$billProjectId = $bill['projectid'];
@@ -2867,7 +2880,6 @@ class ProjectService {
 				'order' => $qb->createNamedParameter(is_null($order) ? 0 : $order, IQueryBuilder::PARAM_INT)
 			]);
 		$qb->executeStatement();
-		$qb = $qb->resetQueryParts();
 
 		return $qb->getLastInsertId();
 	}
@@ -2909,7 +2921,6 @@ class ProjectService {
 			break;
 		}
 		$req->closeCursor();
-		$qb->resetQueryParts();
 		return $pm;
 	}
 
@@ -2931,7 +2942,6 @@ class ProjectService {
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
-			$qb->resetQueryParts();
 
 			// then get rid of this pm in bills
 			$qb = $this->db->getQueryBuilder();
@@ -2944,7 +2954,6 @@ class ProjectService {
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
-			$qb->resetQueryParts();
 
 			return ['success' => true];
 		} else {
@@ -2969,7 +2978,7 @@ class ProjectService {
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
-			$qb = $qb->resetQueryParts();
+			$qb = $this->db->getQueryBuilder();
 		}
 		return true;
 	}
@@ -3003,7 +3012,6 @@ class ProjectService {
 						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 					);
 				$qb->executeStatement();
-				$qb->resetQueryParts();
 
 				$pm = $this->getPaymentMode($projectId, $pmId);
 				if ($pm === null) {
@@ -3044,7 +3052,6 @@ class ProjectService {
 				'order' => $qb->createNamedParameter(is_null($order) ? 0 : $order, IQueryBuilder::PARAM_INT)
 			]);
 		$qb->executeStatement();
-		$qb = $qb->resetQueryParts();
 
 		return $qb->getLastInsertId();
 	}
@@ -3085,7 +3092,6 @@ class ProjectService {
 			break;
 		}
 		$req->closeCursor();
-		$qb->resetQueryParts();
 		return $category;
 	}
 
@@ -3109,7 +3115,7 @@ class ProjectService {
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
-			$qb->resetQueryParts();
+			$qb = $this->db->getQueryBuilder();
 
 			// then get rid of this category in bills
 			$qb = $this->db->getQueryBuilder();
@@ -3122,7 +3128,6 @@ class ProjectService {
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
-			$qb->resetQueryParts();
 
 			return ['success' => true];
 		} else {
@@ -3150,7 +3155,7 @@ class ProjectService {
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
-			$qb = $qb->resetQueryParts();
+			$qb = $this->db->getQueryBuilder();
 		}
 		return true;
 	}
@@ -3187,7 +3192,6 @@ class ProjectService {
 						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 					);
 				$qb->executeStatement();
-				$qb->resetQueryParts();
 
 				$category = $this->getCategory($projectId, $categoryId);
 				if ($category === null) {
@@ -3221,7 +3225,6 @@ class ProjectService {
 				'exchange_rate' => $qb->createNamedParameter($rate, IQueryBuilder::PARAM_STR)
 			]);
 		$qb->executeStatement();
-		$qb = $qb->resetQueryParts();
 
 		return $qb->getLastInsertId();
 	}
@@ -3261,7 +3264,6 @@ class ProjectService {
 			break;
 		}
 		$req->closeCursor();
-		$qb->resetQueryParts();
 		return $currency;
 	}
 
@@ -3285,7 +3287,6 @@ class ProjectService {
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
-			$qb->resetQueryParts();
 
 			return ['success' => true];
 		} else {
@@ -3317,7 +3318,6 @@ class ProjectService {
 						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 					);
 				$qb->executeStatement();
-				$qb->resetQueryParts();
 
 				$currency = $this->getCurrency($projectId, $currencyId);
 				if ($currency === null) {
@@ -3373,7 +3373,7 @@ class ProjectService {
 					break;
 				}
 				$req->closeCursor();
-				$qb = $qb->resetQueryParts();
+				$qb = $this->db->getQueryBuilder();
 
 				if ($dbuserId === null) {
 					if ($this->getUserMaxAccessLevel($fromUserId, $projectId) >= $accesslevel) {
@@ -3386,7 +3386,6 @@ class ProjectService {
 								'manually_added' => $qb->createNamedParameter($manually_added ? 1 : 0, IQueryBuilder::PARAM_INT),
 							]);
 						$qb->executeStatement();
-						$qb = $qb->resetQueryParts();
 
 						$insertedShareId = $qb->getLastInsertId();
 						$response = [
@@ -3470,7 +3469,6 @@ class ProjectService {
 				'password' => $qb->createNamedParameter($password, IQueryBuilder::PARAM_STR),
 			]);
 		$qb->executeStatement();
-		$qb = $qb->resetQueryParts();
 
 		$insertedShareId = $qb->getLastInsertId();
 
@@ -3543,7 +3541,7 @@ class ProjectService {
 			break;
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb = $this->db->getQueryBuilder();
 
 		if ($dbId !== null) {
 			// set the accesslevel
@@ -3556,7 +3554,6 @@ class ProjectService {
 					$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
 				);
 			$qb->executeStatement();
-			$qb->resetQueryParts();
 
 			return ['success' => true];
 		} else {
@@ -3592,7 +3589,7 @@ class ProjectService {
 			break;
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb = $this->db->getQueryBuilder();
 
 		if (!is_null($dbId) && (!is_null($label) || !is_null($password))) {
 			$qb->update('cospend_shares');
@@ -3615,7 +3612,6 @@ class ProjectService {
 					$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
 				);
 			$qb->executeStatement();
-			$qb->resetQueryParts();
 
 			return ['success' => true];
 		} else {
@@ -3655,7 +3651,7 @@ class ProjectService {
 			break;
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb = $this->db->getQueryBuilder();
 
 		if ($dbId !== null) {
 			// delete
@@ -3670,7 +3666,6 @@ class ProjectService {
 					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_USER, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
-			$qb->resetQueryParts();
 
 			// activity
 			$projectObj = $this->projectMapper->find($projectId);
@@ -3742,7 +3737,7 @@ class ProjectService {
 			break;
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb = $this->db->getQueryBuilder();
 
 		if ($dbId !== null) {
 			// delete
@@ -3757,7 +3752,6 @@ class ProjectService {
 					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_PUBLIC_LINK, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
-			$qb->resetQueryParts();
 
 			//// activity
 			//$projectObj = $this->projectMapper->find($projectid);
@@ -3833,7 +3827,7 @@ class ProjectService {
 				break;
 			}
 			$req->closeCursor();
-			$qb = $qb->resetQueryParts();
+			$qb = $this->db->getQueryBuilder();
 
 			if ($dbGroupId === null) {
 				$qb->insert('cospend_shares')
@@ -3844,7 +3838,6 @@ class ProjectService {
 						'accesslevel' => $qb->createNamedParameter($accesslevel, IQueryBuilder::PARAM_INT),
 					]);
 				$qb->executeStatement();
-				$qb = $qb->resetQueryParts();
 
 				$insertedShareId = $qb->getLastInsertId();
 
@@ -3901,7 +3894,7 @@ class ProjectService {
 			break;
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb = $this->db->getQueryBuilder();
 
 		if ($dbGroupId !== null) {
 			// delete
@@ -3916,7 +3909,6 @@ class ProjectService {
 					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
-			$qb->resetQueryParts();
 
 			// activity
 			$projectObj = $this->projectMapper->find($projectId);
@@ -3985,7 +3977,7 @@ class ProjectService {
 					break;
 				}
 				$req->closeCursor();
-				$qb = $qb->resetQueryParts();
+				$qb = $this->db->getQueryBuilder();
 
 				if ($dbCircleId === null) {
 					$qb->insert('cospend_shares')
@@ -3996,7 +3988,6 @@ class ProjectService {
 							'accesslevel' => $qb->createNamedParameter($accesslevel, IQueryBuilder::PARAM_INT),
 						]);
 					$qb->executeStatement();
-					$qb = $qb->resetQueryParts();
 
 					$insertedShareId = $qb->getLastInsertId();
 
@@ -4059,7 +4050,7 @@ class ProjectService {
 			break;
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb = $this->db->getQueryBuilder();
 
 		if ($dbCircleId !== null) {
 			// delete
@@ -4074,7 +4065,6 @@ class ProjectService {
 					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_CIRCLE, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
-			$qb->resetQueryParts();
 
 			// activity
 			$projectObj = $this->projectMapper->find($projectId);
@@ -5093,7 +5083,7 @@ class ProjectService {
 				}
 			}
 			$req->closeCursor();
-			$qb = $qb->resetQueryParts();
+			$qb = $this->db->getQueryBuilder();
 		}
 	}
 }

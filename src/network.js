@@ -1,6 +1,6 @@
 import cospend from './state.js'
 import * as constants from './constants.js'
-import { generateOcsUrl } from '@nextcloud/router'
+import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import {
 	showSuccess,
@@ -8,7 +8,7 @@ import {
 } from '@nextcloud/dialogs'
 
 export function getOptionValues() {
-	const url = generateOcsUrl('/apps/cospend/api/v1/option-values')
+	const url = generateUrl('/apps/cospend/option-values')
 	const req = {}
 	return axios.get(url, req)
 }
@@ -19,15 +19,13 @@ export function saveOptionValues(optionValues) {
 			options: optionValues,
 		}
 		console.debug('save', optionValues)
-		const url = generateOcsUrl('/apps/cospend/api/v1/option-values')
+		const url = generateUrl('/apps/cospend/option-values')
 		axios.put(url, req)
 			.then((response) => {
 			})
 			.catch((error) => {
-				showError(
-					t('cospend', 'Failed to save option values')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
-				)
+				showError(t('cospend', 'Failed to save option values'))
+				console.error(error)
 			})
 	}
 }
@@ -52,10 +50,15 @@ export function exportProject(filename, projectId, projectName) {
 		})
 }
 
-export function getProjects() {
+export function getLocalProjects() {
 	const url = cospend.pageIsPublic
 		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}', { projectId: cospend.projectid, password: cospend.password })
 		: generateOcsUrl('/apps/cospend/api/v1/projects')
+	return axios.get(url)
+}
+
+export function getFederatedProjects() {
+	const url = generateOcsUrl('/apps/cospend/api/v1/federated-projects')
 	return axios.get(url)
 }
 

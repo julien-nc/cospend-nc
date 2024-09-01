@@ -758,189 +758,6 @@
         }
     },
     "paths": {
-        "/ocs/v2.php/apps/cospend/api/{apiVersion}/option-values": {
-            "get": {
-                "operationId": "api-get-options-values",
-                "summary": "Get setting values",
-                "description": "Get setting values from the database for the current user",
-                "tags": [
-                    "Settings"
-                ],
-                "security": [
-                    {
-                        "basic_auth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "apiVersion",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "enum": [
-                                "v1"
-                            ],
-                            "default": "v1"
-                        }
-                    },
-                    {
-                        "name": "OCS-APIRequest",
-                        "in": "header",
-                        "description": "Required to be true for the API request to pass",
-                        "required": true,
-                        "schema": {
-                            "type": "boolean",
-                            "default": true
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Values are returned",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {
-                                                    "type": "object",
-                                                    "required": [
-                                                        "values"
-                                                    ],
-                                                    "properties": {
-                                                        "values": {
-                                                            "type": "object",
-                                                            "additionalProperties": {
-                                                                "type": "string"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "operationId": "api-save-option-values",
-                "summary": "Save setting values",
-                "description": "Save setting values to the database for the current user",
-                "tags": [
-                    "Settings"
-                ],
-                "security": [
-                    {
-                        "basic_auth": []
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "required": [
-                                    "options"
-                                ],
-                                "properties": {
-                                    "options": {
-                                        "type": "array",
-                                        "description": "Array of setting key/values to save",
-                                        "items": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "parameters": [
-                    {
-                        "name": "apiVersion",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "enum": [
-                                "v1"
-                            ],
-                            "default": "v1"
-                        }
-                    },
-                    {
-                        "name": "OCS-APIRequest",
-                        "in": "header",
-                        "description": "Required to be true for the API request to pass",
-                        "required": true,
-                        "schema": {
-                            "type": "boolean",
-                            "default": true
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "",
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/ping": {
             "get": {
                 "operationId": "api-ping",
@@ -950,6 +767,9 @@
                     "api"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -1025,6 +845,9 @@
                 ],
                 "security": [
                     {
+                        "bearer_auth": []
+                    },
+                    {
                         "basic_auth": []
                     }
                 ],
@@ -1096,6 +919,9 @@
                     "Projects"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -1232,6 +1058,9 @@
                 ],
                 "security": [
                     {
+                        "bearer_auth": []
+                    },
+                    {
                         "basic_auth": []
                     }
                 ],
@@ -1353,6 +1182,9 @@
                     "Projects"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -1514,6 +1346,9 @@
                 ],
                 "security": [
                     {
+                        "bearer_auth": []
+                    },
+                    {
                         "basic_auth": []
                     }
                 ],
@@ -1602,6 +1437,9 @@
                     "Projects"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -1746,6 +1584,9 @@
                 ],
                 "security": [
                     {
+                        "bearer_auth": []
+                    },
+                    {
                         "basic_auth": []
                     }
                 ],
@@ -1873,6 +1714,9 @@
                 ],
                 "security": [
                     {
+                        "bearer_auth": []
+                    },
+                    {
                         "basic_auth": []
                     }
                 ],
@@ -1998,6 +1842,9 @@
                     "Projects"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -2167,6 +2014,9 @@
                     "Projects"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -2374,6 +2224,9 @@
                 ],
                 "security": [
                     {
+                        "bearer_auth": []
+                    },
+                    {
                         "basic_auth": []
                     }
                 ],
@@ -2472,6 +2325,9 @@
                     "Projects"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -2616,6 +2472,9 @@
                     "Projects"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -2769,6 +2628,9 @@
                     "Sharing"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -3789,6 +3651,9 @@
                 ],
                 "security": [
                     {
+                        "bearer_auth": []
+                    },
+                    {
                         "basic_auth": []
                     }
                 ],
@@ -3991,6 +3856,9 @@
                     "Bills"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -4201,6 +4069,9 @@
                 ],
                 "security": [
                     {
+                        "bearer_auth": []
+                    },
+                    {
                         "basic_auth": []
                     }
                 ],
@@ -4400,6 +4271,9 @@
                     "Bills"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -4616,6 +4490,9 @@
                 ],
                 "security": [
                     {
+                        "bearer_auth": []
+                    },
+                    {
                         "basic_auth": []
                     }
                 ],
@@ -4730,6 +4607,9 @@
                     "Bills"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -4927,6 +4807,9 @@
                     "Bills"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -5139,6 +5022,9 @@
                 ],
                 "security": [
                     {
+                        "bearer_auth": []
+                    },
+                    {
                         "basic_auth": []
                     }
                 ],
@@ -5247,6 +5133,9 @@
                     "Bills"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -5440,6 +5329,9 @@
                     "Bills"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -7309,6 +7201,9 @@
                 ],
                 "security": [
                     {
+                        "bearer_auth": []
+                    },
+                    {
                         "basic_auth": []
                     }
                 ],
@@ -7396,6 +7291,9 @@
                     "Members"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -7559,6 +7457,9 @@
                 ],
                 "security": [
                     {
+                        "bearer_auth": []
+                    },
+                    {
                         "basic_auth": []
                     }
                 ],
@@ -7709,6 +7610,9 @@
                     "Members"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -8403,6 +8307,9 @@
                 ],
                 "security": [
                     {
+                        "bearer_auth": []
+                    },
+                    {
                         "basic_auth": []
                     }
                 ],
@@ -8550,6 +8457,9 @@
                     "Sharing"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -8724,6 +8634,9 @@
                 ],
                 "security": [
                     {
+                        "bearer_auth": []
+                    },
+                    {
                         "basic_auth": []
                     }
                 ],
@@ -8867,6 +8780,9 @@
                     "Sharing"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -9041,6 +8957,9 @@
                 ],
                 "security": [
                     {
+                        "bearer_auth": []
+                    },
+                    {
                         "basic_auth": []
                     }
                 ],
@@ -9184,6 +9103,9 @@
                     "Sharing"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -9358,6 +9280,9 @@
                 ],
                 "security": [
                     {
+                        "bearer_auth": []
+                    },
+                    {
                         "basic_auth": []
                     }
                 ],
@@ -9472,6 +9397,9 @@
                     "Sharing"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -9645,6 +9573,9 @@
                     "Sharing"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -9840,6 +9771,9 @@
                     "Sharing"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -10037,6 +9971,9 @@
                 ],
                 "security": [
                     {
+                        "bearer_auth": []
+                    },
+                    {
                         "basic_auth": []
                     }
                 ],
@@ -10148,6 +10085,9 @@
                     "Currencies"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -10299,6 +10239,9 @@
                     "Currencies"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -10853,6 +10796,9 @@
                 ],
                 "security": [
                     {
+                        "bearer_auth": []
+                    },
+                    {
                         "basic_auth": []
                     }
                 ],
@@ -10963,6 +10909,9 @@
                     "Payment-modes"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -11106,6 +11055,9 @@
                 ],
                 "security": [
                     {
+                        "bearer_auth": []
+                    },
+                    {
                         "basic_auth": []
                     }
                 ],
@@ -11235,6 +11187,9 @@
                     "Payment-modes"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -11957,6 +11912,9 @@
                 ],
                 "security": [
                     {
+                        "bearer_auth": []
+                    },
+                    {
                         "basic_auth": []
                     }
                 ],
@@ -12067,6 +12025,9 @@
                     "Categories"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }
@@ -12220,6 +12181,9 @@
                 ],
                 "security": [
                     {
+                        "bearer_auth": []
+                    },
+                    {
                         "basic_auth": []
                     }
                 ],
@@ -12349,6 +12313,9 @@
                     "Categories"
                 ],
                 "security": [
+                    {
+                        "bearer_auth": []
+                    },
                     {
                         "basic_auth": []
                     }

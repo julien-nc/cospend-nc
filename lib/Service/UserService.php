@@ -51,7 +51,7 @@ class UserService {
 			}
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb = $this->dbconnection->getQueryBuilder();
 
 		// get group shares from project id
 		$qb->select('userid')
@@ -69,7 +69,6 @@ class UserService {
 			$groupIds[] = (string) $row['userid'];
 		}
 		$req->closeCursor();
-		$qb->resetQueryParts();
 		// get users of groups
 		foreach ($groupIds as $gid) {
 			$group = $this->groupManager->get($gid);
@@ -78,7 +77,7 @@ class UserService {
 				foreach ($groupUsers as $user) {
 					$uid = $user->getUID();
 					if (!in_array($uid, $userIds)) {
-						array_push($userIds, $uid);
+						$userIds[] = $uid;
 					}
 				}
 			}

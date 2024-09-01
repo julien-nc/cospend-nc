@@ -130,7 +130,6 @@ class Version010314Date20210815170535 extends SimpleMigrationStep {
 					$qb->expr()->eq('paymentmode', $qb->createNamedParameter($old, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
-			$qb = $qb->resetQueryParts();
 		}
 	}
 }

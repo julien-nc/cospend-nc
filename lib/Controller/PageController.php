@@ -13,7 +13,7 @@ namespace OCA\Cospend\Controller;
 
 use OC\Files\Filesystem;
 use OCA\Cospend\AppInfo\Application;
-use OCA\Cospend\Service\ProjectService;
+use OCA\Cospend\Service\LocalProjectService;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -25,6 +25,7 @@ use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataDisplayResponse;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
@@ -32,24 +33,27 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 
 use OCP\Collaboration\Reference\RenderReferenceEvent;
+use OCP\DB\Exception;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\PreConditionNotMetException;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class PageController extends Controller {
 
 	public function __construct(
-		string $appName,
-		IRequest $request,
-		private IL10N $trans,
-		private ProjectService $projectService,
-		private IInitialState $initialStateService,
-		private IAppManager $appManager,
-		private IEventDispatcher $eventDispatcher,
-		private IConfig $config,
-		private ?string $userId
+		string                      $appName,
+		IRequest                    $request,
+		private IL10N               $trans,
+		private LocalProjectService $projectService,
+		private IInitialState       $initialStateService,
+		private IAppManager         $appManager,
+		private IEventDispatcher    $eventDispatcher,
+		private IConfig             $config,
+		private ?string             $userId
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -65,7 +69,6 @@ class PageController extends Controller {
 	 * @param int|null $billId
 	 * @return TemplateResponse
 	 */
-	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	public function index(?string $projectId = null, ?int $billId = null): TemplateResponse {
@@ -86,7 +89,6 @@ class PageController extends Controller {
 	 * @param string $color
 	 * @return NotFoundResponse|Response
 	 */
-	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	public function getSvgFromApp(string $fileName, string $color = 'ffffff') {
@@ -148,7 +150,6 @@ class PageController extends Controller {
 	 * @param string $projectId
 	 * @return TemplateResponse
 	 */
-	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	public function indexProject(string $projectId): TemplateResponse {
@@ -162,7 +163,6 @@ class PageController extends Controller {
 	 * @param int $billId
 	 * @return TemplateResponse
 	 */
-	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	public function indexBill(string $projectId, int $billId): TemplateResponse {
@@ -172,8 +172,8 @@ class PageController extends Controller {
 	/**
 	 * @param string $token
 	 * @return TemplateResponse
+	 * @throws Exception
 	 */
-	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
@@ -220,7 +220,6 @@ class PageController extends Controller {
 	 * @param string|null $password
 	 * @return TemplateResponse
 	 */
-	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
@@ -271,5 +270,59 @@ class PageController extends Controller {
 			$response->throttle($throttleMetadata);
 		}
 		return $response;
+	}
+
+	/**
+	 * Delete user settings
+	 *
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>
+	 */
+	#[NoAdminRequired]
+	public function deleteOptionsValues(): DataResponse {
+		$keys = $this->config->getUserKeys($this->userId, Application::APP_ID);
+		foreach ($keys as $key) {
+			$this->config->deleteUserValue($this->userId, Application::APP_ID, $key);
+		}
+
+		return new DataResponse('');
+	}
+
+	/**
+	 * Save setting values
+	 *
+	 * Save setting values to the database for the current user
+	 *
+	 * @param array<string> $options Array of setting key/values to save
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>
+	 * @throws PreConditionNotMetException
+	 */
+	#[NoAdminRequired]
+	public function saveOptionValues(array $options): DataResponse {
+		foreach ($options as $key => $value) {
+			$this->config->setUserValue($this->userId, Application::APP_ID, $key, $value);
+		}
+
+		return new DataResponse('');
+	}
+
+	/**
+	 * Get setting values
+	 *
+	 * Get setting values from the database for the current user
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{values: array<string, string>}, array{}>
+	 *
+	 * 200: Values are returned
+	 */
+	#[NoAdminRequired]
+	public function getOptionsValues(): DataResponse {
+		$ov = [];
+		$keys = $this->config->getUserKeys($this->userId, Application::APP_ID);
+		foreach ($keys as $key) {
+			$value = $this->config->getUserValue($this->userId, Application::APP_ID, $key);
+			$ov[$key] = $value;
+		}
+
+		return new DataResponse(['values' => $ov]);
 	}
 }

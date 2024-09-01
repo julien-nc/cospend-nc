@@ -13,13 +13,13 @@
 namespace OCA\Cospend\Command;
 
 use OC\Core\Command\Base;
-use OCA\Cospend\Service\ProjectService;
+use OCA\Cospend\Service\LocalProjectService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class RepeatBills extends Base {
 
-	public function __construct(private ProjectService $projectService) {
+	public function __construct(private LocalProjectService $projectService) {
 		parent::__construct();
 	}
 

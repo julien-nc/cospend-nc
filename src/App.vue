@@ -855,7 +855,7 @@ export default {
 		},
 		getProjects() {
 			this.projectsLoading = true
-			network.getProjects().then((response) => {
+			network.getLocalProjects().then((response) => {
 				const responseData = response.data.ocs.data
 				if (!cospend.pageIsPublic) {
 					responseData.forEach((proj) => { this.addProject(proj) })
@@ -873,6 +873,10 @@ export default {
 					t('cospend', 'Failed to get projects')
 					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
+			})
+
+			network.getFederatedProjects().then(response => {
+				console.debug('[cospend] federated projects', response.data.ocs.data)
 			})
 		},
 		getBills(projectId, selectBillId = null, callback = null, pushState = true, deleted = false) {

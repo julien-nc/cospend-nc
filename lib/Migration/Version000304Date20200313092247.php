@@ -78,7 +78,7 @@ class Version000304Date20200313092247 extends SimpleMigrationStep {
 			$timestamps[$id] = $timestamp;
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb = $this->connection->getQueryBuilder();
 
 		foreach ($timestamps as $bid => $ts) {
 			$qb->update('cospend_bills')
@@ -87,7 +87,7 @@ class Version000304Date20200313092247 extends SimpleMigrationStep {
 				$qb->expr()->eq('id', $qb->createNamedParameter($bid, IQueryBuilder::PARAM_INT))
 			);
 			$qb->executeStatement();
-			$qb = $qb->resetQueryParts();
+			$qb = $this->connection->getQueryBuilder();
 		}
 	}
 }

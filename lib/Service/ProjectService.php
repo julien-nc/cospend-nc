@@ -5096,4 +5096,28 @@ class ProjectService {
 			$qb = $qb->resetQueryParts();
 		}
 	}
+
+	public function getTotalAmountOwedByUser(string $userId): float {
+		$totalOwed = 0;
+		$projects = $this->getProjects($userId);
+
+		
+		foreach ($projects as $project) {
+			if(!is_numeric($userId)){
+				$members = $this->getMembers($project['id'], 'lowername');
+				foreach ($members as $member) {
+					if ($member['userid'] === $userId) {
+						$userId = $member['id'];
+						break;
+					}
+				}
+			}
+			$balances = $this->getBalance($project['id']);
+			if (isset($balances[$userId]) && $balances[$userId] < 0) {
+				$totalOwed += abs($balances[$userId]);
+			}
+		}
+		
+		return $totalOwed;
+	}
 }

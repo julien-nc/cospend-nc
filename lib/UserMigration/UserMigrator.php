@@ -7,6 +7,7 @@ namespace OCA\Cospend\UserMigration;
 use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\Project;
 use OCA\Cospend\Db\ProjectMapper;
+use OCA\Cospend\Service\CospendService;
 use OCA\Cospend\Service\LocalProjectService;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -29,9 +30,10 @@ class UserMigrator implements IMigrator, ISizeEstimationMigrator {
 
 	public function __construct(
 		private LocalProjectService $projectService,
-		private ProjectMapper       $projectMapper,
-		private IConfig             $config,
-		private IL10N               $l10n
+		private ProjectMapper $projectMapper,
+		private CospendService $cospendService,
+		private IConfig $config,
+		private IL10N $l10n,
 	) {
 	}
 
@@ -113,7 +115,7 @@ class UserMigrator implements IMigrator, ISizeEstimationMigrator {
 			try {
 				$handler = $importSource->getFileAsStream(self::PROJECTS_PATH . '/' . $fileName);
 				$projectName = preg_replace('/\.csv$/', '', $fileName);
-				$this->projectService->importCsvProjectAtomicWrapper($handler, $userId, $projectName);
+				$this->cospendService->importCsvProjectAtomicWrapper($handler, $userId, $projectName);
 			} catch (Throwable $e) {
 				// throw new UserMigrationException('Could not import Cospend project in ' . $fileName, 0, $e);
 				$output->writeln('Error when importing Cospend project in ' . $fileName);

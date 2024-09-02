@@ -9,7 +9,7 @@
 
 namespace OCA\Cospend\Cron;
 
-use OCA\Cospend\Service\LocalProjectService;
+use OCA\Cospend\Service\CospendService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 
@@ -17,7 +17,7 @@ class AutoExport extends TimedJob {
 
 	public function __construct(
 		ITimeFactory $time,
-		private LocalProjectService $projectService
+		private CospendService $cospendService
 	) {
 		parent::__construct($time);
 		// Run each day
@@ -29,6 +29,6 @@ class AutoExport extends TimedJob {
 	 * @return void
 	 */
 	protected function run($argument): void {
-		$this->projectService->cronAutoExport();
+		$this->cospendService->cronAutoExport();
 	}
 }

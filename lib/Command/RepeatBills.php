@@ -19,7 +19,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RepeatBills extends Base {
 
-	public function __construct(private LocalProjectService $projectService) {
+	public function __construct(
+		private LocalProjectService $localProjectService,
+	) {
 		parent::__construct();
 	}
 
@@ -29,7 +31,7 @@ class RepeatBills extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$repeated = $this->projectService->cronRepeatBills();
+		$repeated = $this->localProjectService->cronRepeatBills();
 		foreach ($repeated as $r) {
 			$output->writeln(
 				'[Project "'.$r['project_name'].'"] Bill "'.$r['what'].

@@ -6,6 +6,8 @@ namespace OCA\Cospend\Middleware;
 
 use Exception;
 use OCA\Cospend\Attribute\CospendPublicAuth;
+use OCA\Cospend\Controller\OldApiController;
+use OCA\Cospend\Controller\PublicApiController;
 use OCA\Cospend\Db\Share;
 use OCA\Cospend\Db\ShareMapper;
 use OCA\Cospend\Exception\CospendPublicAuthNotValidException;
@@ -34,6 +36,9 @@ class PublicAuthMiddleware extends Middleware {
 	}
 
 	public function beforeController($controller, $methodName): void {
+		if (!$controller instanceof PublicApiController && !$controller instanceof OldApiController) {
+			return;
+		}
 		$reflectionMethod = new ReflectionMethod($controller, $methodName);
 
 		$attributes = $reflectionMethod->getAttributes(CospendPublicAuth::class);

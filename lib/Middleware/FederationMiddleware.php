@@ -7,9 +7,9 @@ namespace OCA\Cospend\Middleware;
 use Exception;
 use OCA\Cospend\Attribute\CospendFederation;
 use OCA\Cospend\Controller\ApiController;
-use OCA\Cospend\Controller\OldApiController;
 use OCA\Cospend\Db\InvitationMapper;
 use OCA\Cospend\Exception\CospendUserPermissionsException;
+use OCA\Cospend\Service\FederatedProjectService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
@@ -28,7 +28,7 @@ class FederationMiddleware extends Middleware {
 	}
 
 	public function beforeController($controller, $methodName): void {
-		if (!$controller instanceof ApiController && !$controller instanceof OldApiController) {
+		if (!$controller instanceof ApiController) {
 			return;
 		}
 		$reflectionMethod = new ReflectionMethod($controller, $methodName);
@@ -41,6 +41,9 @@ class FederationMiddleware extends Middleware {
 			if (str_contains($paramProjectId, '@')) {
 				[$remoteServerUrl, $remoteProjectId] = explode('@', $paramProjectId);
 				$invitation = $this->invitationMapper->getByRemoteServerAndId($remoteServerUrl, $remoteProjectId);
+				if ($invitation->getUserId() !== $controller->userId) {
+					throw new Exception('This federated project is not owned by the current user');
+				}
 				$controller->projectService = \OC::$server->get(FederatedProjectService::class);
 			}
 		}

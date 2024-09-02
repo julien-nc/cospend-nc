@@ -44,7 +44,7 @@ class ApiControllerTest extends TestCase {
 	private ApiController $apiController2;
 	private BillMapper $billMapper;
 	private ProjectMapper $projectMapper;
-	private LocalProjectService $projectService;
+	private LocalProjectService $localProjectService;
 	private MemberMapper $memberMapper;
 
 	public static function setUpBeforeClass(): void {
@@ -121,7 +121,7 @@ class ApiControllerTest extends TestCase {
 			'test2'
 		);
 
-		$this->projectService = new LocalProjectService(
+		$this->localProjectService = new LocalProjectService(
 			$sc->getL10N($c->get('AppName')),
 			$sc->getConfig(),
 			$this->projectMapper,
@@ -143,7 +143,7 @@ class ApiControllerTest extends TestCase {
 			$c->get(IShareManager::class),
 			$sc->getL10N($c->get('AppName')),
 			$this->billMapper,
-			$this->projectService,
+			$this->localProjectService,
 			$activityManager,
 			$c->get(IRootFolder::class),
 			'test'
@@ -155,7 +155,7 @@ class ApiControllerTest extends TestCase {
 			$c->get(IShareManager::class),
 			$sc->getL10N($c->get('AppName')),
 			$this->billMapper,
-			$this->projectService,
+			$this->localProjectService,
 			$activityManager2,
 			$c->get(IRootFolder::class),
 			'test2'
@@ -225,7 +225,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals(Http::STATUS_BAD_REQUEST, $status);
 
 		// get project names
-		$res = $this->projectService->getProjectNames(null);
+		$res = $this->localProjectService->getProjectNames(null);
 		$this->assertEquals(0, count($res));
 
 		// create members
@@ -248,34 +248,34 @@ class ApiControllerTest extends TestCase {
 		$idMember3 = $data['id'];
 
 		// get members
-		$members = $this->projectService->getMembers('superproj', 'name', 0);
+		$members = $this->localProjectService->getMembers('superproj', 'name', 0);
 		$this->assertEquals(3, count($members));
-		$members = $this->projectService->getMembers('superproj', 'name', 2147483646);
+		$members = $this->localProjectService->getMembers('superproj', 'name', 2147483646);
 		$this->assertEquals(0, count($members));
 
 		// already exists
-		$res = $this->projectService->createMember('superproj', 'robert3');
+		$res = $this->localProjectService->createMember('superproj', 'robert3');
 		$this->assertTrue(isset($res['error']));
 		$this->assertFalse(isset($res['id']));
 
 		// invalid name
-		$res = $this->projectService->createMember('superproj', 'robert/4');
+		$res = $this->localProjectService->createMember('superproj', 'robert/4');
 		$this->assertTrue(isset($res['error']));
 		$this->assertFalse(isset($res['id']));
 
-		$res = $this->projectService->createMember('superproj', '');
+		$res = $this->localProjectService->createMember('superproj', '');
 		$this->assertTrue(isset($res['error']));
 		$this->assertFalse(isset($res['id']));
 
 		// invalid weight
-		$res = $this->projectService->createMember('superproj', 'robert4', 0.0);
+		$res = $this->localProjectService->createMember('superproj', 'robert4', 0.0);
 		$this->assertTrue(isset($res['error']));
 		$this->assertFalse(isset($res['id']));
 
 		// delete the member
 		$resp = $this->apiController->editMember('superproj', $idMember3, null, null, false);
 		$this->assertNull($resp->getData());
-		$this->assertNull($this->projectService->getMemberById('superproj', $idMember3));
+		$this->assertNull($this->localProjectService->getMemberById('superproj', $idMember3));
 
 		$resp = $this->apiController->createMember('superproj', 'robert4', 'test', 1.2, 0, '#123456');
 		$status = $resp->getStatus();
@@ -283,21 +283,21 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals(Http::STATUS_OK, $status, json_encode($data));
 		$idMember4 = $data['id'];
 
-		$member = $this->projectService->getMemberByUserid('superproj', 'test');
+		$member = $this->localProjectService->getMemberByUserid('superproj', 'test');
 		$this->assertNotNull($member);
 		$this->assertTrue(isset($member['name']));
 		$this->assertEquals('robert4', $member['name']);
 
-		$this->projectService->editMember('superproj', $idMember4, null, null, null, null, '');
-		$member = $this->projectService->getMemberByUserid('superproj', 'test');
+		$this->localProjectService->editMember('superproj', $idMember4, null, null, null, null, '');
+		$member = $this->localProjectService->getMemberByUserid('superproj', 'test');
 		$this->assertNotNull($member['color']);
 
 		// delete the member
-		$result = $this->projectService->deleteMember('superproj', $idMember4);
+		$result = $this->localProjectService->deleteMember('superproj', $idMember4);
 		$this->assertTrue(isset($result['success']));
-		$this->assertNull($this->projectService->getMemberById('superproj', $idMember4));
+		$this->assertNull($this->localProjectService->getMemberById('superproj', $idMember4));
 
-		$result = $this->projectService->deleteMember('superproj', -1);
+		$result = $this->localProjectService->deleteMember('superproj', -1);
 		$this->assertFalse(isset($result['success']));
 
 		// create member with unauthorized user
@@ -325,29 +325,29 @@ class ApiControllerTest extends TestCase {
 		$idCat3 = $resp->getData();
 
 		// delete category
-		$res = $this->projectService->deleteCategory('superproj', $idCat3);
+		$res = $this->localProjectService->deleteCategory('superproj', $idCat3);
 		$this->assertTrue(isset($res['success']));
-		$cat3 = $this->projectService->getCategory('superproj', $idCat3);
+		$cat3 = $this->localProjectService->getCategory('superproj', $idCat3);
 		$this->assertNull($cat3);
 
-		$res = $this->projectService->deleteCategory('superproj', -1);
+		$res = $this->localProjectService->deleteCategory('superproj', -1);
 		$this->assertFalse(isset($res['success']));
 		$this->assertTrue(isset($res['message']));
 
 		// check cat values
-		$cat2 = $this->projectService->getCategory('superproj', $idCat2);
+		$cat2 = $this->localProjectService->getCategory('superproj', $idCat2);
 		$this->assertNotNull($cat2);
 		$this->assertEquals('cat2', $cat2['name']);
 		$this->assertEquals('a', $cat2['icon']);
 		$this->assertEquals('#456789', $cat2['color']);
 
-		$res = $this->projectService->editCategory('superproj', $idCat2, 'cat2_renamed', 'b', '#987654');
+		$res = $this->localProjectService->editCategory('superproj', $idCat2, 'cat2_renamed', 'b', '#987654');
 		$this->assertFalse(isset($res['message']));
-		$res = $this->projectService->editCategory('superproj', $idCat2, '', 'b', '#987654');
+		$res = $this->localProjectService->editCategory('superproj', $idCat2, '', 'b', '#987654');
 		$this->assertTrue(isset($res['message']));
-		$res = $this->projectService->editCategory('superproj', -1, 'cat2_renamed', 'b', '#987654');
+		$res = $this->localProjectService->editCategory('superproj', -1, 'cat2_renamed', 'b', '#987654');
 		$this->assertTrue(isset($res['message']));
-		$cat2 = $this->projectService->getCategory('superproj', $idCat2);
+		$cat2 = $this->localProjectService->getCategory('superproj', $idCat2);
 		$this->assertNotNull($cat2);
 		$this->assertEquals('cat2_renamed', $cat2['name']);
 		$this->assertEquals('b', $cat2['icon']);
@@ -367,44 +367,44 @@ class ApiControllerTest extends TestCase {
 		$idPm3 = $resp->getData();
 
 		// delete pm
-		$res = $this->projectService->deletePaymentMode('superproj', $idPm3);
+		$res = $this->localProjectService->deletePaymentMode('superproj', $idPm3);
 		$this->assertTrue(isset($res['success']));
-		$pm3 = $this->projectService->getPaymentMode('superproj', $idPm3);
+		$pm3 = $this->localProjectService->getPaymentMode('superproj', $idPm3);
 		$this->assertNull($pm3);
 
-		$res = $this->projectService->deletePaymentMode('superproj', -1);
+		$res = $this->localProjectService->deletePaymentMode('superproj', -1);
 		$this->assertFalse(isset($res['success']));
 		$this->assertTrue(isset($res['message']));
 
 		// check pm values
-		$pm2 = $this->projectService->getPaymentMode('superproj', $idPm2);
+		$pm2 = $this->localProjectService->getPaymentMode('superproj', $idPm2);
 		$this->assertNotNull($pm2);
 		$this->assertEquals('pm2', $pm2['name']);
 		$this->assertEquals('a', $pm2['icon']);
 		$this->assertEquals('#456789', $pm2['color']);
 
-		$res = $this->projectService->editPaymentMode('superproj', $idPm2, 'pm2_renamed', 'b', '#987654');
+		$res = $this->localProjectService->editPaymentMode('superproj', $idPm2, 'pm2_renamed', 'b', '#987654');
 		$this->assertFalse(isset($res['message']));
-		$res = $this->projectService->editPaymentMode('superproj', $idPm2, '', 'b', '#987654');
+		$res = $this->localProjectService->editPaymentMode('superproj', $idPm2, '', 'b', '#987654');
 		$this->assertTrue(isset($res['message']));
-		$res = $this->projectService->editPaymentMode('superproj', -1, 'pm2_renamed', 'b', '#987654');
+		$res = $this->localProjectService->editPaymentMode('superproj', -1, 'pm2_renamed', 'b', '#987654');
 		$this->assertTrue(isset($res['message']));
-		$pm2 = $this->projectService->getPaymentMode('superproj', $idPm2);
+		$pm2 = $this->localProjectService->getPaymentMode('superproj', $idPm2);
 		$this->assertNotNull($pm2);
 		$this->assertEquals('pm2_renamed', $pm2['name']);
 		$this->assertEquals('b', $pm2['icon']);
 		$this->assertEquals('#987654', $pm2['color']);
 
 		// create project with no contact email
-		$result = $this->projectService->createProject('dummy proj', 'dummyproj', null, 'test');
+		$result = $this->localProjectService->createProject('dummy proj', 'dummyproj', null, 'test');
 		$this->assertTrue(isset($result['id']));
 		$this->assertEquals('dummyproj', $result['id']);
 		// delete this project
-		$result = $this->projectService->deleteProject('dummyproj');
+		$result = $this->localProjectService->deleteProject('dummyproj');
 		$this->assertTrue(isset($result['message']));
 		$this->assertEquals('DELETED', $result['message']);
 		// delete unexisting project
-		$result = $this->projectService->deleteProject('dummyproj2');
+		$result = $this->localProjectService->deleteProject('dummyproj2');
 		$this->assertTrue(isset($result['error']));
 
 		// get members
@@ -552,11 +552,11 @@ class ApiControllerTest extends TestCase {
 		$member2BillIds = $this->memberMapper->getBillIdsOfMember($idMember2);
 		$this->assertTrue(in_array($idBill3, $member2BillIds));
 
-		$this->projectService->deleteBill('superproj', $idBill3);
+		$this->localProjectService->deleteBill('superproj', $idBill3);
 
 		// check payment mode old id is set when using one default payment mode
 		// get a default payment mode
-		$pms = $this->projectService->getCategoriesOrPaymentModes('superproj', false);
+		$pms = $this->localProjectService->getCategoriesOrPaymentModes('superproj', false);
 		$oneDefPm = null;
 		foreach ($pms as $pm) {
 			if (isset($pm['old_id']) && $pm['old_id'] !== null && $pm['old_id'] !== '') {
@@ -620,7 +620,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertNotNull($bill);
 		$this->assertEquals($oneDefPm['old_id'], $bill['paymentmode']);
 		$this->assertEquals($oneDefPm['id'], $bill['paymentmodeid']);
-		$this->projectService->deleteBill('superproj', $idBillPm);
+		$this->localProjectService->deleteBill('superproj', $idBillPm);
 
 		// add bill with old pm id, it should affect the matching default pm
 		$resp = $this->apiController->createBill(
@@ -638,10 +638,10 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals('c', $bill['paymentmode']);
 		$this->assertTrue(isset($bill['paymentmodeid']));
 		$pmId = $bill['paymentmodeid'];
-		$pm = $this->projectService->getPaymentMode('superproj', $pmId);
+		$pm = $this->localProjectService->getPaymentMode('superproj', $pmId);
 		$this->assertNotNull($pm);
 		$this->assertEquals('c', $pm['old_id']);
-		$this->projectService->deleteBill('superproj', $idBillOldPmId);
+		$this->localProjectService->deleteBill('superproj', $idBillOldPmId);
 
 		// more invalid data
 		$resp = $this->apiController->createBill(
@@ -755,31 +755,31 @@ class ApiControllerTest extends TestCase {
 		$this->assertTrue(in_array($idMember2, $bill['owerIds']));
 
 		// set cat/pm order
-		$this->projectService->editProject(
+		$this->localProjectService->editProject(
 			'superproj', 'proj', null,
 			null, null, null,
 			Application::SORT_ORDER_MOST_USED, Application::SORT_ORDER_MOST_USED
 		);
 		// check categories/pm
-		$cats = $this->projectService->getCategoriesOrPaymentModes('superproj');
-		$this->assertTrue(count($cats) === count($this->projectService->defaultCategories) + 2);
+		$cats = $this->localProjectService->getCategoriesOrPaymentModes('superproj');
+		$this->assertTrue(count($cats) === count($this->localProjectService->defaultCategories) + 2);
 		$this->assertEquals(0, $cats[$idCat2]['order'], 'order of cat2 should be 0 but is ' . $cats[$idCat2]['order']);
-		$pms = $this->projectService->getCategoriesOrPaymentModes('superproj', false);
-		$this->assertTrue(count($pms) === count($this->projectService->defaultPaymentModes) + 2);
+		$pms = $this->localProjectService->getCategoriesOrPaymentModes('superproj', false);
+		$this->assertTrue(count($pms) === count($this->localProjectService->defaultPaymentModes) + 2);
 		$this->assertEquals(0, $pms[$idPm2]['order'], 'order of pm2 should be 0 but is ' . $pms[$idPm2]['order']);
 
 		// set cat/pm order
-		$this->projectService->editProject(
+		$this->localProjectService->editProject(
 			'superproj', 'proj', null,
 			null, null, null,
 			Application::SORT_ORDER_RECENTLY_USED, Application::SORT_ORDER_RECENTLY_USED
 		);
 		// check categories/pm
-		$cats = $this->projectService->getCategoriesOrPaymentModes('superproj');
-		$this->assertEquals(count($this->projectService->defaultCategories) + 2, count($cats));
+		$cats = $this->localProjectService->getCategoriesOrPaymentModes('superproj');
+		$this->assertEquals(count($this->localProjectService->defaultCategories) + 2, count($cats));
 		$this->assertEquals(0, $cats[$idCat2]['order']);
-		$pms = $this->projectService->getCategoriesOrPaymentModes('superproj', false);
-		$this->assertEquals(count($this->projectService->defaultPaymentModes) + 2, count($pms));
+		$pms = $this->localProjectService->getCategoriesOrPaymentModes('superproj', false);
+		$this->assertEquals(count($this->localProjectService->defaultPaymentModes) + 2, count($pms));
 		$this->assertEquals(0, $pms[$idPm2]['order']);
 
 		$resp = $this->apiController->editBill(
@@ -838,57 +838,57 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals(Http::STATUS_BAD_REQUEST, $status);
 
 		// currencies
-		$result = $this->projectService->editProject('superproj', 'SuperProj', null, null, 'euro');
+		$result = $this->localProjectService->editProject('superproj', 'SuperProj', null, null, 'euro');
 		$this->assertTrue(isset($result['success']));
-		$currencyId = $this->projectService->createCurrency('superproj', 'dollar', 1.5);
+		$currencyId = $this->localProjectService->createCurrency('superproj', 'dollar', 1.5);
 		$this->assertTrue($currencyId > 0);
 
-		$currencyId2 = $this->projectService->createCurrency('superproj', 'dollar2', 1.5);
+		$currencyId2 = $this->localProjectService->createCurrency('superproj', 'dollar2', 1.5);
 		$this->assertTrue($currencyId2 > 0);
-		$res = $this->projectService->editCurrency('superproj', $currencyId2, 'dolrenamed', 2);
+		$res = $this->localProjectService->editCurrency('superproj', $currencyId2, 'dolrenamed', 2);
 		$this->assertFalse(isset($res['message']));
 		$this->assertEquals('dolrenamed', $res['name']);
 		$this->assertEquals(2, $res['exchange_rate']);
 		$this->assertEquals($currencyId2, $res['id']);
-		$res = $this->projectService->editCurrency('superproj', $currencyId2, '', 0);
+		$res = $this->localProjectService->editCurrency('superproj', $currencyId2, '', 0);
 		$this->assertTrue(isset($res['message']));
-		$res = $this->projectService->editCurrency('superproj', -1, 'dolrenamed', 2);
+		$res = $this->localProjectService->editCurrency('superproj', -1, 'dolrenamed', 2);
 		$this->assertTrue(isset($res['message']));
-		$res = $this->projectService->deleteCurrency('superproj', $currencyId2);
+		$res = $this->localProjectService->deleteCurrency('superproj', $currencyId2);
 		$this->assertTrue(isset($res['success']));
-		$res = $this->projectService->deleteCurrency('superproj', -1);
+		$res = $this->localProjectService->deleteCurrency('superproj', -1);
 		$this->assertFalse(isset($res['success']));
 		$this->assertTrue(isset($res['message']));
 
 		// share link
-		$res = $this->projectService->createPublicShare('superproj');
+		$res = $this->localProjectService->createPublicShare('superproj');
 		$this->assertTrue(isset($res['token'], $res['id']));
 		$this->assertTrue($res['id'] > 0);
 		$shareLinkId = $res['id'];
 		$shareLinkToken = $res['token'];
-		$res = $this->projectService->createPublicShare('superproj');
+		$res = $this->localProjectService->createPublicShare('superproj');
 		$this->assertTrue(isset($res['id'], $res['token']));
 		$this->assertTrue($res['id'] > 0);
 		$shareLinkId2 = $res['id'];
-		$res = $this->projectService->deletePublicShare('superproj', $shareLinkId2);
+		$res = $this->localProjectService->deletePublicShare('superproj', $shareLinkId2);
 		$this->assertTrue(isset($res['success']));
-		$res = $this->projectService->deletePublicShare('superproj', -1);
+		$res = $this->localProjectService->deletePublicShare('superproj', -1);
 		$this->assertFalse(isset($res['success']));
 		$this->assertTrue(isset($res['message']));
 
-		$res = $this->projectService->editShareAccess('superproj', $shareLinkId, 'lala', 'passpass');
+		$res = $this->localProjectService->editShareAccess('superproj', $shareLinkId, 'lala', 'passpass');
 		$this->assertTrue(isset($res['success']));
 		$this->assertFalse(isset($res['message']));
-		$res = $this->projectService->editShareAccessLevel('superproj', $shareLinkId, Application::ACCESS_LEVEL_ADMIN);
+		$res = $this->localProjectService->editShareAccessLevel('superproj', $shareLinkId, Application::ACCESS_LEVEL_ADMIN);
 		$this->assertTrue(isset($res['success']));
 		$this->assertFalse(isset($res['message']));
-		$res = $this->projectService->editShareAccess('superproj', -1, 'lala', 'passpass');
+		$res = $this->localProjectService->editShareAccess('superproj', -1, 'lala', 'passpass');
 		$this->assertFalse(isset($res['success']));
 		$this->assertTrue(isset($res['message']));
-		$res = $this->projectService->editShareAccessLevel('superproj', -1, Application::ACCESS_LEVEL_ADMIN);
+		$res = $this->localProjectService->editShareAccessLevel('superproj', -1, Application::ACCESS_LEVEL_ADMIN);
 		$this->assertFalse(isset($res['success']));
 		$this->assertTrue(isset($res['message']));
-		$res = $this->projectService->getPublicShares('superproj');
+		$res = $this->localProjectService->getPublicShares('superproj');
 		$this->assertEquals(1, count($res));
 		$this->assertEquals($shareLinkToken, $res[0]['token']);
 		$this->assertEquals('lala', $res[0]['label']);
@@ -1083,7 +1083,7 @@ class ApiControllerTest extends TestCase {
 		//		$status = $resp->getStatus();
 		//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
 
-		$res = $this->projectService->editProject('blabla', 'plop');
+		$res = $this->localProjectService->editProject('blabla', 'plop');
 		$this->assertTrue(isset($res['message']));
 		$this->assertFalse(isset($res['success']));
 
@@ -1143,7 +1143,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertFalse(isset($data['message']));
 		$this->assertTrue(isset($data['id']));
 		// repeat
-		$repeated = $this->projectService->cronRepeatBills($idBill2);
+		$repeated = $this->localProjectService->cronRepeatBills($idBill2);
 		$this->assertEquals(0, count($repeated));
 		// enable users
 		$resp = $this->apiController->editMember('superproj', $idMember1, null, null, true);
@@ -1169,7 +1169,7 @@ class ApiControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
 
-		$repeated = $this->projectService->cronRepeatBills($idBill2);
+		$repeated = $this->localProjectService->cronRepeatBills($idBill2);
 		// check repeated bill repeat value
 		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill, 'repeated bill should not be null');
@@ -1189,7 +1189,7 @@ class ApiControllerTest extends TestCase {
 			$this->assertEquals($idPm2, $bill['paymentmodeid']);
 			$this->assertEquals('newcom', $bill['comment']);
 			$this->assertEquals(99, $bill['amount']);
-			$this->projectService->deleteBill('superproj', $r['new_bill_id']);
+			$this->localProjectService->deleteBill('superproj', $r['new_bill_id']);
 		}
 
 		// yearly freq 2
@@ -1202,7 +1202,7 @@ class ApiControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
 
-		$repeated = $this->projectService->cronRepeatBills($idBill2);
+		$repeated = $this->localProjectService->cronRepeatBills($idBill2);
 		// check repeated bill repeat value
 		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
@@ -1218,7 +1218,7 @@ class ApiControllerTest extends TestCase {
 			$this->assertEquals($idPm2, $bill['paymentmodeid']);
 			$this->assertEquals('newcom', $bill['comment']);
 			$this->assertEquals(99, $bill['amount']);
-			$this->projectService->deleteBill('superproj', $r['new_bill_id']);
+			$this->localProjectService->deleteBill('superproj', $r['new_bill_id']);
 		}
 
 		// monthly
@@ -1231,7 +1231,7 @@ class ApiControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
 
-		$repeated = $this->projectService->cronRepeatBills($idBill2);
+		$repeated = $this->localProjectService->cronRepeatBills($idBill2);
 		// check repeated bill repeat value
 		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
@@ -1247,7 +1247,7 @@ class ApiControllerTest extends TestCase {
 			$this->assertEquals($idPm2, $bill['paymentmodeid']);
 			$this->assertEquals('newcom', $bill['comment']);
 			$this->assertEquals(99, $bill['amount']);
-			$this->projectService->deleteBill('superproj', $r['new_bill_id']);
+			$this->localProjectService->deleteBill('superproj', $r['new_bill_id']);
 		}
 
 		// monthly freq 2
@@ -1260,7 +1260,7 @@ class ApiControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
 
-		$repeated = $this->projectService->cronRepeatBills($idBill2);
+		$repeated = $this->localProjectService->cronRepeatBills($idBill2);
 		// check repeated bill repeat value
 		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
@@ -1276,7 +1276,7 @@ class ApiControllerTest extends TestCase {
 			$this->assertEquals($idPm2, $bill['paymentmodeid']);
 			$this->assertEquals('newcom', $bill['comment']);
 			$this->assertEquals(99, $bill['amount']);
-			$this->projectService->deleteBill('superproj', $r['new_bill_id']);
+			$this->localProjectService->deleteBill('superproj', $r['new_bill_id']);
 		}
 
 		// daily
@@ -1289,7 +1289,7 @@ class ApiControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
 
-		$repeated = $this->projectService->cronRepeatBills($idBill2);
+		$repeated = $this->localProjectService->cronRepeatBills($idBill2);
 		// check repeated bill repeat value
 		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
@@ -1305,7 +1305,7 @@ class ApiControllerTest extends TestCase {
 			$this->assertEquals($idPm2, $bill['paymentmodeid']);
 			$this->assertEquals('newcom', $bill['comment']);
 			$this->assertEquals(99, $bill['amount']);
-			$this->projectService->deleteBill('superproj', $r['new_bill_id']);
+			$this->localProjectService->deleteBill('superproj', $r['new_bill_id']);
 		}
 
 		// daily freq 2
@@ -1318,7 +1318,7 @@ class ApiControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
 
-		$repeated = $this->projectService->cronRepeatBills($idBill2);
+		$repeated = $this->localProjectService->cronRepeatBills($idBill2);
 		// check repeated bill repeat value
 		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
@@ -1334,7 +1334,7 @@ class ApiControllerTest extends TestCase {
 			$this->assertEquals($idPm2, $bill['paymentmodeid']);
 			$this->assertEquals('newcom', $bill['comment']);
 			$this->assertEquals(99, $bill['amount']);
-			$this->projectService->deleteBill('superproj', $r['new_bill_id']);
+			$this->localProjectService->deleteBill('superproj', $r['new_bill_id']);
 		}
 
 		// weekly
@@ -1347,7 +1347,7 @@ class ApiControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
 
-		$repeated = $this->projectService->cronRepeatBills($idBill2);
+		$repeated = $this->localProjectService->cronRepeatBills($idBill2);
 		// check repeated bill repeat value
 		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
@@ -1363,7 +1363,7 @@ class ApiControllerTest extends TestCase {
 			$this->assertEquals($idPm2, $bill['paymentmodeid']);
 			$this->assertEquals('newcom', $bill['comment']);
 			$this->assertEquals(99, $bill['amount']);
-			$this->projectService->deleteBill('superproj', $r['new_bill_id']);
+			$this->localProjectService->deleteBill('superproj', $r['new_bill_id']);
 		}
 
 		// weekly freq 2
@@ -1376,7 +1376,7 @@ class ApiControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
 
-		$repeated = $this->projectService->cronRepeatBills($idBill2);
+		$repeated = $this->localProjectService->cronRepeatBills($idBill2);
 		// check repeated bill repeat value
 		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
@@ -1392,7 +1392,7 @@ class ApiControllerTest extends TestCase {
 			$this->assertEquals($idPm2, $bill['paymentmodeid']);
 			$this->assertEquals('newcom', $bill['comment']);
 			$this->assertEquals(99, $bill['amount']);
-			$this->projectService->deleteBill('superproj', $r['new_bill_id']);
+			$this->localProjectService->deleteBill('superproj', $r['new_bill_id']);
 		}
 
 		// bi weekly
@@ -1405,7 +1405,7 @@ class ApiControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
 
-		$repeated = $this->projectService->cronRepeatBills($idBill2);
+		$repeated = $this->localProjectService->cronRepeatBills($idBill2);
 		// check repeated bill repeat value
 		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
@@ -1421,7 +1421,7 @@ class ApiControllerTest extends TestCase {
 			$this->assertEquals($idPm2, $bill['paymentmodeid']);
 			$this->assertEquals('newcom', $bill['comment']);
 			$this->assertEquals(99, $bill['amount']);
-			$this->projectService->deleteBill('superproj', $r['new_bill_id']);
+			$this->localProjectService->deleteBill('superproj', $r['new_bill_id']);
 		}
 
 		// semi monthly
@@ -1434,7 +1434,7 @@ class ApiControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
 
-		$repeated = $this->projectService->cronRepeatBills($idBill2);
+		$repeated = $this->localProjectService->cronRepeatBills($idBill2);
 		// check repeated bill repeat value
 		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
@@ -1450,7 +1450,7 @@ class ApiControllerTest extends TestCase {
 			$this->assertEquals($idPm2, $bill['paymentmodeid']);
 			$this->assertEquals('newcom', $bill['comment']);
 			$this->assertEquals(99, $bill['amount']);
-			$this->projectService->deleteBill('superproj', $r['new_bill_id']);
+			$this->localProjectService->deleteBill('superproj', $r['new_bill_id']);
 		}
 
 		// DELETE PROJECT
@@ -1505,17 +1505,17 @@ class ApiControllerTest extends TestCase {
 		$this->assertTrue(isset($data['message']));
 		$this->assertFalse(isset($data['id']));
 
-		$resp = $this->projectService->createUserShare('projtodel', 'test', 'test2');
+		$resp = $this->localProjectService->createUserShare('projtodel', 'test', 'test2');
 		$this->assertTrue(isset($resp['message']));
 		$this->assertFalse(isset($resp['id']));
 
 		// make someone having shared access share to someone else with higher access level
 		// in this case, test2 shares to test3 with admin access
-		$res = $this->projectService->createUserShare('projtodel', 'test3', 'test2', Application::ACCESS_LEVEL_ADMIN);
+		$res = $this->localProjectService->createUserShare('projtodel', 'test3', 'test2', Application::ACCESS_LEVEL_ADMIN);
 		$this->assertTrue(isset($res['message']));
 		$this->assertFalse(isset($res['id']));
 		// but with equal access level, it's fine
-		$res = $this->projectService->createUserShare('projtodel', 'test3', 'test2', Application::ACCESS_LEVEL_MAINTAINER);
+		$res = $this->localProjectService->createUserShare('projtodel', 'test3', 'test2', Application::ACCESS_LEVEL_MAINTAINER);
 		$this->assertFalse(isset($res['message']));
 		$this->assertTrue(isset($res['id']));
 
@@ -1780,18 +1780,18 @@ class ApiControllerTest extends TestCase {
 		// $data = $resp->getData();
 		// $idBill3 = $data;
 
-		return $this->projectService->getProjectInfo($projectId);
+		return $this->localProjectService->getProjectInfo($projectId);
 	}
 
 	public function testGetSettlement() {
 		$this->createAndPopulateProject('testGetSettlement');
-		$this->projectService->getMemberByName('testGetSettlement', 'member1');
+		$this->localProjectService->getMemberByName('testGetSettlement', 'member1');
 		// $idMember1 = $member1['id'];
-		$this->projectService->getMemberByName('testGetSettlement', 'member2');
+		$this->localProjectService->getMemberByName('testGetSettlement', 'member2');
 		// $idMember2 = $member2['id'];
-		$member3 = $this->projectService->getMemberByName('testGetSettlement', 'member3');
+		$member3 = $this->localProjectService->getMemberByName('testGetSettlement', 'member3');
 		$idMember3 = $member3['id'];
-		$member4 = $this->projectService->getMemberByName('testGetSettlement', 'member4');
+		$member4 = $this->localProjectService->getMemberByName('testGetSettlement', 'member4');
 		$idMember4 = $member4['id'];
 
 		$resp = $this->apiController->getProjectsettlement('testGetSettlement', $idMember3);
@@ -1813,50 +1813,50 @@ class ApiControllerTest extends TestCase {
 			$this->assertTrue($transaction['from'] === $idMember4 || $transaction['to'] === $idMember4);
 		}
 
-		$this->projectService->deleteProject('testGetSettlement');
+		$this->localProjectService->deleteProject('testGetSettlement');
 	}
 
 	public function testDeleteMember() {
 		$projectId = 'tdm';
 		$this->createAndPopulateProject($projectId);
-		$member1 = $this->projectService->getMemberByName($projectId, 'member1');
+		$member1 = $this->localProjectService->getMemberByName($projectId, 'member1');
 		$idMember1 = $member1['id'];
-		$this->projectService->getMemberByName($projectId, 'member2');
+		$this->localProjectService->getMemberByName($projectId, 'member2');
 		// $idMember2 = $member2['id'];
-		$this->projectService->getMemberByName($projectId, 'member3');
+		$this->localProjectService->getMemberByName($projectId, 'member3');
 		// $idMember3 = $member3['id'];
-		$member4 = $this->projectService->getMemberByName($projectId, 'member4');
+		$member4 = $this->localProjectService->getMemberByName($projectId, 'member4');
 		$idMember4 = $member4['id'];
 
-		$result = $this->projectService->deleteMember($projectId, $idMember1);
+		$result = $this->localProjectService->deleteMember($projectId, $idMember1);
 		$this->assertTrue(isset($result['success']));
-		$member = $this->projectService->getMemberById($projectId, $idMember1);
+		$member = $this->localProjectService->getMemberById($projectId, $idMember1);
 		$this->assertNotNull($member);
 		$this->assertFalse($member['activated']);
 
-		$result = $this->projectService->deleteMember($projectId, $idMember4);
+		$result = $this->localProjectService->deleteMember($projectId, $idMember4);
 		$this->assertTrue(isset($result['success']));
-		$this->assertNull($this->projectService->getMemberById($projectId, $idMember4));
+		$this->assertNull($this->localProjectService->getMemberById($projectId, $idMember4));
 
-		$result = $this->projectService->deleteMember($projectId, -1);
+		$result = $this->localProjectService->deleteMember($projectId, -1);
 		$this->assertFalse(isset($result['success']));
 
-		$this->projectService->deleteProject($projectId);
+		$this->localProjectService->deleteProject($projectId);
 	}
 
 	public function testShareLink() {
 		$projectId = 'tsl';
 		$this->createAndPopulateProject($projectId);
 
-		$result = $this->projectService->createPublicShare($projectId);
+		$result = $this->localProjectService->createPublicShare($projectId);
 		$this->assertTrue(isset($result['token']));
 		$this->assertTrue(isset($result['id']));
 		$token = $result['token'];
 
-		$projInfo = $this->projectService->getShareInfoFromShareToken($token);
+		$projInfo = $this->localProjectService->getShareInfoFromShareToken($token);
 		$this->assertEquals($projectId, $projInfo['projectid']);
 
-		$this->projectService->deleteProject($projectId);
+		$this->localProjectService->deleteProject($projectId);
 	}
 
 	public function testMoveBill() {
@@ -1900,13 +1900,13 @@ class ApiControllerTest extends TestCase {
 		$bill = array_shift($bill);
 
 		// create a new payment mode
-		$paymentMode = $this->projectService->createPaymentMode($projectId, 'new method', null, '#123123');
+		$paymentModeId = $this->localProjectService->createPaymentMode($projectId, 'new method', null, '#123123');
 		// create a new category
-		$category = $this->projectService->createCategory($projectId, 'new category', null, '#123123');
+		$category = $this->localProjectService->createCategory($projectId, 'new category', null, '#123123');
 		// ensure it has a new payment mode and category that do not exist in destination
-		$this->projectService->editBill(
+		$this->localProjectService->editBill(
 			$projectId, $bill['id'], null, null, null, null,
-			null, null, null, $paymentMode, $category
+			null, null, null, $paymentModeId, $category
 		);
 
 		// finally move to the new project
@@ -1917,7 +1917,7 @@ class ApiControllerTest extends TestCase {
 
 		$bill = $this->billMapper->getBill($toProjectId, $respData);
 
-		$this->assertNotEquals($bill['paymentmodeid'], $paymentMode);
+		$this->assertNotEquals($bill['paymentmodeid'], $paymentModeId);
 		$this->assertNotEquals($bill['categoryid'], $category);
 
 		// get the bill that has no category and no payment mode
@@ -1932,7 +1932,7 @@ class ApiControllerTest extends TestCase {
 		$originalMember = array_shift($project['members']);
 
 		// re-create destination project so It's completely empty
-		$this->projectService->deleteProject($toProjectId);
+		$this->localProjectService->deleteProject($toProjectId);
 		$resp = $this->apiController->createProject($toProjectId, 'SuperProj', 'toto');
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
@@ -1943,7 +1943,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals(Http::STATUS_BAD_REQUEST, $status);
 
 		// now create the member in the destination project and try again
-		$newMemberId = $this->projectService->createMember($toProjectId, $originalMember['name']);
+		$newMemberId = $this->localProjectService->createMember($toProjectId, $originalMember['name']);
 
 		// ensure no error happened when creating the new member
 		$this->assertFalse(isset($newMemberId['error']));
@@ -1961,7 +1961,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals(0, $bill['paymentmodeid']);
 		$this->assertEquals(0, $bill['categoryid']);
 
-		$this->projectService->deleteProject($projectId);
-		$this->projectService->deleteProject($toProjectId);
+		$this->localProjectService->deleteProject($projectId);
+		$this->localProjectService->deleteProject($toProjectId);
 	}
 }

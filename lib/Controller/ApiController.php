@@ -20,6 +20,8 @@ use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Attribute\CospendUserPermissions;
 use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\ResponseDefinitions;
+use OCA\Cospend\Service\CospendService;
+use OCA\Cospend\Service\IProjectService;
 use OCA\Cospend\Service\LocalProjectService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -57,7 +59,7 @@ use OCP\Share\IShare;
  */
 class ApiController extends OCSController {
 
-	public LocalProjectService|FederatedProjectService|null $projectService = null;
+	public ?IProjectService $projectService = null;
 
 	public function __construct(
 		string $appName,
@@ -66,11 +68,14 @@ class ApiController extends OCSController {
 		private IL10N $trans,
 		private BillMapper $billMapper,
 		private LocalProjectService $localProjectService,
+		private CospendService $cospendService,
 		private ActivityManager $activityManager,
 		private IRootFolder $root,
 		public ?string $userId,
 	) {
 		parent::__construct($appName, $request, 'PUT, POST, GET, DELETE, PATCH, OPTIONS');
+		// this can be set to a FederatedProjectService instance by the FederationMiddleware
+		$this->projectService = $localProjectService;
 	}
 
 	/**
@@ -109,7 +114,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	public function getLocalProjects(): DataResponse {
-		return new DataResponse($this->localProjectService->getProjects($this->userId));
+		return new DataResponse($this->localProjectService->getLocalProjects($this->userId));
 	}
 
 	/**
@@ -122,7 +127,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	public function getFederatedProjects(): DataResponse {
-		return new DataResponse($this->localProjectService->getFederatedProjects($this->userId));
+		return new DataResponse($this->cospendService->getFederatedProjects($this->userId));
 	}
 
 	/**
@@ -409,7 +414,7 @@ class ApiController extends OCSController {
 		$result = $this->localProjectService->editBill(
 			$projectId, $billId, $date, $what, $payer, $payedFor,
 			$amount, $repeat, $paymentMode, $paymentModeId, $categoryId,
-			$repeatAllActive, $repeatUntil, $timestamp, $comment, $repeatFreq, null, $deleted
+			$repeatAllActive, $repeatUntil, $timestamp, $comment, $repeatFreq, $deleted
 		);
 		if (isset($result['edited_bill_id'])) {
 			$billObj = $this->billMapper->find($billId);
@@ -462,13 +467,12 @@ class ApiController extends OCSController {
 		?int $repeatAllActive = null, ?string $repeatUntil = null, ?int $timestamp = null,
 		?string $comment = null, ?int $repeatFreq = null, ?int $deleted = null
 	): DataResponse {
-		$paymentModes = $this->localProjectService->getCategoriesOrPaymentModes($projectId, false);
 		foreach ($billIds as $billId) {
 			$result = $this->localProjectService->editBill(
 				$projectId, $billId, $date, $what, $payer, $payedFor,
 				$amount, $repeat, $paymentMode, $paymentModeId, $categoryId,
 				$repeatAllActive, $repeatUntil, $timestamp, $comment,
-				$repeatFreq, $paymentModes, $deleted
+				$repeatFreq, $deleted
 			);
 			if (isset($result['edited_bill_id'])) {
 				$billObj = $this->billMapper->find($billId);
@@ -505,7 +509,7 @@ class ApiController extends OCSController {
 	public function moveBill(string $projectId, int $billId, string $toProjectId): DataResponse {
 		$userAccessLevel = $this->localProjectService->getUserMaxAccessLevel($this->userId, $toProjectId);
 		if ($userAccessLevel < Application::ACCESS_LEVEL_PARTICIPANT) {
-			return new DataResponse(['message' => $this->trans->t('You are not allowed to access the destination project')], Http::STATUS_UNAUTHORIZED);
+			return new DataResponse(['message' => $this->trans->t('You are not allowed to access the target project')], Http::STATUS_UNAUTHORIZED);
 		}
 
 		// get current bill from mapper for the activity manager
@@ -1476,7 +1480,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	public function importCsvProject(string $path): DataResponse {
-		$result = $this->localProjectService->importCsvProject($path, $this->userId);
+		$result = $this->cospendService->importCsvProject($path, $this->userId);
 		if (isset($result['project_id'])) {
 			$projInfo = $this->localProjectService->getProjectInfo($result['project_id']);
 			$projInfo['myaccesslevel'] = Application::ACCESS_LEVEL_ADMIN;
@@ -1500,7 +1504,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	public function importSWProject(string $path): DataResponse {
-		$result = $this->localProjectService->importSWProject($path, $this->userId);
+		$result = $this->cospendService->importSWProject($path, $this->userId);
 		if (isset($result['project_id'])) {
 			$projInfo = $this->localProjectService->getProjectInfo($result['project_id']);
 			$projInfo['myaccesslevel'] = Application::ACCESS_LEVEL_ADMIN;

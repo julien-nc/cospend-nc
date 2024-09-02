@@ -17,7 +17,7 @@ class RepeatBills extends TimedJob {
 
 	public function __construct(
 		ITimeFactory $time,
-		private LocalProjectService $projectService
+		private LocalProjectService $localProjectService
 	) {
 		parent::__construct($time);
 		// Run each day
@@ -29,6 +29,6 @@ class RepeatBills extends TimedJob {
 	 * @return void
 	 */
 	protected function run($argument): void {
-		$this->projectService->cronRepeatBills();
+		$this->localProjectService->cronRepeatBills();
 	}
 }

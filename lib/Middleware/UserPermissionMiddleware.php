@@ -22,10 +22,10 @@ use ReflectionMethod;
 class UserPermissionMiddleware extends Middleware {
 
 	public function __construct(
-		private LocalProjectService $projectService,
-		protected IRequest          $request,
-		private IL10N               $l,
-		private LoggerInterface     $logger,
+		private LocalProjectService $localProjectService,
+		protected IRequest $request,
+		private IL10N $l,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -44,7 +44,7 @@ class UserPermissionMiddleware extends Middleware {
 				return;
 			}
 			$userId = $controller->userId;
-			$userAccessLevel = $this->projectService->getUserMaxAccessLevel($userId, $paramProjectId);
+			$userAccessLevel = $this->localProjectService->getUserMaxAccessLevel($userId, $paramProjectId);
 
 			foreach ($attributes as $attribute) {
 				/** @var CospendUserPermissions $cospendAuthAttr */

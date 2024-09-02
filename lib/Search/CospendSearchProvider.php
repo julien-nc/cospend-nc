@@ -93,7 +93,7 @@ class CospendSearchProvider implements IProvider {
 		$resultBills = [];
 
 		// get user's projects
-		$projects = $this->projectService->getProjects($user->getUID());
+		$projects = $this->projectService->getLocalProjects($user->getUID());
 		$projectsById = [];
 		foreach ($projects as $project) {
 			$projectsById[$project['id']] = $project;

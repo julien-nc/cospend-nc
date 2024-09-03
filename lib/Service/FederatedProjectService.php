@@ -14,23 +14,86 @@ namespace OCA\Cospend\Service;
 
 use DateTime;
 use Generator;
-use OCA\Cospend\ResponseDefinitions;
+use OCA\Cospend\AppInfo\Application;
+use OCA\Cospend\Db\Invitation;
+use OCA\Cospend\Db\InvitationMapper;
+use OCP\App\IAppManager;
+use OCP\Http\Client\IClient;
+use OCP\Http\Client\IClientService;
 
-/**
- * @psalm-import-type CospendProjectInfoPlusExtra from ResponseDefinitions
- * @psalm-import-type CospendMember from ResponseDefinitions
- */
 class FederatedProjectService implements IProjectService {
 
+	private IClient $client;
+	public string $userId;
+
 	public function __construct(
+		IClientService $clientService,
+		IAppManager $appManager,
+		private InvitationMapper $invitationMapper,
 	) {
+		$this->client = $clientService->newClient();
+		$appVersion = $appManager->getAppVersion(Application::APP_ID);
+		$this->USER_AGENT = 'Nextcloud Cospend v' . $appVersion;
 	}
 
-	public function createProject(
-		string $name, string $id, ?string $contact_email, string $userId = '',
-		bool $createDefaultCategories = true, bool $createDefaultPaymentModes = true
-	): array {
-		// TODO
+	public static function parseFederatedProjectId(string $federatedProjectId): array {
+		return explode('@', $federatedProjectId);
+	}
+
+	private function request(string $federatedProjectId, string $endpoint, array $params = [], string $method = 'GET'): mixed {
+		[$remoteProjectId, $remoteServerUrl] = $this->parseFederatedProjectId($federatedProjectId);
+		$invitations = $this->invitationMapper->getInvitationsForUser($this->userId, Invitation::STATE_ACCEPTED, $remoteServerUrl, $remoteProjectId);
+		if (empty($invitations)) {
+			throw new \Exception('Federated project "' . $federatedProjectId . '" not found for user ' . $this->userId);
+		}
+		$invitation = $invitations[0];
+
+		$endpoint = str_replace('{token}', $invitation->getToken(), $endpoint);
+		$endpoint = str_replace('{password}', 'no-pass', $endpoint);
+		$url = 'https://' . $remoteServerUrl . '/ocs/v2.php/apps/cospend/' . $endpoint;
+
+		$options = [
+			'headers' => [
+				'User-Agent' => $this->USER_AGENT,
+				'Accept' => 'application/json',
+				'OCS-apirequest' => 'true',
+			],
+		];
+
+		if (!empty($params)) {
+			if ($method === 'GET') {
+				// manage array parameters
+				$paramsContent = '';
+				foreach ($params as $key => $value) {
+					if (is_array($value)) {
+						foreach ($value as $oneArrayValue) {
+							$paramsContent .= $key . '[]=' . urlencode($oneArrayValue) . '&';
+						}
+						unset($params[$key]);
+					}
+				}
+				$paramsContent .= http_build_query($params);
+
+				$url .= '?' . $paramsContent;
+			} else {
+				$options['json'] = $params;
+			}
+		}
+
+		if ($method === 'GET') {
+			$response = $this->client->get($url, $options);
+		} elseif ($method === 'POST') {
+			$response = $this->client->post($url, $options);
+		} elseif ($method === 'PUT') {
+			$response = $this->client->put($url, $options);
+		} elseif ($method === 'DELETE') {
+			$response = $this->client->delete($url, $options);
+		} else {
+			throw new \Exception('Bad HTTP method');
+		}
+		$body = $response->getBody();
+		$parsedBody = json_decode($body, true);
+		return $parsedBody['ocs']['data'];
 	}
 
 	public function deleteProject(string $projectId): array {
@@ -38,15 +101,44 @@ class FederatedProjectService implements IProjectService {
 	}
 
 	public function getProjectInfoWithAccessLevel(string $projectId, string $userId): ?array {
-		// TODO
+		$projectInfo = $this->request($projectId, 'api/v1/public/projects/{token}/{password}');
+		$projectInfo['id'] = $projectId;
+		$projectInfo['federated'] = true;
+
+		[$remoteProjectId, $remoteServerUrl] = $this->parseFederatedProjectId($projectId);
+		$invitations = $this->invitationMapper->getInvitationsForUser($this->userId, Invitation::STATE_ACCEPTED, $remoteServerUrl, $remoteProjectId);
+		if (empty($invitations)) {
+			throw new \Exception('Federated project "' . $projectId . '" not found for user ' . $this->userId);
+		}
+		$invitation = $invitations[0];
+		$projectInfo['federation'] = [
+			'inviter_cloud_id' => $invitation->getInviterCloudId(),
+			'inviter_display_name' => $invitation->getInviterDisplayName(),
+			'remote_server_url' => $invitation->getRemoteServerUrl(),
+			'remote_project_id' => $invitation->getRemoteProjectId(),
+		];
+
+		return $projectInfo;
 	}
 
-	public function getProjectStatistics(
-		string $projectId, ?string $memberOrder = null, ?int $tsMin = null, ?int $tsMax = null,
-		?int $paymentModeId = null, ?int $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
-		bool $showDisabled = true, ?int $currencyId = null, ?int $payerId = null
+	public function getBills(
+		string $projectId, ?int $lastChanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false,
+		?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $includeBillId = null,
+		?string $searchTerm = null, ?int $deleted = 0
 	): array {
-		// TODO
+		$params = [
+			'lastChanged' => $lastChanged,
+			'offset' => $offset,
+			'limit' => $limit,
+			'reverse' => $reverse,
+			'payerId' => $payerId,
+			'categoryId' => $categoryId,
+			'paymentModeId' => $paymentModeId,
+			'includeBillId' => $includeBillId,
+			'searchTerm' => $searchTerm,
+			'deleted' => $deleted,
+		];
+		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/bills', $params);
 	}
 
 	public function createBill(
@@ -54,17 +146,66 @@ class FederatedProjectService implements IProjectService {
 		?float $amount, ?string $repeat, ?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null, int $repeatAllActive = 0, ?string $repeatUntil = null,
 		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null,
-		?array $paymentModes = null, int $deleted = 0
-	): array {
+		int $deleted = 0, bool $produceActivity = false
+	): int {
+		$params = [
+			'date' => $date,
+			'what' => $what,
+			'payer' => $payer,
+			'payedFor' => $payedFor,
+			'amount' => $amount,
+			'repeat' => $repeat,
+			'paymentMode' => $paymentMode,
+			'paymentModeId' => $paymentModeId,
+			'categoryId' => $categoryId,
+			'repeatAllActive' => $repeatAllActive,
+			'repeatUntil' => $repeatUntil,
+			'timestamp' => $timestamp,
+			'comment' => $comment,
+			'repeatFreq' => $repeatFreq,
+			'deleted' => $deleted,
+			'produceActivity' => $produceActivity,
+		];
+		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/bills', $params, 'POST');
 	}
 
-	public function deleteBill(string $projectId, int $billId, bool $force = false, bool $moveToTrash = true): array {
+	public function deleteBill(string $projectId, int $billId, bool $force = false, bool $moveToTrash = true, bool $produceActivity = false): void {
+	}
+
+	public function getStatistics(
+		string $projectId, ?int $tsMin = null, ?int $tsMax = null,
+		?int $paymentModeId = null, ?int $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
+		bool $showDisabled = true, ?int $currencyId = null, ?int $payerId = null
+	): array {
+		$params = [
+			'tsMin' => $tsMin,
+			'tsMax' => $tsMax,
+			'paymentModeId' => $paymentModeId,
+			'categoryId' => $categoryId,
+			'amountMin' => $amountMin,
+			'amountMax' => $amountMax,
+			'showDisabled' => $showDisabled ? '1' : '0',
+			'currencyId' => $currencyId,
+			'payerId' => $payerId,
+		];
+		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/statistics', $params);
 	}
 
 	public function autoSettlement(string $projectId, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null): array {
+		$params = [
+			'centeredOn' => $centeredOn,
+			'precision' => $precision,
+			'maxTimestamp' => $maxTimestamp,
+		];
+		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/auto-settlement', $params);
 	}
 
 	public function getProjectSettlement(string $projectId, ?int $centeredOn = null, ?int $maxTimestamp = null): array {
+		$params = [
+			'centeredOn' => $centeredOn,
+			'maxTimestamp' => $maxTimestamp,
+		];
+		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/settlement', $params);
 	}
 
 	public function editMember(

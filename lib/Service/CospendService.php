@@ -386,7 +386,6 @@ class CospendService {
 			);
 			$memberNameToId[$memberName] = $insertedMember['id'];
 		}
-		$dbPaymentModes = $this->localProjectService->getCategoriesOrPaymentModes($projectid, false);
 		// add bills
 		foreach ($bills as $bill) {
 			// manage category id if this is a custom category
@@ -406,15 +405,16 @@ class CospendService {
 				$owerIds[] = $memberNameToId[$strippedOwer];
 			}
 			$owerIdsStr = implode(',', $owerIds);
-			$addBillResult = $this->localProjectService->createBill(
-				$projectid, null, $bill['what'], $payerId,
-				$owerIdsStr, $bill['amount'], $bill['repeat'],
-				$bill['paymentmode'], $pmId,
-				$catId, $bill['repeatallactive'],
-				$bill['repeatuntil'], $bill['timestamp'], $bill['comment'], $bill['repeatfreq'],
-				$dbPaymentModes, $bill['deleted'] ?? 0
-			);
-			if (!isset($addBillResult['inserted_id'])) {
+			try {
+				$this->localProjectService->createBill(
+					$projectid, null, $bill['what'], $payerId,
+					$owerIdsStr, $bill['amount'], $bill['repeat'],
+					$bill['paymentmode'], $pmId,
+					$catId, $bill['repeatallactive'],
+					$bill['repeatuntil'], $bill['timestamp'], $bill['comment'], $bill['repeatfreq'],
+					$bill['deleted'] ?? 0
+				);
+			} catch (\Throwable $e) {
 				$this->localProjectService->deleteProject($projectid);
 				return ['message' => $this->l10n->t('Error when adding bill %1$s', [$bill['what']])];
 			}
@@ -614,12 +614,13 @@ class CospendService {
 							&& array_key_exists($bill['category_name'], $catNameToId)) {
 							$catId = $catNameToId[$bill['category_name']];
 						}
-						$addBillResult = $this->localProjectService->createBill(
-							$projectid, null, $bill['what'], $payerId, $owerIdsStr,
-							$bill['amount'], Application::FREQUENCY_NO, null, 0, $catId,
-							0, null, $bill['timestamp'], null, null, []
-						);
-						if (!isset($addBillResult['inserted_id'])) {
+						try {
+							$this->localProjectService->createBill(
+								$projectid, null, $bill['what'], $payerId, $owerIdsStr,
+								$bill['amount'], Application::FREQUENCY_NO, null, 0, $catId,
+								0, null, $bill['timestamp'], null, null
+							);
+						} catch (\Throwable $e) {
 							$this->localProjectService->deleteProject($projectid);
 							return ['message' => $this->l10n->t('Error when adding bill %1$s', [$bill['what']])];
 						}

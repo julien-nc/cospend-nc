@@ -324,11 +324,13 @@ class BillMapper extends QBMapper {
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
-	public function getBills(string $projectId, ?int $tsMin = null, ?int $tsMax = null,
+	public function getBillsClassic(
+		string  $projectId, ?int $tsMin = null, ?int $tsMax = null,
 		?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $category = null, ?float $amountMin = null, ?float $amountMax = null,
 		?int $lastchanged = null, ?int $limit = null,
-		bool $reverse = false, ?int $payerId = null, ?int $deleted = 0): array {
+		bool $reverse = false, ?int $payerId = null, ?int $deleted = 0
+	): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('bi.id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
 			'paymentmode', 'paymentmodeid', 'categoryid', 'bi.lastchanged', 'repeatallactive', 'repeatuntil', 'repeatfreq',
@@ -459,6 +461,7 @@ class BillMapper extends QBMapper {
 	 * @param int|null $payerId
 	 * @param int|null $includeBillId
 	 * @param string|null $searchTerm
+	 * @param int|null $deleted
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
@@ -471,9 +474,7 @@ class BillMapper extends QBMapper {
 		?int $includeBillId = null, ?string $searchTerm = null, ?int $deleted = 0
 	): array {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
-			'paymentmode', 'paymentmodeid', 'categoryid', 'lastchanged', 'repeatallactive',
-			'repeatuntil', 'repeatfreq', 'deleted')
+		$qb->select('*')
 			->from('cospend_bills', 'bi')
 			->where(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -615,6 +616,7 @@ class BillMapper extends QBMapper {
 				$billOwerIds[] = $dbOwerId;
 			}
 			$req->closeCursor();
+			$qb = $this->db->getQueryBuilder();
 			$bills[$i]['owers'] = $billOwers;
 			$bills[$i]['owerIds'] = $billOwerIds;
 		}

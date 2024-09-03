@@ -57,7 +57,7 @@ export function getLocalProjects() {
 	return axios.get(url)
 }
 
-export function getFederatedProjects() {
+export function getFederatedProjectIds() {
 	const url = generateOcsUrl('/apps/cospend/api/v1/federated-projects')
 	return axios.get(url)
 }

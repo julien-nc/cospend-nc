@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace OCA\Cospend\Middleware;
 
 use Exception;
-use OCA\Cospend\Attribute\CospendFederation;
+use OCA\Cospend\Attribute\SupportFederatedProject;
 use OCA\Cospend\Controller\ApiController;
+use OCA\Cospend\Db\Invitation;
 use OCA\Cospend\Db\InvitationMapper;
 use OCA\Cospend\Exception\CospendUserPermissionsException;
 use OCA\Cospend\Service\FederatedProjectService;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
@@ -33,18 +35,19 @@ class FederationMiddleware extends Middleware {
 		}
 		$reflectionMethod = new ReflectionMethod($controller, $methodName);
 
-		$attributes = $reflectionMethod->getAttributes(CospendFederation::class);
+		$attributes = $reflectionMethod->getAttributes(SupportFederatedProject::class);
 
 		if (!empty($attributes)) {
 			$paramProjectId = $this->request->getParam('projectId');
 			// federated projects only
 			if (str_contains($paramProjectId, '@')) {
-				[$remoteServerUrl, $remoteProjectId] = explode('@', $paramProjectId);
-				$invitation = $this->invitationMapper->getByRemoteServerAndId($remoteServerUrl, $remoteProjectId);
-				if ($invitation->getUserId() !== $controller->userId) {
-					throw new Exception('This federated project is not owned by the current user');
+				[$remoteProjectId, $remoteServerUrl] = FederatedProjectService::parseFederatedProjectId($paramProjectId);
+				$invitations = $this->invitationMapper->getInvitationsForUser($controller->userId, Invitation::STATE_ACCEPTED, $remoteServerUrl, $remoteProjectId);
+				if (empty($invitations)) {
+					throw new Exception('No such federated project is owned by the current user', Http::STATUS_UNAUTHORIZED);
 				}
 				$controller->projectService = \OC::$server->get(FederatedProjectService::class);
+				$controller->projectService->userId = $controller->userId;
 			}
 		}
 	}

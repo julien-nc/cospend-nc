@@ -1866,7 +1866,7 @@ class ApiControllerTest extends TestCase {
 		$toProject = $this->createAndPopulateProject($toProjectId);
 
 		// get the bills created for the first project
-		$bills = $this->billMapper->getBills($projectId);
+		$bills = $this->billMapper->getBillsClassic($projectId);
 
 		// find the bill with payment method and category
 		$bill = array_filter($bills, static function ($bill) {

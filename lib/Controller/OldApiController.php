@@ -200,7 +200,7 @@ class OldApiController extends ApiController {
 				$lastchanged, $limit, $reverse, $offset, null, null, null, $deleted
 			);
 		} else {
-			$bills = $this->billMapper->getBills(
+			$bills = $this->billMapper->getBillsClassic(
 				$publicShareInfo['projectid'], null, null,
 				null, null, null, null, null,
 				$lastchanged, null, $reverse, null, $deleted
@@ -228,7 +228,7 @@ class OldApiController extends ApiController {
 				$lastchanged, $limit, $reverse, $offset, $payerId, $includeBillId, $searchTerm, $deleted
 			);
 		} else {
-			$bills = $this->billMapper->getBills(
+			$bills = $this->billMapper->getBillsClassic(
 				$publicShareInfo['projectid'], null, null,
 				null, $paymentModeId, $categoryId, null, null,
 				$lastchanged, null, $reverse, $payerId, $deleted
@@ -248,7 +248,7 @@ class OldApiController extends ApiController {
 	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function apiPrivGetBills(string $projectId, ?int $lastchanged = null, ?int $deleted = 0): DataResponse {
-		$bills = $this->billMapper->getBills(
+		$bills = $this->billMapper->getBillsClassic(
 			$projectId, null, null, null, null, null,
 			null, null, $lastchanged, null, false, null, $deleted
 		);
@@ -269,7 +269,7 @@ class OldApiController extends ApiController {
 	#[BruteForceProtection(action: 'CospendPublicGetBills2')]
 	public function apiv2GetBills(string $token, ?int $lastchanged = null, ?int $deleted = 0): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$bills = $this->billMapper->getBills(
+		$bills = $this->billMapper->getBillsClassic(
 			$publicShareInfo['projectid'], null, null,
 			null, null, null, null, null, $lastchanged,
 			null, false, null, $deleted
@@ -345,13 +345,13 @@ class OldApiController extends ApiController {
 		?int $categoryid = null, int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
 		?string $comment = null, ?int $repeatfreq = null): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->createBill(
-			$publicShareInfo['projectid'], $date, $what, $payer, $payed_for, $amount,
-			$repeat, $paymentmode, $paymentmodeid, $categoryid, $repeatallactive,
-			$repeatuntil, $timestamp, $comment, $repeatfreq
-		);
-		if (isset($result['inserted_id'])) {
-			$billObj = $this->billMapper->find($result['inserted_id']);
+		try {
+			$insertedId = $this->localProjectService->createBill(
+				$publicShareInfo['projectid'], $date, $what, $payer, $payed_for, $amount,
+				$repeat, $paymentmode, $paymentmodeid, $categoryid, $repeatallactive,
+				$repeatuntil, $timestamp, $comment, $repeatfreq
+			);
+			$billObj = $this->billMapper->find($insertedId);
 			if (is_null($publicShareInfo)) {
 				$authorFullText = $this->trans->t('Guest access');
 			} elseif ($publicShareInfo['label']) {
@@ -365,9 +365,10 @@ class OldApiController extends ApiController {
 				ActivityManager::SUBJECT_BILL_CREATE,
 				['author' => $authorFullText]
 			);
-			return new DataResponse($result['inserted_id']);
+			return new DataResponse($insertedId);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	#[NoAdminRequired]
@@ -379,19 +380,20 @@ class OldApiController extends ApiController {
 		?string $paymentmode = null, ?int $paymentmodeid = null,
 		?int $categoryid = null, int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
 		?string $comment = null, ?int $repeatfreq = null): DataResponse {
-		$result = $this->localProjectService->createBill($projectId, $date, $what, $payer, $payed_for, $amount,
-			$repeat, $paymentmode, $paymentmodeid, $categoryid, $repeatallactive,
-			$repeatuntil, $timestamp, $comment, $repeatfreq);
-		if (isset($result['inserted_id'])) {
-			$billObj = $this->billMapper->find($result['inserted_id']);
+		try {
+			$insertedId = $this->localProjectService->createBill($projectId, $date, $what, $payer, $payed_for, $amount,
+				$repeat, $paymentmode, $paymentmodeid, $categoryid, $repeatallactive,
+				$repeatuntil, $timestamp, $comment, $repeatfreq);
+			$billObj = $this->billMapper->find($insertedId);
 			$this->activityManager->triggerEvent(
 				ActivityManager::COSPEND_OBJECT_BILL, $billObj,
 				ActivityManager::SUBJECT_BILL_CREATE,
 				[]
 			);
-			return new DataResponse($result['inserted_id']);
+			return new DataResponse($insertedId);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	#[NoAdminRequired]
@@ -553,8 +555,8 @@ class OldApiController extends ApiController {
 			$billObj = $this->billMapper->find($billid);
 		}
 
-		$result = $this->localProjectService->deleteBill($publicShareInfo['projectid'], $billid, false, $moveToTrash);
-		if (isset($result['success'])) {
+		try {
+			$this->localProjectService->deleteBill($publicShareInfo['projectid'], $billid, false, $moveToTrash, true);
 			if (!is_null($billObj)) {
 				if (is_null($publicShareInfo)) {
 					$authorFullText = $this->trans->t('Guest access');
@@ -571,8 +573,9 @@ class OldApiController extends ApiController {
 				);
 			}
 			return new DataResponse('OK');
+		} catch (\Throwable $e) {
+			return new DataResponse('', Http::STATUS_NOT_FOUND);
 		}
-		return new DataResponse($result, Http::STATUS_NOT_FOUND);
 	}
 
 	#[NoAdminRequired]
@@ -597,10 +600,8 @@ class OldApiController extends ApiController {
 				$billObj = $this->billMapper->find($billId);
 			}
 
-			$result = $this->localProjectService->deleteBill($publicShareInfo['projectid'], $billId, false, $moveToTrash);
-			if (!isset($result['success'])) {
-				return new DataResponse($result, Http::STATUS_NOT_FOUND);
-			} else {
+			try {
+				$this->localProjectService->deleteBill($publicShareInfo['projectid'], $billId, false, $moveToTrash);
 				if (!is_null($billObj)) {
 					$this->activityManager->triggerEvent(
 						ActivityManager::COSPEND_OBJECT_BILL, $billObj,
@@ -608,9 +609,11 @@ class OldApiController extends ApiController {
 						['author' => $authorFullText]
 					);
 				}
+				return new DataResponse('OK');
+			} catch (\Throwable $e) {
+				return new DataResponse('', Http::STATUS_NOT_FOUND);
 			}
 		}
-		return new DataResponse('OK');
 	}
 
 	#[NoAdminRequired]
@@ -631,23 +634,12 @@ class OldApiController extends ApiController {
 	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function apiPrivDeleteBill(string $projectId, int $billid, bool $moveToTrash = true): DataResponse {
-		$billObj = null;
-		if ($this->billMapper->getBill($projectId, $billid) !== null) {
-			$billObj = $this->billMapper->find($billid);
-		}
-
-		$result = $this->localProjectService->deleteBill($projectId, $billid, false, $moveToTrash);
-		if (isset($result['success'])) {
-			if (!is_null($billObj)) {
-				$this->activityManager->triggerEvent(
-					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
-					ActivityManager::SUBJECT_BILL_DELETE,
-					[]
-				);
-			}
+		try {
+			$this->localProjectService->deleteBill($projectId, $billid, false, $moveToTrash, true);
 			return new DataResponse('OK');
+		} catch (\Throwable $e) {
+			return new DataResponse('', Http::STATUS_NOT_FOUND);
 		}
-		return new DataResponse($result, Http::STATUS_NOT_FOUND);
 	}
 
 	#[NoAdminRequired]
@@ -760,8 +752,8 @@ class OldApiController extends ApiController {
 		string $showDisabled = '1', ?int $currencyId = null,
 		?int $payerId = null): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->getProjectStatistics(
-			$publicShareInfo['projectid'], 'lowername', $tsMin, $tsMax,
+		$result = $this->localProjectService->getStatistics(
+			$publicShareInfo['projectid'], $tsMin, $tsMax,
 			$paymentModeId, $categoryId, $amountMin, $amountMax, $showDisabled === '1', $currencyId,
 			$payerId
 		);
@@ -777,8 +769,8 @@ class OldApiController extends ApiController {
 		?int $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
 		string $showDisabled = '1', ?int $currencyId = null,
 		?int $payerId = null): DataResponse {
-		$result = $this->localProjectService->getProjectStatistics(
-			$projectId, 'lowername', $tsMin, $tsMax, $paymentModeId,
+		$result = $this->localProjectService->getStatistics(
+			$projectId, $tsMin, $tsMax, $paymentModeId,
 			$categoryId, $amountMin, $amountMax, $showDisabled === '1', $currencyId, $payerId
 		);
 		return new DataResponse($result);

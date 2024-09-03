@@ -70,10 +70,13 @@ class InvitationMapper extends QBMapper {
 	/**
 	 * @param string $userId
 	 * @param int|null $state
+	 * @param string|null $remoteServerUrl
+	 * @param string|null $remoteProjectId
 	 * @return Invitation[]
 	 * @throws Exception
 	 */
-	public function getInvitationsForUser(string $userId, ?int $state = null): array {
+	public function getInvitationsForUser(
+		string $userId, ?int $state = null, ?string $remoteServerUrl = null, ?string $remoteProjectId = null): array {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
@@ -82,6 +85,14 @@ class InvitationMapper extends QBMapper {
 
 		if ($state !== null) {
 			$qb->andWhere($qb->expr()->eq('state', $qb->createNamedParameter($state, IQueryBuilder::PARAM_INT)));
+		}
+
+		if ($remoteServerUrl !== null) {
+			$qb->andWhere($qb->expr()->eq('remote_server_url', $qb->createNamedParameter($remoteServerUrl, IQueryBuilder::PARAM_STR)));
+		}
+
+		if ($remoteProjectId !== null) {
+			$qb->andWhere($qb->expr()->eq('remote_project_id', $qb->createNamedParameter($remoteProjectId, IQueryBuilder::PARAM_STR)));
 		}
 
 		return $this->findEntities($qb);

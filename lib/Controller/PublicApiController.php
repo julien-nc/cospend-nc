@@ -122,8 +122,8 @@ class PublicApiController extends OCSController {
 			$billObj = $this->billMapper->find($billId);
 		}
 
-		$result = $this->localProjectService->deleteBill($publicShareInfo['projectid'], $billId, false, $moveToTrash);
-		if (isset($result['success'])) {
+		try {
+			$this->localProjectService->deleteBill($publicShareInfo['projectid'], $billId, false, $moveToTrash);
 			if (!is_null($billObj)) {
 				if (is_null($publicShareInfo)) {
 					$authorFullText = $this->trans->t('Guest access');
@@ -140,14 +140,9 @@ class PublicApiController extends OCSController {
 				);
 			}
 			return new DataResponse('');
-		} elseif (isset($result['message'])) {
-			if ($result['message'] === 'forbidden') {
-				return new DataResponse('', Http::STATUS_FORBIDDEN);
-			} elseif ($result['message'] === 'not found') {
-				return new DataResponse('', Http::STATUS_NOT_FOUND);
-			}
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], $e->getCode());
 		}
-		return new DataResponse('', Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -183,22 +178,15 @@ class PublicApiController extends OCSController {
 
 		foreach ($billIds as $billId) {
 			$billObj = $this->billMapper->find($billId);
-			$result = $this->localProjectService->deleteBill($publicShareInfo['projectid'], $billId, false, $moveToTrash);
-			if (!isset($result['success'])) {
-				if (isset($result['message'])) {
-					if ($result['message'] === 'forbidden') {
-						return new DataResponse('', Http::STATUS_FORBIDDEN);
-					} elseif ($result['message'] === 'not found') {
-						return new DataResponse('', Http::STATUS_NOT_FOUND);
-					}
-				}
-				return new DataResponse('', Http::STATUS_BAD_REQUEST);
-			} else {
+			try {
+				$this->localProjectService->deleteBill($publicShareInfo['projectid'], $billId, false, $moveToTrash);
 				$this->activityManager->triggerEvent(
 					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
 					ActivityManager::SUBJECT_BILL_DELETE,
 					['author' => $authorFullText]
 				);
+			} catch (\Throwable $e) {
+				return new DataResponse(['error' => $e->getMessage()], $e->getCode());
 			}
 		}
 		return new DataResponse('');
@@ -261,8 +249,8 @@ class PublicApiController extends OCSController {
 		string $showDisabled = '1', ?int $currencyId = null, ?int $payerId = null
 	): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->getProjectStatistics(
-			$publicShareInfo['projectid'], 'lowername', $tsMin, $tsMax,
+		$result = $this->localProjectService->getStatistics(
+			$publicShareInfo['projectid'], $tsMin, $tsMax,
 			$paymentModeId, $categoryId, $amountMin, $amountMax, $showDisabled === '1', $currencyId,
 			$payerId
 		);
@@ -547,13 +535,13 @@ class PublicApiController extends OCSController {
 		?string $comment = null, ?int $repeatFreq = null
 	): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->createBill(
-			$publicShareInfo['projectid'], $date, $what, $payer, $payedFor, $amount,
-			$repeat, $paymentMode, $paymentModeId, $categoryId, $repeatAllActive,
-			$repeatUntil, $timestamp, $comment, $repeatFreq
-		);
-		if (isset($result['inserted_id'])) {
-			$billObj = $this->billMapper->find($result['inserted_id']);
+		try {
+			$insertedId = $this->localProjectService->createBill(
+				$publicShareInfo['projectid'], $date, $what, $payer, $payedFor, $amount,
+				$repeat, $paymentMode, $paymentModeId, $categoryId, $repeatAllActive,
+				$repeatUntil, $timestamp, $comment, $repeatFreq
+			);
+			$billObj = $this->billMapper->find($insertedId);
 			if (is_null($publicShareInfo)) {
 				$authorFullText = $this->trans->t('Guest access');
 			} elseif ($publicShareInfo['label']) {
@@ -567,9 +555,9 @@ class PublicApiController extends OCSController {
 				ActivityManager::SUBJECT_BILL_CREATE,
 				['author' => $authorFullText]
 			);
-			return new DataResponse($result['inserted_id']);
-		} else {
-			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+			return new DataResponse($insertedId);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -609,7 +597,7 @@ class PublicApiController extends OCSController {
 				$lastChanged, $limit, $reverse, $offset, $payerId, $includeBillId, $searchTerm, $deleted
 			);
 		} else {
-			$bills = $this->billMapper->getBills(
+			$bills = $this->billMapper->getBillsClassic(
 				$publicShareInfo['projectid'], null, null,
 				null, $paymentModeId, $categoryId, null, null,
 				$lastChanged, null, $reverse, $payerId, $deleted

@@ -13,6 +13,7 @@ namespace OCA\Cospend\AppInfo;
 
 use OCA\Cospend\Capabilities;
 use OCA\Cospend\Dashboard\CospendWidget;
+use OCA\Cospend\Middleware\FederationMiddleware;
 use OCA\Cospend\Middleware\PublicAuthMiddleware;
 use OCA\Cospend\Middleware\UserPermissionMiddleware;
 use OCA\Cospend\Notification\Notifier;
@@ -108,6 +109,7 @@ class Application extends App implements IBootstrap {
 
 		$context->registerMiddleware(PublicAuthMiddleware::class);
 		$context->registerMiddleware(UserPermissionMiddleware::class);
+		$context->registerMiddleware(FederationMiddleware::class);
 
 		$context->registerCapability(Capabilities::class);
 	}

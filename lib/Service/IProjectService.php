@@ -42,22 +42,6 @@ use function str_replace;
 interface IProjectService {
 
 	/**
-	 * Create a project
-	 *
-	 * @param string $name
-	 * @param string $id
-	 * @param string|null $contact_email
-	 * @param string $userId
-	 * @param bool $createDefaultCategories
-	 * @param bool $createDefaultPaymentModes
-	 * @return array
-	 */
-	public function createProject(
-		string $name, string $id, ?string $contact_email, string $userId = '',
-		bool $createDefaultCategories = true, bool $createDefaultPaymentModes = true
-	): array;
-
-	/**
 	 * Delete a project and all associated data
 	 *
 	 * @param string $projectId
@@ -77,7 +61,6 @@ interface IProjectService {
 	 * Get project statistics
 	 *
 	 * @param string $projectId
-	 * @param string|null $memberOrder
 	 * @param int|null $tsMin
 	 * @param int|null $tsMax
 	 * @param int|null $paymentModeId
@@ -90,53 +73,11 @@ interface IProjectService {
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
-	public function getProjectStatistics(
-		string $projectId, ?string $memberOrder = null, ?int $tsMin = null, ?int $tsMax = null,
+	public function getStatistics(
+		string $projectId, ?int $tsMin = null, ?int $tsMax = null,
 		?int $paymentModeId = null, ?int $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
 		bool $showDisabled = true, ?int $currencyId = null, ?int $payerId = null
 	): array;
-
-	/**
-	 * Add a bill in a given project
-	 *
-	 * @param string $projectId
-	 * @param string|null $date
-	 * @param string|null $what
-	 * @param int|null $payer
-	 * @param string|null $payedFor
-	 * @param float|null $amount
-	 * @param string|null $repeat
-	 * @param string|null $paymentMode
-	 * @param int|null $paymentModeId
-	 * @param int|null $categoryId
-	 * @param int $repeatAllActive
-	 * @param string|null $repeatUntil
-	 * @param int|null $timestamp
-	 * @param string|null $comment
-	 * @param int|null $repeatFreq
-	 * @param array|null $paymentModes
-	 * @param int $deleted
-	 * @return array
-	 * @throws \OCP\DB\Exception
-	 */
-	public function createBill(
-		string $projectId, ?string $date, ?string $what, ?int $payer, ?string $payedFor,
-		?float $amount, ?string $repeat, ?string $paymentMode = null, ?int $paymentModeId = null,
-		?int $categoryId = null, int $repeatAllActive = 0, ?string $repeatUntil = null,
-		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null,
-		?array $paymentModes = null, int $deleted = 0
-	): array;
-
-	/**
-	 * Delete a bill
-	 *
-	 * @param string $projectId
-	 * @param int $billId
-	 * @param bool $force Ignores any deletion protection and forces the deletion of the bill
-	 * @param bool $moveToTrash
-	 * @return array
-	 */
-	public function deleteBill(string $projectId, int $billId, bool $force = false, bool $moveToTrash = true): array;
 
 	/**
 	 * Generate bills to automatically settle a project
@@ -233,6 +174,73 @@ interface IProjectService {
 	 * @return array
 	 */
 	public function deleteMember(string $projectId, int $memberId): array;
+
+	/**
+	 * Get bills of a project
+	 *
+	 * @param string $projectId
+	 * @param int|null $lastChanged
+	 * @param int|null $offset
+	 * @param int|null $limit
+	 * @param bool $reverse
+	 * @param int|null $payerId
+	 * @param int|null $categoryId
+	 * @param int|null $paymentModeId
+	 * @param int|null $includeBillId
+	 * @param string|null $searchTerm
+	 * @param int|null $deleted
+	 * @return array
+	 */
+	public function getBills(
+		string $projectId, ?int $lastChanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false,
+		?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $includeBillId = null,
+		?string $searchTerm = null, ?int $deleted = 0
+	): array;
+
+	/**
+	 * Add a bill in a given project
+	 *
+	 * @param string $projectId
+	 * @param string|null $date
+	 * @param string|null $what
+	 * @param int|null $payer
+	 * @param string|null $payedFor
+	 * @param float|null $amount
+	 * @param string|null $repeat
+	 * @param string|null $paymentMode
+	 * @param int|null $paymentModeId
+	 * @param int|null $categoryId
+	 * @param int $repeatAllActive
+	 * @param string|null $repeatUntil
+	 * @param int|null $timestamp
+	 * @param string|null $comment
+	 * @param int|null $repeatFreq
+	 * @param int $deleted
+	 * @param bool $produceActivity
+	 * @return int
+	 * @throws \OCP\DB\Exception
+	 */
+	public function createBill(
+		string $projectId, ?string $date, ?string $what, ?int $payer, ?string $payedFor,
+		?float $amount, ?string $repeat, ?string $paymentMode = null, ?int $paymentModeId = null,
+		?int $categoryId = null, int $repeatAllActive = 0, ?string $repeatUntil = null,
+		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null,
+		int $deleted = 0, bool $produceActivity = false
+	): int;
+
+	/**
+	 * Delete a bill
+	 *
+	 * @param string $projectId
+	 * @param int $billId
+	 * @param bool $force Ignores any deletion protection and forces the deletion of the bill
+	 * @param bool $moveToTrash
+	 * @param bool $produceActivity
+	 * @return void
+	 */
+	public function deleteBill(
+		string $projectId, int $billId, bool $force = false, bool $moveToTrash = true, bool $produceActivity = false
+	): void;
 
 	/**
 	 * Edit a bill

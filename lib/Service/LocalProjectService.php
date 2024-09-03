@@ -26,17 +26,14 @@ use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\Bill;
 use OCA\Cospend\Db\BillMapper;
 
-use OCA\Cospend\Db\Invitation;
-use OCA\Cospend\Db\InvitationMapper;
 use OCA\Cospend\Db\Member;
 use OCA\Cospend\Db\MemberMapper;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\ResponseDefinitions;
-use OCA\Cospend\Utils;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Http;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
-use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -51,7 +48,6 @@ use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use Throwable;
-use function str_replace;
 
 /**
  * @psalm-import-type CospendProjectInfoPlusExtra from ResponseDefinitions
@@ -70,7 +66,6 @@ class LocalProjectService implements IProjectService {
 		private ProjectMapper $projectMapper,
 		private BillMapper $billMapper,
 		private MemberMapper $memberMapper,
-		private InvitationMapper $invitationMapper,
 		private ActivityManager $activityManager,
 		private IUserManager $userManager,
 		private IAppManager $appManager,
@@ -451,7 +446,6 @@ class LocalProjectService implements IProjectService {
 	 * Get project statistics
 	 *
 	 * @param string $projectId
-	 * @param string|null $memberOrder
 	 * @param int|null $tsMin
 	 * @param int|null $tsMax
 	 * @param int|null $paymentModeId
@@ -464,8 +458,8 @@ class LocalProjectService implements IProjectService {
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
-	public function getProjectStatistics(
-		string $projectId, ?string $memberOrder = null, ?int $tsMin = null, ?int $tsMax = null,
+	public function getStatistics(
+		string $projectId, ?int $tsMin = null, ?int $tsMax = null,
 		?int $paymentModeId = null, ?int $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
 		bool $showDisabled = true, ?int $currencyId = null, ?int $payerId = null
 	): array {
@@ -491,7 +485,7 @@ class LocalProjectService implements IProjectService {
 		// get the real global balances with no filters
 		$balances = $this->getBalance($projectId);
 
-		$members = $this->getMembers($projectId, $memberOrder);
+		$members = $this->getMembers($projectId, 'lowername');
 		foreach ($members as $member) {
 			$memberId = $member['id'];
 			$memberWeight = $member['weight'];
@@ -522,7 +516,7 @@ class LocalProjectService implements IProjectService {
 		}
 
 		// compute stats
-		$bills = $this->billMapper->getBills(
+		$bills = $this->billMapper->getBillsClassic(
 			$projectId, $tsMin, $tsMax, null, $paymentModeId, $categoryId,
 			$amountMin, $amountMax, null, null, false, $payerId
 		);
@@ -869,45 +863,48 @@ class LocalProjectService implements IProjectService {
 		];
 	}
 
-	/**
-	 * Add a bill in a given project
-	 *
-	 * @param string $projectId
-	 * @param string|null $date
-	 * @param string|null $what
-	 * @param int|null $payer
-	 * @param string|null $payedFor
-	 * @param float|null $amount
-	 * @param string|null $repeat
-	 * @param string|null $paymentMode
-	 * @param int|null $paymentModeId
-	 * @param int|null $categoryId
-	 * @param int $repeatAllActive
-	 * @param string|null $repeatUntil
-	 * @param int|null $timestamp
-	 * @param string|null $comment
-	 * @param int|null $repeatFreq
-	 * @param array|null $paymentModes
-	 * @param int $deleted
-	 * @return array
-	 * @throws \OCP\DB\Exception
-	 */
+	public function getBills(
+		string $projectId, ?int $lastChanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false,
+		?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $includeBillId = null,
+		?string $searchTerm = null, ?int $deleted = 0
+	): array {
+		if ($limit) {
+			$bills = $this->billMapper->getBillsWithLimit(
+				$projectId, null, null, null, $paymentModeId, $categoryId, null, null,
+				$lastChanged, $limit, $reverse, $offset, $payerId, $includeBillId, $searchTerm, $deleted
+			);
+		} else {
+			$bills = $this->billMapper->getBillsClassic(
+				$projectId, null, null, null, $paymentModeId, $categoryId, null, null,
+				$lastChanged, null, $reverse, $payerId, $deleted
+			);
+		}
+		$billIds = $this->billMapper->getAllBillIds($projectId, $deleted);
+		$ts = (new DateTime())->getTimestamp();
+		return [
+			'nb_bills' => $this->billMapper->countBills($projectId, $payerId, $categoryId, $paymentModeId, $deleted),
+			'bills' => $bills,
+			'allBillIds' => $billIds,
+			'timestamp' => $ts,
+		];
+	}
+
 	public function createBill(
 		string $projectId, ?string $date, ?string $what, ?int $payer, ?string $payedFor,
 		?float $amount, ?string $repeat, ?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null, int $repeatAllActive = 0, ?string $repeatUntil = null,
 		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null,
-		?array $paymentModes = null, int $deleted = 0
-	): array {
+		int $deleted = 0, bool $produceActivity = false
+	): int {
 		// if we don't have the payment modes, get them now
-		if ($paymentModes === null) {
-			$paymentModes = $this->getCategoriesOrPaymentModes($projectId, false);
+		if ($this->paymentModes === null) {
+			$this->paymentModes = $this->getCategoriesOrPaymentModes($projectId, false);
 		}
 
 		if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
-			return ['repeat' => 'Invalid value (' . $repeat . ')'];
+			throw new Exception('Invalid repeat value (' . $repeat . ')');
 		} elseif (!in_array($repeat, Application::FREQUENCIES)) {
-			return ['repeat' => 'Invalid frequency (' . $repeat . ')'];
+			throw new Exception('Invalid repeat frequency value (' . $repeat . ')');
 		}
 		if ($repeatUntil !== null && $repeatUntil === '') {
 			$repeatUntil = null;
@@ -915,11 +912,11 @@ class LocalProjectService implements IProjectService {
 		// priority to timestamp (moneybuster might send both for a moment)
 		if ($timestamp === null) {
 			if ($date === null || $date === '') {
-				return ['message' => 'Timestamp (or date) field is required'];
+				throw new Exception('Timestamp (or date) field is required');
 			} else {
 				$datetime = DateTime::createFromFormat('Y-m-d', $date);
 				if ($datetime === false) {
-					return ['date' => 'Invalid date'];
+					throw new Exception('Invalid date');
 				}
 				$dateTs = $datetime->getTimestamp();
 			}
@@ -930,41 +927,41 @@ class LocalProjectService implements IProjectService {
 			$what = '';
 		}
 		if ($amount === null) {
-			return ['amount' => 'This field is required'];
+			throw new Exception('amount is required');
 		}
 		if ($payer === null) {
-			return ['payer' => 'This field is required'];
+			throw new Exception('payer is required');
 		}
 		if ($this->getMemberById($projectId, $payer) === null) {
-			return ['payer' => 'Not a valid choice'];
+			throw new Exception('payer is not valid');
 		}
 		// check owers
 		$owerIds = explode(',', $payedFor);
 		if ($payedFor === null || $payedFor === '' || empty($owerIds)) {
-			return ['payed_for' => 'Invalid value (' . $payedFor . ')'];
+			throw new Exception('payed_for is not valid (' . $payedFor . ')');
 		}
 		foreach ($owerIds as $owerId) {
 			if (!is_numeric($owerId)) {
-				return ['payed_for' => 'Invalid value'];
+				throw new Exception('payed_for is not valid');
 			}
 			if ($this->getMemberById($projectId, (int) $owerId) === null) {
-				return ['payed_for' => 'Not a valid choice'];
+				throw new Exception('payed_for is not valid');
 			}
 		}
 		// payment mode
 		if (!is_null($paymentModeId)) {
 			// is the old_id set for this payment mode? if yes, use it for old 'paymentmode' column
 			$paymentMode = 'n';
-			if (isset($paymentModes[$paymentModeId], $paymentModes[$paymentModeId]['old_id'])
-				&& $paymentModes[$paymentModeId]['old_id'] !== null
-				&& $paymentModes[$paymentModeId]['old_id'] !== ''
+			if (isset($this->paymentModes[$paymentModeId], $this->paymentModes[$paymentModeId]['old_id'])
+				&& $this->paymentModes[$paymentModeId]['old_id'] !== null
+				&& $this->paymentModes[$paymentModeId]['old_id'] !== ''
 			) {
-				$paymentMode = $paymentModes[$paymentModeId]['old_id'];
+				$paymentMode = $this->paymentModes[$paymentModeId]['old_id'];
 			}
 		} elseif (!is_null($paymentMode)) {
 			// is there a pm with this old id? if yes, use it for new id
 			$paymentModeId = 0;
-			foreach ($paymentModes as $id => $pm) {
+			foreach ($this->paymentModes as $id => $pm) {
 				if ($pm['old_id'] === $paymentMode) {
 					$paymentModeId = $id;
 					break;
@@ -1011,23 +1008,24 @@ class LocalProjectService implements IProjectService {
 
 		$this->projectMapper->updateProjectLastChanged($projectId, $ts);
 
-		return ['inserted_id' => $insertedBillId];
+		if ($produceActivity) {
+			$this->activityManager->triggerEvent(
+				ActivityManager::COSPEND_OBJECT_BILL, $createdBill,
+				ActivityManager::SUBJECT_BILL_CREATE,
+				[]
+			);
+		}
+
+		return $insertedBillId;
 	}
 
-	/**
-	 * Delete a bill
-	 *
-	 * @param string $projectId
-	 * @param int $billId
-	 * @param bool $force Ignores any deletion protection and forces the deletion of the bill
-	 * @param bool $moveToTrash
-	 * @return array
-	 */
-	public function deleteBill(string $projectId, int $billId, bool $force = false, bool $moveToTrash = true): array {
+	public function deleteBill(
+		string $projectId, int $billId, bool $force = false, bool $moveToTrash = true, bool $produceActivity = false
+	): void {
 		if ($force === false) {
 			$project = $this->getProjectInfo($projectId);
 			if ($project['deletiondisabled']) {
-				return ['message' => 'forbidden'];
+				throw new Exception('project deletion is disabled', Http::STATUS_FORBIDDEN);
 			}
 		}
 		$billToDelete = $this->billMapper->getBillEntity($projectId, $billId);
@@ -1044,9 +1042,15 @@ class LocalProjectService implements IProjectService {
 			$ts = (new DateTime())->getTimestamp();
 			$this->projectMapper->updateProjectLastChanged($projectId, $ts);
 
-			return ['success' => true];
+			if ($produceActivity) {
+				$this->activityManager->triggerEvent(
+					ActivityManager::COSPEND_OBJECT_BILL, $billToDelete,
+					ActivityManager::SUBJECT_BILL_DELETE,
+					[]
+				);
+			}
 		} else {
-			return ['message' => 'not found'];
+			throw new Exception('not found', Http::STATUS_NOT_FOUND);
 		}
 	}
 
@@ -1090,18 +1094,18 @@ class LocalProjectService implements IProjectService {
 			$ts = (new DateTime())->getTimestamp();
 		}
 
-		$paymentModes = [];
 		foreach ($transactions as $transaction) {
 			$fromId = $transaction['from'];
 			$toId = $transaction['to'];
 			$amount = round((float) $transaction['amount'], $precision);
 			$billTitle = $memberIdToName[$fromId].' → '.$memberIdToName[$toId];
-			$addBillResult = $this->createBill(
-				$projectId, null, $billTitle, $fromId, $toId, $amount,
-				Application::FREQUENCY_NO, 'n', 0, Application::CATEGORY_REIMBURSEMENT,
-				0, null, $ts, null, null, $paymentModes
-			);
-			if (!isset($addBillResult['inserted_id'])) {
+			try {
+				$this->createBill(
+					$projectId, null, $billTitle, $fromId, $toId, $amount,
+					Application::FREQUENCY_NO, 'n', 0,
+					Application::CATEGORY_REIMBURSEMENT,0, null, $ts
+				);
+			} catch (\Throwable $e) {
 				return ['message' => $this->l10n->t('Error when adding a bill')];
 			}
 		}
@@ -1545,7 +1549,7 @@ class LocalProjectService implements IProjectService {
 			$membersBalance[$memberId] = 0.0;
 		}
 
-		$bills = $this->billMapper->getBills($projectId, null, $maxTimestamp);
+		$bills = $this->billMapper->getBillsClassic($projectId, null, $maxTimestamp);
 		foreach ($bills as $bill) {
 			$payerId = $bill['payer_id'];
 			$amount = $bill['amount'];
@@ -2644,22 +2648,22 @@ class LocalProjectService implements IProjectService {
 		$newCategoryId = $this->copyBillCategoryOver($projectId, $bill, $toProjectId);
 		$newPaymentId = $this->copyBillPaymentModeOver($projectId, $bill, $toProjectId);
 
-		$result = $this->createBill(
-			$toProjectId, null, $bill['what'], $newPayer['id'],
-			implode(',', array_column($newOwers, 'id')), $bill['amount'], $bill['repeat'],
-			$bill['paymentmode'], $newPaymentId,
-			$newCategoryId, $bill['repeatallactive'], $bill['repeatuntil'],
-			$bill['timestamp'], $bill['comment'], $bill['repeatfreq'], null, $bill['deleted']
-		);
-
-		if (!isset($result['inserted_id'])) {
-			return ['message' => $this->l10n->t('Cannot create new bill: %1$s', $result['message'])];
+		try {
+			$insertedId = $this->createBill(
+				$toProjectId, null, $bill['what'], $newPayer['id'],
+				implode(',', array_column($newOwers, 'id')), $bill['amount'], $bill['repeat'],
+				$bill['paymentmode'], $newPaymentId,
+				$newCategoryId, $bill['repeatallactive'], $bill['repeatuntil'],
+				$bill['timestamp'], $bill['comment'], $bill['repeatfreq'], $bill['deleted']
+			);
+		} catch (\Throwable $e) {
+			return ['message' => $this->l10n->t('Cannot create new bill: %1$s', $e->getMessage())];
 		}
 
 		// remove the old bill
 		$this->deleteBill($projectId, $billId, true);
 
-		return $result;
+		return ['inserted_id' => $insertedId];
 	}
 
 	/**
@@ -2712,15 +2716,17 @@ class LocalProjectService implements IProjectService {
 			}
 		}
 
-		$addBillResult = $this->createBill(
-			$projectId, null, $bill['what'], $bill['payer_id'],
-			$owerIdsStr, $bill['amount'], $bill['repeat'],
-			$bill['paymentmode'], $bill['paymentmodeid'],
-			$bill['categoryid'], $bill['repeatallactive'], $bill['repeatuntil'],
-			$targetDatetime->getTimestamp(), $bill['comment'], $bill['repeatfreq']
-		);
-
-		$newBillId = $addBillResult['inserted_id'] ?? 0;
+		try {
+			$newBillId = $this->createBill(
+				$projectId, null, $bill['what'], $bill['payer_id'],
+				$owerIdsStr, $bill['amount'], $bill['repeat'],
+				$bill['paymentmode'], $bill['paymentmodeid'],
+				$bill['categoryid'], $bill['repeatallactive'], $bill['repeatuntil'],
+				$targetDatetime->getTimestamp(), $bill['comment'], $bill['repeatfreq']
+			);
+		} catch (\Throwable $e) {
+			$newBillId = 0;
+		}
 
 		$billObj = $this->billMapper->find($newBillId);
 		$this->activityManager->triggerEvent(
@@ -2729,7 +2735,7 @@ class LocalProjectService implements IProjectService {
 			[]
 		);
 
-		// now we can remove repeat flag on original bill
+		// now we can remove the repeat flag on the original bill
 		$this->editBill($projectId, $billId, null, $bill['what'], $bill['payer_id'], null,
 			$bill['amount'], Application::FREQUENCY_NO, null, null, null, null);
 		return $newBillId;
@@ -4196,8 +4202,8 @@ class LocalProjectService implements IProjectService {
 			. ',' . $this->l10n->t('Balance')
 			. "\n"
 		);
-		$allStats = $this->getProjectStatistics(
-			$projectId, 'lowername', $tsMin, $tsMax, $paymentModeId,
+		$allStats = $this->getStatistics(
+			$projectId, $tsMin, $tsMax, $paymentModeId,
 			$category, $amountMin, $amountMax, $showDisabled, $currencyId
 		);
 		$stats = $allStats['stats'];
@@ -4291,7 +4297,7 @@ class LocalProjectService implements IProjectService {
 		}
 		// bills
 		yield "\nwhat,amount,date,timestamp,payer_name,payer_weight,payer_active,owers,repeat,repeatfreq,repeatallactive,repeatuntil,categoryid,paymentmode,paymentmodeid,comment,deleted\n";
-		$bills = $this->billMapper->getBills(
+		$bills = $this->billMapper->getBillsClassic(
 			$projectId, null, null, null, null, null,
 			null, null, null, null, false, null, null
 		);

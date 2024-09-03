@@ -7,9 +7,9 @@ namespace OCA\Cospend\Attribute;
 use Attribute;
 
 #[Attribute]
-class CospendFederation {
+class SupportFederatedProject {
 	/**
-	 * Attribute for controller methods that support federated projects
+	 * Attribute for ApiController methods that support federated projects
 	 * This requires the method to have a $projectId parameter. If the project is federated, the federation service will
 	 * be used
 	 */

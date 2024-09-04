@@ -11,16 +11,14 @@
 
 namespace OCA\Cospend\Controller;
 
-use DateTime;
 use GuzzleHttp\Exception\ClientException;
 use OC\User\NoUserException;
-use OCA\Circles\Exceptions\InitiatorNotFoundException;
-use OCA\Circles\Exceptions\RequestBuilderException;
 use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Attribute\SupportFederatedProject;
 use OCA\Cospend\Attribute\CospendUserPermissions;
 use OCA\Cospend\Db\BillMapper;
+use OCA\Cospend\Exception\CospendBasicException;
 use OCA\Cospend\ResponseDefinitions;
 use OCA\Cospend\Service\CospendService;
 use OCA\Cospend\Service\IProjectService;
@@ -80,6 +78,13 @@ class ApiController extends OCSController {
 		$this->projectService = $localProjectService;
 	}
 
+	private static function getResponseFromClientException(ClientException $e): DataResponse {
+		$response = $e->getResponse();
+		$body = $response->getBody();
+		$parsedBody = json_decode($body, true);
+		return new DataResponse($parsedBody['ocs']['data'] ?? ['error' => 'unknown error'], $response->getStatusCode());
+	}
+
 	/**
 	 * Create a project
 	 *
@@ -137,7 +142,6 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @return DataResponse<Http::STATUS_OK, CospendFullProjectInfo, array{}>
-	 * @throws Exception
 	 *
 	 * 200: Project info
 	 */
@@ -146,7 +150,15 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	#[SupportFederatedProject]
 	public function getProjectInfo(string $projectId): DataResponse {
-		return new DataResponse($this->projectService->getProjectInfoWithAccessLevel($projectId, $this->userId));
+		try {
+			return new DataResponse($this->projectService->getProjectInfoWithAccessLevel($projectId, $this->userId));
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		}
 	}
 
 	/**
@@ -161,7 +173,6 @@ class ApiController extends OCSController {
 	 * @param string|null $paymentModeSort
 	 * @param int|null $archivedTs
 	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
-	 * @throws Exception
 	 *
 	 * 200: The project was successfully update
 	 * 400: Failed to edit the project
@@ -175,14 +186,18 @@ class ApiController extends OCSController {
 		?string $autoExport = null, ?string $currencyName = null, ?bool $deletionDisabled = null,
 		?string $categorySort = null, ?string $paymentModeSort = null, ?int $archivedTs = null
 	): DataResponse {
-		$result = $this->localProjectService->editProject(
-			$projectId, $name, null, $autoExport,
-			$currencyName, $deletionDisabled, $categorySort, $paymentModeSort, $archivedTs
-		);
-		if (isset($result['success'])) {
+		try {
+			$this->projectService->editProject(
+				$projectId, $name, null, $autoExport,
+				$currencyName, $deletionDisabled, $categorySort, $paymentModeSort, $archivedTs
+			);
 			return new DataResponse('');
-		} else {
-			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -200,11 +215,15 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	#[SupportFederatedProject]
 	public function deleteProject(string $projectId): DataResponse {
-		$result = $this->localProjectService->deleteProject($projectId);
-		if (!isset($result['error'])) {
-			return new DataResponse($result);
-		} else {
-			return new DataResponse(['message' => $result['error']], Http::STATUS_NOT_FOUND);
+		try {
+			$this->projectService->deleteProject($projectId);
+			return new DataResponse(['message' => 'DELETED']);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -222,7 +241,6 @@ class ApiController extends OCSController {
 	 * @param int|null $currencyId
 	 * @param int|null $payerId
 	 * @return DataResponse<Http::STATUS_OK, CospendProjectStatistics, array{}>
-	 * @throws Exception
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
@@ -233,11 +251,19 @@ class ApiController extends OCSController {
 		?int $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
 		string $showDisabled = '1', ?int $currencyId = null, ?int $payerId = null
 	): DataResponse {
-		$result = $this->projectService->getStatistics(
-			$projectId, $tsMin, $tsMax, $paymentModeId,
-			$categoryId, $amountMin, $amountMax, $showDisabled === '1', $currencyId, $payerId
-		);
-		return new DataResponse($result);
+		try {
+			$result = $this->projectService->getStatistics(
+				$projectId, $tsMin, $tsMax, $paymentModeId,
+				$categoryId, $amountMin, $amountMax, $showDisabled === '1', $currencyId, $payerId
+			);
+			return new DataResponse($result);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		}
 	}
 
 	/**
@@ -253,8 +279,16 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	#[SupportFederatedProject]
 	public function getProjectSettlement(string $projectId, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
-		$result = $this->projectService->getProjectSettlement($projectId, $centeredOn, $maxTimestamp);
-		return new DataResponse($result);
+		try {
+			$result = $this->projectService->getProjectSettlement($projectId, $centeredOn, $maxTimestamp);
+			return new DataResponse($result);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		}
 	}
 
 	/**
@@ -273,11 +307,15 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	#[SupportFederatedProject]
 	public function autoSettlement(string $projectId, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null): DataResponse {
-		$result = $this->projectService->autoSettlement($projectId, $centeredOn, $precision, $maxTimestamp);
-		if (isset($result['success'])) {
+		try {
+			$this->projectService->autoSettlement($projectId, $centeredOn, $precision, $maxTimestamp);
 			return new DataResponse('');
-		} else {
-			return new DataResponse(['message' => $result['message']], Http::STATUS_FORBIDDEN);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -295,8 +333,14 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Members'])]
 	#[SupportFederatedProject]
 	public function getMembers(string $projectId, ?int $lastChanged = null): DataResponse {
-		$members = $this->localProjectService->getMembers($projectId, null, $lastChanged);
-		return new DataResponse($members);
+		try {
+			$members = $this->projectService->getMembers($projectId, null, $lastChanged);
+			return new DataResponse($members);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		}
 	}
 
 	/**
@@ -314,11 +358,16 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Members'])]
 	#[SupportFederatedProject]
 	public function deleteMember(string $projectId, int $memberId): DataResponse {
-		$result = $this->localProjectService->deleteMember($projectId, $memberId);
-		if (isset($result['success'])) {
+		try {
+			$this->projectService->deleteMember($projectId, $memberId);
 			return new DataResponse('');
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($result, Http::STATUS_NOT_FOUND);
 	}
 
 	/**
@@ -349,12 +398,16 @@ class ApiController extends OCSController {
 		} elseif ($activated === 'false') {
 			$activated = false;
 		}
-		$result = $this->localProjectService->editMember($projectId, $memberId, $name, $userId, $weight, $activated, $color);
-		if ($result === null || isset($result['activated'])) {
-			return new DataResponse($result);
+		try {
+			$member = $this->projectService->editMember($projectId, $memberId, $name, $userId, $weight, $activated, $color);
+			return new DataResponse($member);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -367,10 +420,6 @@ class ApiController extends OCSController {
 	 * @param int $active
 	 * @param string|null $color
 	 * @return DataResponse<Http::STATUS_OK, CospendMember, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{error: string}, array{}>
-	 * @throws Exception
-	 *
-	 * 200: The member was successfully created
-	 * 400: Failed to create the member
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
@@ -380,11 +429,16 @@ class ApiController extends OCSController {
 		string $projectId, string $name, ?string $userId = null, float $weight = 1,
 		int $active = 1, ?string $color = null
 	): DataResponse {
-		$result = $this->localProjectService->createMember($projectId, $name, $weight, $active !== 0, $color, $userId);
-		if (!isset($result['error'])) {
-			return new DataResponse($result);
+		try {
+			$member = $this->projectService->createMember($projectId, $name, $weight, $active !== 0, $color, $userId);
+			return new DataResponse($member);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -613,10 +667,7 @@ class ApiController extends OCSController {
 			);
 			return new DataResponse($newBillId);
 		} catch (ClientException $e) {
-			$response = $e->getResponse();
-			$body = $response->getBody();
-			$parsedBody = json_decode($body, true);
-			return new DataResponse($parsedBody['ocs']['data'] ?? ['error' => 'unknown error'], $response->getStatusCode());
+			return $this->getResponseFromClientException($e);
 		} catch (\Throwable $e) {
 			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
@@ -661,10 +712,7 @@ class ApiController extends OCSController {
 			$this->projectService->deleteBill($projectId, $billId, false, $moveToTrash, true);
 			return new DataResponse('');
 		} catch (ClientException $e) {
-			$response = $e->getResponse();
-			$body = $response->getBody();
-			$parsedBody = json_decode($body, true);
-			return new DataResponse($parsedBody['ocs']['data'] ?? ['error' => 'unknown error'], $response->getStatusCode());
+			return $this->getResponseFromClientException($e);
 		} catch (\Throwable $e) {
 			return new DataResponse(['error' => $e->getMessage()], $e->getCode());
 		}
@@ -1275,8 +1323,6 @@ class ApiController extends OCSController {
 	 * @param int $accessLevel
 	 * @return DataResponse<Http::STATUS_OK, CospendCircleShare, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
-	 * @throws InitiatorNotFoundException
-	 * @throws RequestBuilderException
 	 *
 	 * 200: The circle share was successfully created
 	 * 400: Failed to create the circle share

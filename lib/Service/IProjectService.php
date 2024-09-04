@@ -45,9 +45,9 @@ interface IProjectService {
 	 * Delete a project and all associated data
 	 *
 	 * @param string $projectId
-	 * @return array
+	 * @return void
 	 */
-	public function deleteProject(string $projectId): array;
+	public function deleteProject(string $projectId): void;
 
 	/**
 	 * @param string $projectId
@@ -86,9 +86,9 @@ interface IProjectService {
 	 * @param int|null $centeredOn
 	 * @param int $precision
 	 * @param int|null $maxTimestamp
-	 * @return array
+	 * @return void
 	 */
-	public function autoSettlement(string $projectId, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null): array;
+	public function autoSettlement(string $projectId, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null): void;
 
 	/**
 	 * Get project settlement plan
@@ -130,14 +130,14 @@ interface IProjectService {
 	 * @param string|null $categorysort
 	 * @param string|null $paymentmodesort
 	 * @param int|null $archivedTs
-	 * @return array
+	 * @return void
 	 * @throws \OCP\DB\Exception
 	 */
 	public function editProject(
 		string  $projectId, ?string $name = null, ?string $contact_email = null,
 		?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
 		?string $categorysort = null, ?string $paymentmodesort = null, ?int $archivedTs = null
-	): array;
+	): void;
 
 	/**
 	 * Add a member to a project
@@ -148,7 +148,7 @@ interface IProjectService {
 	 * @param bool $active
 	 * @param string|null $color
 	 * @param string|null $userId
-	 * @return array{error: string}|CospendMember
+	 * @return CospendMember
 	 * @throws \OCP\DB\Exception
 	 */
 	public function createMember(
@@ -171,9 +171,9 @@ interface IProjectService {
 	 *
 	 * @param string $projectId
 	 * @param int $memberId
-	 * @return array
+	 * @return void
 	 */
-	public function deleteMember(string $projectId, int $memberId): array;
+	public function deleteMember(string $projectId, int $memberId): void;
 
 	/**
 	 * Get bills of a project

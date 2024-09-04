@@ -17,6 +17,7 @@ use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Attribute\CospendPublicAuth;
 use OCA\Cospend\Attribute\CospendUserPermissions;
 use OCA\Cospend\Db\BillMapper;
+use OCA\Cospend\Exception\CospendBasicException;
 use OCA\Cospend\Service\LocalProjectService;
 use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
@@ -78,14 +79,17 @@ class OldApiController extends ApiController {
 	public function apiPrivSetProjectInfo(string $projectId, ?string $name = null, ?string $contact_email = null,
 		?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
 		?string $categorysort = null, ?string $paymentmodesort = null): DataResponse {
-		$result = $this->localProjectService->editProject(
-			$projectId, $name, $contact_email, $autoexport,
-			$currencyname, $deletion_disabled, $categorysort, $paymentmodesort
-		);
-		if (isset($result['success'])) {
+		try {
+			$this->localProjectService->editProject(
+				$projectId, $name, $contact_email, $autoexport,
+				$currencyname, $deletion_disabled, $categorysort, $paymentmodesort
+			);
 			return new DataResponse('UPDATED');
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	#[NoAdminRequired]
@@ -153,14 +157,17 @@ class OldApiController extends ApiController {
 		?string $autoexport = null, ?string $currencyname = null,
 		?bool $deletion_disabled = null, ?string $categorysort = null, ?string $paymentmodesort = null): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->editProject(
-			$publicShareInfo['projectid'], $name, $contact_email, $autoexport,
-			$currencyname, $deletion_disabled, $categorysort, $paymentmodesort
-		);
-		if (isset($result['success'])) {
+		try {
+			$this->localProjectService->editProject(
+				$publicShareInfo['projectid'], $name, $contact_email, $autoexport,
+				$currencyname, $deletion_disabled, $categorysort, $paymentmodesort
+			);
 			return new DataResponse('UPDATED');
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	#[NoAdminRequired]
@@ -292,13 +299,15 @@ class OldApiController extends ApiController {
 	public function apiAddMember(string $token, string $name,
 		float  $weight = 1, int $active = 1, ?string $color = null): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->createMember(
-			$publicShareInfo['projectid'], $name, $weight, $active !== 0, $color, null
-		);
-		if (!isset($result['error'])) {
-			return new DataResponse($result['id']);
-		} else {
-			return new DataResponse($result['error'], Http::STATUS_BAD_REQUEST);
+		try {
+			$member = $this->localProjectService->createMember(
+				$publicShareInfo['projectid'], $name, $weight, $active !== 0, $color, null
+			);
+			return new DataResponse($member['id']);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data['error'] ?? '', $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -311,13 +320,16 @@ class OldApiController extends ApiController {
 	public function apiv2AddMember(string $token, string $name, float $weight = 1, int $active = 1,
 		?string $color = null, ?string $userid = null): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->createMember(
-			$publicShareInfo['projectid'], $name, $weight, $active !== 0, $color, $userid
-		);
-		if (!isset($result['error'])) {
-			return new DataResponse($result);
+		try {
+			$member = $this->localProjectService->createMember(
+				$publicShareInfo['projectid'], $name, $weight, $active !== 0, $color, $userid
+			);
+			return new DataResponse($member);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data['error'] ?? '', $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($result['error'], Http::STATUS_BAD_REQUEST);
 	}
 
 	#[NoAdminRequired]
@@ -326,11 +338,14 @@ class OldApiController extends ApiController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivAddMember(string $projectId, string $name, float $weight = 1, int $active = 1,
 		?string $color = null, ?string $userid = null): DataResponse {
-		$result = $this->localProjectService->createMember($projectId, $name, $weight, $active !== 0, $color, $userid);
-		if (!isset($result['error'])) {
-			return new DataResponse($result['id']);
+		try {
+			$member = $this->localProjectService->createMember($projectId, $name, $weight, $active !== 0, $color, $userid);
+			return new DataResponse($member['id']);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data['error'] ?? '', $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($result['error'], Http::STATUS_BAD_REQUEST);
 	}
 
 	#[NoAdminRequired]
@@ -650,11 +665,14 @@ class OldApiController extends ApiController {
 	#[BruteForceProtection(action: 'CospendPublicDeleteMember')]
 	public function apiDeleteMember(string $token, int $memberid): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->deleteMember($publicShareInfo['projectid'], $memberid);
-		if (isset($result['success'])) {
+		try {
+			$this->localProjectService->deleteMember($publicShareInfo['projectid'], $memberid);
 			return new DataResponse('OK');
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($result, Http::STATUS_NOT_FOUND);
 	}
 
 	#[NoAdminRequired]
@@ -662,11 +680,14 @@ class OldApiController extends ApiController {
 	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivDeleteMember(string $projectId, int $memberid): DataResponse {
-		$result = $this->localProjectService->deleteMember($projectId, $memberid);
-		if (isset($result['success'])) {
+		try {
+			$this->localProjectService->deleteMember($projectId, $memberid);
 			return new DataResponse('OK');
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($result, Http::STATUS_NOT_FOUND);
 	}
 
 	#[NoAdminRequired]
@@ -677,11 +698,14 @@ class OldApiController extends ApiController {
 	#[BruteForceProtection(action: 'CospendPublicDeleteProject')]
 	public function apiDeleteProject(string $token): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->deleteProject($publicShareInfo['projectid']);
-		if (!isset($result['error'])) {
-			return new DataResponse($result);
+		try {
+			$this->localProjectService->deleteProject($publicShareInfo['projectid']);
+			return new DataResponse(['message' => 'DELETED']);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse(['message' => $result['error']], Http::STATUS_NOT_FOUND);
 	}
 
 	#[NoAdminRequired]
@@ -689,11 +713,14 @@ class OldApiController extends ApiController {
 	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
 	public function apiPrivDeleteProject(string $projectId): DataResponse {
-		$result = $this->localProjectService->deleteProject($projectId);
-		if (!isset($result['error'])) {
-			return new DataResponse($result);
+		try {
+			$this->localProjectService->deleteProject($projectId);
+			return new DataResponse(['message' => 'DELETED']);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse(['message' => $result['error']], Http::STATUS_NOT_FOUND);
 	}
 
 	#[NoAdminRequired]
@@ -711,14 +738,16 @@ class OldApiController extends ApiController {
 		} elseif ($activated === 'false') {
 			$activated = false;
 		}
-		$result = $this->localProjectService->editMember(
-			$publicShareInfo['projectid'], $memberid, $name, $userid, $weight, $activated, $color
-		);
-		if ($result === null || isset($result['activated'])) {
-			return new DataResponse($result);
+		try {
+			$member = $this->localProjectService->editMember(
+				$publicShareInfo['projectid'], $memberid, $name, $userid, $weight, $activated, $color
+			);
+			return new DataResponse($member);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, Http::STATUS_FORBIDDEN);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_FORBIDDEN);
 		}
-
-		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
 	#[NoAdminRequired]
@@ -732,12 +761,14 @@ class OldApiController extends ApiController {
 		} elseif ($activated === 'false') {
 			$activated = false;
 		}
-		$result = $this->localProjectService->editMember($projectId, $memberid, $name, $userid, $weight, $activated, $color);
-		if ($result === null || isset($result['activated'])) {
-			return new DataResponse($result);
+		try {
+			$member = $this->localProjectService->editMember($projectId, $memberid, $name, $userid, $weight, $activated, $color);
+			return new DataResponse($member);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, Http::STATUS_FORBIDDEN);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_FORBIDDEN);
 		}
-
-		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
 	#[NoAdminRequired]

@@ -29,6 +29,7 @@ use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Db\Member;
 use OCA\Cospend\Db\MemberMapper;
 use OCA\Cospend\Db\ProjectMapper;
+use OCA\Cospend\Exception\CospendBasicException;
 use OCA\Cospend\ResponseDefinitions;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -314,16 +315,10 @@ class LocalProjectService implements IProjectService {
 		);
 	}
 
-	/**
-	 * Delete a project and all associated data
-	 *
-	 * @param string $projectId
-	 * @return array
-	 */
-	public function deleteProject(string $projectId): array {
+	public function deleteProject(string $projectId): void {
 		$dbProjectToDelete = $this->projectMapper->find($projectId);
 		if ($dbProjectToDelete === null) {
-			return ['error' => $this->l10n->t('Not Found')];
+			throw new CospendBasicException('', Http::STATUS_NOT_FOUND, ['error' => $this->l10n->t('Not Found')]);
 		}
 		$this->projectMapper->deleteBillOwersOfProject($projectId);
 
@@ -347,7 +342,6 @@ class LocalProjectService implements IProjectService {
 		}
 
 		$this->projectMapper->delete($dbProjectToDelete);
-		return ['message' => 'DELETED'];
 	}
 
 	/**
@@ -1066,20 +1060,11 @@ class LocalProjectService implements IProjectService {
 		return $member?->jsonSerialize();
 	}
 
-	/**
-	 * Generate bills to automatically settle a project
-	 *
-	 * @param string $projectId
-	 * @param int|null $centeredOn
-	 * @param int $precision
-	 * @param int|null $maxTimestamp
-	 * @return array
-	 */
-	public function autoSettlement(string $projectId, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null): array {
+	public function autoSettlement(string $projectId, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null): void {
 		$settlement = $this->getProjectSettlement($projectId, $centeredOn, $maxTimestamp);
 		$transactions = $settlement['transactions'];
 		if (!is_array($transactions)) {
-			return ['message' => $this->l10n->t('Error when getting project settlement transactions')];
+			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('Error when getting project settlement transactions')]);
 		}
 
 		$members = $this->getMembers($projectId);
@@ -1106,10 +1091,9 @@ class LocalProjectService implements IProjectService {
 					Application::CATEGORY_REIMBURSEMENT,0, null, $ts
 				);
 			} catch (\Throwable $e) {
-				return ['message' => $this->l10n->t('Error when adding a bill')];
+				throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('Error when adding a bill')]);
 			}
 		}
-		return ['success' => true];
 	}
 
 	/**
@@ -1287,14 +1271,16 @@ class LocalProjectService implements IProjectService {
 	 * @param bool $activated
 	 * @param string|null $color
 	 * @return array|null
+	 * @throws CospendBasicException
+	 * @throws \OCP\DB\Exception
 	 */
 	public function editMember(
 		string $projectId, int $memberId, ?string $name = null, ?string $userId = null,
 		?float $weight = null, ?bool $activated = null, ?string $color = null
-	): array|null {
+	): ?array {
 		$dbMember = $this->memberMapper->getMemberById($projectId, $memberId);
 		if ($dbMember === null) {
-			return ['name' => $this->l10n->t('This project have no such member')];
+			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['name' => $this->l10n->t('This project have no such member')]);
 		}
 		$member = $dbMember->jsonSerialize();
 		// delete member if it has no bill and we are disabling it
@@ -1308,12 +1294,12 @@ class LocalProjectService implements IProjectService {
 
 		if ($name !== null) {
 			if (str_contains($name, '/')) {
-				return ['name' => $this->l10n->t('Invalid member name')];
+				throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['name' => $this->l10n->t('Invalid member name')]);
 			} else {
 				// get existing member with this name
 				$memberWithSameName = $this->getMemberByName($projectId, $name);
 				if ($memberWithSameName && $memberWithSameName['id'] !== $memberId) {
-					return ['name' => $this->l10n->t('Name already exists')];
+					throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['name' => $this->l10n->t('Name already exists')]);
 				}
 			}
 		}
@@ -1326,16 +1312,15 @@ class LocalProjectService implements IProjectService {
 			) {
 				// fine
 			} else {
-				return ['color' => $this->l10n->t('Invalid value')];
+				throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['color' => $this->l10n->t('Invalid value')]);
 			}
 		}
 
 		if ($weight !== null && $weight <= 0.0) {
-			return ['weight' => $this->l10n->t('Not a valid decimal value')];
+			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['weight' => $this->l10n->t('Not a valid decimal value')]);
 		}
 
 		// UPDATE
-
 		$ts = (new DateTime())->getTimestamp();
 		$dbMember->setLastchanged($ts);
 
@@ -1362,57 +1347,29 @@ class LocalProjectService implements IProjectService {
 		return $dbMember->jsonSerialize();
 	}
 
-	/**
-	 * Edit a project
-	 *
-	 * @param string $projectId
-	 * @param string|null $name
-	 * @param string|null $contact_email
-	 * @param string|null $autoexport
-	 * @param string|null $currencyname
-	 * @param bool|null $deletion_disabled
-	 * @param string|null $categorysort
-	 * @param string|null $paymentmodesort
-	 * @param int|null $archivedTs
-	 * @return array
-	 * @throws \OCP\DB\Exception
-	 */
 	public function editProject(
 		string  $projectId, ?string $name = null, ?string $contact_email = null,
 		?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
 		?string $categorysort = null, ?string $paymentmodesort = null, ?int $archivedTs = null
-	): array {
+	): void {
 		$dbProject = $this->projectMapper->find($projectId);
 		if ($dbProject === null) {
-			return ['message' => $this->l10n->t('There is no such project')];
+			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('There is no such project')]);
 		}
-
 		if ($name === '') {
-			return ['name' => [$this->l10n->t('Name can\'t be empty')]];
+			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['name' => $this->l10n->t('Name can\'t be empty')]);
 		}
-		if ($contact_email !== null && $contact_email !== '') {
-			if (filter_var($contact_email, FILTER_VALIDATE_EMAIL)) {
-			} else {
-				return ['contact_email' => [$this->l10n->t('Invalid email address')]];
-			}
+		if ($contact_email !== null && $contact_email !== '' && filter_var($contact_email, FILTER_VALIDATE_EMAIL) === false) {
+			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['contact_email' => $this->l10n->t('Invalid email address')]);
 		}
-		if ($autoexport !== null && $autoexport !== '') {
-			if (in_array($autoexport, Application::FREQUENCIES)) {
-			} else {
-				return ['autoexport' => [$this->l10n->t('Invalid frequency')]];
-			}
+		if ($autoexport !== null && $autoexport !== ''&& !in_array($autoexport, Application::FREQUENCIES)) {
+			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['autoexport' => $this->l10n->t('Invalid frequency')]);
 		}
-		if ($categorysort !== null && $categorysort !== '') {
-			if (in_array($categorysort, Application::SORT_ORDERS)) {
-			} else {
-				return ['categorysort' => [$this->l10n->t('Invalid sort order')]];
-			}
+		if ($categorysort !== null && $categorysort !== '' && !in_array($categorysort, Application::SORT_ORDERS)) {
+			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['categorysort' => $this->l10n->t('Invalid sort order')]);
 		}
-		if ($paymentmodesort !== null && $paymentmodesort !== '') {
-			if (in_array($paymentmodesort, Application::SORT_ORDERS)) {
-			} else {
-				return ['paymentmodesort' => [$this->l10n->t('Invalid sort order')]];
-			}
+		if ($paymentmodesort !== null && $paymentmodesort !== '' && !in_array($paymentmodesort, Application::SORT_ORDERS)) {
+			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['paymentmodesort' => $this->l10n->t('Invalid sort order')]);
 		}
 
 		if ($archivedTs !== null) {
@@ -1452,7 +1409,6 @@ class LocalProjectService implements IProjectService {
 		$ts = (new DateTime())->getTimestamp();
 		$dbProject->setLastchanged($ts);
 		$this->projectMapper->update($dbProject);
-		return ['success' => true];
 	}
 
 	/**
@@ -1464,7 +1420,7 @@ class LocalProjectService implements IProjectService {
 	 * @param bool $active
 	 * @param string|null $color
 	 * @param string|null $userId
-	 * @return array{error: string}|CospendMember
+	 * @return CospendMember
 	 * @throws \OCP\DB\Exception
 	 */
 	public function createMember(
@@ -1472,22 +1428,22 @@ class LocalProjectService implements IProjectService {
 		?string $color = null, ?string $userId = null
 	): array {
 		if ($name === '') {
-			return ['error' => $this->l10n->t('Name field is required')];
+			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['error' => $this->l10n->t('Name field is required')]);
 		}
 		if (str_contains($name, '/')) {
-			return ['error' => $this->l10n->t('Invalid member name')];
+			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['error' => $this->l10n->t('Invalid member name')]);
 		}
 		if ($weight !== null && $weight <= 0.0) {
-			return ['error' => $this->l10n->t('Weight is not a valid decimal value')];
+			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['error' => $this->l10n->t('Weight is not a valid decimal value')]);
 		}
 		if ($color !== null && $color !== '' && strlen($color) !== 4 && strlen($color) !== 7) {
-			return ['error' => $this->l10n->t('Invalid color value')];
+			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['error' => $this->l10n->t('Invalid color value')]);
 		}
 		if ($this->memberMapper->getMemberByName($projectId, $name) !== null) {
-			return ['error' => $this->l10n->t('This project already has this member')];
+			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['error' => $this->l10n->t('This project already has this member')]);
 		}
 		if ($userId !== null && $this->memberMapper->getMemberByUserid($projectId, $userId) !== null) {
-			return ['error' => $this->l10n->t('This project already has this member (user)')];
+			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['error' => $this->l10n->t('This project already has this member (user)')]);
 		}
 
 		$newMember = new Member();
@@ -2221,14 +2177,7 @@ class LocalProjectService implements IProjectService {
 		return $shares;
 	}
 
-	/**
-	 * Delete a member
-	 *
-	 * @param string $projectId
-	 * @param int $memberId
-	 * @return array
-	 */
-	public function deleteMember(string $projectId, int $memberId): array {
+	public function deleteMember(string $projectId, int $memberId): void {
 		$dbMemberToDelete = $this->memberMapper->getMemberById($projectId, $memberId);
 		if ($dbMemberToDelete !== null) {
 			$memberToDelete = $dbMemberToDelete->jsonSerialize();
@@ -2238,9 +2187,8 @@ class LocalProjectService implements IProjectService {
 				$dbMemberToDelete->setActivated(0);
 				$this->memberMapper->update($dbMemberToDelete);
 			}
-			return ['success' => true];
 		} else {
-			return ['error' => 'Not Found'];
+			throw new CospendBasicException('', Http::STATUS_NOT_FOUND, ['error' => 'Not Found']);
 		}
 	}
 

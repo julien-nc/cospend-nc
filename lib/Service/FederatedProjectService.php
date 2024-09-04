@@ -96,8 +96,8 @@ class FederatedProjectService implements IProjectService {
 		return $parsedBody['ocs']['data'];
 	}
 
-	public function deleteProject(string $projectId): array {
-		// TODO
+	public function deleteProject(string $projectId): void {
+		$this->request($projectId, 'api/v1/public/projects/{token}/{password}', [], 'DELETE');
 	}
 
 	public function getProjectInfoWithAccessLevel(string $projectId, string $userId): ?array {
@@ -191,13 +191,13 @@ class FederatedProjectService implements IProjectService {
 		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/statistics', $params);
 	}
 
-	public function autoSettlement(string $projectId, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null): array {
+	public function autoSettlement(string $projectId, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null): void {
 		$params = [
 			'centeredOn' => $centeredOn,
 			'precision' => $precision,
 			'maxTimestamp' => $maxTimestamp,
 		];
-		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/auto-settlement', $params);
+		$this->request($projectId, 'api/v1/public/projects/{token}/{password}/auto-settlement', $params);
 	}
 
 	public function getProjectSettlement(string $projectId, ?int $centeredOn = null, ?int $maxTimestamp = null): array {
@@ -208,29 +208,61 @@ class FederatedProjectService implements IProjectService {
 		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/settlement', $params);
 	}
 
-	public function editMember(
-		string $projectId, int $memberId, ?string $name = null, ?string $userId = null,
-		?float $weight = null, ?bool $activated = null, ?string $color = null
-	): array|null {
-	}
-
 	public function editProject(
 		string  $projectId, ?string $name = null, ?string $contact_email = null,
 		?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
 		?string $categorysort = null, ?string $paymentmodesort = null, ?int $archivedTs = null
-	): array {
+	): void {
+		$params = [
+			'name' => $name,
+			'contact_email' => $contact_email,
+			'autoexport' => $autoexport,
+			'currencyname' => $currencyname,
+			'deletion_disabled' => $deletion_disabled,
+			'categorysort' => $categorysort,
+			'paymentmodesort' => $paymentmodesort,
+			'archivedTs' => $archivedTs,
+		];
+		$this->request($projectId, 'api/v1/public/projects/{token}/{password}', $params, 'PUT');
 	}
 
 	public function createMember(
 		string $projectId, string $name, ?float $weight = 1.0, bool $active = true,
 		?string $color = null, ?string $userId = null
 	): array {
+		$params = [
+			'name' => $name,
+			'weight' => $weight,
+			'active' => $active ? 1 : 0,
+			'color' => $color,
+			'userId' => $userId,
+		];
+		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/members', $params, 'POST');
 	}
 
 	public function getMembers(string $projectId, ?string $order = null, ?int $lastchanged = null): array {
+		$params = [
+			'lastchanged' => $lastchanged,
+		];
+		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/members', $params);
 	}
 
-	public function deleteMember(string $projectId, int $memberId): array {
+	public function deleteMember(string $projectId, int $memberId): void {
+		$this->request($projectId, 'api/v1/public/projects/{token}/{password}/members/' . $memberId, [], 'DELETE');
+	}
+
+	public function editMember(
+		string $projectId, int $memberId, ?string $name = null, ?string $userId = null,
+		?float $weight = null, ?bool $activated = null, ?string $color = null
+	): ?array {
+		$params = [
+			'name' => $name,
+			'userId' => $userId,
+			'weight' => $weight,
+			'activated' => $activated,
+			'color' => $color,
+		];
+		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/members/' . $memberId, $params, 'PUT');
 	}
 
 	public function editBill(

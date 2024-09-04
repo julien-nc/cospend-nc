@@ -381,9 +381,14 @@ class CospendService {
 		}
 		// add members
 		foreach ($membersByName as $memberName => $member) {
-			$insertedMember = $this->localProjectService->createMember(
-				$projectid, $memberName, $member['weight'], $member['active'], $member['color'] ?? null
-			);
+			try {
+				$insertedMember = $this->localProjectService->createMember(
+					$projectid, $memberName, $member['weight'], $member['active'], $member['color'] ?? null
+				);
+			} catch (\Throwable $e) {
+				$this->localProjectService->deleteProject($projectid);
+				return ['message' => $this->l10n->t('Error when adding member %1$s', [$memberName])];
+			}
 			$memberNameToId[$memberName] = $insertedMember['id'];
 		}
 		// add bills
@@ -591,13 +596,12 @@ class CospendService {
 					}
 					// add members
 					foreach ($membersWeight as $memberName => $weight) {
-						$insertedMember = $this->localProjectService->createMember($projectid, $memberName, $weight);
-						/*
-						if (!is_array($insertedMember)) {
-							$this->deleteProject($projectid);
+						try {
+							$insertedMember = $this->localProjectService->createMember($projectid, $memberName, $weight);
+						} catch (\Throwable $e) {
+							$this->localProjectService->deleteProject($projectid);
 							return ['message' => $this->l10n->t('Error when adding member %1$s', [$memberName])];
 						}
-						*/
 						$memberNameToId[$memberName] = $insertedMember['id'];
 					}
 					// add bills

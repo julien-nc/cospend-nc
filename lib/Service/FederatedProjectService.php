@@ -141,6 +141,10 @@ class FederatedProjectService implements IProjectService {
 		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/bills', $params);
 	}
 
+	public function getBill(string $projectId, int $billId): array {
+		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/bills/' . $billId);
+	}
+
 	public function createBill(
 		string $projectId, ?string $date, ?string $what, ?int $payer, ?string $payedFor,
 		?float $amount, ?string $repeat, ?string $paymentMode = null, ?int $paymentModeId = null,
@@ -170,6 +174,18 @@ class FederatedProjectService implements IProjectService {
 	}
 
 	public function deleteBill(string $projectId, int $billId, bool $force = false, bool $moveToTrash = true, bool $produceActivity = false): void {
+		$params = [
+			'moveToTrash' => $moveToTrash,
+		];
+		$this->request($projectId, 'api/v1/public/projects/{token}/{password}/bills/' . $billId, $params, 'DELETE');
+	}
+
+	public function deleteBills(string $projectId, array $billIds, bool $moveToTrash = true): void {
+		$params = [
+			'billIds' => $billIds,
+			'moveToTrash' => $moveToTrash,
+		];
+		$this->request($projectId, 'api/v1/public/projects/{token}/{password}/bills', $params, 'DELETE');
 	}
 
 	public function editBill(
@@ -229,7 +245,12 @@ class FederatedProjectService implements IProjectService {
 		$this->request($projectId, 'api/v1/public/projects/{token}/{password}/bills', $params, 'PUT');
 	}
 
-	public function moveBill(string $projectId, int $billId, string $toProjectId): array {
+	public function repeatBill(string $projectId, int $billId): array {
+		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/bills/' . $billId . '/repeat');
+	}
+
+	public function clearTrashBin(string $projectId): void {
+		$this->request($projectId, 'api/v1/public/projects/{token}/{password}/trash-bin', [], 'DELETE');
 	}
 
 	public function getStatistics(

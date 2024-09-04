@@ -606,12 +606,16 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Bills'])]
 	#[SupportFederatedProject]
 	public function repeatBill(string $projectId, int $billId): DataResponse {
-		$bill = $this->billMapper->getBill($projectId, $billId);
-		if ($bill === null) {
-			return new DataResponse('', Http::STATUS_NOT_FOUND);
+		try {
+			$result = $this->projectService->repeatBill($projectId, $billId);
+			return new DataResponse($result);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_NOT_FOUND);
 		}
-		$result = $this->localProjectService->cronRepeatBills($billId);
-		return new DataResponse($result);
 	}
 
 	/**
@@ -653,6 +657,8 @@ class ApiController extends OCSController {
 			return new DataResponse($newBillId);
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
 		} catch (\Throwable $e) {
 			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
@@ -673,10 +679,14 @@ class ApiController extends OCSController {
 	#[SupportFederatedProject]
 	public function clearTrashBin(string $projectId): DataResponse {
 		try {
-			$this->billMapper->deleteDeletedBills($projectId);
+			$this->projectService->clearTrashBin($projectId);
 			return new DataResponse('');
-		} catch (\Exception | \Throwable $e) {
-			return new DataResponse('', Http::STATUS_BAD_REQUEST);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -698,6 +708,8 @@ class ApiController extends OCSController {
 			return new DataResponse('');
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
 		} catch (\Throwable $e) {
 			return new DataResponse(['error' => $e->getMessage()], $e->getCode());
 		}
@@ -710,7 +722,6 @@ class ApiController extends OCSController {
 	 * @param array<int> $billIds
 	 * @param bool $moveToTrash
 	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, '', array{}>
-	 * @throws Exception
 	 *
 	 * 200: Bills were successfully deleted
 	 * 403: This action is forbidden
@@ -720,33 +731,16 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Bills'])]
 	#[SupportFederatedProject]
 	public function deleteBills(string $projectId, array $billIds, bool $moveToTrash = true): DataResponse {
-		foreach ($billIds as $billId) {
-			if ($this->billMapper->getBill($projectId, $billId) === null) {
-				return new DataResponse('', Http::STATUS_NOT_FOUND);
-			}
+		try {
+			$this->projectService->deleteBills($projectId, $billIds, $moveToTrash);
+			return new DataResponse('');
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], $e->getCode());
 		}
-
-		foreach ($billIds as $billId) {
-			$billObj = $this->billMapper->find($billId);
-			$result = $this->localProjectService->deleteBill($projectId, $billId, false, $moveToTrash);
-			if (!isset($result['success'])) {
-				if (isset($result['message'])) {
-					if ($result['message'] === 'forbidden') {
-						return new DataResponse('', Http::STATUS_FORBIDDEN);
-					} elseif ($result['message'] === 'not found') {
-						return new DataResponse('', Http::STATUS_NOT_FOUND);
-					}
-				}
-				return new DataResponse('', Http::STATUS_BAD_REQUEST);
-			} else {
-				$this->activityManager->triggerEvent(
-					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
-					ActivityManager::SUBJECT_BILL_DELETE,
-					[]
-				);
-			}
-		}
-		return new DataResponse('');
 	}
 
 	/**
@@ -774,12 +768,20 @@ class ApiController extends OCSController {
 		?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $includeBillId = null,
 		?string $searchTerm = null, ?int $deleted = 0
 	): DataResponse {
-		return new DataResponse(
-			$this->projectService->getBills(
-				$projectId, $lastChanged, $offset, $limit, $reverse, $payerId, $categoryId,
-				$paymentModeId, $includeBillId, $searchTerm, $deleted
-			)
-		);
+		try {
+			return new DataResponse(
+				$this->projectService->getBills(
+					$projectId, $lastChanged, $offset, $limit, $reverse, $payerId, $categoryId,
+					$paymentModeId, $includeBillId, $searchTerm, $deleted
+				)
+			);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], $e->getCode());
+		}
 	}
 
 	/**
@@ -797,11 +799,15 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Bills'])]
 	#[SupportFederatedProject]
 	public function getBill(string $projectId, int $billId): DataResponse {
-		$dbBillArray = $this->billMapper->getBill($projectId, $billId);
-		if ($dbBillArray === null) {
-			return new DataResponse('', Http::STATUS_NOT_FOUND);
+		try {
+			return new DataResponse($this->projectService->getBill($projectId, $billId));
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], $e->getCode());
 		}
-		return new DataResponse($dbBillArray);
 	}
 
 	/**

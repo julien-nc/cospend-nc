@@ -883,6 +883,36 @@ class LocalProjectService implements IProjectService {
 		];
 	}
 
+	public function getBill(string $projectId, int $billId): array {
+		$dbBillArray = $this->billMapper->getBill($projectId, $billId);
+		if ($dbBillArray === null) {
+			throw new CospendBasicException('', Http::STATUS_NOT_FOUND);
+		}
+		return $dbBillArray;
+	}
+
+	/**
+	 * @param string $projectId
+	 * @param string|null $date
+	 * @param string|null $what
+	 * @param int|null $payer
+	 * @param string|null $payedFor
+	 * @param float|null $amount
+	 * @param string|null $repeat
+	 * @param string|null $paymentMode
+	 * @param int|null $paymentModeId
+	 * @param int|null $categoryId
+	 * @param int $repeatAllActive
+	 * @param string|null $repeatUntil
+	 * @param int|null $timestamp
+	 * @param string|null $comment
+	 * @param int|null $repeatFreq
+	 * @param int $deleted
+	 * @param bool $produceActivity
+	 * @return int
+	 * @throws CospendBasicException
+	 * @throws \OCP\DB\Exception
+	 */
 	public function createBill(
 		string $projectId, ?string $date, ?string $what, ?int $payer, ?string $payedFor,
 		?float $amount, ?string $repeat, ?string $paymentMode = null, ?int $paymentModeId = null,
@@ -896,9 +926,9 @@ class LocalProjectService implements IProjectService {
 		}
 
 		if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
-			throw new Exception('Invalid repeat value (' . $repeat . ')');
+			throw new CospendBasicException('Invalid repeat value (' . $repeat . ')', Http::STATUS_BAD_REQUEST);
 		} elseif (!in_array($repeat, Application::FREQUENCIES)) {
-			throw new Exception('Invalid repeat frequency value (' . $repeat . ')');
+			throw new CospendBasicException('Invalid repeat frequency value (' . $repeat . ')', Http::STATUS_BAD_REQUEST);
 		}
 		if ($repeatUntil !== null && $repeatUntil === '') {
 			$repeatUntil = null;
@@ -906,11 +936,11 @@ class LocalProjectService implements IProjectService {
 		// priority to timestamp (moneybuster might send both for a moment)
 		if ($timestamp === null) {
 			if ($date === null || $date === '') {
-				throw new Exception('Timestamp (or date) field is required');
+				throw new CospendBasicException('Timestamp (or date) field is required', Http::STATUS_BAD_REQUEST);
 			} else {
 				$datetime = DateTime::createFromFormat('Y-m-d', $date);
 				if ($datetime === false) {
-					throw new Exception('Invalid date');
+					throw new CospendBasicException('Invalid date', Http::STATUS_BAD_REQUEST);
 				}
 				$dateTs = $datetime->getTimestamp();
 			}
@@ -921,25 +951,25 @@ class LocalProjectService implements IProjectService {
 			$what = '';
 		}
 		if ($amount === null) {
-			throw new Exception('amount is required');
+			throw new CospendBasicException('amount is required', Http::STATUS_BAD_REQUEST);
 		}
 		if ($payer === null) {
-			throw new Exception('payer is required');
+			throw new CospendBasicException('payer is required', Http::STATUS_BAD_REQUEST);
 		}
 		if ($this->getMemberById($projectId, $payer) === null) {
-			throw new Exception('payer is not valid');
+			throw new CospendBasicException('payer is not valid', Http::STATUS_BAD_REQUEST);
 		}
 		// check owers
 		$owerIds = explode(',', $payedFor);
 		if ($payedFor === null || $payedFor === '' || empty($owerIds)) {
-			throw new Exception('payed_for is not valid (' . $payedFor . ')');
+			throw new CospendBasicException('payed_for is not valid (' . $payedFor . ')', Http::STATUS_BAD_REQUEST);
 		}
 		foreach ($owerIds as $owerId) {
 			if (!is_numeric($owerId)) {
-				throw new Exception('payed_for is not valid');
+				throw new CospendBasicException('payed_for is not valid', Http::STATUS_BAD_REQUEST);
 			}
 			if ($this->getMemberById($projectId, (int) $owerId) === null) {
-				throw new Exception('payed_for is not valid');
+				throw new CospendBasicException('payed_for is not valid', Http::STATUS_BAD_REQUEST);
 			}
 		}
 		// payment mode
@@ -1013,13 +1043,23 @@ class LocalProjectService implements IProjectService {
 		return $insertedBillId;
 	}
 
+	/**
+	 * @param string $projectId
+	 * @param int $billId
+	 * @param bool $force
+	 * @param bool $moveToTrash
+	 * @param bool $produceActivity
+	 * @return void
+	 * @throws CospendBasicException
+	 * @throws \OCP\DB\Exception
+	 */
 	public function deleteBill(
 		string $projectId, int $billId, bool $force = false, bool $moveToTrash = true, bool $produceActivity = false
 	): void {
 		if ($force === false) {
 			$project = $this->getProjectInfo($projectId);
 			if ($project['deletiondisabled']) {
-				throw new Exception('project deletion is disabled', Http::STATUS_FORBIDDEN);
+				throw new CospendBasicException('', Http::STATUS_FORBIDDEN, ['error' => 'project deletion is disabled']);
 			}
 		}
 		$billToDelete = $this->billMapper->getBillEntity($projectId, $billId);
@@ -1044,7 +1084,33 @@ class LocalProjectService implements IProjectService {
 				);
 			}
 		} else {
-			throw new Exception('not found', Http::STATUS_NOT_FOUND);
+			throw new CospendBasicException('', Http::STATUS_NOT_FOUND, ['error' => 'not found']);
+		}
+	}
+
+	/**
+	 * @param string $projectId
+	 * @param array $billIds
+	 * @param bool $moveToTrash
+	 * @return void
+	 * @throws CospendBasicException
+	 * @throws \OCP\DB\Exception
+	 */
+	public function deleteBills(string $projectId, array $billIds, bool $moveToTrash = true): void {
+		foreach ($billIds as $billId) {
+			if ($this->billMapper->getBill($projectId, $billId) === null) {
+				throw new CospendBasicException('', Http::STATUS_NOT_FOUND);
+			}
+		}
+
+		foreach ($billIds as $billId) {
+			$billObj = $this->billMapper->find($billId);
+			$this->deleteBill($projectId, $billId, false, $moveToTrash);
+			$this->activityManager->triggerEvent(
+				ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+				ActivityManager::SUBJECT_BILL_DELETE,
+				[]
+			);
 		}
 	}
 
@@ -2447,6 +2513,28 @@ class LocalProjectService implements IProjectService {
 	}
 
 	/**
+	 * @param string $projectId
+	 * @return void
+	 */
+	public function clearTrashBin(string $projectId): void {
+		$this->billMapper->deleteDeletedBills($projectId);
+	}
+
+	/**
+	 * @param string $projectId
+	 * @param int $billId
+	 * @return array
+	 * @throws CospendBasicException
+	 */
+	public function repeatBill(string $projectId, int $billId): array {
+		$bill = $this->billMapper->getBill($projectId, $billId);
+		if ($bill === null) {
+			throw new CospendBasicException('', Http::STATUS_NOT_FOUND);
+		}
+		return $this->cronRepeatBills($billId);
+	}
+
+	/**
 	 * daily check of repeated bills
 	 *
 	 * @param int|null $billId
@@ -2519,7 +2607,7 @@ class LocalProjectService implements IProjectService {
 				$nowTs = $now->getTimestamp();
 				$nextDateTs = $nextDate->getTimestamp();
 				if ($nowTs > $nextDateTs || $nextDate->format('Y-m-d') === $now->format('Y-m-d')) {
-					$newBillId = $this->repeatBill($bill['projectid'], $bill['id'], $nextDate);
+					$newBillId = $this->repeatLocalBill($bill['projectid'], $bill['id'], $nextDate);
 					// bill was not repeated (because of disabled owers or repeatuntil)
 					if ($newBillId === null) {
 						continue;
@@ -2688,7 +2776,7 @@ class LocalProjectService implements IProjectService {
 	 * @return int|null
 	 * @throws \OCP\DB\Exception
 	 */
-	private function repeatBill(string $projectId, int $billId, DateTimeImmutable $targetDatetime): ?int {
+	private function repeatLocalBill(string $projectId, int $billId, DateTimeImmutable $targetDatetime): ?int {
 		$bill = $this->billMapper->getBill($projectId, $billId);
 
 		$owerIds = [];

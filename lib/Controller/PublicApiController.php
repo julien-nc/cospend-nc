@@ -144,8 +144,10 @@ class PublicApiController extends OCSController {
 				);
 			}
 			return new DataResponse('');
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
 		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], $e->getCode());
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -189,8 +191,10 @@ class PublicApiController extends OCSController {
 					ActivityManager::SUBJECT_BILL_DELETE,
 					['author' => $authorFullText]
 				);
+			} catch (CospendBasicException $e) {
+				return new DataResponse($e->data, $e->getCode());
 			} catch (\Throwable $e) {
-				return new DataResponse(['error' => $e->getMessage()], $e->getCode());
+				return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 			}
 		}
 		return new DataResponse('');
@@ -291,6 +295,7 @@ class PublicApiController extends OCSController {
 	 * @param int $precision
 	 * @param int|null $maxTimestamp
 	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{message: string}, array{}>
+	 * @throws Exception
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -302,13 +307,15 @@ class PublicApiController extends OCSController {
 		string $token, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null
 	): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->autoSettlement(
-			$publicShareInfo['projectid'], $centeredOn, $precision, $maxTimestamp
-		);
-		if (isset($result['success'])) {
+		try {
+			$this->localProjectService->autoSettlement(
+				$publicShareInfo['projectid'], $centeredOn, $precision, $maxTimestamp
+			);
 			return new DataResponse('');
-		} else {
-			return new DataResponse(['message' => $result['message']], Http::STATUS_FORBIDDEN);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, Http::STATUS_FORBIDDEN);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_FORBIDDEN);
 		}
 	}
 

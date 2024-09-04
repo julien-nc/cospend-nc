@@ -198,6 +198,13 @@ interface IProjectService {
 	): array;
 
 	/**
+	 * @param string $projectId
+	 * @param int $billId
+	 * @return array
+	 */
+	public function getBill(string $projectId, int $billId): array;
+
+	/**
 	 * Add a bill in a given project
 	 *
 	 * @param string $projectId
@@ -241,6 +248,14 @@ interface IProjectService {
 	public function deleteBill(
 		string $projectId, int $billId, bool $force = false, bool $moveToTrash = true, bool $produceActivity = false
 	): void;
+
+	/**
+	 * @param string $projectId
+	 * @param array $billIds
+	 * @param bool $moveToTrash
+	 * @return void
+	 */
+	public function deleteBills(string $projectId, array $billIds, bool $moveToTrash = true): void;
 
 	/**
 	 * Edit a bill
@@ -308,11 +323,16 @@ interface IProjectService {
 	/**
 	 * @param string $projectId
 	 * @param int $billId
-	 * @param string $toProjectId
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
-	public function moveBill(string $projectId, int $billId, string $toProjectId): array;
+	public function repeatBill(string $projectId, int $billId): array;
+
+	/**
+	 * @param string $projectId
+	 * @return void
+	 */
+	public function clearTrashBin(string $projectId): void;
 
 	/**
 	 * @param string $projectId

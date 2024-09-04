@@ -12,28 +12,7 @@
 
 namespace OCA\Cospend\Service;
 
-use DateInterval;
-use DateTime;
-use DateTimeImmutable;
-use DateTimeZone;
-use Exception;
-use Generator;
-use OC\User\NoUserException;
-use OCA\Cospend\Activity\ActivityManager;
-use OCA\Cospend\AppInfo\Application;
-use OCA\Cospend\Db\Bill;
-use OCA\Cospend\Db\Invitation;
-use OCA\Cospend\Db\Member;
-use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\ResponseDefinitions;
-use OCA\Cospend\Utils;
-use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\Files\File;
-use OCP\Files\Folder;
-use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
-use Throwable;
-use function str_replace;
 
 /**
  * @psalm-import-type CospendProjectInfoPlusExtra from ResponseDefinitions
@@ -53,7 +32,6 @@ interface IProjectService {
 	 * @param string $projectId
 	 * @param string $userId
 	 * @return array|null
-	 * @throws \OCP\DB\Exception
 	 */
 	public function getProjectInfoWithAccessLevel(string $projectId, string $userId): ?array;
 
@@ -71,7 +49,6 @@ interface IProjectService {
 	 * @param int|null $currencyId
 	 * @param int|null $payerId
 	 * @return array
-	 * @throws \OCP\DB\Exception
 	 */
 	public function getStatistics(
 		string $projectId, ?int $tsMin = null, ?int $tsMax = null,
@@ -124,19 +101,18 @@ interface IProjectService {
 	 * @param string $projectId
 	 * @param string|null $name
 	 * @param string|null $contact_email
-	 * @param string|null $autoexport
-	 * @param string|null $currencyname
-	 * @param bool|null $deletion_disabled
-	 * @param string|null $categorysort
-	 * @param string|null $paymentmodesort
+	 * @param string|null $autoExport
+	 * @param string|null $currencyName
+	 * @param bool|null $deletionDisabled
+	 * @param string|null $categorySort
+	 * @param string|null $paymentModeSort
 	 * @param int|null $archivedTs
 	 * @return void
-	 * @throws \OCP\DB\Exception
 	 */
 	public function editProject(
 		string  $projectId, ?string $name = null, ?string $contact_email = null,
-		?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
-		?string $categorysort = null, ?string $paymentmodesort = null, ?int $archivedTs = null
+		?string $autoExport = null, ?string $currencyName = null, ?bool $deletionDisabled = null,
+		?string $categorySort = null, ?string $paymentModeSort = null, ?int $archivedTs = null
 	): void;
 
 	/**
@@ -149,7 +125,6 @@ interface IProjectService {
 	 * @param string|null $color
 	 * @param string|null $userId
 	 * @return CospendMember
-	 * @throws \OCP\DB\Exception
 	 */
 	public function createMember(
 		string $projectId, string $name, ?float $weight = 1.0, bool $active = true,
@@ -225,7 +200,6 @@ interface IProjectService {
 	 * @param int $deleted
 	 * @param bool $produceActivity
 	 * @return int
-	 * @throws \OCP\DB\Exception
 	 */
 	public function createBill(
 		string $projectId, ?string $date, ?string $what, ?int $payer, ?string $payedFor,
@@ -279,7 +253,6 @@ interface IProjectService {
 	 * @param int|null $deleted
 	 * @param bool $produceActivity
 	 * @return void
-	 * @throws \OCP\DB\Exception
 	 */
 	public function editBill(
 		string $projectId, int $billId, ?string $date, ?string $what, ?int $payer, ?string $payedFor,
@@ -324,7 +297,6 @@ interface IProjectService {
 	 * @param string $projectId
 	 * @param int $billId
 	 * @return array
-	 * @throws \OCP\DB\Exception
 	 */
 	public function repeatBill(string $projectId, int $billId): array;
 
@@ -347,17 +319,16 @@ interface IProjectService {
 	/**
 	 * @param string $projectId
 	 * @param int $pmId
-	 * @return array|true[]
-	 * @throws \OCP\DB\Exception
+	 * @return void
 	 */
-	public function deletePaymentMode(string $projectId, int $pmId): array;
+	public function deletePaymentMode(string $projectId, int $pmId): void;
 
 	/**
 	 * @param string $projectId
 	 * @param array $order
-	 * @return bool
+	 * @return void
 	 */
-	public function savePaymentModeOrder(string $projectId, array $order): bool;
+	public function savePaymentModeOrder(string $projectId, array $order): void;
 
 	/**
 	 * @param string $projectId
@@ -388,20 +359,18 @@ interface IProjectService {
 	 *
 	 * @param string $projectId
 	 * @param int $categoryId
-	 * @return array
-	 * @throws \OCP\DB\Exception
+	 * @return void
 	 */
-	public function deleteCategory(string $projectId, int $categoryId): array;
+	public function deleteCategory(string $projectId, int $categoryId): void;
 
 	/**
 	 * Save the manual category order
 	 *
 	 * @param string $projectId
 	 * @param array $order
-	 * @return bool
-	 * @throws \OCP\DB\Exception
+	 * @return void
 	 */
-	public function saveCategoryOrder(string $projectId, array $order): bool;
+	public function saveCategoryOrder(string $projectId, array $order): void;
 
 	/**
 	 * Edit a category
@@ -412,7 +381,6 @@ interface IProjectService {
 	 * @param string|null $icon
 	 * @param string|null $color
 	 * @return array
-	 * @throws \OCP\DB\Exception
 	 */
 	public function editCategory(
 		string $projectId, int $categoryId, ?string $name = null, ?string $icon = null, ?string $color = null
@@ -425,7 +393,6 @@ interface IProjectService {
 	 * @param string $name
 	 * @param float $rate
 	 * @return int
-	 * @throws \OCP\DB\Exception
 	 */
 	public function createCurrency(string $projectId, string $name, float $rate): int;
 
@@ -434,10 +401,9 @@ interface IProjectService {
 	 *
 	 * @param string $projectId
 	 * @param int $currencyId
-	 * @return array
-	 * @throws \OCP\DB\Exception
+	 * @return void
 	 */
-	public function deleteCurrency(string $projectId, int $currencyId): array;
+	public function deleteCurrency(string $projectId, int $currencyId): void;
 
 	/**
 	 * Edit a currency
@@ -445,9 +411,8 @@ interface IProjectService {
 	 * @param string $projectId
 	 * @param int $currencyId
 	 * @param string $name
-	 * @param float $exchange_rate
+	 * @param float $rate
 	 * @return array
-	 * @throws \OCP\DB\Exception
 	 */
-	public function editCurrency(string $projectId, int $currencyId, string $name, float $exchange_rate): array;
+	public function editCurrency(string $projectId, int $currencyId, string $name, float $rate): array;
 }

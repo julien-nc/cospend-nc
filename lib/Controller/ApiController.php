@@ -40,6 +40,7 @@ use OCP\Files\NotPermittedException;
 use OCP\IL10N;
 
 use OCP\IRequest;
+use OCP\Lock\LockedException;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 
@@ -898,8 +899,16 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Payment-modes'])]
 	#[SupportFederatedProject]
 	public function createPaymentMode(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
-		$result = $this->localProjectService->createPaymentMode($projectId, $name, $icon, $color, $order);
-		return new DataResponse($result);
+		try {
+			$insertedId = $this->projectService->createPaymentMode($projectId, $name, $icon, $color, $order);
+			return new DataResponse($insertedId);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], $e->getCode());
+		}
 	}
 
 	/**
@@ -922,11 +931,16 @@ class ApiController extends OCSController {
 	public function editPaymentMode(
 		string $projectId, int $pmId, ?string $name = null, ?string $icon = null, ?string $color = null
 	): DataResponse {
-		$result = $this->localProjectService->editPaymentMode($projectId, $pmId, $name, $icon, $color);
-		if (isset($result['name'])) {
-			return new DataResponse($result);
+		try {
+			$pm = $this->projectService->editPaymentMode($projectId, $pmId, $name, $icon, $color);
+			return new DataResponse($pm);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -944,10 +958,16 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Payment-modes'])]
 	#[SupportFederatedProject]
 	public function savePaymentModeOrder(string $projectId, array $order): DataResponse {
-		if ($this->localProjectService->savePaymentModeOrder($projectId, $order)) {
+		try {
+			$this->projectService->savePaymentModeOrder($projectId, $order);
 			return new DataResponse('');
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse('', Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -956,7 +976,6 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param int $pmId
 	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
-	 * @throws Exception
 	 *
 	 * 200: The payment mode was successfully deleted
 	 * 400: Failed to delete the payment mode
@@ -966,11 +985,16 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Payment-modes'])]
 	#[SupportFederatedProject]
 	public function deletePaymentMode(string $projectId, int $pmId): DataResponse {
-		$result = $this->localProjectService->deletePaymentMode($projectId, $pmId);
-		if (isset($result['success'])) {
+		try {
+			$this->projectService->deletePaymentMode($projectId, $pmId);
 			return new DataResponse('');
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -991,8 +1015,16 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Categories'])]
 	#[SupportFederatedProject]
 	public function createCategory(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
-		$result = $this->localProjectService->createCategory($projectId, $name, $icon, $color, $order);
-		return new DataResponse($result);
+		try {
+			$insertedId = $this->projectService->createCategory($projectId, $name, $icon, $color, $order);
+			return new DataResponse($insertedId);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		}
 	}
 
 	/**
@@ -1004,7 +1036,6 @@ class ApiController extends OCSController {
 	 * @param string|null $icon
 	 * @param string|null $color
 	 * @return DataResponse<Http::STATUS_OK, CospendCategory, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
-	 * @throws Exception
 	 *
 	 * 200: The category was successfully edited
 	 * 400: Failed to edit the category
@@ -1016,11 +1047,16 @@ class ApiController extends OCSController {
 	public function editCategory(
 		string $projectId, int $categoryId, ?string $name = null, ?string $icon = null, ?string $color = null
 	): DataResponse {
-		$result = $this->localProjectService->editCategory($projectId, $categoryId, $name, $icon, $color);
-		if (isset($result['name'])) {
-			return new DataResponse($result);
+		try {
+			$category = $this->projectService->editCategory($projectId, $categoryId, $name, $icon, $color);
+			return new DataResponse($category);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 
@@ -1030,7 +1066,6 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param array<array{order: int, id: int}> $order
 	 * @return DataResponse<Http::STATUS_OK, true, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, false, array{}>
-	 * @throws Exception
 	 *
 	 * 200: The category order was successfully saved
 	 * 400: Failed to save the category order
@@ -1040,10 +1075,16 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Categories'])]
 	#[SupportFederatedProject]
 	public function saveCategoryOrder(string $projectId, array $order): DataResponse {
-		if ($this->localProjectService->saveCategoryOrder($projectId, $order)) {
+		try {
+			$this->projectService->saveCategoryOrder($projectId, $order);
 			return new DataResponse(true);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse(false, Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -1052,7 +1093,6 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param int $categoryId
 	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
-	 * @throws Exception
 	 *
 	 * 200: The category was successfully deleted
 	 * 400: Failed to delete the category
@@ -1062,11 +1102,16 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Categories'])]
 	#[SupportFederatedProject]
 	public function deleteCategory(string $projectId, int $categoryId): DataResponse {
-		$result = $this->localProjectService->deleteCategory($projectId, $categoryId);
-		if (isset($result['success'])) {
+		try {
+			$this->projectService->deleteCategory($projectId, $categoryId);
 			return new DataResponse('');
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -1076,7 +1121,6 @@ class ApiController extends OCSController {
 	 * @param string $name
 	 * @param float $rate
 	 * @return DataResponse<Http::STATUS_OK, int, array{}>
-	 * @throws Exception
 	 *
 	 * 200: The currency was successfully created
 	 * 400: Failed to create the currency
@@ -1086,8 +1130,16 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Currencies'])]
 	#[SupportFederatedProject]
 	public function createCurrency(string $projectId, string $name, float $rate): DataResponse {
-		$result = $this->localProjectService->createCurrency($projectId, $name, $rate);
-		return new DataResponse($result);
+		try {
+			$insertedId = $this->projectService->createCurrency($projectId, $name, $rate);
+			return new DataResponse($insertedId);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		}
 	}
 
 	/**
@@ -1098,7 +1150,6 @@ class ApiController extends OCSController {
 	 * @param string $name
 	 * @param float $rate
 	 * @return DataResponse<Http::STATUS_OK, CospendCurrency, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
-	 * @throws Exception
 	 *
 	 * 200: The currency was successfully edited
 	 * 400: Failed to edit the currency
@@ -1108,11 +1159,16 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Currencies'])]
 	#[SupportFederatedProject]
 	public function editCurrency(string $projectId, int $currencyId, string $name, float $rate): DataResponse {
-		$result = $this->localProjectService->editCurrency($projectId, $currencyId, $name, $rate);
-		if (!isset($result['message'])) {
-			return new DataResponse($result);
+		try {
+			$currency = $this->projectService->editCurrency($projectId, $currencyId, $name, $rate);
+			return new DataResponse($currency);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -1121,7 +1177,6 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param int $currencyId
 	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
-	 * @throws Exception
 	 *
 	 * 200: The currency was successfully deleted
 	 * 400: Failed to delete the currency
@@ -1131,11 +1186,16 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Currencies'])]
 	#[SupportFederatedProject]
 	public function deleteCurrency(string $projectId, int $currencyId): DataResponse {
-		$result = $this->localProjectService->deleteCurrency($projectId, $currencyId);
-		if (isset($result['success'])) {
+		try {
+			$this->projectService->deleteCurrency($projectId, $currencyId);
 			return new DataResponse('');
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -1483,16 +1543,19 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param string|null $name
 	 * @return DataResponse<Http::STATUS_OK, array{path: string}, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{message: string}, array{}>
-	 * @throws NoUserException
-	 * @throws NotFoundException
-	 * @throws NotPermittedException
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	#[SupportFederatedProject]
 	public function exportCsvProject(string $projectId, ?string $name = null): DataResponse {
-		$result = $this->localProjectService->exportCsvProject($projectId, $this->userId, $name);
+		try {
+			$result = $this->localProjectService->exportCsvProject($projectId, $this->userId, $name);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		}
 		if (isset($result['path'])) {
 			return new DataResponse(['path' => $result['path']]);
 		}

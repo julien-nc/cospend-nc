@@ -43,10 +43,8 @@ export function exportProject(filename, projectId, projectName) {
 			showSuccess(t('cospend', 'Project {name} exported in {path}', { name: projectName, path: response.data.ocs.data.path }))
 		})
 		.catch((error) => {
-			showError(
-				t('cospend', 'Failed to export project')
-				+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
-			)
+			showError(t('cospend', 'Failed to export project'))
+			console.error(error)
 		})
 }
 

@@ -291,17 +291,17 @@ class FederatedProjectService implements IProjectService {
 
 	public function editProject(
 		string  $projectId, ?string $name = null, ?string $contact_email = null,
-		?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
-		?string $categorysort = null, ?string $paymentmodesort = null, ?int $archivedTs = null
+		?string $autoExport = null, ?string $currencyName = null, ?bool $deletionDisabled = null,
+		?string $categorySort = null, ?string $paymentModeSort = null, ?int $archivedTs = null
 	): void {
 		$params = [
 			'name' => $name,
 			'contact_email' => $contact_email,
-			'autoexport' => $autoexport,
-			'currencyname' => $currencyname,
-			'deletion_disabled' => $deletion_disabled,
-			'categorysort' => $categorysort,
-			'paymentmodesort' => $paymentmodesort,
+			'autoExport' => $autoExport,
+			'currencyName' => $currencyName,
+			'deletionDisabled' => $deletionDisabled,
+			'categorySort' => $categorySort,
+			'paymentModeSort' => $paymentModeSort,
 			'archivedTs' => $archivedTs,
 		];
 		$this->request($projectId, 'api/v1/public/projects/{token}/{password}', $params, 'PUT');
@@ -347,146 +347,85 @@ class FederatedProjectService implements IProjectService {
 	}
 
 	public function createPaymentMode(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): int {
+		$params = [
+			'name' => $name,
+			'icon' => $icon,
+			'color' => $color,
+			'order' => $order,
+		];
+		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/paymentmode', $params, 'POST');
 	}
 
-	public function deletePaymentMode(string $projectId, int $pmId): array {
+
+	public function editPaymentMode(string $projectId, int $pmId, ?string $name = null, ?string $icon = null, ?string $color = null): array {
+		$params = [
+			'name' => $name,
+			'icon' => $icon,
+			'color' => $color,
+		];
+		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/paymentmode/' . $pmId, $params, 'PUT');
 	}
 
-	public function savePaymentModeOrder(string $projectId, array $order): bool {
+	public function deletePaymentMode(string $projectId, int $pmId): void {
+		$this->request($projectId, 'api/v1/public/projects/{token}/{password}/paymentmode/' . $pmId, [], 'DELETE');
 	}
 
-	public function editPaymentMode(
-		string $projectId, int $pmId, ?string $name = null, ?string $icon = null, ?string $color = null
-	): array {
+	public function savePaymentModeOrder(string $projectId, array $order): void {
+		$params = [
+			'order' => $order,
+		];
+		$this->request($projectId, 'api/v1/public/projects/{token}/{password}/paymentmode-order', $params, 'PUT');
 	}
 
 	public function createCategory(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): int {
+		$params = [
+			'name' => $name,
+			'icon' => $icon,
+			'color' => $color,
+			'order' => $order,
+		];
+		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/category', $params, 'POST');
 	}
 
-	public function deleteCategory(string $projectId, int $categoryId): array {
+	public function deleteCategory(string $projectId, int $categoryId): void {
+		$this->request($projectId, 'api/v1/public/projects/{token}/{password}/category/' . $categoryId, [], 'DELETE');
 	}
 
-	public function saveCategoryOrder(string $projectId, array $order): bool {
+	public function saveCategoryOrder(string $projectId, array $order): void {
+		$params = [
+			'order' => $order,
+		];
+		$this->request($projectId, 'api/v1/public/projects/{token}/{password}/category-order', $params, 'PUT');
 	}
 
 	public function editCategory(
 		string $projectId, int $categoryId, ?string $name = null, ?string $icon = null, ?string $color = null
 	): array {
+		$params = [
+			'name' => $name,
+			'icon' => $icon,
+			'color' => $color,
+		];
+		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/category/' . $categoryId, $params, 'PUT');
 	}
 
 	public function createCurrency(string $projectId, string $name, float $rate): int {
+		$params = [
+			'name' => $name,
+			'rate' => $rate,
+		];
+		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/currency', $params, 'POST');
 	}
 
-	public function deleteCurrency(string $projectId, int $currencyId): array {
+	public function deleteCurrency(string $projectId, int $currencyId): void {
+		$this->request($projectId, 'api/v1/public/projects/{token}/{password}/currency/' . $currencyId, [], 'DELETE');
 	}
 
-	public function editCurrency(string $projectId, int $currencyId, string $name, float $exchange_rate): array {
-	}
-
-	/**
-	 * TODO: adjust to get info from remote federated project
-	 *
-	 * @param string $projectId
-	 * @return Generator
-	 * @throws \OCP\DB\Exception
-	 */
-	public function getJsonProject(string $projectId): Generator {
-		// members
-		yield "name,weight,active,color\n";
-		$projectInfo = $this->getProjectInfo($projectId);
-		$members = $projectInfo['members'];
-		$memberIdToName = [];
-		$memberIdToWeight = [];
-		$memberIdToActive = [];
-		foreach ($members as $member) {
-			$memberIdToName[$member['id']] = $member['name'];
-			$memberIdToWeight[$member['id']] = $member['weight'];
-			$memberIdToActive[$member['id']] = (int) $member['activated'];
-			$c = $member['color'];
-			yield '"' . $member['name'] . '",'
-				. (float) $member['weight'] . ','
-				. (int) $member['activated'] . ',"'
-				. sprintf("#%02x%02x%02x", $c['r'] ?? 0, $c['g'] ?? 0, $c['b'] ?? 0) . '"'
-				. "\n";
-		}
-		// bills
-		yield "\nwhat,amount,date,timestamp,payer_name,payer_weight,payer_active,owers,repeat,repeatfreq,repeatallactive,repeatuntil,categoryid,paymentmode,paymentmodeid,comment,deleted\n";
-		$bills = $this->billMapper->getBills(
-			$projectId, null, null, null, null, null,
-			null, null, null, null, false, null, null
-		);
-		foreach ($bills as $bill) {
-			$owerNames = [];
-			foreach ($bill['owers'] as $ower) {
-				$owerNames[] = $ower['name'];
-			}
-			$owersTxt = implode(',', $owerNames);
-
-			$payer_id = $bill['payer_id'];
-			$payer_name = $memberIdToName[$payer_id];
-			$payer_weight = $memberIdToWeight[$payer_id];
-			$payer_active = $memberIdToActive[$payer_id];
-			$dateTime = DateTime::createFromFormat('U', $bill['timestamp']);
-			$oldDateStr = $dateTime->format('Y-m-d');
-			yield '"' . $bill['what'] . '",'
-				. (float) $bill['amount'] . ','
-				. $oldDateStr . ','
-				. $bill['timestamp'] . ',"'
-				. $payer_name . '",'
-				. (float) $payer_weight . ','
-				. $payer_active . ',"'
-				. $owersTxt . '",'
-				. $bill['repeat'] . ','
-				. $bill['repeatfreq'] . ','
-				. $bill['repeatallactive'] .','
-				. $bill['repeatuntil'] . ','
-				. $bill['categoryid'] . ','
-				. $bill['paymentmode'] . ','
-				. $bill['paymentmodeid'] . ',"'
-				. urlencode($bill['comment']) . '",'
-				. $bill['deleted']
-				. "\n";
-		}
-
-		// write categories
-		$categories = $projectInfo['categories'];
-		if (count($categories) > 0) {
-			yield "\ncategoryname,categoryid,icon,color\n";
-			foreach ($categories as $id => $cat) {
-				yield '"' . $cat['name'] . '",' .
-					(int) $id . ',"' .
-					$cat['icon'] . '","' .
-					$cat['color'] . '"' .
-					"\n";
-			}
-		}
-
-		// write payment modes
-		$paymentModes = $projectInfo['paymentmodes'];
-		if (count($paymentModes) > 0) {
-			yield "\npaymentmodename,paymentmodeid,icon,color\n";
-			foreach ($paymentModes as $id => $pm) {
-				yield '"' . $pm['name'] . '",' .
-					(int) $id . ',"' .
-					$pm['icon'] . '","' .
-					$pm['color'] . '"' .
-					"\n";
-			}
-		}
-
-		// write currencies
-		$currencies = $projectInfo['currencies'];
-		if (count($currencies) > 0) {
-			yield "\ncurrencyname,exchange_rate\n";
-			// main currency
-			yield '"' . $projectInfo['currencyname'] . '",1' . "\n";
-			foreach ($currencies as $cur) {
-				yield '"' . $cur['name']
-					. '",' . (float) $cur['exchange_rate']
-					. "\n";
-			}
-		}
-
-		return [];
+	public function editCurrency(string $projectId, int $currencyId, string $name, float $rate): array {
+		$params = [
+			'name' => $name,
+			'rate' => $rate,
+		];
+		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/currency/' . $currencyId, $params, 'PUT');
 	}
 }

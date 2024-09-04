@@ -900,13 +900,16 @@ class OldApiController extends ApiController {
 	public function apiEditPaymentMode(string $token, int $pmid, ?string $name = null,
 		?string $icon = null, ?string $color = null): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->editPaymentMode(
-			$publicShareInfo['projectid'], $pmid, $name, $icon, $color
-		);
-		if (isset($result['name'])) {
-			return new DataResponse($result);
+		try {
+			$pm = $this->localProjectService->editPaymentMode(
+				$publicShareInfo['projectid'], $pmid, $name, $icon, $color
+			);
+			return new DataResponse($pm);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, Http::STATUS_FORBIDDEN);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_FORBIDDEN);
 		}
-		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
 	#[NoAdminRequired]
@@ -917,10 +920,12 @@ class OldApiController extends ApiController {
 	#[BruteForceProtection(action: 'CospendPublicSavePmOrder')]
 	public function apiSavePaymentModeOrder(string $token, array $order): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		if ($this->localProjectService->savePaymentModeOrder($publicShareInfo['projectid'], $order)) {
+		try {
+			$this->localProjectService->savePaymentModeOrder($publicShareInfo['projectid'], $order);
 			return new DataResponse(true);
+		} catch (\Throwable $e) {
+			return new DataResponse(false, Http::STATUS_FORBIDDEN);
 		}
-		return new DataResponse(false, Http::STATUS_FORBIDDEN);
 	}
 
 	#[NoAdminRequired]
@@ -929,11 +934,14 @@ class OldApiController extends ApiController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivEditPaymentMode(string $projectId, int $pmid, ?string $name = null,
 		?string $icon = null, ?string $color = null): DataResponse {
-		$result = $this->localProjectService->editPaymentMode($projectId, $pmid, $name, $icon, $color);
-		if (isset($result['name'])) {
-			return new DataResponse($result);
+		try {
+			$pm = $this->localProjectService->editPaymentMode($projectId, $pmid, $name, $icon, $color);
+			return new DataResponse($pm);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, Http::STATUS_FORBIDDEN);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_FORBIDDEN);
 		}
-		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
 	#[NoAdminRequired]
@@ -944,11 +952,14 @@ class OldApiController extends ApiController {
 	#[BruteForceProtection(action: 'CospendPublicDeletePM')]
 	public function apiDeletePaymentMode(string $token, int $pmid): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->deletePaymentMode($publicShareInfo['projectid'], $pmid);
-		if (isset($result['success'])) {
+		try {
+			$this->localProjectService->deletePaymentMode($publicShareInfo['projectid'], $pmid);
 			return new DataResponse($pmid);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	#[NoAdminRequired]
@@ -956,11 +967,14 @@ class OldApiController extends ApiController {
 	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivDeletePaymentMode(string $projectId, int $pmid): DataResponse {
-		$result = $this->localProjectService->deletePaymentMode($projectId, $pmid);
-		if (isset($result['success'])) {
+		try {
+			$this->localProjectService->deletePaymentMode($projectId, $pmid);
 			return new DataResponse($pmid);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	#[NoAdminRequired]
@@ -995,13 +1009,16 @@ class OldApiController extends ApiController {
 	public function apiEditCategory(string $token, int $categoryid, ?string $name = null,
 		?string $icon = null, ?string $color = null): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->editCategory(
-			$publicShareInfo['projectid'], $categoryid, $name, $icon, $color
-		);
-		if (isset($result['name'])) {
-			return new DataResponse($result);
+		try {
+			$category = $this->localProjectService->editCategory(
+				$publicShareInfo['projectid'], $categoryid, $name, $icon, $color
+			);
+			return new DataResponse($category);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, Http::STATUS_FORBIDDEN);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_FORBIDDEN);
 		}
-		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
 	#[NoAdminRequired]
@@ -1012,10 +1029,14 @@ class OldApiController extends ApiController {
 	#[BruteForceProtection(action: 'CospendPublicSaveCatOrder')]
 	public function apiSaveCategoryOrder(string $token, array $order): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		if ($this->localProjectService->saveCategoryOrder($publicShareInfo['projectid'], $order)) {
+		try {
+			$this->localProjectService->saveCategoryOrder($publicShareInfo['projectid'], $order);
 			return new DataResponse(true);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, Http::STATUS_FORBIDDEN);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_FORBIDDEN);
 		}
-		return new DataResponse(false, Http::STATUS_FORBIDDEN);
 	}
 
 	#[NoAdminRequired]
@@ -1024,11 +1045,14 @@ class OldApiController extends ApiController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivEditCategory(string $projectId, int $categoryid, ?string $name = null,
 		?string $icon = null, ?string $color = null): DataResponse {
-		$result = $this->localProjectService->editCategory($projectId, $categoryid, $name, $icon, $color);
-		if (isset($result['name'])) {
-			return new DataResponse($result);
+		try {
+			$category = $this->localProjectService->editCategory($projectId, $categoryid, $name, $icon, $color);
+			return new DataResponse($category);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, Http::STATUS_FORBIDDEN);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_FORBIDDEN);
 		}
-		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
 	#[NoAdminRequired]
@@ -1039,11 +1063,14 @@ class OldApiController extends ApiController {
 	#[BruteForceProtection(action: 'CospendPublicDeleteCat')]
 	public function apiDeleteCategory(string $token, int $categoryid): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->deleteCategory($publicShareInfo['projectid'], $categoryid);
-		if (isset($result['success'])) {
+		try {
+			$this->localProjectService->deleteCategory($publicShareInfo['projectid'], $categoryid);
 			return new DataResponse($categoryid);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	#[NoAdminRequired]
@@ -1051,11 +1078,14 @@ class OldApiController extends ApiController {
 	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivDeleteCategory(string $projectId, int $categoryid): DataResponse {
-		$result = $this->localProjectService->deleteCategory($projectId, $categoryid);
-		if (isset($result['success'])) {
+		try {
+			$this->localProjectService->deleteCategory($projectId, $categoryid);
 			return new DataResponse($categoryid);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	#[NoAdminRequired]
@@ -1087,13 +1117,16 @@ class OldApiController extends ApiController {
 	#[BruteForceProtection(action: 'CospendPublicEditCur')]
 	public function apiEditCurrency(string $token, int $currencyid, string $name, float $rate): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->editCurrency(
-			$publicShareInfo['projectid'], $currencyid, $name, $rate
-		);
-		if (!isset($result['message'])) {
-			return new DataResponse($result);
+		try {
+			$currency = $this->localProjectService->editCurrency(
+				$publicShareInfo['projectid'], $currencyid, $name, $rate
+			);
+			return new DataResponse($currency);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, Http::STATUS_FORBIDDEN);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_FORBIDDEN);
 		}
-		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
 	#[NoAdminRequired]
@@ -1101,11 +1134,14 @@ class OldApiController extends ApiController {
 	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivEditCurrency(string $projectId, int $currencyid, string $name, float $rate): DataResponse {
-		$result = $this->localProjectService->editCurrency($projectId, $currencyid, $name, $rate);
-		if (!isset($result['message'])) {
-			return new DataResponse($result);
+		try {
+			$currency = $this->localProjectService->editCurrency($projectId, $currencyid, $name, $rate);
+			return new DataResponse($currency);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, Http::STATUS_FORBIDDEN);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_FORBIDDEN);
 		}
-		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
 	#[NoAdminRequired]
@@ -1116,11 +1152,14 @@ class OldApiController extends ApiController {
 	#[BruteForceProtection(action: 'CospendPublicDeleteCur')]
 	public function apiDeleteCurrency(string $token, int $currencyid): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->deleteCurrency($publicShareInfo['projectid'], $currencyid);
-		if (isset($result['success'])) {
+		try {
+			$this->localProjectService->deleteCurrency($publicShareInfo['projectid'], $currencyid);
 			return new DataResponse($currencyid);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, Http::STATUS_BAD_REQUEST);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	#[NoAdminRequired]
@@ -1128,11 +1167,14 @@ class OldApiController extends ApiController {
 	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	public function apiPrivDeleteCurrency(string $projectId, int $currencyid): DataResponse {
-		$result = $this->localProjectService->deleteCurrency($projectId, $currencyid);
-		if (isset($result['success'])) {
+		try {
+			$this->localProjectService->deleteCurrency($projectId, $currencyid);
 			return new DataResponse($currencyid);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, Http::STATUS_BAD_REQUEST);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	/**

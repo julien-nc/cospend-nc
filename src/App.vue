@@ -880,7 +880,11 @@ export default {
 				response.data.ocs.data.forEach(projectId => {
 					network.getProjectInfo(projectId).then(response => {
 						console.debug('---------- FEDERATED PROJECT', response.data.ocs.data)
-						this.addProject(response.data.ocs.data)
+						const project = response.data.ocs.data
+						this.addProject(project)
+						if (cospend.restoredCurrentProjectId !== null && cospend.restoredCurrentProjectId === project.id) {
+							this.selectProject(cospend.restoredCurrentProjectId, false, false, true)
+						}
 					})
 				})
 			})

@@ -796,10 +796,14 @@ class PublicApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Payment-modes'])]
 	public function publicCreatePaymentMode(string $token, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->createPaymentMode(
-			$publicShareInfo['projectid'], $name, $icon, $color, $order
-		);
-		return new DataResponse($result);
+		try {
+			$insertedId = $this->localProjectService->createPaymentMode(
+				$publicShareInfo['projectid'], $name, $icon, $color, $order
+			);
+			return new DataResponse($insertedId);
+		} catch (\Throwable $e) {
+			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
+		}
 	}
 
 	/**
@@ -811,6 +815,7 @@ class PublicApiController extends OCSController {
 	 * @param string|null $icon
 	 * @param string|null $color
 	 * @return DataResponse<Http::STATUS_OK, CospendPaymentMode, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array<string, string>, array{}>
+	 * @throws Exception
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -822,15 +827,15 @@ class PublicApiController extends OCSController {
 		string $token, int $pmId, ?string $name = null, ?string $icon = null, ?string $color = null
 	): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->editPaymentMode(
-			$publicShareInfo['projectid'], $pmId, $name, $icon, $color
-		);
-		if (isset($result['name'])) {
-			/** @var CospendPaymentMode $pm */
-			$pm = $result;
+		try {
+			$pm = $this->localProjectService->editPaymentMode(
+				$publicShareInfo['projectid'], $pmId, $name, $icon, $color
+			);
 			return new DataResponse($pm);
-		} else {
-			return new DataResponse($result, Http::STATUS_FORBIDDEN);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, Http::STATUS_FORBIDDEN);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_FORBIDDEN);
 		}
 	}
 
@@ -840,6 +845,7 @@ class PublicApiController extends OCSController {
 	 * @param string $token
 	 * @param array<array{order: int, id: int}> $order
 	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_FORBIDDEN, '', array{}>
+	 * @throws Exception
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -849,10 +855,11 @@ class PublicApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Payment-modes'])]
 	public function publicSavePaymentModeOrder(string $token, array $order): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		if ($this->localProjectService->savePaymentModeOrder($publicShareInfo['projectid'], $order)) {
+		try {
+			$this->localProjectService->savePaymentModeOrder($publicShareInfo['projectid'], $order);
 			return new DataResponse('');
-		} else {
-			return new DataResponse('', Http::STATUS_FORBIDDEN);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_FORBIDDEN);
 		}
 	}
 
@@ -872,11 +879,13 @@ class PublicApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Payment-modes'])]
 	public function publicDeletePaymentMode(string $token, int $pmId): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->deletePaymentMode($publicShareInfo['projectid'], $pmId);
-		if (isset($result['success'])) {
+		try {
+			$this->localProjectService->deletePaymentMode($publicShareInfo['projectid'], $pmId);
 			return new DataResponse($pmId);
-		} else {
-			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, Http::STATUS_FORBIDDEN);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_FORBIDDEN);
 		}
 	}
 
@@ -889,6 +898,7 @@ class PublicApiController extends OCSController {
 	 * @param string $color
 	 * @param int|null $order
 	 * @return DataResponse<Http::STATUS_OK, int, array{}>
+	 * @throws Exception
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -898,10 +908,14 @@ class PublicApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Categories'])]
 	public function publicCreateCategory(string $token, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->createCategory(
-			$publicShareInfo['projectid'], $name, $icon, $color, $order
-		);
-		return new DataResponse($result);
+		try {
+			$insertedId = $this->localProjectService->createCategory(
+				$publicShareInfo['projectid'], $name, $icon, $color, $order
+			);
+			return new DataResponse($insertedId);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		}
 	}
 
 	/**
@@ -926,13 +940,15 @@ class PublicApiController extends OCSController {
 		?string $name = null, ?string $icon = null, ?string $color = null
 	): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->editCategory(
-			$publicShareInfo['projectid'], $categoryId, $name, $icon, $color
-		);
-		if (isset($result['name'])) {
-			return new DataResponse($result);
-		} else {
-			return new DataResponse($result, Http::STATUS_FORBIDDEN);
+		try {
+			$category = $this->localProjectService->editCategory(
+				$publicShareInfo['projectid'], $categoryId, $name, $icon, $color
+			);
+			return new DataResponse($category);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, Http::STATUS_FORBIDDEN);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_FORBIDDEN);
 		}
 	}
 
@@ -955,10 +971,13 @@ class PublicApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Categories'])]
 	public function publicSaveCategoryOrder(string $token, array $order): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		if ($this->localProjectService->saveCategoryOrder($publicShareInfo['projectid'], $order)) {
+		try {
+			$this->localProjectService->saveCategoryOrder($publicShareInfo['projectid'], $order);
 			return new DataResponse('');
-		} else {
-			return new DataResponse('', Http::STATUS_FORBIDDEN);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -981,11 +1000,13 @@ class PublicApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Categories'])]
 	public function publicDeleteCategory(string $token, int $categoryId): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->deleteCategory($publicShareInfo['projectid'], $categoryId);
-		if (isset($result['success'])) {
+		try {
+			$this->localProjectService->deleteCategory($publicShareInfo['projectid'], $categoryId);
 			return new DataResponse($categoryId);
-		} else {
-			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -1006,8 +1027,12 @@ class PublicApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Currencies'])]
 	public function publicCreateCurrency(string $token, string $name, float $rate): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->createCurrency($publicShareInfo['projectid'], $name, $rate);
-		return new DataResponse($result);
+		try {
+			$result = $this->localProjectService->createCurrency($publicShareInfo['projectid'], $name, $rate);
+			return new DataResponse($result);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		}
 	}
 
 	/**
@@ -1028,13 +1053,15 @@ class PublicApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Currencies'])]
 	public function publicEditCurrency(string $token, int $currencyId, string $name, float $rate): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->editCurrency(
-			$publicShareInfo['projectid'], $currencyId, $name, $rate
-		);
-		if (!isset($result['message'])) {
-			return new DataResponse($result);
-		} else {
-			return new DataResponse($result, Http::STATUS_FORBIDDEN);
+		try {
+			$currency = $this->localProjectService->editCurrency(
+				$publicShareInfo['projectid'], $currencyId, $name, $rate
+			);
+			return new DataResponse($currency);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -1054,11 +1081,13 @@ class PublicApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Currencies'])]
 	public function publicDeleteCurrency(string $token, int $currencyId): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->deleteCurrency($publicShareInfo['projectid'], $currencyId);
-		if (isset($result['success'])) {
+		try {
+			$this->localProjectService->deleteCurrency($publicShareInfo['projectid'], $currencyId);
 			return new DataResponse('');
-		} else {
-			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 }

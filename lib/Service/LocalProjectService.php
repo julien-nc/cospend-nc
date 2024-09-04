@@ -36,6 +36,7 @@ use OCP\AppFramework\Http;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
 use OCP\Files\Folder;
+use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -47,6 +48,7 @@ use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUserManager;
+use OCP\Lock\LockedException;
 use OCP\Notification\IManager as INotificationManager;
 use Throwable;
 
@@ -356,6 +358,9 @@ class LocalProjectService implements IProjectService {
 			$dbProject = $this->projectMapper->find($projectId);
 		} catch (Exception | Throwable $e) {
 			return null;
+		}
+		if ($dbProject === null) {
+			throw new CospendBasicException('', Http::STATUS_NOT_FOUND, ['error' => 'project not found']);
 		}
 		$dbProjectId = $dbProject->getId();
 
@@ -1415,8 +1420,8 @@ class LocalProjectService implements IProjectService {
 
 	public function editProject(
 		string  $projectId, ?string $name = null, ?string $contact_email = null,
-		?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
-		?string $categorysort = null, ?string $paymentmodesort = null, ?int $archivedTs = null
+		?string $autoExport = null, ?string $currencyName = null, ?bool $deletionDisabled = null,
+		?string $categorySort = null, ?string $paymentModeSort = null, ?int $archivedTs = null
 	): void {
 		$dbProject = $this->projectMapper->find($projectId);
 		if ($dbProject === null) {
@@ -1428,13 +1433,13 @@ class LocalProjectService implements IProjectService {
 		if ($contact_email !== null && $contact_email !== '' && filter_var($contact_email, FILTER_VALIDATE_EMAIL) === false) {
 			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['contact_email' => $this->l10n->t('Invalid email address')]);
 		}
-		if ($autoexport !== null && $autoexport !== ''&& !in_array($autoexport, Application::FREQUENCIES)) {
+		if ($autoExport !== null && $autoExport !== ''&& !in_array($autoExport, Application::FREQUENCIES)) {
 			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['autoexport' => $this->l10n->t('Invalid frequency')]);
 		}
-		if ($categorysort !== null && $categorysort !== '' && !in_array($categorysort, Application::SORT_ORDERS)) {
+		if ($categorySort !== null && $categorySort !== '' && !in_array($categorySort, Application::SORT_ORDERS)) {
 			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['categorysort' => $this->l10n->t('Invalid sort order')]);
 		}
-		if ($paymentmodesort !== null && $paymentmodesort !== '' && !in_array($paymentmodesort, Application::SORT_ORDERS)) {
+		if ($paymentModeSort !== null && $paymentModeSort !== '' && !in_array($paymentModeSort, Application::SORT_ORDERS)) {
 			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['paymentmodesort' => $this->l10n->t('Invalid sort order')]);
 		}
 
@@ -1457,20 +1462,20 @@ class LocalProjectService implements IProjectService {
 			$dbProject->setEmail($contact_email);
 		}
 
-		if ($autoexport !== null && $autoexport !== '') {
-			$dbProject->setAutoexport($autoexport);
+		if ($autoExport !== null && $autoExport !== '') {
+			$dbProject->setAutoexport($autoExport);
 		}
-		if ($categorysort !== null && $categorysort !== '') {
-			$dbProject->setCategorysort($categorysort);
+		if ($categorySort !== null && $categorySort !== '') {
+			$dbProject->setCategorysort($categorySort);
 		}
-		if ($paymentmodesort !== null && $paymentmodesort !== '') {
-			$dbProject->setPaymentmodesort($paymentmodesort);
+		if ($paymentModeSort !== null && $paymentModeSort !== '') {
+			$dbProject->setPaymentmodesort($paymentModeSort);
 		}
-		if ($deletion_disabled !== null) {
-			$dbProject->setDeletiondisabled($deletion_disabled ? 1 : 0);
+		if ($deletionDisabled !== null) {
+			$dbProject->setDeletiondisabled($deletionDisabled ? 1 : 0);
 		}
-		if ($currencyname !== null) {
-			$dbProject->setCurrencyname($currencyname === '' ? null : $currencyname);
+		if ($currencyName !== null) {
+			$dbProject->setCurrencyname($currencyName === '' ? null : $currencyName);
 		}
 		$ts = (new DateTime())->getTimestamp();
 		$dbProject->setLastchanged($ts);
@@ -2939,6 +2944,7 @@ class LocalProjectService implements IProjectService {
 	 * @param string $color
 	 * @param int|null $order
 	 * @return int
+	 * @throws \OCP\DB\Exception
 	 */
 	public function createPaymentMode(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): int {
 		$qb = $this->db->getQueryBuilder();
@@ -3003,46 +3009,45 @@ class LocalProjectService implements IProjectService {
 	/**
 	 * @param string $projectId
 	 * @param int $pmId
-	 * @return array|true[]
+	 * @return void
+	 * @throws CospendBasicException
 	 * @throws \OCP\DB\Exception
 	 */
-	public function deletePaymentMode(string $projectId, int $pmId): array {
+	public function deletePaymentMode(string $projectId, int $pmId): void {
 		$pmToDelete = $this->getPaymentMode($projectId, $pmId);
-		if ($pmToDelete !== null) {
-			$qb = $this->db->getQueryBuilder();
-			$qb->delete('cospend_paymentmodes')
-				->where(
-					$qb->expr()->eq('id', $qb->createNamedParameter($pmId, IQueryBuilder::PARAM_INT))
-				)
-				->andWhere(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-				);
-			$qb->executeStatement();
-
-			// then get rid of this pm in bills
-			$qb = $this->db->getQueryBuilder();
-			$qb->update('cospend_bills');
-			$qb->set('paymentmodeid', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
-				->where(
-					$qb->expr()->eq('paymentmodeid', $qb->createNamedParameter($pmId, IQueryBuilder::PARAM_INT))
-				)
-				->andWhere(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-				);
-			$qb->executeStatement();
-
-			return ['success' => true];
-		} else {
-			return ['message' => $this->l10n->t('Not found')];
+		if ($pmToDelete === null) {
+			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('Not found')]);
 		}
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('cospend_paymentmodes')
+			->where(
+				$qb->expr()->eq('id', $qb->createNamedParameter($pmId, IQueryBuilder::PARAM_INT))
+			)
+			->andWhere(
+				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+			);
+		$qb->executeStatement();
+
+		// then get rid of this pm in bills
+		$qb = $this->db->getQueryBuilder();
+		$qb->update('cospend_bills');
+		$qb->set('paymentmodeid', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+			->where(
+				$qb->expr()->eq('paymentmodeid', $qb->createNamedParameter($pmId, IQueryBuilder::PARAM_INT))
+			)
+			->andWhere(
+				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+			);
+		$qb->executeStatement();
 	}
 
 	/**
 	 * @param string $projectId
 	 * @param array $order
-	 * @return bool
+	 * @return void
+	 * @throws \OCP\DB\Exception
 	 */
-	public function savePaymentModeOrder(string $projectId, array $order): bool {
+	public function savePaymentModeOrder(string $projectId, array $order): void {
 		$qb = $this->db->getQueryBuilder();
 		foreach ($order as $o) {
 			$qb->update('cospend_paymentmodes');
@@ -3056,7 +3061,6 @@ class LocalProjectService implements IProjectService {
 			$qb->executeStatement();
 			$qb = $this->db->getQueryBuilder();
 		}
-		return true;
 	}
 
 	/**
@@ -3066,6 +3070,8 @@ class LocalProjectService implements IProjectService {
 	 * @param string|null $icon
 	 * @param string|null $color
 	 * @return array
+	 * @throws CospendBasicException
+	 * @throws \OCP\DB\Exception
 	 */
 	public function editPaymentMode(
 		string $projectId, int $pmId, ?string $name = null, ?string $icon = null, ?string $color = null
@@ -3091,14 +3097,14 @@ class LocalProjectService implements IProjectService {
 
 				$pm = $this->getPaymentMode($projectId, $pmId);
 				if ($pm === null) {
-					return ['message' => $this->l10n->t('Impossible to get the edited payment mode')];
+					throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('Impossible to get the edited payment mode')]);
 				}
 				return $pm;
 			} else {
-				return ['message' => $this->l10n->t('This project has no such payment mode')];
+				throw new CospendBasicException('', Http::STATUS_BAD_REQUEST,['message' => $this->l10n->t('This project has no such payment mode')] );
 			}
 		} else {
-			return ['message' => $this->l10n->t('Incorrect field values')];
+			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('Incorrect field values')]);
 		}
 	}
 
@@ -3111,6 +3117,7 @@ class LocalProjectService implements IProjectService {
 	 * @param string $color
 	 * @param int|null $order
 	 * @return int
+	 * @throws \OCP\DB\Exception
 	 */
 	public function createCategory(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): int {
 		$qb = $this->db->getQueryBuilder();
@@ -3176,39 +3183,37 @@ class LocalProjectService implements IProjectService {
 	 *
 	 * @param string $projectId
 	 * @param int $categoryId
-	 * @return array
+	 * @return void
+	 * @throws CospendBasicException
 	 * @throws \OCP\DB\Exception
 	 */
-	public function deleteCategory(string $projectId, int $categoryId): array {
+	public function deleteCategory(string $projectId, int $categoryId): void {
 		$categoryToDelete = $this->getCategory($projectId, $categoryId);
-		if ($categoryToDelete !== null) {
-			$qb = $this->db->getQueryBuilder();
-			$qb->delete('cospend_categories')
-				->where(
-					$qb->expr()->eq('id', $qb->createNamedParameter($categoryId, IQueryBuilder::PARAM_INT))
-				)
-				->andWhere(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-				);
-			$qb->executeStatement();
-			$qb = $this->db->getQueryBuilder();
-
-			// then get rid of this category in bills
-			$qb = $this->db->getQueryBuilder();
-			$qb->update('cospend_bills');
-			$qb->set('categoryid', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
-				->where(
-					$qb->expr()->eq('categoryid', $qb->createNamedParameter($categoryId, IQueryBuilder::PARAM_INT))
-				)
-				->andWhere(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-				);
-			$qb->executeStatement();
-
-			return ['success' => true];
-		} else {
-			return ['message' => 'Not found'];
+		if ($categoryToDelete === null) {
+			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => 'not found']);
 		}
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('cospend_categories')
+			->where(
+				$qb->expr()->eq('id', $qb->createNamedParameter($categoryId, IQueryBuilder::PARAM_INT))
+			)
+			->andWhere(
+				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+			);
+		$qb->executeStatement();
+		$qb = $this->db->getQueryBuilder();
+
+		// then get rid of this category in bills
+		$qb = $this->db->getQueryBuilder();
+		$qb->update('cospend_bills');
+		$qb->set('categoryid', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+			->where(
+				$qb->expr()->eq('categoryid', $qb->createNamedParameter($categoryId, IQueryBuilder::PARAM_INT))
+			)
+			->andWhere(
+				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+			);
+		$qb->executeStatement();
 	}
 
 	/**
@@ -3216,10 +3221,10 @@ class LocalProjectService implements IProjectService {
 	 *
 	 * @param string $projectId
 	 * @param array $order
-	 * @return bool
+	 * @return void
 	 * @throws \OCP\DB\Exception
 	 */
-	public function saveCategoryOrder(string $projectId, array $order): bool {
+	public function saveCategoryOrder(string $projectId, array $order): void {
 		$qb = $this->db->getQueryBuilder();
 		foreach ($order as $o) {
 			$qb->update('cospend_categories');
@@ -3233,7 +3238,6 @@ class LocalProjectService implements IProjectService {
 			$qb->executeStatement();
 			$qb = $this->db->getQueryBuilder();
 		}
-		return true;
 	}
 
 	/**
@@ -3245,6 +3249,7 @@ class LocalProjectService implements IProjectService {
 	 * @param string|null $icon
 	 * @param string|null $color
 	 * @return array
+	 * @throws CospendBasicException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function editCategory(
@@ -3271,14 +3276,14 @@ class LocalProjectService implements IProjectService {
 
 				$category = $this->getCategory($projectId, $categoryId);
 				if ($category === null) {
-					return ['message' => $this->l10n->t('Impossible to get the edited category')];
+					throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('Impossible to get the edited category')]);
 				}
 				return $category;
 			} else {
-				return ['message' => $this->l10n->t('This project has no such category')];
+				throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('This project has no such category')]);
 			}
 		} else {
-			return ['message' => $this->l10n->t('Incorrect field values')];
+			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('Incorrect field values')]);
 		}
 	}
 
@@ -3348,26 +3353,24 @@ class LocalProjectService implements IProjectService {
 	 *
 	 * @param string $projectId
 	 * @param int $currencyId
-	 * @return array
+	 * @return void
+	 * @throws CospendBasicException
 	 * @throws \OCP\DB\Exception
 	 */
-	public function deleteCurrency(string $projectId, int $currencyId): array {
+	public function deleteCurrency(string $projectId, int $currencyId): void {
 		$currencyToDelete = $this->getCurrency($projectId, $currencyId);
-		if ($currencyToDelete !== null) {
-			$qb = $this->db->getQueryBuilder();
-			$qb->delete('cospend_currencies')
-				->where(
-					$qb->expr()->eq('id', $qb->createNamedParameter($currencyId, IQueryBuilder::PARAM_INT))
-				)
-				->andWhere(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-				);
-			$qb->executeStatement();
-
-			return ['success' => true];
-		} else {
-			return ['message' => $this->l10n->t('Not found')];
+		if ($currencyToDelete === null) {
+			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('Not found')]);
 		}
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('cospend_currencies')
+			->where(
+				$qb->expr()->eq('id', $qb->createNamedParameter($currencyId, IQueryBuilder::PARAM_INT))
+			)
+			->andWhere(
+				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+			);
+		$qb->executeStatement();
 	}
 
 	/**
@@ -3376,16 +3379,17 @@ class LocalProjectService implements IProjectService {
 	 * @param string $projectId
 	 * @param int $currencyId
 	 * @param string $name
-	 * @param float $exchange_rate
+	 * @param float $rate
 	 * @return array
+	 * @throws CospendBasicException
 	 * @throws \OCP\DB\Exception
 	 */
-	public function editCurrency(string $projectId, int $currencyId, string $name, float $exchange_rate): array {
-		if ($name !== '' && $exchange_rate !== 0.0) {
+	public function editCurrency(string $projectId, int $currencyId, string $name, float $rate): array {
+		if ($name !== '' && $rate !== 0.0) {
 			if ($this->getCurrency($projectId, $currencyId) !== null) {
 				$qb = $this->db->getQueryBuilder();
 				$qb->update('cospend_currencies');
-				$qb->set('exchange_rate', $qb->createNamedParameter($exchange_rate, IQueryBuilder::PARAM_STR));
+				$qb->set('exchange_rate', $qb->createNamedParameter($rate, IQueryBuilder::PARAM_STR));
 				$qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
 				$qb->where(
 					$qb->expr()->eq('id', $qb->createNamedParameter($currencyId, IQueryBuilder::PARAM_INT))
@@ -3401,10 +3405,10 @@ class LocalProjectService implements IProjectService {
 				}
 				return $currency;
 			} else {
-				return ['message' => $this->l10n->t('This project have no such currency')];
+				throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('This project have no such currency')]);
 			}
 		} else {
-			return ['message' => $this->l10n->t('Incorrect field values')];
+			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('Incorrect field values')]);
 		}
 	}
 
@@ -4329,12 +4333,15 @@ class LocalProjectService implements IProjectService {
 	 * TODO: move this method in CospendService, move getJsonProject to IProjectService so federated projects can be exported
 	 *
 	 * @param string $projectId
-	 * @param string|null $name
 	 * @param string $userId
+	 * @param string|null $name
 	 * @return array
-	 * @throws \OCP\Files\NotFoundException
-	 * @throws \OCP\Files\NotPermittedException
-	 * @throws \OC\User\NoUserException
+	 * @throws NoUserException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
+	 * @throws \OCP\DB\Exception
+	 * @throws InvalidPathException
+	 * @throws LockedException
 	 */
 	public function exportCsvProject(string $projectId, string $userId, ?string $name = null): array {
 		// create export directory if needed

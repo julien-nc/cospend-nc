@@ -179,8 +179,8 @@ export default {
 			this.editMode = false
 		},
 		onAddCurrency() {
-			const name = this.$refs.newCurrencyName.value
-			const rate = parseFloat(this.$refs.newCurrencyRate.value)
+			const name = this.newCurrencyName
+			const rate = parseFloat(this.newCurrencyRate)
 			if (name === null || name === '') {
 				showError(t('cospend', 'Currency name should not be empty'))
 				return
@@ -190,8 +190,6 @@ export default {
 				return
 			}
 			network.createCurrency(this.project.id, name, rate, this.addCurrencySuccess)
-			this.newCurrencyName = ''
-			this.newCurrencyRate = 1
 		},
 		addCurrencySuccess(currencyId, name, rate) {
 			this.project.currencies.push({
@@ -200,8 +198,8 @@ export default {
 				id: currencyId,
 			})
 			showSuccess(t('cospend', 'Currency {n} added', { n: name }))
-			this.$refs.newCurrencyName.value = ''
-			this.$refs.newCurrencyRate.value = 1
+			this.newCurrencyName = ''
+			this.newCurrencyRate = 1
 		},
 		onDeleteCurrency(currency) {
 			network.deleteCurrency(this.project.id, currency, this.deleteCurrencySuccess)

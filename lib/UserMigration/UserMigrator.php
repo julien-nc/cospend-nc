@@ -9,9 +9,11 @@ use OCA\Cospend\Db\Project;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Service\CospendService;
 use OCA\Cospend\Service\LocalProjectService;
+use OCP\DB\Exception;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUser;
+use OCP\PreConditionNotMetException;
 use OCP\UserMigration\IExportDestination;
 use OCP\UserMigration\IImportSource;
 use OCP\UserMigration\IMigrator;
@@ -29,7 +31,7 @@ class UserMigrator implements IMigrator, ISizeEstimationMigrator {
 	private const SETTINGS_PATH = self::PATH_ROOT . '/settings.json';
 
 	public function __construct(
-		private LocalProjectService $projectService,
+		private LocalProjectService $localProjectService,
 		private ProjectMapper $projectMapper,
 		private CospendService $cospendService,
 		private IConfig $config,
@@ -44,6 +46,7 @@ class UserMigrator implements IMigrator, ISizeEstimationMigrator {
 	 * @since 25.0.0
 	 */
 	public function getEstimatedExportSize(IUser $user): int {
+		// TODO: nbProj * 1 MiB
 		$size = 100; // 100KiB for user data JSON
 		return $size;
 	}
@@ -51,7 +54,11 @@ class UserMigrator implements IMigrator, ISizeEstimationMigrator {
 	/**
 	 * Export user data
 	 *
+	 * @param IUser $user
+	 * @param IExportDestination $exportDestination
+	 * @param OutputInterface $output
 	 * @throws UserMigrationException
+	 * @throws Exception
 	 * @since 24.0.0
 	 */
 	public function export(IUser $user, IExportDestination $exportDestination, OutputInterface $output): void {
@@ -63,7 +70,7 @@ class UserMigrator implements IMigrator, ISizeEstimationMigrator {
 			try {
 				$exportFilePath = self::PROJECTS_PATH . '/' . $project->getId() . '.csv';
 				$content = '';
-				foreach ($this->projectService->getJsonProject($project->getId()) as $chunk) {
+				foreach ($this->localProjectService->getJsonProject($project->getId()) as $chunk) {
 					$content .= $chunk;
 				}
 				$exportDestination->addFileContents($exportFilePath, $content);
@@ -86,7 +93,11 @@ class UserMigrator implements IMigrator, ISizeEstimationMigrator {
 	/**
 	 * Import user data
 	 *
+	 * @param IUser $user
+	 * @param IImportSource $importSource
+	 * @param OutputInterface $output
 	 * @throws UserMigrationException
+	 * @throws PreConditionNotMetException
 	 * @since 24.0.0
 	 */
 	public function import(IUser $user, IImportSource $importSource, OutputInterface $output): void {

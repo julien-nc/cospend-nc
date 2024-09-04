@@ -350,12 +350,12 @@ class PublicApiController extends OCSController {
 		?int $repeatFreq = null, ?int $deleted = null
 	): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->editBill(
-			$publicShareInfo['projectid'], $billId, $date, $what, $payer, $payedFor,
-			$amount, $repeat, $paymentMode, $paymentModeId, $categoryId,
-			$repeatAllActive, $repeatUntil, $timestamp, $comment, $repeatFreq, $deleted
-		);
-		if (isset($result['edited_bill_id'])) {
+		try {
+			$this->localProjectService->editBill(
+				$publicShareInfo['projectid'], $billId, $date, $what, $payer, $payedFor,
+				$amount, $repeat, $paymentMode, $paymentModeId, $categoryId,
+				$repeatAllActive, $repeatUntil, $timestamp, $comment, $repeatFreq, $deleted
+			);
 			$billObj = $this->billMapper->find($billId);
 			if (is_null($publicShareInfo)) {
 				$authorFullText = $this->trans->t('Guest access');
@@ -371,9 +371,11 @@ class PublicApiController extends OCSController {
 				['author' => $authorFullText]
 			);
 
-			return new DataResponse($result['edited_bill_id']);
-		} else {
-			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+			return new DataResponse($billId);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -410,9 +412,8 @@ class PublicApiController extends OCSController {
 		string $token, array $billIds, ?int $categoryId = null, ?string $date = null,
 		?string $what = null, ?int $payer = null, ?string $payedFor = null, ?float $amount = null,
 		?string $repeat = 'n', ?string $paymentMode = null, ?int $paymentModeId = null,
-		?int $repeatAllActive = null,
-		?string $repeatUntil = null, ?int $timestamp = null, ?string $comment = null,
-		?int $repeatFreq = null, ?int $deleted = null
+		?int $repeatAllActive = null, ?string $repeatUntil = null, ?int $timestamp = null,
+		?string $comment = null, ?int $repeatFreq = null, ?int $deleted = null
 	): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
 		if (is_null($publicShareInfo)) {
@@ -424,20 +425,22 @@ class PublicApiController extends OCSController {
 			$authorFullText = $this->trans->t('Share link');
 		}
 		foreach ($billIds as $billId) {
-			$result = $this->localProjectService->editBill(
-				$publicShareInfo['projectid'], $billId, $date, $what, $payer, $payedFor,
-				$amount, $repeat, $paymentMode, $paymentModeId, $categoryId,
-				$repeatAllActive, $repeatUntil, $timestamp, $comment, $repeatFreq, $deleted
-			);
-			if (isset($result['edited_bill_id'])) {
+			try {
+				$this->localProjectService->editBill(
+					$publicShareInfo['projectid'], $billId, $date, $what, $payer, $payedFor,
+					$amount, $repeat, $paymentMode, $paymentModeId, $categoryId,
+					$repeatAllActive, $repeatUntil, $timestamp, $comment, $repeatFreq, $deleted
+				);
 				$billObj = $this->billMapper->find($billId);
 				$this->activityManager->triggerEvent(
 					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
 					ActivityManager::SUBJECT_BILL_UPDATE,
 					['author' => $authorFullText]
 				);
-			} else {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+			} catch (CospendBasicException $e) {
+				return new DataResponse($e->data, $e->getCode());
+			} catch (\Throwable $e) {
+				return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 			}
 		}
 		return new DataResponse($billIds);

@@ -172,6 +172,66 @@ class FederatedProjectService implements IProjectService {
 	public function deleteBill(string $projectId, int $billId, bool $force = false, bool $moveToTrash = true, bool $produceActivity = false): void {
 	}
 
+	public function editBill(
+		string $projectId, int $billId, ?string $date, ?string $what, ?int $payer, ?string $payedFor,
+		?float $amount, ?string $repeat, ?string $paymentMode = null, ?int $paymentModeId = null,
+		?int $categoryId = null, ?int $repeatAllActive = null, ?string $repeatUntil = null,
+		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null,
+		?int $deleted = null, bool $produceActivity = false
+	): void {
+		$params = [
+			'date' => $date,
+			'what' => $what,
+			'payer' => $payer,
+			'payedFor' => $payedFor,
+			'amount' => $amount,
+			'repeat' => $repeat,
+			'paymentMode' => $paymentMode,
+			'paymentModeId' => $paymentModeId,
+			'categoryId' => $categoryId,
+			'repeatAllActive' => $repeatAllActive,
+			'repeatUntil' => $repeatUntil,
+			'timestamp' => $timestamp,
+			'comment' => $comment,
+			'repeatFreq' => $repeatFreq,
+			'deleted' => $deleted,
+		];
+		$this->request($projectId, 'api/v1/public/projects/{token}/{password}/bills/' . $billId, $params, 'PUT');
+	}
+
+	public function editBills(
+		string $projectId, array $billIds, ?string $date = null, ?string $what = null,
+		?int $payer = null, ?string $payedFor = null,
+		?float $amount = null, ?string $repeat = null,
+		?string $paymentMode = null, ?int $paymentModeId = null,
+		?int $categoryId = null,
+		?int $repeatAllActive = null, ?string $repeatUntil = null, ?int $timestamp = null,
+		?string $comment = null, ?int $repeatFreq = null, ?int $deleted = null, bool $produceActivity = false
+	): void {
+		$params = [
+			'billIds' => $billIds,
+			'date' => $date,
+			'what' => $what,
+			'payer' => $payer,
+			'payedFor' => $payedFor,
+			'amount' => $amount,
+			'repeat' => $repeat,
+			'paymentMode' => $paymentMode,
+			'paymentModeId' => $paymentModeId,
+			'categoryId' => $categoryId,
+			'repeatAllActive' => $repeatAllActive,
+			'repeatUntil' => $repeatUntil,
+			'timestamp' => $timestamp,
+			'comment' => $comment,
+			'repeatFreq' => $repeatFreq,
+			'deleted' => $deleted,
+		];
+		$this->request($projectId, 'api/v1/public/projects/{token}/{password}/bills', $params, 'PUT');
+	}
+
+	public function moveBill(string $projectId, int $billId, string $toProjectId): array {
+	}
+
 	public function getStatistics(
 		string $projectId, ?int $tsMin = null, ?int $tsMax = null,
 		?int $paymentModeId = null, ?int $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
@@ -263,18 +323,6 @@ class FederatedProjectService implements IProjectService {
 			'color' => $color,
 		];
 		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/members/' . $memberId, $params, 'PUT');
-	}
-
-	public function editBill(
-		string $projectId, int $billId, ?string $date, ?string $what, ?int $payer, ?string $payed_for,
-		?float $amount, ?string $repeat, ?string $paymentmode = null, ?int $paymentmodeid = null,
-		?int $categoryid = null, ?int $repeatallactive = null, ?string $repeatuntil = null,
-		?int $timestamp = null, ?string $comment = null, ?int $repeatfreq = null,
-		?int $deleted = null
-	): array {
-	}
-
-	public function moveBill(string $projectId, int $billId, string $toProjectId): array {
 	}
 
 	public function createPaymentMode(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): int {

@@ -462,10 +462,6 @@ class ApiController extends OCSController {
 	 * @param int|null $repeatFreq
 	 * @param int|null $deleted
 	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
-	 * @throws Exception
-	 *
-	 * 200: The bill was successfully edited
-	 * 400: Failed to edit the bill
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
@@ -478,22 +474,19 @@ class ApiController extends OCSController {
 		?int $categoryId = null, ?int $repeatAllActive = null, ?string $repeatUntil = null,
 		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null, ?int $deleted = null
 	): DataResponse {
-		$result = $this->localProjectService->editBill(
-			$projectId, $billId, $date, $what, $payer, $payedFor,
-			$amount, $repeat, $paymentMode, $paymentModeId, $categoryId,
-			$repeatAllActive, $repeatUntil, $timestamp, $comment, $repeatFreq, $deleted
-		);
-		if (isset($result['edited_bill_id'])) {
-			$billObj = $this->billMapper->find($billId);
-			$this->activityManager->triggerEvent(
-				ActivityManager::COSPEND_OBJECT_BILL, $billObj,
-				ActivityManager::SUBJECT_BILL_UPDATE,
-				[]
+		try {
+			$this->projectService->editBill(
+				$projectId, $billId, $date, $what, $payer, $payedFor,
+				$amount, $repeat, $paymentMode, $paymentModeId, $categoryId,
+				$repeatAllActive, $repeatUntil, $timestamp, $comment, $repeatFreq, $deleted, true
 			);
-
-			return new DataResponse($result['edited_bill_id']);
-		} else {
-			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+			return new DataResponse($billId);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -518,10 +511,6 @@ class ApiController extends OCSController {
 	 * @param int|null $repeatFreq
 	 * @param int|null $deleted
 	 * @return DataResponse<Http::STATUS_OK, int[], array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
-	 * @throws Exception
-	 *
-	 * 200: The bills were successfully edited
-	 * 400: Failed to edit the bills
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
@@ -535,23 +524,19 @@ class ApiController extends OCSController {
 		?int $repeatAllActive = null, ?string $repeatUntil = null, ?int $timestamp = null,
 		?string $comment = null, ?int $repeatFreq = null, ?int $deleted = null
 	): DataResponse {
-		foreach ($billIds as $billId) {
-			$result = $this->localProjectService->editBill(
-				$projectId, $billId, $date, $what, $payer, $payedFor,
+		try {
+			$this->projectService->editBills(
+				$projectId, $billIds, $date, $what, $payer, $payedFor,
 				$amount, $repeat, $paymentMode, $paymentModeId, $categoryId,
 				$repeatAllActive, $repeatUntil, $timestamp, $comment,
-				$repeatFreq, $deleted
+				$repeatFreq, $deleted, true
 			);
-			if (isset($result['edited_bill_id'])) {
-				$billObj = $this->billMapper->find($billId);
-				$this->activityManager->triggerEvent(
-					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
-					ActivityManager::SUBJECT_BILL_UPDATE,
-					[]
-				);
-			} else {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-			}
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 		return new DataResponse($billIds);
 	}

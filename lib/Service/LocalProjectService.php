@@ -1412,15 +1412,14 @@ class LocalProjectService implements IProjectService {
 	}
 
 	/**
-	 * Add a member to a project
-	 *
 	 * @param string $projectId
 	 * @param string $name
 	 * @param float|null $weight
 	 * @param bool $active
 	 * @param string|null $color
 	 * @param string|null $userId
-	 * @return CospendMember
+	 * @return array
+	 * @throws CospendBasicException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function createMember(
@@ -2219,13 +2218,36 @@ class LocalProjectService implements IProjectService {
 		return $member?->jsonSerialize();
 	}
 
+	/**
+	 * @param string $projectId
+	 * @param int $billId
+	 * @param string|null $date
+	 * @param string|null $what
+	 * @param int|null $payer
+	 * @param string|null $payedFor
+	 * @param float|null $amount
+	 * @param string|null $repeat
+	 * @param string|null $paymentMode
+	 * @param int|null $paymentModeId
+	 * @param int|null $categoryId
+	 * @param int|null $repeatAllActive
+	 * @param string|null $repeatUntil
+	 * @param int|null $timestamp
+	 * @param string|null $comment
+	 * @param int|null $repeatFreq
+	 * @param int|null $deleted
+	 * @param bool $produceActivity
+	 * @return void
+	 * @throws CospendBasicException
+	 * @throws \OCP\DB\Exception
+	 */
 	public function editBill(
-		string $projectId, int $billId, ?string $date, ?string $what, ?int $payer, ?string $payed_for,
-		?float $amount, ?string $repeat, ?string $paymentmode = null, ?int $paymentmodeid = null,
-		?int $categoryid = null, ?int $repeatallactive = null, ?string $repeatuntil = null,
-		?int $timestamp = null, ?string $comment = null, ?int $repeatfreq = null,
-		?int $deleted = null
-	): array {
+		string $projectId, int $billId, ?string $date, ?string $what, ?int $payer, ?string $payedFor,
+		?float $amount, ?string $repeat, ?string $paymentMode = null, ?int $paymentModeId = null,
+		?int $categoryId = null, ?int $repeatAllActive = null, ?string $repeatUntil = null,
+		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null,
+		?int $deleted = null, bool $produceActivity = false
+	): void {
 		// if we don't have the payment modes, get them now
 		if ($this->paymentModes === null) {
 			$this->paymentModes = $this->getCategoriesOrPaymentModes($projectId, false);
@@ -2234,45 +2256,45 @@ class LocalProjectService implements IProjectService {
 		$dbBill = $this->billMapper->getBillEntity($projectId, $billId);
 		// first check the bill exists
 		if ($dbBill === null) {
-			return ['message' => $this->l10n->t('There is no such bill')];
+			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('There is no such bill')]);
 		}
 
 		// validate params
 
 		if ($repeat !== null && $repeat !== '') {
 			if (!in_array($repeat, Application::FREQUENCIES)) {
-				return ['repeat' => $this->l10n->t('Invalid value')];
+				throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['repeat' => $this->l10n->t('Invalid value')]);
 			}
 		}
 
 		if ($timestamp === null && $date !== null && $date !== '') {
 			$datetime = DateTime::createFromFormat('Y-m-d', $date);
 			if ($datetime === false) {
-				return ['date' => $this->l10n->t('Invalid value')];
+				throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['date' => $this->l10n->t('Invalid value')]);
 			}
 		}
 
 		if ($payer !== null) {
 			$dbPayer = $this->memberMapper->getMemberById($projectId, $payer);
 			if ($dbPayer === null) {
-				return ['payer' => $this->l10n->t('Not a valid choice')];
+				throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['payer' => $this->l10n->t('Not a valid choice')]);
 			}
 		}
 
 		// validate owers
 		$owerIds = null;
 		// check owers
-		if ($payed_for !== null && $payed_for !== '') {
-			$owerIds = explode(',', $payed_for);
+		if ($payedFor !== null && $payedFor !== '') {
+			$owerIds = explode(',', $payedFor);
 			if (empty($owerIds)) {
-				return ['payed_for' => $this->l10n->t('Invalid value')];
+				throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['payed_for' => $this->l10n->t('Invalid value')]);
 			} else {
 				foreach ($owerIds as $owerId) {
 					if (!is_numeric($owerId)) {
-						return ['payed_for' => $this->l10n->t('Invalid value')];
+						throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['payed_for' => $this->l10n->t('Invalid value')]);
 					}
 					if ($this->getMemberById($projectId, (int) $owerId) === null) {
-						return ['payed_for' => $this->l10n->t('Not a valid choice')];
+						throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['payed_for' => $this->l10n->t('Not a valid choice')]);
 					}
 				}
 			}
@@ -2286,61 +2308,55 @@ class LocalProjectService implements IProjectService {
 		// set last modification timestamp
 		$ts = (new DateTime())->getTimestamp();
 		$dbBill->setLastchanged($ts);
-
 		if ($what !== null) {
 			$dbBill->setWhat($what);
 		}
-
 		if ($comment !== null) {
 			$dbBill->setComment($comment);
 		}
-
 		if ($deleted !== null) {
 			$dbBill->setDeleted($deleted);
 		}
-
 		if ($repeat !== null && $repeat !== '') {
 			if (in_array($repeat, Application::FREQUENCIES)) {
 				$dbBill->setRepeat($repeat);
 			}
 		}
-
-		if ($repeatfreq !== null) {
-			$dbBill->setRepeatfreq($repeatfreq);
+		if ($repeatFreq !== null) {
+			$dbBill->setRepeatfreq($repeatFreq);
 		}
-
-		if ($repeatuntil !== null) {
-			$dbBill->setRepeatuntil($repeatuntil === '' ? null : $repeatuntil);
+		if ($repeatUntil !== null) {
+			$dbBill->setRepeatuntil($repeatUntil === '' ? null : $repeatUntil);
 		}
-		if ($repeatallactive !== null) {
-			$dbBill->setRepeatallactive($repeatallactive);
+		if ($repeatAllActive !== null) {
+			$dbBill->setRepeatallactive($repeatAllActive);
 		}
 		// payment mode
-		if ($paymentmodeid !== null) {
+		if ($paymentModeId !== null) {
 			// is the old_id set for this payment mode? if yes, use it for old 'paymentmode' column
-			$paymentmode = 'n';
-			if (isset($this->paymentModes[$paymentmodeid], $this->paymentModes[$paymentmodeid]['old_id'])
-				&& $this->paymentModes[$paymentmodeid]['old_id'] !== null
-				&& $this->paymentModes[$paymentmodeid]['old_id'] !== ''
+			$paymentMode = 'n';
+			if (isset($this->paymentModes[$paymentModeId], $this->paymentModes[$paymentModeId]['old_id'])
+				&& $this->paymentModes[$paymentModeId]['old_id'] !== null
+				&& $this->paymentModes[$paymentModeId]['old_id'] !== ''
 			) {
-				$paymentmode = $this->paymentModes[$paymentmodeid]['old_id'];
+				$paymentMode = $this->paymentModes[$paymentModeId]['old_id'];
 			}
-			$dbBill->setPaymentmodeid($paymentmodeid);
-			$dbBill->setPaymentmode($paymentmode);
-		} elseif ($paymentmode !== null) {
+			$dbBill->setPaymentmodeid($paymentModeId);
+			$dbBill->setPaymentmode($paymentMode);
+		} elseif ($paymentMode !== null) {
 			// is there a pm with this old id? if yes, use it for new id
-			$paymentmodeid = 0;
+			$paymentModeId = 0;
 			foreach ($this->paymentModes as $id => $pm) {
-				if ($pm['old_id'] === $paymentmode) {
-					$paymentmodeid = $id;
+				if ($pm['old_id'] === $paymentMode) {
+					$paymentModeId = $id;
 					break;
 				}
 			}
-			$dbBill->setPaymentmodeid($paymentmodeid);
-			$dbBill->setPaymentmode($paymentmode);
+			$dbBill->setPaymentmodeid($paymentModeId);
+			$dbBill->setPaymentmode($paymentMode);
 		}
-		if ($categoryid !== null) {
-			$dbBill->setCategoryid($categoryid);
+		if ($categoryId !== null) {
+			$dbBill->setCategoryid($categoryId);
 		}
 		// priority to timestamp (moneybuster might send both for a moment)
 		if ($timestamp !== null) {
@@ -2379,7 +2395,55 @@ class LocalProjectService implements IProjectService {
 
 		$this->projectMapper->updateProjectLastChanged($projectId, $ts);
 
-		return ['edited_bill_id' => $billId];
+		if ($produceActivity) {
+			$this->activityManager->triggerEvent(
+				ActivityManager::COSPEND_OBJECT_BILL, $dbBill,
+				ActivityManager::SUBJECT_BILL_UPDATE,
+				[]
+			);
+		}
+	}
+
+	/**
+	 * @param string $projectId
+	 * @param array $billIds
+	 * @param string|null $date
+	 * @param string|null $what
+	 * @param int|null $payer
+	 * @param string|null $payedFor
+	 * @param float|null $amount
+	 * @param string|null $repeat
+	 * @param string|null $paymentMode
+	 * @param int|null $paymentModeId
+	 * @param int|null $categoryId
+	 * @param int|null $repeatAllActive
+	 * @param string|null $repeatUntil
+	 * @param int|null $timestamp
+	 * @param string|null $comment
+	 * @param int|null $repeatFreq
+	 * @param int|null $deleted
+	 * @param bool $produceActivity
+	 * @return void
+	 * @throws CospendBasicException
+	 * @throws \OCP\DB\Exception
+	 */
+	public function editBills(
+		string $projectId, array $billIds, ?string $date = null, ?string $what = null,
+		?int $payer = null, ?string $payedFor = null,
+		?float $amount = null, ?string $repeat = null,
+		?string $paymentMode = null, ?int $paymentModeId = null,
+		?int $categoryId = null,
+		?int $repeatAllActive = null, ?string $repeatUntil = null, ?int $timestamp = null,
+		?string $comment = null, ?int $repeatFreq = null, ?int $deleted = null, bool $produceActivity = false
+	): void {
+		foreach ($billIds as $billId) {
+			$this->editBill(
+				$projectId, $billId, $date, $what, $payer, $payedFor,
+				$amount, $repeat, $paymentMode, $paymentModeId, $categoryId,
+				$repeatAllActive, $repeatUntil, $timestamp, $comment,
+				$repeatFreq, $deleted, $produceActivity
+			);
+		}
 	}
 
 	/**

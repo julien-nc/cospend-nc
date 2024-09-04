@@ -442,12 +442,12 @@ class OldApiController extends ApiController {
 		?int $repeatfreq = null, ?int $deleted = null
 	): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->editBill(
-			$publicShareInfo['projectid'], $billid, $date, $what, $payer, $payed_for,
-			$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
-			$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq, $deleted
-		);
-		if (isset($result['edited_bill_id'])) {
+		try {
+			$this->localProjectService->editBill(
+				$publicShareInfo['projectid'], $billid, $date, $what, $payer, $payed_for,
+				$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
+				$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq, $deleted
+			);
 			$billObj = $this->billMapper->find($billid);
 			if (is_null($publicShareInfo)) {
 				$authorFullText = $this->trans->t('Guest access');
@@ -463,9 +463,12 @@ class OldApiController extends ApiController {
 				['author' => $authorFullText]
 			);
 
-			return new DataResponse($result['edited_bill_id']);
+			return new DataResponse($billid);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	#[NoAdminRequired]
@@ -492,20 +495,22 @@ class OldApiController extends ApiController {
 			$authorFullText = $this->trans->t('Share link');
 		}
 		foreach ($billIds as $billid) {
-			$result = $this->localProjectService->editBill(
-				$publicShareInfo['projectid'], $billid, $date, $what, $payer, $payed_for,
-				$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
-				$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq, $deleted
-			);
-			if (isset($result['edited_bill_id'])) {
+			try {
+				$this->localProjectService->editBill(
+					$publicShareInfo['projectid'], $billid, $date, $what, $payer, $payed_for,
+					$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
+					$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq, $deleted
+				);
 				$billObj = $this->billMapper->find($billid);
 				$this->activityManager->triggerEvent(
 					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
 					ActivityManager::SUBJECT_BILL_UPDATE,
 					['author' => $authorFullText]
 				);
-			} else {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+			} catch (CospendBasicException $e) {
+				return new DataResponse($e->data, $e->getCode());
+			} catch (\Throwable $e) {
+				return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 			}
 		}
 		return new DataResponse($billIds);
@@ -523,12 +528,12 @@ class OldApiController extends ApiController {
 		?string $repeatuntil = null, ?int $timestamp = null, ?string $comment = null,
 		?int $repeatfreq = null, ?int $deleted = null
 	): DataResponse {
-		$result = $this->localProjectService->editBill(
-			$projectId, $billid, $date, $what, $payer, $payed_for,
-			$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
-			$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq, $deleted
-		);
-		if (isset($result['edited_bill_id'])) {
+		try {
+			$this->localProjectService->editBill(
+				$projectId, $billid, $date, $what, $payer, $payed_for,
+				$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
+				$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq, $deleted
+			);
 			$billObj = $this->billMapper->find($billid);
 			$this->activityManager->triggerEvent(
 				ActivityManager::COSPEND_OBJECT_BILL, $billObj,
@@ -536,9 +541,12 @@ class OldApiController extends ApiController {
 				[]
 			);
 
-			return new DataResponse($result['edited_bill_id']);
+			return new DataResponse($billid);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	#[NoAdminRequired]

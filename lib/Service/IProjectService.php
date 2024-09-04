@@ -250,28 +250,60 @@ interface IProjectService {
 	 * @param string|null $date
 	 * @param string|null $what
 	 * @param int|null $payer
-	 * @param string|null $payed_for
+	 * @param string|null $payedFor
 	 * @param float|null $amount
 	 * @param string|null $repeat
-	 * @param string|null $paymentmode
-	 * @param int|null $paymentmodeid
-	 * @param int|null $categoryid
-	 * @param int|null $repeatallactive
-	 * @param string|null $repeatuntil
+	 * @param string|null $paymentMode
+	 * @param int|null $paymentModeId
+	 * @param int|null $categoryId
+	 * @param int|null $repeatAllActive
+	 * @param string|null $repeatUntil
 	 * @param int|null $timestamp
 	 * @param string|null $comment
-	 * @param int|null $repeatfreq
+	 * @param int|null $repeatFreq
 	 * @param int|null $deleted
-	 * @return array
+	 * @param bool $produceActivity
+	 * @return void
 	 * @throws \OCP\DB\Exception
 	 */
 	public function editBill(
-		string $projectId, int $billId, ?string $date, ?string $what, ?int $payer, ?string $payed_for,
-		?float $amount, ?string $repeat, ?string $paymentmode = null, ?int $paymentmodeid = null,
-		?int $categoryid = null, ?int $repeatallactive = null, ?string $repeatuntil = null,
-		?int $timestamp = null, ?string $comment = null, ?int $repeatfreq = null,
-		?int $deleted = null
-	): array;
+		string $projectId, int $billId, ?string $date, ?string $what, ?int $payer, ?string $payedFor,
+		?float $amount, ?string $repeat, ?string $paymentMode = null, ?int $paymentModeId = null,
+		?int $categoryId = null, ?int $repeatAllActive = null, ?string $repeatUntil = null,
+		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null,
+		?int $deleted = null, bool $produceActivity = false
+	): void;
+
+	/**
+	 * @param string $projectId
+	 * @param array $billIds
+	 * @param string|null $date
+	 * @param string|null $what
+	 * @param int|null $payer
+	 * @param string|null $payedFor
+	 * @param float|null $amount
+	 * @param string|null $repeat
+	 * @param string|null $paymentMode
+	 * @param int|null $paymentModeId
+	 * @param int|null $categoryId
+	 * @param int|null $repeatAllActive
+	 * @param string|null $repeatUntil
+	 * @param int|null $timestamp
+	 * @param string|null $comment
+	 * @param int|null $repeatFreq
+	 * @param int|null $deleted
+	 * @param bool $produceActivity
+	 * @return void
+	 */
+	public function editBills(
+		string $projectId, array $billIds, ?string $date = null, ?string $what = null,
+		?int $payer = null, ?string $payedFor = null,
+		?float $amount = null, ?string $repeat = null,
+		?string $paymentMode = null, ?int $paymentModeId = null,
+		?int $categoryId = null,
+		?int $repeatAllActive = null, ?string $repeatUntil = null, ?int $timestamp = null,
+		?string $comment = null, ?int $repeatFreq = null, ?int $deleted = null, bool $produceActivity = false
+	): void;
 
 	/**
 	 * @param string $projectId

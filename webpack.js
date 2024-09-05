@@ -18,6 +18,7 @@ webpackConfig.entry = {
 	main: { import: path.join(__dirname, 'src', 'main.js'), filename: appId + '-main.js' },
 	sharePassword: { import: path.join(__dirname, 'src', 'sharePassword.js'), filename: appId + '-sharePassword.js' },
 	dashboard: { import: path.join(__dirname, 'src', 'dashboard.js'), filename: appId + '-dashboard.js' },
+	adminSettings: { import: path.join(__dirname, 'src', 'adminSettings.js'), filename: appId + '-adminSettings.js' },
 }
 
 webpackConfig.plugins.push(

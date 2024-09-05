@@ -27,6 +27,9 @@
 		<job>OCA\Cospend\Cron\RepeatBills</job>
 		<job>OCA\Cospend\Cron\AutoExport</job>
 	</background-jobs>
+	<settings>
+		<admin>OCA\Cospend\Settings\Admin</admin>
+	</settings>
 	<commands>
 		<command>OCA\Cospend\Command\RepeatBills</command>
 		<command>OCA\Cospend\Command\ExportProject</command>

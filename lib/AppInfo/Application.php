@@ -13,6 +13,7 @@ namespace OCA\Cospend\AppInfo;
 
 use OCA\Cospend\Capabilities;
 use OCA\Cospend\Dashboard\CospendWidget;
+use OCA\Cospend\Federation\CloudFederationProviderCospend;
 use OCA\Cospend\Middleware\FederationMiddleware;
 use OCA\Cospend\Middleware\PublicAuthMiddleware;
 use OCA\Cospend\Middleware\UserPermissionMiddleware;
@@ -24,6 +25,10 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\Federation\ICloudFederationProvider;
+use OCP\Federation\ICloudFederationProviderManager;
+use OCP\IConfig;
+use OCP\Server;
 use OCP\Util;
 
 class Application extends App implements IBootstrap {
@@ -116,5 +121,22 @@ class Application extends App implements IBootstrap {
 
 	public function boot(IBootContext $context): void {
 		Util::addStyle(self::APP_ID, 'cospend-search');
+		$context->injectFn([$this, 'registerCloudFederationProviderManager']);
+	}
+
+	public function registerCloudFederationProviderManager(
+		IConfig $config,
+		ICloudFederationProviderManager $manager,
+	): void {
+		$federationEnabled = $config->getAppValue('cospend', 'federation_enabled', '0') === '1';
+		if (!$federationEnabled) {
+			return;
+		}
+
+		$manager->addCloudFederationProvider(
+			'cospend-project',
+			'Talk Federation',
+			static fn (): ICloudFederationProvider => Server::get(CloudFederationProviderCospend::class)
+		);
 	}
 }

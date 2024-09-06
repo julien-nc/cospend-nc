@@ -121,14 +121,14 @@ class BackendNotifier {
 	}
 
 	/**
-	 * The invited participant accepted joining the federated room
-	 * Sent from Remote participant server to Host server
+	 * The invited user accepted joining the federated project
+	 * Sent from Remote user server to Host server
 	 *
 	 * @return bool success
 	 */
 	public function sendShareAccepted(
 		string $remoteServerUrl,
-		int $remoteAttendeeId,
+		string $projectId,
 		#[SensitiveParameter]
 		string $accessToken,
 		string $displayName,
@@ -139,8 +139,8 @@ class BackendNotifier {
 		$notification = $this->cloudFederationFactory->getCloudFederationNotification();
 		$notification->setMessage(
 			FederationManager::NOTIFICATION_SHARE_ACCEPTED,
-			FederationManager::TALK_ROOM_RESOURCE,
-			(string)$remoteAttendeeId,
+			FederationManager::COSPEND_PROJECT_RESOURCE,
+			$projectId,
 			[
 				'remoteServerUrl' => $this->getServerRemoteUrl(),
 				'sharedSecret' => $accessToken,
@@ -150,7 +150,7 @@ class BackendNotifier {
 			]
 		);
 
-		return $this->sendUpdateToRemote($remote, $notification, retry: false) === true;
+		return $this->sendUpdateToRemote($remote, $notification) === true;
 	}
 
 	/**
@@ -159,7 +159,7 @@ class BackendNotifier {
 	 */
 	public function sendShareDeclined(
 		string $remoteServerUrl,
-		int $remoteAttendeeId,
+		string $projectId,
 		#[SensitiveParameter]
 		string $accessToken,
 	): void {
@@ -168,8 +168,8 @@ class BackendNotifier {
 		$notification = $this->cloudFederationFactory->getCloudFederationNotification();
 		$notification->setMessage(
 			FederationManager::NOTIFICATION_SHARE_DECLINED,
-			FederationManager::TALK_ROOM_RESOURCE,
-			(string)$remoteAttendeeId,
+			FederationManager::COSPEND_PROJECT_RESOURCE,
+			$projectId,
 			[
 				'remoteServerUrl' => $this->getServerRemoteUrl(),
 				'sharedSecret' => $accessToken,
@@ -184,7 +184,7 @@ class BackendNotifier {
 
 	public function sendRemoteUnShare(
 		string $remoteServerUrl,
-		int $localAttendeeId,
+		string $projectId,
 		#[SensitiveParameter]
 		string $accessToken,
 	): void {
@@ -193,12 +193,12 @@ class BackendNotifier {
 		$notification = $this->cloudFederationFactory->getCloudFederationNotification();
 		$notification->setMessage(
 			FederationManager::NOTIFICATION_SHARE_UNSHARED,
-			FederationManager::TALK_ROOM_RESOURCE,
-			(string)$localAttendeeId,
+			FederationManager::COSPEND_PROJECT_RESOURCE,
+			$projectId,
 			[
 				'remoteServerUrl' => $this->getServerRemoteUrl(),
 				'sharedSecret' => $accessToken,
-				'message' => 'This room has been unshared',
+				'message' => 'This project has been unshared',
 			]
 		);
 
@@ -207,226 +207,7 @@ class BackendNotifier {
 		$this->sendUpdateToRemote($remote, $notification);
 	}
 
-	/**
-	 * Send information to remote participants that the room meta info updated
-	 * Sent from Host server to Remote participant server
-	 */
-	public function sendRoomModifiedUpdate(
-		string $remoteServer,
-		int $localAttendeeId,
-		#[SensitiveParameter]
-		string $accessToken,
-		string $localToken,
-		string $changedProperty,
-		string|int|bool|null $newValue,
-		string|int|bool|null $oldValue,
-	): ?bool {
-		$remote = $this->prepareRemoteUrl($remoteServer);
-
-		$notification = $this->cloudFederationFactory->getCloudFederationNotification();
-		$notification->setMessage(
-			FederationManager::NOTIFICATION_ROOM_MODIFIED,
-			FederationManager::TALK_ROOM_RESOURCE,
-			(string)$localAttendeeId,
-			[
-				'remoteServerUrl' => $this->getServerRemoteUrl(),
-				'sharedSecret' => $accessToken,
-				'remoteToken' => $localToken,
-				'changedProperty' => $changedProperty,
-				'newValue' => $newValue,
-				'oldValue' => $oldValue,
-			],
-		);
-
-		return $this->sendUpdateToRemote($remote, $notification);
-	}
-
-	/**
-	 * Send information to remote participants that the participant meta info updated
-	 * Sent from Host server to Remote participant server (only for the affected participant)
-	 */
-	public function sendParticipantModifiedUpdate(
-		string $remoteServer,
-		int $localAttendeeId,
-		#[SensitiveParameter]
-		string $accessToken,
-		string $localToken,
-		string $changedProperty,
-		string|int $newValue,
-		string|int|null $oldValue,
-	): ?bool {
-		$remote = $this->prepareRemoteUrl($remoteServer);
-
-		$notification = $this->cloudFederationFactory->getCloudFederationNotification();
-		$notification->setMessage(
-			FederationManager::NOTIFICATION_PARTICIPANT_MODIFIED,
-			FederationManager::TALK_ROOM_RESOURCE,
-			(string)$localAttendeeId,
-			[
-				'remoteServerUrl' => $this->getServerRemoteUrl(),
-				'sharedSecret' => $accessToken,
-				'remoteToken' => $localToken,
-				'changedProperty' => $changedProperty,
-				'newValue' => $newValue,
-				'oldValue' => $oldValue,
-			],
-		);
-
-		return $this->sendUpdateToRemote($remote, $notification);
-	}
-
-	/**
-	 * Send information to remote participants that "active since" was updated
-	 * Sent from Host server to Remote participant server
-	 *
-	 * @psalm-param array<AParticipantModifiedEvent::DETAIL_*, bool> $details
-	 */
-	public function sendCallStarted(
-		string $remoteServer,
-		int $localAttendeeId,
-		#[SensitiveParameter]
-		string $accessToken,
-		string $localToken,
-		string $changedProperty,
-		\DateTime $activeSince,
-		int $callFlag,
-		array $details,
-	): ?bool {
-		$remote = $this->prepareRemoteUrl($remoteServer);
-
-		$notification = $this->cloudFederationFactory->getCloudFederationNotification();
-		$notification->setMessage(
-			FederationManager::NOTIFICATION_ROOM_MODIFIED,
-			FederationManager::TALK_ROOM_RESOURCE,
-			(string)$localAttendeeId,
-			[
-				'remoteServerUrl' => $this->getServerRemoteUrl(),
-				'sharedSecret' => $accessToken,
-				'remoteToken' => $localToken,
-				'changedProperty' => $changedProperty,
-				'newValue' => $activeSince->getTimestamp(),
-				'oldValue' => null,
-				'callFlag' => $callFlag,
-				'details' => $details,
-			],
-		);
-
-		return $this->sendUpdateToRemote($remote, $notification);
-	}
-
-	/**
-	 * Send information to remote participants that "active since" was updated
-	 * Sent from Host server to Remote participant server
-	 *
-	 * @psalm-param array<AParticipantModifiedEvent::DETAIL_*, bool> $details
-	 */
-	public function sendCallEnded(
-		string $remoteServer,
-		int $localAttendeeId,
-		#[SensitiveParameter]
-		string $accessToken,
-		string $localToken,
-		string $changedProperty,
-		?\DateTime $activeSince,
-		int $callFlag,
-		array $details,
-	): ?bool {
-		$remote = $this->prepareRemoteUrl($remoteServer);
-
-		$notification = $this->cloudFederationFactory->getCloudFederationNotification();
-		$notification->setMessage(
-			FederationManager::NOTIFICATION_ROOM_MODIFIED,
-			FederationManager::TALK_ROOM_RESOURCE,
-			(string)$localAttendeeId,
-			[
-				'remoteServerUrl' => $this->getServerRemoteUrl(),
-				'sharedSecret' => $accessToken,
-				'remoteToken' => $localToken,
-				'changedProperty' => $changedProperty,
-				'newValue' => $activeSince?->getTimestamp(),
-				'oldValue' => null,
-				'callFlag' => $callFlag,
-				'details' => $details,
-			],
-		);
-
-		return $this->sendUpdateToRemote($remote, $notification);
-	}
-
-	/**
-	 * Send information to remote participants that the lobby was updated
-	 * Sent from Host server to Remote participant server
-	 */
-	public function sendRoomModifiedLobbyUpdate(
-		string $remoteServer,
-		int $localAttendeeId,
-		#[SensitiveParameter]
-		string $accessToken,
-		string $localToken,
-		string $changedProperty,
-		int $newValue,
-		int $oldValue,
-		?\DateTime $dateTime,
-		bool $timerReached,
-	): ?bool {
-		$remote = $this->prepareRemoteUrl($remoteServer);
-
-		$notification = $this->cloudFederationFactory->getCloudFederationNotification();
-		$notification->setMessage(
-			FederationManager::NOTIFICATION_ROOM_MODIFIED,
-			FederationManager::TALK_ROOM_RESOURCE,
-			(string)$localAttendeeId,
-			[
-				'remoteServerUrl' => $this->getServerRemoteUrl(),
-				'sharedSecret' => $accessToken,
-				'remoteToken' => $localToken,
-				'changedProperty' => $changedProperty,
-				'newValue' => $newValue,
-				'oldValue' => $oldValue,
-				'dateTime' => $dateTime ? (string)$dateTime->getTimestamp() : '',
-				'timerReached' => $timerReached,
-			],
-		);
-
-		return $this->sendUpdateToRemote($remote, $notification);
-	}
-
-	/**
-	 * Send information to remote participants that a message was posted
-	 * Sent from Host server to Remote participant server
-	 *
-	 * @param array{remoteMessageId: int, actorType: string, actorId: string, actorDisplayName: string, messageType: string, systemMessage: string, expirationDatetime: string, message: string, messageParameter: string, creationDatetime: string, metaData: string} $messageData
-	 * @param array{unreadMessages: int, unreadMention: bool, unreadMentionDirect: bool, lastReadMessage: int} $unreadInfo
-	 */
-	public function sendMessageUpdate(
-		string $remoteServer,
-		int $localAttendeeId,
-		#[SensitiveParameter]
-		string $accessToken,
-		string $localToken,
-		array $messageData,
-		array $unreadInfo,
-	): ?bool {
-		$remote = $this->prepareRemoteUrl($remoteServer);
-
-		$notification = $this->cloudFederationFactory->getCloudFederationNotification();
-		$notification->setMessage(
-			FederationManager::NOTIFICATION_MESSAGE_POSTED,
-			FederationManager::TALK_ROOM_RESOURCE,
-			(string)$localAttendeeId,
-			[
-				'remoteServerUrl' => $this->getServerRemoteUrl(),
-				'sharedSecret' => $accessToken,
-				'remoteToken' => $localToken,
-				'messageData' => $messageData,
-				'unreadInfo' => $unreadInfo,
-			],
-		);
-
-		return $this->sendUpdateToRemote($remote, $notification);
-	}
-
-	protected function sendUpdateToRemote(string $remote, ICloudFederationNotification $notification, int $try = 0, bool $retry = true): ?bool {
+	protected function sendUpdateToRemote(string $remote, ICloudFederationNotification $notification): ?bool {
 		try {
 			$response = $this->federationProviderManager->sendCloudNotification($remote, $notification);
 			if ($response->getStatusCode() === Http::STATUS_CREATED) {
@@ -450,87 +231,7 @@ class BackendNotifier {
 			$this->logger->error("Failed to send notification for share from $remote, received OCMProviderException", ['exception' => $e]);
 		}
 
-		if ($retry && $try === 0) {
-			$now = $this->timeFactory->getTime();
-			$now += $this->getRetryDelay(1);
-
-			// Talk data
-			$retryNotification = new RetryNotification();
-			$retryNotification->setRemoteServer($remote);
-			$retryNotification->setNumAttempts(1);
-			$retryNotification->setNextRetry($this->timeFactory->getDateTime('@' . $now));
-
-			// OCM notification data
-			$data = $notification->getMessage();
-			$retryNotification->setNotificationType($data['notificationType']);
-			$retryNotification->setResourceType($data['resourceType']);
-			$retryNotification->setProviderId($data['providerId']);
-			$retryNotification->setNotification(json_encode($data['notification']));
-
-			$this->retryNotificationMapper->insert($retryNotification);
-		}
-
 		return false;
-	}
-
-	public function retrySendingFailedNotifications(\DateTimeInterface $dueDateTime): void {
-		$retryNotifications = $this->retryNotificationMapper->getAllDue($dueDateTime);
-
-		foreach ($retryNotifications as $retryNotification) {
-			$this->retrySendingFailedNotification($retryNotification);
-		}
-	}
-
-	protected function retrySendingFailedNotification(RetryNotification $retryNotification): void {
-		$notification = $this->cloudFederationFactory->getCloudFederationNotification();
-		$notification->setMessage(
-			$retryNotification->getNotificationType(),
-			$retryNotification->getResourceType(),
-			$retryNotification->getProviderId(),
-			json_decode($retryNotification->getNotification(), true, flags: JSON_THROW_ON_ERROR),
-		);
-
-		$success = $this->sendUpdateToRemote($retryNotification->getRemoteServer(), $notification, $retryNotification->getNumAttempts());
-
-		if ($success) {
-			$this->retryNotificationMapper->delete($retryNotification);
-		} elseif ($success === null) {
-			$this->logger->error('Server signaled the OCM notification is not accepted at ' . $retryNotification->getRemoteServer() . ', giving up!');
-			$this->retryNotificationMapper->delete($retryNotification);
-		} elseif ($retryNotification->getNumAttempts() === RetryNotification::MAX_NUM_ATTEMPTS) {
-			$this->logger->error('Failed to send notification to ' . $retryNotification->getRemoteServer() . ' ' . RetryNotification::MAX_NUM_ATTEMPTS . ' times, giving up!');
-			$this->retryNotificationMapper->delete($retryNotification);
-		} else {
-			$retryNotification->setNumAttempts($retryNotification->getNumAttempts() + 1);
-
-			$now = $this->timeFactory->getTime();
-			$now += $this->getRetryDelay($retryNotification->getNumAttempts());
-
-			$retryNotification->setNextRetry($this->timeFactory->getDateTime('@' . $now));
-			$this->retryNotificationMapper->update($retryNotification);
-		}
-	}
-
-	/**
-	 * First 5 attempts are retried on the next cron run.
-	 * Attempts 6-10 we back off to cover slightly longer maintenance/downtimes (5 minutes * per attempt)
-	 * And the last tries 11-20 are retried with ~8 hours delay
-	 *
-	 * This means the last retry is after ~84 hours so a downtime from Friday to Monday would be covered
-	 */
-	protected function getRetryDelay(int $attempt): int {
-		if ($attempt < 5) {
-			// Retry after "attempt" minutes
-			return 5 * 60;
-		}
-
-		if ($attempt > 10) {
-			// Retry after 8 hours
-			return 8 * 3600;
-		}
-
-		// Retry after "attempt" * 5 minutes
-		return $attempt * 5 * 60;
 	}
 
 	protected function prepareRemoteUrl(string $remote): string {

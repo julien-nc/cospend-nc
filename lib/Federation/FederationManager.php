@@ -123,7 +123,10 @@ class FederationManager {
 		$cloudId = $this->cloudIdManager->getCloudId($user->getUID(), null);
 
 		if (
-			!$this->backendNotifier->sendShareAccepted($invitation->getRemoteServerUrl(), $invitation->getAccessToken(), $user->getDisplayName(), $cloudId->getId())
+			!$this->backendNotifier->sendShareAccepted(
+				$invitation->getRemoteServerUrl(), $invitation->getRemoteProjectId(), $invitation->getAccessToken(),
+				$user->getDisplayName(), $cloudId->getId()
+			)
 		) {
 			throw new \Exception('Can\'t reach remote server');
 		}

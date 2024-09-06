@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
@@ -18,10 +18,7 @@ use OCA\Cospend\AppInfo\Application;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Services\IAppConfig;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\Exception as DBException;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\AuthenticationFailedException;
 use OCP\Federation\Exceptions\BadRequestException;
@@ -33,7 +30,6 @@ use OCP\HintException;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
@@ -53,10 +49,7 @@ class CloudFederationProviderCospend implements ICloudFederationProvider {
 		private IConfig $config,
 		private INotificationManager $notificationManager,
 		private InvitationMapper $invitationMapper,
-		private ISession $session,
-		private IEventDispatcher $dispatcher,
 		private LoggerInterface $logger,
-		private ITimeFactory $timeFactory,
 		ICacheFactory $cacheFactory,
 	) {
 	}

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\Cospend\Db;
 
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -61,6 +62,35 @@ class ShareMapper extends QBMapper {
 		$or->add($qb->expr()->eq('type', $qb->createNamedParameter(Share::TYPE_FEDERATION, IQueryBuilder::PARAM_STR)));
 		$or->add($qb->expr()->eq('type', $qb->createNamedParameter(Share::TYPE_PUBLIC_LINK, IQueryBuilder::PARAM_STR)));
 		$qb->andWhere($or);
+
+		return $this->findEntity($qb);
+	}
+
+	/**
+	 * @param string $projectId
+	 * @param string $userCloudId
+	 * @param string|null $token
+	 * @return Share
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function getFederatedShareByProjectIdAndUserCloudId(
+		string $projectId,
+		string $userCloudId,
+		#[SensitiveParameter]
+		?string $token = null,
+	): Share {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where($qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR)))
+			->andWhere($qb->expr()->eq('user_cloud_id', $qb->createNamedParameter($userCloudId, IQueryBuilder::PARAM_STR)));
+
+		if ($token !== null) {
+			$qb->andWhere($qb->expr()->eq('userid', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR)));
+		}
 
 		return $this->findEntity($qb);
 	}

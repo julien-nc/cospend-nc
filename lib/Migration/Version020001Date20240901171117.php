@@ -29,19 +29,20 @@ class Version020001Date20240901171117 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('cospend_shares')) {
 			$table = $schema->getTable('cospend_shares');
-			if (!$table->hasColumn('remote_user_id')) {
-				$table->addColumn('remote_user_id', Types::STRING, [
+			if (!$table->hasColumn('user_cloud_id')) {
+				$table->addColumn('user_cloud_id', Types::STRING, [
 					'notnull' => false,
 					'default' => null,
-					'length' => 64,
+					'length' => 255,
 				]);
 				$schemaChanged = true;
 			}
-			if (!$table->hasColumn('remote_server_url')) {
-				$table->addColumn('remote_server_url', Types::STRING, [
+			if (!$table->hasColumn('state')) {
+				$table->addColumn('state', Types::SMALLINT, [
 					'notnull' => false,
+					'length' => 5,
+					'unsigned' => true,
 					'default' => null,
-					'length' => 512,
 				]);
 				$schemaChanged = true;
 			}
@@ -64,13 +65,17 @@ class Version020001Date20240901171117 extends SimpleMigrationStep {
 				'unsigned' => true,
 				'default' => 0,
 			]);
-			$table->addColumn('token', Types::STRING, [
+			$table->addColumn('access_token', Types::STRING, [
 				'notnull' => true,
 				'length' => 64,
 			]);
 			$table->addColumn('remote_project_id', Types::STRING, [
 				'notnull' => true,
 				'length' => 64,
+			]);
+			$table->addColumn('remote_project_name', Types::STRING, [
+				'notnull' => true,
+				'length' => 300,
 			]);
 			$table->addColumn('remote_server_url', Types::STRING, [
 				'notnull' => true,

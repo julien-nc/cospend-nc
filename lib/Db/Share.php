@@ -25,10 +25,10 @@ use OCP\AppFramework\Db\Entity;
  * @method string|null getLabel()
  * @method void setPassword(string|null $password)
  * @method string|null getPassword()
- * @method void setRemoteUserId(string|null $remoteUserId)
- * @method string|null getRemoteUserId()
- * @method void setRemoteServerUrl(string|null $remoteServerUrl)
- * @method string|null getRemoteServerUrl()
+ * @method void setUserCloudId(string|null $userCloudId)
+ * @method string|null getUserCloudId()
+ * @method void setState(int|null $state)
+ * @method int|null getState()
  */
 class Share extends Entity implements \JsonSerializable {
 	public const TYPE_FEDERATION = 'f';
@@ -44,19 +44,19 @@ class Share extends Entity implements \JsonSerializable {
 	protected int $manuallyAdded = 1;
 	protected ?string $label = null;
 	protected ?string $password = null;
-	protected ?string $remoteUserId = null;
-	protected ?string $remoteServerUrl = null;
+	protected ?string $user_cloud_id = null;
+	protected ?int $state = null;
 
 	public function __construct() {
 		$this->addType('projectid', 'string');
 		$this->addType('userid', 'string');
 		$this->addType('type', 'string');
 		$this->addType('accesslevel', 'integer');
-		$this->addType('manuallyAdded', 'integer');
+		$this->addType('manually_added', 'integer');
 		$this->addType('label', 'string');
 		$this->addType('password', 'string');
-		$this->addType('remoteUserId', 'string');
-		$this->addType('remoteServerUrl', 'string');
+		$this->addType('user_cloud_id', 'string');
+		$this->addType('state', 'integer');
 	}
 
 	public function jsonSerialize(): array {
@@ -69,8 +69,8 @@ class Share extends Entity implements \JsonSerializable {
 			'manuallyAdded' => $this->getManuallyAdded(),
 			'label' => $this->getLabel(),
 			'password' => $this->getPassword(),
-			'remoteUserId' => $this->getRemoteUserId(),
-			'remoteServerUrl' => $this->getRemoteServerUrl(),
+			'userCloudId' => $this->getUserCloudId(),
+			'state' => $this->getState(),
 		];
 	}
 }

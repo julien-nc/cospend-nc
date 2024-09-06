@@ -18,6 +18,7 @@ use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\Invitation;
 use OCA\Cospend\Db\InvitationMapper;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 
@@ -42,13 +43,13 @@ class FederatedProjectService implements IProjectService {
 
 	private function request(string $federatedProjectId, string $endpoint, array $params = [], string $method = 'GET'): mixed {
 		[$remoteProjectId, $remoteServerUrl] = $this->parseFederatedProjectId($federatedProjectId);
-		$invitations = $this->invitationMapper->getInvitationsForUser($this->userId, Invitation::STATE_ACCEPTED, $remoteServerUrl, $remoteProjectId);
-		if (empty($invitations)) {
+		try {
+			$invitation = $this->invitationMapper->getByRemoteProjectIdAndRemoteServer($this->userId, $remoteProjectId, $remoteServerUrl, Invitation::STATE_ACCEPTED);
+		} catch (DoesNotExistException $e) {
 			throw new \Exception('Federated project "' . $federatedProjectId . '" not found for user ' . $this->userId);
 		}
-		$invitation = $invitations[0];
 
-		$endpoint = str_replace('{token}', $invitation->getToken(), $endpoint);
+		$endpoint = str_replace('{token}', $invitation->getAccessToken(), $endpoint);
 		$endpoint = str_replace('{password}', 'no-pass', $endpoint);
 		$url = 'https://' . $remoteServerUrl . '/ocs/v2.php/apps/cospend/' . $endpoint;
 
@@ -106,11 +107,11 @@ class FederatedProjectService implements IProjectService {
 		$projectInfo['federated'] = true;
 
 		[$remoteProjectId, $remoteServerUrl] = $this->parseFederatedProjectId($projectId);
-		$invitations = $this->invitationMapper->getInvitationsForUser($this->userId, Invitation::STATE_ACCEPTED, $remoteServerUrl, $remoteProjectId);
-		if (empty($invitations)) {
+		try {
+			$invitation = $this->invitationMapper->getByRemoteProjectIdAndRemoteServer($this->userId, $remoteProjectId, $remoteServerUrl, Invitation::STATE_ACCEPTED);
+		} catch (DoesNotExistException $e) {
 			throw new \Exception('Federated project "' . $projectId . '" not found for user ' . $this->userId);
 		}
-		$invitation = $invitations[0];
 		$projectInfo['federation'] = [
 			'inviter_cloud_id' => $invitation->getInviterCloudId(),
 			'inviter_display_name' => $invitation->getInviterDisplayName(),

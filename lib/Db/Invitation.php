@@ -15,10 +15,12 @@ use OCP\AppFramework\Db\Entity;
  * @method string getUserId()
  * @method void setState(int $state)
  * @method int getState()
- * @method void setToken(string $token)
- * @method string getToken()
+ * @method void setAccessToken(string $accessToken)
+ * @method string getAccessToken()
  * @method void setRemoteProjectId(string $remoteProjectId)
  * @method string getRemoteProjectId()
+ * @method void setRemoteProjectName(string $remoteProjectName)
+ * @method string getRemoteProjectName()
  * @method void setRemoteServerUrl(string $remoteServerUrl)
  * @method string getRemoteServerUrl()
  * @method void setInviterCloudId(string $inviterCloudId)
@@ -32,8 +34,9 @@ class Invitation extends Entity implements \JsonSerializable {
 
 	protected string $userId = '';
 	protected int $state = self::STATE_PENDING;
-	protected string $token = '';
+	protected string $accessToken = '';
 	protected string $remoteProjectId = '';
+	protected string $remoteProjectName = '';
 	protected string $remoteServerUrl = '';
 	protected string $inviterCloudId = '';
 	protected string $inviterDisplayName = '';
@@ -41,23 +44,25 @@ class Invitation extends Entity implements \JsonSerializable {
 	public function __construct() {
 		$this->addType('userId', 'string');
 		$this->addType('state', 'int');
-		$this->addType('token', 'string');
+		$this->addType('accessToken', 'string');
 		$this->addType('remoteProjectId', 'string');
+		$this->addType('remoteProjectName', 'string');
 		$this->addType('remoteServerUrl', 'string');
 		$this->addType('inviterCloudId', 'string');
 		$this->addType('inviterDisplayName', 'string');
 	}
 
 	/**
-	 * @return array{id: int, remoteProjectId: string, remoteServerUrl: string, token: string, state: int, userId: string, inviterCloudId: string, inviterDisplayName: string}
+	 * @return array{id: int, remoteProjectId: string, remoteProjectName: string, remoteServerUrl: string, accessToken: string, state: int, userId: string, inviterCloudId: string, inviterDisplayName: string}
 	 */
 	public function jsonSerialize(): array {
 		return [
 			'id' => $this->getId(),
 			'userId' => $this->getUserId(),
 			'state' => $this->getState(),
-			'token' => $this->getToken(),
+			'accessToken' => $this->getAccessToken(),
 			'remoteProjectId' => $this->getRemoteProjectId(),
+			'remoteProjectName' => $this->getRemoteProjectName(),
 			'remoteServerUrl' => $this->getRemoteServerUrl(),
 			'inviterCloudId' => $this->getInviterCloudId(),
 			'inviterDisplayName' => $this->getInviterDisplayName() ?: $this->getInviterCloudId(),

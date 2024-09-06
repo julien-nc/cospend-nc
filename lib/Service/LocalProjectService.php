@@ -2093,43 +2093,13 @@ class LocalProjectService implements IProjectService {
 	 * @param string $projectId
 	 * @param int|null $maxAccessLevel
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
 	public function getPublicShares(string $projectId, ?int $maxAccessLevel = null): array {
-		$shares = [];
-
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('projectid', 'userid', 'id', 'accesslevel', 'label', 'password')
-			->from('cospend_shares')
-			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_PUBLIC_LINK, IQueryBuilder::PARAM_STR))
-			);
-		if (!is_null($maxAccessLevel)) {
-			$qb->andWhere(
-				$qb->expr()->lte('accesslevel', $qb->createNamedParameter($maxAccessLevel, IQueryBuilder::PARAM_INT))
-			);
-		}
-		$req = $qb->executeQuery();
-		while ($row = $req->fetch()) {
-			$dbToken = $row['userid'];
-			$dbId = (int) $row['id'];
-			$dbAccessLevel = (int) $row['accesslevel'];
-			$dbLabel = $row['label'];
-			$dbPassword = $row['password'];
-			$shares[] = [
-				'token' => $dbToken,
-				'id' => $dbId,
-				'accesslevel' => $dbAccessLevel,
-				'label' => $dbLabel,
-				'password' => $dbPassword,
-				'type' => Application::SHARE_TYPE_PUBLIC_LINK,
-			];
-		}
-		$req->closeCursor();
-
-		return $shares;
+		$shares = $this->shareMapper->getSharesOfProject($projectId, Share::TYPE_PUBLIC_LINK);
+		return array_map(function (Share $share) {
+			return $share->jsonSerialize();
+		}, $shares);
 	}
 
 	/**

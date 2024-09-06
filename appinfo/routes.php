@@ -101,7 +101,11 @@ return [
 	// - same API for public access (share link) with web page or clients
 	'ocs' => [
 		['name' => 'api#ping', 'url' => '/api/{apiVersion}/ping', 'verb' => 'GET', 'requirements' => $requirements],
+		// federation
 		['name' => 'federation#getRemoteUserAvatar', 'url' => '/api/{apiVersion}/remote/avatar/{size}', 'verb' => 'GET', 'requirements' => $requirements],
+		['name' => 'federation#getPendingShares', 'url' => '/api/{apiVersion}/federation/pending-invitations', 'verb' => 'GET', 'requirements' => $requirements],
+		['name' => 'federation#acceptShare', 'url' => '/api/{apiVersion}/federation/invitation/{id}', 'verb' => 'POST', 'requirements' => $requirements],
+		['name' => 'federation#rejectShare', 'url' => '/api/{apiVersion}/federation/invitation/{id}', 'verb' => 'DELETE', 'requirements' => $requirements],
 		// projects
 		['name' => 'api#getLocalProjects', 'url' => '/api/{apiVersion}/projects', 'verb' => 'GET', 'requirements' => $requirements],
 		['name' => 'api#getFederatedProjects', 'url' => '/api/{apiVersion}/federated-projects', 'verb' => 'GET', 'requirements' => $requirements],

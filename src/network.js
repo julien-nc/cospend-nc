@@ -591,3 +591,20 @@ export function deleteSharedAccess(projectId, access) {
 	}
 	return axios.delete(url)
 }
+
+export function getPendingInvitations() {
+	const url = generateOcsUrl('/apps/cospend/api/v1/federation/pending-invitations')
+	return axios.get(url)
+}
+
+export function acceptPendingInvitation(invitationid) {
+	const req = {}
+	const url = generateOcsUrl('/apps/cospend/api/v1/federation/invitation/{invitationId}', { invitationid })
+	return axios.post(url, req)
+}
+
+export function rejectPendingInvitation(invitationid) {
+	const req = {}
+	const url = generateOcsUrl('/apps/cospend/api/v1/federation/invitation/{invitationId}', { invitationid })
+	return axios.delete(url, req)
+}

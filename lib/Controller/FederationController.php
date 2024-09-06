@@ -11,6 +11,7 @@
 
 namespace OCA\Cospend\Controller;
 
+use OCA\Cospend\Db\Invitation;
 use OCA\Cospend\Federation\FederationManager;
 use OCA\Cospend\Service\FederatedProjectService;
 use OCP\AppFramework\Http;
@@ -23,11 +24,11 @@ use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\OCSController;
 
 use OCP\Federation\ICloudIdManager;
-use OCP\Files\SimpleFS\InMemoryFile;
 use OCP\IAvatarManager;
 
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserSession;
 
 class FederationController extends OCSController {
@@ -123,20 +124,18 @@ class FederationController extends OCSController {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 		try {
-			$participant = $this->federationManager->acceptRemoteRoomShare($user, $id);
-		} catch (CannotReachRemoteException) {
-			return new DataResponse(['error' => 'remote'], Http::STATUS_GONE);
-		} catch (UnauthorizedException $e) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			$project = $this->federationManager->acceptRemoteProjectShare($user, $id);
 		} catch (\InvalidArgumentException $e) {
 			return new DataResponse(['error' => $e->getMessage()], $e->getMessage() === 'invitation' ? Http::STATUS_NOT_FOUND : Http::STATUS_BAD_REQUEST);
+		} catch (\Exception $e) {
+			if ($e->getMessage() === 'cannot reach remote server') {
+				return new DataResponse(['error' => 'remote'], Http::STATUS_GONE);
+			} elseif ($e->getMessage() === 'unauthorized user') {
+				return new DataResponse([], Http::STATUS_NOT_FOUND);
+			}
+			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($this->roomFormatter->formatRoom(
-			$this->getResponseFormat(),
-			[],
-			$participant->getRoom(),
-			$participant,
-		));
+		return new DataResponse($project);
 	}
 
 	/**
@@ -160,11 +159,14 @@ class FederationController extends OCSController {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 		try {
-			$this->federationManager->rejectRemoteRoomShare($user, $id);
-		} catch (UnauthorizedException $e) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			$this->federationManager->rejectRemoteProjectShare($user, $id);
 		} catch (\InvalidArgumentException $e) {
 			return new DataResponse(['error' => $e->getMessage()], $e->getMessage() === 'invitation' ? Http::STATUS_NOT_FOUND : Http::STATUS_BAD_REQUEST);
+		} catch (\Exception $e) {
+			if ($e->getMessage() === 'unauthorized user') {
+				return new DataResponse([], Http::STATUS_NOT_FOUND);
+			}
+			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 		return new DataResponse();
 	}
@@ -174,40 +176,24 @@ class FederationController extends OCSController {
 	 *
 	 * 🚧 Draft: Still work in progress
 	 *
-	 * @return DataResponse<Http::STATUS_OK, list<TalkFederationInvite>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<CospendFederationInvite>, array{}>
 	 *
 	 * 200: Get list of received federation invites successfully
 	 */
 	#[NoAdminRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_FEDERATION)]
-	public function getShares(): DataResponse {
+	public function getPendingShares(): DataResponse {
 		$user = $this->userSession->getUser();
 		if (!$user instanceof IUser) {
-			throw new UnauthorizedException();
+			throw new \Exception('Unauthorized');
 		}
-		$invitations = $this->federationManager->getRemoteRoomShares($user);
+		$invitations = $this->federationManager->getRemoteProjectShares($user, Invitation::STATE_PENDING);
+		$jsonInvitations = array_map(function (Invitation $invite) {
+			$json = $invite->jsonSerialize();
+			unset($json['accessToken']);
+			return $json;
+		}, $invitations);
 
-		/** @var list<TalkFederationInvite> $data */
-		$data = array_values(array_filter(array_map([$this, 'enrichInvite'], $invitations)));
-
-		return new DataResponse($data);
+		return new DataResponse($jsonInvitations);
 	}
-
-	/**
-	 * @param Invitation $invitation
-	 * @return TalkFederationInvite|null
-	 */
-	protected function enrichInvite(Invitation $invitation): ?array {
-		try {
-			$room = $this->talkManager->getRoomById($invitation->getLocalRoomId());
-		} catch (RoomNotFoundException) {
-			return null;
-		}
-
-		$federationInvite = $invitation->jsonSerialize();
-		$federationInvite['roomName'] = $room->getName();
-		$federationInvite['localToken'] = $room->getToken();
-		return $federationInvite;
-	}
-
 }

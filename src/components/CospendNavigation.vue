@@ -62,6 +62,21 @@
 		<template #footer>
 			<div id="app-settings">
 				<div id="app-settings-header">
+					<PendingInvitationsModal v-if="showPendingInvitations"
+						:invitations="pendingInvitations"
+						@close="showPendingInvitations = false" />
+					<NcAppNavigationItem v-if="pendingInvitations.length > 0"
+						:name="t('cospend', 'Pending remote invitations')"
+						@click="showPendingInvitations = true">
+						<template #icon>
+							<WebIcon />
+						</template>
+						<template #counter>
+							<NcCounterBubble>
+								{{ pendingInvitations.length }}
+							</NcCounterBubble>
+						</template>
+					</NcAppNavigationItem>
 					<NcAppNavigationItem
 						:name="showArchivedProjects ? t('cospend', 'Show active projects') : t('cospend', 'Show archived projects')"
 						@click="toggleArchivedProjects">
@@ -89,6 +104,7 @@
 </template>
 
 <script>
+import WebIcon from 'vue-material-design-icons/Web.vue'
 import FolderPlusIcon from 'vue-material-design-icons/FolderPlus.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
@@ -105,6 +121,7 @@ import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
 
 import AppNavigationProjectItem from './AppNavigationProjectItem.vue'
 import NewProjectModal from './NewProjectModal.vue'
+import PendingInvitationsModal from './PendingInvitationsModal.vue'
 
 import cospend from '../state.js'
 import * as constants from '../constants.js'
@@ -117,6 +134,7 @@ import { showSuccess } from '@nextcloud/dialogs'
 export default {
 	name: 'CospendNavigation',
 	components: {
+		PendingInvitationsModal,
 		NewProjectModal,
 		AppNavigationProjectItem,
 		NcAppNavigation,
@@ -131,6 +149,7 @@ export default {
 		FolderPlusIcon,
 		ArchiveLockIcon,
 		CalendarIcon,
+		WebIcon,
 	},
 	directives: {
 		ClickOutside,
@@ -156,6 +175,10 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		pendingInvitations: {
+			type: Array,
+			default: () => [],
+		},
 	},
 	data() {
 		return {
@@ -167,6 +190,7 @@ export default {
 			importingProject: false,
 			showCreationModal: false,
 			showArchivedProjects: false,
+			showPendingInvitations: false,
 		}
 	},
 	computed: {

@@ -113,7 +113,7 @@ class FederationManager {
 			throw new \InvalidArgumentException('invitation');
 		}
 		if ($invitation->getUserId() !== $user->getUID()) {
-			throw new \Exception('Unauthorized user');
+			throw new \Exception('unauthorized user');
 		}
 
 		if ($invitation->getState() === Invitation::STATE_ACCEPTED) {
@@ -128,7 +128,7 @@ class FederationManager {
 				$user->getDisplayName(), $cloudId->getId()
 			)
 		) {
-			throw new \Exception('Can\'t reach remote server');
+			throw new \Exception('cannot reach remote server');
 		}
 
 		$invitation->setState(Invitation::STATE_ACCEPTED);
@@ -191,11 +191,12 @@ class FederationManager {
 
 	/**
 	 * @param IUser $user
+	 * @param int|null $state
 	 * @return Invitation[]
 	 * @throws Exception
 	 */
-	public function getRemoteProjectShares(IUser $user): array {
-		return $this->invitationMapper->getInvitationsForUser($user->getUID());
+	public function getRemoteProjectShares(IUser $user, ?int $state = null): array {
+		return $this->invitationMapper->getInvitationsForUser($user->getUID(), $state);
 	}
 
 	/**

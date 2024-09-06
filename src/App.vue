@@ -5,6 +5,7 @@
 			:selected-project-id="currentProjectId"
 			:selected-member-id="selectedMemberId"
 			:trashbin-enabled="trashbinEnabled"
+			:pending-invitations="pendingInvitations"
 			:loading="projectsLoading" />
 		<NcAppContent
 			:list-max-width="isSidebarOpen ? 40 : 50"
@@ -242,6 +243,7 @@ export default {
 			selectedMemberId: null,
 			showMoveModal: false,
 			billToMove: null,
+			pendingInvitations: [],
 		}
 	},
 	computed: {
@@ -352,6 +354,9 @@ export default {
 		subscribe('trashbin-clicked', this.onTrashbinClicked)
 		subscribe('close-trashbin', this.onCloseTrashbinClicked)
 		subscribe('clear-trashbin-clicked', this.onClearTrashBinClicked)
+
+		subscribe('add-project', this.addProject)
+		subscribe('delete-invitation', this.deleteInvitation)
 	},
 	beforeDestroy() {
 		unsubscribe('nextcloud:unified-search.search', this.filter)
@@ -378,8 +383,17 @@ export default {
 		unsubscribe('trashbin-clicked', this.onTrashbinClicked)
 		unsubscribe('close-trashbin', this.onCloseTrashbinClicked)
 		unsubscribe('clear-trashbin-clicked', this.onClearTrashBinClicked)
+
+		unsubscribe('add-project', this.addProject)
+		unsubscribe('delete-invitation', this.deleteInvitation)
 	},
 	methods: {
+		deleteInvitation(invitationId) {
+			const index = this.pendingInvitations.findIndex(i => i.id === invitationId)
+			if (index !== -1) {
+				this.pendingInvitations.splice(index, 1)
+			}
+		},
 		onResetFilters() {
 			this.selectedCategoryFilter = null
 			this.selectedPaymentModeFilter = null
@@ -869,10 +883,7 @@ export default {
 				this.projectsLoading = false
 			}).catch((error) => {
 				console.debug(error)
-				showError(
-					t('cospend', 'Failed to get projects')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
-				)
+				showError(t('cospend', 'Failed to get projects'))
 			})
 
 			network.getFederatedProjectIds().then(response => {
@@ -885,8 +896,19 @@ export default {
 						if (cospend.restoredCurrentProjectId !== null && cospend.restoredCurrentProjectId === project.id) {
 							this.selectProject(cospend.restoredCurrentProjectId, false, false, true)
 						}
+					}).catch((error) => {
+						console.error(error)
+						showError(t('cospend', 'Failed to get federate project'))
 					})
 				})
+			})
+
+			network.getPendingInvitations().then(response => {
+				console.debug('[cospend] pending shares', response.data.ocs.data)
+				this.pendingInvitations = response.data.ocs.data
+			}).catch((error) => {
+				console.error(error)
+				showError(t('cospend', 'Failed to get pending remote invitations'))
 			})
 		},
 		getBills(projectId, selectBillId = null, callback = null, pushState = true, deleted = false) {

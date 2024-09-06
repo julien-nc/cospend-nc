@@ -461,11 +461,10 @@ export default {
 			return this.shares.filter(sh => sh.type === constants.SHARE_TYPE.PUBLIC_LINK)
 		},
 		federatedShares() {
-			console.debug('ffffffffffffff', this.shares.filter(sh => sh.type === constants.SHARE_TYPE.FEDERATED))
 			return this.shares.filter(sh => sh.type === constants.SHARE_TYPE.FEDERATED)
 		},
 		ugcShares() {
-			return this.shares.filter(sh => ![constants.SHARE_TYPE.PUBLIC_LINK].includes(sh.type))
+			return this.shares.filter(sh => [constants.SHARE_TYPE.USER, constants.SHARE_TYPE.GROUP, constants.SHARE_TYPE.CIRCLE].includes(sh.type))
 		},
 		projectId() {
 			return this.project.id

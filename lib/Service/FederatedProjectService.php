@@ -19,6 +19,9 @@ use OCA\Cospend\Db\Invitation;
 use OCA\Cospend\Db\InvitationMapper;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\Files\SimpleFS\InMemoryFile;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 
@@ -428,5 +431,26 @@ class FederatedProjectService implements IProjectService {
 			'rate' => $rate,
 		];
 		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/currency/' . $currencyId, $params, 'PUT');
+	}
+
+	public function getUserProxyAvatar(string $remoteServer, string $user, int $size, bool $darkTheme): FileDisplayResponse {
+		$url = $remoteServer . '/index.php/avatar/' . $user . '/' . $size . ($darkTheme ? '/dark' : '');
+		$options = [
+			'headers' => [
+				'User-Agent' => $this->USER_AGENT,
+			],
+		];
+		$response = $this->client->get($url, $options);
+		$content = $response->getBody();
+		if ($content === '') {
+			throw new \Exception('No avatar content received');
+		}
+
+		$file = new InMemoryFile($user, $content);
+
+		$response = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => $file->getMimeType()]);
+		// Cache for 1 day
+		$response->cacheFor(60 * 60 * 24, false, true);
+		return $response;
 	}
 }

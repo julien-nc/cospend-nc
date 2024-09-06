@@ -20,6 +20,7 @@ export const SHARE_TYPE = {
 	USER: 'u',
 	GROUP: 'g',
 	CIRCLE: 'c',
+	FEDERATED: 'f',
 }
 
 export const FREQUENCY = {

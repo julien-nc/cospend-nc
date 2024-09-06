@@ -11,13 +11,10 @@ namespace OCA\Cospend\Federation;
 use OCA\Cospend\Db\Project;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\DB\Exception;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationNotification;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
-use OCP\HintException;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -34,7 +31,6 @@ class BackendNotifier {
 		private ICloudFederationProviderManager $federationProviderManager,
 		private IUserManager $userManager,
 		private IURLGenerator $url,
-		private ITimeFactory $timeFactory,
 		private ICloudIdManager $cloudIdManager,
 		private RestrictionValidator $restrictionValidator,
 	) {
@@ -45,8 +41,6 @@ class BackendNotifier {
 	 * Sent from Host server to Remote user server
 	 *
 	 * @return array{displayName: string, cloudId: string}|false
-	 * @throws HintException
-	 * @throws Exception
 	 */
 	public function sendRemoteShare(
 		string $providerId,

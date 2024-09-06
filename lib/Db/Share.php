@@ -44,7 +44,7 @@ class Share extends Entity implements \JsonSerializable {
 	protected int $manuallyAdded = 1;
 	protected ?string $label = null;
 	protected ?string $password = null;
-	protected ?string $user_cloud_id = null;
+	protected ?string $userCloudId = null;
 	protected ?int $state = null;
 
 	public function __construct() {
@@ -63,10 +63,10 @@ class Share extends Entity implements \JsonSerializable {
 		return [
 			'id' => $this->getId(),
 			'projectid' => $this->getProjectid(),
-			'userid' => $this->getUserId(),
+			'userid' => $this->getUserid(),
 			'type' => $this->getType(),
 			'accesslevel' => $this->getAccesslevel(),
-			'manuallyAdded' => $this->getManuallyAdded(),
+			'manuallyAdded' => $this->getManuallyAdded() === 1,
 			'label' => $this->getLabel(),
 			'password' => $this->getPassword(),
 			'userCloudId' => $this->getUserCloudId(),

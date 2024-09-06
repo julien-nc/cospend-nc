@@ -111,15 +111,20 @@ class ShareMapper extends QBMapper {
 
 	/**
 	 * @param string $projectId
+	 * @param string|null $type
 	 * @return Share[]
 	 * @throws Exception
 	 */
-	public function getSharesOfProject(string $projectId): array {
+	public function getSharesOfProject(string $projectId, ?string $type = null): array {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
 			->from($this->getTableName())
 			->where($qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR)));
+
+		if ($type !== null) {
+			$qb->andWhere($qb->expr()->eq('type', $qb->createNamedParameter($type, IQueryBuilder::PARAM_STR)));
+		}
 
 		return $this->findEntities($qb);
 	}

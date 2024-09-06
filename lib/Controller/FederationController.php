@@ -11,49 +11,95 @@
 
 namespace OCA\Cospend\Controller;
 
-use GuzzleHttp\Exception\ClientException;
-use OC\User\NoUserException;
-use OCA\Cospend\Activity\ActivityManager;
-use OCA\Cospend\AppInfo\Application;
-use OCA\Cospend\Attribute\SupportFederatedProject;
-use OCA\Cospend\Attribute\CospendUserPermissions;
-use OCA\Cospend\Db\BillMapper;
-use OCA\Cospend\Exception\CospendBasicException;
-use OCA\Cospend\ResponseDefinitions;
-use OCA\Cospend\Service\CospendService;
-use OCA\Cospend\Service\IProjectService;
-use OCA\Cospend\Service\LocalProjectService;
-use OCA\Richdocuments\Service\FederationService;
+use OCA\Cospend\Federation\FederationManager;
+use OCA\Cospend\Service\FederatedProjectService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\OCSController;
-use OCP\Constants;
 
-use OCP\DB\Exception;
-
-use OCP\Files\File;
-use OCP\Files\InvalidPathException;
-use OCP\Files\IRootFolder;
-use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
-use OCP\IL10N;
+use OCP\Federation\ICloudIdManager;
+use OCP\Files\SimpleFS\InMemoryFile;
+use OCP\IAvatarManager;
 
 use OCP\IRequest;
-use OCP\Lock\LockedException;
-use OCP\Share\IManager;
-use OCP\Share\IShare;
+use OCP\IURLGenerator;
+use OCP\IUserSession;
 
 class FederationController extends OCSController {
 
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		private FederationService $federationService,
+		private FederationManager $federationManager,
+		private FederatedProjectService $federatedProjectService,
+		private ICloudIdManager $cloudIdManager,
+		private IURLGenerator $urlGenerator,
+		private IUserSession $userSession,
+		private IAvatarManager $avatarManager,
 		public ?string $userId,
 	) {
 		parent::__construct($appName, $request);
+	}
+
+	#[OpenAPI(scope: OpenAPI::SCOPE_FEDERATION)]
+	#[NoCSRFRequired]
+	public function getRemoteUserAvatar(int $size, string $cloudId, bool $darkTheme = false): FileDisplayResponse|RedirectResponse {
+		try {
+			$resolvedCloudId = $this->cloudIdManager->resolveCloudId($cloudId);
+		} catch (\InvalidArgumentException) {
+			return $this->getPlaceholderResponse('?');
+		}
+
+		$ownId = $this->cloudIdManager->getCloudId($this->userSession->getUser()->getCloudId(), null);
+
+		/**
+		 * Reach out to the remote server to get the avatar
+		 */
+		if ($ownId->getRemote() !== $resolvedCloudId->getRemote()) {
+			try {
+				return $this->federatedProjectService->getUserProxyAvatar($resolvedCloudId->getRemote(), $resolvedCloudId->getUser(), $size, $darkTheme);
+			} catch (\Throwable $e) {
+				// Falling back to a local "user" avatar
+				return $this->getPlaceholderResponse($resolvedCloudId->getUser());
+			}
+		}
+
+		/**
+		 * We are the server that hosts the user, so getting it from the avatar manager
+		 */
+		try {
+			$avatar = $this->avatarManager->getAvatar($resolvedCloudId->getUser());
+			$avatarFile = $avatar->getFile($size, $darkTheme);
+		} catch (\Exception) {
+			return $this->getPlaceholderResponse($resolvedCloudId->getUser());
+		}
+
+		$response = new FileDisplayResponse(
+			$avatarFile,
+			Http::STATUS_OK,
+			['Content-Type' => $avatarFile->getMimeType()],
+		);
+		// Cache for 1 day
+		$response->cacheFor(60 * 60 * 24, false, true);
+		return $response;
+	}
+
+	/**
+	 * Get the placeholder avatar
+	 *
+	 * @param string $name
+	 * @return RedirectResponse<Http::STATUS_OK, array{Content-Type: string}>
+	 *
+	 * 200: User avatar returned
+	 */
+	protected function getPlaceholderResponse(string $name): RedirectResponse {
+		$fallbackAvatarUrl = $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => $name, 'size' => 44]);
+		return new RedirectResponse($fallbackAvatarUrl);
 	}
 
 	/**

@@ -127,6 +127,28 @@ class Notifier implements INotifier {
 				}
 				return $notification;
 
+			case 'remote_cospend_share':
+				// $inviteId = (int)$notification->getObjectId();
+				$p = $notification->getSubjectParameters();
+
+				$subject = $l->t('Cospend federated project shared');
+				$content = $l->t('%s (%s) shared Cospend project "%s" (%s) with you.', [
+					$p['sharedByDisplayName'],
+					$p['sharedByFederatedId'],
+					$p['remoteProjectName'],
+					$p['remoteProjectId'],
+				]);
+				$iconUrl = $this->url->getAbsoluteURL(
+					$this->url->imagePath('core', 'actions/share.svg')
+				);
+
+				$notification
+					->setParsedSubject($subject)
+					->setParsedMessage($content)
+					->setLink($this->url->linkToRouteAbsolute('cospend.page.index'))
+					->setIcon($iconUrl);
+				return $notification;
+
 			default:
 				// Unknown subject => Unknown notification => throw
 				throw new InvalidArgumentException();

@@ -29,12 +29,19 @@ use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Db\Member;
 use OCA\Cospend\Db\MemberMapper;
 use OCA\Cospend\Db\ProjectMapper;
+use OCA\Cospend\Db\Share;
+use OCA\Cospend\Db\ShareMapper;
 use OCA\Cospend\Exception\CospendBasicException;
+use OCA\Cospend\Federation\BackendNotifier;
+use OCA\Cospend\Federation\FederationManager;
 use OCA\Cospend\ResponseDefinitions;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
+use OCP\Federation\ICloudIdManager;
 use OCP\Files\Folder;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
@@ -50,6 +57,7 @@ use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\Lock\LockedException;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\Security\ISecureRandom;
 use Throwable;
 
 /**
@@ -69,6 +77,9 @@ class LocalProjectService implements IProjectService {
 		private ProjectMapper $projectMapper,
 		private BillMapper $billMapper,
 		private MemberMapper $memberMapper,
+		private ShareMapper $shareMapper,
+		private BackendNotifier $backendNotifier,
+		private ICloudIdManager $cloudIdManager,
 		private ActivityManager $activityManager,
 		private IUserManager $userManager,
 		private IAppManager $appManager,
@@ -77,6 +88,7 @@ class LocalProjectService implements IProjectService {
 		private IRootFolder $root,
 		private INotificationManager $notificationManager,
 		private IDBConnection $db,
+		private ISecureRandom $secureRandom,
 	) {
 		$this->defaultCategories = [
 			[
@@ -381,7 +393,8 @@ class LocalProjectService implements IProjectService {
 		$groupShares = $this->getGroupShares($dbProjectId);
 		$circleShares = $this->getCircleShares($dbProjectId);
 		$publicShares = $this->getPublicShares($dbProjectId);
-		$shares = array_merge($userShares, $groupShares, $circleShares, $publicShares);
+		$federatedShares = $this->getFederatedShares($dbProjectId);
+		$shares = array_merge($userShares, $groupShares, $circleShares, $publicShares, $federatedShares);
 
 		$extraProjectInfo = [
 			'active_members' => $activeMembers,
@@ -2006,6 +2019,18 @@ class LocalProjectService implements IProjectService {
 	}
 
 	/**
+	 * @param string $projectId
+	 * @return array
+	 * @throws \OCP\DB\Exception
+	 */
+	private function getFederatedShares(string $projectId): array {
+		$shares = $this->shareMapper->getSharesOfProject($projectId, Share::TYPE_FEDERATION);
+		return array_map(function (Share $share) {
+			return $share->jsonSerialize();
+		}, $shares);
+	}
+
+	/**
 	 * Get user shared access of a project
 	 *
 	 * @param string $projectId
@@ -3413,6 +3438,95 @@ class LocalProjectService implements IProjectService {
 	}
 
 	/**
+	 * Add a federated shared access to a project
+	 *
+	 * @param string $projectId
+	 * @param string $userCloudId
+	 * @param string $fromUserId
+	 * @param int $accessLevel
+	 * @param bool $manually_added
+	 * @return Share
+	 * @throws CospendBasicException
+	 * @throws MultipleObjectsReturnedException
+	 * @throws \OCP\DB\Exception
+	 */
+	public function createFederatedShare(
+		string $projectId, string $userCloudId, string $fromUserId, int $accessLevel = Application::ACCESS_LEVEL_PARTICIPANT,
+		bool $manually_added = true
+	): Share {
+		try {
+			$this->shareMapper->getFederatedShareByProjectIdAndUserCloudId($projectId, $userCloudId);
+			throw new CospendBasicException('Share already exists', Http::STATUS_BAD_REQUEST);
+		} catch (DoesNotExistException $e) {
+		}
+
+		$userMaxAccessLevel = $this->getUserMaxAccessLevel($fromUserId, $projectId);
+		if ($userMaxAccessLevel < $accessLevel) {
+			throw new CospendBasicException(
+				'This user is not authorized to create a federated share with such access level. Max (' . $userMaxAccessLevel . ')',
+				Http::STATUS_BAD_REQUEST,
+			);
+		}
+
+		$shareToken = $this->secureRandom->generate(
+			FederationManager::TOKEN_LENGTH,
+			ISecureRandom::CHAR_HUMAN_READABLE
+		);
+
+		$newShare = new Share();
+		$newShare->setProjectid($projectId);
+		$newShare->setUserid($shareToken);
+		$newShare->setType(Share::TYPE_FEDERATION);
+		$newShare->setAccesslevel($accessLevel);
+		$newShare->setUserCloudId($userCloudId);
+		$insertedShare = $this->shareMapper->insert($newShare);
+
+		/*
+		$sharedBy = $this->userManager->get($fromUserId);
+		$project = $this->projectMapper->getById($projectId);
+		$response = $this->backendNotifier->sendRemoteShare($projectId, $shareToken, $userCloudId, $sharedBy, 'user', $project);
+		if (!$response) {
+			$this->shareMapper->delete($insertedShare);
+			throw new CospendBasicException('Cannot reach remote server', Http::STATUS_BAD_REQUEST);
+		}
+		*/
+		return $insertedShare;
+	}
+
+	/**
+	 * Delete federated shared access
+	 *
+	 * @param string $projectId
+	 * @param int $shId
+	 * @return void
+	 * @throws CospendBasicException
+	 * @throws \OCP\DB\Exception
+	 */
+	public function deleteFederatedShare(string $projectId, int $shId): void {
+		try {
+			$share = $this->shareMapper->getShareById($shId);
+		} catch (DoesNotExistException $e) {
+			throw new CospendBasicException('Share does not exist', Http::STATUS_BAD_REQUEST);
+		}
+
+		if ($share->getProjectid() !== $projectId) {
+			throw new CospendBasicException('Wrong projectId in the share to delete', Http::STATUS_BAD_REQUEST);
+		}
+
+		/*
+		$cloudId = $this->cloudIdManager->resolveCloudId($share->getUserCloudId());
+
+		$this->backendNotifier->sendRemoteUnShare(
+			$cloudId->getRemote(),
+			$projectId,
+			$share->getUserid(),
+		);
+		*/
+
+		$this->shareMapper->delete($share);
+	}
+
+	/**
 	 * Add a user shared access to a project
 	 *
 	 * @param string $projectId
@@ -3536,13 +3650,14 @@ class LocalProjectService implements IProjectService {
 		string $projectId, ?string $label = null, ?string $password = null, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT
 	): array {
 		$qb = $this->db->getQueryBuilder();
-		// generate token
-		$token = md5($projectId.rand());
-
+		$shareToken = $this->secureRandom->generate(
+			FederationManager::TOKEN_LENGTH,
+			ISecureRandom::CHAR_HUMAN_READABLE
+		);
 		$qb->insert('cospend_shares')
 			->values([
 				'projectid' => $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR),
-				'userid' => $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR),
+				'userid' => $qb->createNamedParameter($shareToken, IQueryBuilder::PARAM_STR),
 				'type' => $qb->createNamedParameter(Application::SHARE_TYPE_PUBLIC_LINK, IQueryBuilder::PARAM_STR),
 				'accesslevel' => $qb->createNamedParameter($accesslevel, IQueryBuilder::PARAM_INT),
 				'label' => $qb->createNamedParameter($label, IQueryBuilder::PARAM_STR),

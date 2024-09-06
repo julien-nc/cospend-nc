@@ -1199,6 +1199,68 @@ class ApiController extends OCSController {
 	}
 
 	/**
+	 * Create a federated user share
+	 *
+	 * @param string $projectId
+	 * @param string $userCloudId
+	 * @param int $accessLevel
+	 * @param bool $manuallyAdded
+	 * @return DataResponse<Http::STATUS_OK, CospendUserShare, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 * @throws Exception
+	 *
+	 * 200: The federated share was successfully created
+	 * 400: Failed to create the federated share
+	 */
+	#[NoAdminRequired]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
+	public function createFederatedShare(
+		string $projectId, string $userCloudId, int $accessLevel = Application::ACCESS_LEVEL_PARTICIPANT,
+		bool $manuallyAdded = true
+	): DataResponse {
+		try {
+			$share = $this->localProjectService->createFederatedShare($projectId, $userCloudId, $this->userId, $accessLevel, $manuallyAdded);
+			return new DataResponse($share->jsonSerialize());
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->getMessage(), $e->getCode());
+		}
+	}
+
+	/**
+	 * Delete a federated share (unshare)
+	 *
+	 * @param string $projectId
+	 * @param int $shId
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
+	 * @throws Exception
+	 *
+	 * 200: The federated share was successfully deleted
+	 * 400: Failed to delete the user share
+	 */
+	#[NoAdminRequired]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
+	public function deleteFederatedShare(string $projectId, int $shId): DataResponse {
+		// allow to delete share if user perms are at least participant AND if this share perms are <= user perms
+		$userAccessLevel = $this->localProjectService->getUserMaxAccessLevel($this->userId, $projectId);
+		$shareAccessLevel = $this->localProjectService->getShareAccessLevel($projectId, $shId);
+		if ($userAccessLevel < $shareAccessLevel) {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to remove this shared access')],
+				Http::STATUS_UNAUTHORIZED
+			);
+		}
+		try {
+			$this->localProjectService->deleteFederatedShare($projectId, $shId);
+			return new DataResponse('');
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->getMessage(), $e->getCode());
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		}
+	}
+
+	/**
 	 * Create a user share
 	 *
 	 * @param string $projectId

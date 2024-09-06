@@ -16,6 +16,7 @@ use DateTime;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\QBMapper;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -34,6 +35,23 @@ class ProjectMapper extends QBMapper {
 		private IL10N $l10n,
 	) {
 		parent::__construct($db, self::TABLE_NAME, Project::class);
+	}
+
+	/**
+	 * @param string $projectId
+	 * @return Project
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
+	 * @throws Exception
+	 */
+	public function getById(string $projectId): Project {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR)));
+
+		return $this->findEntity($qb);
 	}
 
 	public function createProject(

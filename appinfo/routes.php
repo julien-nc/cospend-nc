@@ -101,6 +101,7 @@ return [
 	// - same API for public access (share link) with web page or clients
 	'ocs' => [
 		['name' => 'api#ping', 'url' => '/api/{apiVersion}/ping', 'verb' => 'GET', 'requirements' => $requirements],
+		['name' => 'federation#getRemoteUserAvatar', 'url' => '/api/{apiVersion}/remote/avatar/{size}', 'verb' => 'GET', 'requirements' => $requirements],
 		// projects
 		['name' => 'api#getLocalProjects', 'url' => '/api/{apiVersion}/projects', 'verb' => 'GET', 'requirements' => $requirements],
 		['name' => 'api#getFederatedProjects', 'url' => '/api/{apiVersion}/federated-projects', 'verb' => 'GET', 'requirements' => $requirements],
@@ -161,6 +162,8 @@ return [
 		['name' => 'api#deleteCircleShare', 'url' => '/api/{apiVersion}/projects/{projectId}/circle-share/{shId}', 'verb' => 'DELETE', 'requirements' => $requirements],
 		['name' => 'api#createPublicShare', 'url' => '/api/{apiVersion}/projects/{projectId}/public-share', 'verb' => 'POST', 'requirements' => $requirements],
 		['name' => 'api#deletePublicShare', 'url' => '/api/{apiVersion}/projects/{projectId}/public-share/{shId}', 'verb' => 'DELETE', 'requirements' => $requirements],
+		['name' => 'api#createFederatedShare', 'url' => '/api/{apiVersion}/projects/{projectId}/federated-share', 'verb' => 'POST', 'requirements' => $requirements],
+		['name' => 'api#deleteFederatedShare', 'url' => '/api/{apiVersion}/projects/{projectId}/federated-share/{shId}', 'verb' => 'DELETE', 'requirements' => $requirements],
 		['name' => 'api#editSharedAccessLevel', 'url' => '/api/{apiVersion}/projects/{projectId}/share-access-level/{shId}', 'verb' => 'PUT', 'requirements' => $requirements],
 		['name' => 'api#editSharedAccess', 'url' => '/api/{apiVersion}/projects/{projectId}/share-access/{shId}', 'verb' => 'PUT', 'requirements' => $requirements],
 		// currencies

@@ -7,6 +7,8 @@
 			:aria-label-combobox="t('cospend', 'Share project with a user, group or circle')"
 			:placeholder="t('cospend', 'Share project with a user, group or circle')"
 			:options="formatedSharees"
+			:filterable="false"
+			:clear-search-on-blur="() => false"
 			:append-to-body="false"
 			label="displayName"
 			@search="asyncFind"
@@ -22,6 +24,22 @@
 						:display-name="option.name"
 						:is-no-user="true"
 						:show-user-status="false" />
+					<div v-else-if="option.type === constants.SHARE_TYPE.FEDERATED"
+						class="federated-avatar-wrapper">
+						<NcAvatar
+							:url="getRemoteAvatarUrl(option.user)"
+							:is-no-user="true"
+							:show-user-status="false"
+							:disable-menu="true"
+							:disable-tooltip="true" />
+						<span
+							class="federated-avatar-wrapper__user-status"
+							role="img"
+							aria-hidden="false"
+							:aria-label="t('cospend', 'Federated user')">
+							<WebIcon :size="14" />
+						</span>
+					</div>
 					<span class="multiselect-name">
 						{{ option.displayName }}
 					</span>
@@ -33,6 +51,9 @@
 					</div>
 					<div v-else-if="option.type === constants.SHARE_TYPE.CIRCLE" class="multiselect-icon">
 						<GoogleCirclesCommunitiesIcon :size="20" />
+					</div>
+					<div v-else-if="option.type === constants.SHARE_TYPE.FEDERATED" class="multiselect-icon">
+						<WebIcon :size="20" />
 					</div>
 				</div>
 			</template>
@@ -82,6 +103,74 @@
 							<PlusIcon :size="20" />
 						</template>
 						{{ t('cospend', 'Create a new share link') }}
+					</NcActionButton>
+				</NcActions>
+			</li>
+			<li v-for="access in federatedShares" :key="'fed-' + access.id">
+				<div class="federated-avatar-wrapper">
+					<NcAvatar
+						:display-name="access.userCloudId"
+						:url="getRemoteAvatarUrl(access.userCloudId)"
+						:is-no-user="true"
+						:show-user-status="false"
+						:disable-menu="true"
+						:disable-tooltip="true" />
+					<span
+						class="federated-avatar-wrapper__user-status"
+						role="img"
+						aria-hidden="false"
+						:aria-label="t('cospend', 'Federated user')">
+						<WebIcon :size="14" />
+					</span>
+				</div>
+				<span class="username">
+					<span>{{ access.userCloudId + ( access.label ? ' ( ' + access.label + ' )' : '') }}</span>
+				</span>
+				<NcActions
+					:force-menu="true"
+					placement="bottom">
+					<NcActionInput
+						type="text"
+						:value="access.label ?? ''"
+						:disabled="!editionAccess || myAccessLevel < access.accesslevel"
+						@submit="submitLabel(access, $event)">
+						<template #icon>
+							<TextBoxIcon :size="20" />
+						</template>
+						{{ t('cospend', 'Label') }}
+					</NcActionInput>
+					<NcActionSeparator />
+					<NcActionRadio name="accessLevel"
+						:disabled="!canSetAccessLevel(constants.ACCESS.VIEWER, access)"
+						:checked="access.accesslevel === constants.ACCESS.VIEWER"
+						@change="clickAccessLevel(access, constants.ACCESS.VIEWER)">
+						{{ t('cospend', 'Viewer') }}
+					</NcActionRadio>
+					<NcActionRadio name="accessLevel"
+						:disabled="!canSetAccessLevel(constants.ACCESS.PARTICIPANT, access)"
+						:checked="access.accesslevel === constants.ACCESS.PARTICIPANT"
+						@change="clickAccessLevel(access, constants.ACCESS.PARTICIPANT)">
+						{{ t('cospend', 'Participant') }}
+					</NcActionRadio>
+					<NcActionRadio name="accessLevel"
+						:disabled="!canSetAccessLevel(constants.ACCESS.MAINTENER, access)"
+						:checked="access.accesslevel === constants.ACCESS.MAINTENER"
+						@change="clickAccessLevel(access, constants.ACCESS.MAINTENER)">
+						{{ t('cospend', 'Maintainer') }}
+					</NcActionRadio>
+					<NcActionRadio name="accessLevel"
+						:disabled="!canSetAccessLevel(constants.ACCESS.ADMIN, access)"
+						:checked="access.accesslevel === constants.ACCESS.ADMIN"
+						@change="clickAccessLevel(access, constants.ACCESS.ADMIN)">
+						{{ t('cospend', 'Admin') }}
+					</NcActionRadio>
+					<NcActionSeparator />
+					<NcActionButton v-if="editionAccess && myAccessLevel >= access.accesslevel"
+						@click="clickDeleteAccess(access)">
+						<template #icon>
+							<DeleteIcon :size="20" />
+						</template>
+						{{ t('cospend', 'Delete link') }}
 					</NcActionButton>
 				</NcActions>
 			</li>
@@ -273,6 +362,7 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import TextBoxIcon from 'vue-material-design-icons/TextBox.vue'
 import LinkVariantIcon from 'vue-material-design-icons/LinkVariant.vue'
 import QrcodeIcon from 'vue-material-design-icons/Qrcode.vue'
+import WebIcon from 'vue-material-design-icons/Web.vue'
 
 import ClippyIcon from './icons/ClippyIcon.vue'
 
@@ -323,6 +413,7 @@ export default {
 		TextBoxIcon,
 		DeleteIcon,
 		PlusIcon,
+		WebIcon,
 		ClipboardCheckOutlineIcon,
 		LinkVariantIcon,
 		AccountIcon,
@@ -348,6 +439,11 @@ export default {
 			qrcodeColor: cospend.themeColorDark,
 			// the svg api is dead, glory to the svg api
 			qrcodeImageUrl: generateUrl('/apps/cospend/svg/cospend_square_bg?color=' + hexToDarkerHex(getComplementaryColor(cospend.themeColorDark)).replace('#', '')),
+			federatedUserStatus: {
+				status: null,
+				message: null,
+				icon: '€',
+			},
 		}
 	},
 
@@ -362,10 +458,14 @@ export default {
 			return this.project.shares
 		},
 		linkShares() {
-			return this.shares.filter((sh) => { return sh.type === constants.SHARE_TYPE.PUBLIC_LINK })
+			return this.shares.filter(sh => sh.type === constants.SHARE_TYPE.PUBLIC_LINK)
+		},
+		federatedShares() {
+			console.debug('ffffffffffffff', this.shares.filter(sh => sh.type === constants.SHARE_TYPE.FEDERATED))
+			return this.shares.filter(sh => sh.type === constants.SHARE_TYPE.FEDERATED)
 		},
 		ugcShares() {
-			return this.shares.filter((sh) => { return sh.type !== constants.SHARE_TYPE.PUBLIC_LINK })
+			return this.shares.filter(sh => ![constants.SHARE_TYPE.PUBLIC_LINK].includes(sh.type))
 		},
 		projectId() {
 			return this.project.id
@@ -374,7 +474,7 @@ export default {
 			return (uid) => uid === getCurrentUser().uid
 		},
 		formatedSharees() {
-			return this.unallocatedSharees.map(item => {
+			const formatedSharees = this.unallocatedSharees.map(item => {
 				return {
 					user: item.id,
 					manually_added: true,
@@ -385,10 +485,12 @@ export default {
 					id: item.type + ':' + item.id,
 				}
 			})
+			console.debug('[cospend] formatedSharees', formatedSharees)
+			return formatedSharees
 		},
 		// those with which the project is not shared yet
 		unallocatedSharees() {
-			return this.sharees.filter((sharee) => {
+			return this.sharees.filter(sharee => {
 				let foundIndex
 				if (sharee.type === constants.SHARE_TYPE.USER) {
 					foundIndex = this.shares.findIndex((access) => {
@@ -401,6 +503,10 @@ export default {
 				} else if (sharee.type === constants.SHARE_TYPE.CIRCLE) {
 					foundIndex = this.shares.findIndex((access) => {
 						return access.circleid === sharee.id && access.type === constants.SHARE_TYPE.CIRCLE
+					})
+				} else if (sharee.type === constants.SHARE_TYPE.FEDERATED) {
+					foundIndex = this.shares.findIndex((access) => {
+						return access.userCloudId === sharee.id && access.type === constants.SHARE_TYPE.FEDERATED
 					})
 				}
 				if (foundIndex === -1) {
@@ -415,6 +521,9 @@ export default {
 	},
 
 	methods: {
+		getRemoteAvatarUrl(cloudId) {
+			return generateOcsUrl('/apps/cospend/api/v1/remote/avatar/64?cloudId={cloudId}', { cloudId })
+		},
 		canSetAccessLevel(level, access) {
 			// i must be able to edit, have at least perms of the access, have at least same perms as what i want to set
 			// and i can't edit myself
@@ -434,11 +543,11 @@ export default {
 					search: query,
 					itemType: ' ',
 					itemId: ' ',
-					shareTypes: [0, 1, 7],
+					shareTypes: [0, 1, 6, 7],
 				},
 			}).then((response) => {
 				this.sharees = response.data.ocs.data.map((s) => {
-					const displayName = s.source === 'circles'
+					const displayName = ['circles', 'remotes'].includes(s.source)
 						? s.label
 						: s.id !== s.label ? s.label + ' (' + s.id + ')' : s.label
 					return {
@@ -450,7 +559,9 @@ export default {
 							? constants.SHARE_TYPE.USER
 							: s.source === 'groups'
 								? constants.SHARE_TYPE.GROUP
-								: constants.SHARE_TYPE.CIRCLE,
+								: s.source === 'remotes'
+									? constants.SHARE_TYPE.FEDERATED
+									: constants.SHARE_TYPE.CIRCLE,
 					}
 				})
 			}).catch((error) => {
@@ -473,6 +584,8 @@ export default {
 				if (sh.type === constants.SHARE_TYPE.PUBLIC_LINK) {
 					newShAccess.token = response.data.ocs.data.token
 					this.copyLink(newShAccess)
+				} else if (sh.type === constants.SHARE_TYPE.FEDERATED) {
+					newShAccess.userCloudId = response.data.ocs.data.userCloudId
 				} else {
 					newShAccess.name = response.data.ocs.data.name
 					if (sh.type === constants.SHARE_TYPE.USER) {
@@ -538,10 +651,7 @@ export default {
 				this.$set(access, 'label', label)
 				showSuccess(t('cospend', 'Share link saved'))
 			}).catch((error) => {
-				showError(
-					t('cospend', 'Failed to edit share link')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
-				)
+				showError(t('cospend', 'Failed to edit share link'))
 				console.error(error)
 			})
 		},
@@ -552,10 +662,7 @@ export default {
 				const index = this.shares.indexOf(access)
 				this.shares.splice(index, 1)
 			}).catch((error) => {
-				showError(
-					t('cospend', 'Failed to delete shared access')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
-				)
+				showError(t('cospend', 'Failed to delete shared access'))
 				console.error(error)
 			})
 		},
@@ -690,6 +797,22 @@ export default {
 	margin-bottom: 16px;
 	span {
 		margin-right: 8px;
+	}
+}
+
+.federated-avatar-wrapper {
+	position: relative;
+	width: 32px;
+	height: 32px;
+	&__user-status {
+		position: absolute;
+		right: -4px;
+		bottom: -4px;
+		height: 18px;
+		width: 18px;
+		border: 2px solid var(--color-main-background);
+		background-color: var(--color-main-background);
+		border-radius: 50%;
 	}
 }
 </style>

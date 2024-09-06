@@ -551,6 +551,9 @@ export function createSharedAccess(projectId, sh) {
 		url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/circle-share', { projectId })
 	} else if (sh.type === constants.SHARE_TYPE.PUBLIC_LINK) {
 		url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/public-share', { projectId })
+	} else if (sh.type === constants.SHARE_TYPE.FEDERATED) {
+		req.userCloudId = sh.user
+		url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/federated-share', { projectId })
 	}
 	return axios.post(url, req)
 }
@@ -583,6 +586,8 @@ export function deleteSharedAccess(projectId, access) {
 		url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/circle-share/{shId}', { projectId, shId })
 	} else if (access.type === constants.SHARE_TYPE.PUBLIC_LINK) {
 		url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/public-share/{shId}', { projectId, shId })
+	} else if (access.type === constants.SHARE_TYPE.FEDERATED) {
+		url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/federated-share/{shId}', { projectId, shId })
 	}
 	return axios.delete(url)
 }

@@ -3417,6 +3417,7 @@ class LocalProjectService implements IProjectService {
 	 * @param bool $manually_added
 	 * @return Share
 	 * @throws CospendBasicException
+	 * @throws DoesNotExistException
 	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
@@ -3451,7 +3452,6 @@ class LocalProjectService implements IProjectService {
 		$newShare->setUserCloudId($userCloudId);
 		$insertedShare = $this->shareMapper->insert($newShare);
 
-		/*
 		$sharedBy = $this->userManager->get($fromUserId);
 		$project = $this->projectMapper->getById($projectId);
 		$response = $this->backendNotifier->sendRemoteShare($projectId, $shareToken, $userCloudId, $sharedBy, 'user', $project);
@@ -3459,7 +3459,7 @@ class LocalProjectService implements IProjectService {
 			$this->shareMapper->delete($insertedShare);
 			throw new CospendBasicException('Cannot reach remote server', Http::STATUS_BAD_REQUEST);
 		}
-		*/
+
 		return $insertedShare;
 	}
 
@@ -3483,7 +3483,6 @@ class LocalProjectService implements IProjectService {
 			throw new CospendBasicException('Wrong projectId in the share to delete', Http::STATUS_BAD_REQUEST);
 		}
 
-		/*
 		$cloudId = $this->cloudIdManager->resolveCloudId($share->getUserCloudId());
 
 		$this->backendNotifier->sendRemoteUnShare(
@@ -3491,7 +3490,6 @@ class LocalProjectService implements IProjectService {
 			$projectId,
 			$share->getUserid(),
 		);
-		*/
 
 		$this->shareMapper->delete($share);
 	}

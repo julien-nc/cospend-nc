@@ -71,7 +71,7 @@ class FederationManager {
 		string $inviterDisplayName,
 	): Invitation {
 		try {
-			$this->invitationMapper->getInvitationsForUser($user->getUID(), null, $inviterCloudId, $remoteProjectId);
+			$this->invitationMapper->getInvitationForUser($user->getUID(), $inviterCloudId, $remoteProjectId);
 			throw new ProviderCouldNotAddShareException('Remote project already shared', '', Http::STATUS_BAD_REQUEST);
 		} catch (DoesNotExistException) {
 			// Not invited already

@@ -598,10 +598,7 @@ export default {
 				cospend.projects[this.projectId].shares.push(newShAccess)
 				this.selectedSharee = null
 			}).catch((error) => {
-				showError(
-					t('cospend', 'Failed to add shared access')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
-				)
+				showError(t('cospend', 'Failed to add shared access'))
 				console.error(error)
 			}).then(() => {
 				this.addingPublicLink = false
@@ -611,10 +608,7 @@ export default {
 			network.setSharedAccessLevel(this.projectId, access, level).then((response) => {
 				access.accesslevel = level
 			}).catch((error) => {
-				showError(
-					t('cospend', 'Failed to edit shared access level')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
-				)
+				showError(t('cospend', 'Failed to edit shared access level'))
 				console.error(error)
 			})
 		},

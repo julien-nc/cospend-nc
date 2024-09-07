@@ -136,6 +136,7 @@ class FederationManager {
 
 		$this->markNotificationProcessed($user->getUID(), $shareId);
 
+		$this->federatedProjectService->userId = $user->getUID();
 		return $this->federatedProjectService->getProjectInfoWithAccessLevel(
 			$invitation->getRemoteProjectId() . '@' . $invitation->getRemoteServerUrl(),
 			$user->getUID(),

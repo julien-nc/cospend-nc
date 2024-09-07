@@ -125,6 +125,7 @@ class FederationController extends OCSController {
 		}
 		try {
 			$project = $this->federationManager->acceptRemoteProjectShare($user, $id);
+			return new DataResponse($project);
 		} catch (\InvalidArgumentException $e) {
 			return new DataResponse(['error' => $e->getMessage()], $e->getMessage() === 'invitation' ? Http::STATUS_NOT_FOUND : Http::STATUS_BAD_REQUEST);
 		} catch (\Exception $e) {
@@ -135,7 +136,6 @@ class FederationController extends OCSController {
 			}
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
-		return new DataResponse($project);
 	}
 
 	/**

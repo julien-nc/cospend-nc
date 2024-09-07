@@ -898,7 +898,7 @@ export default {
 						}
 					}).catch((error) => {
 						console.error(error)
-						showError(t('cospend', 'Failed to get federate project'))
+						showError(t('cospend', 'Failed to get federated project'))
 					})
 				})
 			})

@@ -157,8 +157,8 @@ class ApiController extends OCSController {
 			return $this->getResponseFromClientException($e);
 		} catch (CospendBasicException $e) {
 			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		//} catch (\Throwable $e) {
+		//	return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 

@@ -46,7 +46,11 @@ class ShareMapper extends QBMapper {
 	}
 
 	/**
+	 * @param string $token
+	 * @return Share
 	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 */
 	public function getLinkOrFederatedShareByToken(
 		#[SensitiveParameter]

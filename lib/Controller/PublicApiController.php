@@ -16,9 +16,12 @@ use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Attribute\CospendPublicAuth;
 use OCA\Cospend\Db\BillMapper;
+use OCA\Cospend\Db\ShareMapper;
 use OCA\Cospend\Exception\CospendBasicException;
 use OCA\Cospend\ResponseDefinitions;
 use OCA\Cospend\Service\LocalProjectService;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\CORS;
@@ -50,6 +53,7 @@ class PublicApiController extends OCSController {
 		IRequest $request,
 		private IL10N $trans,
 		private BillMapper $billMapper,
+		private ShareMapper $shareMapper,
 		private LocalProjectService $localProjectService,
 		private ActivityManager $activityManager,
 	) {
@@ -206,6 +210,8 @@ class PublicApiController extends OCSController {
 	 * @param string $token
 	 * @return DataResponse<Http::STATUS_OK, CospendFullPublicProjectInfo, array{}>|DataResponse<Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 * @throws Exception
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -214,12 +220,12 @@ class PublicApiController extends OCSController {
 	#[BruteForceProtection(action: 'CospendPublicProjectInfo')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Projects'])]
 	public function publicGetProjectInfo(string $token): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$projectInfo = $this->localProjectService->getProjectInfo($publicShareInfo['projectid']);
+		$share = $this->shareMapper->getLinkOrFederatedShareByToken($token);
+		$projectInfo = $this->localProjectService->getProjectInfo($share->getProjectid());
 		if ($projectInfo !== null) {
 			unset($projectInfo['userid']);
 			// set the visible access level for frontend
-			$projectInfo['myaccesslevel'] = $publicShareInfo['accesslevel'];
+			$projectInfo['myaccesslevel'] = $share->getAccesslevel() ;
 			return new DataResponse($projectInfo);
 		}
 		return new DataResponse(

@@ -660,7 +660,7 @@ export default {
 			})
 		},
 		generatePublicLink(access) {
-			return window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/s/' + access.token)
+			return window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/s/' + access.userid)
 		},
 		async copyLink(access) {
 			const publicLink = this.generatePublicLink(access)

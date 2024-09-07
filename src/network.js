@@ -597,14 +597,14 @@ export function getPendingInvitations() {
 	return axios.get(url)
 }
 
-export function acceptPendingInvitation(invitationid) {
+export function acceptPendingInvitation(invitationId) {
 	const req = {}
-	const url = generateOcsUrl('/apps/cospend/api/v1/federation/invitation/{invitationId}', { invitationid })
+	const url = generateOcsUrl('/apps/cospend/api/v1/federation/invitation/{invitationId}', { invitationId })
 	return axios.post(url, req)
 }
 
-export function rejectPendingInvitation(invitationid) {
+export function rejectPendingInvitation(invitationId) {
 	const req = {}
-	const url = generateOcsUrl('/apps/cospend/api/v1/federation/invitation/{invitationId}', { invitationid })
+	const url = generateOcsUrl('/apps/cospend/api/v1/federation/invitation/{invitationId}', { invitationId })
 	return axios.delete(url, req)
 }

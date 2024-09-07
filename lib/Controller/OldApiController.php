@@ -39,6 +39,8 @@ use OCP\IRequest;
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class OldApiController extends ApiController {
 
+	public string $projectId;
+
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -632,11 +634,11 @@ class OldApiController extends ApiController {
 						['author' => $authorFullText]
 					);
 				}
-				return new DataResponse('OK');
 			} catch (\Throwable $e) {
 				return new DataResponse('', Http::STATUS_NOT_FOUND);
 			}
 		}
+		return new DataResponse('OK');
 	}
 
 	#[NoAdminRequired]

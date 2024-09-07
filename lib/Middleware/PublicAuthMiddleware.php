@@ -72,6 +72,8 @@ class PublicAuthMiddleware extends Middleware {
 					);
 				}
 			}
+
+			$controller->projectId = $share->getProjectid();
 		}
 	}
 

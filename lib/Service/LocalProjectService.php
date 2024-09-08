@@ -26,6 +26,7 @@ use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\Bill;
 use OCA\Cospend\Db\BillMapper;
 
+use OCA\Cospend\Db\Invitation;
 use OCA\Cospend\Db\Member;
 use OCA\Cospend\Db\MemberMapper;
 use OCA\Cospend\Db\ProjectMapper;
@@ -3450,6 +3451,7 @@ class LocalProjectService implements IProjectService {
 		$newShare->setType(Share::TYPE_FEDERATION);
 		$newShare->setAccesslevel($accessLevel);
 		$newShare->setUserCloudId($userCloudId);
+		$newShare->setState(Invitation::STATE_PENDING);
 		$insertedShare = $this->shareMapper->insert($newShare);
 
 		$sharedBy = $this->userManager->get($fromUserId);

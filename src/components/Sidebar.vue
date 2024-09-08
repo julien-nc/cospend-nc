@@ -23,7 +23,7 @@
 				{{ t('cospend', 'Rename') }}
 			</NcActionButton>
 		</template>
-		<NcAppSidebarTab v-if="!pageIsPublic"
+		<NcAppSidebarTab v-if="!pageIsPublic && !project.federated"
 			id="sharing"
 			:name="t('cospend', 'Sharing')"
 			:order="1">

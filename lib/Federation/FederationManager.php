@@ -185,9 +185,13 @@ class FederationManager {
 	 */
 	protected function rejectInvitation(Invitation $invitation, string $userId): void {
 		$this->invitationMapper->delete($invitation);
-		$this->markNotificationProcessed($userId, $invitation->getId());
 
-		$this->backendNotifier->sendShareDeclined($invitation->getRemoteServerUrl(), $invitation->getRemoteProjectId(), $invitation->getAccessToken());
+		$cloudId = $this->cloudIdManager->getCloudId($userId, null);
+		$this->backendNotifier->sendShareDeclined(
+			$invitation->getRemoteServerUrl(), $invitation->getRemoteProjectId(), $invitation->getAccessToken(),
+			$cloudId->getId()
+		);
+		$this->markNotificationProcessed($userId, $invitation->getId());
 	}
 
 	/**

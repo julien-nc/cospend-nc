@@ -26,16 +26,22 @@
 		@update:menuOpen="onUpdateMenuOpen"
 		@click="onProjectClick">
 		<template #icon>
-			<FolderIcon v-if="selected && !project.archived_ts"
+			<FolderNetworkIcon v-if="project.federated && selected && !project.archived_ts"
 				class="icon folder-icon-primary"
 				:size="20" />
-			<FolderOutlineIcon v-if="!selected && !project.archived_ts"
+			<FolderNetworkOutlineIcon v-else-if="project.federated && !selected && !project.archived_ts"
 				class="icon folder-icon"
 				:size="20" />
-			<ArchiveIcon v-if="selected && project.archived_ts"
+			<FolderIcon v-else-if="selected && !project.archived_ts"
 				class="icon folder-icon-primary"
 				:size="20" />
-			<ArchiveOutlineIcon v-if="!selected && project.archived_ts"
+			<FolderOutlineIcon v-else-if="!selected && !project.archived_ts"
+				class="icon folder-icon"
+				:size="20" />
+			<ArchiveIcon v-else-if="selected && project.archived_ts"
+				class="icon folder-icon-primary"
+				:size="20" />
+			<ArchiveOutlineIcon v-else-if="!selected && project.archived_ts"
 				class="icon folder-icon"
 				:size="20" />
 		</template>
@@ -51,7 +57,7 @@
 				</template>
 				{{ t('cospend', 'Settings') }}
 			</NcActionButton>
-			<NcActionButton v-if="!pageIsPublic"
+			<NcActionButton v-if="!pageIsPublic && !project.federated"
 				:close-after-click="true"
 				class="detailButton"
 				@click="onShareClick">
@@ -140,6 +146,8 @@
 </template>
 
 <script>
+import FolderNetworkIcon from 'vue-material-design-icons/FolderNetwork.vue'
+import FolderNetworkOutlineIcon from 'vue-material-design-icons/FolderNetworkOutline.vue'
 import DeleteVariantIcon from 'vue-material-design-icons/DeleteVariant.vue'
 import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
@@ -185,6 +193,8 @@ export default {
 		ArchiveIcon,
 		ArchiveCancelIcon,
 		ArchiveOutlineIcon,
+		FolderNetworkIcon,
+		FolderNetworkOutlineIcon,
 	},
 	directives: {
 		ClickOutside,

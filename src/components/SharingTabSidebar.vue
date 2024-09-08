@@ -521,7 +521,7 @@ export default {
 
 	methods: {
 		getRemoteAvatarUrl(cloudId) {
-			return generateOcsUrl('/apps/cospend/api/v1/remote/avatar/64?cloudId={cloudId}', { cloudId })
+			return network.getRemoteAvatarUrl(cloudId)
 		},
 		canSetAccessLevel(level, access) {
 			// i must be able to edit, have at least perms of the access, have at least same perms as what i want to set

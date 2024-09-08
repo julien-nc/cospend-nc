@@ -608,3 +608,7 @@ export function rejectPendingInvitation(invitationId) {
 	const url = generateOcsUrl('/apps/cospend/api/v1/federation/invitation/{invitationId}', { invitationId })
 	return axios.delete(url, req)
 }
+
+export function getRemoteAvatarUrl(cloudId) {
+	return generateOcsUrl('/apps/cospend/api/v1/remote/avatar/64?cloudId={cloudId}', { cloudId })
+}

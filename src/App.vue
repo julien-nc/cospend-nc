@@ -611,10 +611,10 @@ export default {
 				)
 			})
 		},
-		onProjectClicked(projectid) {
-			if (cospend.currentProjectId !== projectid) {
+		onProjectClicked(projectId) {
+			if (cospend.currentProjectId !== projectId) {
 				this.trashbinEnabled = false
-				this.selectProject(projectid, true, true)
+				this.selectProject(projectId, true, true)
 			} else if (this.selectedMemberId !== null) {
 				// click on current selected project: deselect member
 				this.selectedMemberId = null
@@ -625,43 +625,43 @@ export default {
 				this.getBills(cospend.currentProjectId)
 			}
 		},
-		onDeleteProject(projectid) {
-			this.deleteProject(projectid)
+		onDeleteProject(projectId) {
+			this.deleteProject(projectId)
 		},
-		onExportClicked(projectid) {
-			const projectName = this.projects[projectid].name
+		onExportClicked(projectId) {
+			const projectName = this.projects[projectId].name
 			const timeStamp = Math.floor(Date.now())
 			const dateStr = moment(timeStamp).format('YYYY-MM-DD')
-			const filename = projectid + '_' + dateStr + '.csv'
-			network.exportProject(filename, projectid, projectName)
+			const filename = projectId + '_' + dateStr + '.csv'
+			network.exportProject(filename, projectId, projectName)
 		},
-		onStatsClicked(projectid) {
-			if (cospend.currentProjectId !== projectid) {
-				this.selectProject(projectid, true, true)
+		onStatsClicked(projectId) {
+			if (cospend.currentProjectId !== projectId) {
+				this.selectProject(projectId, true, true)
 			}
 			this.currentBill = null
 			this.mode = 'stats'
 		},
-		onSettleClicked(projectid) {
-			if (cospend.currentProjectId !== projectid) {
-				this.selectProject(projectid, true, true)
+		onSettleClicked(projectId) {
+			if (cospend.currentProjectId !== projectId) {
+				this.selectProject(projectId, true, true)
 			}
 			this.currentBill = null
 			this.mode = 'settle'
 		},
-		onTrashbinClicked(projectid) {
-			if (cospend.currentProjectId === projectid && this.trashbinEnabled) {
+		onTrashbinClicked(projectId) {
+			if (cospend.currentProjectId === projectId && this.trashbinEnabled) {
 				this.trashbinEnabled = false
 			} else {
 				this.trashbinEnabled = true
 			}
-			this.selectProject(projectid, true, true, false, true)
+			this.selectProject(projectId, true, true, false, true)
 			// to show bill list instead of details view in mobile view
 			this.mode = 'edition'
 		},
-		onCloseTrashbinClicked(projectid) {
+		onCloseTrashbinClicked(projectId) {
 			this.trashbinEnabled = false
-			this.selectProject(projectid, true, true, false, false)
+			this.selectProject(projectId, true, true, false, false)
 			// to show bill list instead of details view in mobile view
 			this.mode = 'edition'
 		},
@@ -672,52 +672,52 @@ export default {
 				})
 			this.onCloseTrashbinClicked(projectId)
 		},
-		onNewMemberClicked(projectid) {
-			if (cospend.currentProjectId !== projectid) {
-				this.selectProject(projectid, true, true)
+		onNewMemberClicked(projectId) {
+			if (cospend.currentProjectId !== projectId) {
+				this.selectProject(projectId, true, true)
 			}
 			this.currentBill = null
 			this.activeSidebarTab = 'project-settings'
 			this.isSidebarOpen = true
 			this.$nextTick(() => { this.$refs.sidebar?.focusOnAddMember() })
 		},
-		onNewMember(projectid, name, userid = null) {
-			if (this.getMemberNames(projectid).includes(name)) {
+		onNewMember(projectId, name, userid = null) {
+			if (this.getMemberNames(projectId).includes(name)) {
 				showError(t('cospend', 'Member {name} already exists', { name }))
 			} else {
-				this.createMember(projectid, name, userid)
+				this.createMember(projectId, name, userid)
 			}
 		},
-		onProjectEdited(projectid, password = null) {
-			this.editProject(projectid, password)
+		onProjectEdited(projectId, password = null) {
+			this.editProject(projectId, password)
 		},
 		onSaveOption({ key, value }) {
 			const ov = {}
 			ov[key] = value
 			network.saveOptionValues(ov)
 		},
-		getMemberNames(projectid) {
+		getMemberNames(projectId) {
 			const res = []
-			for (const mid in this.members[projectid]) {
-				res.push(this.members[projectid][mid].name)
+			for (const mid in this.members[projectId]) {
+				res.push(this.members[projectId][mid].name)
 			}
 			return res
 		},
-		selectProject(projectid, save = true, pushState = false, restoreSelectedBill = false, getBills = true) {
+		selectProject(projectId, save = true, pushState = false, restoreSelectedBill = false, getBills = true) {
 			this.mode = 'normal'
 			this.currentBill = null
 			this.selectedMemberId = null
 			this.selectedCategoryFilter = null
 			this.selectedPaymentModeFilter = null
 			if (restoreSelectedBill) {
-				this.getBills(projectid, cospend.restoredCurrentBillId, null, false, this.trashbinEnabled)
+				this.getBills(projectId, cospend.restoredCurrentBillId, null, false, this.trashbinEnabled)
 			} else {
-				this.getBills(projectid, null, null, false, this.trashbinEnabled)
+				this.getBills(projectId, null, null, false, this.trashbinEnabled)
 			}
 			if (save) {
-				network.saveOptionValues({ selectedProject: projectid })
+				network.saveOptionValues({ selectedProject: projectId })
 			}
-			cospend.currentProjectId = projectid
+			cospend.currentProjectId = projectId
 			if (pushState) {
 				window.history.pushState(
 					null,
@@ -731,8 +731,8 @@ export default {
 			this.currentBill = null
 			cospend.currentProjectId = null
 		},
-		onAutoSettled(projectid) {
-			this.getBills(projectid)
+		onAutoSettled(projectId) {
+			this.getBills(projectId)
 		},
 		onMoveBillClicked(bill) {
 			if (this.isBillMovable(bill)) {
@@ -1042,20 +1042,20 @@ export default {
 				)
 			})
 		},
-		deleteProject(projectid) {
-			network.deleteProject(projectid).then((response) => {
+		deleteProject(projectId) {
+			network.deleteProject(projectId).then((response) => {
 				this.currentBill = null
-				this.$delete(this.projects, projectid)
-				this.$delete(this.bills, projectid)
-				this.$delete(this.billLists, projectid)
-				this.$delete(this.members, projectid)
+				this.$delete(this.projects, projectId)
+				this.$delete(this.bills, projectId)
+				this.$delete(this.billLists, projectId)
+				this.$delete(this.members, projectId)
 
 				if (cospend.pageIsPublic) {
 					const redirectUrl = generateUrl('/apps/cospend/login')
 					window.location.replace(redirectUrl)
 				}
-				showSuccess(t('cospend', 'Deleted project {id}', { id: projectid }))
-				if (this.currentProjectId === projectid) {
+				showSuccess(t('cospend', 'Deleted project {id}', { id: projectId }))
+				if (this.currentProjectId === projectId) {
 					this.deselectProject()
 				}
 			}).catch((error) => {
@@ -1097,8 +1097,8 @@ export default {
 		onUpdateMaxPrecision() {
 			this.updateProjectPrecision(this.currentProjectId)
 		},
-		updateProjectPrecision(projectid) {
-			const balances = this.projects[projectid].balance
+		updateProjectPrecision(projectId) {
+			const balances = this.projects[projectId].balance
 			const balanceArray = Object.values(balances)
 			let precision = 1
 			let sum
@@ -1106,7 +1106,7 @@ export default {
 				precision++
 				sum = balanceArray.reduce((a, b) => parseFloat(a.toFixed(precision)) + parseFloat(b.toFixed(precision)), 0)
 			} while (sum !== 0.0 && precision < cospend.maxPrecision)
-			this.$set(this.projects[projectid], 'precision', precision)
+			this.$set(this.projects[projectId], 'precision', precision)
 		},
 		createMember(projectId, name, userid = null) {
 			network.createMember(projectId, name, userid).then((response) => {
@@ -1127,18 +1127,18 @@ export default {
 				)
 			})
 		},
-		addParticipantAccess(projectid, memberid, userid) {
-			const foundIndex = this.projects[projectid].shares.findIndex((access) => {
+		addParticipantAccess(projectId, memberid, userid) {
+			const foundIndex = this.projects[projectId].shares.findIndex((access) => {
 				return access.userid === userid && access.type === constants.SHARE_TYPE.USER
 			})
-			if (userid !== this.projects[projectid].userid && foundIndex === -1) {
+			if (userid !== this.projects[projectId].userid && foundIndex === -1) {
 				const sh = {
 					user: userid,
 					type: constants.SHARE_TYPE.USER,
 					accesslevel: 2,
 					manually_added: false,
 				}
-				network.createSharedAccess(projectid, sh).then((response) => {
+				network.createSharedAccess(projectId, sh).then((response) => {
 					const newShAccess = {
 						accesslevel: sh.accesslevel,
 						type: sh.type,
@@ -1147,7 +1147,7 @@ export default {
 						id: response.data.ocs.data.id,
 						manually_added: sh.manually_added,
 					}
-					this.projects[projectid].shares.push(newShAccess)
+					this.projects[projectId].shares.push(newShAccess)
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to add shared access')
@@ -1178,13 +1178,13 @@ export default {
 				)
 			})
 		},
-		editMemberSuccess(projectid, memberid, member) {
+		editMemberSuccess(projectId, memberid, member) {
 			if (!member) {
 				// delete member
-				this.$delete(this.members[projectid], memberid)
-				const i = this.projects[projectid].members.findIndex((m) => m.id === memberid)
+				this.$delete(this.members[projectId], memberid)
+				const i = this.projects[projectId].members.findIndex((m) => m.id === memberid)
 				if (i !== -1) {
-					this.projects[projectid].members.splice(i, 1)
+					this.projects[projectId].members.splice(i, 1)
 				}
 				showSuccess(t('cospend', 'Member deleted'))
 			} else {
@@ -1192,7 +1192,7 @@ export default {
 				this.updateProjectInfo(cospend.currentProjectId)
 				// add access to this user if it's not there already
 				if (member.userid) {
-					this.addParticipantAccess(projectid, memberid, member.userid)
+					this.addParticipantAccess(projectId, memberid, member.userid)
 				}
 			}
 		},

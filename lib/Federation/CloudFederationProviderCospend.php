@@ -134,7 +134,7 @@ class CloudFederationProviderCospend implements ICloudFederationProvider {
 			*/
 
 			$invite = $this->federationManager->addRemoteProject(
-				$shareWithUser, $remoteProjectId, $remoteProjectName, $remote, $shareSecret, $sharedByDisplayName, $sharedByDisplayName
+				$shareWithUser, $remoteProjectId, $remoteProjectName, $remote, $shareSecret, $sharedByFederatedId, $sharedByDisplayName
 			);
 
 			$this->notifyAboutNewShare(

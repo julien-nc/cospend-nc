@@ -12,6 +12,12 @@
 				<span>
 					{{ getLabel(invite) }}
 				</span>
+				<NcAvatar
+					:url="getRemoteAvatarUrl(invite.inviterCloudId)"
+					:is-no-user="true"
+					:show-user-status="false"
+					:disable-menu="true"
+					:disable-tooltip="true" />
 				<div class="spacer" />
 				<NcButton type="error"
 					@click="reject(invite)">
@@ -38,6 +44,7 @@ import CloseIcon from 'vue-material-design-icons/Close.vue'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 
 import { emit } from '@nextcloud/event-bus'
 
@@ -48,6 +55,7 @@ export default {
 	components: {
 		NcButton,
 		NcModal,
+		NcAvatar,
 		CheckIcon,
 		CloseIcon,
 	},
@@ -68,7 +76,11 @@ export default {
 	mounted() {
 	},
 	methods: {
+		getRemoteAvatarUrl(cloudId) {
+			return network.getRemoteAvatarUrl(cloudId)
+		},
 		getLabel(invite) {
+			console.debug('[cospend] get invite label', invite)
 			return t('cospend', 'Project {projectName} shared by {inviterName} ({inviterCloudId})', {
 				projectName: invite.remoteProjectName,
 				inviterName: invite.inviterDisplayName,
@@ -81,11 +93,19 @@ export default {
 		accept(invite) {
 			network.acceptPendingInvitation(invite.id).then(response => {
 				emit('add-project', response.data.ocs.data)
+				this.$emit('close')
+				this.$nextTick(() => {
+					emit('delete-invitation', invite.id)
+					emit('project-clicked', response.data.ocs.data.id)
+				})
 			})
 		},
 		reject(invite) {
 			network.rejectPendingInvitation(invite.id).then(response => {
-				emit('delete-invitation', invite.id)
+				this.$emit('close')
+				this.$nextTick(() => {
+					emit('delete-invitation', invite.id)
+				})
 			})
 		},
 	},

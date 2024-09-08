@@ -156,6 +156,7 @@ class BackendNotifier {
 		string $projectId,
 		#[SensitiveParameter]
 		string $accessToken,
+		string $cloudId,
 	): void {
 		$remote = $this->prepareRemoteUrl($remoteServerUrl);
 
@@ -168,6 +169,7 @@ class BackendNotifier {
 				'remoteServerUrl' => $this->getServerRemoteUrl(),
 				'sharedSecret' => $accessToken,
 				'message' => 'Recipient declined the share',
+				'cloudId' => $cloudId,
 			]
 		);
 

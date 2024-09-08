@@ -123,6 +123,14 @@
 						<WebIcon :size="14" />
 					</span>
 				</div>
+				<DotsHorizontalCircleIcon v-if="access.state === 0"
+					:size="18"
+					fill-color="var(--color-warning)"
+					:title="t('cospend', 'Pending share')" />
+				<CheckboxMarkedCircleIcon v-else
+					:size="18"
+					fill-color="var(--color-success)"
+					:title="t('cospend', 'Accepted share')" />
 				<span class="username">
 					<span>{{ access.userCloudId + ( access.label ? ' ( ' + access.label + ' )' : '') }}</span>
 				</span>
@@ -168,7 +176,8 @@
 					<NcActionButton v-if="editionAccess && myAccessLevel >= access.accesslevel"
 						@click="clickDeleteAccess(access)">
 						<template #icon>
-							<DeleteIcon :size="20" />
+							<NcLoadingIcon v-if="access.loading" />
+							<DeleteIcon v-else :size="20" />
 						</template>
 						{{ t('cospend', 'Delete link') }}
 					</NcActionButton>
@@ -352,6 +361,8 @@
 </template>
 
 <script>
+import DotsHorizontalCircleIcon from 'vue-material-design-icons/DotsHorizontalCircle.vue'
+import CheckboxMarkedCircleIcon from 'vue-material-design-icons/CheckboxMarkedCircle.vue'
 import GoogleCirclesCommunitiesIcon from 'vue-material-design-icons/GoogleCirclesCommunities.vue'
 import AccountIcon from 'vue-material-design-icons/Account.vue'
 import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
@@ -366,6 +377,7 @@ import WebIcon from 'vue-material-design-icons/Web.vue'
 
 import ClippyIcon from './icons/ClippyIcon.vue'
 
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
@@ -407,6 +419,7 @@ export default {
 		NcActionSeparator,
 		NcSelect,
 		NcModal,
+		NcLoadingIcon,
 		QRCode,
 		QrcodeIcon,
 		LockIcon,
@@ -419,6 +432,8 @@ export default {
 		AccountIcon,
 		AccountGroupIcon,
 		GoogleCirclesCommunitiesIcon,
+		DotsHorizontalCircleIcon,
+		CheckboxMarkedCircleIcon,
 	},
 
 	props: {
@@ -585,6 +600,7 @@ export default {
 					this.copyLink(newShAccess)
 				} else if (sh.type === constants.SHARE_TYPE.FEDERATED) {
 					newShAccess.userCloudId = response.data.ocs.data.userCloudId
+					newShAccess.state = response.data.ocs.data.state
 				} else {
 					newShAccess.name = response.data.ocs.data.name
 					if (sh.type === constants.SHARE_TYPE.USER) {
@@ -649,6 +665,7 @@ export default {
 			})
 		},
 		clickDeleteAccess(access) {
+			this.$set(access, 'loading', true)
 			// to make sure the menu disappears
 			this.$refs.shareWithList.click()
 			network.deleteSharedAccess(this.projectId, access).then((response) => {
@@ -657,6 +674,7 @@ export default {
 			}).catch((error) => {
 				showError(t('cospend', 'Failed to delete shared access'))
 				console.error(error)
+				this.$set(access, 'loading', false)
 			})
 		},
 		generatePublicLink(access) {
@@ -741,15 +759,16 @@ export default {
 
 .shareWithList {
 	margin-bottom: 20px;
-}
 
-.shareWithList li {
-	display: flex;
-	align-items: center;
+	li {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
 }
 
 .username {
-	padding: 12px 9px;
+	padding: 12px 0;
 	flex-grow: 1;
 }
 

@@ -195,31 +195,14 @@ class CloudFederationProviderCospend implements ICloudFederationProvider {
 
 	/**
 	 * @throws ActionNotSupportedException
-	 * @throws ShareNotFound
 	 * @throws AuthenticationFailedException
+	 * @throws DBException
+	 * @throws MultipleObjectsReturnedException
+	 * @throws ShareNotFound
 	 */
 	private function shareUnshared(string $providerId, array $notification): array {
 		$invite = $this->getInviteByRemoteProjectIdAndValidate($notification['remoteServerUrl'], $providerId, $notification['sharedSecret']);
-		try {
-			$room = $this->manager->getRoomById($invite->getLocalRoomId());
-		} catch (RoomNotFoundException) {
-			throw new ShareNotFound(FederationManager::OCM_RESOURCE_NOT_FOUND);
-		}
-
-		// Sanity check to make sure the room is a remote room
-		if (!$room->isFederatedConversation()) {
-			throw new ShareNotFound(FederationManager::OCM_RESOURCE_NOT_FOUND);
-		}
-
 		$this->invitationMapper->delete($invite);
-
-		try {
-			$participant = $this->participantService->getParticipantByActor($room, Attendee::ACTOR_USERS, $invite->getUserId());
-			$this->participantService->removeAttendee($room, $participant, AAttendeeRemovedEvent::REASON_REMOVED);
-		} catch (ParticipantNotFoundException) {
-			// Never accepted the invite
-		}
-
 		return [];
 	}
 
@@ -275,7 +258,7 @@ class CloudFederationProviderCospend implements ICloudFederationProvider {
 		$remoteServerUrl = preg_replace('/^https?:\/\//i', '', $remoteServerUrl);
 
 		try {
-			return $this->invitationMapper->getByRemoteAndToken($remoteServerUrl, $remoteProjectId, $sharedSecret);
+			return $this->invitationMapper->getByRemoteAndToken($remoteProjectId, $remoteServerUrl, $sharedSecret);
 		} catch (DoesNotExistException) {
 			throw new ShareNotFound(FederationManager::OCM_RESOURCE_NOT_FOUND);
 		}

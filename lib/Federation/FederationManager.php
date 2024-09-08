@@ -171,9 +171,13 @@ class FederationManager {
 			throw new \Exception('Unauthorized user');
 		}
 
+		// we allow to reject a share even after it has been accepted
+		// it means leaving a share
+		/*
 		if ($invitation->getState() !== Invitation::STATE_PENDING) {
 			throw new \InvalidArgumentException('state');
 		}
+		*/
 
 		$this->rejectInvitation($invitation, $user->getUID());
 	}

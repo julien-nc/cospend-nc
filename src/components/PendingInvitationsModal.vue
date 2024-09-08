@@ -101,7 +101,7 @@ export default {
 			})
 		},
 		reject(invite) {
-			network.rejectPendingInvitation(invite.id).then(response => {
+			network.rejectInvitation(invite.id).then(response => {
 				this.$emit('close')
 				this.$nextTick(() => {
 					emit('delete-invitation', invite.id)

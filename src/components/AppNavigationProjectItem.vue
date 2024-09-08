@@ -123,6 +123,14 @@
 				</template>
 				{{ t('cospend', 'Delete') }}
 			</NcActionButton>
+			<NcActionButton v-if="project.federated"
+				:close-after-click="true"
+				@click="onLeaveShareClick">
+				<template #icon>
+					<CloseNetworkIcon :size="20" />
+				</template>
+				{{ t('cospend', 'Leave share') }}
+			</NcActionButton>
 		</template>
 		<template #default>
 			<NcAppNavigationItem v-if="members.length < 1"
@@ -146,6 +154,7 @@
 </template>
 
 <script>
+import CloseNetworkIcon from 'vue-material-design-icons/CloseNetwork.vue'
 import FolderNetworkIcon from 'vue-material-design-icons/FolderNetwork.vue'
 import FolderNetworkOutlineIcon from 'vue-material-design-icons/FolderNetworkOutline.vue'
 import DeleteVariantIcon from 'vue-material-design-icons/DeleteVariant.vue'
@@ -173,6 +182,7 @@ import { emit } from '@nextcloud/event-bus'
 import cospend from '../state.js'
 import * as constants from '../constants.js'
 import { Timer, getSortedMembers } from '../utils.js'
+import * as network from '../network.js'
 
 export default {
 	name: 'AppNavigationProjectItem',
@@ -195,6 +205,7 @@ export default {
 		ArchiveOutlineIcon,
 		FolderNetworkIcon,
 		FolderNetworkOutlineIcon,
+		CloseNetworkIcon,
 	},
 	directives: {
 		ClickOutside,
@@ -295,6 +306,13 @@ export default {
 		},
 		onAddMemberClick() {
 			emit('new-member-clicked', this.project.id)
+		},
+		onLeaveShareClick() {
+			network.rejectInvitation(this.project.federation.invitation_id).then(response => {
+				this.$nextTick(() => {
+					emit('remove-project', this.project.id)
+				})
+			})
 		},
 		onUpdateMenuOpen(isOpen) {
 			this.menuOpen = isOpen

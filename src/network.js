@@ -603,7 +603,7 @@ export function acceptPendingInvitation(invitationId) {
 	return axios.post(url, req)
 }
 
-export function rejectPendingInvitation(invitationId) {
+export function rejectInvitation(invitationId) {
 	const req = {}
 	const url = generateOcsUrl('/apps/cospend/api/v1/federation/invitation/{invitationId}', { invitationId })
 	return axios.delete(url, req)

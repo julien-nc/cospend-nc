@@ -357,6 +357,7 @@ export default {
 
 		subscribe('add-project', this.addProject)
 		subscribe('delete-invitation', this.deleteInvitation)
+		subscribe('remove-project', this.removeProject)
 	},
 	beforeDestroy() {
 		unsubscribe('nextcloud:unified-search.search', this.filter)
@@ -386,6 +387,7 @@ export default {
 
 		unsubscribe('add-project', this.addProject)
 		unsubscribe('delete-invitation', this.deleteInvitation)
+		unsubscribe('remove-project', this.removeProject)
 	},
 	methods: {
 		deleteInvitation(invitationId) {
@@ -1041,6 +1043,16 @@ export default {
 					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 			})
+		},
+		removeProject(projectId) {
+			this.currentBill = null
+			this.$delete(this.projects, projectId)
+			this.$delete(this.bills, projectId)
+			this.$delete(this.billLists, projectId)
+			this.$delete(this.members, projectId)
+			if (this.currentProjectId === projectId) {
+				this.deselectProject()
+			}
 		},
 		deleteProject(projectId) {
 			network.deleteProject(projectId).then((response) => {

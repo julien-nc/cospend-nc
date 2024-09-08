@@ -116,6 +116,7 @@ class FederatedProjectService implements IProjectService {
 			throw new \Exception('Federated project "' . $projectId . '" not found for user ' . $this->userId);
 		}
 		$projectInfo['federation'] = [
+			'invitation_id' => $invitation->getId(),
 			'inviter_cloud_id' => $invitation->getInviterCloudId(),
 			'inviter_display_name' => $invitation->getInviterDisplayName(),
 			'remote_server_url' => $invitation->getRemoteServerUrl(),

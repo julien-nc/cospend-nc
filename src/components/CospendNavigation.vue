@@ -62,10 +62,10 @@
 		<template #footer>
 			<div id="app-settings">
 				<div id="app-settings-header">
-					<PendingInvitationsModal v-if="showPendingInvitations"
+					<PendingInvitationsModal v-if="!pageIsPublic && showPendingInvitations"
 						:invitations="pendingInvitations"
 						@close="showPendingInvitations = false" />
-					<NcAppNavigationItem v-if="pendingInvitations.length > 0"
+					<NcAppNavigationItem v-if="!pageIsPublic && pendingInvitations.length > 0"
 						:name="t('cospend', 'Pending remote invitations')"
 						@click="showPendingInvitations = true">
 						<template #icon>
@@ -77,7 +77,7 @@
 							</NcCounterBubble>
 						</template>
 					</NcAppNavigationItem>
-					<NcAppNavigationItem
+					<NcAppNavigationItem v-if="!pageIsPublic"
 						:name="showArchivedProjects ? t('cospend', 'Show active projects') : t('cospend', 'Show archived projects')"
 						@click="toggleArchivedProjects">
 						<template #icon>

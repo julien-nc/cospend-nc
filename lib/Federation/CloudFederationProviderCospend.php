@@ -223,7 +223,7 @@ class CloudFederationProviderCospend implements ICloudFederationProvider {
 		}
 
 		try {
-			$share = $this->shareMapper->getFederatedShareByProjectIdAndUserCloudId($projectId, $userCloudId);
+			$share = $this->shareMapper->getFederatedShareByProjectIdAndUserCloudId($projectId, $userCloudId, $sharedSecret);
 		} catch (Exception) {
 			throw new ShareNotFound(FederationManager::OCM_RESOURCE_NOT_FOUND);
 		}

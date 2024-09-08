@@ -886,6 +886,11 @@ export default {
 				showError(t('cospend', 'Failed to get projects'))
 			})
 
+			if (!cospend.pageIsPublic) {
+				this.initFederationData()
+			}
+		},
+		initFederationData() {
 			network.getFederatedProjectIds().then(response => {
 				console.debug('[cospend] federated projects', response.data.ocs.data)
 				response.data.ocs.data.forEach(projectId => {

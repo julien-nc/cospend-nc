@@ -1,10 +1,10 @@
 <template>
 	<NcModal
-		:name="t('cospend', 'Pending remote invitations')"
+		:name="t('cospend', 'Pending invitations for federated shares')"
 		size="large"
 		@close="$emit('close')">
 		<div class="pending-modal-content">
-			<h2>{{ t('cospend', 'Pending remote invitations') }}</h2>
+			<h2>{{ t('cospend', 'Pending invitations for federated shares') }}</h2>
 			<div v-for="invite in invitations"
 				:key="invite.id"
 				:title="getTitle(invite)"

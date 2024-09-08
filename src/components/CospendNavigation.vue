@@ -66,7 +66,7 @@
 						:invitations="pendingInvitations"
 						@close="showPendingInvitations = false" />
 					<NcAppNavigationItem v-if="!pageIsPublic && pendingInvitations.length > 0"
-						:name="t('cospend', 'Pending remote invitations')"
+						:name="t('cospend', 'Pending share invitations')"
 						@click="showPendingInvitations = true">
 						<template #icon>
 							<WebIcon />

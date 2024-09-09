@@ -24,11 +24,15 @@ use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\Bill;
 use OCA\Cospend\Db\BillMapper;
 
+use OCA\Cospend\Db\Category;
+use OCA\Cospend\Db\CategoryMapper;
 use OCA\Cospend\Db\Currency;
 use OCA\Cospend\Db\CurrencyMapper;
 use OCA\Cospend\Db\Invitation;
 use OCA\Cospend\Db\Member;
 use OCA\Cospend\Db\MemberMapper;
+use OCA\Cospend\Db\PaymentMode;
+use OCA\Cospend\Db\PaymentModeMapper;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Db\Share;
 use OCA\Cospend\Db\ShareMapper;
@@ -43,7 +47,6 @@ use OCP\AppFramework\Http;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
 use OCP\Federation\ICloudIdManager;
-use OCP\Files\IRootFolder;
 
 use OCP\IConfig;
 use OCP\IDateTimeZone;
@@ -75,6 +78,8 @@ class LocalProjectService implements IProjectService {
 		private MemberMapper $memberMapper,
 		private ShareMapper $shareMapper,
 		private CurrencyMapper $currencyMapper,
+		private PaymentModeMapper $paymentModeMapper,
+		private CategoryMapper $categoryMapper,
 		private BackendNotifier $backendNotifier,
 		private ICloudIdManager $cloudIdManager,
 		private ActivityManager $activityManager,
@@ -1824,6 +1829,22 @@ class LocalProjectService implements IProjectService {
 		}
 
 		return $projects;
+	}
+
+	public function getCategories(string $projectId): array {
+		$categories = $this->categoryMapper->getCategoriesOfProject($projectId);
+		// TODO with sort orders
+		return array_map(function (Category $category) {
+			return $category->jsonSerialize();
+		}, $categories);
+	}
+
+	public function getPaymentModes(string $projectId): array {
+		$paymentModes = $this->paymentModeMapper->getPaymentModesOfProject($projectId);
+		// TODO with sort orders
+		return array_map(function (PaymentMode $paymentMode) {
+			return $paymentMode->jsonSerialize();
+		}, $paymentModes);
 	}
 
 	/**

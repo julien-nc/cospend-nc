@@ -1176,7 +1176,11 @@ class LocalProjectService implements IProjectService {
 					Application::CATEGORY_REIMBURSEMENT,0, null, $ts
 				);
 			} catch (\Throwable $e) {
-				throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('Error when adding a bill')]);
+				throw new CospendBasicException(
+					'',
+					Http::STATUS_BAD_REQUEST,
+					['message' => $this->l10n->t('Error when adding a bill'), 'error' => $e->getMessage()]
+				);
 			}
 		}
 	}

@@ -849,13 +849,16 @@ class OldApiController extends ApiController {
 	public function apiAutoSettlement(string $token, ?int $centeredOn = null,
 		int $precision = 2, ?int $maxTimestamp = null): DataResponse {
 		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
-		$result = $this->localProjectService->autoSettlement(
-			$publicShareInfo['projectid'], $centeredOn, $precision, $maxTimestamp
-		);
-		if (isset($result['success'])) {
-			return new DataResponse('OK');
+		try {
+			$this->localProjectService->autoSettlement(
+				$publicShareInfo['projectid'], $centeredOn, $precision, $maxTimestamp
+			);
+			return new DataResponse('');
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, http::STATUS_FORBIDDEN);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_FORBIDDEN);
 		}
-		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
 	#[NoAdminRequired]
@@ -863,11 +866,14 @@ class OldApiController extends ApiController {
 	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	public function apiPrivAutoSettlement(string $projectId, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null): DataResponse {
-		$result = $this->localProjectService->autoSettlement($projectId, $centeredOn, $precision, $maxTimestamp);
-		if (isset($result['success'])) {
-			return new DataResponse('OK');
+		try {
+			$this->localProjectService->autoSettlement($projectId, $centeredOn, $precision, $maxTimestamp);
+			return new DataResponse('');
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, http::STATUS_FORBIDDEN);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_FORBIDDEN);
 		}
-		return new DataResponse($result, Http::STATUS_FORBIDDEN);
 	}
 
 	#[NoAdminRequired]

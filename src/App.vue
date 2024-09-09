@@ -90,7 +90,7 @@
 						</template>
 						{{ t('cospend', 'Show project settings') }}
 					</NcButton>
-					<NcButton
+					<NcButton v-if="!cospend.pageIsPublic && !currentProject.federated"
 						@click="onShareClicked(currentProjectId)">
 						<template #icon>
 							<ShareVariantIcon />

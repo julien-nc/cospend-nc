@@ -1816,6 +1816,7 @@ class LocalProjectService implements IProjectService {
 	 *
 	 * @param string $userId
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
 	public function getLocalProjects(string $userId): array {
 		$projectids = array_keys($this->getProjectNames($userId));
@@ -1831,122 +1832,51 @@ class LocalProjectService implements IProjectService {
 		return $projects;
 	}
 
-	public function getCategories(string $projectId): array {
-		$categories = $this->categoryMapper->getCategoriesOfProject($projectId);
-		// TODO with sort orders
-		return array_map(function (Category $category) {
-			return $category->jsonSerialize();
-		}, $categories);
-	}
-
-	public function getPaymentModes(string $projectId): array {
-		$paymentModes = $this->paymentModeMapper->getPaymentModesOfProject($projectId);
-		// TODO with sort orders
-		return array_map(function (PaymentMode $paymentMode) {
-			return $paymentMode->jsonSerialize();
-		}, $paymentModes);
-	}
-
 	/**
 	 * Get categories of a given project
 	 *
 	 * @param string $projectId
 	 * @param bool $getCategories
 	 * @return array
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function getCategoriesOrPaymentModes(string $projectId, bool $getCategories = true): array {
-		$elements = [];
-
-		$qb = $this->db->getQueryBuilder();
+		$jsonElementsById = [];
 
 		if ($getCategories) {
-			$sortOrderField = 'categorysort';
 			$billTableField = 'categoryid';
 			$dbTable = 'cospend_categories';
 			$alias = 'cat';
 		} else {
-			$sortOrderField = 'paymentmodesort';
 			$billTableField = 'paymentmodeid';
 			$dbTable = 'cospend_paymentmodes';
 			$alias = 'pm';
 		}
 
 		// get sort method
-		$qb->select($sortOrderField)
-			->from('cospend_projects', 'p')
-			->where(
-				$qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			);
-		$req = $qb->executeQuery();
-		$sortMethod = Application::SORT_ORDER_ALPHA;
-		while ($row = $req->fetch()) {
-			$sortMethod = $row[$sortOrderField];
-			break;
-		}
-		$req->closeCursor();
+		$project = $this->projectMapper->getById($projectId);
+		$sortMethod = $getCategories ? $project->getCategorysort() : $project->getPaymentmodesort();
+
+		$elementList = $getCategories
+			? $this->categoryMapper->getCategoriesOfProject($projectId)
+			: $this->paymentModeMapper->getPaymentModesOfProject($projectId);
+
 		$qb = $this->db->getQueryBuilder();
 
 		if ($sortMethod === Application::SORT_ORDER_MANUAL || $sortMethod === Application::SORT_ORDER_ALPHA) {
-			if ($getCategories) {
-				$qb = $qb->select('name', 'id', 'encoded_icon', 'color', 'order');
-			} else {
-				$qb = $qb->select('name', 'id', 'encoded_icon', 'color', 'order', 'old_id');
-			}
-			$qb->from($dbTable, 'c')
-				->where(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-				);
-			$req = $qb->executeQuery();
-			while ($row = $req->fetch()) {
-				$dbName = $row['name'];
-				$dbIcon = $row['encoded_icon'] === null ? null : urldecode($row['encoded_icon']);
-				$dbColor = $row['color'];
-				$dbId = (int) $row['id'];
-				$dbOrder = (int) $row['order'];
-				$elements[$dbId] = [
-					'name' => $dbName,
-					'icon' => $dbIcon,
-					'color' => $dbColor,
-					'id' => $dbId,
-					'order' => $dbOrder,
-				];
-				if (!$getCategories) {
-					$elements[$dbId]['old_id'] = $row['old_id'];
-				}
-			}
-			$req->closeCursor();
-			$qb = $this->db->getQueryBuilder();
+			$jsonElementsById = array_reduce($elementList, function ($carry, PaymentMode|Category $element) {
+				$carry[$element->getId()] = $element->jsonSerialize();
+				return $carry;
+			}, []);
 		} elseif ($sortMethod === Application::SORT_ORDER_MOST_USED || $sortMethod === Application::SORT_ORDER_RECENTLY_USED) {
-			// get all categories/paymentmodes
-			if ($getCategories) {
-				$qb = $qb->select('name', 'id', 'encoded_icon', 'color');
-			} else {
-				$qb = $qb->select('name', 'id', 'encoded_icon', 'color', 'old_id');
-			}
-			$qb->from($dbTable, 'c')
-				->where(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-				);
-			$req = $qb->executeQuery();
-			while ($row = $req->fetch()) {
-				$dbName = $row['name'];
-				$dbIcon = $row['encoded_icon'] === null ? null : urldecode($row['encoded_icon']);
-				$dbColor = $row['color'];
-				$dbId = (int) $row['id'];
-				$elements[$dbId] = [
-					'name' => $dbName,
-					'icon' => $dbIcon,
-					'color' => $dbColor,
-					'id' => $dbId,
-					'order' => null,
-				];
-				if (!$getCategories) {
-					$elements[$dbId]['old_id'] = $row['old_id'];
-				}
-			}
-			$req->closeCursor();
-			$qb = $this->db->getQueryBuilder();
+			$jsonElementsById = array_reduce($elementList, function ($carry, PaymentMode|Category $element) {
+				$jsonElement = $element->jsonSerialize();
+				$jsonElement['order'] = null;
+				$carry[$element->getId()] = $jsonElement;
+				return $carry;
+			}, []);
 			// now we get the order
 			if ($sortMethod === Application::SORT_ORDER_MOST_USED) {
 				// sort by most used
@@ -1970,11 +1900,10 @@ class LocalProjectService implements IProjectService {
 					$mostUsedOrder[$dbId] = $order++;
 				}
 				$req->closeCursor();
-				$qb = $this->db->getQueryBuilder();
 				// affect order
-				foreach ($elements as $cid => $cat) {
+				foreach ($jsonElementsById as $elementId => $element) {
 					// fallback order is more than max order
-					$elements[$cid]['order'] = $mostUsedOrder[$cid] ?? $order;
+					$jsonElementsById[$elementId]['order'] = $mostUsedOrder[$elementId] ?? $order;
 				}
 			} else {
 				// sort by most recently used
@@ -1997,16 +1926,15 @@ class LocalProjectService implements IProjectService {
 					$mostUsedOrder[$dbId] = $order++;
 				}
 				$req->closeCursor();
-				$qb = $this->db->getQueryBuilder();
 				// affect order
-				foreach ($elements as $elemId => $element) {
+				foreach ($jsonElementsById as $elementId => $element) {
 					// fallback order is more than max order
-					$elements[$elemId]['order'] = $mostUsedOrder[$elemId] ?? $order;
+					$jsonElementsById[$elementId]['order'] = $mostUsedOrder[$elementId] ?? $order;
 				}
 			}
 		}
 
-		return $elements;
+		return $jsonElementsById;
 	}
 
 	/**
@@ -2949,63 +2877,31 @@ class LocalProjectService implements IProjectService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function createPaymentMode(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): int {
-		$qb = $this->db->getQueryBuilder();
-
-		$encIcon = $icon;
-		if ($icon !== null && $icon !== '') {
-			$encIcon = urlencode($icon);
-		}
-		$qb->insert('cospend_paymentmodes')
-			->values([
-				'projectid' => $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR),
-				'encoded_icon' => $qb->createNamedParameter($encIcon, IQueryBuilder::PARAM_STR),
-				'color' => $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR),
-				'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
-				'order' => $qb->createNamedParameter(is_null($order) ? 0 : $order, IQueryBuilder::PARAM_INT)
-			]);
-		$qb->executeStatement();
-
-		return $qb->getLastInsertId();
+		$pm = new Category();
+		$pm->setProjectid($projectId);
+		$pm->setName($name);
+		$pm->setOrder(is_null($order) ? 0 : $order);
+		$pm->setColor($color);
+		$pm->setEncodedIcon(($icon !== null && $icon !== '') ? urlencode($icon) : $icon);
+		$insertedPm = $this->paymentModeMapper->insert($pm);
+		return $insertedPm->getId();
 	}
 
 	/**
 	 * @param string $projectId
 	 * @param int $pmId
 	 * @return array|null
+	 * @throws CospendBasicException
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function getPaymentMode(string $projectId, int $pmId): ?array {
-		$pm = null;
-
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('id', 'name', 'projectid', 'encoded_icon', 'color', 'old_id')
-			->from('cospend_paymentmodes', 'pm')
-			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('id', $qb->createNamedParameter($pmId, IQueryBuilder::PARAM_INT))
-			);
-		$req = $qb->executeQuery();
-
-		while ($row = $req->fetch()) {
-			$dbPmId = (int) $row['id'];
-			$dbName = $row['name'];
-			$dbIcon = $row['encoded_icon'] === null ? null : urldecode($row['encoded_icon']);
-			$dbColor = $row['color'];
-			$dbOldId = $row['old_id'];
-			$pm = [
-				'name' => $dbName,
-				'icon' => $dbIcon,
-				'color' => $dbColor,
-				'id' => $dbPmId,
-				'projectid' => $projectId,
-				'old_id' => $dbOldId,
-			];
-			break;
+		try {
+			$pm = $this->paymentModeMapper->getPaymentModeOfProject($projectId, $pmId);
+		} catch (DoesNotExistException $e) {
+			throw new CospendBasicException('', Http::STATUS_NOT_FOUND, ['message' => 'payment mode not found']);
 		}
-		$req->closeCursor();
-		return $pm;
+		return $pm->jsonSerialize();
 	}
 
 	/**
@@ -3013,22 +2909,12 @@ class LocalProjectService implements IProjectService {
 	 * @param int $pmId
 	 * @return void
 	 * @throws CospendBasicException
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function deletePaymentMode(string $projectId, int $pmId): void {
 		$pmToDelete = $this->getPaymentMode($projectId, $pmId);
-		if ($pmToDelete === null) {
-			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('Not found')]);
-		}
-		$qb = $this->db->getQueryBuilder();
-		$qb->delete('cospend_paymentmodes')
-			->where(
-				$qb->expr()->eq('id', $qb->createNamedParameter($pmId, IQueryBuilder::PARAM_INT))
-			)
-			->andWhere(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			);
-		$qb->executeStatement();
+		$this->paymentModeMapper->delete($pmToDelete);
 
 		// then get rid of this pm in bills
 		$qb = $this->db->getQueryBuilder();
@@ -3047,21 +2933,15 @@ class LocalProjectService implements IProjectService {
 	 * @param string $projectId
 	 * @param array $order
 	 * @return void
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function savePaymentModeOrder(string $projectId, array $order): void {
-		$qb = $this->db->getQueryBuilder();
 		foreach ($order as $o) {
-			$qb->update('cospend_paymentmodes');
-			$qb->set('order', $qb->createNamedParameter($o['order'], IQueryBuilder::PARAM_INT));
-			$qb->where(
-				$qb->expr()->eq('id', $qb->createNamedParameter($o['id'], IQueryBuilder::PARAM_INT))
-			)
-				->andWhere(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-				);
-			$qb->executeStatement();
-			$qb = $this->db->getQueryBuilder();
+			$paymentMode = $this->paymentModeMapper->getPaymentModeOfProject($projectId, $o['id']);
+			$paymentMode->setOrder($o['order']);
+			$this->paymentModeMapper->update($paymentMode);
 		}
 	}
 
@@ -3073,41 +2953,22 @@ class LocalProjectService implements IProjectService {
 	 * @param string|null $color
 	 * @return array
 	 * @throws CospendBasicException
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function editPaymentMode(
 		string $projectId, int $pmId, ?string $name = null, ?string $icon = null, ?string $color = null
 	): array {
-		if ($name !== null && $name !== '') {
-			$encIcon = $icon;
-			if ($icon !== null && $icon !== '') {
-				$encIcon = urlencode($icon);
-			}
-			if ($this->getPaymentMode($projectId, $pmId) !== null) {
-				$qb = $this->db->getQueryBuilder();
-				$qb->update('cospend_paymentmodes');
-				$qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
-				$qb->set('encoded_icon', $qb->createNamedParameter($encIcon, IQueryBuilder::PARAM_STR));
-				$qb->set('color', $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR));
-				$qb->where(
-					$qb->expr()->eq('id', $qb->createNamedParameter($pmId, IQueryBuilder::PARAM_INT))
-				)
-					->andWhere(
-						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-					);
-				$qb->executeStatement();
-
-				$pm = $this->getPaymentMode($projectId, $pmId);
-				if ($pm === null) {
-					throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('Impossible to get the edited payment mode')]);
-				}
-				return $pm;
-			} else {
-				throw new CospendBasicException('', Http::STATUS_BAD_REQUEST,['message' => $this->l10n->t('This project has no such payment mode')] );
-			}
-		} else {
+		if ($name === null || $name === '') {
 			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('Incorrect field values')]);
 		}
+		$paymentMode = $this->paymentModeMapper->getPaymentModeOfProject($projectId, $pmId);
+		$paymentMode->setName($name);
+		$paymentMode->setColor($color);
+		$paymentMode->setEncodedIcon(($icon !== null && $icon !== '') ? urlencode($icon) : $icon);
+		$editedPm = $this->paymentModeMapper->update($paymentMode);
+		return $editedPm->jsonSerialize();
 	}
 
 	/**
@@ -3122,23 +2983,14 @@ class LocalProjectService implements IProjectService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function createCategory(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): int {
-		$qb = $this->db->getQueryBuilder();
-
-		$encIcon = $icon;
-		if ($icon !== null && $icon !== '') {
-			$encIcon = urlencode($icon);
-		}
-		$qb->insert('cospend_categories')
-			->values([
-				'projectid' => $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR),
-				'encoded_icon' => $qb->createNamedParameter($encIcon, IQueryBuilder::PARAM_STR),
-				'color' => $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR),
-				'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
-				'order' => $qb->createNamedParameter(is_null($order) ? 0 : $order, IQueryBuilder::PARAM_INT)
-			]);
-		$qb->executeStatement();
-
-		return $qb->getLastInsertId();
+		$category = new Category();
+		$category->setProjectid($projectId);
+		$category->setName($name);
+		$category->setOrder(is_null($order) ? 0 : $order);
+		$category->setColor($color);
+		$category->setEncodedIcon(($icon !== null && $icon !== '') ? urlencode($icon) : $icon);
+		$insertedCategory = $this->categoryMapper->insert($category);
+		return $insertedCategory->getId();
 	}
 
 	/**
@@ -3146,38 +2998,18 @@ class LocalProjectService implements IProjectService {
 	 *
 	 * @param string $projectId
 	 * @param int $categoryId
-	 * @return array|null
+	 * @return array
+	 * @throws CospendBasicException
+	 * @throws MultipleObjectsReturnedException
+	 * @throws \OCP\DB\Exception
 	 */
-	public function getCategory(string $projectId, int $categoryId): ?array {
-		$category = null;
-
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('id', 'name', 'projectid', 'encoded_icon', 'color')
-			->from('cospend_categories')
-			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('id', $qb->createNamedParameter($categoryId, IQueryBuilder::PARAM_INT))
-			);
-		$req = $qb->executeQuery();
-
-		while ($row = $req->fetch()) {
-			$dbCategoryId = (int) $row['id'];
-			$dbName = $row['name'];
-			$dbIcon = $row['encoded_icon'] === null ? null : urldecode($row['encoded_icon']);
-			$dbColor = $row['color'];
-			$category = [
-				'id' => $dbCategoryId,
-				'projectid' => $projectId,
-				'name' => $dbName,
-				'icon' => $dbIcon,
-				'color' => $dbColor,
-			];
-			break;
+	public function getCategory(string $projectId, int $categoryId): array {
+		try {
+			$category = $this->categoryMapper->getCategoryOfProject($projectId, $categoryId);
+		} catch (DoesNotExistException $e) {
+			throw new CospendBasicException('', Http::STATUS_NOT_FOUND, ['message' => 'category not found']);
 		}
-		$req->closeCursor();
-		return $category;
+		return $category->jsonSerialize();
 	}
 
 	/**
@@ -3187,23 +3019,12 @@ class LocalProjectService implements IProjectService {
 	 * @param int $categoryId
 	 * @return void
 	 * @throws CospendBasicException
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function deleteCategory(string $projectId, int $categoryId): void {
 		$categoryToDelete = $this->getCategory($projectId, $categoryId);
-		if ($categoryToDelete === null) {
-			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => 'not found']);
-		}
-		$qb = $this->db->getQueryBuilder();
-		$qb->delete('cospend_categories')
-			->where(
-				$qb->expr()->eq('id', $qb->createNamedParameter($categoryId, IQueryBuilder::PARAM_INT))
-			)
-			->andWhere(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			);
-		$qb->executeStatement();
-		$qb = $this->db->getQueryBuilder();
+		$this->categoryMapper->delete($categoryToDelete);
 
 		// then get rid of this category in bills
 		$qb = $this->db->getQueryBuilder();
@@ -3224,21 +3045,15 @@ class LocalProjectService implements IProjectService {
 	 * @param string $projectId
 	 * @param array $order
 	 * @return void
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function saveCategoryOrder(string $projectId, array $order): void {
-		$qb = $this->db->getQueryBuilder();
 		foreach ($order as $o) {
-			$qb->update('cospend_categories');
-			$qb->set('order', $qb->createNamedParameter($o['order'], IQueryBuilder::PARAM_INT));
-			$qb->where(
-				$qb->expr()->eq('id', $qb->createNamedParameter($o['id'], IQueryBuilder::PARAM_INT))
-			)
-				->andWhere(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-				);
-			$qb->executeStatement();
-			$qb = $this->db->getQueryBuilder();
+			$category = $this->categoryMapper->getCategoryOfProject($projectId, $o['id']);
+			$category->setOrder($o['order']);
+			$this->categoryMapper->update($category);
 		}
 	}
 
@@ -3252,41 +3067,22 @@ class LocalProjectService implements IProjectService {
 	 * @param string|null $color
 	 * @return array
 	 * @throws CospendBasicException
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function editCategory(
 		string $projectId, int $categoryId, ?string $name = null, ?string $icon = null, ?string $color = null
 	): array {
-		if ($name !== null && $name !== '') {
-			$encIcon = $icon;
-			if ($icon !== null && $icon !== '') {
-				$encIcon = urlencode($icon);
-			}
-			if ($this->getCategory($projectId, $categoryId) !== null) {
-				$qb = $this->db->getQueryBuilder();
-				$qb->update('cospend_categories');
-				$qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
-				$qb->set('encoded_icon', $qb->createNamedParameter($encIcon, IQueryBuilder::PARAM_STR));
-				$qb->set('color', $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR));
-				$qb->where(
-					$qb->expr()->eq('id', $qb->createNamedParameter($categoryId, IQueryBuilder::PARAM_INT))
-				)
-					->andWhere(
-						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-					);
-				$qb->executeStatement();
-
-				$category = $this->getCategory($projectId, $categoryId);
-				if ($category === null) {
-					throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('Impossible to get the edited category')]);
-				}
-				return $category;
-			} else {
-				throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('This project has no such category')]);
-			}
-		} else {
+		if ($name === null || $name === '') {
 			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('Incorrect field values')]);
 		}
+		$category = $this->categoryMapper->getCategoryOfProject($projectId, $categoryId);
+		$category->setName($name);
+		$category->setColor($color);
+		$category->setEncodedIcon(($icon !== null && $icon !== '') ? urlencode($icon) : $icon);
+		$editedCategory = $this->categoryMapper->update($category);
+		return $editedCategory->jsonSerialize();
 	}
 
 	/**

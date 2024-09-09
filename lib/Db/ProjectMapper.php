@@ -159,7 +159,7 @@ class ProjectMapper extends QBMapper {
 
 	/**
 	 * @param string $userId
-	 * @return array
+	 * @return Project[]
 	 * @throws \OCP\DB\Exception
 	 */
 	public function getProjects(string $userId): array {

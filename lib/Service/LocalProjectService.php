@@ -193,92 +193,56 @@ class LocalProjectService implements IProjectService {
 	 * @param string $userId
 	 * @param string $projectId
 	 * @return int
+	 * @throws \OCP\DB\Exception
 	 */
 	public function getUserMaxAccessLevel(string $userId, string $projectId): int {
-		$result = Application::ACCESS_LEVEL_NONE;
+		$userMaxAccessLevel = Application::ACCESS_LEVEL_NONE;
 		$dbProject = $this->projectMapper->find($projectId);
 		if ($dbProject !== null) {
 			// does the user own the project ?
 			if ($dbProject->getUserid() === $userId) {
 				return Application::ACCESS_LEVEL_ADMIN;
 			} else {
-				$qb = $this->db->getQueryBuilder();
 				// is the project shared with the user ?
-				$qb->select('userid', 'projectid', 'accesslevel')
-					->from('cospend_shares')
-					->where(
-						$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_USER, IQueryBuilder::PARAM_STR))
-					)
-					->andWhere(
-						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-					)
-					->andWhere(
-						$qb->expr()->eq('userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
-					);
-				$req = $qb->executeQuery();
-				$dbProjectId = null;
-				$dbAccessLevel = null;
-				while ($row = $req->fetch()) {
-					$dbProjectId = $row['projectid'];
-					$dbAccessLevel = (int) $row['accesslevel'];
-					break;
-				}
-				$req->closeCursor();
-				$qb = $this->db->getQueryBuilder();
-
-				if ($dbProjectId !== null && $dbAccessLevel > $result) {
-					$result = $dbAccessLevel;
+				try {
+					$userShare = $this->shareMapper->getShareOfUser($projectId, $userId, Share::TYPE_USER);
+					if ($userShare->getAccesslevel() > $userMaxAccessLevel) {
+						$userMaxAccessLevel = $userShare->getAccesslevel();
+					}
+				} catch (\Throwable $e) {
 				}
 
 				// is the project shared with a group containing the user?
-				$userO = $this->userManager->get($userId);
+				$user = $this->userManager->get($userId);
 
-				$qb->select('userid', 'accesslevel')
-					->from('cospend_shares')
-					->where(
-						$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR))
-					)
-					->andWhere(
-						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-					);
-				$req = $qb->executeQuery();
-				while ($row = $req->fetch()) {
-					$groupId = $row['userid'];
-					$dbAccessLevel = (int) $row['accesslevel'];
+				$groupShares = $this->shareMapper->getSharesOfProject($projectId, Share::TYPE_GROUP);
+				foreach ($groupShares as $groupShare) {
+					$groupId = $groupShare->getUserid();
+					$accessLevel = $groupShare->getAccesslevel();
 					if ($this->groupManager->groupExists($groupId)
-						&& $this->groupManager->get($groupId)->inGroup($userO)
-						&& $dbAccessLevel > $result
+						&& $this->groupManager->get($groupId)->inGroup($user)
+						&& $accessLevel > $userMaxAccessLevel
 					) {
-						$result = $dbAccessLevel;
+						$userMaxAccessLevel = $accessLevel;
 					}
 				}
-				$req->closeCursor();
-				$qb = $this->db->getQueryBuilder();
 
 				// are circles enabled and is the project shared with a circle containing the user
 				$circlesEnabled = $this->appManager->isEnabledForUser('circles');
 				if ($circlesEnabled) {
-					$qb->select('userid', 'accesslevel')
-						->from('cospend_shares')
-						->where(
-							$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_CIRCLE, IQueryBuilder::PARAM_STR))
-						)
-						->andWhere(
-							$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-						);
-					$req = $qb->executeQuery();
-					while ($row = $req->fetch()) {
-						$circleId = $row['userid'];
-						$dbAccessLevel = (int) $row['accesslevel'];
-						if ($this->isUserInCircle($userId, $circleId) && $dbAccessLevel > $result) {
-							$result = $dbAccessLevel;
+					$circleShares = $this->shareMapper->getSharesOfProject($projectId, Share::TYPE_CIRCLE);
+					foreach ($circleShares as $circleShare) {
+						$circleId = $circleShare->getUserid();
+						$accessLevel = $circleShare->getAccesslevel();
+						if ($this->isUserInCircle($userId, $circleId) && $accessLevel > $userMaxAccessLevel) {
+							$userMaxAccessLevel = $accessLevel;
 						}
 					}
 				}
 			}
 		}
 
-		return $result;
+		return $userMaxAccessLevel;
 	}
 
 	/**
@@ -287,26 +251,13 @@ class LocalProjectService implements IProjectService {
 	 * @param string $projectId
 	 * @param int $shId
 	 * @return int
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
+	 * @throws \OCP\DB\Exception
 	 */
 	public function getShareAccessLevel(string $projectId, int $shId): int {
-		$result = 0;
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('accesslevel')
-			->from('cospend_shares')
-			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
-			);
-		$req = $qb->executeQuery();
-		while ($row = $req->fetch()) {
-			$result = (int) $row['accesslevel'];
-			break;
-		}
-		$req->closeCursor();
-
-		return $result;
+		$share = $this->shareMapper->getProjectShareById($projectId, $shId);
+		return $share->getAccesslevel();
 	}
 
 	/**
@@ -1678,19 +1629,10 @@ class LocalProjectService implements IProjectService {
 
 		$projectNames = [];
 
-		$qb = $this->db->getQueryBuilder();
-
-		$qb->select('id', 'name')
-			->from('cospend_projects', 'p')
-			->where(
-				$qb->expr()->eq('userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
-			);
-		$req = $qb->executeQuery();
-
-		while ($row = $req->fetch()) {
-			$projectNames[$row['id']] = $row['name'];
+		$userProjects = $this->projectMapper->getProjects($userId);
+		foreach ($userProjects as $project) {
+			$projectNames[$project->getId()] = $project->getName();
 		}
-		$req->closeCursor();
 
 		$qb = $this->db->getQueryBuilder();
 
@@ -1702,7 +1644,7 @@ class LocalProjectService implements IProjectService {
 				$qb->expr()->eq('s.userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
-				$qb->expr()->eq('s.type', $qb->createNamedParameter(Application::SHARE_TYPE_USER, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('s.type', $qb->createNamedParameter(Share::TYPE_USER, IQueryBuilder::PARAM_STR))
 			);
 		$req = $qb->executeQuery();
 

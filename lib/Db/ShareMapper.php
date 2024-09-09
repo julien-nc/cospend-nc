@@ -33,7 +33,11 @@ class ShareMapper extends QBMapper {
 	}
 
 	/**
+	 * @param int $id
+	 * @return Share
 	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 */
 	public function getShareById(int $id): Share {
 		$qb = $this->db->getQueryBuilder();
@@ -41,6 +45,25 @@ class ShareMapper extends QBMapper {
 		$qb->select('*')
 			->from($this->getTableName())
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
+
+		return $this->findEntity($qb);
+	}
+
+	/**
+	 * @param string $projectId
+	 * @param int $id
+	 * @return Share
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function getProjectShareById(string $projectId, int $id): Share {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR)));
 
 		return $this->findEntity($qb);
 	}
@@ -100,17 +123,47 @@ class ShareMapper extends QBMapper {
 	}
 
 	/**
-	 * @param IUser $user
+	 * @param string $userId
 	 * @return Share[]
+	 * @throws Exception
 	 */
-	public function getSharesForUser(IUser $user): array {
+	public function getSharesForUser(string $userId): array {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
 			->from($this->getTableName())
-			->where($qb->expr()->eq('userid', $qb->createNamedParameter($user->getUID(), IQueryBuilder::PARAM_STR)));
+			->where($qb->expr()->eq('userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR)))
+			->andWhere($qb->expr()->eq('type', $qb->createNamedParameter(Share::TYPE_USER, IQueryBuilder::PARAM_STR)));
 
 		return $this->findEntities($qb);
+	}
+
+	/**
+	 * @param string $projectId
+	 * @param string $userId
+	 * @param string|null $type
+	 * @return Share
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function getShareOfUser(
+		string $projectId,
+		string $userId,
+		?string $type = null,
+	): Share {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where($qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR)))
+			->andWhere($qb->expr()->eq('userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR)));
+
+		if ($type !== null) {
+			$qb->andWhere($qb->expr()->eq('type', $qb->createNamedParameter($type, IQueryBuilder::PARAM_STR)));
+		}
+
+		return $this->findEntity($qb);
 	}
 
 	/**

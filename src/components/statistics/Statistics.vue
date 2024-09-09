@@ -1249,8 +1249,8 @@ export default {
 				tsMax,
 				paymentModeId,
 				category,
-				amountMin,
-				amountMax,
+				amountMin: amountMin === '' ? undefined : amountMin,
+				amountMax: amountMax === '' ? undefined : amountMax,
 				showDisabled: this.showDisabled ? '1' : '0',
 				currencyId,
 			}

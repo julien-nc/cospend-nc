@@ -61,7 +61,7 @@
 				</template>
 				{{ deleteIconTitle }}
 			</NcActionButton>
-			<NcActionButton v-if="!pageIsPublic && editionAccess && !selectMode && !timerOn && bill.id !== 0"
+			<NcActionButton v-if="!pageIsPublic && !isFederatedProject && editionAccess && !selectMode && !timerOn && bill.id !== 0"
 				:close-after-click="true"
 				@click="onMoveClick">
 				<template #icon>
@@ -196,6 +196,9 @@ export default {
 		},
 		currencyName() {
 			return cospend.projects[this.projectId].currencyname
+		},
+		isFederatedProject() {
+			return cospend.projects[this.projectId].federated
 		},
 		billFormattedTitle() {
 			const links = this.bill.what.match(/https?:\/\/[^\s]+/gi) || []

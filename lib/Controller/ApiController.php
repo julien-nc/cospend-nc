@@ -23,6 +23,8 @@ use OCA\Cospend\ResponseDefinitions;
 use OCA\Cospend\Service\CospendService;
 use OCA\Cospend\Service\IProjectService;
 use OCA\Cospend\Service\LocalProjectService;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
@@ -576,7 +578,7 @@ class ApiController extends OCSController {
 			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		}
 
-		$newBillObj = $this->billMapper->find($result ['inserted_id']);
+		$newBillObj = $this->billMapper->find($result['inserted_id']);
 
 		// add delete activity record
 		$this->activityManager->triggerEvent(
@@ -1207,6 +1209,8 @@ class ApiController extends OCSController {
 	 * @param bool $manuallyAdded
 	 * @return DataResponse<Http::STATUS_OK, CospendUserShare, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: The federated share was successfully created
 	 * 400: Failed to create the federated share
@@ -1232,7 +1236,6 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param int $shId
 	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
-	 * @throws Exception
 	 *
 	 * 200: The federated share was successfully deleted
 	 * 400: Failed to delete the user share
@@ -1540,16 +1543,20 @@ class ApiController extends OCSController {
 	 * @param int|null $centeredOn
 	 * @param int|null $maxTimestamp
 	 * @return DataResponse<Http::STATUS_OK, array{path: string}, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{message: string}, array{}>
+	 * @throws InvalidPathException
 	 * @throws NoUserException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
+	 * @throws LockedException
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	#[SupportFederatedProject]
 	public function exportCsvSettlement(string $projectId, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
-		$result = $this->localProjectService->exportCsvSettlement($projectId, $this->userId, $centeredOn, $maxTimestamp);
+		$settlement = $this->projectService->getProjectSettlement($projectId, $centeredOn, $maxTimestamp);
+		$members = $this->projectService->getMembers($projectId);
+		$result = $this->cospendService->exportCsvSettlement($projectId, $this->userId, $settlement, $members);
 		if (isset($result['path'])) {
 			return new DataResponse(['path' => $result['path']]);
 		}
@@ -1572,6 +1579,8 @@ class ApiController extends OCSController {
 	 * @param int|null $currencyId
 	 * @return DataResponse<Http::STATUS_OK, array{path: string}, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{message: string}, array{}>
 	 * @throws Exception
+	 * @throws InvalidPathException
+	 * @throws LockedException
 	 * @throws NoUserException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
@@ -1586,11 +1595,8 @@ class ApiController extends OCSController {
 		?float $amountMin = null, ?float $amountMax = null,
 		int $showDisabled = 1, ?int $currencyId = null
 	): DataResponse {
-		$result = $this->localProjectService->exportCsvStatistics(
-			$projectId, $this->userId, $tsMin, $tsMax,
-			$paymentModeId, $category, $amountMin, $amountMax,
-			$showDisabled !== 0, $currencyId
-		);
+		$statistics = $this->projectService->getStatistics($projectId, $tsMin, $tsMax, $paymentModeId, $category, $amountMin, $amountMax, $showDisabled !== 0, $currencyId);
+		$result = $this->cospendService->exportCsvStatistics($projectId, $this->userId, $statistics);
 		if (isset($result['path'])) {
 			return new DataResponse(['path' => $result['path']]);
 		}
@@ -1605,6 +1611,12 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param string|null $name
 	 * @return DataResponse<Http::STATUS_OK, array{path: string}, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{message: string}, array{}>
+	 * @throws Exception
+	 * @throws InvalidPathException
+	 * @throws LockedException
+	 * @throws NoUserException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
@@ -1612,11 +1624,11 @@ class ApiController extends OCSController {
 	#[SupportFederatedProject]
 	public function exportCsvProject(string $projectId, ?string $name = null): DataResponse {
 		try {
-			$result = $this->localProjectService->exportCsvProject($projectId, $this->userId, $name);
+			$projectInfo = $this->projectService->getProjectInfoWithAccessLevel($projectId, $this->userId);
+			$bills = $this->projectService->getBills($projectId);
+			$result = $this->cospendService->exportCsvProject($projectId, $this->userId, $projectInfo, $bills['bills'], $name);
 		} catch (CospendBasicException $e) {
 			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 		if (isset($result['path'])) {
 			return new DataResponse(['path' => $result['path']]);

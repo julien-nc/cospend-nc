@@ -1009,6 +1009,7 @@ class PublicApiController extends OCSController {
 	 * @param string $name
 	 * @param float $rate
 	 * @return DataResponse<Http::STATUS_OK, CospendCurrency, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array<string, string>, array{}>
+	 * @throws Exception
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -1024,8 +1025,6 @@ class PublicApiController extends OCSController {
 			return new DataResponse($currency);
 		} catch (CospendBasicException $e) {
 			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 

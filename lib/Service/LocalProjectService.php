@@ -17,8 +17,6 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
 use Exception;
-use Generator;
-use OC\User\NoUserException;
 use OCA\Circles\Exceptions\InitiatorNotFoundException;
 use OCA\Circles\Exceptions\RequestBuilderException;
 use OCA\Cospend\Activity\ActivityManager;
@@ -26,6 +24,8 @@ use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\Bill;
 use OCA\Cospend\Db\BillMapper;
 
+use OCA\Cospend\Db\Currency;
+use OCA\Cospend\Db\CurrencyMapper;
 use OCA\Cospend\Db\Invitation;
 use OCA\Cospend\Db\Member;
 use OCA\Cospend\Db\MemberMapper;
@@ -43,11 +43,7 @@ use OCP\AppFramework\Http;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
 use OCP\Federation\ICloudIdManager;
-use OCP\Files\Folder;
-use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
-use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
 
 use OCP\IConfig;
 use OCP\IDateTimeZone;
@@ -56,7 +52,6 @@ use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUserManager;
-use OCP\Lock\LockedException;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Security\ISecureRandom;
 use Throwable;
@@ -79,6 +74,7 @@ class LocalProjectService implements IProjectService {
 		private BillMapper $billMapper,
 		private MemberMapper $memberMapper,
 		private ShareMapper $shareMapper,
+		private CurrencyMapper $currencyMapper,
 		private BackendNotifier $backendNotifier,
 		private ICloudIdManager $cloudIdManager,
 		private ActivityManager $activityManager,
@@ -86,7 +82,6 @@ class LocalProjectService implements IProjectService {
 		private IAppManager $appManager,
 		private IGroupManager $groupManager,
 		private IDateTimeZone $dateTimeZone,
-		private IRootFolder $root,
 		private INotificationManager $notificationManager,
 		private IDBConnection $db,
 		private ISecureRandom $secureRandom,
@@ -489,7 +484,8 @@ class LocalProjectService implements IProjectService {
 
 		$currency = null;
 		if ($currencyId !== null && $currencyId !== 0) {
-			$currency = $this->getCurrency($projectId, $currencyId);
+			$dbCurrency = $this->currencyMapper->getCurrencyOfProject($projectId, $currencyId);
+			$currency = $dbCurrency->jsonSerialize();
 		}
 
 		$projectCategories = $this->getCategoriesOrPaymentModes($projectId);
@@ -1997,30 +1993,15 @@ class LocalProjectService implements IProjectService {
 	 *
 	 * @param string $projectId
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
 	private function getCurrencies(string $projectId): array {
-		$currencies = [];
-
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('name', 'id', 'exchange_rate')
-			->from('cospend_currencies')
-			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			);
-		$req = $qb->executeQuery();
-		while ($row = $req->fetch()) {
-			$dbName = $row['name'];
-			$dbId = (int) $row['id'];
-			$dbExchangeRate = (float) $row['exchange_rate'];
-			$currencies[] = [
-				'name' => $dbName,
-				'exchange_rate' => $dbExchangeRate,
-				'id' => $dbId,
-			];
-		}
-		$req->closeCursor();
-
-		return $currencies;
+		$currencies = $this->currencyMapper->getCurrenciesOfProject($projectId);
+		return array_map(function (Currency $currency) {
+			$jsonCurrency = $currency->jsonSerialize();
+			unset($jsonCurrency['projectid']);
+			return $jsonCurrency;
+		}, $currencies);
 	}
 
 	/**
@@ -3297,55 +3278,12 @@ class LocalProjectService implements IProjectService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function createCurrency(string $projectId, string $name, float $rate): int {
-		$qb = $this->db->getQueryBuilder();
-
-		$qb->insert('cospend_currencies')
-			->values([
-				'projectid' => $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR),
-				'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
-				'exchange_rate' => $qb->createNamedParameter($rate, IQueryBuilder::PARAM_STR)
-			]);
-		$qb->executeStatement();
-
-		return $qb->getLastInsertId();
-	}
-
-	/**
-	 * Get one currency
-	 *
-	 * @param string $projectId
-	 * @param int $currencyId
-	 * @return array|null
-	 * @throws \OCP\DB\Exception
-	 */
-	private function getCurrency(string $projectId, int $currencyId): ?array {
-		$currency = null;
-
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('id', 'name', 'exchange_rate', 'projectid')
-			->from('cospend_currencies')
-			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('id', $qb->createNamedParameter($currencyId, IQueryBuilder::PARAM_INT))
-			);
-		$req = $qb->executeQuery();
-
-		while ($row = $req->fetch()) {
-			$dbCurrencyId = (int) $row['id'];
-			$dbRate = (float) $row['exchange_rate'];
-			$dbName = $row['name'];
-			$currency = [
-				'name' => $dbName,
-				'id' => $dbCurrencyId,
-				'exchange_rate' => $dbRate,
-				'projectid' => $projectId,
-			];
-			break;
-		}
-		$req->closeCursor();
-		return $currency;
+		$currency = new Currency();
+		$currency->setName($name);
+		$currency->setExchangeRate($rate);
+		$currency->setProjectid($projectId);
+		$insertedCurrency = $this->currencyMapper->insert($currency);
+		return $insertedCurrency->getId();
 	}
 
 	/**
@@ -3355,22 +3293,16 @@ class LocalProjectService implements IProjectService {
 	 * @param int $currencyId
 	 * @return void
 	 * @throws CospendBasicException
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function deleteCurrency(string $projectId, int $currencyId): void {
-		$currencyToDelete = $this->getCurrency($projectId, $currencyId);
-		if ($currencyToDelete === null) {
+		try {
+			$currency = $this->currencyMapper->getCurrencyOfProject($projectId, $currencyId);
+		} catch (DoesNotExistException $e) {
 			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('Not found')]);
 		}
-		$qb = $this->db->getQueryBuilder();
-		$qb->delete('cospend_currencies')
-			->where(
-				$qb->expr()->eq('id', $qb->createNamedParameter($currencyId, IQueryBuilder::PARAM_INT))
-			)
-			->andWhere(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			);
-		$qb->executeStatement();
+		$this->currencyMapper->delete($currency);
 	}
 
 	/**
@@ -3382,34 +3314,22 @@ class LocalProjectService implements IProjectService {
 	 * @param float $rate
 	 * @return array
 	 * @throws CospendBasicException
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function editCurrency(string $projectId, int $currencyId, string $name, float $rate): array {
-		if ($name !== '' && $rate !== 0.0) {
-			if ($this->getCurrency($projectId, $currencyId) !== null) {
-				$qb = $this->db->getQueryBuilder();
-				$qb->update('cospend_currencies');
-				$qb->set('exchange_rate', $qb->createNamedParameter($rate, IQueryBuilder::PARAM_STR));
-				$qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
-				$qb->where(
-					$qb->expr()->eq('id', $qb->createNamedParameter($currencyId, IQueryBuilder::PARAM_INT))
-				)
-					->andWhere(
-						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-					);
-				$qb->executeStatement();
-
-				$currency = $this->getCurrency($projectId, $currencyId);
-				if ($currency === null) {
-					return ['message' => $this->l10n->t('Impossible to get the edited currency')];
-				}
-				return $currency;
-			} else {
-				throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('This project have no such currency')]);
-			}
-		} else {
+		if ($name === '' || $rate === 0.0) {
 			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('Incorrect field values')]);
 		}
+		try {
+			$currency = $this->currencyMapper->getCurrencyOfProject($projectId, $currencyId);
+		} catch (DoesNotExistException $e) {
+			throw new CospendBasicException('', Http::STATUS_NOT_FOUND, ['message' => $this->l10n->t('This project have no such currency')]);
+		}
+		$currency->setExchangeRate($rate);
+		$currency->setName($name);
+		$editedCurrency = $this->currencyMapper->update($currency);
+		return $editedCurrency->jsonSerialize();
 	}
 
 	/**
@@ -3674,7 +3594,7 @@ class LocalProjectService implements IProjectService {
 		//$manager->notify($notification);
 
 		return [
-			'token' => $token,
+			'token' => $shareToken,
 			'id' => $insertedShareId,
 			'accesslevel' => $accesslevel,
 			'label' => $label,

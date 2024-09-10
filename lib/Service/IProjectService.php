@@ -31,9 +31,9 @@ interface IProjectService {
 	/**
 	 * @param string $projectId
 	 * @param string $userId
-	 * @return array|null
+	 * @return array
 	 */
-	public function getProjectInfoWithAccessLevel(string $projectId, string $userId): ?array;
+	public function getProjectInfoWithAccessLevel(string $projectId, string $userId): array;
 
 	/**
 	 * Get project statistics

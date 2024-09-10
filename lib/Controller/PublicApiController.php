@@ -929,7 +929,7 @@ class PublicApiController extends OCSController {
 	 *
 	 * @param string $token Project share token
 	 * @param array<array{order: int, id: int}> $order Array describing the categories ordering
-	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_FORBIDDEN, '', array{}>
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 *
 	 * 200: Categories order is saved
 	 * 403: Not saved
@@ -944,8 +944,6 @@ class PublicApiController extends OCSController {
 		try {
 			$this->localProjectService->saveCategoryOrder($this->projectId, $order);
 			return new DataResponse('');
-		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
 		} catch (\Throwable $e) {
 			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
@@ -971,8 +969,6 @@ class PublicApiController extends OCSController {
 		try {
 			$this->localProjectService->deleteCategory($this->projectId, $categoryId);
 			return new DataResponse($categoryId);
-		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
 		} catch (\Throwable $e) {
 			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
@@ -984,7 +980,7 @@ class PublicApiController extends OCSController {
 	 * @param string $token
 	 * @param string $name
 	 * @param float $rate
-	 * @return DataResponse<Http::STATUS_OK, int, array{}>
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -1008,8 +1004,9 @@ class PublicApiController extends OCSController {
 	 * @param int $currencyId
 	 * @param string $name
 	 * @param float $rate
-	 * @return DataResponse<Http::STATUS_OK, CospendCurrency, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array<string, string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, CospendCurrency, array{}>|DataResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND|Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -1024,7 +1021,12 @@ class PublicApiController extends OCSController {
 			);
 			return new DataResponse($currency);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
+			if ($e->getCode() == Http::STATUS_FORBIDDEN) {
+				return new DataResponse($e->data, Http::STATUS_FORBIDDEN);
+			} elseif ($e->getCode() == Http::STATUS_NOT_FOUND) {
+				return new DataResponse($e->data, Http::STATUS_NOT_FOUND);
+			}
+			return new DataResponse($e->data, Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -1046,7 +1048,7 @@ class PublicApiController extends OCSController {
 			$this->localProjectService->deleteCurrency($this->projectId, $currencyId);
 			return new DataResponse('');
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
+			return new DataResponse($e->data, Http::STATUS_BAD_REQUEST);
 		} catch (\Throwable $e) {
 			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}

@@ -746,7 +746,9 @@ class CospendService {
 
 				$userFolder = $this->root->getUserFolder($uid);
 				if (!$userFolder->nodeExists($outPath . '/' . $exportName)) {
-					$this->localProjectService->exportCsvProject($dbProjectId, $uid, $exportName);
+					$projectInfo = $this->localProjectService->getProjectInfoWithAccessLevel($dbProjectId, $uid);
+					$bills = $this->localProjectService->getBills($dbProjectId);
+					$this->exportCsvProject($dbProjectId, $uid, $projectInfo, $bills, $exportName);
 				}
 			}
 			$req->closeCursor();
@@ -911,14 +913,15 @@ class CospendService {
 	 *
 	 * @param string $projectId
 	 * @param string $userId
+	 * @param array $projectInfo
+	 * @param array $bills
 	 * @param string|null $name
 	 * @return array
+	 * @throws InvalidPathException
+	 * @throws LockedException
 	 * @throws NoUserException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
-	 * @throws \OCP\DB\Exception
-	 * @throws InvalidPathException
-	 * @throws LockedException
 	 */
 	public function exportCsvProject(string $projectId, string $userId, array $projectInfo, array $bills, ?string $name = null): array {
 		// create export directory if needed

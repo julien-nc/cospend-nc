@@ -318,19 +318,16 @@ class LocalProjectService implements IProjectService {
 	 * Get all project data
 	 *
 	 * @param string $projectId
-	 * @return CospendProjectInfoPlusExtra|null
+	 * @return CospendProjectInfoPlusExtra
 	 * @throws CospendBasicException
 	 * @throws DoesNotExistException
 	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
-	public function getProjectInfo(string $projectId): ?array {
+	public function getProjectInfo(string $projectId): array {
 		try {
-			$dbProject = $this->projectMapper->find($projectId);
-		} catch (Exception | Throwable $e) {
-			return null;
-		}
-		if ($dbProject === null) {
+			$dbProject = $this->projectMapper->getById($projectId);
+		} catch (DoesNotExistException) {
 			throw new CospendBasicException('', Http::STATUS_NOT_FOUND, ['error' => 'project not found']);
 		}
 		$dbProjectId = $dbProject->getId();
@@ -374,10 +371,13 @@ class LocalProjectService implements IProjectService {
 	/**
 	 * @param string $projectId
 	 * @param string $userId
-	 * @return array|null
+	 * @return array
+	 * @throws CospendBasicException
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
-	public function getProjectInfoWithAccessLevel(string $projectId, string $userId): ?array {
+	public function getProjectInfoWithAccessLevel(string $projectId, string $userId): array {
 		$projectInfo = $this->getProjectInfo($projectId);
 		$projectInfo['myaccesslevel'] = $this->getUserMaxAccessLevel($userId, $projectId);
 		return $projectInfo;
@@ -998,11 +998,10 @@ class LocalProjectService implements IProjectService {
 		$insertedBillId = $createdBill->getId();
 
 		// insert bill owers
-		$qb = $this->db->getQueryBuilder();
 		foreach ($owerIds as $owerId) {
 			$billOwer = new BillOwer();
 			$billOwer->setBillid($insertedBillId);
-			$billOwer->setMemberid($owerId);
+			$billOwer->setMemberid((int)$owerId);
 			$this->billOwerMapper->insert($billOwer);
 		}
 
@@ -1464,7 +1463,7 @@ class LocalProjectService implements IProjectService {
 	 * @param bool $active
 	 * @param string|null $color
 	 * @param string|null $userId
-	 * @return array
+	 * @return CospendMember
 	 * @throws CospendBasicException
 	 * @throws \OCP\DB\Exception
 	 */
@@ -2251,7 +2250,7 @@ class LocalProjectService implements IProjectService {
 			foreach ($owerIds as $owerId) {
 				$billOwer = new BillOwer();
 				$billOwer->setBillid($billId);
-				$billOwer->setMemberid($owerId);
+				$billOwer->setMemberid((int)$owerId);
 				$this->billOwerMapper->insert($billOwer);
 			}
 		}
@@ -2709,7 +2708,7 @@ class LocalProjectService implements IProjectService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function createPaymentMode(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): int {
-		$pm = new Category();
+		$pm = new PaymentMode();
 		$pm->setProjectid($projectId);
 		$pm->setName($name);
 		$pm->setOrder(is_null($order) ? 0 : $order);
@@ -2740,12 +2739,12 @@ class LocalProjectService implements IProjectService {
 	 * @param string $projectId
 	 * @param int $pmId
 	 * @return void
-	 * @throws CospendBasicException
+	 * @throws DoesNotExistException
 	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function deletePaymentMode(string $projectId, int $pmId): void {
-		$pmToDelete = $this->getPaymentMode($projectId, $pmId);
+		$pmToDelete = $this->paymentModeMapper->getPaymentModeOfProject($projectId, $pmId);
 		$this->paymentModeMapper->delete($pmToDelete);
 
 		// then get rid of this pm in bills
@@ -2841,12 +2840,12 @@ class LocalProjectService implements IProjectService {
 	 * @param string $projectId
 	 * @param int $categoryId
 	 * @return void
-	 * @throws CospendBasicException
+	 * @throws DoesNotExistException
 	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function deleteCategory(string $projectId, int $categoryId): void {
-		$categoryToDelete = $this->getCategory($projectId, $categoryId);
+		$categoryToDelete = $this->categoryMapper->getCategoryOfProject($projectId, $categoryId);
 		$this->categoryMapper->delete($categoryToDelete);
 
 		// then get rid of this category in bills

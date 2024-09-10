@@ -57,6 +57,25 @@ class ProjectMapper extends QBMapper {
 	}
 
 	/**
+	 * @param string $id
+	 * @return Project|null
+	 */
+	public function find(string $id): ?Project {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR))
+			);
+
+		try {
+			return $this->findEntity($qb);
+		} catch (DoesNotExistException | MultipleObjectsReturnedException |\OCP\DB\Exception $e) {
+			return null;
+		}
+	}
+
+	/**
 	 * @param string $name
 	 * @param string $id
 	 * @param string|null $contact_email
@@ -111,25 +130,6 @@ class ProjectMapper extends QBMapper {
 		}
 
 		return $insertedProject;
-	}
-
-	/**
-	 * @param string $id
-	 * @return Project|null
-	 */
-	public function find(string $id): ?Project {
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('*')
-			->from($this->getTableName())
-			->where(
-				$qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR))
-			);
-
-		try {
-			return $this->findEntity($qb);
-		} catch (DoesNotExistException | MultipleObjectsReturnedException |\OCP\DB\Exception $e) {
-			return null;
-		}
 	}
 
 	/**

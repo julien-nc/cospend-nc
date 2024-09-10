@@ -14,6 +14,7 @@ namespace OCA\Cospend\Command;
 
 use OC\Core\Command\Base;
 use OCA\Cospend\Db\ProjectMapper;
+use OCA\Cospend\Service\CospendService;
 use OCA\Cospend\Service\LocalProjectService;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,8 +23,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ExportProject extends Base {
 
 	public function __construct(
-		private LocalProjectService $projectService,
-		private ProjectMapper       $projectMapper,
+		private LocalProjectService $localProjectService,
+		private CospendService $cospendService,
+		private ProjectMapper $projectMapper,
 	) {
 		parent::__construct();
 	}
@@ -48,7 +50,9 @@ class ExportProject extends Base {
 		$name = $input->getArgument('filename');
 		$dbProject = $this->projectMapper->find($projectId);
 		if ($dbProject !== null) {
-			$result = $this->projectService->exportCsvProject($projectId, $dbProject->getUserid(), $name);
+			$projectInfo = $this->localProjectService->getProjectInfoWithAccessLevel($projectId, $dbProject->getUserid());
+			$bills = $this->localProjectService->getBills($projectId);
+			$result = $this->cospendService->exportCsvProject($projectId, $dbProject->getUserid(), $projectInfo, $bills, $name);
 			if (array_key_exists('path', $result)) {
 				$output->writeln(
 					'Project "'.$projectId.'" exported in "'.$result['path'].

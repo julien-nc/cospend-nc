@@ -23,7 +23,7 @@ use OCP\IDBConnection;
  * @method Category mapRowToEntity(array $row)
  * @method Category findEntity(IQueryBuilder $query)
  * @method Category[] findEntities(IQueryBuilder $query)
- * @template-extends QBMapper<Share>
+ * @template-extends QBMapper<Category>
  */
 class CategoryMapper extends QBMapper {
 	public function __construct(IDBConnection $db) {

@@ -27,6 +27,7 @@ class FederatedProjectService implements IProjectService {
 
 	private IClient $client;
 	public string $userId;
+	public string $USER_AGENT;
 
 	public function __construct(
 		IClientService $clientService,
@@ -102,7 +103,7 @@ class FederatedProjectService implements IProjectService {
 		$this->request($projectId, 'api/v1/public/projects/{token}/{password}', [], 'DELETE');
 	}
 
-	public function getProjectInfoWithAccessLevel(string $projectId, string $userId): ?array {
+	public function getProjectInfoWithAccessLevel(string $projectId, string $userId): array {
 		$projectInfo = $this->request($projectId, 'api/v1/public/projects/{token}/{password}');
 		$projectInfo['id'] = $projectId;
 		$projectInfo['federated'] = true;

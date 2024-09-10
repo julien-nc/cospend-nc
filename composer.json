@@ -11,6 +11,8 @@
 		"cs:check": "php-cs-fixer fix --dry-run --diff",
 		"cs:fix": "php-cs-fixer fix",
 		"psalm": "psalm.phar --no-cache",
+		"psalm:update-baseline": "psalm.phar --threads=1 --update-baseline",
+		"psalm:update-baseline:force": "psalm.phar --threads=1 --update-baseline --set-baseline=tests/psalm-baseline.xml",
 		"test:unit": "phpunit --config tests/phpunit.xml",
 		"openapi": "generate-spec --verbose --allow-missing-docs"
 	},

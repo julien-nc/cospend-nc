@@ -64,13 +64,14 @@ class UserMigrator implements IMigrator, ISizeEstimationMigrator {
 	public function export(IUser $user, IExportDestination $exportDestination, OutputInterface $output): void {
 		$output->writeln('Exporting Cospend projects in ' . self::PROJECTS_PATH . '…');
 		$userId = $user->getUID();
-		/** @var Project[] $projects */
 		$projects = $this->projectMapper->getProjects($userId);
 		foreach ($projects as $project) {
 			try {
 				$exportFilePath = self::PROJECTS_PATH . '/' . $project->getId() . '.csv';
 				$content = '';
-				foreach ($this->localProjectService->getJsonProject($project->getId()) as $chunk) {
+				$projectInfo = $this->localProjectService->getProjectInfoWithAccessLevel($project->getId(), $userId);
+				$bills = $this->localProjectService->getBills($project->getId());
+				foreach ($this->cospendService->getJsonProject($projectInfo, $bills) as $chunk) {
 					$content .= $chunk;
 				}
 				$exportDestination->addFileContents($exportFilePath, $content);

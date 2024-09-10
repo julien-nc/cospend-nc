@@ -24,6 +24,8 @@ use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\Bill;
 use OCA\Cospend\Db\BillMapper;
 
+use OCA\Cospend\Db\BillOwer;
+use OCA\Cospend\Db\BillOwerMapper;
 use OCA\Cospend\Db\Category;
 use OCA\Cospend\Db\CategoryMapper;
 use OCA\Cospend\Db\Currency;
@@ -80,6 +82,7 @@ class LocalProjectService implements IProjectService {
 		private CurrencyMapper $currencyMapper,
 		private PaymentModeMapper $paymentModeMapper,
 		private CategoryMapper $categoryMapper,
+		private BillOwerMapper $billOwerMapper,
 		private BackendNotifier $backendNotifier,
 		private ICloudIdManager $cloudIdManager,
 		private ActivityManager $activityManager,
@@ -993,12 +996,10 @@ class LocalProjectService implements IProjectService {
 		// insert bill owers
 		$qb = $this->db->getQueryBuilder();
 		foreach ($owerIds as $owerId) {
-			$qb->insert('cospend_bill_owers')
-				->values([
-					'billid' => $qb->createNamedParameter($insertedBillId, IQueryBuilder::PARAM_INT),
-					'memberid' => $qb->createNamedParameter($owerId, IQueryBuilder::PARAM_INT)
-				]);
-			$qb->executeStatement();
+			$billOwer = new BillOwer();
+			$billOwer->setBillid($insertedBillId);
+			$billOwer->setMemberid($owerId);
+			$this->billOwerMapper->insert($billOwer);
 		}
 
 		$this->projectMapper->updateProjectLastChanged($projectId, $ts);
@@ -1040,7 +1041,7 @@ class LocalProjectService implements IProjectService {
 				$billToDelete->setDeleted(1);
 				$this->billMapper->update($billToDelete);
 			} else {
-				$this->billMapper->deleteBillOwersOfBill($billId);
+				$this->billOwerMapper->deleteBillOwersOfBill($billId);
 				$this->billMapper->delete($billToDelete);
 			}
 
@@ -2166,10 +2167,6 @@ class LocalProjectService implements IProjectService {
 		}
 
 		// UPDATE
-
-		$qb = $this->db->getQueryBuilder();
-		$qb->update('cospend_bills');
-
 		// set last modification timestamp
 		$ts = (new DateTime())->getTimestamp();
 		$dbBill->setLastchanged($ts);
@@ -2200,7 +2197,7 @@ class LocalProjectService implements IProjectService {
 		if ($paymentModeId !== null) {
 			// is the old_id set for this payment mode? if yes, use it for old 'paymentmode' column
 			$paymentMode = 'n';
-			if (isset($this->paymentModes[$paymentModeId], $this->paymentModes[$paymentModeId]['old_id'])
+			if (isset($this->paymentModes[$paymentModeId]['old_id'])
 				&& $this->paymentModes[$paymentModeId]['old_id'] !== null
 				&& $this->paymentModes[$paymentModeId]['old_id'] !== ''
 			) {
@@ -2245,16 +2242,13 @@ class LocalProjectService implements IProjectService {
 		// edit the bill owers
 		if ($owerIds !== null) {
 			// delete old bill owers
-			$this->billMapper->deleteBillOwersOfBill($billId);
+			$this->billOwerMapper->deleteBillOwersOfBill($billId);
 			// insert bill owers
 			foreach ($owerIds as $owerId) {
-				$qb->insert('cospend_bill_owers')
-					->values([
-						'billid' => $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT),
-						'memberid' => $qb->createNamedParameter($owerId, IQueryBuilder::PARAM_INT)
-					]);
-				$qb->executeStatement();
-				$qb = $this->db->getQueryBuilder();
+				$billOwer = new BillOwer();
+				$billOwer->setBillid($billId);
+				$billOwer->setMemberid($owerId);
+				$this->billOwerMapper->insert($billOwer);
 			}
 		}
 
@@ -2751,16 +2745,7 @@ class LocalProjectService implements IProjectService {
 		$this->paymentModeMapper->delete($pmToDelete);
 
 		// then get rid of this pm in bills
-		$qb = $this->db->getQueryBuilder();
-		$qb->update('cospend_bills');
-		$qb->set('paymentmodeid', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
-			->where(
-				$qb->expr()->eq('paymentmodeid', $qb->createNamedParameter($pmId, IQueryBuilder::PARAM_INT))
-			)
-			->andWhere(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			);
-		$qb->executeStatement();
+		$this->billMapper->removePaymentModeInProject($projectId, $pmId);
 	}
 
 	/**
@@ -2861,16 +2846,7 @@ class LocalProjectService implements IProjectService {
 		$this->categoryMapper->delete($categoryToDelete);
 
 		// then get rid of this category in bills
-		$qb = $this->db->getQueryBuilder();
-		$qb->update('cospend_bills');
-		$qb->set('categoryid', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
-			->where(
-				$qb->expr()->eq('categoryid', $qb->createNamedParameter($categoryId, IQueryBuilder::PARAM_INT))
-			)
-			->andWhere(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			);
-		$qb->executeStatement();
+		$this->billMapper->removeCategoryInProject($projectId, $categoryId);
 	}
 
 	/**
@@ -3422,57 +3398,26 @@ class LocalProjectService implements IProjectService {
 	 * @param int $shId
 	 * @param string|null $fromUserId
 	 * @return array
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function deleteGroupShare(string $projectId, int $shId, ?string $fromUserId = null): array {
-		// check if group share exists
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('userid', 'projectid', 'id')
-			->from('cospend_shares', 's')
-			->where(
-				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
-			);
-		$req = $qb->executeQuery();
-		$dbGroupId = null;
-		while ($row = $req->fetch()) {
-			$dbGroupId = $row['userid'];
-			break;
-		}
-		$req->closeCursor();
-		$qb = $this->db->getQueryBuilder();
-
-		if ($dbGroupId !== null) {
-			// delete
-			$qb->delete('cospend_shares')
-				->where(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-				)
-				->andWhere(
-					$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
-				)
-				->andWhere(
-					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR))
-				);
-			$qb->executeStatement();
-
-			// activity
-			$projectObj = $this->projectMapper->find($projectId);
-			$this->activityManager->triggerEvent(
-				ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
-				ActivityManager::SUBJECT_PROJECT_UNSHARE,
-				['who' => $dbGroupId, 'type' => Application::SHARE_TYPE_GROUP]
-			);
-
-			return ['success' => true];
-		} else {
+		try {
+			$share = $this->shareMapper->getProjectShareById($projectId, $shId, Share::TYPE_GROUP);
+		} catch (DoesNotExistException $e) {
 			return ['message' => $this->l10n->t('No such share')];
 		}
+		$dbGroupId = $share->getUserid();
+		$this->shareMapper->delete($share);
+		// activity
+		$projectObj = $this->projectMapper->find($projectId);
+		$this->activityManager->triggerEvent(
+			ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
+			ActivityManager::SUBJECT_PROJECT_UNSHARE,
+			['who' => $dbGroupId, 'type' => Application::SHARE_TYPE_GROUP]
+		);
+
+		return ['success' => true];
 	}
 
 	/**
@@ -3483,92 +3428,60 @@ class LocalProjectService implements IProjectService {
 	 * @param string|null $fromUserId
 	 * @param int $accesslevel
 	 * @return array
-	 * @throws InitiatorNotFoundException
-	 * @throws RequestBuilderException
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
-	public function createCircleShare(string $projectId, string $circleId, ?string $fromUserId = null, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT): array {
+	public function createCircleShare(
+		string $projectId, string $circleId, ?string $fromUserId = null, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT
+	): array
+	{
 		// check if circleId exists
 		$circlesEnabled = $this->appManager->isEnabledForUser('circles');
-		if ($circlesEnabled) {
-			try {
-				$circlesManager = \OC::$server->get(\OCA\Circles\CirclesManager::class);
-				$circlesManager->startSuperSession();
-			} catch (Exception $e) {
-				return ['message' => $this->l10n->t('Impossible to get the circle manager')];
-			}
-
-			$exists = true;
-			$circleName = '';
-			try {
-				$circle = $circlesManager->getCircle($circleId);
-				$circleName = $circle->getDisplayName();
-			} catch (\OCA\Circles\Exceptions\CircleNotFoundException $e) {
-				$exists = false;
-			}
-
-			if ($circleId !== '' && $exists) {
-				$qb = $this->db->getQueryBuilder();
-				// check if circle share exists
-				$qb->select('userid', 'projectid')
-					->from('cospend_shares', 's')
-					->where(
-						$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_CIRCLE, IQueryBuilder::PARAM_STR))
-					)
-					->andWhere(
-						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-					)
-					->andWhere(
-						$qb->expr()->eq('userid', $qb->createNamedParameter($circleId, IQueryBuilder::PARAM_STR))
-					);
-				$req = $qb->executeQuery();
-				$dbCircleId = null;
-				while ($row = $req->fetch()) {
-					$dbCircleId = $row['userid'];
-					break;
-				}
-				$req->closeCursor();
-				$qb = $this->db->getQueryBuilder();
-
-				if ($dbCircleId === null) {
-					$qb->insert('cospend_shares')
-						->values([
-							'projectid' => $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR),
-							'userid' => $qb->createNamedParameter($circleId, IQueryBuilder::PARAM_STR),
-							'type' => $qb->createNamedParameter(Application::SHARE_TYPE_CIRCLE, IQueryBuilder::PARAM_STR),
-							'accesslevel' => $qb->createNamedParameter($accesslevel, IQueryBuilder::PARAM_INT),
-						]);
-					$qb->executeStatement();
-
-					$insertedShareId = $qb->getLastInsertId();
-
-					// activity
-					$projectObj = $this->projectMapper->find($projectId);
-					$this->activityManager->triggerEvent(
-						ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
-						ActivityManager::SUBJECT_PROJECT_SHARE,
-						['who' => $circleId, 'type' => Application::SHARE_TYPE_CIRCLE]
-					);
-
-					$circlesManager->stopSession();
-					return [
-						'id' => $insertedShareId,
-						'name' => $circleName,
-						'circleid' => $circleId,
-						'accesslevel' => $accesslevel,
-						'type' => Application::SHARE_TYPE_CIRCLE,
-					];
-				} else {
-					$circlesManager->stopSession();
-					return ['message' => $this->l10n->t('Already shared with this circle')];
-				}
-			} else {
-				$circlesManager->stopSession();
-				return ['message' => $this->l10n->t('No such circle')];
-			}
-		} else {
+		if (!$circlesEnabled) {
 			return ['message' => $this->l10n->t('Circles app is not enabled')];
 		}
+
+		try {
+			$circlesManager = \OC::$server->get(\OCA\Circles\CirclesManager::class);
+			$circlesManager->startSuperSession();
+		} catch (Exception $e) {
+			return ['message' => $this->l10n->t('Impossible to get the circle manager')];
+		}
+
+		try {
+			$circle = $circlesManager->getCircle($circleId);
+			$circleName = $circle->getDisplayName();
+		} catch (\OCA\Circles\Exceptions\CircleNotFoundException $e) {
+			$circlesManager->stopSession();
+			return ['message' => $this->l10n->t('No such circle')];
+		}
+
+		try {
+			$existingShare = $this->shareMapper->getShareByProjectAndUser($projectId, $circleId, Share::TYPE_CIRCLE);
+			$circlesManager->stopSession();
+			return ['message' => $this->l10n->t('Already shared with this circle')];
+		} catch (DoesNotExistException $e) {
+		}
+
+		$share = new Share();
+		$share->setProjectid($projectId);
+		$share->setUserid($circleId);
+		$share->setType(Share::TYPE_CIRCLE);
+		$share->setAccesslevel($accesslevel);
+		$insertedShare = $this->shareMapper->insert($share);
+
+		// activity
+		$projectObj = $this->projectMapper->find($projectId);
+		$this->activityManager->triggerEvent(
+			ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
+			ActivityManager::SUBJECT_PROJECT_SHARE,
+			['who' => $circleId, 'type' => Application::SHARE_TYPE_CIRCLE]
+		);
+
+		$circlesManager->stopSession();
+		$jsonInsertedShare = $insertedShare->jsonSerialize();
+		$jsonInsertedShare['name'] = $circleName;
+		return $jsonInsertedShare;
 	}
 
 	/**
@@ -3578,44 +3491,14 @@ class LocalProjectService implements IProjectService {
 	 * @param int $shId
 	 * @param string|null $fromUserId
 	 * @return array
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function deleteCircleShare(string $projectId, int $shId, ?string $fromUserId = null): array {
-		// check if circle share exists
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('userid', 'projectid', 'id')
-			->from('cospend_shares', 's')
-			->where(
-				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_CIRCLE, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
-			);
-		$req = $qb->executeQuery();
-		$dbCircleId = null;
-		while ($row = $req->fetch()) {
-			$dbCircleId = $row['userid'];
-			break;
-		}
-		$req->closeCursor();
-		$qb = $this->db->getQueryBuilder();
-
-		if ($dbCircleId !== null) {
-			// delete
-			$qb->delete('cospend_shares')
-				->where(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-				)
-				->andWhere(
-					$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
-				)
-				->andWhere(
-					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_CIRCLE, IQueryBuilder::PARAM_STR))
-				);
-			$qb->executeStatement();
+		try {
+			$share = $this->shareMapper->getProjectShareById($projectId, $shId, Share::TYPE_CIRCLE);
+			$dbCircleId = $share->getUserid();
+			$this->shareMapper->delete($share);
 
 			// activity
 			$projectObj = $this->projectMapper->find($projectId);
@@ -3625,10 +3508,9 @@ class LocalProjectService implements IProjectService {
 				['who' => $dbCircleId, 'type' => Application::SHARE_TYPE_CIRCLE]
 			);
 
-			$response = ['success' => true];
-		} else {
-			$response = ['message' => $this->l10n->t('No such share')];
+			return ['success' => true];
+		} catch (DoesNotExistException $e) {
+			return ['message' => $this->l10n->t('No such share')];
 		}
-		return $response;
 	}
 }

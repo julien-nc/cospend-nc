@@ -854,4 +854,42 @@ class BillMapper extends QBMapper {
 
 		return $billIds;
 	}
+
+	/**
+	 * @param string $projectId
+	 * @param int $pmId
+	 * @return int
+	 * @throws \OCP\DB\Exception
+	 */
+	public function removePaymentModeInProject(string $projectId, int $pmId): int {
+		$qb = $this->db->getQueryBuilder();
+		$qb->update($this->getTableName());
+		$qb->set('paymentmodeid', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+			->where(
+				$qb->expr()->eq('paymentmodeid', $qb->createNamedParameter($pmId, IQueryBuilder::PARAM_INT))
+			)
+			->andWhere(
+				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+			);
+		return $qb->executeStatement();
+	}
+
+	/**
+	 * @param string $projectId
+	 * @param int $categoryId
+	 * @return int
+	 * @throws \OCP\DB\Exception
+	 */
+	public function removeCategoryInProject(string $projectId, int $categoryId): int {
+		$qb = $this->db->getQueryBuilder();
+		$qb->update($this->getTableName());
+		$qb->set('categoryid', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+			->where(
+				$qb->expr()->eq('categoryid', $qb->createNamedParameter($categoryId, IQueryBuilder::PARAM_INT))
+			)
+			->andWhere(
+				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+			);
+		return $qb->executeStatement();
+	}
 }

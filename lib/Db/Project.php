@@ -17,51 +17,51 @@ use OCP\AppFramework\Db\Entity;
 /**
  * @method string getId()
  * @method void setId(string $id)
- * @method string getUserid()
- * @method void setUserid(string $userid)
+ * @method string getUserId()
+ * @method void setUserid(string $userId)
  * @method string getName()
  * @method void setName(string $name)
  * @method string getEmail()
  * @method void setEmail(string $email)
- * @method string getAutoexport()
- * @method void setAutoexport(string $autoexport)
- * @method int getLastchanged()
- * @method void setLastchanged(int $lastchanged)
- * @method int getDeletiondisabled()
- * @method void setDeletiondisabled(int $deletiondisabled)
- * @method string getCategorysort()
- * @method void setCategorysort(string $categorysort)
- * @method string getPaymentmodesort()
- * @method void setPaymentmodesort(string $paymentmodesort)
- * @method string getCurrencyname()
- * @method void setCurrencyname(string $currencyname)
+ * @method string getAutoExport()
+ * @method void setAutoExport(string $autoExport)
+ * @method int getLastChanged()
+ * @method void setLastChanged(int $lastChanged)
+ * @method int getDeletionDisabled()
+ * @method void setDeletionDisabled(int $deletionDisabled)
+ * @method string getCategorySort()
+ * @method void setCategorySort(string $categorySort)
+ * @method string getPaymentModeSort()
+ * @method void setPaymentModeSort(string $paymentModeSort)
+ * @method string getCurrencyName()
+ * @method void setCurrencyName(string $currencyName)
  * @method int getArchivedTs()
  * @method void setArchivedTs(int $archivedTs)
  */
 class Project extends Entity implements \JsonSerializable {
 
-	protected $userid;
-	protected $name;
-	protected $email;
-	protected $autoexport;
-	protected $lastchanged;
-	protected $deletiondisabled;
-	protected $categorysort;
-	protected $paymentmodesort;
-	protected $currencyname;
-	protected $archivedTs;
+	protected ?string $userId = null;
+	protected string $name = '';
+	protected string $email = '';
+	protected string $autoExport = 'n';
+	protected int $lastChanged = 0;
+	protected int $deletionDisabled = 0;
+	protected string $categorySort = 'a';
+	protected string $paymentModeSort = 'a';
+	protected ?string $currencyName = null;
+	protected ?int $archivedTs = null;
 
 	public function __construct() {
 		$this->addType('id', 'string');
-		$this->addType('userid', 'string');
+		$this->addType('user_id', 'string');
 		$this->addType('name', 'string');
 		$this->addType('email', 'string');
-		$this->addType('autoexport', 'string');
-		$this->addType('lastchanged', 'integer');
-		$this->addType('deletiondisabled', 'integer');
-		$this->addType('categorysort', 'string');
-		$this->addType('paymentmodesort', 'string');
-		$this->addType('currencyname', 'string');
+		$this->addType('auto_export', 'string');
+		$this->addType('last_changed', 'integer');
+		$this->addType('deletion_disabled', 'integer');
+		$this->addType('category_sort', 'string');
+		$this->addType('payment_mode_sort', 'string');
+		$this->addType('currency_name', 'string');
 		$this->addType('archived_ts', 'integer');
 	}
 
@@ -69,15 +69,15 @@ class Project extends Entity implements \JsonSerializable {
 	public function jsonSerialize() {
 		return [
 			'id' => $this->id,
-			'userid' => $this->userid,
+			'userid' => $this->userId,
 			'name' => $this->name,
 			'email' => $this->email,
-			'autoexport' => $this->autoexport,
-			'lastchanged' => $this->lastchanged,
-			'deletiondisabled' => $this->deletiondisabled === 1,
-			'categorysort' => $this->categorysort,
-			'paymentmodesort' => $this->paymentmodesort,
-			'currencyname' => $this->currencyname,
+			'autoexport' => $this->autoExport,
+			'lastchanged' => $this->lastChanged,
+			'deletiondisabled' => $this->deletionDisabled === 1,
+			'categorysort' => $this->categorySort,
+			'paymentmodesort' => $this->paymentModeSort,
+			'currencyname' => $this->currencyName,
 			'archived_ts' => $this->archivedTs,
 		];
 	}

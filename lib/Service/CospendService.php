@@ -719,26 +719,26 @@ class CospendService {
 			$uid = $u->getUID();
 			$outPath = $this->config->getUserValue($uid, 'cospend', 'outputDirectory', '/Cospend');
 
-			$qb->select('id', 'name', 'autoexport')
+			$qb->select('id', 'name', 'auto_export')
 				->from('cospend_projects')
 				->where(
-					$qb->expr()->eq('userid', $qb->createNamedParameter($uid, IQueryBuilder::PARAM_STR))
+					$qb->expr()->eq('user_id', $qb->createNamedParameter($uid, IQueryBuilder::PARAM_STR))
 				)
 				->andWhere(
-					$qb->expr()->neq('autoexport', $qb->createNamedParameter(Application::FREQUENCY_NO, IQueryBuilder::PARAM_STR))
+					$qb->expr()->neq('auto_export', $qb->createNamedParameter(Application::FREQUENCY_NO, IQueryBuilder::PARAM_STR))
 				);
 			$req = $qb->executeQuery();
 
 			$dbProjectId = null;
 			while ($row = $req->fetch()) {
 				$dbProjectId = $row['id'];
-				$autoexport = $row['autoexport'];
+				$autoExport = $row['auto_export'];
 
 				$suffix = $dailySuffix;
 				// TODO add suffix for all frequencies
-				if ($autoexport === Application::FREQUENCY_WEEKLY) {
+				if ($autoExport === Application::FREQUENCY_WEEKLY) {
 					$suffix = $weeklySuffix;
-				} elseif ($autoexport === Application::FREQUENCY_MONTHLY) {
+				} elseif ($autoExport === Application::FREQUENCY_MONTHLY) {
 					$suffix = $monthlySuffix;
 				}
 				// check if file already exists

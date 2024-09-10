@@ -32,7 +32,7 @@ class UserService {
 		$userIds = [];
 		// get owner with mapper
 		$proj = $this->projectMapper->find($projectid);
-		array_push($userIds, $proj->getUserid());
+		array_push($userIds, $proj->getUserId());
 
 		// get user shares from project id
 		$qb = $this->dbconnection->getQueryBuilder();

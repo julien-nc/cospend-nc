@@ -103,7 +103,7 @@ class ProjectMapper extends QBMapper {
 		$project->setId($id);
 		$project->setName($name);
 		$project->setEmail($contact_email === null ? '' : $contact_email);
-		$project->setLastchanged($ts);
+		$project->setLastChanged($ts);
 		$insertedProject = $this->insert($project);
 
 		if ($createDefaultCategories) {
@@ -143,7 +143,7 @@ class ProjectMapper extends QBMapper {
 		$qb->select('*')
 			->from($this->getTableName())
 			->where(
-				$qb->expr()->eq('userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('user_id', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
 			);
 
 		return $this->findEntities($qb);

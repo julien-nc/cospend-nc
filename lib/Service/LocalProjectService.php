@@ -200,7 +200,7 @@ class LocalProjectService implements IProjectService {
 		$dbProject = $this->projectMapper->find($projectId);
 		if ($dbProject !== null) {
 			// does the user own the project ?
-			if ($dbProject->getUserid() === $userId) {
+			if ($dbProject->getUserId() === $userId) {
 				return Application::ACCESS_LEVEL_ADMIN;
 			} else {
 				// is the project shared with the user ?
@@ -1441,22 +1441,22 @@ class LocalProjectService implements IProjectService {
 		}
 
 		if ($autoExport !== null && $autoExport !== '') {
-			$dbProject->setAutoexport($autoExport);
+			$dbProject->setAutoExport($autoExport);
 		}
 		if ($categorySort !== null && $categorySort !== '') {
-			$dbProject->setCategorysort($categorySort);
+			$dbProject->setCategorySort($categorySort);
 		}
 		if ($paymentModeSort !== null && $paymentModeSort !== '') {
-			$dbProject->setPaymentmodesort($paymentModeSort);
+			$dbProject->setPaymentModeSort($paymentModeSort);
 		}
 		if ($deletionDisabled !== null) {
-			$dbProject->setDeletiondisabled($deletionDisabled ? 1 : 0);
+			$dbProject->setDeletionDisabled($deletionDisabled ? 1 : 0);
 		}
 		if ($currencyName !== null) {
-			$dbProject->setCurrencyname($currencyName === '' ? null : $currencyName);
+			$dbProject->setCurrencyName($currencyName === '' ? null : $currencyName);
 		}
 		$ts = (new DateTime())->getTimestamp();
-		$dbProject->setLastchanged($ts);
+		$dbProject->setLastChanged($ts);
 		$this->projectMapper->update($dbProject);
 	}
 
@@ -1807,7 +1807,7 @@ class LocalProjectService implements IProjectService {
 
 		// get sort method
 		$project = $this->projectMapper->getById($projectId);
-		$sortMethod = $getCategories ? $project->getCategorysort() : $project->getPaymentmodesort();
+		$sortMethod = $getCategories ? $project->getCategorySort() : $project->getPaymentModeSort();
 
 		$elementList = $getCategories
 			? $this->categoryMapper->getCategoriesOfProject($projectId)

@@ -61,7 +61,7 @@ class BackendNotifier {
 		}
 
 		/** @var IUser $projectOwner */
-		$projectOwner = $this->userManager->get($project->getUserid());
+		$projectOwner = $this->userManager->get($project->getUserId());
 
 		$remote = $this->prepareRemoteUrl($invitedCloudId->getRemote());
 

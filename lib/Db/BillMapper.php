@@ -728,7 +728,7 @@ class BillMapper extends QBMapper {
 		$qb->select(
 			'b.id', 'what', 'comment', 'amount', 'timestamp',
 			'paymentmode', 'paymentmodeid', 'categoryid',
-			'pr.currencyname', 'me.name', 'me.userid'
+			'pr.currency_name', 'me.name', 'me.userid'
 		)
 			->from($this->getTableName(), 'b')
 			->innerJoin('b', 'cospend_projects', 'pr', $qb->expr()->eq('b.projectid', 'pr.id'))
@@ -756,7 +756,7 @@ class BillMapper extends QBMapper {
 			$dbPaymentMode = $row['paymentmode'];
 			$dbPaymentModeId = (int) $row['paymentmodeid'];
 			$dbCategoryId = (int) $row['categoryid'];
-			$dbProjectCurrencyName = $row['currencyname'];
+			$dbProjectCurrencyName = $row['currency_name'];
 			$dbPayerName = $row['name'];
 			$dbPayerUserId = $row['userid'];
 			$bills[] = [

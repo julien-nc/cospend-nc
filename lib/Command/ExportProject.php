@@ -50,13 +50,13 @@ class ExportProject extends Base {
 		$name = $input->getArgument('filename');
 		$dbProject = $this->projectMapper->find($projectId);
 		if ($dbProject !== null) {
-			$projectInfo = $this->localProjectService->getProjectInfoWithAccessLevel($projectId, $dbProject->getUserid());
+			$projectInfo = $this->localProjectService->getProjectInfoWithAccessLevel($projectId, $dbProject->getUserId());
 			$bills = $this->localProjectService->getBills($projectId);
-			$result = $this->cospendService->exportCsvProject($projectId, $dbProject->getUserid(), $projectInfo, $bills, $name);
+			$result = $this->cospendService->exportCsvProject($projectId, $dbProject->getUserId(), $projectInfo, $bills, $name);
 			if (array_key_exists('path', $result)) {
 				$output->writeln(
 					'Project "'.$projectId.'" exported in "'.$result['path'].
-					'" of user "'.$dbProject->getUserid().'" storage'
+					'" of user "'.$dbProject->getUserId().'" storage'
 				);
 			} else {
 				$output->writeln('Error: '.$result['message']);

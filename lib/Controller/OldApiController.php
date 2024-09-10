@@ -118,7 +118,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	#[BruteForceProtection(action: 'CospendPublicGetProjectInfo')]
 	public function apiGetProjectInfo(string $token): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		$projectInfo = $this->localProjectService->getProjectInfo($publicShareInfo['projectid']);
 		if ($projectInfo !== null) {
 			unset($projectInfo['userid']);
@@ -158,7 +158,7 @@ class OldApiController extends ApiController {
 	public function apiSetProjectInfo(string $token, ?string $name = null, ?string $contact_email = null,
 		?string $autoexport = null, ?string $currencyname = null,
 		?bool $deletion_disabled = null, ?string $categorysort = null, ?string $paymentmodesort = null): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		try {
 			$this->localProjectService->editProject(
 				$publicShareInfo['projectid'], $name, $contact_email, $autoexport,
@@ -179,7 +179,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	#[BruteForceProtection(action: 'CospendPublicGetMembers')]
 	public function apiGetMembers(string $token, ?int $lastchanged = null): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		$members = $this->localProjectService->getMembers($publicShareInfo['projectid'], null, $lastchanged);
 		return new DataResponse($members);
 	}
@@ -201,7 +201,7 @@ class OldApiController extends ApiController {
 	#[BruteForceProtection(action: 'CospendPublicGetBills')]
 	public function apiGetBills(string $token, ?int $lastchanged = null,
 		?int $offset = 0, ?int $limit = null, bool $reverse = false, ?int $deleted = 0): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		if ($limit) {
 			$bills = $this->billMapper->getBillsWithLimit(
 				$publicShareInfo['projectid'], null, null,
@@ -229,7 +229,7 @@ class OldApiController extends ApiController {
 		?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $includeBillId = null,
 		?string $searchTerm = null, ?int $deleted = 0
 	): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		if ($limit) {
 			$bills = $this->billMapper->getBillsWithLimit(
 				$publicShareInfo['projectid'], null, null,
@@ -277,7 +277,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	#[BruteForceProtection(action: 'CospendPublicGetBills2')]
 	public function apiv2GetBills(string $token, ?int $lastchanged = null, ?int $deleted = 0): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		$bills = $this->billMapper->getBillsClassic(
 			$publicShareInfo['projectid'], null, null,
 			null, null, null, null, null, $lastchanged,
@@ -300,7 +300,7 @@ class OldApiController extends ApiController {
 	#[BruteForceProtection(action: 'CospendPublicAddMember')]
 	public function apiAddMember(string $token, string $name,
 		float  $weight = 1, int $active = 1, ?string $color = null): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		try {
 			$member = $this->localProjectService->createMember(
 				$publicShareInfo['projectid'], $name, $weight, $active !== 0, $color, null
@@ -321,7 +321,7 @@ class OldApiController extends ApiController {
 	#[BruteForceProtection(action: 'CospendPublicAddMember2')]
 	public function apiv2AddMember(string $token, string $name, float $weight = 1, int $active = 1,
 		?string $color = null, ?string $userid = null): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		try {
 			$member = $this->localProjectService->createMember(
 				$publicShareInfo['projectid'], $name, $weight, $active !== 0, $color, $userid
@@ -361,7 +361,7 @@ class OldApiController extends ApiController {
 		?string $paymentmode = null, ?int $paymentmodeid = null,
 		?int $categoryid = null, int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
 		?string $comment = null, ?int $repeatfreq = null): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		try {
 			$insertedId = $this->localProjectService->createBill(
 				$publicShareInfo['projectid'], $date, $what, $payer, $payed_for, $amount,
@@ -420,7 +420,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[BruteForceProtection(action: 'CospendPublicRepeatBill')]
 	public function apiRepeatBill(string $token, int $billId): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		$bill = $this->billMapper->getBill($publicShareInfo['projectid'], $billId);
 		if ($bill === null) {
 			return new DataResponse('Bill not found', Http::STATUS_NOT_FOUND);
@@ -443,7 +443,7 @@ class OldApiController extends ApiController {
 		?string $repeatuntil = null, ?int $timestamp = null, ?string $comment = null,
 		?int $repeatfreq = null, ?int $deleted = null
 	): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		try {
 			$this->localProjectService->editBill(
 				$publicShareInfo['projectid'], $billid, $date, $what, $payer, $payed_for,
@@ -487,7 +487,7 @@ class OldApiController extends ApiController {
 		?string $repeatuntil = null, ?int $timestamp = null, ?string $comment = null,
 		?int $repeatfreq = null, ?int $deleted = null
 	): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		if (is_null($publicShareInfo)) {
 			$authorFullText = $this->trans->t('Guest access');
 		} elseif ($publicShareInfo['label']) {
@@ -558,7 +558,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[BruteForceProtection(action: 'CospendPublicClearTrashBin')]
 	public function apiClearTrashBin(string $token): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		try {
 			$this->billMapper->deleteDeletedBills($publicShareInfo['projectid']);
 			return new DataResponse('');
@@ -574,7 +574,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[BruteForceProtection(action: 'CospendPublicDeleteBill')]
 	public function apiDeleteBill(string $token, int $billid, bool $moveToTrash = true): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		$billObj = null;
 		if ($this->billMapper->getBill($publicShareInfo['projectid'], $billid) !== null) {
 			$billObj = $this->billMapper->find($billid);
@@ -610,7 +610,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[BruteForceProtection(action: 'CospendPublicDeleteBills')]
 	public function apiDeleteBills(string $token, array $billIds, bool $moveToTrash = true): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		if (is_null($publicShareInfo)) {
 			$authorFullText = $this->trans->t('Guest access');
 		} elseif ($publicShareInfo['label']) {
@@ -674,7 +674,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	#[BruteForceProtection(action: 'CospendPublicDeleteMember')]
 	public function apiDeleteMember(string $token, int $memberid): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		try {
 			$this->localProjectService->deleteMember($publicShareInfo['projectid'], $memberid);
 			return new DataResponse('OK');
@@ -707,7 +707,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_ADMIN)]
 	#[BruteForceProtection(action: 'CospendPublicDeleteProject')]
 	public function apiDeleteProject(string $token): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		try {
 			$this->localProjectService->deleteProject($publicShareInfo['projectid']);
 			return new DataResponse(['message' => 'DELETED']);
@@ -742,7 +742,7 @@ class OldApiController extends ApiController {
 	public function apiEditMember(string $token, int $memberid,
 		?string $name = null, ?float $weight = null, $activated = null,
 		?string $color = null, ?string $userid = null): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		if ($activated === 'true') {
 			$activated = true;
 		} elseif ($activated === 'false') {
@@ -792,7 +792,7 @@ class OldApiController extends ApiController {
 		?float $amountMin = null, ?float $amountMax = null,
 		string $showDisabled = '1', ?int $currencyId = null,
 		?int $payerId = null): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		$result = $this->localProjectService->getStatistics(
 			$publicShareInfo['projectid'], $tsMin, $tsMax,
 			$paymentModeId, $categoryId, $amountMin, $amountMax, $showDisabled === '1', $currencyId,
@@ -824,7 +824,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	#[BruteForceProtection(action: 'CospendPublicGetSettlement')]
 	public function apiGetProjectSettlement(string $token, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		$result = $this->localProjectService->getProjectSettlement(
 			$publicShareInfo['projectid'], $centeredOn, $maxTimestamp
 		);
@@ -848,7 +848,7 @@ class OldApiController extends ApiController {
 	#[BruteForceProtection(action: 'CospendPublicAutoSettlement')]
 	public function apiAutoSettlement(string $token, ?int $centeredOn = null,
 		int $precision = 2, ?int $maxTimestamp = null): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		try {
 			$this->localProjectService->autoSettlement(
 				$publicShareInfo['projectid'], $centeredOn, $precision, $maxTimestamp
@@ -883,7 +883,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	#[BruteForceProtection(action: 'CospendPublicAddPM')]
 	public function apiAddPaymentMode(string $token, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		$result = $this->localProjectService->createPaymentMode(
 			$publicShareInfo['projectid'], $name, $icon, $color, $order
 		);
@@ -907,7 +907,7 @@ class OldApiController extends ApiController {
 	#[BruteForceProtection(action: 'CospendPublicEditPM')]
 	public function apiEditPaymentMode(string $token, int $pmid, ?string $name = null,
 		?string $icon = null, ?string $color = null): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		try {
 			$pm = $this->localProjectService->editPaymentMode(
 				$publicShareInfo['projectid'], $pmid, $name, $icon, $color
@@ -927,7 +927,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	#[BruteForceProtection(action: 'CospendPublicSavePmOrder')]
 	public function apiSavePaymentModeOrder(string $token, array $order): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		try {
 			$this->localProjectService->savePaymentModeOrder($publicShareInfo['projectid'], $order);
 			return new DataResponse(true);
@@ -959,7 +959,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	#[BruteForceProtection(action: 'CospendPublicDeletePM')]
 	public function apiDeletePaymentMode(string $token, int $pmid): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		try {
 			$this->localProjectService->deletePaymentMode($publicShareInfo['projectid'], $pmid);
 			return new DataResponse($pmid);
@@ -992,7 +992,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	#[BruteForceProtection(action: 'CospendPublicAddCat')]
 	public function apiAddCategory(string $token, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		$result = $this->localProjectService->createCategory(
 			$publicShareInfo['projectid'], $name, $icon, $color, $order
 		);
@@ -1016,7 +1016,7 @@ class OldApiController extends ApiController {
 	#[BruteForceProtection(action: 'CospendPublicEditCat')]
 	public function apiEditCategory(string $token, int $categoryid, ?string $name = null,
 		?string $icon = null, ?string $color = null): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		try {
 			$category = $this->localProjectService->editCategory(
 				$publicShareInfo['projectid'], $categoryid, $name, $icon, $color
@@ -1036,7 +1036,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	#[BruteForceProtection(action: 'CospendPublicSaveCatOrder')]
 	public function apiSaveCategoryOrder(string $token, array $order): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		try {
 			$this->localProjectService->saveCategoryOrder($publicShareInfo['projectid'], $order);
 			return new DataResponse(true);
@@ -1070,7 +1070,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	#[BruteForceProtection(action: 'CospendPublicDeleteCat')]
 	public function apiDeleteCategory(string $token, int $categoryid): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		try {
 			$this->localProjectService->deleteCategory($publicShareInfo['projectid'], $categoryid);
 			return new DataResponse($categoryid);
@@ -1103,7 +1103,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	#[BruteForceProtection(action: 'CospendPublicAddCur')]
 	public function apiAddCurrency(string $token, string $name, float $rate): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		$result = $this->localProjectService->createCurrency($publicShareInfo['projectid'], $name, $rate);
 		return new DataResponse($result);
 	}
@@ -1124,7 +1124,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	#[BruteForceProtection(action: 'CospendPublicEditCur')]
 	public function apiEditCurrency(string $token, int $currencyid, string $name, float $rate): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		try {
 			$currency = $this->localProjectService->editCurrency(
 				$publicShareInfo['projectid'], $currencyid, $name, $rate
@@ -1159,7 +1159,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	#[BruteForceProtection(action: 'CospendPublicDeleteCur')]
 	public function apiDeleteCurrency(string $token, int $currencyid): DataResponse {
-		$publicShareInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		try {
 			$this->localProjectService->deleteCurrency($publicShareInfo['projectid'], $currencyid);
 			return new DataResponse($currencyid);

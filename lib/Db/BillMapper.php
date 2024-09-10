@@ -91,7 +91,7 @@ class BillMapper extends QBMapper {
 
 		$qb2 = $this->db->getQueryBuilder();
 		$qb2->select('id')
-			->from('cospend_bills')
+			->from($this->getTableName())
 			->where(
 				$qb2->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			)
@@ -107,7 +107,7 @@ class BillMapper extends QBMapper {
 
 		// delete the bills
 		$qb = $this->db->getQueryBuilder();
-		$qb->delete('cospend_bills')
+		$qb->delete($this->getTableName())
 			->where(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			)
@@ -130,7 +130,7 @@ class BillMapper extends QBMapper {
 
 		$qb2 = $this->db->getQueryBuilder();
 		$qb2->select('id')
-			->from('cospend_bills')
+			->from($this->getTableName())
 			->where(
 				$qb2->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
@@ -154,7 +154,7 @@ class BillMapper extends QBMapper {
 
 		///////////////////
 		// delete the bills
-		$qb->delete('cospend_bills')
+		$qb->delete($this->getTableName())
 			->where(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
@@ -184,7 +184,7 @@ class BillMapper extends QBMapper {
 	 */
 	public function moveBillsToTrash(string $projectId, ?string $what = null, ?int $minTimestamp = null): array {
 		$qb = $this->db->getQueryBuilder();
-		$qb->update('cospend_bills')
+		$qb->update($this->getTableName())
 			->set('deleted', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
 			->where(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -216,7 +216,7 @@ class BillMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
-			->from('cospend_bills')
+			->from($this->getTableName())
 			->where(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
@@ -242,7 +242,7 @@ class BillMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
-			->from(self::TABLE_NAME)
+			->from($this->getTableName())
 			->where(
 				$qb->expr()->eq('id', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
 			)
@@ -303,6 +303,31 @@ class BillMapper extends QBMapper {
 		$bill['owers'] = $billOwers;
 		$bill['owerIds'] = $billOwerIds;
 		return $bill;
+	}
+
+	/**
+	 * @param int|null $billId
+	 * @return Bill[]
+	 * @throws \OCP\DB\Exception
+	 */
+	public function getBillsToRepeat(?int $billId = null): array {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->neq('repeat', $qb->createNamedParameter(Application::FREQUENCY_NO, IQueryBuilder::PARAM_STR))
+			)
+			->andWhere(
+				$qb->expr()->eq('deleted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+			);
+		// we only repeat one bill
+		if (!is_null($billId)) {
+			$qb->andWhere(
+				$qb->expr()->eq('id', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
+			);
+		}
+
+		return $this->findEntities($qb);
 	}
 
 	/**
@@ -475,7 +500,7 @@ class BillMapper extends QBMapper {
 	): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
-			->from('cospend_bills', 'bi')
+			->from($this->getTableName(), 'bi')
 			->where(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
@@ -705,7 +730,7 @@ class BillMapper extends QBMapper {
 			'paymentmode', 'paymentmodeid', 'categoryid',
 			'pr.currencyname', 'me.name', 'me.userid'
 		)
-			->from('cospend_bills', 'b')
+			->from($this->getTableName(), 'b')
 			->innerJoin('b', 'cospend_projects', 'pr', $qb->expr()->eq('b.projectid', 'pr.id'))
 			->innerJoin('b', 'cospend_members', 'me', $qb->expr()->eq('b.payerid', 'me.id'))
 			->where(
@@ -768,7 +793,7 @@ class BillMapper extends QBMapper {
 	public function countBills(string $projectId, ?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $deleted = 0): int {
 		$qb = $this->db->getQueryBuilder();
 		$qb->selectAlias($qb->createFunction('COUNT(*)'), 'count_bills')
-			->from('cospend_bills')
+			->from($this->getTableName())
 			->where(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);

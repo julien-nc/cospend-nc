@@ -1853,7 +1853,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertTrue(isset($result['id']));
 		$token = $result['token'];
 
-		$projInfo = $this->localProjectService->getShareInfoFromShareToken($token);
+		$projInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		$this->assertEquals($projectId, $projInfo['projectid']);
 
 		$this->localProjectService->deleteProject($projectId);

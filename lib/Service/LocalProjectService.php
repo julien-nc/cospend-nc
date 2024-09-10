@@ -205,7 +205,7 @@ class LocalProjectService implements IProjectService {
 			} else {
 				// is the project shared with the user ?
 				try {
-					$userShare = $this->shareMapper->getShareOfUser($projectId, $userId, Share::TYPE_USER);
+					$userShare = $this->shareMapper->getShareByProjectAndUser($projectId, $userId, Share::TYPE_USER);
 					if ($userShare->getAccesslevel() > $userMaxAccessLevel) {
 						$userMaxAccessLevel = $userShare->getAccesslevel();
 					}
@@ -1912,56 +1912,32 @@ class LocalProjectService implements IProjectService {
 	 *
 	 * @param string $projectId
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
 	private function getUserShares(string $projectId): array {
-		$shares = [];
 		$userIdToName = [];
-		$sharesToDelete = [];
+		$jsonShares = [];
 
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('projectid', 'userid', 'id', 'accesslevel', 'manually_added')
-			->from('cospend_shares')
-			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_USER, IQueryBuilder::PARAM_STR))
-			);
-		$req = $qb->executeQuery();
-		while ($row = $req->fetch()) {
-			$dbuserId = $row['userid'];
-			$dbId = (int) $row['id'];
-			$dbAccessLevel = (int) $row['accesslevel'];
-			$dbManuallyAdded = (int) $row['manually_added'];
-			if (array_key_exists($dbuserId, $userIdToName)) {
-				$name = $userIdToName[$dbuserId];
+		$shares = $this->shareMapper->getSharesOfProject($projectId, Share::TYPE_USER);
+		foreach ($shares as $share) {
+			if (array_key_exists($share->getUserid(), $userIdToName)) {
+				$name = $userIdToName[$share->getUserid()];
 			} else {
-				$user = $this->userManager->get($dbuserId);
+				$user = $this->userManager->get($share->getUserid());
 				if ($user !== null) {
 					$userIdToName[$user->getUID()] = $user->getDisplayName();
 					$name = $user->getDisplayName();
 				} else {
-					$sharesToDelete[] = $dbId;
+					$this->shareMapper->delete($share);
 					continue;
 				}
 			}
-			$shares[] = [
-				'userid' => $dbuserId,
-				'name' => $name,
-				'id' => $dbId,
-				'accesslevel' => $dbAccessLevel,
-				'type' => Application::SHARE_TYPE_USER,
-				'manually_added' => $dbManuallyAdded === 1,
-			];
-		}
-		$req->closeCursor();
-
-		// delete shares pointing to unfound users
-		foreach ($sharesToDelete as $shId) {
-			$this->deleteUserShare($projectId, $shId);
+			$jsonShare = $share->jsonSerialize();
+			$jsonShare['name'] = $name;
+			$jsonShares[] = $jsonShare;
 		}
 
-		return $shares;
+		return $jsonShares;
 	}
 
 	/**
@@ -1984,37 +1960,16 @@ class LocalProjectService implements IProjectService {
 	 *
 	 * @param string $token
 	 * @return array|null
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
-	public function getShareInfoFromShareToken(string $token): ?array {
-		$projectInfo = null;
-
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('projectid', 'accesslevel', 'label', 'password')
-			->from('cospend_shares')
-			->where(
-				$qb->expr()->eq('userid', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_PUBLIC_LINK, IQueryBuilder::PARAM_STR))
-			);
-		$req = $qb->executeQuery();
-		while ($row = $req->fetch()) {
-			$projectId = $row['projectid'];
-			$label = $row['label'];
-			$password = $row['password'];
-			$accessLevel = (int) $row['accesslevel'];
-			$projectInfo = [
-				'projectid' => $projectId,
-				'accesslevel' => $accessLevel,
-				'label' => $label,
-				'password' => $password,
-			];
-			break;
+	public function getLinkShareInfoFromShareToken(string $token): ?array {
+		try {
+			$share = $this->shareMapper->getLinkShareByToken($token);
+			return $share->jsonSerialize();
+		} catch (DoesNotExistException $e) {
+			return null;
 		}
-		$req->closeCursor();
-
-		return $projectInfo;
 	}
 
 	/**
@@ -2022,52 +1977,33 @@ class LocalProjectService implements IProjectService {
 	 *
 	 * @param string $projectId
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
 	private function getGroupShares(string $projectId): array {
-		$shares = [];
 		$groupIdToName = [];
-		$sharesToDelete = [];
+		$jsonGroupShares = [];
 
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('projectid', 'userid', 'id', 'accesslevel')
-			->from('cospend_shares')
-			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR))
-			);
-		$req = $qb->executeQuery();
-		while ($row = $req->fetch()) {
-			$dbGroupId = $row['userid'];
-			$dbId = (int) $row['id'];
-			$dbAccessLevel = (int) $row['accesslevel'];
-			if (array_key_exists($dbGroupId, $groupIdToName)) {
-				$name = $groupIdToName[$dbGroupId];
+		$groupShares = $this->shareMapper->getSharesOfProject($projectId, Share::TYPE_GROUP);
+		foreach ($groupShares as $groupShare) {
+			$groupId = $groupShare->getUserid();
+			if (array_key_exists($groupId, $groupIdToName)) {
+				$name = $groupIdToName[$groupId];
 			} else {
-				if ($this->groupManager->groupExists($dbGroupId)) {
-					$name = $this->groupManager->get($dbGroupId)->getDisplayName();
-					$groupIdToName[$dbGroupId] = $name;
+				if ($this->groupManager->groupExists($groupId)) {
+					$name = $this->groupManager->get($groupId)->getDisplayName();
+					$groupIdToName[$groupId] = $name;
 				} else {
-					$sharesToDelete[] = $dbId;
+					$this->shareMapper->delete($groupShare);
 					continue;
 				}
 			}
-			$shares[] = [
-				'groupid' => $dbGroupId,
-				'name' => $name,
-				'id' => $dbId,
-				'accesslevel' => $dbAccessLevel,
-				'type' => Application::SHARE_TYPE_GROUP,
-			];
-		}
-		$req->closeCursor();
-
-		foreach ($sharesToDelete as $shId) {
-			$this->deleteGroupShare($projectId, $shId);
+			$jsonGroupShare = $groupShare->jsonSerialize();
+			$jsonGroupShare['name'] = $name;
+			$jsonGroupShare['groupid'] = $groupShare->getUserid();
+			$jsonGroupShares[] = $jsonGroupShare;
 		}
 
-		return $shares;
+		return $jsonGroupShares;
 	}
 
 	/**
@@ -2075,48 +2011,34 @@ class LocalProjectService implements IProjectService {
 	 *
 	 * @param string $projectId
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
 	private function getCircleShares(string $projectId): array {
-		$shares = [];
-
 		$circlesEnabled = $this->appManager->isEnabledForUser('circles');
-		if ($circlesEnabled) {
-			try {
-				$circlesManager = \OC::$server->get(\OCA\Circles\CirclesManager::class);
-				$circlesManager->startSuperSession();
-			} catch (Exception $e) {
-				return [];
-			}
-			$qb = $this->db->getQueryBuilder();
-			$qb->select('projectid', 'userid', 'id', 'accesslevel')
-				->from('cospend_shares')
-				->where(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-				)
-				->andWhere(
-					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_CIRCLE, IQueryBuilder::PARAM_STR))
-				);
-			$req = $qb->executeQuery();
-			while ($row = $req->fetch()) {
-				$dbCircleId = $row['userid'];
-				$dbId = (int) $row['id'];
-				$dbAccessLevel = (int) $row['accesslevel'];
-				try {
-					$circle = $circlesManager->getCircle($dbCircleId);
-					$shares[] = [
-						'circleid' => $dbCircleId,
-						'name' => $circle->getDisplayName(),
-						'id' => $dbId,
-						'accesslevel' => $dbAccessLevel,
-						'type' => Application::SHARE_TYPE_CIRCLE,
-					];
-				} catch (\OCA\Circles\Exceptions\CircleNotFoundException $e) {
-				}
-			}
-			$req->closeCursor();
-			$circlesManager->stopSession();
+		if (!$circlesEnabled) {
+			return [];
 		}
-		return $shares;
+
+		try {
+			$circlesManager = \OC::$server->get(\OCA\Circles\CirclesManager::class);
+			$circlesManager->startSuperSession();
+		} catch (Exception $e) {
+			return [];
+		}
+
+		$jsonCircleShares = [];
+
+		$circleShares = $this->shareMapper->getSharesOfProject($projectId, Share::TYPE_CIRCLE);
+		foreach ($circleShares as $circleShare) {
+			$jsonCircleShare = $circleShare->jsonSerialize();
+			$circleId = $circleShare->getUserid();
+			$circle = $circlesManager->getCircle($circleId);
+			$jsonCircleShare['name'] = $circle->getDisplayName();
+			$jsonCircleShare['circleid'] = $circleId;
+			$jsonCircleShares[] = $jsonCircleShare;
+		}
+		$circlesManager->stopSession();
+		return $jsonCircleShares;
 	}
 
 	public function deleteMember(string $projectId, int $memberId): void {
@@ -2426,54 +2348,24 @@ class LocalProjectService implements IProjectService {
 		$continue = true;
 		while ($continue) {
 			$continue = false;
-			// get bills with repetition flag
-			$qb = $this->db->getQueryBuilder();
-			$qb->select('id', 'projectid', 'what', 'timestamp', 'amount', 'payerid', 'repeat', 'repeatallactive', 'repeatfreq')
-				->from('cospend_bills', 'b')
-				->where(
-					$qb->expr()->neq('repeat', $qb->createNamedParameter(Application::FREQUENCY_NO, IQueryBuilder::PARAM_STR))
-				)
-				->andWhere(
-					$qb->expr()->eq('deleted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
-				);
-			// we only repeat one bill
-			if (!is_null($billId)) {
-				$qb->andWhere(
-					$qb->expr()->eq('id', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
-				);
-			}
-			$req = $qb->executeQuery();
-			$bills = [];
+
 			/** @var DateTimeZone[] $timezoneByProjectId */
 			$timezoneByProjectId = [];
-			while ($row = $req->fetch()) {
-				$id = $row['id'];
-				$what = $row['what'];
-				$repeat = $row['repeat'];
-				$repeatallactive = $row['repeatallactive'];
-				$repeatfreq = (int) $row['repeatfreq'];
-				$timestamp = $row['timestamp'];
-				$projectid = $row['projectid'];
-				$bills[] = [
-					'id' => $id,
-					'what' => $what,
-					'repeat' => $repeat,
-					'repeatallactive' => $repeatallactive,
-					'repeatfreq' => $repeatfreq,
-					'projectid' => $projectid,
-					'timestamp' => $timestamp
-				];
-				if (!isset($timezoneByProjectId[$projectid])) {
-					$timezoneByProjectId[$projectid] = $this->getProjectTimeZone($projectid);
+			// get bills with repetition flag
+			$bills = $this->billMapper->getBillsToRepeat($billId);
+			foreach ($bills as $bill) {
+				if (!isset($timezoneByProjectId[$bill->getProjectid()])) {
+					$timezoneByProjectId[$bill->getProjectid()] = $this->getProjectTimeZone($bill->getProjectid());
 				}
 			}
-			$req->closeCursor();
-			$qb = $this->db->getQueryBuilder();
+			$jsonBills = array_map(function (Bill $bill) {
+				return $bill->jsonSerialize();
+			}, $bills);
 
-			foreach ($bills as $bill) {
-				$billProjectId = $bill['projectid'];
-				$billDate = (new DateTimeImmutable())->setTimestamp($bill['timestamp'])->setTimezone($timezoneByProjectId[$billProjectId]);
-				$nextDate = $this->getNextRepetitionDate($bill, $billDate);
+			foreach ($jsonBills as $jsonBill) {
+				$billProjectId = $jsonBill['projectid'];
+				$billDate = (new DateTimeImmutable())->setTimestamp($jsonBill['timestamp'])->setTimezone($timezoneByProjectId[$billProjectId]);
+				$nextDate = $this->getNextRepetitionDate($jsonBill, $billDate);
 
 				// Unknown repeat interval
 				if ($nextDate === null) {
@@ -2484,20 +2376,20 @@ class LocalProjectService implements IProjectService {
 				$nowTs = $now->getTimestamp();
 				$nextDateTs = $nextDate->getTimestamp();
 				if ($nowTs > $nextDateTs || $nextDate->format('Y-m-d') === $now->format('Y-m-d')) {
-					$newBillId = $this->repeatLocalBill($bill['projectid'], $bill['id'], $nextDate);
+					$newBillId = $this->repeatLocalBill($jsonBill['projectid'], $jsonBill['id'], $nextDate);
 					// bill was not repeated (because of disabled owers or repeatuntil)
 					if ($newBillId === null) {
 						continue;
 					}
-					if (!array_key_exists($bill['projectid'], $projects)) {
-						$projects[$bill['projectid']] = $this->getProjectInfo($bill['projectid']);
+					if (!array_key_exists($jsonBill['projectid'], $projects)) {
+						$projects[$jsonBill['projectid']] = $this->getProjectInfo($jsonBill['projectid']);
 					}
 					$result[] = [
 						'new_bill_id' => $newBillId,
 						'date_orig' => $billDate->format('Y-m-d'),
 						'date_repeat' => $nextDate->format('Y-m-d'),
-						'what' => $bill['what'],
-						'project_name' => $projects[$bill['projectid']]['name'],
+						'what' => $jsonBill['what'],
+						'project_name' => $projects[$jsonBill['projectid']]['name'],
 					];
 					$continue = true;
 					// when only repeating one bill, this newly created bill is the one we want to potentially repeat
@@ -3188,6 +3080,7 @@ class LocalProjectService implements IProjectService {
 	 * @param int $accesslevel
 	 * @param bool $manually_added
 	 * @return array
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function createUserShare(
@@ -3196,97 +3089,66 @@ class LocalProjectService implements IProjectService {
 	): array {
 		$user = $this->userManager->get($userId);
 		if ($user !== null && $userId !== $fromUserId) {
-			$userName = $user->getDisplayName();
-			$qb = $this->db->getQueryBuilder();
-			$projectInfo = $this->getProjectInfo($projectId);
-			// check if someone tries to share the project with its owner
-			if ($userId !== $projectInfo['userid']) {
-				// check if user share exists
-				$qb->select('userid', 'projectid')
-					->from('cospend_shares', 's')
-					->where(
-						$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_USER, IQueryBuilder::PARAM_STR))
-					)
-					->andWhere(
-						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-					)
-					->andWhere(
-						$qb->expr()->eq('userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
-					);
-				$req = $qb->executeQuery();
-				$dbuserId = null;
-				while ($row = $req->fetch()) {
-					$dbuserId = $row['userid'];
-					break;
-				}
-				$req->closeCursor();
-				$qb = $this->db->getQueryBuilder();
-
-				if ($dbuserId === null) {
-					if ($this->getUserMaxAccessLevel($fromUserId, $projectId) >= $accesslevel) {
-						$qb->insert('cospend_shares')
-							->values([
-								'projectid' => $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR),
-								'userid' => $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR),
-								'type' => $qb->createNamedParameter(Application::SHARE_TYPE_USER, IQueryBuilder::PARAM_STR),
-								'accesslevel' => $qb->createNamedParameter($accesslevel, IQueryBuilder::PARAM_INT),
-								'manually_added' => $qb->createNamedParameter($manually_added ? 1 : 0, IQueryBuilder::PARAM_INT),
-							]);
-						$qb->executeStatement();
-
-						$insertedShareId = $qb->getLastInsertId();
-						$response = [
-							'id' => $insertedShareId,
-							'name' => $userName,
-							'accesslevel' => $accesslevel,
-							'manually_added' => $manually_added,
-							'userid' => $userId,
-							'type' => Application::SHARE_TYPE_USER,
-						];
-
-						// activity
-						$projectObj = $this->projectMapper->find($projectId);
-						$this->activityManager->triggerEvent(
-							ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
-							ActivityManager::SUBJECT_PROJECT_SHARE,
-							['who' => $userId, 'type' => Application::SHARE_TYPE_USER]
-						);
-
-						// SEND NOTIFICATION
-						$manager = $this->notificationManager;
-						$notification = $manager->createNotification();
-
-						$acceptAction = $notification->createAction();
-						$acceptAction->setLabel('accept')
-							->setLink('/apps/cospend', 'GET');
-
-						$declineAction = $notification->createAction();
-						$declineAction->setLabel('decline')
-							->setLink('/apps/cospend', 'GET');
-
-						$notification->setApp('cospend')
-							->setUser($userId)
-							->setDateTime(new DateTime())
-							->setObject('addusershare', $projectId)
-							->setSubject('add_user_share', [$fromUserId, $projectInfo['name']])
-							->addAction($acceptAction)
-							->addAction($declineAction);
-
-						$manager->notify($notification);
-
-						return $response;
-					} else {
-						return ['message' => $this->l10n->t('You are not authorized to give such access level')];
-					}
-				} else {
-					return ['message' => $this->l10n->t('Already shared with this user')];
-				}
-			} else {
-				return ['message' => $this->l10n->t('Impossible to share the project with its owner')];
-			}
-		} else {
 			return ['message' => $this->l10n->t('No such user')];
 		}
+
+		$userName = $user->getDisplayName();
+		$qb = $this->db->getQueryBuilder();
+		$projectInfo = $this->getProjectInfo($projectId);
+		// check if someone tries to share the project with its owner
+		if ($userId === $projectInfo['userid']) {
+			return ['message' => $this->l10n->t('Impossible to share the project with its owner')];
+		}
+
+		try {
+			$this->shareMapper->getShareByProjectAndUser($projectId, $userId, Share::TYPE_USER);
+			return ['message' => $this->l10n->t('Already shared with this user')];
+		} catch (DoesNotExistException $e) {
+		}
+
+		if ($this->getUserMaxAccessLevel($fromUserId, $projectId) < $accesslevel) {
+			return ['message' => $this->l10n->t('You are not authorized to give such access level')];
+		}
+
+		$share = new Share();
+		$share->setProjectid($projectId);
+		$share->setUserid($userId);
+		$share->setType(Share::TYPE_USER);
+		$share->setAccesslevel($accesslevel);
+		$share->setManuallyAdded($manually_added ? 1 : 0);
+		$insertedShare = $this->shareMapper->insert($share);
+
+		// activity
+		$projectObj = $this->projectMapper->find($projectId);
+		$this->activityManager->triggerEvent(
+			ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
+			ActivityManager::SUBJECT_PROJECT_SHARE,
+			['who' => $userId, 'type' => Application::SHARE_TYPE_USER]
+		);
+
+		// SEND NOTIFICATION
+		$manager = $this->notificationManager;
+		$notification = $manager->createNotification();
+
+		$acceptAction = $notification->createAction();
+		$acceptAction->setLabel('accept')
+			->setLink('/apps/cospend', 'GET');
+
+		$declineAction = $notification->createAction();
+		$declineAction->setLabel('decline')
+			->setLink('/apps/cospend', 'GET');
+
+		$notification->setApp('cospend')
+			->setUser($userId)
+			->setDateTime(new DateTime())
+			->setObject('addusershare', $projectId)
+			->setSubject('add_user_share', [$fromUserId, $projectInfo['name']])
+			->addAction($acceptAction)
+			->addAction($declineAction);
+
+		$manager->notify($notification);
+
+		return $insertedShare->jsonSerialize();
 	}
 
 	/**
@@ -3302,23 +3164,18 @@ class LocalProjectService implements IProjectService {
 	public function createPublicShare(
 		string $projectId, ?string $label = null, ?string $password = null, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT
 	): array {
-		$qb = $this->db->getQueryBuilder();
 		$shareToken = $this->secureRandom->generate(
 			FederationManager::TOKEN_LENGTH,
 			ISecureRandom::CHAR_HUMAN_READABLE
 		);
-		$qb->insert('cospend_shares')
-			->values([
-				'projectid' => $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR),
-				'userid' => $qb->createNamedParameter($shareToken, IQueryBuilder::PARAM_STR),
-				'type' => $qb->createNamedParameter(Application::SHARE_TYPE_PUBLIC_LINK, IQueryBuilder::PARAM_STR),
-				'accesslevel' => $qb->createNamedParameter($accesslevel, IQueryBuilder::PARAM_INT),
-				'label' => $qb->createNamedParameter($label, IQueryBuilder::PARAM_STR),
-				'password' => $qb->createNamedParameter($password, IQueryBuilder::PARAM_STR),
-			]);
-		$qb->executeStatement();
-
-		$insertedShareId = $qb->getLastInsertId();
+		$share = new Share();
+		$share->setProjectid($projectId);
+		$share->setUserid($shareToken);
+		$share->setType(Share::TYPE_PUBLIC_LINK);
+		$share->setAccesslevel($accesslevel);
+		$share->setLabel($label);
+		$share->setPassword($password);
+		$insertedShare = $this->shareMapper->insert($share);
 
 		//// activity
 		//$projectObj = $this->projectMapper->find($projectid);
@@ -3352,14 +3209,7 @@ class LocalProjectService implements IProjectService {
 
 		//$manager->notify($notification);
 
-		return [
-			'token' => $shareToken,
-			'id' => $insertedShareId,
-			'accesslevel' => $accesslevel,
-			'label' => $label,
-			'password' => $password,
-			'type' => Application::SHARE_TYPE_PUBLIC_LINK,
-		];
+		return $insertedShare->jsonSerialize();
 	}
 
 	/**
@@ -3369,42 +3219,16 @@ class LocalProjectService implements IProjectService {
 	 * @param int $shId
 	 * @param int $accessLevel
 	 * @return array
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function editShareAccessLevel(string $projectId, int $shId, int $accessLevel): array {
-		// check if user share exists
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('id', 'projectid')
-			->from('cospend_shares', 's')
-			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
-			);
-		$req = $qb->executeQuery();
-		$dbId = null;
-		while ($row = $req->fetch()) {
-			$dbId = $row['id'];
-			break;
-		}
-		$req->closeCursor();
-		$qb = $this->db->getQueryBuilder();
-
-		if ($dbId !== null) {
-			// set the accesslevel
-			$qb->update('cospend_shares')
-				->set('accesslevel', $qb->createNamedParameter($accessLevel, IQueryBuilder::PARAM_INT))
-				->where(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-				)
-				->andWhere(
-					$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
-				);
-			$qb->executeStatement();
-
+		try {
+			$share = $this->shareMapper->getProjectShareById($projectId, $shId);
+			$share->setAccesslevel($accessLevel);
+			$this->shareMapper->update($share);
 			return ['success' => true];
-		} else {
+		} catch (DoesNotExistException $e) {
 			return ['message' => $this->l10n->t('No such share')];
 		}
 	}
@@ -3417,52 +3241,24 @@ class LocalProjectService implements IProjectService {
 	 * @param string|null $label
 	 * @param string|null $password
 	 * @return array
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function editShareAccess(string $projectId, int $shId, ?string $label = null, ?string $password = null): array {
-		// check if user share exists
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('id', 'projectid')
-			->from('cospend_shares', 's')
-			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
-			);
-		$req = $qb->executeQuery();
-		$dbId = null;
-		while ($row = $req->fetch()) {
-			$dbId = $row['id'];
-			break;
+		if (is_null($label) && is_null($password)) {
+			return ['message' => $this->l10n->t('Invalid values')];
 		}
-		$req->closeCursor();
-		$qb = $this->db->getQueryBuilder();
-
-		if (!is_null($dbId) && (!is_null($label) || !is_null($password))) {
-			$qb->update('cospend_shares');
-			if (!is_null($label)) {
-				if ($label === '') {
-					$label = null;
-				}
-				$qb->set('label', $qb->createNamedParameter($label, IQueryBuilder::PARAM_STR));
+		try {
+			$share = $this->shareMapper->getProjectShareById($projectId, $shId);
+			if ($label !== null) {
+				$share->setLabel($label === '' ? null : $label);
 			}
-			if (!is_null($password)) {
-				if ($password === '') {
-					$password = null;
-				}
-				$qb->set('password', $qb->createNamedParameter($password, IQueryBuilder::PARAM_STR));
+			if ($password !== null) {
+				$share->setLabel($password === '' ? null : $password);
 			}
-			$qb->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			)
-				->andWhere(
-					$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
-				);
-			$qb->executeStatement();
-
+			$this->shareMapper->update($share);
 			return ['success' => true];
-		} else {
+		} catch (DoesNotExistException $e) {
 			return ['message' => $this->l10n->t('No such share')];
 		}
 	}
@@ -3474,86 +3270,54 @@ class LocalProjectService implements IProjectService {
 	 * @param int $shId
 	 * @param string|null $fromUserId
 	 * @return array
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function deleteUserShare(string $projectId, int $shId, ?string $fromUserId = null): array {
-		// check if user share exists
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('id', 'userid', 'projectid')
-			->from('cospend_shares', 's')
-			->where(
-				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_USER, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
-			);
-		$req = $qb->executeQuery();
-		$dbId = null;
-		$dbUserId = null;
-		while ($row = $req->fetch()) {
-			$dbId = $row['id'];
-			$dbUserId = $row['userid'];
-			break;
-		}
-		$req->closeCursor();
-		$qb = $this->db->getQueryBuilder();
-
-		if ($dbId !== null) {
-			// delete
-			$qb->delete('cospend_shares')
-				->where(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-				)
-				->andWhere(
-					$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
-				)
-				->andWhere(
-					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_USER, IQueryBuilder::PARAM_STR))
-				);
-			$qb->executeStatement();
-
-			// activity
-			$projectObj = $this->projectMapper->find($projectId);
-			$this->activityManager->triggerEvent(
-				ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
-				ActivityManager::SUBJECT_PROJECT_UNSHARE,
-				['who' => $dbUserId, 'type' => Application::SHARE_TYPE_USER]
-			);
-
-			// SEND NOTIFICATION
-			if (!is_null($fromUserId)) {
-				$projectInfo = $this->getProjectInfo($projectId);
-
-				$manager = $this->notificationManager;
-				$notification = $manager->createNotification();
-
-				$acceptAction = $notification->createAction();
-				$acceptAction->setLabel('accept')
-					->setLink('/apps/cospend', 'GET');
-
-				$declineAction = $notification->createAction();
-				$declineAction->setLabel('decline')
-					->setLink('/apps/cospend', 'GET');
-
-				$notification->setApp('cospend')
-					->setUser($dbUserId)
-					->setDateTime(new DateTime())
-					->setObject('deleteusershare', $projectId)
-					->setSubject('delete_user_share', [$fromUserId, $projectInfo['name']])
-					->addAction($acceptAction)
-					->addAction($declineAction)
-				;
-
-				$manager->notify($notification);
-			}
-
-			return ['success' => true];
-		} else {
+		try {
+			$share = $this->shareMapper->getProjectShareById($projectId, $shId, Share::TYPE_USER);
+		} catch (DoesNotExistException $e) {
 			return ['message' => $this->l10n->t('No such share')];
 		}
+		$dbUserId = $share->getUserId();
+		$this->shareMapper->delete($share);
+
+		// activity
+		$projectObj = $this->projectMapper->find($projectId);
+		$this->activityManager->triggerEvent(
+			ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
+			ActivityManager::SUBJECT_PROJECT_UNSHARE,
+			['who' => $dbUserId, 'type' => Application::SHARE_TYPE_USER]
+		);
+
+		// SEND NOTIFICATION
+		if (!is_null($fromUserId)) {
+			$projectInfo = $this->getProjectInfo($projectId);
+
+			$manager = $this->notificationManager;
+			$notification = $manager->createNotification();
+
+			$acceptAction = $notification->createAction();
+			$acceptAction->setLabel('accept')
+				->setLink('/apps/cospend', 'GET');
+
+			$declineAction = $notification->createAction();
+			$declineAction->setLabel('decline')
+				->setLink('/apps/cospend', 'GET');
+
+			$notification->setApp('cospend')
+				->setUser($dbUserId)
+				->setDateTime(new DateTime())
+				->setObject('deleteusershare', $projectId)
+				->setSubject('delete_user_share', [$fromUserId, $projectInfo['name']])
+				->addAction($acceptAction)
+				->addAction($declineAction)
+			;
+
+			$manager->notify($notification);
+		}
+
+		return ['success' => true];
 	}
 
 	/**
@@ -3562,82 +3326,51 @@ class LocalProjectService implements IProjectService {
 	 * @param string $projectId
 	 * @param int $shId
 	 * @return array
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function deletePublicShare(string $projectId, int $shId): array {
-		// check if public share exists
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('id', 'userid', 'projectid')
-			->from('cospend_shares', 's')
-			->where(
-				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_PUBLIC_LINK, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
-			);
-		$req = $qb->executeQuery();
-		$dbId = null;
-		while ($row = $req->fetch()) {
-			$dbId = $row['id'];
-			break;
+		try {
+			$share = $this->shareMapper->getProjectShareById($projectId, $shId, Share::TYPE_PUBLIC_LINK);
+		} catch (DoesNotExistException $e) {
+			return ['message' => $this->l10n->t('No such share')];
 		}
-		$req->closeCursor();
-		$qb = $this->db->getQueryBuilder();
+		$this->shareMapper->delete($share);
 
-		if ($dbId !== null) {
-			// delete
-			$qb->delete('cospend_shares')
-				->where(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-				)
-				->andWhere(
-					$qb->expr()->eq('id', $qb->createNamedParameter($shId, IQueryBuilder::PARAM_INT))
-				)
-				->andWhere(
-					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_PUBLIC_LINK, IQueryBuilder::PARAM_STR))
-				);
-			$qb->executeStatement();
+		//// activity
+		//$projectObj = $this->projectMapper->find($projectid);
+		//$this->activityManager->triggerEvent(
+		//    ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
+		//    ActivityManager::SUBJECT_PROJECT_UNSHARE,
+		//    ['who' => $dbuserId, 'type' => 'u']
+		//);
 
-			//// activity
-			//$projectObj = $this->projectMapper->find($projectid);
-			//$this->activityManager->triggerEvent(
-			//    ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
-			//    ActivityManager::SUBJECT_PROJECT_UNSHARE,
-			//    ['who' => $dbuserId, 'type' => 'u']
-			//);
+		//// SEND NOTIFICATION
+		//$projectInfo = $this->getProjectInfo($projectid);
 
-			//// SEND NOTIFICATION
-			//$projectInfo = $this->getProjectInfo($projectid);
+		//$manager = $this->notificationManager;
+		//$notification = $manager->createNotification();
 
-			//$manager = $this->notificationManager;
-			//$notification = $manager->createNotification();
+		//$acceptAction = $notification->createAction();
+		//$acceptAction->setLabel('accept')
+		//    ->setLink('/apps/cospend', 'GET');
 
-			//$acceptAction = $notification->createAction();
-			//$acceptAction->setLabel('accept')
-			//    ->setLink('/apps/cospend', 'GET');
+		//$declineAction = $notification->createAction();
+		//$declineAction->setLabel('decline')
+		//    ->setLink('/apps/cospend', 'GET');
 
-			//$declineAction = $notification->createAction();
-			//$declineAction->setLabel('decline')
-			//    ->setLink('/apps/cospend', 'GET');
+		//$notification->setApp('cospend')
+		//    ->setUser($dbuserId)
+		//    ->setDateTime(new DateTime())
+		//    ->setObject('deleteusershare', $projectid)
+		//    ->setSubject('delete_user_share', [$fromUserId, $projectInfo['name']])
+		//    ->addAction($acceptAction)
+		//    ->addAction($declineAction)
+		//    ;
 
-			//$notification->setApp('cospend')
-			//    ->setUser($dbuserId)
-			//    ->setDateTime(new DateTime())
-			//    ->setObject('deleteusershare', $projectid)
-			//    ->setSubject('delete_user_share', [$fromUserId, $projectInfo['name']])
-			//    ->addAction($acceptAction)
-			//    ->addAction($declineAction)
-			//    ;
+		//$manager->notify($notification);
 
-			//$manager->notify($notification);
-
-			return ['success' => true];
-		} else {
-			return ['message' => $this->l10n->t('No such shared access')];
-		}
+		return ['success' => true];
 	}
 
 	/**
@@ -3646,70 +3379,40 @@ class LocalProjectService implements IProjectService {
 	 * @param string $projectId
 	 * @param string $groupId
 	 * @param string|null $fromUserId
-	 * @param int $accesslevel
+	 * @param int $accessLevel
 	 * @return array
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function createGroupShare(
-		string $projectId, string $groupId, ?string $fromUserId = null, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT
+		string $projectId, string $groupId, ?string $fromUserId = null, int $accessLevel = Application::ACCESS_LEVEL_PARTICIPANT
 	): array {
-		if ($this->groupManager->groupExists($groupId)) {
-			$groupName = $this->groupManager->get($groupId)->getDisplayName();
-			$qb = $this->db->getQueryBuilder();
-			// check if user share exists
-			$qb->select('userid', 'projectid')
-				->from('cospend_shares', 's')
-				->where(
-					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR))
-				)
-				->andWhere(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-				)
-				->andWhere(
-					$qb->expr()->eq('userid', $qb->createNamedParameter($groupId, IQueryBuilder::PARAM_STR))
-				);
-			$req = $qb->executeQuery();
-			$dbGroupId = null;
-			while ($row = $req->fetch()) {
-				$dbGroupId = $row['userid'];
-				break;
-			}
-			$req->closeCursor();
-			$qb = $this->db->getQueryBuilder();
-
-			if ($dbGroupId === null) {
-				$qb->insert('cospend_shares')
-					->values([
-						'projectid' => $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR),
-						'userid' => $qb->createNamedParameter($groupId, IQueryBuilder::PARAM_STR),
-						'type' => $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR),
-						'accesslevel' => $qb->createNamedParameter($accesslevel, IQueryBuilder::PARAM_INT),
-					]);
-				$qb->executeStatement();
-
-				$insertedShareId = $qb->getLastInsertId();
-
-				// activity
-				$projectObj = $this->projectMapper->find($projectId);
-				$this->activityManager->triggerEvent(
-					ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
-					ActivityManager::SUBJECT_PROJECT_SHARE,
-					['who' => $groupId, 'type' => Application::SHARE_TYPE_GROUP]
-				);
-
-				return [
-					'id' => $insertedShareId,
-					'name' => $groupName,
-					'groupid' => $groupId,
-					'accesslevel' => $accesslevel,
-					'type' => Application::SHARE_TYPE_GROUP,
-				];
-			} else {
-				return ['message' => $this->l10n->t('Already shared with this group')];
-			}
-		} else {
+		if (!$this->groupManager->groupExists($groupId)) {
 			return ['message' => $this->l10n->t('No such group')];
 		}
+
+		try {
+			$existingShare = $this->shareMapper->getShareByProjectAndUser($projectId, $groupId, Share::TYPE_GROUP);
+			return ['message' => $this->l10n->t('Already shared with this group')];
+		} catch (DoesNotExistException $e) {
+		}
+
+		$share = new Share();
+		$share->setProjectid($projectId);
+		$share->setUserid($groupId);
+		$share->setType(Share::TYPE_GROUP);
+		$share->setAccesslevel($accessLevel);
+		$insertedShare = $this->shareMapper->insert($share);
+
+		// activity
+		$projectObj = $this->projectMapper->find($projectId);
+		$this->activityManager->triggerEvent(
+			ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
+			ActivityManager::SUBJECT_PROJECT_SHARE,
+			['who' => $groupId, 'type' => Application::SHARE_TYPE_GROUP]
+		);
+
+		return $insertedShare->jsonSerialize();
 	}
 
 	/**

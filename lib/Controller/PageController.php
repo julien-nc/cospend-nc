@@ -179,7 +179,7 @@ class PageController extends Controller {
 	#[PublicPage]
 	#[BruteForceProtection(action: 'CospendPublicShareLinkPage')]
 	public function publicShareLinkPage(string $token): TemplateResponse {
-		$publicShareInfo = $this->projectService->getShareInfoFromShareToken($token);
+		$publicShareInfo = $this->projectService->getLinkShareInfoFromShareToken($token);
 		if (!is_null($publicShareInfo)) {
 			$isPasswordProtected = !is_null($publicShareInfo['password'] ?? null);
 			if ($isPasswordProtected) {
@@ -226,7 +226,7 @@ class PageController extends Controller {
 	#[BruteForceProtection(action: 'CospendPublicProjectPage')]
 	public function pubProject(string $token, ?string $password = null): TemplateResponse {
 		if ($token && !is_null($password)) {
-			$info = $this->projectService->getShareInfoFromShareToken($token);
+			$info = $this->projectService->getLinkShareInfoFromShareToken($token);
 			// if the token is good and no password (or it matches the share one)
 			if (!is_null($info['projectid'] ?? null)
 				&& (is_null($info['password'] ?? null) || $password === $info['password'])

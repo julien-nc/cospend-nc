@@ -14,7 +14,6 @@ use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use OCP\IUser;
 use SensitiveParameter;
 
 /**
@@ -52,18 +51,44 @@ class ShareMapper extends QBMapper {
 	/**
 	 * @param string $projectId
 	 * @param int $id
+	 * @param string|null $type
 	 * @return Share
 	 * @throws DoesNotExistException
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
 	 */
-	public function getProjectShareById(string $projectId, int $id): Share {
+	public function getProjectShareById(string $projectId, int $id, ?string $type = null): Share {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
 			->from($this->getTableName())
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR)));
+
+		if ($type !== null) {
+			$qb->andWhere($qb->expr()->eq('type', $qb->createNamedParameter($type, IQueryBuilder::PARAM_STR)));
+		}
+
+		return $this->findEntity($qb);
+	}
+
+	/**
+	 * @param string $token
+	 * @return Share
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function getLinkShareByToken(
+		#[SensitiveParameter]
+		string $token,
+	): Share {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where($qb->expr()->eq('userid', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR)))
+			->andWhere($qb->expr()->eq('type', $qb->createNamedParameter(Share::TYPE_PUBLIC_LINK, IQueryBuilder::PARAM_STR)));
 
 		return $this->findEntity($qb);
 	}
@@ -147,7 +172,7 @@ class ShareMapper extends QBMapper {
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
 	 */
-	public function getShareOfUser(
+	public function getShareByProjectAndUser(
 		string $projectId,
 		string $userId,
 		?string $type = null,

@@ -57,7 +57,6 @@ use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Security\ISecureRandom;
-use Throwable;
 
 /**
  * @psalm-import-type CospendProjectInfoPlusExtra from ResponseDefinitions
@@ -286,8 +285,9 @@ class LocalProjectService implements IProjectService {
 	}
 
 	public function deleteProject(string $projectId): void {
-		$dbProjectToDelete = $this->projectMapper->find($projectId);
-		if ($dbProjectToDelete === null) {
+		try {
+			$dbProjectToDelete = $this->projectMapper->getById($projectId);
+		} catch (DoesNotExistException) {
 			throw new CospendBasicException('', Http::STATUS_NOT_FOUND, ['error' => $this->l10n->t('Not Found')]);
 		}
 		$this->projectMapper->deleteBillOwersOfProject($projectId);
@@ -1026,6 +1026,8 @@ class LocalProjectService implements IProjectService {
 	 * @param bool $produceActivity
 	 * @return void
 	 * @throws CospendBasicException
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function deleteBill(
@@ -1069,6 +1071,8 @@ class LocalProjectService implements IProjectService {
 	 * @param bool $moveToTrash
 	 * @return void
 	 * @throws CospendBasicException
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function deleteBills(string $projectId, array $billIds, bool $moveToTrash = true): void {
@@ -2108,6 +2112,8 @@ class LocalProjectService implements IProjectService {
 	 * @param bool $produceActivity
 	 * @return void
 	 * @throws CospendBasicException
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function editBill(

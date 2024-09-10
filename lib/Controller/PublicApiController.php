@@ -66,7 +66,7 @@ class PublicApiController extends OCSController {
 	 * Delete a project
 	 *
 	 * @param string $token
-	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_NOT_FOUND, array<string, string>, array{}>
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -79,9 +79,7 @@ class PublicApiController extends OCSController {
 			$this->localProjectService->deleteProject($this->projectId);
 			return new DataResponse(['message' => 'DELETED']);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+			return new DataResponse($e->data, Http::STATUS_NOT_FOUND);
 		}
 	}
 
@@ -90,7 +88,6 @@ class PublicApiController extends OCSController {
 	 *
 	 * @param string $token
 	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST, '', array{}>
-	 * @throws Exception
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -113,7 +110,7 @@ class PublicApiController extends OCSController {
 	 * @param string $token
 	 * @param int $billId
 	 * @param bool $moveToTrash
-	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND|Http::STATUS_BAD_REQUEST, '', array{}>
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, array<string, string>, array{}>
 	 * @throws DoesNotExistException
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
@@ -148,9 +145,10 @@ class PublicApiController extends OCSController {
 			}
 			return new DataResponse('');
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+			if ($e->getCode() === Http::STATUS_NOT_FOUND) {
+				return new DataResponse($e->data, Http::STATUS_NOT_FOUND);
+			}
+			return new DataResponse($e->data, Http::STATUS_FORBIDDEN);
 		}
 	}
 
@@ -160,7 +158,7 @@ class PublicApiController extends OCSController {
 	 * @param string $token
 	 * @param array<int> $billIds
 	 * @param bool $moveToTrash
-	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, '', array{}>
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, array<string, string>, array{}>
 	 * @throws DoesNotExistException
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
@@ -181,7 +179,7 @@ class PublicApiController extends OCSController {
 		}
 		foreach ($billIds as $billId) {
 			if ($this->billMapper->getBill($this->projectId, $billId) === null) {
-				return new DataResponse('', Http::STATUS_NOT_FOUND);
+				return new DataResponse([], Http::STATUS_NOT_FOUND);
 			}
 		}
 
@@ -195,9 +193,10 @@ class PublicApiController extends OCSController {
 					['author' => $authorFullText]
 				);
 			} catch (CospendBasicException $e) {
-				return new DataResponse($e->data, $e->getCode());
-			} catch (\Throwable $e) {
-				return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+				if ($e->getCode() === Http::STATUS_NOT_FOUND) {
+					return new DataResponse($e->data, Http::STATUS_NOT_FOUND);
+				}
+				return new DataResponse($e->data, Http::STATUS_FORBIDDEN);
 			}
 		}
 		return new DataResponse('');
@@ -208,8 +207,9 @@ class PublicApiController extends OCSController {
 	 *
 	 * @param string $token
 	 * @return DataResponse<Http::STATUS_OK, CospendFullPublicProjectInfo, array{}>|DataResponse<Http::STATUS_NOT_FOUND, array{message: string}, array{}>
-	 * @throws Exception
+	 * @throws CospendBasicException
 	 * @throws DoesNotExistException
+	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
 	 */
 	#[NoAdminRequired]
@@ -297,8 +297,7 @@ class PublicApiController extends OCSController {
 	 * @param int|null $centeredOn
 	 * @param int $precision
 	 * @param int|null $maxTimestamp
-	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{message: string}, array{}>
-	 * @throws Exception
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_FORBIDDEN, array<string, string>, array{}>
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -380,7 +379,7 @@ class PublicApiController extends OCSController {
 
 			return new DataResponse($billId);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
+			return new DataResponse($e->data, Http::STATUS_BAD_REQUEST);
 		} catch (\Throwable $e) {
 			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
@@ -407,7 +406,9 @@ class PublicApiController extends OCSController {
 	 * @param int|null $repeatFreq
 	 * @param int|null $deleted
 	 * @return DataResponse<Http::STATUS_OK, int[], array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 * @throws DoesNotExistException
 	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -443,9 +444,7 @@ class PublicApiController extends OCSController {
 					['author' => $authorFullText]
 				);
 			} catch (CospendBasicException $e) {
-				return new DataResponse($e->data, $e->getCode());
-			} catch (\Throwable $e) {
-				return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+				return new DataResponse($e->data, Http::STATUS_BAD_REQUEST);
 			}
 		}
 		return new DataResponse($billIds);
@@ -504,9 +503,7 @@ class PublicApiController extends OCSController {
 			);
 			return new DataResponse('');
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+			return new DataResponse($e->data, Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -528,7 +525,7 @@ class PublicApiController extends OCSController {
 	 * @param int|null $timestamp
 	 * @param string|null $comment
 	 * @param int|null $repeatFreq
-	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{error: array<string, string>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{error: string}, array{}>
 	 * @throws DoesNotExistException
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
@@ -683,9 +680,7 @@ class PublicApiController extends OCSController {
 			$this->localProjectService->deleteMember($this->projectId, $memberId);
 			return new DataResponse('');
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+			return new DataResponse($e->data, Http::STATUS_NOT_FOUND);
 		}
 	}
 
@@ -738,6 +733,7 @@ class PublicApiController extends OCSController {
 	 * @param string|null $color
 	 * @param string|null $userId
 	 * @return DataResponse<Http::STATUS_OK, CospendMember, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, string, array{}>
+	 * @throws Exception
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -755,9 +751,7 @@ class PublicApiController extends OCSController {
 			);
 			return new DataResponse($member);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data['error'] ?? '', $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
+			return new DataResponse($e->data['error'] ?? '', Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -770,6 +764,7 @@ class PublicApiController extends OCSController {
 	 * @param string $color
 	 * @param int|null $order
 	 * @return DataResponse<Http::STATUS_OK, int, array{}>
+	 * @throws Exception
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -778,14 +773,10 @@ class PublicApiController extends OCSController {
 	#[BruteForceProtection(action: 'CospendPublicCreatePaymentMode')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Payment-modes'])]
 	public function publicCreatePaymentMode(string $token, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
-		try {
-			$insertedId = $this->localProjectService->createPaymentMode(
-				$this->projectId, $name, $icon, $color, $order
-			);
-			return new DataResponse($insertedId);
-		} catch (\Throwable $e) {
-			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
-		}
+		$insertedId = $this->localProjectService->createPaymentMode(
+			$this->projectId, $name, $icon, $color, $order
+		);
+		return new DataResponse($insertedId);
 	}
 
 	/**
@@ -824,7 +815,10 @@ class PublicApiController extends OCSController {
 	 *
 	 * @param string $token
 	 * @param array<array{order: int, id: int}> $order
-	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_FORBIDDEN, '', array{}>
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -833,12 +827,8 @@ class PublicApiController extends OCSController {
 	#[BruteForceProtection(action: 'CospendPublicSavePMOrder')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Payment-modes'])]
 	public function publicSavePaymentModeOrder(string $token, array $order): DataResponse {
-		try {
-			$this->localProjectService->savePaymentModeOrder($this->projectId, $order);
-			return new DataResponse('');
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_FORBIDDEN);
-		}
+		$this->localProjectService->savePaymentModeOrder($this->projectId, $order);
+		return new DataResponse('');
 	}
 
 	/**
@@ -858,10 +848,8 @@ class PublicApiController extends OCSController {
 		try {
 			$this->localProjectService->deletePaymentMode($this->projectId, $pmId);
 			return new DataResponse($pmId);
-		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, Http::STATUS_FORBIDDEN);
 		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_FORBIDDEN);
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -874,6 +862,7 @@ class PublicApiController extends OCSController {
 	 * @param string $color
 	 * @param int|null $order
 	 * @return DataResponse<Http::STATUS_OK, int, array{}>
+	 * @throws Exception
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -882,14 +871,10 @@ class PublicApiController extends OCSController {
 	#[BruteForceProtection(action: 'CospendPublicCreateCat')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Categories'])]
 	public function publicCreateCategory(string $token, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
-		try {
-			$insertedId = $this->localProjectService->createCategory(
-				$this->projectId, $name, $icon, $color, $order
-			);
-			return new DataResponse($insertedId);
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
-		}
+		$insertedId = $this->localProjectService->createCategory(
+			$this->projectId, $name, $icon, $color, $order
+		);
+		return new DataResponse($insertedId);
 	}
 
 	/**

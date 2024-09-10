@@ -13,6 +13,7 @@ namespace OCA\Cospend\Controller;
 
 use OCA\Cospend\Db\Invitation;
 use OCA\Cospend\Federation\FederationManager;
+use OCA\Cospend\ResponseDefinitions;
 use OCA\Cospend\Service\FederatedProjectService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -23,6 +24,7 @@ use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\OCSController;
 
+use OCP\DB\Exception;
 use OCP\Federation\ICloudIdManager;
 use OCP\IAvatarManager;
 
@@ -31,6 +33,11 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 
+/**
+ *
+ * @psalm-import-type CospendFederationInvite from ResponseDefinitions
+ * @psalm-import-type CospendFullProjectInfo from ResponseDefinitions
+ */
 class FederationController extends OCSController {
 
 	public function __construct(
@@ -94,7 +101,7 @@ class FederationController extends OCSController {
 	 * Get the placeholder avatar
 	 *
 	 * @param string $name
-	 * @return RedirectResponse<Http::STATUS_OK, array{Content-Type: string}>
+	 * @return RedirectResponse<303, array{}>
 	 *
 	 * 200: User avatar returned
 	 */
@@ -109,7 +116,7 @@ class FederationController extends OCSController {
 	 *
 	 * @param int $id ID of the share
 	 * @psalm-param non-negative-int $id
-	 * @return DataResponse<Http::STATUS_OK, CospendProject, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_GONE, array{error: string}, array{}>|DataResponse<Http::STATUS_NOT_FOUND, array{error?: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, CospendFullProjectInfo, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_GONE, array{error: string}, array{}>|DataResponse<Http::STATUS_NOT_FOUND, array{error?: string}, array{}>
 	 *
 	 * 200: Invite accepted successfully
 	 * 400: Invite can not be accepted (maybe it was accepted already)
@@ -177,6 +184,7 @@ class FederationController extends OCSController {
 	 * 🚧 Draft: Still work in progress
 	 *
 	 * @return DataResponse<Http::STATUS_OK, list<CospendFederationInvite>, array{}>
+	 * @throws Exception
 	 *
 	 * 200: Get list of received federation invites successfully
 	 */
@@ -194,6 +202,6 @@ class FederationController extends OCSController {
 			return $json;
 		}, $invitations);
 
-		return new DataResponse($jsonInvitations);
+		return new DataResponse(array_values($jsonInvitations));
 	}
 }

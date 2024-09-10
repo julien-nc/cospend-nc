@@ -170,6 +170,17 @@ namespace OCA\Cospend;
  * }
  *
  * @psalm-type CospendProjectStatistics = array<string, mixed>
+ *
+ * @psalm-type CospendFederationInvite = array{
+ *     id: int,
+ *     userId: string,
+ *     state: int,
+ *     remoteProjectId: string,
+ *     remoteProjectName: string,
+ *     remoteServerUrl: string,
+ *     inviterCloudId: string,
+ *     inviterDisplayName: string,
+ * }
  */
 class ResponseDefinitions {
 }

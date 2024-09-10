@@ -83,11 +83,26 @@ class ApiController extends OCSController {
 		$this->projectService = $localProjectService;
 	}
 
+	/**
+	 * @param ClientException $e
+	 * @return DataResponse<Http::STATUS_FAILED_DEPENDENCY, array, array{}>
+	 */
 	private static function getResponseFromClientException(ClientException $e): DataResponse {
 		$response = $e->getResponse();
+		$statusCode = $response->getStatusCode();
 		$body = $response->getBody();
 		$parsedBody = json_decode($body, true);
-		return new DataResponse($parsedBody['ocs']['data'] ?? ['error' => 'unknown error'], $response->getStatusCode());
+		if (!isset($parsedBody['ocs']['data'])) {
+			$data = ['error' => 'unknown error'];
+		} elseif (is_array($parsedBody['ocs']['data'])) {
+			$data = $parsedBody['ocs']['data'];
+		} elseif (is_string($parsedBody['ocs']['data'])) {
+			$data = ['error' => $parsedBody['ocs']['data']];
+		} else {
+			$data = ['raw_body' => $body];
+		}
+		$data['status_code'] = $statusCode;
+		return new DataResponse($data, Http::STATUS_FAILED_DEPENDENCY);
 	}
 
 	/**
@@ -156,6 +171,9 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @return DataResponse<Http::STATUS_OK, CospendFullProjectInfo, array{}>
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: Project info
 	 */
@@ -867,8 +885,10 @@ class ApiController extends OCSController {
 	 * @param int $shId
 	 * @param string|null $label
 	 * @param string|null $password
-	 * @return DataResponse<Http::STATUS_OK, 'OK', array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, 'OK', array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED|Http::STATUS_FAILED_DEPENDENCY, array{message: string}, array{}>
+	 * @throws DoesNotExistException
 	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: The shared access was successfully edited
 	 * 401: The current user is not allowed to edit this shared access
@@ -903,7 +923,7 @@ class ApiController extends OCSController {
 	 * @param string|null $icon
 	 * @param string $color
 	 * @param int|null $order
-	 * @return DataResponse<Http::STATUS_OK, int, array{}>
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 *
 	 * 200: Payment mode was successfully created
 	 */
@@ -917,10 +937,6 @@ class ApiController extends OCSController {
 			return new DataResponse($insertedId);
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
-		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], $e->getCode());
 		}
 	}
 
@@ -932,7 +948,10 @@ class ApiController extends OCSController {
 	 * @param string|null $name
 	 * @param string|null $icon
 	 * @param string|null $color
-	 * @return DataResponse<Http::STATUS_OK, CospendPaymentMode, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, CospendPaymentMode, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: The payment mode was successfully edited
 	 * 400: Failed to edit the payment mode
@@ -950,9 +969,7 @@ class ApiController extends OCSController {
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+			return new DataResponse($e->data, Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -961,7 +978,10 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param array<array{order: int, id: int}> $order Array of objects, each object contains the order number and the payment mode ID
-	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST, '', array{}>
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: The payment mode order was successfully saved
 	 * 400: Failed to save the payment mode order
@@ -976,10 +996,6 @@ class ApiController extends OCSController {
 			return new DataResponse('');
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
-		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -988,7 +1004,10 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param int $pmId
-	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: The payment mode was successfully deleted
 	 * 400: Failed to delete the payment mode
@@ -1003,10 +1022,6 @@ class ApiController extends OCSController {
 			return new DataResponse('');
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
-		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -1018,7 +1033,8 @@ class ApiController extends OCSController {
 	 * @param string|null $icon
 	 * @param string $color
 	 * @param int|null $order
-	 * @return DataResponse<Http::STATUS_OK, int, array{}>
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @throws Exception
 	 *
 	 * 200: The category was successfully created
 	 * 400: Failed to create the category
@@ -1033,10 +1049,6 @@ class ApiController extends OCSController {
 			return new DataResponse($insertedId);
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
-		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -1048,7 +1060,10 @@ class ApiController extends OCSController {
 	 * @param string|null $name
 	 * @param string|null $icon
 	 * @param string|null $color
-	 * @return DataResponse<Http::STATUS_OK, CospendCategory, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, CospendCategory, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: The category was successfully edited
 	 * 400: Failed to edit the category
@@ -1066,9 +1081,7 @@ class ApiController extends OCSController {
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+			return new DataResponse($e->data, Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -1078,7 +1091,10 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param array<array{order: int, id: int}> $order
-	 * @return DataResponse<Http::STATUS_OK, true, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, false, array{}>
+	 * @return DataResponse<Http::STATUS_OK, true, array{}>|DataResponse<Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: The category order was successfully saved
 	 * 400: Failed to save the category order
@@ -1093,10 +1109,6 @@ class ApiController extends OCSController {
 			return new DataResponse(true);
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
-		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -1105,7 +1117,10 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param int $categoryId
-	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: The category was successfully deleted
 	 * 400: Failed to delete the category
@@ -1120,10 +1135,6 @@ class ApiController extends OCSController {
 			return new DataResponse('');
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
-		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -1133,7 +1144,8 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param string $name
 	 * @param float $rate
-	 * @return DataResponse<Http::STATUS_OK, int, array{}>
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @throws Exception
 	 *
 	 * 200: The currency was successfully created
 	 * 400: Failed to create the currency
@@ -1148,10 +1160,6 @@ class ApiController extends OCSController {
 			return new DataResponse($insertedId);
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
-		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -1162,7 +1170,7 @@ class ApiController extends OCSController {
 	 * @param int $currencyId
 	 * @param string $name
 	 * @param float $rate
-	 * @return DataResponse<Http::STATUS_OK, CospendCurrency, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, CospendCurrency, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 *
 	 * 200: The currency was successfully edited
 	 * 400: Failed to edit the currency
@@ -1178,9 +1186,10 @@ class ApiController extends OCSController {
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+			if ($e->getCode() == Http::STATUS_NOT_FOUND) {
+				return new DataResponse($e->data, Http::STATUS_NOT_FOUND);
+			}
+			return new DataResponse($e->data, Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -1189,7 +1198,9 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param int $currencyId
-	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @throws Exception
+	 * * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: The currency was successfully deleted
 	 * 400: Failed to delete the currency
@@ -1205,9 +1216,7 @@ class ApiController extends OCSController {
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+			return new DataResponse($e->data, Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -1218,7 +1227,7 @@ class ApiController extends OCSController {
 	 * @param string $userCloudId
 	 * @param int $accessLevel
 	 * @param bool $manuallyAdded
-	 * @return DataResponse<Http::STATUS_OK, CospendUserShare, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, CospendUserShare, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{error: string}, array{}>
 	 * @throws Exception
 	 * @throws DoesNotExistException
 	 * @throws MultipleObjectsReturnedException
@@ -1237,7 +1246,7 @@ class ApiController extends OCSController {
 			$share = $this->localProjectService->createFederatedShare($projectId, $userCloudId, $this->userId, $accessLevel, $manuallyAdded);
 			return new DataResponse($share->jsonSerialize());
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->getMessage(), $e->getCode());
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -1247,6 +1256,9 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param int $shId
 	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: The federated share was successfully deleted
 	 * 400: Failed to delete the user share
@@ -1268,9 +1280,7 @@ class ApiController extends OCSController {
 			$this->localProjectService->deleteFederatedShare($projectId, $shId);
 			return new DataResponse('');
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->getMessage(), $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+			return new DataResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -1621,10 +1631,12 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param string|null $name
-	 * @return DataResponse<Http::STATUS_OK, array{path: string}, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{path: string}, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array, array{}>
+	 * @throws DoesNotExistException
 	 * @throws Exception
 	 * @throws InvalidPathException
 	 * @throws LockedException
+	 * @throws MultipleObjectsReturnedException
 	 * @throws NoUserException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
@@ -1639,7 +1651,7 @@ class ApiController extends OCSController {
 			$bills = $this->projectService->getBills($projectId);
 			$result = $this->cospendService->exportCsvProject($projectId, $this->userId, $projectInfo, $bills['bills'], $name);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
+			return new DataResponse($e->data, Http::STATUS_BAD_REQUEST);
 		}
 		if (isset($result['path'])) {
 			return new DataResponse(['path' => $result['path']]);

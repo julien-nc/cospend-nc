@@ -12,8 +12,6 @@
 
 namespace OCA\Cospend\Service;
 
-use DateTime;
-use Generator;
 use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\Invitation;
 use OCA\Cospend\Db\InvitationMapper;

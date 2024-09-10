@@ -17,28 +17,13 @@
  */
 namespace OCA\Cospend\Service;
 
-use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\AppInfo\Application;
-use OCA\Cospend\Db\BillMapper;
-use OCA\Cospend\Db\MemberMapper;
-use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Exception\CospendBasicException;
-use OCA\Cospend\Service\LocalProjectService;
-use OCA\Cospend\Service\UserService;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
-use OCP\Files\IRootFolder;
-use OCP\IConfig;
-use OCP\IContainer;
 use OCP\IGroupManager;
-use OCP\IL10N;
 
-use OCP\IServerContainer;
 use OCP\IUserManager;
-use OCP\Notification\IManager as INotificationManager;
-use OCP\Share\IManager as IShareManager;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
 
 class LocalProjectServiceTest extends TestCase {
 

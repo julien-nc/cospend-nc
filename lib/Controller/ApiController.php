@@ -15,8 +15,8 @@ use GuzzleHttp\Exception\ClientException;
 use OC\User\NoUserException;
 use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\AppInfo\Application;
-use OCA\Cospend\Attribute\SupportFederatedProject;
 use OCA\Cospend\Attribute\CospendUserPermissions;
+use OCA\Cospend\Attribute\SupportFederatedProject;
 use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Exception\CospendBasicException;
@@ -170,8 +170,8 @@ class ApiController extends OCSController {
 			return $this->getResponseFromClientException($e);
 		} catch (CospendBasicException $e) {
 			return new DataResponse($e->data, $e->getCode());
-		//} catch (\Throwable $e) {
-		//	return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+			//} catch (\Throwable $e) {
+			//	return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 

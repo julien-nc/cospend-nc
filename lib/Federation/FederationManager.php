@@ -8,13 +8,13 @@ declare(strict_types=1);
 
 namespace OCA\Cospend\Federation;
 
+use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\Invitation;
 use OCA\Cospend\Db\InvitationMapper;
 use OCA\Cospend\Service\FederatedProjectService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;
-use OCA\Cospend\AppInfo\Application;
 use OCP\DB\Exception;
 use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
 use OCP\Federation\ICloudId;

@@ -9,12 +9,12 @@ declare(strict_types=1);
 namespace OCA\Cospend\Federation;
 
 use Exception;
+use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\Invitation;
 use OCA\Cospend\Db\InvitationMapper;
 use OCA\Cospend\Db\Share;
 use OCA\Cospend\Db\ShareMapper;
 use OCA\FederatedFileSharing\AddressHandler;
-use OCA\Cospend\AppInfo\Application;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;
@@ -88,7 +88,7 @@ class CloudFederationProviderCospend implements ICloudFederationProvider {
 		$shareWith = $share->getShareWith();
 		$remoteProjectId = $share->getProviderId();
 		$remoteProjectName = $share->getResourceName();
-//		$remoteProjectName = $share->getProtocol()['projectName'];
+		//		$remoteProjectName = $share->getProtocol()['projectName'];
 		$sharedByDisplayName = $share->getSharedByDisplayName();
 		$sharedByFederatedId = $share->getSharedBy();
 		$ownerDisplayName = $share->getOwnerDisplayName();

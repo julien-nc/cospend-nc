@@ -24,13 +24,14 @@ use OCA\Cospend\Controller\PublicApiController;
 use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Db\MemberMapper;
 use OCA\Cospend\Db\ProjectMapper;
+use OCA\Cospend\Db\ShareMapper;
 use OCA\Cospend\Exception\CospendPublicAuthNotValidException;
 use OCA\Cospend\Exception\CospendUserPermissionsException;
 use OCA\Cospend\Middleware\PublicAuthMiddleware;
 use OCA\Cospend\Middleware\UserPermissionMiddleware;
+use OCA\Cospend\Service\CospendService;
 use OCA\Cospend\Service\LocalProjectService;
 use OCA\Cospend\Service\UserService;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
@@ -40,7 +41,6 @@ use OCP\IRequest;
 
 use OCP\IServerContainer;
 use OCP\IUserManager;
-use OCP\Notification\IManager as INotificationManager;
 use OCP\Share\IManager as IShareManager;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -90,11 +90,10 @@ class MiddlewaresTest extends TestCase {
 		$app = new Application();
 		$c = $app->getContainer();
 		$sc = $c->get(IServerContainer::class);
-		//		$sc = $c->get(ContainerInterface::class);
 		$l10n = $c->get(IL10N::class);
-		$this->billMapper = new BillMapper($sc->getDatabaseConnection());
-		$this->memberMapper = new MemberMapper($sc->getDatabaseConnection());
-		$this->projectMapper = new ProjectMapper($sc->getDatabaseConnection(), $l10n);
+		$this->billMapper = $c->get(BillMapper::class);
+		$this->memberMapper = $c->get(MemberMapper::class);
+		$this->projectMapper = $c->get(ProjectMapper::class);
 
 		$activityManager = new ActivityManager(
 			$sc->getActivityManager(),
@@ -124,33 +123,21 @@ class MiddlewaresTest extends TestCase {
 			'test2'
 		);
 
-		$this->projectService = new LocalProjectService(
-			$sc->getL10N($c->get('AppName')),
-			$sc->getConfig(),
-			$this->projectMapper,
-			$this->billMapper,
-			$this->memberMapper,
-			$activityManager,
-			$c->get(IUserManager::class),
-			$c->get(IAppManager::class),
-			$c->get(IGroupManager::class),
-			$sc->getDateTimeZone(),
-			$c->get(IRootFolder::class),
-			$c->get(INotificationManager::class),
-			$sc->getDatabaseConnection()
-		);
+		$this->projectService = $c->get(LocalProjectService::class);
+		$this->cospendService = $c->get(CospendService::class);
+		$this->shareMapper = $c->get(ShareMapper::class);
 
 		$this->apiController = new ApiController(
 			$appName,
 			$this->request,
 			$c->get(IShareManager::class),
-			$c->get(IUserManager::class),
 			$sc->getL10N($c->get('AppName')),
 			$this->billMapper,
+			$this->projectMapper,
 			$this->projectService,
+			$this->cospendService,
 			$activityManager,
 			$c->get(IRootFolder::class),
-			$c->get(IConfig::class),
 			'test'
 		);
 
@@ -158,13 +145,13 @@ class MiddlewaresTest extends TestCase {
 			$appName,
 			$this->request,
 			$c->get(IShareManager::class),
-			$c->get(IUserManager::class),
 			$sc->getL10N($c->get('AppName')),
 			$this->billMapper,
+			$this->projectMapper,
 			$this->projectService,
+			$this->cospendService,
 			$activityManager2,
 			$c->get(IRootFolder::class),
-			$c->get(IConfig::class),
 			'test2'
 		);
 
@@ -173,6 +160,7 @@ class MiddlewaresTest extends TestCase {
 			$this->request,
 			$l10n,
 			$this->billMapper,
+			$this->shareMapper,
 			$this->projectService,
 			$activityManager,
 		);

@@ -17,8 +17,6 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
 use Exception;
-use OCA\Circles\Exceptions\InitiatorNotFoundException;
-use OCA\Circles\Exceptions\RequestBuilderException;
 use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\Bill;
@@ -1132,7 +1130,7 @@ class LocalProjectService implements IProjectService {
 				$this->createBill(
 					$projectId, null, $billTitle, $fromId, $toId, $amount,
 					Application::FREQUENCY_NO, 'n', 0,
-					Application::CATEGORY_REIMBURSEMENT,0, null, $ts
+					Application::CATEGORY_REIMBURSEMENT, 0, null, $ts
 				);
 			} catch (\Throwable $e) {
 				throw new CospendBasicException(
@@ -1410,7 +1408,7 @@ class LocalProjectService implements IProjectService {
 		if ($contact_email !== null && $contact_email !== '' && filter_var($contact_email, FILTER_VALIDATE_EMAIL) === false) {
 			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['contact_email' => $this->l10n->t('Invalid email address')]);
 		}
-		if ($autoExport !== null && $autoExport !== ''&& !in_array($autoExport, Application::FREQUENCIES)) {
+		if ($autoExport !== null && $autoExport !== '' && !in_array($autoExport, Application::FREQUENCIES)) {
 			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['autoexport' => $this->l10n->t('Invalid frequency')]);
 		}
 		if ($categorySort !== null && $categorySort !== '' && !in_array($categorySort, Application::SORT_ORDERS)) {
@@ -3439,8 +3437,7 @@ class LocalProjectService implements IProjectService {
 	 */
 	public function createCircleShare(
 		string $projectId, string $circleId, ?string $fromUserId = null, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT
-	): array
-	{
+	): array {
 		// check if circleId exists
 		$circlesEnabled = $this->appManager->isEnabledForUser('circles');
 		if (!$circlesEnabled) {

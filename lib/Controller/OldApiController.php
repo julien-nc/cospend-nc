@@ -17,9 +17,11 @@ use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Attribute\CospendPublicAuth;
 use OCA\Cospend\Attribute\CospendUserPermissions;
 use OCA\Cospend\Db\BillMapper;
+use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Exception\CospendBasicException;
 use OCA\Cospend\Service\LocalProjectService;
 use OCP\AppFramework\ApiController;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 
@@ -46,6 +48,7 @@ class OldApiController extends ApiController {
 		IRequest $request,
 		private IL10N $trans,
 		private BillMapper $billMapper,
+		private ProjectMapper $projectMapper,
 		private LocalProjectService $localProjectService,
 		private ActivityManager $activityManager,
 		public ?string $userId,
@@ -98,11 +101,20 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	public function apiPrivCreateProject(string $name, string $id, ?string $contact_email = null): DataResponse {
-		$result = $this->localProjectService->createProject($name, $id, $contact_email, $this->userId);
-		if (isset($result['id'])) {
-			return new DataResponse($result['id']);
-		} else {
-			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+		try {
+			$this->projectMapper->getById($id);
+			return new DataResponse('project already exists', Http::STATUS_BAD_REQUEST);
+		} catch (DoesNotExistException $e) {
+		}
+		try {
+			$jsonProject = $this->localProjectService->createProject($name, $id, $contact_email, $this->userId);
+			$projInfo = $this->localProjectService->getProjectInfo($jsonProject['id']);
+			$projInfo['myaccesslevel'] = Application::ACCESS_LEVEL_ADMIN;
+			return new DataResponse($projInfo);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (Exception $e) {
+			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
 		}
 	}
 

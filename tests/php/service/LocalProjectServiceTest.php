@@ -15,19 +15,21 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Cospend\Controller;
+namespace OCA\Cospend\Service;
 
 use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Db\MemberMapper;
 use OCA\Cospend\Db\ProjectMapper;
+use OCA\Cospend\Exception\CospendBasicException;
 use OCA\Cospend\Service\LocalProjectService;
 use OCA\Cospend\Service\UserService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
+use OCP\IContainer;
 use OCP\IGroupManager;
 use OCP\IL10N;
 
@@ -38,14 +40,9 @@ use OCP\Share\IManager as IShareManager;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
-class ApiControllerTest extends TestCase {
+class LocalProjectServiceTest extends TestCase {
 
-	private ApiController $apiController;
-	private ApiController $apiController2;
-	private BillMapper $billMapper;
-	private ProjectMapper $projectMapper;
 	private LocalProjectService $localProjectService;
-	private MemberMapper $memberMapper;
 
 	public static function setUpBeforeClass(): void {
 		$app = new Application();
@@ -86,80 +83,7 @@ class ApiControllerTest extends TestCase {
 
 		$app = new Application();
 		$c = $app->getContainer();
-		$sc = $c->get(IServerContainer::class);
-		//		$sc = $c->get(ContainerInterface::class);
-		$l10n = $c->get(IL10N::class);
-		$this->billMapper = new BillMapper($sc->getDatabaseConnection());
-		$this->memberMapper = new MemberMapper($sc->getDatabaseConnection());
-		$this->projectMapper = new ProjectMapper($sc->getDatabaseConnection(), $l10n);
-
-		$activityManager = new ActivityManager(
-			$sc->getActivityManager(),
-			new UserService(
-				$this->projectMapper,
-				$c->get(IGroupManager::class),
-				$sc->getDatabaseConnection()
-			),
-			$this->projectMapper,
-			$this->billMapper,
-			$sc->getL10N($c->get('AppName')),
-			$c->get(LoggerInterface::class),
-			'test'
-		);
-
-		$activityManager2 = new ActivityManager(
-			$sc->getActivityManager(),
-			new UserService(
-				$this->projectMapper,
-				$c->get(IGroupManager::class),
-				$sc->getDatabaseConnection()
-			),
-			$this->projectMapper,
-			$this->billMapper,
-			$sc->getL10N($c->get('AppName')),
-			$c->get(LoggerInterface::class),
-			'test2'
-		);
-
-		$this->localProjectService = new LocalProjectService(
-			$sc->getL10N($c->get('AppName')),
-			$sc->getConfig(),
-			$this->projectMapper,
-			$this->billMapper,
-			$this->memberMapper,
-			$activityManager,
-			$c->get(IUserManager::class),
-			$c->get(IAppManager::class),
-			$c->get(IGroupManager::class),
-			$sc->getDateTimeZone(),
-			$c->get(IRootFolder::class),
-			$c->get(INotificationManager::class),
-			$sc->getDatabaseConnection()
-		);
-
-		$this->apiController = new ApiController(
-			$appName,
-			$request,
-			$c->get(IShareManager::class),
-			$sc->getL10N($c->get('AppName')),
-			$this->billMapper,
-			$this->localProjectService,
-			$activityManager,
-			$c->get(IRootFolder::class),
-			'test'
-		);
-
-		$this->apiController2 = new ApiController(
-			$appName,
-			$request,
-			$c->get(IShareManager::class),
-			$sc->getL10N($c->get('AppName')),
-			$this->billMapper,
-			$this->localProjectService,
-			$activityManager2,
-			$c->get(IRootFolder::class),
-			'test2'
-		);
+		$this->localProjectService = $c->get(LocalProjectService::class);
 	}
 
 	public static function tearDownAfterClass(): void {
@@ -179,67 +103,36 @@ class ApiControllerTest extends TestCase {
 
 	protected function tearDown(): void {
 		// in case there was a failure and something was not deleted
-		$this->apiController->deleteProject('superproj');
-		$this->apiController->deleteProject('projtodel');
-		$this->apiController->deleteProject('original');
-		$this->apiController->deleteProject('newproject');
-	}
-
-	public function testUtils() {
-		// DELETE OPTIONS VALUES
-		$resp = $this->apiController->deleteOptionsValues();
-		$data = $resp->getData();
-		$this->assertEquals('', $data);
-
-		// SET OPTIONS
-		$resp = $this->apiController->saveOptionValues(['lala' => 'lolo']);
-		$data = $resp->getData();
-		$this->assertEquals('', $data);
-
-		// GET OPTIONS
-		$resp = $this->apiController->getOptionsValues();
-		$data = $resp->getData();
-		$values = $data['values'];
-		$this->assertEquals('lolo', $values['lala']);
+		try {
+			$this->localProjectService->deleteProject('superproj');
+			$this->localProjectService->deleteProject('projtodel');
+			$this->localProjectService->deleteProject('original');
+			$this->localProjectService->deleteProject('newproject');
+		} catch (\Throwable $t) {
+		}
 	}
 
 	public function testPage() {
-		// CLEAR OPTIONS
-		$resp = $this->apiController->deleteOptionsValues();
-		$data = $resp->getData();
-		$this->assertEquals('', $data);
-
 		// CREATE PROJECT
-		$resp = $this->apiController->createProject('superproj', 'SuperProj', 'toto');
-		$status = $resp->getStatus();
-		$this->assertEquals(Http::STATUS_OK, $status);
-		$data = $resp->getData();
-		$this->assertEquals('superproj', $data['id']);
+		$result = $this->localProjectService->createProject('SuperProj', 'superproj', null, 'toto');
+		$this->assertEquals('superproj', $result['id']);
 
-		$resp = $this->apiController->createProject('superproj', 'SuperProj', 'toto');
-		$status = $resp->getStatus();
-		$this->assertEquals(Http::STATUS_BAD_REQUEST, $status);
+		$this->expectException(\OCP\DB\Exception::class);
+		$this->localProjectService->createProject('SuperProj', 'superproj', null, 'toto');
 
-		$resp = $this->apiController->createProject('super/proj', 'SuperProj', 'toto');
-		$status = $resp->getStatus();
-		$this->assertEquals(Http::STATUS_BAD_REQUEST, $status);
+		$this->expectException(CospendBasicException::class);
+		$resp = $this->localProjectService->createProject('super/proj', 'SuperProj', 'toto');
 
 		// get project names
 		$res = $this->localProjectService->getProjectNames(null);
 		$this->assertEquals(0, count($res));
 
 		// create members
-		$resp = $this->apiController->createMember('superproj', 'bobby', null, 1, 1, '');
-		$status = $resp->getStatus();
-		$this->assertEquals(Http::STATUS_OK, $status);
-		$data = $resp->getData();
-		$idMember1 = $data['id'];
+		$member = $this->localProjectService->createMember('superproj', 'bobby', 1, true, '', null);
+		$idMember1 = $member['id'];
 
-		$resp = $this->apiController->createMember('superproj', 'robert');
-		$status = $resp->getStatus();
-		$this->assertEquals(Http::STATUS_OK, $status);
-		$data = $resp->getData();
-		$idMember2 = $data['id'];
+		$member = $this->localProjectService->createMember('superproj', 'robert');
+		$idMember2 = $member['id'];
 
 		$resp = $this->apiController->createMember('superproj', 'robert3');
 		$status = $resp->getStatus();

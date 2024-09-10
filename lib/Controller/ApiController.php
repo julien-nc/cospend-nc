@@ -18,6 +18,7 @@ use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Attribute\SupportFederatedProject;
 use OCA\Cospend\Attribute\CospendUserPermissions;
 use OCA\Cospend\Db\BillMapper;
+use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Exception\CospendBasicException;
 use OCA\Cospend\ResponseDefinitions;
 use OCA\Cospend\Service\CospendService;
@@ -70,6 +71,7 @@ class ApiController extends OCSController {
 		private IManager $shareManager,
 		private IL10N $trans,
 		private BillMapper $billMapper,
+		private ProjectMapper $projectMapper,
 		private LocalProjectService $localProjectService,
 		private CospendService $cospendService,
 		private ActivityManager $activityManager,
@@ -96,7 +98,9 @@ class ApiController extends OCSController {
 	 * @param string $id
 	 * @param string $name
 	 * @return DataResponse<Http::STATUS_OK, CospendFullProjectInfo, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 * @throws DoesNotExistException
 	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: Project successfully created
 	 * 400: Failed to create project
@@ -104,13 +108,20 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	public function createProject(string $id, string $name): DataResponse {
-		$result = $this->localProjectService->createProject($name, $id, null, $this->userId);
-		if (isset($result['id'])) {
-			$projInfo = $this->localProjectService->getProjectInfo($result['id']);
+		try {
+			$this->projectMapper->getById($id);
+			return new DataResponse('project already exists', Http::STATUS_BAD_REQUEST);
+		} catch (DoesNotExistException $e) {
+		}
+		try {
+			$jsonProject = $this->localProjectService->createProject($name, $id, null, $this->userId);
+			$projInfo = $this->localProjectService->getProjectInfo($jsonProject['id']);
 			$projInfo['myaccesslevel'] = Application::ACCESS_LEVEL_ADMIN;
 			return new DataResponse($projInfo);
-		} else {
-			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, $e->getCode());
+		} catch (Exception $e) {
+			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
 		}
 	}
 

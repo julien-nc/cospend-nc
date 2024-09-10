@@ -98,7 +98,7 @@ jobs:
           composer i
 
       - name: Perform PhpUnit tests with coverage
-        if: ${{ matrix.databases == 'sqlite' && matrix.php-versions == '8.0' && matrix.server-versions == 'master' }}
+        if: ${{ matrix.databases == 'sqlite' && matrix.php-versions == '8.3' && matrix.server-versions == 'master' }}
         run: |
           mkdir /tmp/coverage
           cd /tmp
@@ -117,21 +117,21 @@ jobs:
           anybadge -l coverage -v `cat /tmp/coverage/cov.value.txt` -m "%.2f%%" -f /tmp/coverage/coverage.svg 50=red 70=orange 80=yellow 90=green
 
       - name: Perform PhpUnit tests
-        if: ${{ !(matrix.databases == 'sqlite' && matrix.php-versions == '8.0' && matrix.server-versions == 'master') }}
+        if: ${{ !(matrix.databases == 'sqlite' && matrix.php-versions == '8.3' && matrix.server-versions == 'master') }}
         run: |
           ~/html/nextcloud/apps/${{ env.APP_ID }}/vendor/bin/phpunit --configuration ~/html/nextcloud/apps/${{ env.APP_ID }}/tests/phpunit.xml && SUCCESS=yes || SUCCESS=no
           if [ $SUCCESS = "yes" ]; then echo "TESTS PASSED"; else echo "TESTS FAILED"; exit 1; fi
 
-      - name: Upload coverage
-        if: ${{ github.ref == 'refs/heads/master' && matrix.databases == 'sqlite' && matrix.php-versions == '8.0' && matrix.server-versions == 'master' }}
-        uses: actions/upload-artifact@v2
-        with:
-          name: coverage
-          path: /tmp/coverage
+      #- name: Upload coverage
+      #  if: ${{ github.ref == 'refs/heads/master' && matrix.databases == 'sqlite' && matrix.php-versions == '8.0' && matrix.server-versions == 'master' }}
+      #  uses: actions/upload-artifact@v2
+      #  with:
+      #    name: coverage
+      #    path: /tmp/coverage
 
-      - name: Deploy
-        if: ${{ github.ref == 'refs/heads/master' && matrix.databases == 'sqlite' && matrix.php-versions == '8.0' && matrix.server-versions == 'master' }}
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: /tmp/coverage
+      #- name: Deploy
+      #  if: ${{ github.ref == 'refs/heads/master' && matrix.databases == 'sqlite' && matrix.php-versions == '8.0' && matrix.server-versions == 'master' }}
+      #  uses: peaceiris/actions-gh-pages@v3
+      #  with:
+      #    github_token: ${{ secrets.GITHUB_TOKEN }}
+      #    publish_dir: /tmp/coverage

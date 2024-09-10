@@ -273,15 +273,18 @@ class LocalProjectService implements IProjectService {
 	 * @param bool $createDefaultCategories
 	 * @param bool $createDefaultPaymentModes
 	 * @return array
+	 * @throws CospendBasicException
+	 * @throws \OCP\DB\Exception
 	 */
 	public function createProject(
 		string $name, string $id, ?string $contact_email, string $userId = '',
 		bool $createDefaultCategories = true, bool $createDefaultPaymentModes = true
 	): array {
-		return $this->projectMapper->createProject(
+		$newProject = $this->projectMapper->createProject(
 			$name, $id, $contact_email, $this->defaultCategories, $this->defaultPaymentModes,
 			$userId, $createDefaultCategories, $createDefaultPaymentModes
 		);
+		return $newProject->jsonSerialize();
 	}
 
 	public function deleteProject(string $projectId): void {
@@ -318,6 +321,9 @@ class LocalProjectService implements IProjectService {
 	 *
 	 * @param string $projectId
 	 * @return CospendProjectInfoPlusExtra|null
+	 * @throws CospendBasicException
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function getProjectInfo(string $projectId): ?array {

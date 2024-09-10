@@ -112,7 +112,7 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $id
 	 * @param string $name
-	 * @return DataResponse<Http::STATUS_OK, CospendFullProjectInfo, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, CospendFullProjectInfo, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 * @throws DoesNotExistException
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
@@ -125,7 +125,7 @@ class ApiController extends OCSController {
 	public function createProject(string $id, string $name): DataResponse {
 		try {
 			$this->projectMapper->getById($id);
-			return new DataResponse('project already exists', Http::STATUS_BAD_REQUEST);
+			return new DataResponse(['error' => 'project already exists'], Http::STATUS_BAD_REQUEST);
 		} catch (DoesNotExistException $e) {
 		}
 		try {
@@ -134,9 +134,9 @@ class ApiController extends OCSController {
 			$projInfo['myaccesslevel'] = Application::ACCESS_LEVEL_ADMIN;
 			return new DataResponse($projInfo);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
+			return new DataResponse($e->data, Http::STATUS_NOT_FOUND);
 		} catch (Exception $e) {
-			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -144,6 +144,7 @@ class ApiController extends OCSController {
 	 * Get local project list
 	 *
 	 * @return DataResponse<Http::STATUS_OK, CospendFullProjectInfo[], array{}>
+	 * @throws Exception
 	 *
 	 * 200: Project list
 	 */
@@ -170,7 +171,7 @@ class ApiController extends OCSController {
 	 * Get project information
 	 *
 	 * @param string $projectId
-	 * @return DataResponse<Http::STATUS_OK, CospendFullProjectInfo, array{}>
+	 * @return DataResponse<Http::STATUS_OK, CospendFullProjectInfo, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 * @throws DoesNotExistException
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
@@ -187,9 +188,7 @@ class ApiController extends OCSController {
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-			//} catch (\Throwable $e) {
-			//	return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+			return new DataResponse($e->data, Http::STATUS_NOT_FOUND);
 		}
 	}
 
@@ -204,7 +203,7 @@ class ApiController extends OCSController {
 	 * @param string|null $categorySort
 	 * @param string|null $paymentModeSort
 	 * @param int|null $archivedTs
-	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 *
 	 * 200: The project was successfully update
 	 * 400: Failed to edit the project
@@ -227,9 +226,7 @@ class ApiController extends OCSController {
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+			return new DataResponse($e->data, Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -237,7 +234,7 @@ class ApiController extends OCSController {
 	 * Delete a project
 	 *
 	 * @param string $projectId
-	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{message: string}, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 *
 	 * 200: The project was successfully deleted
 	 * 404: The project was not found
@@ -253,9 +250,7 @@ class ApiController extends OCSController {
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+			return new DataResponse($e->data, Http::STATUS_NOT_FOUND);
 		}
 	}
 
@@ -272,7 +267,8 @@ class ApiController extends OCSController {
 	 * @param string $showDisabled
 	 * @param int|null $currencyId
 	 * @param int|null $payerId
-	 * @return DataResponse<Http::STATUS_OK, CospendProjectStatistics, array{}>
+	 * @return DataResponse<Http::STATUS_OK, CospendProjectStatistics, array{}>|DataResponse<Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @throws Exception
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
@@ -291,10 +287,6 @@ class ApiController extends OCSController {
 			return new DataResponse($result);
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
-		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -304,7 +296,7 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param int|null $centeredOn Member ID to center the settlement on. All suggested transactions will involve this member.
 	 * @param int|null $maxTimestamp Settle at a precise date. So the member balances are all back to zero at this date.
-	 * @return DataResponse<Http::STATUS_OK, CospendProjectSettlement, array{}>
+	 * @return DataResponse<Http::STATUS_OK, CospendProjectSettlement, array{}>|DataResponse<Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
@@ -316,10 +308,6 @@ class ApiController extends OCSController {
 			return new DataResponse($result);
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
-		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -332,7 +320,7 @@ class ApiController extends OCSController {
 	 * @param int|null $centeredOn
 	 * @param int $precision
 	 * @param int|null $maxTimestamp
-	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
@@ -345,9 +333,7 @@ class ApiController extends OCSController {
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+			return new DataResponse($e->data, Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -356,7 +342,7 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param int|null $lastChanged
-	 * @return DataResponse<Http::STATUS_OK, CospendMember[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, CospendMember[], array{}>|DataResponse<Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 *
 	 * 200: List of members
 	 */
@@ -370,8 +356,6 @@ class ApiController extends OCSController {
 			return new DataResponse($members);
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -380,7 +364,7 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param int $memberId
-	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_NOT_FOUND, array{error: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 *
 	 * 200: Member was successfully disabled or deleted
 	 * 404: Member does not exist
@@ -396,9 +380,7 @@ class ApiController extends OCSController {
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+			return new DataResponse($e->data, Http::STATUS_NOT_FOUND);
 		}
 	}
 
@@ -412,7 +394,8 @@ class ApiController extends OCSController {
 	 * @param null $activated
 	 * @param string|null $color
 	 * @param string|null $userId
-	 * @return DataResponse<Http::STATUS_OK, ?CospendMember, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, ?CospendMember, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @throws Exception
 	 *
 	 * 200: Member was successfully edited (and deleted if it was disabled and wasn't ower of any bill)
 	 * 400: Failed to edit the member
@@ -436,9 +419,7 @@ class ApiController extends OCSController {
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+			return new DataResponse($e->data, Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -451,7 +432,8 @@ class ApiController extends OCSController {
 	 * @param float $weight
 	 * @param int $active
 	 * @param string|null $color
-	 * @return DataResponse<Http::STATUS_OK, CospendMember, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{error: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, CospendMember, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FAILED_DEPENDENCY, array{error: string}, array{}>
+	 * @throws Exception
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
@@ -467,9 +449,7 @@ class ApiController extends OCSController {
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+			return new DataResponse($e->data, Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -493,7 +473,10 @@ class ApiController extends OCSController {
 	 * @param string|null $comment
 	 * @param int|null $repeatFreq
 	 * @param int|null $deleted
-	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
@@ -516,9 +499,7 @@ class ApiController extends OCSController {
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+			return new DataResponse($e->data, Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -542,7 +523,8 @@ class ApiController extends OCSController {
 	 * @param string|null $comment
 	 * @param int|null $repeatFreq
 	 * @param int|null $deleted
-	 * @return DataResponse<Http::STATUS_OK, int[], array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, int[], array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @throws Exception
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
@@ -566,9 +548,7 @@ class ApiController extends OCSController {
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+			return new DataResponse($e->data, Http::STATUS_BAD_REQUEST);
 		}
 		return new DataResponse($billIds);
 	}
@@ -631,7 +611,7 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param int $billId
-	 * @return DataResponse<Http::STATUS_OK, array<array{new_bill_id: int, date_orig: string, date_repeat: string, what: string, project_name: string}>, array{}>|DataResponse<Http::STATUS_NOT_FOUND, '', array{}>
+	 * @return DataResponse<Http::STATUS_OK, array<array{new_bill_id: int, date_orig: string, date_repeat: string, what: string, project_name: string}>, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
@@ -644,9 +624,7 @@ class ApiController extends OCSController {
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_NOT_FOUND);
+			return new DataResponse($e->data, Http::STATUS_NOT_FOUND);
 		}
 	}
 
@@ -668,7 +646,8 @@ class ApiController extends OCSController {
 	 * @param int|null $timestamp
 	 * @param string|null $comment
 	 * @param int|null $repeatFreq
-	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{error: array<string, string>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @throws Exception
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
@@ -690,9 +669,7 @@ class ApiController extends OCSController {
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+			return new DataResponse($e->data, Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -700,7 +677,7 @@ class ApiController extends OCSController {
 	 * Clear the trash bin
 	 *
 	 * @param string $projectId
-	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST, '', array{}>
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 *
 	 * 200: The trash bin was successfully cleared
 	 * 400: Failed to clear the trash bin
@@ -715,10 +692,6 @@ class ApiController extends OCSController {
 			return new DataResponse('');
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
-		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -728,7 +701,10 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param int $billId
 	 * @param bool $moveToTrash
-	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, '', array{}>
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_FORBIDDEN|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
@@ -741,9 +717,10 @@ class ApiController extends OCSController {
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], $e->getCode());
+			if ($e->getCode() === Http::STATUS_FORBIDDEN) {
+				return new DataResponse($e->data, Http::STATUS_FORBIDDEN);
+			}
+			return new DataResponse($e->data, Http::STATUS_NOT_FOUND);
 		}
 	}
 
@@ -753,7 +730,10 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param array<int> $billIds
 	 * @param bool $moveToTrash
-	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, '', array{}>
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: Bills were successfully deleted
 	 * 403: This action is forbidden
@@ -769,9 +749,7 @@ class ApiController extends OCSController {
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], $e->getCode());
+			return new DataResponse($e->data, Http::STATUS_NOT_FOUND);
 		}
 	}
 
@@ -789,7 +767,7 @@ class ApiController extends OCSController {
 	 * @param int|null $includeBillId
 	 * @param string|null $searchTerm
 	 * @param int|null $deleted
-	 * @return DataResponse<Http::STATUS_OK, array{nb_bills: int, allBillIds: int[], timestamp: int, bills: CospendBill[]}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{nb_bills: int, allBillIds: int[], timestamp: int, bills: CospendBill[]}, array{}>|DataResponse<Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
@@ -809,10 +787,6 @@ class ApiController extends OCSController {
 			);
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
-		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], $e->getCode());
 		}
 	}
 
@@ -821,7 +795,7 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param int $billId
-	 * @return DataResponse<Http::STATUS_OK, CospendBill, array{}>|DataResponse<Http::STATUS_NOT_FOUND, '', array{}>
+	 * @return DataResponse<Http::STATUS_OK, CospendBill, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 *
 	 * 200: The bill was successfully obtained
 	 * 404: The bill was not found
@@ -836,9 +810,7 @@ class ApiController extends OCSController {
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
-		} catch (\Throwable $e) {
-			return new DataResponse(['error' => $e->getMessage()], $e->getCode());
+			return new DataResponse(['error' => 'bill not found'], Http::STATUS_NOT_FOUND);
 		}
 	}
 

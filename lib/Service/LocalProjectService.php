@@ -3032,6 +3032,7 @@ class LocalProjectService implements IProjectService {
 	 * @param int $shId
 	 * @return void
 	 * @throws CospendBasicException
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function deleteFederatedShare(string $projectId, int $shId): void {
@@ -3065,6 +3066,8 @@ class LocalProjectService implements IProjectService {
 	 * @param int $accesslevel
 	 * @param bool $manually_added
 	 * @return array
+	 * @throws CospendBasicException
+	 * @throws DoesNotExistException
 	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
@@ -3073,12 +3076,11 @@ class LocalProjectService implements IProjectService {
 		bool $manually_added = true
 	): array {
 		$user = $this->userManager->get($userId);
-		if ($user !== null && $userId !== $fromUserId) {
+		if ($user === null || $userId === $fromUserId) {
 			return ['message' => $this->l10n->t('No such user')];
 		}
 
 		$userName = $user->getDisplayName();
-		$qb = $this->db->getQueryBuilder();
 		$projectInfo = $this->getProjectInfo($projectId);
 		// check if someone tries to share the project with its owner
 		if ($userId === $projectInfo['userid']) {
@@ -3133,7 +3135,9 @@ class LocalProjectService implements IProjectService {
 
 		$manager->notify($notification);
 
-		return $insertedShare->jsonSerialize();
+		$jsonShare = $insertedShare->jsonSerialize();
+		$jsonShare['name'] = $userName;
+		return $jsonShare;
 	}
 
 	/**
@@ -3255,6 +3259,8 @@ class LocalProjectService implements IProjectService {
 	 * @param int $shId
 	 * @param string|null $fromUserId
 	 * @return array
+	 * @throws CospendBasicException
+	 * @throws DoesNotExistException
 	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
@@ -3264,7 +3270,7 @@ class LocalProjectService implements IProjectService {
 		} catch (DoesNotExistException $e) {
 			return ['message' => $this->l10n->t('No such share')];
 		}
-		$dbUserId = $share->getUserId();
+		$dbUserId = $share->getUserid();
 		$this->shareMapper->delete($share);
 
 		// activity

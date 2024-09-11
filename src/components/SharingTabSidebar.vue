@@ -123,14 +123,14 @@
 						<WebIcon :size="14" />
 					</span>
 				</div>
-				<DotsHorizontalCircleIcon v-if="access.state === 0"
-					:size="18"
-					fill-color="var(--color-warning)"
-					:title="t('cospend', 'Pending share')" />
-				<CheckboxMarkedCircleIcon v-else
-					:size="18"
-					fill-color="var(--color-success)"
-					:title="t('cospend', 'Accepted share')" />
+				<div :title="access.state === 0 ? t('cospend', 'Pending share') : t('cospend', 'Accepted share')">
+					<HelpNetworkOutlineIcon v-if="access.state === 0"
+						:size="18"
+						fill-color="var(--color-warning)" />
+					<CheckNetworkOutlineIcon v-else
+						:size="18"
+						fill-color="var(--color-success)" />
+				</div>
 				<span class="username">
 					<span>{{ access.userCloudId + ( access.label ? ' ( ' + access.label + ' )' : '') }}</span>
 				</span>
@@ -179,7 +179,7 @@
 							<NcLoadingIcon v-if="access.loading" />
 							<DeleteIcon v-else :size="20" />
 						</template>
-						{{ t('cospend', 'Delete link') }}
+						{{ t('cospend', 'Delete federated share') }}
 					</NcActionButton>
 				</NcActions>
 			</li>
@@ -317,7 +317,7 @@
 					<GoogleCirclesCommunitiesIcon :size="20" />
 				</div>
 				<span class="username">
-					<span>{{ access.name }}</span>
+					<span>{{ access.name }} ({{ access.userid }})</span>
 				</span>
 
 				<NcActions
@@ -361,8 +361,8 @@
 </template>
 
 <script>
-import DotsHorizontalCircleIcon from 'vue-material-design-icons/DotsHorizontalCircle.vue'
-import CheckboxMarkedCircleIcon from 'vue-material-design-icons/CheckboxMarkedCircle.vue'
+import HelpNetworkOutlineIcon from 'vue-material-design-icons/HelpNetworkOutline.vue'
+import CheckNetworkOutlineIcon from 'vue-material-design-icons/CheckNetworkOutline.vue'
 import GoogleCirclesCommunitiesIcon from 'vue-material-design-icons/GoogleCirclesCommunities.vue'
 import AccountIcon from 'vue-material-design-icons/Account.vue'
 import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
@@ -432,8 +432,8 @@ export default {
 		AccountIcon,
 		AccountGroupIcon,
 		GoogleCirclesCommunitiesIcon,
-		DotsHorizontalCircleIcon,
-		CheckboxMarkedCircleIcon,
+		CheckNetworkOutlineIcon,
+		HelpNetworkOutlineIcon,
 	},
 
 	props: {
@@ -658,7 +658,11 @@ export default {
 			const label = e.target[0].value
 			network.editSharedAccess(this.projectId, access, label, null).then((response) => {
 				this.$set(access, 'label', label)
-				showSuccess(t('cospend', 'Share link saved'))
+				showSuccess(
+					access.type === constants.SHARE_TYPE.FEDERATED
+						? t('cospend', 'Federated share saved')
+						: t('cospend', 'Share link saved'),
+				)
 			}).catch((error) => {
 				showError(t('cospend', 'Failed to edit share link'))
 				console.error(error)

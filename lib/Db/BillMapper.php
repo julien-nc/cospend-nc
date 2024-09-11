@@ -25,10 +25,9 @@ use OCP\IDBConnection;
  * @extends QBMapper<Bill>
  */
 class BillMapper extends QBMapper {
-	public const TABLE_NAME = 'cospend_bills';
 
 	public function __construct(IDBConnection $db) {
-		parent::__construct($db, self::TABLE_NAME, Bill::class);
+		parent::__construct($db, 'cospend_bills', Bill::class);
 	}
 
 	/**
@@ -50,22 +49,6 @@ class BillMapper extends QBMapper {
 		}
 
 		return $this->mapRowToEntity($row);
-	}
-
-	public function findProjectId(int $id): string {
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('projectid')
-			->from($this->getTableName())
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
-		$result = $qb->executeQuery();
-		$row = $result->fetch();
-		$result->closeCursor();
-
-		if ($row === false) {
-			throw new Exception('Bill ' . $id . ' not found');
-		}
-
-		return $row['projectid'];
 	}
 
 	/**
@@ -93,7 +76,7 @@ class BillMapper extends QBMapper {
 		$qb2->select('id')
 			->from($this->getTableName())
 			->where(
-				$qb2->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+				$qb2->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
 				$qb->expr()->eq('deleted', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
@@ -109,7 +92,7 @@ class BillMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete($this->getTableName())
 			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
 				$qb->expr()->eq('deleted', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
@@ -132,7 +115,7 @@ class BillMapper extends QBMapper {
 		$qb2->select('id')
 			->from($this->getTableName())
 			->where(
-				$qb2->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+				$qb2->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
 		if ($what !== null) {
 			$qb2->andWhere(
@@ -156,7 +139,7 @@ class BillMapper extends QBMapper {
 		// delete the bills
 		$qb->delete($this->getTableName())
 			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
 		if ($what !== null) {
 			$qb->andWhere(
@@ -187,7 +170,7 @@ class BillMapper extends QBMapper {
 		$qb->update($this->getTableName())
 			->set('deleted', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
 			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
 		if ($what !== null) {
 			$qb->andWhere(
@@ -218,7 +201,7 @@ class BillMapper extends QBMapper {
 		$qb->select('*')
 			->from($this->getTableName())
 			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
 		if ($what !== null) {
 			$qb->andWhere(
@@ -247,7 +230,7 @@ class BillMapper extends QBMapper {
 				$qb->expr()->eq('id', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
 			)
 			->andWhere(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
 
 		try {
@@ -357,24 +340,24 @@ class BillMapper extends QBMapper {
 		bool $reverse = false, ?int $payerId = null, ?int $deleted = 0
 	): array {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('bi.id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
-			'paymentmode', 'paymentmodeid', 'categoryid', 'bi.lastchanged', 'repeatallactive', 'repeatuntil', 'repeatfreq',
+		$qb->select('bi.id', 'what', 'comment', 'timestamp', 'amount', 'payer_id', 'repeat',
+			'payment_mode', 'payment_mode_id', 'category_id', 'bi.last_changed', 'repeat_all_active', 'repeat_until', 'repeat_frequency',
 			'deleted', 'memberid', 'm.name', 'm.weight', 'm.activated')
 			->from('cospend_bill_owers', 'bo')
 			->innerJoin('bo', 'cospend_bills', 'bi', $qb->expr()->eq('bo.billid', 'bi.id'))
 			->innerJoin('bo', 'cospend_members', 'm', $qb->expr()->eq('bo.memberid', 'm.id'))
 			->where(
-				$qb->expr()->eq('bi.projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('bi.project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
 		// take bills that have changed after $lastchanged
 		if ($lastchanged !== null) {
 			$qb->andWhere(
-				$qb->expr()->gt('bi.lastchanged', $qb->createNamedParameter($lastchanged, IQueryBuilder::PARAM_INT))
+				$qb->expr()->gt('bi.last_changed', $qb->createNamedParameter($lastchanged, IQueryBuilder::PARAM_INT))
 			);
 		}
 		if ($payerId !== null) {
 			$qb->andWhere(
-				$qb->expr()->eq('bi.payerid', $qb->createNamedParameter($payerId, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('bi.payer_id', $qb->createNamedParameter($payerId, IQueryBuilder::PARAM_INT))
 			);
 		}
 		if ($tsMin !== null) {
@@ -394,22 +377,22 @@ class BillMapper extends QBMapper {
 		}
 		if ($paymentMode !== null && $paymentMode !== '' && $paymentMode !== 'n') {
 			$qb->andWhere(
-				$qb->expr()->eq('paymentmode', $qb->createNamedParameter($paymentMode, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('payment_mode', $qb->createNamedParameter($paymentMode, IQueryBuilder::PARAM_STR))
 			);
 		} elseif (!is_null($paymentModeId)) {
 			$qb->andWhere(
-				$qb->expr()->eq('paymentmodeid', $qb->createNamedParameter($paymentModeId, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('payment_mode_id', $qb->createNamedParameter($paymentModeId, IQueryBuilder::PARAM_INT))
 			);
 		}
 		if ($category !== null) {
 			if ($category === -100) {
 				$or = $qb->expr()->orx();
-				$or->add($qb->expr()->isNull('categoryid'));
-				$or->add($qb->expr()->neq('categoryid', $qb->createNamedParameter(Application::CATEGORY_REIMBURSEMENT, IQueryBuilder::PARAM_INT)));
+				$or->add($qb->expr()->isNull('category_id'));
+				$or->add($qb->expr()->neq('category_id', $qb->createNamedParameter(Application::CATEGORY_REIMBURSEMENT, IQueryBuilder::PARAM_INT)));
 				$qb->andWhere($or);
 			} else {
 				$qb->andWhere(
-					$qb->expr()->eq('categoryid', $qb->createNamedParameter($category, IQueryBuilder::PARAM_INT))
+					$qb->expr()->eq('category_id', $qb->createNamedParameter($category, IQueryBuilder::PARAM_INT))
 				);
 			}
 		}
@@ -502,17 +485,17 @@ class BillMapper extends QBMapper {
 		$qb->select('*')
 			->from($this->getTableName(), 'bi')
 			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
 		// take bills that have changed after $lastchanged
 		if ($lastchanged !== null) {
 			$qb->andWhere(
-				$qb->expr()->gt('lastchanged', $qb->createNamedParameter($lastchanged, IQueryBuilder::PARAM_INT))
+				$qb->expr()->gt('last_changed', $qb->createNamedParameter($lastchanged, IQueryBuilder::PARAM_INT))
 			);
 		}
 		if ($payerId !== null) {
 			$qb->andWhere(
-				$qb->expr()->eq('payerid', $qb->createNamedParameter($payerId, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('payer_id', $qb->createNamedParameter($payerId, IQueryBuilder::PARAM_INT))
 			);
 		}
 		if ($tsMin !== null) {
@@ -532,22 +515,22 @@ class BillMapper extends QBMapper {
 		}
 		if ($paymentMode !== null && $paymentMode !== '' && $paymentMode !== 'n') {
 			$qb->andWhere(
-				$qb->expr()->eq('paymentmode', $qb->createNamedParameter($paymentMode, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('payment_mode', $qb->createNamedParameter($paymentMode, IQueryBuilder::PARAM_STR))
 			);
 		} elseif (!is_null($paymentModeId)) {
 			$qb->andWhere(
-				$qb->expr()->eq('paymentmodeid', $qb->createNamedParameter($paymentModeId, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('payment_mode_id', $qb->createNamedParameter($paymentModeId, IQueryBuilder::PARAM_INT))
 			);
 		}
 		if ($category !== null) {
 			if ($category === -100) {
 				$or = $qb->expr()->orx();
-				$or->add($qb->expr()->isNull('categoryid'));
-				$or->add($qb->expr()->neq('categoryid', $qb->createNamedParameter(Application::CATEGORY_REIMBURSEMENT, IQueryBuilder::PARAM_INT)));
+				$or->add($qb->expr()->isNull('category_id'));
+				$or->add($qb->expr()->neq('category_id', $qb->createNamedParameter(Application::CATEGORY_REIMBURSEMENT, IQueryBuilder::PARAM_INT)));
 				$qb->andWhere($or);
 			} else {
 				$qb->andWhere(
-					$qb->expr()->eq('categoryid', $qb->createNamedParameter($category, IQueryBuilder::PARAM_INT))
+					$qb->expr()->eq('category_id', $qb->createNamedParameter($category, IQueryBuilder::PARAM_INT))
 				);
 			}
 		}
@@ -657,14 +640,14 @@ class BillMapper extends QBMapper {
 		$dbTimestamp = (int) $row['timestamp'];
 		$dbDate = DateTime::createFromFormat('U', $row['timestamp']);
 		$dbRepeat = $row['repeat'];
-		$dbPayerId = (int) $row['payerid'];
-		$dbPaymentMode = $row['paymentmode'];
-		$dbPaymentModeId = (int) $row['paymentmodeid'];
-		$dbCategoryId = (int) $row['categoryid'];
-		$dbLastchanged = (int) $row['lastchanged'];
-		$dbRepeatAllActive = (int) $row['repeatallactive'];
-		$dbRepeatUntil = $row['repeatuntil'];
-		$dbRepeatFreq = (int) $row['repeatfreq'];
+		$dbPayerId = (int) $row['payer_id'];
+		$dbPaymentMode = $row['payment_mode'];
+		$dbPaymentModeId = (int) $row['payment_mode_id'];
+		$dbCategoryId = (int) $row['category_id'];
+		$dbLastchanged = (int) $row['last_changed'];
+		$dbRepeatAllActive = (int) $row['repeat_all_active'];
+		$dbRepeatUntil = $row['repeat_until'];
+		$dbRepeatFreq = (int) $row['repeat_frequency'];
 		$dbDeleted = (int) $row['deleted'];
 		return [
 			'id' => $dbBillId,
@@ -727,14 +710,14 @@ class BillMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select(
 			'b.id', 'what', 'comment', 'amount', 'timestamp',
-			'paymentmode', 'paymentmodeid', 'categoryid',
+			'payment_mode', 'payment_mode_id', 'category_id',
 			'pr.currency_name', 'me.name', 'me.userid'
 		)
 			->from($this->getTableName(), 'b')
 			->innerJoin('b', 'cospend_projects', 'pr', $qb->expr()->eq('b.projectid', 'pr.id'))
 			->innerJoin('b', 'cospend_members', 'me', $qb->expr()->eq('b.payerid', 'me.id'))
 			->where(
-				$qb->expr()->eq('b.projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('b.project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
 		if ($deleted !== null) {
 			$qb->andWhere(
@@ -753,9 +736,9 @@ class BillMapper extends QBMapper {
 			$dbWhat = $row['what'];
 			$dbTimestamp = (int) $row['timestamp'];
 			$dbComment = $row['comment'];
-			$dbPaymentMode = $row['paymentmode'];
-			$dbPaymentModeId = (int) $row['paymentmodeid'];
-			$dbCategoryId = (int) $row['categoryid'];
+			$dbPaymentMode = $row['payment_mode'];
+			$dbPaymentModeId = (int) $row['payment_mode_id'];
+			$dbCategoryId = (int) $row['category_id'];
 			$dbProjectCurrencyName = $row['currency_name'];
 			$dbPayerName = $row['name'];
 			$dbPayerUserId = $row['userid'];
@@ -795,7 +778,7 @@ class BillMapper extends QBMapper {
 		$qb->selectAlias($qb->createFunction('COUNT(*)'), 'count_bills')
 			->from($this->getTableName())
 			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
 		if ($deleted !== null) {
 			$qb->andWhere(
@@ -804,17 +787,17 @@ class BillMapper extends QBMapper {
 		}
 		if ($payerId !== null) {
 			$qb->andWhere(
-				$qb->expr()->eq('payerid', $qb->createNamedParameter($payerId, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('payer_id', $qb->createNamedParameter($payerId, IQueryBuilder::PARAM_INT))
 			);
 		}
 		if ($categoryId !== null) {
 			$qb->andWhere(
-				$qb->expr()->eq('categoryid', $qb->createNamedParameter($categoryId, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('category_id', $qb->createNamedParameter($categoryId, IQueryBuilder::PARAM_INT))
 			);
 		}
 		if ($paymentModeId !== null) {
 			$qb->andWhere(
-				$qb->expr()->eq('paymentmodeid', $qb->createNamedParameter($paymentModeId, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('payment_mode_id', $qb->createNamedParameter($paymentModeId, IQueryBuilder::PARAM_INT))
 			);
 		}
 		$req = $qb->executeQuery();
@@ -836,9 +819,9 @@ class BillMapper extends QBMapper {
 		$billIds = [];
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id')
-			->from(self::TABLE_NAME, 'b')
+			->from($this->getTableName(), 'b')
 			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
 		if ($deleted !== null) {
 			$qb->andWhere(
@@ -864,12 +847,12 @@ class BillMapper extends QBMapper {
 	public function removePaymentModeInProject(string $projectId, int $pmId): int {
 		$qb = $this->db->getQueryBuilder();
 		$qb->update($this->getTableName());
-		$qb->set('paymentmodeid', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+		$qb->set('payment_mode_id', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 			->where(
-				$qb->expr()->eq('paymentmodeid', $qb->createNamedParameter($pmId, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('payment_mode_id', $qb->createNamedParameter($pmId, IQueryBuilder::PARAM_INT))
 			)
 			->andWhere(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
 		return $qb->executeStatement();
 	}
@@ -883,12 +866,12 @@ class BillMapper extends QBMapper {
 	public function removeCategoryInProject(string $projectId, int $categoryId): int {
 		$qb = $this->db->getQueryBuilder();
 		$qb->update($this->getTableName());
-		$qb->set('categoryid', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+		$qb->set('category_id', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 			->where(
-				$qb->expr()->eq('categoryid', $qb->createNamedParameter($categoryId, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('category_id', $qb->createNamedParameter($categoryId, IQueryBuilder::PARAM_INT))
 			)
 			->andWhere(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
 		return $qb->executeStatement();
 	}

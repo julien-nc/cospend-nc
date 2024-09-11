@@ -293,7 +293,7 @@ class LocalProjectService implements IProjectService {
 		$this->projectMapper->deleteBillOwersOfProject($projectId);
 
 		$associatedTableNames = [
-			'cospend_bills',
+			// 'cospend_bills',
 			'cospend_members',
 			'cospend_shares',
 			'cospend_currencies',
@@ -310,6 +310,11 @@ class LocalProjectService implements IProjectService {
 			$qb->executeStatement();
 			$qb = $this->db->getQueryBuilder();
 		}
+		$qb->delete('cospend_bills')
+			->where(
+				$qb->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+			);
+		$qb->executeStatement();
 
 		$this->projectMapper->delete($dbProjectToDelete);
 	}
@@ -396,7 +401,7 @@ class LocalProjectService implements IProjectService {
 		$qb->selectAlias($qb->createFunction('SUM(amount)'), 'sum_amount')
 			->from('cospend_bills')
 			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
 				$qb->expr()->eq('deleted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
@@ -975,22 +980,22 @@ class LocalProjectService implements IProjectService {
 		$ts = (new DateTime())->getTimestamp();
 
 		$newBill = new Bill();
-		$newBill->setProjectid($projectId);
+		$newBill->setProjectId($projectId);
 		$newBill->setWhat($what);
 		if ($comment !== null) {
 			$newBill->setComment($comment);
 		}
 		$newBill->setTimestamp($dateTs);
 		$newBill->setAmount($amount);
-		$newBill->setPayerid($payer);
+		$newBill->setPayerId($payer);
 		$newBill->setRepeat($repeat);
-		$newBill->setRepeatallactive($repeatAllActive);
-		$newBill->setRepeatuntil($repeatUntil);
-		$newBill->setRepeatfreq($repeatFreq ?? 1);
-		$newBill->setCategoryid($categoryId ?? 0);
-		$newBill->setPaymentmode($paymentMode ?? 'n');
-		$newBill->setPaymentmodeid($paymentModeId ?? 0);
-		$newBill->setLastchanged($ts);
+		$newBill->setRepeatAllActive($repeatAllActive);
+		$newBill->setRepeatUntil($repeatUntil);
+		$newBill->setRepeatFrequency($repeatFreq ?? 1);
+		$newBill->setCategoryId($categoryId ?? 0);
+		$newBill->setPaymentMode($paymentMode ?? 'n');
+		$newBill->setPaymentModeId($paymentModeId ?? 0);
+		$newBill->setLastChanged($ts);
 		$newBill->setDeleted($deleted);
 
 		$createdBill = $this->billMapper->insert($newBill);
@@ -1796,11 +1801,11 @@ class LocalProjectService implements IProjectService {
 		$jsonElementsById = [];
 
 		if ($getCategories) {
-			$billTableField = 'categoryid';
+			$billTableField = 'category_id';
 			$dbTable = 'cospend_categories';
 			$alias = 'cat';
 		} else {
-			$billTableField = 'paymentmodeid';
+			$billTableField = 'payment_mode_id';
 			$dbTable = 'cospend_paymentmodes';
 			$alias = 'pm';
 		}
@@ -2178,7 +2183,7 @@ class LocalProjectService implements IProjectService {
 		// UPDATE
 		// set last modification timestamp
 		$ts = (new DateTime())->getTimestamp();
-		$dbBill->setLastchanged($ts);
+		$dbBill->setLastChanged($ts);
 		if ($what !== null) {
 			$dbBill->setWhat($what);
 		}
@@ -2194,13 +2199,13 @@ class LocalProjectService implements IProjectService {
 			}
 		}
 		if ($repeatFreq !== null) {
-			$dbBill->setRepeatfreq($repeatFreq);
+			$dbBill->setRepeatFrequency($repeatFreq);
 		}
 		if ($repeatUntil !== null) {
-			$dbBill->setRepeatuntil($repeatUntil === '' ? null : $repeatUntil);
+			$dbBill->setRepeatUntil($repeatUntil === '' ? null : $repeatUntil);
 		}
 		if ($repeatAllActive !== null) {
-			$dbBill->setRepeatallactive($repeatAllActive);
+			$dbBill->setRepeatAllActive($repeatAllActive);
 		}
 		// payment mode
 		if ($paymentModeId !== null) {
@@ -2212,8 +2217,8 @@ class LocalProjectService implements IProjectService {
 			) {
 				$paymentMode = $this->paymentModes[$paymentModeId]['old_id'];
 			}
-			$dbBill->setPaymentmodeid($paymentModeId);
-			$dbBill->setPaymentmode($paymentMode);
+			$dbBill->setPaymentModeId($paymentModeId);
+			$dbBill->setPaymentMode($paymentMode);
 		} elseif ($paymentMode !== null) {
 			// is there a pm with this old id? if yes, use it for new id
 			$paymentModeId = 0;
@@ -2223,11 +2228,11 @@ class LocalProjectService implements IProjectService {
 					break;
 				}
 			}
-			$dbBill->setPaymentmodeid($paymentModeId);
-			$dbBill->setPaymentmode($paymentMode);
+			$dbBill->setPaymentModeId($paymentModeId);
+			$dbBill->setPaymentMode($paymentMode);
 		}
 		if ($categoryId !== null) {
-			$dbBill->setCategoryid($categoryId);
+			$dbBill->setCategoryId($categoryId);
 		}
 		// priority to timestamp (moneybuster might send both for a moment)
 		if ($timestamp !== null) {
@@ -2243,7 +2248,7 @@ class LocalProjectService implements IProjectService {
 			$dbBill->setAmount($amount);
 		}
 		if ($payer !== null) {
-			$dbBill->setPayerid($payer);
+			$dbBill->setPayerId($payer);
 		}
 
 		$this->billMapper->update($dbBill);
@@ -2357,8 +2362,8 @@ class LocalProjectService implements IProjectService {
 			// get bills with repetition flag
 			$bills = $this->billMapper->getBillsToRepeat($billId);
 			foreach ($bills as $bill) {
-				if (!isset($timezoneByProjectId[$bill->getProjectid()])) {
-					$timezoneByProjectId[$bill->getProjectid()] = $this->getProjectTimeZone($bill->getProjectid());
+				if (!isset($timezoneByProjectId[$bill->getProjectId()])) {
+					$timezoneByProjectId[$bill->getProjectId()] = $this->getProjectTimeZone($bill->getProjectId());
 				}
 			}
 			$jsonBills = array_map(function (Bill $bill) {

@@ -68,7 +68,7 @@ class DeleteBills extends Base {
 		foreach ($billsToDelete as $bill) {
 			$ts = $bill->getTimestamp();
 			$date = (new DateTime())->setTimestamp($ts)->format('c');
-			$output->writeln('DELETE [' . $bill->getId() . '] ' . $bill->getWhat() . ' ; ' . $bill->getAmount() . ' ; ' . $date . ' ; ' . $bill->getPayerid());
+			$output->writeln('DELETE [' . $bill->getId() . '] ' . $bill->getWhat() . ' ; ' . $bill->getAmount() . ' ; ' . $date . ' ; ' . $bill->getPayerId());
 		}
 
 		if ($input->getOption('simulate')) {

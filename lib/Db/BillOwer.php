@@ -22,8 +22,8 @@ use OCP\AppFramework\Db\Entity;
  **/
 class BillOwer extends Entity implements \JsonSerializable {
 
-	protected int $billid;
-	protected int $memberid;
+	protected int $billid = 0;
+	protected int $memberid = 0;
 
 	public function __construct() {
 		$this->addType('id', 'integer');

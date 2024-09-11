@@ -70,7 +70,7 @@ class ProjectMapper extends QBMapper {
 
 		try {
 			return $this->findEntity($qb);
-		} catch (DoesNotExistException | MultipleObjectsReturnedException |\OCP\DB\Exception $e) {
+		} catch (DoesNotExistException | MultipleObjectsReturnedException |Exception $e) {
 			return null;
 		}
 	}
@@ -135,7 +135,7 @@ class ProjectMapper extends QBMapper {
 	/**
 	 * @param string $userId
 	 * @return Project[]
-	 * @throws \OCP\DB\Exception
+	 * @throws Exception
 	 */
 	public function getProjects(string $userId): array {
 		$qb = $this->db->getQueryBuilder();
@@ -152,14 +152,14 @@ class ProjectMapper extends QBMapper {
 	/**
 	 * @param string $projectId
 	 * @return void
-	 * @throws \OCP\DB\Exception
+	 * @throws Exception
 	 */
 	public function deleteBillOwersOfProject(string $projectId): void {
 		// old style
 		/*
 		$query = 'DELETE FROM `*PREFIX*cospend_bill_owers`
 		WHERE `billid` IN (
-			SELECT `id` FROM `*PREFIX*cospend_bills` WHERE `projectid` = ?
+			SELECT `id` FROM `*PREFIX*cospend_bills` WHERE `project_id` = ?
 		)';
 		$this->db->executeQuery($query, [$projectId]);
 		*/
@@ -171,7 +171,7 @@ class ProjectMapper extends QBMapper {
 		$qb2->select('id')
 			->from('cospend_bills')
 			->where(
-				$qb2->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+				$qb2->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
 
 		$qb->delete('cospend_bill_owers')
@@ -187,12 +187,12 @@ class ProjectMapper extends QBMapper {
 	 * @param string $projectId
 	 * @param int $timestamp
 	 * @return void
-	 * @throws \OCP\DB\Exception
+	 * @throws Exception
 	 */
 	public function updateProjectLastChanged(string $projectId, int $timestamp): void {
 		$qb = $this->db->getQueryBuilder();
 		$qb->update($this->getTableName());
-		$qb->set('lastchanged', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT));
+		$qb->set('last_changed', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT));
 		$qb->where(
 			$qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 		);

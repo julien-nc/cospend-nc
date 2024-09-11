@@ -152,7 +152,7 @@ class MemberMapper extends QBMapper {
 			->innerJoin('bo', 'cospend_bills', 'bi', $qb->expr()->eq('bo.billid', 'bi.id'))
 			->innerJoin('bo', self::TABLE_NAME, 'm', $qb->expr()->eq('bo.memberid', 'm.id'));
 		$or = $qb->expr()->orx();
-		$or->add($qb->expr()->eq('bi.payerid', $qb->createNamedParameter($memberId, IQueryBuilder::PARAM_INT)));
+		$or->add($qb->expr()->eq('bi.payer_id', $qb->createNamedParameter($memberId, IQueryBuilder::PARAM_INT)));
 		$or->add($qb->expr()->eq('bo.memberid', $qb->createNamedParameter($memberId, IQueryBuilder::PARAM_INT)));
 		$qb->where($or);
 		if ($deleted !== null) {

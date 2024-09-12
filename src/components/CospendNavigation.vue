@@ -1,5 +1,5 @@
 <template>
-	<NcAppNavigation>
+	<NcAppNavigation v-show="open">
 		<template #list>
 			<NcAppNavigationItem v-if="!pageIsPublic && !loading"
 				class="addProjectItem"

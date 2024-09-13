@@ -173,7 +173,7 @@ class MiddlewaresTest extends TestCase {
 		);
 
 		$this->publicAuthMiddleware = new PublicAuthMiddleware(
-			$this->projectService,
+			$c->get(ShareMapper::class),
 			$this->request,
 			$c->get(IL10N::class),
 			$c->get(LoggerInterface::class),
@@ -285,7 +285,7 @@ class MiddlewaresTest extends TestCase {
 		$resp = $this->apiController->createPublicShare($projectId);
 		$data = $resp->getData();
 		$shareId = $data['id'];
-		$shareToken = $data['token'];
+		$shareToken = $data['userid'];
 		$requestResponse = [
 			'token' => $shareToken,
 			'password' => 'no-password',

@@ -6,8 +6,6 @@ namespace OCA\Cospend\Migration;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
-use OCP\DB\Types;
-use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
@@ -57,6 +55,10 @@ class Version030000Date20240910235937 extends SimpleMigrationStep {
 			}
 			if ($table->hasColumn('last_changed') && $table->hasColumn('lastchanged')) {
 				$table->dropColumn('lastchanged');
+				$schemaChanged = true;
+			}
+			if ($table->hasColumn('email')) {
+				$table->dropColumn('email');
 				$schemaChanged = true;
 			}
 		}

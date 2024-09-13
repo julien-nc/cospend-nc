@@ -596,7 +596,7 @@ export default {
 				}
 				newShAccess.id = response.data.ocs.data.id
 				if (sh.type === constants.SHARE_TYPE.PUBLIC_LINK) {
-					newShAccess.token = response.data.ocs.data.token
+					newShAccess.userid = response.data.ocs.data.userid
 					this.copyLink(newShAccess)
 				} else if (sh.type === constants.SHARE_TYPE.FEDERATED) {
 					newShAccess.userCloudId = response.data.ocs.data.userCloudId
@@ -702,7 +702,7 @@ export default {
 			return (window.location.protocol === 'http:' ? 'cospend+http://' : 'cospend://')
 				+ window.location.host
 				+ generateUrl('').replace('/index.php', '')
-				+ access.token + '/' + encodeURIComponent(access.password || 'no-pass')
+				+ access.userid + '/' + encodeURIComponent(access.password || 'no-pass')
 		},
 		displayCospendLinkQRCode(access) {
 			this.shareLinkQrcodeUrl = this.generateCospendLink(access)

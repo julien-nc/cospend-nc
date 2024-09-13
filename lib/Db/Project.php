@@ -18,11 +18,9 @@ use OCP\AppFramework\Db\Entity;
  * @method string getId()
  * @method void setId(string $id)
  * @method string getUserId()
- * @method void setUserid(string $userId)
+ * @method void setUserId(string $userId)
  * @method string getName()
  * @method void setName(string $name)
- * @method string getEmail()
- * @method void setEmail(string $email)
  * @method string getAutoExport()
  * @method void setAutoExport(string $autoExport)
  * @method int getLastChanged()
@@ -42,7 +40,6 @@ class Project extends Entity implements \JsonSerializable {
 
 	protected ?string $userId = null;
 	protected string $name = '';
-	protected string $email = '';
 	protected string $autoExport = 'n';
 	protected int $lastChanged = 0;
 	protected int $deletionDisabled = 0;
@@ -55,7 +52,6 @@ class Project extends Entity implements \JsonSerializable {
 		$this->addType('id', 'string');
 		$this->addType('user_id', 'string');
 		$this->addType('name', 'string');
-		$this->addType('email', 'string');
 		$this->addType('auto_export', 'string');
 		$this->addType('last_changed', 'integer');
 		$this->addType('deletion_disabled', 'integer');
@@ -71,7 +67,7 @@ class Project extends Entity implements \JsonSerializable {
 			'id' => $this->id,
 			'userid' => $this->userId,
 			'name' => $this->name,
-			'email' => $this->email,
+			'email' => '',
 			'autoexport' => $this->autoExport,
 			'lastchanged' => $this->lastChanged,
 			'deletiondisabled' => $this->deletionDisabled === 1,

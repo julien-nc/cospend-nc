@@ -1413,9 +1413,6 @@ class LocalProjectService implements IProjectService {
 		if ($name === '') {
 			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['name' => $this->l10n->t('Name can\'t be empty')]);
 		}
-		if ($contact_email !== null && $contact_email !== '' && filter_var($contact_email, FILTER_VALIDATE_EMAIL) === false) {
-			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['contact_email' => $this->l10n->t('Invalid email address')]);
-		}
 		if ($autoExport !== null && $autoExport !== '' && !in_array($autoExport, Application::FREQUENCIES)) {
 			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['autoexport' => $this->l10n->t('Invalid frequency')]);
 		}
@@ -1439,10 +1436,6 @@ class LocalProjectService implements IProjectService {
 
 		if ($name !== null) {
 			$dbProject->setName($name);
-		}
-
-		if ($contact_email !== null && $contact_email !== '') {
-			$dbProject->setEmail($contact_email);
 		}
 
 		if ($autoExport !== null && $autoExport !== '') {
@@ -3248,7 +3241,7 @@ class LocalProjectService implements IProjectService {
 				$share->setLabel($label === '' ? null : $label);
 			}
 			if ($password !== null) {
-				$share->setLabel($password === '' ? null : $password);
+				$share->setPassword($password === '' ? null : $password);
 			}
 			$this->shareMapper->update($share);
 			return ['success' => true];

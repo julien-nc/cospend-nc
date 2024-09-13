@@ -99,10 +99,9 @@ class ProjectMapper extends QBMapper {
 
 		$ts = (new DateTime())->getTimestamp();
 		$project = new Project();
-		$project->setUserid($userid);
+		$project->setUserId($userid);
 		$project->setId($id);
 		$project->setName($name);
-		$project->setEmail($contact_email === null ? '' : $contact_email);
 		$project->setLastChanged($ts);
 		$insertedProject = $this->insert($project);
 

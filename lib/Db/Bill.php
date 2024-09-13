@@ -59,7 +59,7 @@ class Bill extends Entity implements \JsonSerializable {
 	protected int $repeatFrequency = 1;
 	protected string $projectId = '';
 	protected ?int $categoryId = null;
-	protected ?string $paymentMode  = null;
+	protected ?string $paymentMode = null;
 	protected ?int $paymentModeId = 0;
 	protected int $lastChanged = 0;
 	protected int $deleted = 0;

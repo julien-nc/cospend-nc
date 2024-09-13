@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-04-01 20:23+0200\n"
-"PO-Revision-Date: 2024-09-12 14:29\n"
+"PO-Revision-Date: 2024-09-13 15:30\n"
 "Last-Translator: \n"
 "Language-Team: Catalan\n"
 "Language: ca_ES\n"
@@ -197,16 +197,16 @@ msgstr "Id del projecte no vàlid"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Db/ProjectMapper.php:119
 #, php-format
 msgid "A project with id \"%1$s\" already exists"
-msgstr ""
+msgstr "Ja existeix un projecte amb l'identificador \"%1$s\""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Middleware/PublicAuthMiddleware.php:51
 msgid "Project password is invalid"
-msgstr ""
+msgstr "La contrasenya del projecte no és vàlida"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Middleware/PublicAuthMiddleware.php:62
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Middleware/UserPermissionMiddleware.php:50
 msgid "Insufficient access level"
-msgstr ""
+msgstr "Nivell d'accés insuficient"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:92
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:81
@@ -295,36 +295,36 @@ msgstr "Serveis en línia"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Notification/Notifier.php:79
 msgid "Cospend project shared"
-msgstr ""
+msgstr "Projecte Cospend compartit"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Notification/Notifier.php:80
 #, php-format
 msgid "User \"%s\" shared Cospend project \"%s\" with you."
-msgstr ""
+msgstr "L'usuari \"%s\" ha compartit el projecte Cospend \"%s\" amb vosaltres."
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Notification/Notifier.php:90
 #, php-format
 msgid "{user} shared project %s with you"
-msgstr ""
+msgstr "{user} ha compartit el projecte %s amb tu"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Notification/Notifier.php:108
 msgid "Cospend project share removed"
-msgstr ""
+msgstr "S'ha eliminat el projecte compartit de Cospend"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Notification/Notifier.php:109
 #, php-format
 msgid "User \"%s\" stopped sharing Cospend project \"%s\" with you."
-msgstr ""
+msgstr "L'usuari \"%s\" ha deixat de compartir el projecte de Cospend \"%s\" amb tu."
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Notification/Notifier.php:121
 #, php-format
 msgid "{user} stopped sharing project %s with you"
-msgstr ""
+msgstr "{user} ha deixat de compartir el projecte de Cospend %s amb tu"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Search/CospendSearchProvider.php:179
 #, php-format
 msgid "in %1$s"
-msgstr ""
+msgstr "a %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:171
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:275
@@ -338,19 +338,19 @@ msgstr "No s'ha trobat"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:659
 msgid "Average per month"
-msgstr ""
+msgstr "Mitjana per mes"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1065
 msgid "Error when getting project settlement transactions"
-msgstr ""
+msgstr "S'ha produït un error en obtenir transaccions de liquidació del projecte"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1092
 msgid "Error when adding a bill"
-msgstr ""
+msgstr "S'ha produït un error en afegir una factura"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1280
 msgid "This project have no such member"
-msgstr ""
+msgstr "Aquest projecte no té aquest membre"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1294
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1461
@@ -371,11 +371,11 @@ msgstr "Valor no vàlid"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1317
 msgid "Not a valid decimal value"
-msgstr ""
+msgstr "No és un valor decimal vàlid"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1370
 msgid "There is no such project"
-msgstr ""
+msgstr "No existeix aquest projecte"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1374
 msgid "Name can't be empty"
@@ -392,31 +392,31 @@ msgstr "Freqüència no vàlida"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1391
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1397
 msgid "Invalid sort order"
-msgstr ""
+msgstr "Ordre d'ordenació no vàlid"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1458
 msgid "Name field is required"
-msgstr ""
+msgstr "Com del camp obligatori"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1464
 msgid "Weight is not a valid decimal value"
-msgstr ""
+msgstr "El pes no és un valor decimal vàlid"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1467
 msgid "Invalid color value"
-msgstr ""
+msgstr "Valor de color no vàlid"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1470
 msgid "This project already has this member"
-msgstr ""
+msgstr "Aquest projecte ja té aquest membre"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1473
 msgid "This project already has this member (user)"
-msgstr ""
+msgstr "Aquest projecte ja té aquest membre (usuari)"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2302
 msgid "There is no such bill"
-msgstr ""
+msgstr "No hi ha tal factura"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2323
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2340
@@ -425,32 +425,32 @@ msgstr "Selecció no vàlida"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2643
 msgid "Cannot match payer"
-msgstr ""
+msgstr "No coincideix cap pagador"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2673
 #, php-format
 msgid "Cannot create new bill: %1$s"
-msgstr ""
+msgstr "No es pot crear una factura nova: %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2951
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3129
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3292
 msgid "Not found"
-msgstr ""
+msgstr "No trobat"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3010
 msgid "Impossible to get the edited payment mode"
-msgstr ""
+msgstr "Impossible obtenir el mode de pagament editat"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3014
 msgid "This project has no such payment mode"
-msgstr ""
+msgstr "Aquest projecte no té aquest mètode de pagament"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3017
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3201
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3331
 msgid "Incorrect field values"
-msgstr ""
+msgstr "Valors del camp incorrectes"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3194
 msgid "Impossible to get the edited category"

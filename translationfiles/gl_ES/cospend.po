@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-04-01 20:23+0200\n"
-"PO-Revision-Date: 2024-09-09 09:28\n"
+"PO-Revision-Date: 2024-09-13 15:30\n"
 "Last-Translator: \n"
 "Language-Team: Galician\n"
 "Language: gl_ES\n"
@@ -807,7 +807,7 @@ msgstr "Produciuse un fallo ao engadir un membro"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:302
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:465
 msgid "Failed to add shared access"
-msgstr "Produciuse un erro ao engadir o acceso compartido"
+msgstr "Produciuse un fallo ao engadir o acceso compartido"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:35
 msgid "Failed to save member"
@@ -1831,7 +1831,7 @@ msgstr "Produciuse un fallo ao editar o nivel de acceso compartido"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:304
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:471
 msgid "Failed to delete shared access"
-msgstr "Produciuse un erro ao eliminar o acceso compartido"
+msgstr "Produciuse un fallo ao eliminar o acceso compartido"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:305
 msgid "Are you sure?"
@@ -2243,7 +2243,7 @@ msgstr "Gardouse a ligazón para compartir"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:468
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:470
 msgid "Failed to edit share link"
-msgstr "Produciuse un erro ao editar a ligazón para compartir"
+msgstr "Produciuse un fallo ao editar a ligazón para compartir"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:472
 msgid "Link could not be copied to clipboard"

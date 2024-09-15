@@ -87,7 +87,7 @@ class Version030000Date20240911230019 extends SimpleMigrationStep {
 				$schemaChanged = true;
 			}
 			if (!$table->hasColumn('repeat_until')) {
-				$table->addColumn('repeat_until', Types::INTEGER, [
+				$table->addColumn('repeat_until', Types::STRING, [
 					'notnull' => false,
 					'default' => null,
 					'length' => 20,

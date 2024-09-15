@@ -714,8 +714,8 @@ class BillMapper extends QBMapper {
 			'pr.currency_name', 'me.name', 'me.userid'
 		)
 			->from($this->getTableName(), 'b')
-			->innerJoin('b', 'cospend_projects', 'pr', $qb->expr()->eq('b.projectid', 'pr.id'))
-			->innerJoin('b', 'cospend_members', 'me', $qb->expr()->eq('b.payerid', 'me.id'))
+			->innerJoin('b', 'cospend_projects', 'pr', $qb->expr()->eq('b.project_id', 'pr.id'))
+			->innerJoin('b', 'cospend_members', 'me', $qb->expr()->eq('b.payer_id', 'me.id'))
 			->where(
 				$qb->expr()->eq('b.project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);

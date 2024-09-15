@@ -17,12 +17,21 @@
  */
 namespace OCA\Cospend\Service;
 
+use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\AppInfo\Application;
+use OCA\Cospend\Controller\ApiController;
+use OCA\Cospend\Db\BillMapper;
+use OCA\Cospend\Db\MemberMapper;
+use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Exception\CospendBasicException;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
+use OCP\Files\IRootFolder;
 use OCP\IGroupManager;
 
+use OCP\IServerContainer;
 use OCP\IUserManager;
+use OCP\Share\IManager;
 use PHPUnit\Framework\TestCase;
 
 class LocalProjectServiceTest extends TestCase {
@@ -68,7 +77,39 @@ class LocalProjectServiceTest extends TestCase {
 
 		$app = new Application();
 		$c = $app->getContainer();
+		$sc = $c->get(IServerContainer::class);
+		$this->billMapper = $c->get(BillMapper::class);
+		$this->memberMapper = $c->get(MemberMapper::class);
 		$this->localProjectService = $c->get(LocalProjectService::class);
+		$this->apiController = new ApiController(
+			$appName,
+			$request,
+			$c->get(IManager::class),
+			$sc->getL10N($c->get('AppName')),
+			$this->billMapper,
+			$c->get(ProjectMapper::class),
+			$this->localProjectService,
+			$c->get(CospendService::class),
+			$c->get(ActivityManager::class),
+			$c->get(IRootFolder::class),
+			'test'
+		);
+
+		$this->apiController2 = new ApiController(
+			$appName,
+			$request,
+			$c->get(IManager::class),
+			$sc->getL10N($c->get('AppName')),
+			$this->billMapper,
+			$c->get(ProjectMapper::class),
+			$this->localProjectService,
+			$c->get(CospendService::class),
+			$c->get(ActivityManager::class),
+			$c->get(IRootFolder::class),
+			'test2'
+		);
+
+		$this->deleteTestProjects();
 	}
 
 	public static function tearDownAfterClass(): void {
@@ -86,14 +127,24 @@ class LocalProjectServiceTest extends TestCase {
 		$groupManager->get('group2test')->delete();
 	}
 
-	protected function tearDown(): void {
+	protected function tearDown(): void	{
+		$this->deleteTestProjects();
+	}
+
+	private function deleteTestProjects(): void {
 		// in case there was a failure and something was not deleted
-		try {
-			$this->localProjectService->deleteProject('superproj');
-			$this->localProjectService->deleteProject('projtodel');
-			$this->localProjectService->deleteProject('original');
-			$this->localProjectService->deleteProject('newproject');
-		} catch (\Throwable $t) {
+		$projIds = [
+			'superproj',
+			'projtodel',
+			'original',
+			'newproject',
+			'superprojS',
+		];
+		foreach ($projIds as $projId) {
+			try {
+				$this->localProjectService->deleteProject($projId);
+			} catch (\Throwable $t) {
+			}
 		}
 	}
 
@@ -171,12 +222,14 @@ class LocalProjectServiceTest extends TestCase {
 		$this->assertNotNull($member['color']);
 
 		// delete the member
-		$result = $this->localProjectService->deleteMember('superproj', $idMember4);
-		$this->assertTrue(isset($result['success']));
+		$this->localProjectService->deleteMember('superproj', $idMember4);
 		$this->assertNull($this->localProjectService->getMemberById('superproj', $idMember4));
 
-		$result = $this->localProjectService->deleteMember('superproj', -1);
-		$this->assertFalse(isset($result['success']));
+		try {
+			$this->localProjectService->deleteMember('superproj', -1);
+			$this->assertFalse(true);
+		} catch (CospendBasicException $e) {
+		}
 
 		// create member with unauthorized user
 		$resp = $this->apiController2->createMember('superproj', 'bobby');
@@ -203,14 +256,18 @@ class LocalProjectServiceTest extends TestCase {
 		$idCat3 = $resp->getData();
 
 		// delete category
-		$res = $this->localProjectService->deleteCategory('superproj', $idCat3);
-		$this->assertTrue(isset($res['success']));
-		$cat3 = $this->localProjectService->getCategory('superproj', $idCat3);
-		$this->assertNull($cat3);
+		$this->localProjectService->deleteCategory('superproj', $idCat3);
+		try {
+			$cat3 = $this->localProjectService->getCategory('superproj', $idCat3);
+			$this->assertFalse(true);
+		} catch (CospendBasicException $e) {
+		}
 
-		$res = $this->localProjectService->deleteCategory('superproj', -1);
-		$this->assertFalse(isset($res['success']));
-		$this->assertTrue(isset($res['message']));
+		try {
+			$this->localProjectService->deleteCategory('superproj', -1);
+			$this->assertFalse(true);
+		} catch (DoesNotExistException $e) {
+		}
 
 		// check cat values
 		$cat2 = $this->localProjectService->getCategory('superproj', $idCat2);
@@ -245,14 +302,18 @@ class LocalProjectServiceTest extends TestCase {
 		$idPm3 = $resp->getData();
 
 		// delete pm
-		$res = $this->localProjectService->deletePaymentMode('superproj', $idPm3);
-		$this->assertTrue(isset($res['success']));
-		$pm3 = $this->localProjectService->getPaymentMode('superproj', $idPm3);
-		$this->assertNull($pm3);
+		$this->localProjectService->deletePaymentMode('superproj', $idPm3);
+		try {
+			$pm3 = $this->localProjectService->getPaymentMode('superproj', $idPm3);
+			$this->assertFalse(true);
+		} catch (CospendBasicException $e) {
+		}
 
-		$res = $this->localProjectService->deletePaymentMode('superproj', -1);
-		$this->assertFalse(isset($res['success']));
-		$this->assertTrue(isset($res['message']));
+		try {
+			$this->localProjectService->deletePaymentMode('superproj', -1);
+			$this->assertFalse(true);
+		} catch (DoesNotExistException $e) {
+		}
 
 		// check pm values
 		$pm2 = $this->localProjectService->getPaymentMode('superproj', $idPm2);
@@ -278,15 +339,16 @@ class LocalProjectServiceTest extends TestCase {
 		$this->assertTrue(isset($result['id']));
 		$this->assertEquals('dummyproj', $result['id']);
 		// delete this project
-		$result = $this->localProjectService->deleteProject('dummyproj');
-		$this->assertTrue(isset($result['message']));
-		$this->assertEquals('DELETED', $result['message']);
+		$this->localProjectService->deleteProject('dummyproj');
 		// delete unexisting project
-		$result = $this->localProjectService->deleteProject('dummyproj2');
-		$this->assertTrue(isset($result['error']));
+		try {
+			$this->localProjectService->deleteProject('dummyproj2');
+			$this->assertFalse(true);
+		} catch (CospendBasicException $e) {
+		}
 
 		// get members
-		$resp = $this->apiController->getProjects();
+		$resp = $this->apiController->getLocalProjects();
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
 		$data = $resp->getData();
@@ -716,8 +778,7 @@ class LocalProjectServiceTest extends TestCase {
 		$this->assertEquals(Http::STATUS_BAD_REQUEST, $status);
 
 		// currencies
-		$result = $this->localProjectService->editProject('superproj', 'SuperProj', null, null, 'euro');
-		$this->assertTrue(isset($result['success']));
+		$this->localProjectService->editProject('superproj', 'SuperProj', null, null, 'euro');
 		$currencyId = $this->localProjectService->createCurrency('superproj', 'dollar', 1.5);
 		$this->assertTrue($currencyId > 0);
 
@@ -728,15 +789,22 @@ class LocalProjectServiceTest extends TestCase {
 		$this->assertEquals('dolrenamed', $res['name']);
 		$this->assertEquals(2, $res['exchange_rate']);
 		$this->assertEquals($currencyId2, $res['id']);
-		$res = $this->localProjectService->editCurrency('superproj', $currencyId2, '', 0);
-		$this->assertTrue(isset($res['message']));
+		try {
+			$res = $this->localProjectService->editCurrency('superproj', $currencyId2, '', 0);
+			$this->assertFalse(true);
+		} catch (CospendBasicException) {
+		}
+		try {
 		$res = $this->localProjectService->editCurrency('superproj', -1, 'dolrenamed', 2);
-		$this->assertTrue(isset($res['message']));
-		$res = $this->localProjectService->deleteCurrency('superproj', $currencyId2);
-		$this->assertTrue(isset($res['success']));
-		$res = $this->localProjectService->deleteCurrency('superproj', -1);
-		$this->assertFalse(isset($res['success']));
-		$this->assertTrue(isset($res['message']));
+			$this->assertFalse(true);
+		} catch (CospendBasicException) {
+		}
+		$this->localProjectService->deleteCurrency('superproj', $currencyId2);
+		try {
+			$this->localProjectService->deleteCurrency('superproj', -1);
+			$this->assertFalse(true);
+		} catch (CospendBasicException) {
+		}
 
 		// share link
 		$res = $this->localProjectService->createPublicShare('superproj');
@@ -961,9 +1029,11 @@ class LocalProjectServiceTest extends TestCase {
 		//		$status = $resp->getStatus();
 		//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
 
-		$res = $this->localProjectService->editProject('blabla', 'plop');
-		$this->assertTrue(isset($res['message']));
-		$this->assertFalse(isset($res['success']));
+		try {
+			$this->localProjectService->editProject('blabla', 'plop');
+			$this->assertFalse(true);
+		} catch (CospendBasicException) {
+		}
 
 		// invalid name
 		$resp = $this->apiController->editProject('superproj', '');
@@ -1398,7 +1468,7 @@ class LocalProjectServiceTest extends TestCase {
 		$this->assertTrue(isset($res['id']));
 
 		// get projects of second user
-		$resp = $this->apiController2->getProjects();
+		$resp = $this->apiController2->getLocalProjects();
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
 		$data = $resp->getData();
@@ -1419,7 +1489,7 @@ class LocalProjectServiceTest extends TestCase {
 		//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
 
 		// get projects of second user to check if access to project was removed
-		$resp = $this->apiController2->getProjects();
+		$resp = $this->apiController2->getLocalProjects();
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
 		$data = $resp->getData();
@@ -1440,7 +1510,7 @@ class LocalProjectServiceTest extends TestCase {
 		$this->assertEquals(Http::STATUS_BAD_REQUEST, $status);
 
 		// get projects of second user to see if access to shared project is possible
-		$resp = $this->apiController2->getProjects();
+		$resp = $this->apiController2->getLocalProjects();
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
 		$data = $resp->getData();
@@ -1469,7 +1539,8 @@ class LocalProjectServiceTest extends TestCase {
 	}
 
 	public function testSearchBills() {
-		$resp = $this->apiController->createProject('superprojS', 'SuperProj', 'toto');
+		$resp = $this->apiController->createProject('superprojS', 'SuperProj');
+		echo 'CRPRO '.json_encode($resp->getData());
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
 		$data = $resp->getData();
@@ -1527,7 +1598,7 @@ class LocalProjectServiceTest extends TestCase {
 	}
 
 	public function testgetNbBills() {
-		$resp = $this->apiController->createProject('superprojS', 'SuperProj', 'toto');
+		$resp = $this->apiController->createProject('superprojS', 'SuperProj');
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
 		$data = $resp->getData();
@@ -1706,18 +1777,19 @@ class LocalProjectServiceTest extends TestCase {
 		$member4 = $this->localProjectService->getMemberByName($projectId, 'member4');
 		$idMember4 = $member4['id'];
 
-		$result = $this->localProjectService->deleteMember($projectId, $idMember1);
-		$this->assertTrue(isset($result['success']));
+		$this->localProjectService->deleteMember($projectId, $idMember1);
 		$member = $this->localProjectService->getMemberById($projectId, $idMember1);
 		$this->assertNotNull($member);
 		$this->assertFalse($member['activated']);
 
-		$result = $this->localProjectService->deleteMember($projectId, $idMember4);
-		$this->assertTrue(isset($result['success']));
+		$this->localProjectService->deleteMember($projectId, $idMember4);
 		$this->assertNull($this->localProjectService->getMemberById($projectId, $idMember4));
 
-		$result = $this->localProjectService->deleteMember($projectId, -1);
-		$this->assertFalse(isset($result['success']));
+		try {
+			$this->localProjectService->deleteMember($projectId, -1);
+			$this->assertFalse(true);
+		} catch (CospendBasicException) {
+		}
 
 		$this->localProjectService->deleteProject($projectId);
 	}

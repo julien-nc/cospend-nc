@@ -17,4 +17,5 @@ export default createAppConfig({
 			},
 		},
 	},
+	inlineCSS: { relativeCSSInjection: true },
 })

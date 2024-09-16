@@ -9,11 +9,11 @@
  * @copyright Julien Veyssier 2020
  */
 
-import { linkTo } from '@nextcloud/router'
-import { getRequestToken } from '@nextcloud/auth'
+// import { linkTo } from '@nextcloud/router'
+// import { getRequestToken } from '@nextcloud/auth'
 
-//__webpack_nonce__ = btoa(getRequestToken()) // eslint-disable-line
-//__webpack_public_path__ = linkTo('cospend', 'js/') // eslint-disable-line
+// __webpack_nonce__ = btoa(getRequestToken()) // eslint-disable-line
+// __webpack_public_path__ = linkTo('cospend', 'js/') // eslint-disable-line
 
 document.addEventListener('DOMContentLoaded', () => {
 	OCA.Dashboard.register('cospend_activity', async (el, { widget }) => {

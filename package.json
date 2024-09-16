@@ -70,6 +70,8 @@
 		"@nextcloud/vite-config": "^1.4.2",
 		"eslint-webpack-plugin": "^4.0.0",
 		"stylelint": "^16.5.0",
-		"stylelint-webpack-plugin": "^5.0.0"
+		"stylelint-webpack-plugin": "^5.0.0",
+		"vite-plugin-eslint": "^1.8.1",
+		"vite-plugin-stylelint": "^5.3.1"
 	}
 }

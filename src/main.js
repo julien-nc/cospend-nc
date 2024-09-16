@@ -14,8 +14,8 @@ import './bootstrap.js'
 import App from './App.vue'
 import { showError } from '@nextcloud/dialogs'
 import '@nextcloud/dialogs/style.css'
-import { getRequestToken } from '@nextcloud/auth'
-import { generateFilePath } from '@nextcloud/router'
+// import { getRequestToken } from '@nextcloud/auth'
+// import { generateFilePath } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
 import vueAwesomeCountdown from 'vue-awesome-countdown'
@@ -31,8 +31,8 @@ Vue.use(VueClipboard)
 Vue.use(SmartTable)
 Vue.directive('tooltip', Tooltip)
 
-//__webpack_nonce__ = btoa(getRequestToken()) // eslint-disable-line
-//__webpack_public_path__ = generateFilePath('cospend', '', 'js/') // eslint-disable-line
+// __webpack_nonce__ = btoa(getRequestToken()) // eslint-disable-line
+// __webpack_public_path__ = generateFilePath('cospend', '', 'js/') // eslint-disable-line
 
 function restoreOptions() {
 	network.getOptionValues().then((response) => {

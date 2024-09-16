@@ -6,10 +6,11 @@
 	"directories": {
 		"test": "tests"
 	},
+	"type": "module",
 	"scripts": {
-		"dev": "NODE_ENV=development webpack --progress --config webpack.js",
-		"watch": "NODE_ENV=development webpack --progress --watch --config webpack.js",
-		"build": "NODE_ENV=production webpack --progress --config webpack.js",
+		"build": "vite --mode production build",
+		"dev": "vite --mode development build",
+		"watch": "vite --mode development build --watch",
 		"serve": "NODE_ENV=development webpack serve --progress --config webpack.js",
 		"lint": "eslint --ext .js,.vue src",
 		"lint:fix": "eslint --ext .js,.vue src --fix",
@@ -66,7 +67,7 @@
 		"@nextcloud/browserslist-config": "^3.0.0",
 		"@nextcloud/eslint-config": "^8.1.2",
 		"@nextcloud/stylelint-config": "^3.0.1",
-		"@nextcloud/webpack-vue-config": "^6.0.0",
+		"@nextcloud/vite-config": "^1.4.2",
 		"eslint-webpack-plugin": "^4.0.0",
 		"stylelint": "^16.5.0",
 		"stylelint-webpack-plugin": "^5.0.0"

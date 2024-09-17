@@ -6,6 +6,9 @@ import { createAppConfig } from '@nextcloud/vite-config'
 import eslint from 'vite-plugin-eslint'
 import stylelint from 'vite-plugin-stylelint'
 
+console.error('process.env.NODE_ENV', process.env.NODE_ENV)
+const isProduction = process.env.NODE_ENV === 'production'
+
 export default createAppConfig({
 	main: 'src/main.js',
 	adminSettings: 'src/adminSettings.js',
@@ -21,4 +24,5 @@ export default createAppConfig({
 		plugins: [eslint(), stylelint()],
 	},
 	inlineCSS: { relativeCSSInjection: true },
+	minify: isProduction,
 })

@@ -127,7 +127,7 @@ class LocalProjectServiceTest extends TestCase {
 		$groupManager->get('group2test')->delete();
 	}
 
-	protected function tearDown(): void	{
+	protected function tearDown(): void {
 		$this->deleteTestProjects();
 	}
 
@@ -139,6 +139,7 @@ class LocalProjectServiceTest extends TestCase {
 			'original',
 			'newproject',
 			'superprojS',
+			'tsl',
 		];
 		foreach ($projIds as $projId) {
 			try {
@@ -795,7 +796,7 @@ class LocalProjectServiceTest extends TestCase {
 		} catch (CospendBasicException) {
 		}
 		try {
-		$res = $this->localProjectService->editCurrency('superproj', -1, 'dolrenamed', 2);
+			$res = $this->localProjectService->editCurrency('superproj', -1, 'dolrenamed', 2);
 			$this->assertFalse(true);
 		} catch (CospendBasicException) {
 		}
@@ -1540,7 +1541,6 @@ class LocalProjectServiceTest extends TestCase {
 
 	public function testSearchBills() {
 		$resp = $this->apiController->createProject('superprojS', 'SuperProj');
-		echo 'CRPRO '.json_encode($resp->getData());
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
 		$data = $resp->getData();
@@ -1666,9 +1666,9 @@ class LocalProjectServiceTest extends TestCase {
 	}
 
 	public function createAndPopulateProject($projectId): ?array {
-		$resp = $this->apiController->createProject($projectId, 'SuperProj', 'toto');
+		$resp = $this->apiController->createProject($projectId, 'SuperProj');
 		$status = $resp->getStatus();
-		$this->assertEquals(Http::STATUS_OK, $status);
+		$this->assertEquals(Http::STATUS_OK, $status, $projectId . ' :: ' . json_encode($resp->getData()));
 		$data = $resp->getData();
 		$this->assertEquals($projectId, $data['id']);
 		$resp = $this->apiController->createMember($projectId, 'member1');
@@ -1799,9 +1799,9 @@ class LocalProjectServiceTest extends TestCase {
 		$this->createAndPopulateProject($projectId);
 
 		$result = $this->localProjectService->createPublicShare($projectId);
-		$this->assertTrue(isset($result['token']));
+		$this->assertTrue(isset($result['userid']));
 		$this->assertTrue(isset($result['id']));
-		$token = $result['token'];
+		$token = $result['userid'];
 
 		$projInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		$this->assertEquals($projectId, $projInfo['projectid']);

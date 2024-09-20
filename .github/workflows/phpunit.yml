@@ -31,12 +31,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        #php-versions: ['8.1', '8.2', '8.3']
-        #server-versions: ['master']
-        #databases: ['sqlite', 'mysql', 'pgsql']
-        php-versions: ['8.3']
-        databases: ['sqlite']
+        php-versions: ['8.1', '8.2', '8.3']
         server-versions: ['master']
+        databases: ['sqlite', 'mysql', 'pgsql']
+        #php-versions: ['8.3']
+        #databases: ['sqlite']
+        #server-versions: ['master']
 
     name: php${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
 
@@ -65,8 +65,8 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, intl, sqlite3, curl, xml, json, zip, gd
           ini-values: post_max_size=256M, max_execution_time=180
-          coverage: xdebug
-          tools: php-cs-fixer
+          #coverage: xdebug
+          #tools: php-cs-fixer
 
       - uses: actions/checkout@v2
 
@@ -94,41 +94,9 @@ jobs:
           cd ~/html/nextcloud/apps/${{ env.APP_ID }}
           composer i
 
-      - name: Perform PhpUnit tests with coverage
-        if: ${{ matrix.databases == 'sqlite' && matrix.php-versions == '8.3' && matrix.server-versions == 'master' }}
-        run: |
-          mkdir /tmp/coverage
-          cd /tmp
-          echo "##### PHPunit"
-          XDEBUG_MODE=coverage ~/html/nextcloud/apps/${{ env.APP_ID }}/vendor/bin/phpunit --configuration ~/html/nextcloud/apps/${{ env.APP_ID }}/tests/phpunit.xml --coverage-text --color=never --coverage-html coverage > /tmp/cov.txt && SUCCESS=yes || SUCCESS=no
-          echo "phpunit finished ############################"
-          cat /tmp/cov.txt
-          if [ $SUCCESS = "yes" ]; then echo "TESTS PASSED"; else echo "TESTS FAILED"; exit 1; fi
-          echo "generating badge ############################"
-          grep "^\s\+Lines:" /tmp/cov.txt > /tmp/cov.line.txt
-          grep -o "[0-9]\+\.[0-9]\+" /tmp/cov.line.txt > /tmp/cov.value.txt
-          mv /tmp/cov.value.txt /tmp/coverage/cov.value.txt
-          echo "anybadge ############################"
-          sudo -H pip3 install anybadge
-          cat /tmp/coverage/cov.value.txt
-          anybadge -l coverage -v `cat /tmp/coverage/cov.value.txt` -m "%.2f%%" -f /tmp/coverage/coverage.svg 50=red 70=orange 80=yellow 90=green
-
       - name: Perform PhpUnit tests
-        if: ${{ !(matrix.databases == 'sqlite' && matrix.php-versions == '8.3' && matrix.server-versions == 'master') }}
+        #if: ${{ !(matrix.databases == 'sqlite' && matrix.php-versions == '8.3' && matrix.server-versions == 'master') }}
         run: |
-          ~/html/nextcloud/apps/${{ env.APP_ID }}/vendor/bin/phpunit --configuration ~/html/nextcloud/apps/${{ env.APP_ID }}/tests/phpunit.xml && SUCCESS=yes || SUCCESS=no
+          cd ~/html/nextcloud/apps/${{ env.APP_ID }}
+          composer run phpunit && SUCCESS=yes || SUCCESS=no
           if [ $SUCCESS = "yes" ]; then echo "TESTS PASSED"; else echo "TESTS FAILED"; exit 1; fi
-
-      #- name: Upload coverage
-      #  if: ${{ github.ref == 'refs/heads/master' && matrix.databases == 'sqlite' && matrix.php-versions == '8.0' && matrix.server-versions == 'master' }}
-      #  uses: actions/upload-artifact@v2
-      #  with:
-      #    name: coverage
-      #    path: /tmp/coverage
-
-      #- name: Deploy
-      #  if: ${{ github.ref == 'refs/heads/master' && matrix.databases == 'sqlite' && matrix.php-versions == '8.0' && matrix.server-versions == 'master' }}
-      #  uses: peaceiris/actions-gh-pages@v3
-      #  with:
-      #    github_token: ${{ secrets.GITHUB_TOKEN }}
-      #    publish_dir: /tmp/coverage

@@ -1,0 +1,1098 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "cospend-federation",
+        "version": "0.0.1",
+        "description": " ",
+        "license": {
+            "name": "agpl"
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "basic_auth": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "bearer_auth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        },
+        "schemas": {
+            "AccessLevel": {
+                "type": "integer",
+                "format": "int64",
+                "enum": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                ]
+            },
+            "BaseShare": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "accesslevel"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "accesslevel": {
+                        "$ref": "#/components/schemas/AccessLevel"
+                    }
+                }
+            },
+            "CategoryOrPaymentMode": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "projectid",
+                    "name",
+                    "color",
+                    "icon",
+                    "order"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "projectid": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "color": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "icon": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "order": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "CircleShare": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/BaseShare"
+                    },
+                    {
+                        "type": "object",
+                        "required": [
+                            "type",
+                            "circleid",
+                            "name"
+                        ],
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "c"
+                                ]
+                            },
+                            "circleid": {
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ]
+            },
+            "Currency": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "name",
+                    "exchange_rate",
+                    "projectid"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "exchange_rate": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "projectid": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ExtraProjectInfo": {
+                "type": "object",
+                "required": [
+                    "active_members",
+                    "members",
+                    "balance",
+                    "nb_bills",
+                    "total_spent",
+                    "nb_trashbin_bills",
+                    "shares",
+                    "currencies",
+                    "categories",
+                    "paymentmodes"
+                ],
+                "properties": {
+                    "active_members": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Member"
+                        }
+                    },
+                    "members": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Member"
+                        }
+                    },
+                    "balance": {
+                        "type": "array",
+                        "items": {
+                            "type": "number",
+                            "format": "double"
+                        }
+                    },
+                    "nb_bills": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "total_spent": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "nb_trashbin_bills": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "shares": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Share"
+                        }
+                    },
+                    "currencies": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Currency"
+                        }
+                    },
+                    "categories": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CategoryOrPaymentMode"
+                        }
+                    },
+                    "paymentmodes": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CategoryOrPaymentMode"
+                        }
+                    }
+                }
+            },
+            "FederationInvite": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "userId",
+                    "state",
+                    "remoteProjectId",
+                    "remoteProjectName",
+                    "remoteServerUrl",
+                    "inviterCloudId",
+                    "inviterDisplayName"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "userId": {
+                        "type": "string"
+                    },
+                    "state": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "remoteProjectId": {
+                        "type": "string"
+                    },
+                    "remoteProjectName": {
+                        "type": "string"
+                    },
+                    "remoteServerUrl": {
+                        "type": "string"
+                    },
+                    "inviterCloudId": {
+                        "type": "string"
+                    },
+                    "inviterDisplayName": {
+                        "type": "string"
+                    }
+                }
+            },
+            "FullProjectInfo": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/ProjectInfoPlusExtra"
+                    },
+                    {
+                        "type": "object",
+                        "required": [
+                            "myaccesslevel"
+                        ],
+                        "properties": {
+                            "myaccesslevel": {
+                                "type": "integer",
+                                "format": "int64"
+                            }
+                        }
+                    }
+                ]
+            },
+            "GroupShare": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/BaseShare"
+                    },
+                    {
+                        "type": "object",
+                        "required": [
+                            "type",
+                            "groupid",
+                            "name"
+                        ],
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "g"
+                                ]
+                            },
+                            "groupid": {
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ]
+            },
+            "Member": {
+                "type": "object",
+                "required": [
+                    "activated",
+                    "userid",
+                    "name",
+                    "id",
+                    "weight",
+                    "color",
+                    "lastchanged"
+                ],
+                "properties": {
+                    "activated": {
+                        "type": "boolean"
+                    },
+                    "userid": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "weight": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "color": {
+                        "type": "object",
+                        "required": [
+                            "r",
+                            "g",
+                            "b"
+                        ],
+                        "properties": {
+                            "r": {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            "g": {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            "b": {
+                                "type": "integer",
+                                "format": "int64"
+                            }
+                        }
+                    },
+                    "lastchanged": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "OCSMeta": {
+                "type": "object",
+                "required": [
+                    "status",
+                    "statuscode"
+                ],
+                "properties": {
+                    "status": {
+                        "type": "string"
+                    },
+                    "statuscode": {
+                        "type": "integer"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "totalitems": {
+                        "type": "string"
+                    },
+                    "itemsperpage": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ProjectInfo": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/PublicProjectInfo"
+                    },
+                    {
+                        "type": "object",
+                        "required": [
+                            "userid"
+                        ],
+                        "properties": {
+                            "userid": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ]
+            },
+            "ProjectInfoPlusExtra": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/ProjectInfo"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ExtraProjectInfo"
+                    }
+                ]
+            },
+            "PublicCapabilities": {
+                "type": "object",
+                "required": [
+                    "cospend"
+                ],
+                "properties": {
+                    "cospend": {
+                        "type": "object",
+                        "required": [
+                            "version"
+                        ],
+                        "properties": {
+                            "version": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "PublicProjectInfo": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "name",
+                    "email",
+                    "autoexport",
+                    "lastchanged",
+                    "deletiondisabled",
+                    "categorysort",
+                    "paymentmodesort",
+                    "currencyname",
+                    "archived_ts"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "autoexport": {
+                        "type": "string"
+                    },
+                    "lastchanged": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "deletiondisabled": {
+                        "type": "boolean"
+                    },
+                    "categorysort": {
+                        "type": "string"
+                    },
+                    "paymentmodesort": {
+                        "type": "string"
+                    },
+                    "currencyname": {
+                        "type": "string"
+                    },
+                    "archived_ts": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "PublicShare": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/BaseShare"
+                    },
+                    {
+                        "type": "object",
+                        "required": [
+                            "type",
+                            "token",
+                            "label",
+                            "password"
+                        ],
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "l"
+                                ]
+                            },
+                            "token": {
+                                "type": "string"
+                            },
+                            "label": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "password": {
+                                "type": "string",
+                                "nullable": true
+                            }
+                        }
+                    }
+                ]
+            },
+            "Share": {
+                "type": "array",
+                "items": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/components/schemas/UserShare"
+                        },
+                        {
+                            "$ref": "#/components/schemas/GroupShare"
+                        },
+                        {
+                            "$ref": "#/components/schemas/CircleShare"
+                        },
+                        {
+                            "$ref": "#/components/schemas/PublicShare"
+                        }
+                    ]
+                }
+            },
+            "UserShare": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/BaseShare"
+                    },
+                    {
+                        "type": "object",
+                        "required": [
+                            "type",
+                            "userid",
+                            "name",
+                            "manually_added"
+                        ],
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "u"
+                                ]
+                            },
+                            "userid": {
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "manually_added": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "paths": {
+        "/ocs/v2.php/apps/cospend/api/{apiVersion}/remote/avatar/{size}": {
+            "get": {
+                "operationId": "federation-get-remote-user-avatar",
+                "summary": "Get remote user avatar",
+                "description": "Get the avatar of a remote user from its federated cloud ID\nThis endpoint requires admin access",
+                "tags": [
+                    "federation"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "apiVersion",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "v1"
+                            ],
+                            "default": "v1"
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "cloudId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "darkTheme",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The avatar has been obtained successfully",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    },
+                    "303": {
+                        "description": "The remote avatar can't be obtained, fallback to a locally generated guest avatar",
+                        "headers": {
+                            "Location": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/cospend/api/{apiVersion}/federation/pending-invitations": {
+            "get": {
+                "operationId": "federation-get-pending-shares",
+                "summary": "Get a list of federation invites",
+                "tags": [
+                    "federation"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "apiVersion",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "v1"
+                            ],
+                            "default": "v1"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get list of received federation invites successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/FederationInvite"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/cospend/api/{apiVersion}/federation/invitation/{id}": {
+            "post": {
+                "operationId": "federation-accept-share",
+                "summary": "Accept a federation invite",
+                "tags": [
+                    "federation"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "apiVersion",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "v1"
+                            ],
+                            "default": "v1"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the share",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 0
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Invite accepted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "$ref": "#/components/schemas/FullProjectInfo"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invite can not be accepted (maybe it was accepted already)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "error"
+                                                    ],
+                                                    "properties": {
+                                                        "error": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "410": {
+                        "description": "Remote server could not be reached to notify about the acceptance",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "error"
+                                                    ],
+                                                    "properties": {
+                                                        "error": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invite can not be found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "error": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "federation-reject-share",
+                "summary": "Decline a federation invite",
+                "tags": [
+                    "federation"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "apiVersion",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "v1"
+                            ],
+                            "default": "v1"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the share",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 0
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Invite declined successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invite can not be found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "error": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invite was already accepted, use the \"Remove the current user from a room\" endpoint instead",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "error": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": []
+}

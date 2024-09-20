@@ -838,8 +838,8 @@
         },
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects": {
             "get": {
-                "operationId": "api-get-projects",
-                "summary": "Get project list",
+                "operationId": "api-get-local-projects",
+                "summary": "Get local project list",
                 "tags": [
                     "Projects"
                 ],
@@ -905,6 +905,16 @@
                                             }
                                         }
                                     }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -1036,12 +1046,154 @@
                             }
                         }
                     },
+                    "404": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "500": {
                         "description": "",
                         "content": {
                             "text/plain": {
                                 "schema": {
                                     "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/cospend/api/{apiVersion}/federated-projects": {
+            "get": {
+                "operationId": "api-get-federated-projects",
+                "summary": "Get federated project list",
+                "tags": [
+                    "Projects"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "apiVersion",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "v1"
+                            ],
+                            "default": "v1"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Project list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/FullProjectInfo"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1157,13 +1309,41 @@
                                                 },
                                                 "data": {
                                                     "type": "object",
-                                                    "required": [
-                                                        "message"
-                                                    ],
-                                                    "properties": {
-                                                        "message": {
-                                                            "type": "string"
-                                                        }
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
                                                     }
                                                 }
                                             }
@@ -1326,12 +1506,35 @@
                             }
                         }
                     },
-                    "500": {
+                    "424": {
                         "description": "",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1407,6 +1610,72 @@
                                                 },
                                                 "data": {
                                                     "$ref": "#/components/schemas/FullProjectInfo"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
                                                 }
                                             }
                                         }
@@ -1545,13 +1814,8 @@
                                                 },
                                                 "data": {
                                                     "type": "object",
-                                                    "required": [
-                                                        "message"
-                                                    ],
-                                                    "properties": {
-                                                        "message": {
-                                                            "type": "string"
-                                                        }
+                                                    "additionalProperties": {
+                                                        "type": "string"
                                                     }
                                                 }
                                             }
@@ -1992,6 +2256,39 @@
                             }
                         }
                     },
+                    "424": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "500": {
                         "description": "",
                         "content": {
@@ -2312,6 +2609,39 @@
                                 }
                             }
                         }
+                    },
+                    "424": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -2422,7 +2752,7 @@
                             }
                         }
                     },
-                    "403": {
+                    "400": {
                         "description": "",
                         "content": {
                             "application/json": {
@@ -2444,13 +2774,41 @@
                                                 },
                                                 "data": {
                                                     "type": "object",
-                                                    "required": [
-                                                        "message"
-                                                    ],
-                                                    "properties": {
-                                                        "message": {
-                                                            "type": "string"
-                                                        }
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
                                                     }
                                                 }
                                             }
@@ -2799,7 +3157,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -2844,13 +3202,8 @@
                                                 },
                                                 "data": {
                                                     "type": "object",
-                                                    "required": [
-                                                        "message"
-                                                    ],
-                                                    "properties": {
-                                                        "message": {
-                                                            "type": "string"
-                                                        }
+                                                    "additionalProperties": {
+                                                        "type": "string"
                                                     }
                                                 }
                                             }
@@ -2882,13 +3235,8 @@
                                                 },
                                                 "data": {
                                                     "type": "object",
-                                                    "required": [
-                                                        "message"
-                                                    ],
-                                                    "properties": {
-                                                        "message": {
-                                                            "type": "string"
-                                                        }
+                                                    "additionalProperties": {
+                                                        "type": "string"
                                                     }
                                                 }
                                             }
@@ -2972,7 +3320,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -3057,16 +3405,6 @@
                                 }
                             }
                         }
-                    },
-                    "500": {
-                        "description": "",
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
                     }
                 }
             },
@@ -3101,7 +3439,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -3237,7 +3575,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -3415,7 +3753,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -3521,7 +3859,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -3623,13 +3961,8 @@
                                                 },
                                                 "data": {
                                                     "type": "object",
-                                                    "required": [
-                                                        "message"
-                                                    ],
-                                                    "properties": {
-                                                        "message": {
-                                                            "type": "string"
-                                                        }
+                                                    "additionalProperties": {
+                                                        "type": "string"
                                                     }
                                                 }
                                             }
@@ -3766,7 +4099,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "The bill was successfully created",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3797,7 +4130,7 @@
                         }
                     },
                     "400": {
-                        "description": "Failed to create the bill",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3818,16 +4151,41 @@
                                                 },
                                                 "data": {
                                                     "type": "object",
-                                                    "required": [
-                                                        "error"
-                                                    ],
-                                                    "properties": {
-                                                        "error": {
-                                                            "type": "object",
-                                                            "additionalProperties": {
-                                                                "type": "string"
-                                                            }
-                                                        }
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
                                                     }
                                                 }
                                             }
@@ -3991,7 +4349,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "The bill list was successfully obtained",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4049,12 +4407,35 @@
                             }
                         }
                     },
-                    "500": {
+                    "424": {
                         "description": "",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -4162,66 +4543,6 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "This action is forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
                     "404": {
                         "description": "",
                         "content": {
@@ -4243,7 +4564,43 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "string"
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
                                                 }
                                             }
                                         }
@@ -4402,7 +4759,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "The bills were successfully edited",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4436,7 +4793,40 @@
                         }
                     },
                     "400": {
-                        "description": "Failed to edit the bills",
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4589,7 +4979,43 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "string"
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
                                                 }
                                             }
                                         }
@@ -4669,37 +5095,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Bill was successfully deleted",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "This action is forbidden",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4749,7 +5145,10 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "string"
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
                                                 }
                                             }
                                         }
@@ -4758,7 +5157,7 @@
                             }
                         }
                     },
-                    "400": {
+                    "403": {
                         "description": "",
                         "content": {
                             "application/json": {
@@ -4779,7 +5178,43 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "string"
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
                                                 }
                                             }
                                         }
@@ -4937,7 +5372,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "The bill was successfully edited",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4968,7 +5403,40 @@
                         }
                     },
                     "400": {
-                        "description": "Failed to edit the bill",
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -5091,8 +5559,8 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Failed to clear the trash bin",
+                    "424": {
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -5112,7 +5580,10 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "string"
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
                                                 }
                                             }
                                         }
@@ -5457,7 +5928,43 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "string"
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
                                                 }
                                             }
                                         }
@@ -5576,7 +6083,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -5657,10 +6164,7 @@
                                                     ],
                                                     "properties": {
                                                         "error": {
-                                                            "type": "object",
-                                                            "additionalProperties": {
-                                                                "type": "string"
-                                                            }
+                                                            "type": "string"
                                                         }
                                                     }
                                                 }
@@ -5714,7 +6218,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -5933,7 +6437,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -6010,36 +6514,6 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
                     "403": {
                         "description": "",
                         "content": {
@@ -6061,7 +6535,10 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "string"
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
                                                 }
                                             }
                                         }
@@ -6091,7 +6568,10 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "string"
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
                                                 }
                                             }
                                         }
@@ -6234,7 +6714,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -6369,7 +6849,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -6488,16 +6968,6 @@
                                 }
                             }
                         }
-                    },
-                    "500": {
-                        "description": "",
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -6533,7 +7003,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -6624,16 +7094,6 @@
                                 }
                             }
                         }
-                    },
-                    "500": {
-                        "description": "",
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
                     }
                 }
             },
@@ -6668,7 +7128,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -6763,7 +7223,10 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "string"
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
                                                 }
                                             }
                                         }
@@ -6793,37 +7256,10 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {
-                                                    "type": "string"
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
                                                 }
                                             }
                                         }
@@ -6955,7 +7391,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -7096,7 +7532,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -7175,16 +7611,6 @@
                                             }
                                         }
                                     }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "",
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "type": "string"
                                 }
                             }
                         }
@@ -7281,6 +7707,39 @@
                                 }
                             }
                         }
+                    },
+                    "424": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -7368,7 +7827,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "The member was successfully created",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -7398,7 +7857,45 @@
                         }
                     },
                     "400": {
-                        "description": "Failed to create the member",
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "error"
+                                                    ],
+                                                    "properties": {
+                                                        "error": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -7600,6 +8097,49 @@
                                 }
                             }
                         }
+                    },
+                    "424": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -7711,13 +8251,41 @@
                                                 },
                                                 "data": {
                                                     "type": "object",
-                                                    "required": [
-                                                        "error"
-                                                    ],
-                                                    "properties": {
-                                                        "error": {
-                                                            "type": "string"
-                                                        }
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
                                                     }
                                                 }
                                             }
@@ -7762,7 +8330,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -7896,7 +8464,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -8056,7 +8624,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -8151,16 +8719,6 @@
                                 }
                             }
                         }
-                    },
-                    "500": {
-                        "description": "",
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
                     }
                 }
             },
@@ -8195,7 +8753,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -8320,8 +8878,7 @@
                             "schema": {
                                 "type": "object",
                                 "required": [
-                                    "userId",
-                                    "accessLevel"
+                                    "userId"
                                 ],
                                 "properties": {
                                     "userId": {
@@ -8329,7 +8886,8 @@
                                     },
                                     "accessLevel": {
                                         "type": "integer",
-                                        "format": "int64"
+                                        "format": "int64",
+                                        "default": 2
                                     },
                                     "manuallyAdded": {
                                         "type": "boolean",
@@ -8647,8 +9205,7 @@
                             "schema": {
                                 "type": "object",
                                 "required": [
-                                    "groupId",
-                                    "accessLevel"
+                                    "groupId"
                                 ],
                                 "properties": {
                                     "groupId": {
@@ -8656,7 +9213,8 @@
                                     },
                                     "accessLevel": {
                                         "type": "integer",
-                                        "format": "int64"
+                                        "format": "int64",
+                                        "default": 2
                                     }
                                 }
                             }
@@ -8970,8 +9528,7 @@
                             "schema": {
                                 "type": "object",
                                 "required": [
-                                    "circleId",
-                                    "accessLevel"
+                                    "circleId"
                                 ],
                                 "properties": {
                                     "circleId": {
@@ -8979,7 +9536,8 @@
                                     },
                                     "accessLevel": {
                                         "type": "integer",
-                                        "format": "int64"
+                                        "format": "int64",
+                                        "default": 2
                                     }
                                 }
                             }
@@ -9287,14 +9845,11 @@
                     }
                 ],
                 "requestBody": {
-                    "required": true,
+                    "required": false,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "type": "object",
-                                "required": [
-                                    "accessLevel"
-                                ],
                                 "properties": {
                                     "label": {
                                         "type": "string",
@@ -9306,7 +9861,8 @@
                                     },
                                     "accessLevel": {
                                         "type": "integer",
-                                        "format": "int64"
+                                        "format": "int64",
+                                        "default": 2
                                     }
                                 }
                             }
@@ -9478,6 +10034,338 @@
                     },
                     "400": {
                         "description": "Failed to delete the public share",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "message"
+                                                    ],
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "message"
+                                                    ],
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/federated-share": {
+            "post": {
+                "operationId": "api-create-federated-share",
+                "summary": "Create a federated user share",
+                "tags": [
+                    "Sharing"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "userCloudId"
+                                ],
+                                "properties": {
+                                    "userCloudId": {
+                                        "type": "string"
+                                    },
+                                    "accessLevel": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "default": 2
+                                    },
+                                    "manuallyAdded": {
+                                        "type": "boolean",
+                                        "default": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "apiVersion",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "v1"
+                            ],
+                            "default": "v1"
+                        }
+                    },
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The federated share was successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "$ref": "#/components/schemas/UserShare"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to create the federated share",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "error"
+                                                    ],
+                                                    "properties": {
+                                                        "error": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/cospend/api/{apiVersion}/projects/{projectId}/federated-share/{shId}": {
+            "delete": {
+                "operationId": "api-delete-federated-share",
+                "summary": "Delete a federated share (unshare)",
+                "tags": [
+                    "Sharing"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "apiVersion",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "v1"
+                            ],
+                            "default": "v1"
+                        }
+                    },
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "shId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The federated share was successfully deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to delete the user share",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -9949,6 +10837,44 @@
                             }
                         }
                     },
+                    "424": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "message"
+                                                    ],
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "500": {
                         "description": "",
                         "content": {
@@ -10056,6 +10982,39 @@
                                                 "data": {
                                                     "type": "integer",
                                                     "format": "int64"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
                                                 }
                                             }
                                         }
@@ -10220,12 +11179,68 @@
                             }
                         }
                     },
-                    "500": {
+                    "404": {
                         "description": "",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -10235,6 +11250,7 @@
             "delete": {
                 "operationId": "api-delete-currency",
                 "summary": "Delete a currency",
+                "description": "* @throws MultipleObjectsReturnedException",
                 "tags": [
                     "Currencies"
                 ],
@@ -10351,6 +11367,39 @@
                             }
                         }
                     },
+                    "424": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "500": {
                         "description": "",
                         "content": {
@@ -10419,7 +11468,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -10473,12 +11522,35 @@
                             }
                         }
                     },
-                    "500": {
+                    "400": {
                         "description": "",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -10541,7 +11613,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -10636,6 +11708,72 @@
                             }
                         }
                     },
+                    "404": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "500": {
                         "description": "",
                         "content": {
@@ -10679,7 +11817,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -10770,16 +11908,6 @@
                                             }
                                         }
                                     }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "",
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "type": "string"
                                 }
                             }
                         }
@@ -10890,6 +12018,39 @@
                                                 "data": {
                                                     "type": "integer",
                                                     "format": "int64"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
                                                 }
                                             }
                                         }
@@ -11044,6 +12205,49 @@
                                 }
                             }
                         }
+                    },
+                    "424": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -11133,8 +12337,8 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Failed to delete the payment mode",
+                    "424": {
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -11293,8 +12497,8 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Failed to save the payment mode order",
+                    "424": {
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -11314,11 +12518,24 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "string"
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
                                                 }
                                             }
                                         }
                                     }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -11390,7 +12607,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -11513,7 +12730,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -11641,7 +12858,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -11736,16 +12953,6 @@
                                 }
                             }
                         }
-                    },
-                    "500": {
-                        "description": "",
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -11817,7 +13024,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -11870,32 +13077,12 @@
                             }
                         }
                     },
-                    "403": {
+                    "500": {
                         "description": "",
                         "content": {
-                            "application/json": {
+                            "text/plain": {
                                 "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        }
-                                    }
+                                    "type": "string"
                                 }
                             }
                         }
@@ -12010,6 +13197,49 @@
                                             }
                                         }
                                     }
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -12161,6 +13391,39 @@
                             }
                         }
                     },
+                    "424": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "500": {
                         "description": "",
                         "content": {
@@ -12259,8 +13522,8 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Failed to delete the category",
+                    "424": {
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -12421,8 +13684,8 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Failed to save the category order",
+                    "424": {
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -12442,10 +13705,10 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "boolean",
-                                                    "enum": [
-                                                        false
-                                                    ]
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
                                                 }
                                             }
                                         }
@@ -12531,7 +13794,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -12581,6 +13844,16 @@
                                             }
                                         }
                                     }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -12644,7 +13917,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -12738,16 +14011,6 @@
                                 }
                             }
                         }
-                    },
-                    "500": {
-                        "description": "",
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
                     }
                 }
             },
@@ -12783,7 +14046,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -12879,16 +14142,6 @@
                                 }
                             }
                         }
-                    },
-                    "500": {
-                        "description": "",
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -12962,7 +14215,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "^[a-z0-9]{4,64}$"
+                            "pattern": "^[a-zA-Z0-9]{4,64}$"
                         }
                     },
                     {
@@ -13015,8 +14268,8 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Not saved",
+                    "400": {
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -13036,21 +14289,14 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "string"
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
                                                 }
                                             }
                                         }
                                     }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "",
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "type": "string"
                                 }
                             }
                         }

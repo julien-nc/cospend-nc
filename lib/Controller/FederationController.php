@@ -54,6 +54,19 @@ class FederationController extends OCSController {
 		parent::__construct($appName, $request);
 	}
 
+	/**
+	 * Get remote user avatar
+	 *
+	 * Get the avatar of a remote user from its federated cloud ID
+	 *
+	 * @param int $size
+	 * @param string $cloudId
+	 * @param bool $darkTheme
+	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|RedirectResponse<Http::STATUS_SEE_OTHER, array{}>
+	 *
+	 * 200: The avatar has been obtained successfully
+	 * 303: The remote avatar can't be obtained, fallback to a locally generated guest avatar
+	 */
 	#[OpenAPI(scope: OpenAPI::SCOPE_FEDERATION)]
 	#[NoCSRFRequired]
 	public function getRemoteUserAvatar(int $size, string $cloudId, bool $darkTheme = false): FileDisplayResponse|RedirectResponse {
@@ -101,7 +114,7 @@ class FederationController extends OCSController {
 	 * Get the placeholder avatar
 	 *
 	 * @param string $name
-	 * @return RedirectResponse<303, array{}>
+	 * @return RedirectResponse<Http::STATUS_SEE_OTHER, array{}>
 	 *
 	 * 200: User avatar returned
 	 */
@@ -112,7 +125,6 @@ class FederationController extends OCSController {
 
 	/**
 	 * Accept a federation invite
-	 *
 	 *
 	 * @param int $id ID of the share
 	 * @psalm-param non-negative-int $id
@@ -146,9 +158,7 @@ class FederationController extends OCSController {
 	}
 
 	/**
-	 * Decline a federation invites
-	 *
-	 * 🚧 Draft: Still work in progress
+	 * Decline a federation invite
 	 *
 	 * @param int $id ID of the share
 	 * @psalm-param non-negative-int $id
@@ -180,8 +190,6 @@ class FederationController extends OCSController {
 
 	/**
 	 * Get a list of federation invites
-	 *
-	 * 🚧 Draft: Still work in progress
 	 *
 	 * @return DataResponse<Http::STATUS_OK, list<CospendFederationInvite>, array{}>
 	 * @throws Exception

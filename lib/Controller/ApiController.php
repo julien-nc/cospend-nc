@@ -1211,7 +1211,7 @@ class ApiController extends OCSController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function createFederatedShare(
-		string $projectId, string $userCloudId, int $accessLevel = Application::ACCESS_LEVEL_PARTICIPANT,
+		string $projectId, string $userCloudId, int $accessLevel = 2,
 		bool $manuallyAdded = true
 	): DataResponse {
 		try {
@@ -1264,7 +1264,10 @@ class ApiController extends OCSController {
 	 * @param int $accessLevel
 	 * @param bool $manuallyAdded
 	 * @return DataResponse<Http::STATUS_OK, CospendUserShare, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 * @throws CospendBasicException
+	 * @throws DoesNotExistException
 	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: The user share was successfully created
 	 * 400: Failed to create the user share
@@ -1273,7 +1276,7 @@ class ApiController extends OCSController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function createUserShare(
-		string $projectId, string $userId, int $accessLevel = Application::ACCESS_LEVEL_PARTICIPANT,
+		string $projectId, string $userId, int $accessLevel = 2,
 		bool $manuallyAdded = true
 	): DataResponse {
 		$result = $this->localProjectService->createUserShare($projectId, $userId, $this->userId, $accessLevel, $manuallyAdded);
@@ -1289,7 +1292,10 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param int $shId
 	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
+	 * @throws CospendBasicException
+	 * @throws DoesNotExistException
 	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: The user share was successfully deleted
 	 * 400: Failed to delete the user share
@@ -1332,7 +1338,7 @@ class ApiController extends OCSController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function createPublicShare(
-		string $projectId, ?string $label = null, ?string $password = null, int $accessLevel = Application::ACCESS_LEVEL_PARTICIPANT
+		string $projectId, ?string $label = null, ?string $password = null, int $accessLevel = 2
 	): DataResponse {
 		$result = $this->localProjectService->createPublicShare($projectId, $label, $password, $accessLevel);
 		return new DataResponse($result);
@@ -1344,10 +1350,13 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param int $shId
 	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
+	 * @throws DoesNotExistException
 	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: The public share was successfully deleted
 	 * 400: Failed to delete the public share
+	 * 403: The user is not authorized to delete this public share
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
@@ -1377,6 +1386,7 @@ class ApiController extends OCSController {
 	 * @param int $accessLevel
 	 * @return DataResponse<Http::STATUS_OK, CospendGroupShare, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: The group share was successfully created
 	 * 400: Failed to create the group share
@@ -1384,7 +1394,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
-	public function createGroupShare(string $projectId, string $groupId, int $accessLevel = Application::ACCESS_LEVEL_PARTICIPANT): DataResponse {
+	public function createGroupShare(string $projectId, string $groupId, int $accessLevel = 2): DataResponse {
 		$result = $this->localProjectService->createGroupShare($projectId, $groupId, $this->userId, $accessLevel);
 		if (!isset($result['message'])) {
 			return new DataResponse($result);
@@ -1398,7 +1408,9 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param int $shId
 	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
+	 * @throws DoesNotExistException
 	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: The group share was successfully deleted
 	 * 400: Failed to delete the group share
@@ -1432,6 +1444,7 @@ class ApiController extends OCSController {
 	 * @param int $accessLevel
 	 * @return DataResponse<Http::STATUS_OK, CospendCircleShare, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: The circle share was successfully created
 	 * 400: Failed to create the circle share
@@ -1439,7 +1452,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
-	public function createCircleShare(string $projectId, string $circleId, int $accessLevel = Application::ACCESS_LEVEL_PARTICIPANT): DataResponse {
+	public function createCircleShare(string $projectId, string $circleId, int $accessLevel = 2): DataResponse {
 		$result = $this->localProjectService->createCircleShare($projectId, $circleId, $this->userId, $accessLevel);
 		if (!isset($result['message'])) {
 			return new DataResponse($result);
@@ -1453,7 +1466,9 @@ class ApiController extends OCSController {
 	 * @param string $projectId
 	 * @param int $shId
 	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
+	 * @throws DoesNotExistException
 	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: The circle share was successfully deleted
 	 * 400: Failed to delete the circle share
@@ -1603,7 +1618,8 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param string|null $name
-	 * @return DataResponse<Http::STATUS_OK, array{path: string}, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{path: string}, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 *
 	 * @throws DoesNotExistException
 	 * @throws Exception
 	 * @throws InvalidPathException

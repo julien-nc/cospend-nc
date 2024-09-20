@@ -433,6 +433,14 @@ class FederatedProjectService implements IProjectService {
 		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/currency/' . $currencyId, $params, 'PUT');
 	}
 
+	/**
+	 * @param string $remoteServer
+	 * @param string $user
+	 * @param int $size
+	 * @param bool $darkTheme
+	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>
+	 * @throws \Exception
+	 */
 	public function getUserProxyAvatar(string $remoteServer, string $user, int $size, bool $darkTheme): FileDisplayResponse {
 		$url = $remoteServer . '/index.php/avatar/' . $user . '/' . $size . ($darkTheme ? '/dark' : '');
 		$options = [

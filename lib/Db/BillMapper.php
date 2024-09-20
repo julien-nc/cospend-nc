@@ -235,7 +235,7 @@ class BillMapper extends QBMapper {
 
 		try {
 			return $this->findEntity($qb);
-		} catch (DoesNotExistException | MultipleObjectsReturnedException | \OCP\DB\Exception $e) {
+		} catch (DoesNotExistException|MultipleObjectsReturnedException|\OCP\DB\Exception $e) {
 			return null;
 		}
 	}
@@ -267,10 +267,10 @@ class BillMapper extends QBMapper {
 		$req = $qb->executeQuery();
 
 		while ($row = $req->fetch()) {
-			$dbWeight = (float) $row['weight'];
+			$dbWeight = (float)$row['weight'];
 			$dbName = $row['name'];
-			$dbActivated = (((int) $row['activated']) === 1);
-			$dbOwerId = (int) $row['memberid'];
+			$dbActivated = (((int)$row['activated']) === 1);
+			$dbOwerId = (int)$row['memberid'];
 			$billOwers[] = [
 				'id' => $dbOwerId,
 				'weight' => $dbWeight,
@@ -337,7 +337,7 @@ class BillMapper extends QBMapper {
 		?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $category = null, ?float $amountMin = null, ?float $amountMax = null,
 		?int $lastchanged = null, ?int $limit = null,
-		bool $reverse = false, ?int $payerId = null, ?int $deleted = 0
+		bool $reverse = false, ?int $payerId = null, ?int $deleted = 0,
 	): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('bi.id', 'what', 'comment', 'timestamp', 'amount', 'payer_id', 'repeat',
@@ -421,7 +421,7 @@ class BillMapper extends QBMapper {
 		// ordered list of bill ids
 		$orderedBillIds = [];
 		while ($row = $req->fetch()) {
-			$dbBillId = (int) $row['id'];
+			$dbBillId = (int)$row['id'];
 			// if first time we see the bill : add it to bill list
 			if (!isset($billDict[$dbBillId])) {
 				$billDict[$dbBillId] = $this->getBillFromRow($row);
@@ -429,10 +429,10 @@ class BillMapper extends QBMapper {
 				$orderedBillIds[] = $dbBillId;
 			}
 			// anyway add an ower
-			$dbWeight = (float) $row['weight'];
+			$dbWeight = (float)$row['weight'];
 			$dbName = $row['name'];
-			$dbActivated = ((int) $row['activated']) === 1;
-			$dbOwerId = (int) $row['memberid'];
+			$dbActivated = ((int)$row['activated']) === 1;
+			$dbOwerId = (int)$row['memberid'];
 			$billDict[$dbBillId]['owers'][] = [
 				'id' => $dbOwerId,
 				'weight' => $dbWeight,
@@ -479,7 +479,7 @@ class BillMapper extends QBMapper {
 		?int $category = null, ?float $amountMin = null, ?float $amountMax = null,
 		?int $lastchanged = null, ?int $limit = null,
 		bool $reverse = false, ?int $offset = 0, ?int $payerId = null,
-		?int $includeBillId = null, ?string $searchTerm = null, ?int $deleted = 0
+		?int $includeBillId = null, ?string $searchTerm = null, ?int $deleted = 0,
 	): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
@@ -611,10 +611,10 @@ class BillMapper extends QBMapper {
 			$qb->setFirstResult(0);
 			$req = $qb->executeQuery();
 			while ($row = $req->fetch()) {
-				$dbWeight = (float) $row['weight'];
+				$dbWeight = (float)$row['weight'];
 				$dbName = $row['name'];
-				$dbActivated = ((int) $row['activated']) === 1;
-				$dbOwerId = (int) $row['memberid'];
+				$dbActivated = ((int)$row['activated']) === 1;
+				$dbOwerId = (int)$row['memberid'];
 				$billOwers[] = [
 					'id' => $dbOwerId,
 					'weight' => $dbWeight,
@@ -633,22 +633,22 @@ class BillMapper extends QBMapper {
 	}
 
 	private function getBillFromRow(array $row): array {
-		$dbBillId = (int) $row['id'];
-		$dbAmount = (float) $row['amount'];
+		$dbBillId = (int)$row['id'];
+		$dbAmount = (float)$row['amount'];
 		$dbWhat = $row['what'];
 		$dbComment = $row['comment'];
-		$dbTimestamp = (int) $row['timestamp'];
+		$dbTimestamp = (int)$row['timestamp'];
 		$dbDate = DateTime::createFromFormat('U', $row['timestamp']);
 		$dbRepeat = $row['repeat'];
-		$dbPayerId = (int) $row['payer_id'];
+		$dbPayerId = (int)$row['payer_id'];
 		$dbPaymentMode = $row['payment_mode'];
-		$dbPaymentModeId = (int) $row['payment_mode_id'];
-		$dbCategoryId = (int) $row['category_id'];
-		$dbLastchanged = (int) $row['last_changed'];
-		$dbRepeatAllActive = (int) $row['repeat_all_active'];
+		$dbPaymentModeId = (int)$row['payment_mode_id'];
+		$dbCategoryId = (int)$row['category_id'];
+		$dbLastchanged = (int)$row['last_changed'];
+		$dbRepeatAllActive = (int)$row['repeat_all_active'];
 		$dbRepeatUntil = $row['repeat_until'];
-		$dbRepeatFreq = (int) $row['repeat_frequency'];
-		$dbDeleted = (int) $row['deleted'];
+		$dbRepeatFreq = (int)$row['repeat_frequency'];
+		$dbDeleted = (int)$row['deleted'];
 		return [
 			'id' => $dbBillId,
 			'amount' => $dbAmount,
@@ -683,7 +683,7 @@ class BillMapper extends QBMapper {
 		// search amount
 		$noCommaTerm = str_replace(',', '.', $term);
 		if (is_numeric($noCommaTerm)) {
-			$amount = (float) $noCommaTerm;
+			$amount = (float)$noCommaTerm;
 			$amountMin = $amount - 1.0;
 			$amountMax = $amount + 1.0;
 			$andExpr = $qb->expr()->andX();
@@ -731,14 +731,14 @@ class BillMapper extends QBMapper {
 		// bills by id
 		$bills = [];
 		while ($row = $req->fetch()) {
-			$dbBillId = (int) $row['id'];
-			$dbAmount = (float) $row['amount'];
+			$dbBillId = (int)$row['id'];
+			$dbAmount = (float)$row['amount'];
 			$dbWhat = $row['what'];
-			$dbTimestamp = (int) $row['timestamp'];
+			$dbTimestamp = (int)$row['timestamp'];
 			$dbComment = $row['comment'];
 			$dbPaymentMode = $row['payment_mode'];
-			$dbPaymentModeId = (int) $row['payment_mode_id'];
-			$dbCategoryId = (int) $row['category_id'];
+			$dbPaymentModeId = (int)$row['payment_mode_id'];
+			$dbCategoryId = (int)$row['category_id'];
 			$dbProjectCurrencyName = $row['currency_name'];
 			$dbPayerName = $row['name'];
 			$dbPayerUserId = $row['userid'];
@@ -802,7 +802,7 @@ class BillMapper extends QBMapper {
 		}
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()) {
-			return (int) $row['count_bills'];
+			return (int)$row['count_bills'];
 		}
 		return 0;
 	}
@@ -831,7 +831,7 @@ class BillMapper extends QBMapper {
 		$req = $qb->executeQuery();
 
 		while ($row = $req->fetch()) {
-			$billIds[] = (int) $row['id'];
+			$billIds[] = (int)$row['id'];
 		}
 		$req->closeCursor();
 

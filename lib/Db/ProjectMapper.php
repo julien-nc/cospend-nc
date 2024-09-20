@@ -70,7 +70,7 @@ class ProjectMapper extends QBMapper {
 
 		try {
 			return $this->findEntity($qb);
-		} catch (DoesNotExistException | MultipleObjectsReturnedException |Exception $e) {
+		} catch (DoesNotExistException|MultipleObjectsReturnedException|Exception $e) {
 			return null;
 		}
 	}
@@ -90,7 +90,7 @@ class ProjectMapper extends QBMapper {
 	 */
 	public function createProject(
 		string $name, string $id, ?string $contact_email, array $defaultCategories, array $defaultPaymentModes,
-		string $userid = '', bool $createDefaultCategories = true, bool $createDefaultPaymentModes = true
+		string $userid = '', bool $createDefaultCategories = true, bool $createDefaultPaymentModes = true,
 	): Project {
 		// check if id is valid
 		if (str_contains($id, '/')) {

@@ -67,10 +67,10 @@ class Version000303Date20200201171814 extends SimpleMigrationStep {
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->update('cospend_shares')
-		   ->set('type', $qb->createNamedParameter('g', IQueryBuilder::PARAM_STR))
-		   ->where(
-		   	$qb->expr()->eq('isgroupshare', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
-		   );
+			->set('type', $qb->createNamedParameter('g', IQueryBuilder::PARAM_STR))
+			->where(
+				$qb->expr()->eq('isgroupshare', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
+			);
 		$qb->executeStatement();
 	}
 }

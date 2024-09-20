@@ -48,7 +48,7 @@ class CospendProvider implements IProvider {
 		private IAppManager         $appManager,
 		private IL10N               $l10n,
 		private LocalProjectService $projectService,
-		private ?string             $userId
+		private ?string             $userId,
 	) {
 		$this->projectNames = [];
 		if (!is_null($userId)) {
@@ -221,8 +221,8 @@ class CospendProvider implements IProvider {
 			$params[$paramName] = [
 				'type' => 'highlight',
 				'id' => $subjectParams[$paramName]['id'],
-				'name' => $subjectParams[$paramName]['name'].' ('.$subjectParams[$paramName]['amount'].')',
-				'link' => $this->cospendUrl('?project=' . $subjectParams['project']['id']) . '&bill='.$subjectParams[$paramName]['id'],
+				'name' => $subjectParams[$paramName]['name'] . ' (' . $subjectParams[$paramName]['amount'] . ')',
+				'link' => $this->cospendUrl('?project=' . $subjectParams['project']['id']) . '&bill=' . $subjectParams[$paramName]['id'],
 			];
 		}
 		return $params;

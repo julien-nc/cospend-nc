@@ -239,7 +239,7 @@ class OldApiController extends ApiController {
 	public function apiv3GetBills(
 		string $token, ?int $lastchanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false,
 		?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $includeBillId = null,
-		?string $searchTerm = null, ?int $deleted = 0
+		?string $searchTerm = null, ?int $deleted = 0,
 	): DataResponse {
 		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		if ($limit) {
@@ -453,7 +453,7 @@ class OldApiController extends ApiController {
 		?string $paymentmode = null, ?int $paymentmodeid = null,
 		?int $categoryid = null, ?int $repeatallactive = null,
 		?string $repeatuntil = null, ?int $timestamp = null, ?string $comment = null,
-		?int $repeatfreq = null, ?int $deleted = null
+		?int $repeatfreq = null, ?int $deleted = null,
 	): DataResponse {
 		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		try {
@@ -497,7 +497,7 @@ class OldApiController extends ApiController {
 		?string $repeat = 'n', ?string $paymentmode = null, ?int $paymentmodeid = null,
 		?int $repeatallactive = null,
 		?string $repeatuntil = null, ?int $timestamp = null, ?string $comment = null,
-		?int $repeatfreq = null, ?int $deleted = null
+		?int $repeatfreq = null, ?int $deleted = null,
 	): DataResponse {
 		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		if (is_null($publicShareInfo)) {
@@ -540,7 +540,7 @@ class OldApiController extends ApiController {
 		?string $paymentmode = null, ?int $paymentmodeid = null,
 		?int $categoryid = null, ?int $repeatallactive = null,
 		?string $repeatuntil = null, ?int $timestamp = null, ?string $comment = null,
-		?int $repeatfreq = null, ?int $deleted = null
+		?int $repeatfreq = null, ?int $deleted = null,
 	): DataResponse {
 		try {
 			$this->localProjectService->editBill(
@@ -574,7 +574,7 @@ class OldApiController extends ApiController {
 		try {
 			$this->billMapper->deleteDeletedBills($publicShareInfo['projectid']);
 			return new DataResponse('');
-		} catch (\Exception | \Throwable $e) {
+		} catch (\Exception|\Throwable $e) {
 			return new DataResponse('', Http::STATUS_BAD_REQUEST);
 		}
 	}
@@ -661,7 +661,7 @@ class OldApiController extends ApiController {
 		try {
 			$this->billMapper->deleteDeletedBills($projectId);
 			return new DataResponse('');
-		} catch (\Exception | \Throwable $e) {
+		} catch (\Exception|\Throwable $e) {
 			return new DataResponse('', Http::STATUS_NOT_FOUND);
 		}
 	}

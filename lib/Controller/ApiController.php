@@ -215,7 +215,7 @@ class ApiController extends OCSController {
 	public function editProject(
 		string  $projectId, ?string $name = null,
 		?string $autoExport = null, ?string $currencyName = null, ?bool $deletionDisabled = null,
-		?string $categorySort = null, ?string $paymentModeSort = null, ?int $archivedTs = null
+		?string $categorySort = null, ?string $paymentModeSort = null, ?int $archivedTs = null,
 	): DataResponse {
 		try {
 			$this->projectService->editProject(
@@ -277,7 +277,7 @@ class ApiController extends OCSController {
 	public function getProjectStatistics(
 		string $projectId, ?int $tsMin = null, ?int $tsMax = null, ?int $paymentModeId = null,
 		?int $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
-		string $showDisabled = '1', ?int $currencyId = null, ?int $payerId = null
+		string $showDisabled = '1', ?int $currencyId = null, ?int $payerId = null,
 	): DataResponse {
 		try {
 			$result = $this->projectService->getStatistics(
@@ -406,7 +406,7 @@ class ApiController extends OCSController {
 	#[SupportFederatedProject]
 	public function editMember(
 		string $projectId, int $memberId, ?string $name = null, ?float $weight = null, $activated = null,
-		?string $color = null, ?string $userId = null
+		?string $color = null, ?string $userId = null,
 	): DataResponse {
 		if ($activated === 'true') {
 			$activated = true;
@@ -441,7 +441,7 @@ class ApiController extends OCSController {
 	#[SupportFederatedProject]
 	public function createMember(
 		string $projectId, string $name, ?string $userId = null, float $weight = 1,
-		int $active = 1, ?string $color = null
+		int $active = 1, ?string $color = null,
 	): DataResponse {
 		try {
 			$member = $this->projectService->createMember($projectId, $name, $weight, $active !== 0, $color, $userId);
@@ -487,7 +487,7 @@ class ApiController extends OCSController {
 		?int $payer = null, ?string $payedFor = null, ?float $amount = null, ?string $repeat = null,
 		?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null, ?int $repeatAllActive = null, ?string $repeatUntil = null,
-		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null, ?int $deleted = null
+		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null, ?int $deleted = null,
 	): DataResponse {
 		try {
 			$this->projectService->editBill(
@@ -536,7 +536,7 @@ class ApiController extends OCSController {
 		?float $amount = null, ?string $repeat = null,
 		?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $repeatAllActive = null, ?string $repeatUntil = null, ?int $timestamp = null,
-		?string $comment = null, ?int $repeatFreq = null, ?int $deleted = null
+		?string $comment = null, ?int $repeatFreq = null, ?int $deleted = null,
 	): DataResponse {
 		try {
 			$this->projectService->editBills(
@@ -657,7 +657,7 @@ class ApiController extends OCSController {
 		string $projectId, ?string $date = null, ?string $what = null, ?int $payer = null, ?string $payedFor = null,
 		?float $amount = null, ?string $repeat = null, ?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null, int $repeatAllActive = 0, ?string $repeatUntil = null, ?int $timestamp = null,
-		?string $comment = null, ?int $repeatFreq = null
+		?string $comment = null, ?int $repeatFreq = null,
 	): DataResponse {
 		try {
 			$newBillId = $this->projectService->createBill(
@@ -776,7 +776,7 @@ class ApiController extends OCSController {
 	public function getBills(
 		string $projectId, ?int $lastChanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false,
 		?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $includeBillId = null,
-		?string $searchTerm = null, ?int $deleted = 0
+		?string $searchTerm = null, ?int $deleted = 0,
 	): DataResponse {
 		try {
 			return new DataResponse(
@@ -933,7 +933,7 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Payment-modes'])]
 	#[SupportFederatedProject]
 	public function editPaymentMode(
-		string $projectId, int $pmId, ?string $name = null, ?string $icon = null, ?string $color = null
+		string $projectId, int $pmId, ?string $name = null, ?string $icon = null, ?string $color = null,
 	): DataResponse {
 		try {
 			$pm = $this->projectService->editPaymentMode($projectId, $pmId, $name, $icon, $color);
@@ -1045,7 +1045,7 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Categories'])]
 	#[SupportFederatedProject]
 	public function editCategory(
-		string $projectId, int $categoryId, ?string $name = null, ?string $icon = null, ?string $color = null
+		string $projectId, int $categoryId, ?string $name = null, ?string $icon = null, ?string $color = null,
 	): DataResponse {
 		try {
 			$category = $this->projectService->editCategory($projectId, $categoryId, $name, $icon, $color);
@@ -1172,7 +1172,7 @@ class ApiController extends OCSController {
 	 * @param int $currencyId
 	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 * @throws Exception
-	 * * @throws MultipleObjectsReturnedException
+	 *                   * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: The currency was successfully deleted
 	 * 400: Failed to delete the currency
@@ -1212,7 +1212,7 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function createFederatedShare(
 		string $projectId, string $userCloudId, int $accessLevel = 2,
-		bool $manuallyAdded = true
+		bool $manuallyAdded = true,
 	): DataResponse {
 		try {
 			$share = $this->localProjectService->createFederatedShare($projectId, $userCloudId, $this->userId, $accessLevel, $manuallyAdded);
@@ -1277,7 +1277,7 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function createUserShare(
 		string $projectId, string $userId, int $accessLevel = 2,
-		bool $manuallyAdded = true
+		bool $manuallyAdded = true,
 	): DataResponse {
 		$result = $this->localProjectService->createUserShare($projectId, $userId, $this->userId, $accessLevel, $manuallyAdded);
 		if (!isset($result['message'])) {
@@ -1338,7 +1338,7 @@ class ApiController extends OCSController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function createPublicShare(
-		string $projectId, ?string $label = null, ?string $password = null, int $accessLevel = 2
+		string $projectId, ?string $label = null, ?string $password = null, int $accessLevel = 2,
 	): DataResponse {
 		$result = $this->localProjectService->createPublicShare($projectId, $label, $password, $accessLevel);
 		return new DataResponse($result);
@@ -1524,7 +1524,7 @@ class ApiController extends OCSController {
 		$shares = $this->shareManager->getSharesBy($this->userId,
 			IShare::TYPE_LINK, $file, false, 1, 0);
 		if (count($shares) > 0) {
-			foreach($shares as $share) {
+			foreach ($shares as $share) {
 				if ($share->getPassword() === null) {
 					$token = $share->getToken();
 					break;
@@ -1601,7 +1601,7 @@ class ApiController extends OCSController {
 		string $projectId, ?int $tsMin = null, ?int $tsMax = null,
 		?int $paymentModeId = null, ?int $category = null,
 		?float $amountMin = null, ?float $amountMax = null,
-		int $showDisabled = 1, ?int $currencyId = null
+		int $showDisabled = 1, ?int $currencyId = null,
 	): DataResponse {
 		$statistics = $this->projectService->getStatistics($projectId, $tsMin, $tsMax, $paymentModeId, $category, $amountMin, $amountMax, $showDisabled !== 0, $currencyId);
 		$result = $this->cospendService->exportCsvStatistics($projectId, $this->userId, $statistics);

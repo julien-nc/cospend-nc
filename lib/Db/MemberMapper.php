@@ -49,7 +49,7 @@ class MemberMapper extends QBMapper {
 
 		try {
 			return $this->findEntity($qb);
-		} catch (DoesNotExistException | MultipleObjectsReturnedException | Exception $e) {
+		} catch (DoesNotExistException|MultipleObjectsReturnedException|Exception $e) {
 			return null;
 		}
 	}
@@ -72,7 +72,7 @@ class MemberMapper extends QBMapper {
 
 		try {
 			return $this->findEntity($qb);
-		} catch (DoesNotExistException | MultipleObjectsReturnedException | Exception $e) {
+		} catch (DoesNotExistException|MultipleObjectsReturnedException|Exception $e) {
 			return null;
 		}
 	}
@@ -95,7 +95,7 @@ class MemberMapper extends QBMapper {
 
 		try {
 			return $this->findEntity($qb);
-		} catch (DoesNotExistException | MultipleObjectsReturnedException | Exception $e) {
+		} catch (DoesNotExistException|MultipleObjectsReturnedException|Exception $e) {
 			return null;
 		}
 	}

@@ -155,7 +155,7 @@ class ActivityManager {
 				break;
 			case self::SUBJECT_PROJECT_SHARE:
 			case self::SUBJECT_PROJECT_UNSHARE:
-				$subjectParams = $this->findDetailsForProject((string) $entity->getId());
+				$subjectParams = $this->findDetailsForProject((string)$entity->getId());
 				$objectName = $object->getId();
 				break;
 			default:
@@ -167,7 +167,7 @@ class ActivityManager {
 		$event->setApp('cospend')
 			->setType($eventType)
 			->setAuthor($author === null ? $this->userId ?? '' : $author)
-			->setObject($objectType, (int)$object->getId(), (string) $objectName)
+			->setObject($objectType, (int)$object->getId(), (string)$objectName)
 			->setSubject($subject, array_merge($subjectParams, $additionalParams))
 			->setTimestamp(time());
 
@@ -214,7 +214,7 @@ class ActivityManager {
 					$objectId = $entity->getId();
 					break;
 				default:
-					throw new InvalidArgumentException('No entity relation present for '. $className . ' to ' . $objectType);
+					throw new InvalidArgumentException('No entity relation present for ' . $className . ' to ' . $objectType);
 			}
 			return $this->billMapper->find($objectId);
 		}
@@ -224,15 +224,15 @@ class ActivityManager {
 					$objectId = $entity->getId();
 					break;
 				default:
-					throw new InvalidArgumentException('No entity relation present for '. $className . ' to ' . $objectType);
+					throw new InvalidArgumentException('No entity relation present for ' . $className . ' to ' . $objectType);
 			}
 			$dbProject = $this->projectMapper->find($objectId);
 			if ($dbProject === null) {
-				throw new InvalidArgumentException('No entity relation present for '. $className . ' to ' . $objectType);
+				throw new InvalidArgumentException('No entity relation present for ' . $className . ' to ' . $objectType);
 			}
 			return $dbProject;
 		}
-		throw new InvalidArgumentException('No entity relation present for '. $className . ' to ' . $objectType);
+		throw new InvalidArgumentException('No entity relation present for ' . $className . ' to ' . $objectType);
 	}
 
 	/**

@@ -17,7 +17,7 @@ class AutoExport extends TimedJob {
 
 	public function __construct(
 		ITimeFactory $time,
-		private CospendService $cospendService
+		private CospendService $cospendService,
 	) {
 		parent::__construct($time);
 		// Run each day

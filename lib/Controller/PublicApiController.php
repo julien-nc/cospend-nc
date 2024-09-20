@@ -99,7 +99,7 @@ class PublicApiController extends OCSController {
 		try {
 			$this->billMapper->deleteDeletedBills($this->projectId);
 			return new DataResponse('');
-		} catch (\Exception | \Throwable $e) {
+		} catch (\Exception|\Throwable $e) {
 			return new DataResponse('', Http::STATUS_BAD_REQUEST);
 		}
 	}
@@ -259,7 +259,7 @@ class PublicApiController extends OCSController {
 		string $token, ?int $tsMin = null, ?int $tsMax = null,
 		?int   $paymentModeId = null, ?int $categoryId = null,
 		?float $amountMin = null, ?float $amountMax = null,
-		string $showDisabled = '1', ?int $currencyId = null, ?int $payerId = null
+		string $showDisabled = '1', ?int $currencyId = null, ?int $payerId = null,
 	): DataResponse {
 		$result = $this->localProjectService->getStatistics(
 			$this->projectId, $tsMin, $tsMax,
@@ -306,7 +306,7 @@ class PublicApiController extends OCSController {
 	#[BruteForceProtection(action: 'CospendPublicAutoSettlement')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Projects'])]
 	public function publicAutoSettlement(
-		string $token, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null
+		string $token, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null,
 	): DataResponse {
 		try {
 			$this->localProjectService->autoSettlement(
@@ -355,7 +355,7 @@ class PublicApiController extends OCSController {
 		?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null, ?int $repeatAllActive = null,
 		?string $repeatUntil = null, ?int $timestamp = null, ?string $comment = null,
-		?int $repeatFreq = null, ?int $deleted = null
+		?int $repeatFreq = null, ?int $deleted = null,
 	): DataResponse {
 		$share = $this->shareMapper->getLinkOrFederatedShareByToken($token);
 		try {
@@ -421,7 +421,7 @@ class PublicApiController extends OCSController {
 		?string $what = null, ?int $payer = null, ?string $payedFor = null, ?float $amount = null,
 		?string $repeat = 'n', ?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $repeatAllActive = null, ?string $repeatUntil = null, ?int $timestamp = null,
-		?string $comment = null, ?int $repeatFreq = null, ?int $deleted = null
+		?string $comment = null, ?int $repeatFreq = null, ?int $deleted = null,
 	): DataResponse {
 		$share = $this->shareMapper->getLinkOrFederatedShareByToken($token);
 		if ($share->getLabel()) {
@@ -494,7 +494,7 @@ class PublicApiController extends OCSController {
 	public function publicEditProject(
 		string $token, ?string $name = null,
 		?string $autoExport = null, ?string $currencyName = null, ?bool $deletionDisabled = null,
-		?string $categorySort = null, ?string $paymentModeSort = null, ?int $archivedTs = null
+		?string $categorySort = null, ?string $paymentModeSort = null, ?int $archivedTs = null,
 	): DataResponse {
 		try {
 			$this->localProjectService->editProject(
@@ -541,7 +541,7 @@ class PublicApiController extends OCSController {
 		?string $payedFor = null, ?float $amount = null, string $repeat = 'n',
 		?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null, int $repeatAllActive = 0, ?string $repeatUntil = null, ?int $timestamp = null,
-		?string $comment = null, ?int $repeatFreq = null
+		?string $comment = null, ?int $repeatFreq = null,
 	): DataResponse {
 		$share = $this->shareMapper->getLinkOrFederatedShareByToken($token);
 		try {
@@ -594,7 +594,7 @@ class PublicApiController extends OCSController {
 	public function publicGetBills(
 		string $token, ?int $lastChanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false,
 		?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $includeBillId = null,
-		?string $searchTerm = null, ?int $deleted = 0
+		?string $searchTerm = null, ?int $deleted = 0,
 	): DataResponse {
 		if ($limit) {
 			$bills = $this->billMapper->getBillsWithLimit(
@@ -704,7 +704,7 @@ class PublicApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Members'])]
 	public function publicEditMember(
 		string $token, int $memberId, ?string $name = null, ?float $weight = null,
-		$activated = null, ?string $color = null, ?string $userId = null
+		$activated = null, ?string $color = null, ?string $userId = null,
 	): DataResponse {
 		if ($activated === 'true') {
 			$activated = true;
@@ -743,7 +743,7 @@ class PublicApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Members'])]
 	public function publicCreateMember(
 		string $token, string $name, float $weight = 1, int $active = 1,
-		?string $color = null, ?string $userId = null
+		?string $color = null, ?string $userId = null,
 	): DataResponse {
 		try {
 			$member = $this->localProjectService->createMember(
@@ -796,7 +796,7 @@ class PublicApiController extends OCSController {
 	#[BruteForceProtection(action: 'CospendPublicEditPaymentMode')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Payment-modes'])]
 	public function publicEditPaymentMode(
-		string $token, int $pmId, ?string $name = null, ?string $icon = null, ?string $color = null
+		string $token, int $pmId, ?string $name = null, ?string $icon = null, ?string $color = null,
 	): DataResponse {
 		try {
 			$pm = $this->localProjectService->editPaymentMode(
@@ -895,7 +895,7 @@ class PublicApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Categories'])]
 	public function publicEditCategory(
 		string  $token, int $categoryId,
-		?string $name = null, ?string $icon = null, ?string $color = null
+		?string $name = null, ?string $icon = null, ?string $color = null,
 	): DataResponse {
 		try {
 			$category = $this->localProjectService->editCategory(

@@ -11,7 +11,7 @@ use OCP\Capabilities\IPublicCapability;
 class Capabilities implements IPublicCapability {
 
 	public function __construct(
-		private IAppManager $appManager
+		private IAppManager $appManager,
 	) {
 	}
 

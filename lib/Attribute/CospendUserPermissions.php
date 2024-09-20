@@ -15,7 +15,7 @@ class CospendUserPermissions {
 	 * if the project is local
 	 */
 	public function __construct(
-		protected int $minimumLevel
+		protected int $minimumLevel,
 	) {
 	}
 

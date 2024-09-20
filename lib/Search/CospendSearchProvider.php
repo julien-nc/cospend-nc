@@ -88,7 +88,7 @@ class CospendSearchProvider implements IProvider {
 		$limit = $query->getLimit();
 		$term = $query->getTerm();
 		$offset = $query->getCursor();
-		$offset = $offset ? (int) $offset : 0;
+		$offset = $offset ? (int)$offset : 0;
 
 		$resultBills = [];
 
@@ -164,7 +164,7 @@ class CospendSearchProvider implements IProvider {
 			}
 		}
 		$amount = number_format($bill['amount'], 2);
-		return $what. ' ('. $amount . $currency . ') ' . $catPmChars;
+		return $what . ' (' . $amount . $currency . ') ' . $catPmChars;
 	}
 
 	/**

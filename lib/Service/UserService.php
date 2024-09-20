@@ -24,7 +24,7 @@ class UserService {
 	public function __construct(
 		private ProjectMapper $projectMapper,
 		private IGroupManager $groupManager,
-		private IDBConnection $dbconnection
+		private IDBConnection $dbconnection,
 	) {
 	}
 
@@ -66,7 +66,7 @@ class UserService {
 		/** @var string[] $groupIds */
 		$groupIds = [];
 		while ($row = $req->fetch()) {
-			$groupIds[] = (string) $row['userid'];
+			$groupIds[] = (string)$row['userid'];
 		}
 		$req->closeCursor();
 		// get users of groups

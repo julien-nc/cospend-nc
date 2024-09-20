@@ -72,7 +72,7 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 		// first, copy icon -> encoded_icon
 		$categoryIconDict = [];
 		$qb->select('c.id', 'c.icon')
-		   ->from('cospend_categories', 'c');
+			->from('cospend_categories', 'c');
 		$req = $qb->executeQuery();
 
 		while ($row = $req->fetch()) {
@@ -142,7 +142,7 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 		// get project ids
 		$projectIdList = [];
 		$qb->select('p.id')
-		   ->from('cospend_projects', 'p');
+			->from('cospend_projects', 'p');
 		$req = $qb->executeQuery();
 
 		while ($row = $req->fetch()) {
@@ -155,10 +155,10 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 			// is there at least one default category already?
 			$oneDefaultFound = false;
 			$qb->select('c.name')
-			   ->from('cospend_categories', 'c')
-			   ->where(
-			   	$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			   );
+				->from('cospend_categories', 'c')
+				->where(
+					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+				);
 			$req = $qb->executeQuery();
 
 			while ($row = $req->fetch()) {
@@ -195,7 +195,7 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 							$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 						)
 						->andWhere(
-							$qb->expr()->eq('categoryid', $qb->createNamedParameter((int) $strId, IQueryBuilder::PARAM_INT))
+							$qb->expr()->eq('categoryid', $qb->createNamedParameter((int)$strId, IQueryBuilder::PARAM_INT))
 						);
 					$qb->executeStatement();
 					$qb = $this->connection->getQueryBuilder();

@@ -34,7 +34,7 @@ class CospendWidget implements IWidget {
 
 	public function __construct(
 		private IL10N $l10n,
-		private IURLGenerator $url
+		private IURLGenerator $url,
 	) {
 	}
 

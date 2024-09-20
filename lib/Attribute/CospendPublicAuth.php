@@ -19,7 +19,7 @@ class CospendPublicAuth {
 	 * and if this shared access has at least the minimum level permission
 	 */
 	public function __construct(
-		protected int $minimumLevel
+		protected int $minimumLevel,
 	) {
 	}
 

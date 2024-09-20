@@ -22,7 +22,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class DeleteBills extends Base {
 
-	public function __construct(private BillMapper $billMapper) {
+	public function __construct(
+		private BillMapper $billMapper,
+	) {
 		parent::__construct();
 	}
 
@@ -58,7 +60,7 @@ class DeleteBills extends Base {
 		$projectId = $input->getArgument('project_id');
 		$what = $input->getOption('what');
 		$minTs = $input->getOption('min_timestamp');
-		$minTs = $minTs === null ? null : (int) $minTs;
+		$minTs = $minTs === null ? null : (int)$minTs;
 
 		if ($input->getOption('simulate')) {
 			$output->writeln('This is just a simulation');

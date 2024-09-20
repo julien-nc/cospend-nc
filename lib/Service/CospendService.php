@@ -197,7 +197,7 @@ class CospendService {
 						fclose($handle);
 						return ['message' => $this->l10n->t('Error when adding category %1$s', [$categoryname])];
 					}
-					$categoryid = (int) $data[$columns['categoryid']];
+					$categoryid = (int)$data[$columns['categoryid']];
 					$categories[] = [
 						'icon' => $icon,
 						'color' => $color,
@@ -216,7 +216,7 @@ class CospendService {
 						return ['message' => $this->l10n->t('Error when adding payment mode %1$s', [$paymentmodename])];
 					}
 					$color = $data[$columns['color']];
-					$paymentmodeid = (int) $data[$columns['paymentmodeid']];
+					$paymentmodeid = (int)$data[$columns['paymentmodeid']];
 					$paymentModes[] = [
 						'icon' => $icon,
 						'color' => $color,
@@ -229,7 +229,7 @@ class CospendService {
 						fclose($handle);
 						return ['message' => $this->l10n->t('Error when adding currency %1$s', [$name])];
 					}
-					$exchange_rate = (float) $data[$columns['exchange_rate']];
+					$exchange_rate = (float)$data[$columns['exchange_rate']];
 					if (($exchange_rate) === 1.0) {
 						$mainCurrencyName = $name;
 					} else {
@@ -244,8 +244,8 @@ class CospendService {
 						fclose($handle);
 						return ['message' => $this->l10n->t('Error when adding member %1$s', [$name])];
 					}
-					$weight = (float) $data[$columns['weight']];
-					$active = (int) $data[$columns['active']];
+					$weight = (float)$data[$columns['weight']];
+					$active = (int)$data[$columns['active']];
 					$color = $data[$columns['color']];
 					if (strlen($name) > 0
 						&& preg_match('/^#[0-9A-Fa-f]+$/', $color) !== false
@@ -265,11 +265,11 @@ class CospendService {
 						fclose($handle);
 						return ['message' => $this->l10n->t('Malformed CSV, invalid amount on line %1$s', [$row + 1])];
 					}
-					$amount = (float) $data[$columns['amount']];
+					$amount = (float)$data[$columns['amount']];
 					$timestamp = null;
 					// priority to timestamp
 					if (array_key_exists('timestamp', $columns)) {
-						$timestamp = (int) $data[$columns['timestamp']];
+						$timestamp = (int)$data[$columns['timestamp']];
 					} elseif (array_key_exists('date', $columns)) {
 						$date = $data[$columns['date']];
 						$datetime = DateTime::createFromFormat('Y-m-d', $date);
@@ -286,24 +286,24 @@ class CospendService {
 					$owers = $data[$columns['owers']];
 					$payer_active = array_key_exists('payer_active', $columns) ? $data[$columns['payer_active']] : 1;
 					$repeat = array_key_exists('repeat', $columns) ? $data[$columns['repeat']] : Application::FREQUENCY_NO;
-					$categoryid = array_key_exists('categoryid', $columns) ? (int) $data[$columns['categoryid']] : null;
+					$categoryid = array_key_exists('categoryid', $columns) ? (int)$data[$columns['categoryid']] : null;
 					$paymentmode = array_key_exists('paymentmode', $columns) ? $data[$columns['paymentmode']] : null;
-					$paymentmodeid = array_key_exists('paymentmodeid', $columns) ? (int) $data[$columns['paymentmodeid']] : null;
-					$repeatallactive = array_key_exists('repeatallactive', $columns) ? (int) $data[$columns['repeatallactive']] : 0;
+					$paymentmodeid = array_key_exists('paymentmodeid', $columns) ? (int)$data[$columns['paymentmodeid']] : null;
+					$repeatallactive = array_key_exists('repeatallactive', $columns) ? (int)$data[$columns['repeatallactive']] : 0;
 					$repeatuntil = array_key_exists('repeatuntil', $columns) ? $data[$columns['repeatuntil']] : null;
-					$repeatfreq = array_key_exists('repeatfreq', $columns) ? (int) $data[$columns['repeatfreq']] : 1;
+					$repeatfreq = array_key_exists('repeatfreq', $columns) ? (int)$data[$columns['repeatfreq']] : 1;
 					$comment = array_key_exists('comment', $columns) ? urldecode($data[$columns['comment']] ?? '') : null;
-					$deleted = array_key_exists('deleted', $columns) ? (int) $data[$columns['deleted']] : 0;
+					$deleted = array_key_exists('deleted', $columns) ? (int)$data[$columns['deleted']] : 0;
 
 					// manage members
 					if (!isset($membersByName[$payer_name])) {
 						$membersByName[$payer_name] = [
-							'active' => ((int) $payer_active) !== 0,
+							'active' => ((int)$payer_active) !== 0,
 							'weight' => 1.0,
 							'color' => null,
 						];
 						if (is_numeric($payer_weight)) {
-							$membersByName[$payer_name]['weight'] = (float) $payer_weight;
+							$membersByName[$payer_name]['weight'] = (float)$payer_weight;
 						} else {
 							fclose($handle);
 							return ['message' => $this->l10n->t('Malformed CSV, invalid payer weight on line %1$s', [$row + 1])];
@@ -531,7 +531,7 @@ class CospendService {
 									fclose($handle);
 									return ['message' => $this->l10n->t('Malformed CSV, bad amount on line %1$s', [$row])];
 								}
-								$amount = (float) $data[$c];
+								$amount = (float)$data[$c];
 								if ($amount < 0) {
 									$negativeCols[] = $c;
 								}
@@ -541,7 +541,7 @@ class CospendService {
 							}, $negativeCols);
 							// each positive one: bill with member-specific amount (not the full amount), owers are the negative ones
 							for ($c = 5; $c < $nbCol; $c++) {
-								$amount = (float) $data[$c];
+								$amount = (float)$data[$c];
 								if ($amount > 0) {
 									$payer_name = $owersArray[$c - 5];
 									if (empty($payer_name)) {
@@ -665,43 +665,43 @@ class CospendService {
 		$minDayTimestamp = $maxDayTimestamp - (24 * 60 * 60);
 
 		$dateMaxDay->modify('-1 day');
-		$dailySuffix = '_'.$this->l10n->t('daily').'_'.$dateMaxDay->format('Y-m-d');
+		$dailySuffix = '_' . $this->l10n->t('daily') . '_' . $dateMaxDay->format('Y-m-d');
 
 		// last week
 		$now = new DateTime();
-		while (((int) $now->format('N')) !== 1) {
+		while (((int)$now->format('N')) !== 1) {
 			$now->modify('-1 day');
 		}
 		$y = $now->format('Y');
 		$m = $now->format('m');
 		$d = $now->format('d');
-		$dateWeekMax = new DateTime($y.'-'.$m.'-'.$d);
+		$dateWeekMax = new DateTime($y . '-' . $m . '-' . $d);
 		$maxWeekTimestamp = $dateWeekMax->getTimestamp();
 		$minWeekTimestamp = $maxWeekTimestamp - (7 * 24 * 60 * 60);
-		$dateWeekMin = new DateTime($y.'-'.$m.'-'.$d);
+		$dateWeekMin = new DateTime($y . '-' . $m . '-' . $d);
 		$dateWeekMin->modify('-7 day');
-		$weeklySuffix = '_'.$this->l10n->t('weekly').'_'.$dateWeekMin->format('Y-m-d');
+		$weeklySuffix = '_' . $this->l10n->t('weekly') . '_' . $dateWeekMin->format('Y-m-d');
 
 		// last month
 		$now = new DateTime();
-		while (((int) $now->format('d')) !== 1) {
+		while (((int)$now->format('d')) !== 1) {
 			$now->modify('-1 day');
 		}
 		$y = $now->format('Y');
 		$m = $now->format('m');
 		$d = $now->format('d');
-		$dateMonthMax = new DateTime($y.'-'.$m.'-'.$d);
+		$dateMonthMax = new DateTime($y . '-' . $m . '-' . $d);
 		$maxMonthTimestamp = $dateMonthMax->getTimestamp();
 		$now->modify('-1 day');
-		while (((int) $now->format('d')) !== 1) {
+		while (((int)$now->format('d')) !== 1) {
 			$now->modify('-1 day');
 		}
-		$y = (int) $now->format('Y');
-		$m = (int) $now->format('m');
-		$d = (int) $now->format('d');
-		$dateMonthMin = new DateTime($y.'-'.$m.'-'.$d);
+		$y = (int)$now->format('Y');
+		$m = (int)$now->format('m');
+		$d = (int)$now->format('d');
+		$dateMonthMin = new DateTime($y . '-' . $m . '-' . $d);
 		$minMonthTimestamp = $dateMonthMin->getTimestamp();
-		$monthlySuffix = '_'.$this->l10n->t('monthly').'_'.$dateMonthMin->format('Y-m');
+		$monthlySuffix = '_' . $this->l10n->t('monthly') . '_' . $dateMonthMin->format('Y-m');
 
 		// $weekFilterArray = [];
 		// $weekFilterArray['tsmin'] = $minWeekTimestamp;
@@ -813,10 +813,10 @@ class CospendService {
 		}
 
 		// create file
-		if ($folder->nodeExists($projectId.'-settlement.csv')) {
-			$folder->get($projectId.'-settlement.csv')->delete();
+		if ($folder->nodeExists($projectId . '-settlement.csv')) {
+			$folder->get($projectId . '-settlement.csv')->delete();
 		}
-		$file = $folder->newFile($projectId.'-settlement.csv');
+		$file = $folder->newFile($projectId . '-settlement.csv');
 		$handler = $file->fopen('w');
 		fwrite(
 			$handler,
@@ -837,7 +837,7 @@ class CospendService {
 				$handler,
 				'"' . $memberIdToName[$transaction['from']]
 				. '","' . $memberIdToName[$transaction['to']]
-				. '",' . (float) $transaction['amount']
+				. '",' . (float)$transaction['amount']
 				. "\n"
 			);
 		}
@@ -862,7 +862,7 @@ class CospendService {
 	 * @throws NotPermittedException
 	 */
 	public function exportCsvStatistics(
-		string $projectId, string $userId, array $statistics
+		string $projectId, string $userId, array $statistics,
 	): array {
 		// create export directory if needed
 		$outPath = $this->config->getUserValue($userId, 'cospend', 'outputDirectory', '/Cospend');
@@ -877,10 +877,10 @@ class CospendService {
 		}
 
 		// create file
-		if ($folder->nodeExists($projectId.'-stats.csv')) {
-			$folder->get($projectId.'-stats.csv')->delete();
+		if ($folder->nodeExists($projectId . '-stats.csv')) {
+			$folder->get($projectId . '-stats.csv')->delete();
 		}
-		$file = $folder->newFile($projectId.'-stats.csv');
+		$file = $folder->newFile($projectId . '-stats.csv');
 		$handler = $file->fopen('w');
 		fwrite(
 			$handler,
@@ -896,9 +896,9 @@ class CospendService {
 			fwrite(
 				$handler,
 				'"' . $stat['member']['name']
-				. '",' . (float) $stat['paid']
-				. ',' . (float) $stat['spent']
-				. ',' . (float) $stat['balance']
+				. '",' . (float)$stat['paid']
+				. ',' . (float)$stat['spent']
+				. ',' . (float)$stat['balance']
 				. "\n"
 			);
 		}
@@ -937,7 +937,7 @@ class CospendService {
 		}
 
 		// create file
-		$filename = $projectId.'.csv';
+		$filename = $projectId . '.csv';
 		if ($name !== null) {
 			$filename = $name;
 			if (!str_ends_with($filename, '.csv')) {
@@ -973,12 +973,12 @@ class CospendService {
 		foreach ($members as $member) {
 			$memberIdToName[$member['id']] = $member['name'];
 			$memberIdToWeight[$member['id']] = $member['weight'];
-			$memberIdToActive[$member['id']] = (int) $member['activated'];
+			$memberIdToActive[$member['id']] = (int)$member['activated'];
 			$c = $member['color'];
 			yield '"' . $member['name'] . '",'
-				. (float) $member['weight'] . ','
-				. (int) $member['activated'] . ',"'
-				. sprintf("#%02x%02x%02x", $c['r'] ?? 0, $c['g'] ?? 0, $c['b'] ?? 0) . '"'
+				. (float)$member['weight'] . ','
+				. (int)$member['activated'] . ',"'
+				. sprintf('#%02x%02x%02x', $c['r'] ?? 0, $c['g'] ?? 0, $c['b'] ?? 0) . '"'
 				. "\n";
 		}
 		// bills
@@ -997,16 +997,16 @@ class CospendService {
 			$dateTime = DateTime::createFromFormat('U', $bill['timestamp']);
 			$oldDateStr = $dateTime->format('Y-m-d');
 			yield '"' . $bill['what'] . '",'
-				. (float) $bill['amount'] . ','
+				. (float)$bill['amount'] . ','
 				. $oldDateStr . ','
 				. $bill['timestamp'] . ',"'
 				. $payer_name . '",'
-				. (float) $payer_weight . ','
+				. (float)$payer_weight . ','
 				. $payer_active . ',"'
 				. $owersTxt . '",'
 				. $bill['repeat'] . ','
 				. $bill['repeatfreq'] . ','
-				. $bill['repeatallactive'] .','
+				. $bill['repeatallactive'] . ','
 				. $bill['repeatuntil'] . ','
 				. $bill['categoryid'] . ','
 				. $bill['paymentmode'] . ','
@@ -1022,7 +1022,7 @@ class CospendService {
 			yield "\ncategoryname,categoryid,icon,color\n";
 			foreach ($categories as $id => $cat) {
 				yield '"' . $cat['name'] . '",' .
-					(int) $id . ',"' .
+					(int)$id . ',"' .
 					$cat['icon'] . '","' .
 					$cat['color'] . '"' .
 					"\n";
@@ -1035,7 +1035,7 @@ class CospendService {
 			yield "\npaymentmodename,paymentmodeid,icon,color\n";
 			foreach ($paymentModes as $id => $pm) {
 				yield '"' . $pm['name'] . '",' .
-					(int) $id . ',"' .
+					(int)$id . ',"' .
 					$pm['icon'] . '","' .
 					$pm['color'] . '"' .
 					"\n";
@@ -1050,7 +1050,7 @@ class CospendService {
 			yield '"' . $projectInfo['currencyname'] . '",1' . "\n";
 			foreach ($currencies as $cur) {
 				yield '"' . $cur['name']
-					. '",' . (float) $cur['exchange_rate']
+					. '",' . (float)$cur['exchange_rate']
 					. "\n";
 			}
 		}

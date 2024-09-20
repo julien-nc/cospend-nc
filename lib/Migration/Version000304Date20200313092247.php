@@ -68,13 +68,13 @@ class Version000304Date20200313092247 extends SimpleMigrationStep {
 		$qb = $this->connection->getQueryBuilder();
 		$timestamps = [];
 		$qb->select('id', 'date')
-		->from('cospend_bills', 'b');
+			->from('cospend_bills', 'b');
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()) {
 			$id = $row['id'];
 			$date = $row['date'];
 
-			$timestamp = strtotime($date.' 12:00:00');
+			$timestamp = strtotime($date . ' 12:00:00');
 			$timestamps[$id] = $timestamp;
 		}
 		$req->closeCursor();
@@ -82,10 +82,10 @@ class Version000304Date20200313092247 extends SimpleMigrationStep {
 
 		foreach ($timestamps as $bid => $ts) {
 			$qb->update('cospend_bills')
-			->set('timestamp', $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT))
-			->where(
-				$qb->expr()->eq('id', $qb->createNamedParameter($bid, IQueryBuilder::PARAM_INT))
-			);
+				->set('timestamp', $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT))
+				->where(
+					$qb->expr()->eq('id', $qb->createNamedParameter($bid, IQueryBuilder::PARAM_INT))
+				);
 			$qb->executeStatement();
 			$qb = $this->connection->getQueryBuilder();
 		}

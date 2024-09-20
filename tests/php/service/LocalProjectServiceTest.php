@@ -444,7 +444,7 @@ class LocalProjectServiceTest extends TestCase {
 		// create bills
 		$resp = $this->apiController->createBill(
 			'superproj', '2019-01-22', 'boomerang', $idMember1,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO, null, $idPm1, $idCat1,
+			$idMember1 . ',' . $idMember2, 22.5, Application::FREQUENCY_NO, null, $idPm1, $idCat1,
 			0, '2049-01-01'
 		);
 		$status = $resp->getStatus();
@@ -509,7 +509,7 @@ class LocalProjectServiceTest extends TestCase {
 		// add a bill with this payment mode
 		$resp = $this->apiController->createBill(
 			'superproj', '2019-01-22', 'boomerang', $idMember1,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO, null, $oneDefPm['id'], $idCat1,
+			$idMember1 . ',' . $idMember2, 22.5, Application::FREQUENCY_NO, null, $oneDefPm['id'], $idCat1,
 			0, '2049-01-01'
 		);
 		$status = $resp->getStatus();
@@ -535,7 +535,7 @@ class LocalProjectServiceTest extends TestCase {
 		// edit a bill with this payment mode
 		$resp = $this->apiController->editBill(
 			'superproj', $idBillPm, '2019-01-22', 'boomerang', $idMember1,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO, null, $otherDefPm['id'], $idCat1,
+			$idMember1 . ',' . $idMember2, 22.5, Application::FREQUENCY_NO, null, $otherDefPm['id'], $idCat1,
 			0, '2049-01-01'
 		);
 		$status = $resp->getStatus();
@@ -550,7 +550,7 @@ class LocalProjectServiceTest extends TestCase {
 
 		$resp = $this->apiController->editBill(
 			'superproj', $idBillPm, '2019-01-22', 'boomerang', $idMember1,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO, $oneDefPm['old_id'], null, $idCat1,
+			$idMember1 . ',' . $idMember2, 22.5, Application::FREQUENCY_NO, $oneDefPm['old_id'], null, $idCat1,
 			0, '2049-01-01'
 		);
 		$status = $resp->getStatus();
@@ -566,7 +566,7 @@ class LocalProjectServiceTest extends TestCase {
 		// add bill with old pm id, it should affect the matching default pm
 		$resp = $this->apiController->createBill(
 			'superproj', '2019-01-22', 'boomerang', $idMember1,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO,
+			$idMember1 . ',' . $idMember2, 22.5, Application::FREQUENCY_NO,
 			'c', null, $idCat1,
 			0, '2049-01-01'
 		);
@@ -652,7 +652,7 @@ class LocalProjectServiceTest extends TestCase {
 		$this->assertTrue(isset($data['error'], $data['error']['message']));
 		$this->assertFalse(isset($data['inserted_id']));
 
-		$resp = $this->apiController->createBill('superproj', '2019-01-20', 'lala', $idMember2, $idMember1.',aa', 12.3, 'n');
+		$resp = $this->apiController->createBill('superproj', '2019-01-20', 'lala', $idMember2, $idMember1 . ',aa', 12.3, 'n');
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_BAD_REQUEST, $status);
 		$data = $resp->getData();
@@ -666,7 +666,7 @@ class LocalProjectServiceTest extends TestCase {
 		// edit bill
 		$resp = $this->apiController->editBill(
 			'superproj', $idBill1, '2039-02-02', 'kangaroo', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCY_MONTHLY, null,
+			$idMember1 . ',' . $idMember2, 99, Application::FREQUENCY_MONTHLY, null,
 			$idPm2, $idCat2, 1, '2021-09-10',
 			null, 'newcom', 2
 		);
@@ -725,7 +725,7 @@ class LocalProjectServiceTest extends TestCase {
 
 		$resp = $this->apiController->editBill(
 			'superproj', $idBill1, null, 'boomerang', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCY_MONTHLY, null,
+			$idMember1 . ',' . $idMember2, 99, Application::FREQUENCY_MONTHLY, null,
 			null, null, 1, '',
 			123456789, 'newcom', 2
 		);
@@ -740,37 +740,37 @@ class LocalProjectServiceTest extends TestCase {
 		//		$status = $resp->getStatus();
 		//		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $status);
 
-		$resp = $this->apiController->editBill('superproj', -1, '2019-01-20', 'boomerang', $idMember1, $idMember1.','.$idMember2, 99, 'n');
+		$resp = $this->apiController->editBill('superproj', -1, '2019-01-20', 'boomerang', $idMember1, $idMember1 . ',' . $idMember2, 99, 'n');
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_BAD_REQUEST, $status);
 
 		$resp = $this->apiController->editBill(
 			'superproj', $idBill1, '2019-01-20', 'boomerang', $idMember1,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCY_MONTHLY . 'wrong_value', null,
+			$idMember1 . ',' . $idMember2, 99, Application::FREQUENCY_MONTHLY . 'wrong_value', null,
 			null, null, null, null,
 			null, 'newcom', 2
 		);
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_BAD_REQUEST, $status);
 
-		$resp = $this->apiController->editBill('superproj', $idBill1, '2019-01-20', '', $idMember1, $idMember1.','.$idMember2, 99, 'n');
+		$resp = $this->apiController->editBill('superproj', $idBill1, '2019-01-20', '', $idMember1, $idMember1 . ',' . $idMember2, 99, 'n');
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
 
-		$resp = $this->apiController->editBill('superproj', $idBill1, '2019-01-20', 'boomerang', $idMember1, $idMember1.','.$idMember2, 99, '');
+		$resp = $this->apiController->editBill('superproj', $idBill1, '2019-01-20', 'boomerang', $idMember1, $idMember1 . ',' . $idMember2, 99, '');
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_OK, $status);
 
 		// invalid date
-		$resp = $this->apiController->editBill('superproj', $idBill1, 'aaa', 'boomerang', $idMember1, $idMember1.','.$idMember2, 99, '');
+		$resp = $this->apiController->editBill('superproj', $idBill1, 'aaa', 'boomerang', $idMember1, $idMember1 . ',' . $idMember2, 99, '');
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_BAD_REQUEST, $status);
 
-		$resp = $this->apiController->editBill('superproj', $idBill1, '2019-01-20', 'boomerang', 0, $idMember1.','.$idMember2, 99, 'n');
+		$resp = $this->apiController->editBill('superproj', $idBill1, '2019-01-20', 'boomerang', 0, $idMember1 . ',' . $idMember2, 99, 'n');
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_BAD_REQUEST, $status);
 
-		$resp = $this->apiController->editBill('superproj', $idBill1, '2019-01-20', 'boomerang', $idMember1, '0,'.$idMember2, 99, 'n');
+		$resp = $this->apiController->editBill('superproj', $idBill1, '2019-01-20', 'boomerang', $idMember1, '0,' . $idMember2, 99, 'n');
 		$status = $resp->getStatus();
 		$this->assertEquals(Http::STATUS_BAD_REQUEST, $status);
 
@@ -1072,7 +1072,7 @@ class LocalProjectServiceTest extends TestCase {
 		// bill with no enabled owers
 		$resp = $this->apiController->editBill(
 			'superproj', $idBill2, '2019-02-02', 'kangaroo', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCY_YEARLY, null,
+			$idMember1 . ',' . $idMember2, 99, Application::FREQUENCY_YEARLY, null,
 			$idPm2, $idCat2, 0, '2021-03-10',
 			null, 'newcom', 1
 		);
@@ -1111,7 +1111,7 @@ class LocalProjectServiceTest extends TestCase {
 		// yearly
 		$resp = $this->apiController->editBill(
 			'superproj', $idBill2, '2019-02-02', 'kangaroo', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCY_YEARLY, null,
+			$idMember1 . ',' . $idMember2, 99, Application::FREQUENCY_YEARLY, null,
 			$idPm2, $idCat2, 0, '2021-03-10',
 			null, 'newcom', 1
 		);
@@ -1144,7 +1144,7 @@ class LocalProjectServiceTest extends TestCase {
 		// yearly freq 2
 		$resp = $this->apiController->editBill(
 			'superproj', $idBill2, '2019-02-02', 'kangaroo', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCY_YEARLY, null,
+			$idMember1 . ',' . $idMember2, 99, Application::FREQUENCY_YEARLY, null,
 			$idPm2, $idCat2, 1, '2021-03-10',
 			null, 'newcom', 2
 		);
@@ -1173,7 +1173,7 @@ class LocalProjectServiceTest extends TestCase {
 		// monthly
 		$resp = $this->apiController->editBill(
 			'superproj', $idBill2, '2019-02-02', 'kangaroo', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCY_MONTHLY, null,
+			$idMember1 . ',' . $idMember2, 99, Application::FREQUENCY_MONTHLY, null,
 			$idPm2, $idCat2, 1, '2019-05-10',
 			null, 'newcom', 1
 		);
@@ -1202,7 +1202,7 @@ class LocalProjectServiceTest extends TestCase {
 		// monthly freq 2
 		$resp = $this->apiController->editBill(
 			'superproj', $idBill2, '2019-02-02', 'kangaroo', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCY_MONTHLY, null,
+			$idMember1 . ',' . $idMember2, 99, Application::FREQUENCY_MONTHLY, null,
 			$idPm2, $idCat2, 1, '2019-06-10',
 			null, 'newcom', 2
 		);
@@ -1231,7 +1231,7 @@ class LocalProjectServiceTest extends TestCase {
 		// daily
 		$resp = $this->apiController->editBill(
 			'superproj', $idBill2, '2019-02-02', 'kangaroo', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCY_DAILY, null,
+			$idMember1 . ',' . $idMember2, 99, Application::FREQUENCY_DAILY, null,
 			$idPm2, $idCat2, 1, '2019-02-12',
 			null, 'newcom', 1
 		);
@@ -1260,7 +1260,7 @@ class LocalProjectServiceTest extends TestCase {
 		// daily freq 2
 		$resp = $this->apiController->editBill(
 			'superproj', $idBill2, '2019-02-02', 'kangaroo', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCY_DAILY, null,
+			$idMember1 . ',' . $idMember2, 99, Application::FREQUENCY_DAILY, null,
 			$idPm2, $idCat2, 1, '2019-02-12',
 			null, 'newcom', 2
 		);
@@ -1289,7 +1289,7 @@ class LocalProjectServiceTest extends TestCase {
 		// weekly
 		$resp = $this->apiController->editBill(
 			'superproj', $idBill2, '2019-03-02', 'kangaroo', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCY_WEEKLY, null,
+			$idMember1 . ',' . $idMember2, 99, Application::FREQUENCY_WEEKLY, null,
 			$idPm2, $idCat2, 1, '2019-03-18',
 			null, 'newcom', 1
 		);
@@ -1318,7 +1318,7 @@ class LocalProjectServiceTest extends TestCase {
 		// weekly freq 2
 		$resp = $this->apiController->editBill(
 			'superproj', $idBill2, '2019-03-02', 'kangaroo', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCY_WEEKLY, null,
+			$idMember1 . ',' . $idMember2, 99, Application::FREQUENCY_WEEKLY, null,
 			$idPm2, $idCat2, 1, '2019-03-18',
 			null, 'newcom', 2
 		);
@@ -1347,7 +1347,7 @@ class LocalProjectServiceTest extends TestCase {
 		// bi weekly
 		$resp = $this->apiController->editBill(
 			'superproj', $idBill2, '2019-03-02', 'kangaroo', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCY_BI_WEEKLY, null,
+			$idMember1 . ',' . $idMember2, 99, Application::FREQUENCY_BI_WEEKLY, null,
 			$idPm2, $idCat2, 1, '2019-04-03',
 			null, 'newcom', 1
 		);
@@ -1376,7 +1376,7 @@ class LocalProjectServiceTest extends TestCase {
 		// semi monthly
 		$resp = $this->apiController->editBill(
 			'superproj', $idBill2, '2019-03-02', 'kangaroo', $idMember2,
-			$idMember1.','.$idMember2, 99, Application::FREQUENCY_SEMI_MONTHLY, null,
+			$idMember1 . ',' . $idMember2, 99, Application::FREQUENCY_SEMI_MONTHLY, null,
 			$idPm2, $idCat2, 1, '2019-04-14',
 			null, 'newcom', 1
 		);
@@ -1559,7 +1559,7 @@ class LocalProjectServiceTest extends TestCase {
 		// search bills
 		$resp = $this->apiController->createBill(
 			'superprojS', '2019-01-22', 'one', $idMember1,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO, null, null, null,
+			$idMember1 . ',' . $idMember2, 22.5, Application::FREQUENCY_NO, null, null, null,
 			0, '2049-01-01', null, 'super comment 1'
 		);
 		$status = $resp->getStatus();
@@ -1568,7 +1568,7 @@ class LocalProjectServiceTest extends TestCase {
 		// $idBillSearch1 = $data;
 		$resp = $this->apiController->createBill(
 			'superprojS', '2019-01-22', 'two', $idMember1,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO, null, null, null,
+			$idMember1 . ',' . $idMember2, 22.5, Application::FREQUENCY_NO, null, null, null,
 			0, '2049-01-01', null, 'ultra comment 2'
 		);
 		$status = $resp->getStatus();
@@ -1577,7 +1577,7 @@ class LocalProjectServiceTest extends TestCase {
 		$idBillSearch2 = $data;
 		$resp = $this->apiController->createBill(
 			'superprojS', '2019-01-22', 'three', $idMember1,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO, null, null, null,
+			$idMember1 . ',' . $idMember2, 22.5, Application::FREQUENCY_NO, null, null, null,
 			0, '2049-01-01', null, 'mega comment 3'
 		);
 		$status = $resp->getStatus();
@@ -1625,7 +1625,7 @@ class LocalProjectServiceTest extends TestCase {
 		// search bills
 		$resp = $this->apiController->createBill(
 			'superprojS', '2019-01-22', 'one', $idMember1,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO, null, $idPm1, $idCat1,
+			$idMember1 . ',' . $idMember2, 22.5, Application::FREQUENCY_NO, null, $idPm1, $idCat1,
 			0, '2049-01-01', null, 'super comment 1'
 		);
 		$status = $resp->getStatus();
@@ -1634,7 +1634,7 @@ class LocalProjectServiceTest extends TestCase {
 		// $idBill1 = $data;
 		$resp = $this->apiController->createBill(
 			'superprojS', '2019-01-22', 'two', $idMember2,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO, null, null, $idCat1,
+			$idMember1 . ',' . $idMember2, 22.5, Application::FREQUENCY_NO, null, null, $idCat1,
 			0, '2049-01-01', null, 'ultra comment 2'
 		);
 		$status = $resp->getStatus();
@@ -1643,7 +1643,7 @@ class LocalProjectServiceTest extends TestCase {
 		// $idBill2 = $data;
 		$resp = $this->apiController->createBill(
 			'superprojS', '2019-01-22', 'three', $idMember1,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO, null, null, null,
+			$idMember1 . ',' . $idMember2, 22.5, Application::FREQUENCY_NO, null, null, null,
 			0, '2049-01-01', null, 'mega comment 3'
 		);
 		$status = $resp->getStatus();
@@ -1703,7 +1703,7 @@ class LocalProjectServiceTest extends TestCase {
 		// search bills
 		$resp = $this->apiController->createBill(
 			$projectId, '2019-01-22', 'one', $idMember1,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO, null, $idPm1, $idCat1,
+			$idMember1 . ',' . $idMember2, 22.5, Application::FREQUENCY_NO, null, $idPm1, $idCat1,
 			0, '2049-01-01', null, 'super comment 1'
 		);
 		$status = $resp->getStatus();
@@ -1712,7 +1712,7 @@ class LocalProjectServiceTest extends TestCase {
 		// $idBill1 = $data;
 		$resp = $this->apiController->createBill(
 			$projectId, '2019-01-22', 'two', $idMember2,
-			$idMember1.','.$idMember3, 22.5, Application::FREQUENCY_NO, null, null, $idCat1,
+			$idMember1 . ',' . $idMember3, 22.5, Application::FREQUENCY_NO, null, null, $idCat1,
 			0, '2049-01-01', null, 'ultra comment 2'
 		);
 		$status = $resp->getStatus();
@@ -1721,7 +1721,7 @@ class LocalProjectServiceTest extends TestCase {
 		// $idBill2 = $data;
 		$resp = $this->apiController->createBill(
 			$projectId, '2019-01-22', 'three', $idMember1,
-			$idMember1.','.$idMember2, 22.5, Application::FREQUENCY_NO, null, null, null,
+			$idMember1 . ',' . $idMember2, 22.5, Application::FREQUENCY_NO, null, null, null,
 			0, '2049-01-01', null, 'mega comment 3'
 		);
 		$status = $resp->getStatus();

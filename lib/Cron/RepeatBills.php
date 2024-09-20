@@ -17,7 +17,7 @@ class RepeatBills extends TimedJob {
 
 	public function __construct(
 		ITimeFactory $time,
-		private LocalProjectService $localProjectService
+		private LocalProjectService $localProjectService,
 	) {
 		parent::__construct($time);
 		// Run each day

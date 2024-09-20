@@ -53,7 +53,7 @@ interface IProjectService {
 	public function getStatistics(
 		string $projectId, ?int $tsMin = null, ?int $tsMax = null,
 		?int $paymentModeId = null, ?int $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
-		bool $showDisabled = true, ?int $currencyId = null, ?int $payerId = null
+		bool $showDisabled = true, ?int $currencyId = null, ?int $payerId = null,
 	): array;
 
 	/**
@@ -91,7 +91,7 @@ interface IProjectService {
 	 */
 	public function editMember(
 		string $projectId, int $memberId, ?string $name = null, ?string $userId = null,
-		?float $weight = null, ?bool $activated = null, ?string $color = null
+		?float $weight = null, ?bool $activated = null, ?string $color = null,
 	): ?array;
 
 
@@ -112,7 +112,7 @@ interface IProjectService {
 	public function editProject(
 		string  $projectId, ?string $name = null, ?string $contact_email = null,
 		?string $autoExport = null, ?string $currencyName = null, ?bool $deletionDisabled = null,
-		?string $categorySort = null, ?string $paymentModeSort = null, ?int $archivedTs = null
+		?string $categorySort = null, ?string $paymentModeSort = null, ?int $archivedTs = null,
 	): void;
 
 	/**
@@ -128,7 +128,7 @@ interface IProjectService {
 	 */
 	public function createMember(
 		string $projectId, string $name, ?float $weight = 1.0, bool $active = true,
-		?string $color = null, ?string $userId = null
+		?string $color = null, ?string $userId = null,
 	): array;
 
 	/**
@@ -169,7 +169,7 @@ interface IProjectService {
 	public function getBills(
 		string $projectId, ?int $lastChanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false,
 		?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $includeBillId = null,
-		?string $searchTerm = null, ?int $deleted = 0
+		?string $searchTerm = null, ?int $deleted = 0,
 	): array;
 
 	/**
@@ -206,7 +206,7 @@ interface IProjectService {
 		?float $amount, ?string $repeat, ?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null, int $repeatAllActive = 0, ?string $repeatUntil = null,
 		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null,
-		int $deleted = 0, bool $produceActivity = false
+		int $deleted = 0, bool $produceActivity = false,
 	): int;
 
 	/**
@@ -220,7 +220,7 @@ interface IProjectService {
 	 * @return void
 	 */
 	public function deleteBill(
-		string $projectId, int $billId, bool $force = false, bool $moveToTrash = true, bool $produceActivity = false
+		string $projectId, int $billId, bool $force = false, bool $moveToTrash = true, bool $produceActivity = false,
 	): void;
 
 	/**
@@ -259,7 +259,7 @@ interface IProjectService {
 		?float $amount, ?string $repeat, ?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null, ?int $repeatAllActive = null, ?string $repeatUntil = null,
 		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null,
-		?int $deleted = null, bool $produceActivity = false
+		?int $deleted = null, bool $produceActivity = false,
 	): void;
 
 	/**
@@ -290,7 +290,7 @@ interface IProjectService {
 		?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null,
 		?int $repeatAllActive = null, ?string $repeatUntil = null, ?int $timestamp = null,
-		?string $comment = null, ?int $repeatFreq = null, ?int $deleted = null, bool $produceActivity = false
+		?string $comment = null, ?int $repeatFreq = null, ?int $deleted = null, bool $produceActivity = false,
 	): void;
 
 	/**
@@ -339,7 +339,7 @@ interface IProjectService {
 	 * @return array
 	 */
 	public function editPaymentMode(
-		string $projectId, int $pmId, ?string $name = null, ?string $icon = null, ?string $color = null
+		string $projectId, int $pmId, ?string $name = null, ?string $icon = null, ?string $color = null,
 	): array;
 
 	/**
@@ -383,7 +383,7 @@ interface IProjectService {
 	 * @return array
 	 */
 	public function editCategory(
-		string $projectId, int $categoryId, ?string $name = null, ?string $icon = null, ?string $color = null
+		string $projectId, int $categoryId, ?string $name = null, ?string $icon = null, ?string $color = null,
 	): array;
 
 	/**

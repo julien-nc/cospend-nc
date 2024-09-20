@@ -80,35 +80,35 @@ class Version000403Date20200231152118 extends SimpleMigrationStep {
 		// permissions were c e d => v p m a for viewer participant maintener admin
 		// user share permissions
 		$qb->update('cospend_shares')
-		   ->set('accesslevel', $qb->createNamedParameter(2, IQueryBuilder::PARAM_INT))
-		   ->where(
-		   	$qb->expr()->neq('permissions', $qb->createNamedParameter('', IQueryBuilder::PARAM_STR))
-		   );
+			->set('accesslevel', $qb->createNamedParameter(2, IQueryBuilder::PARAM_INT))
+			->where(
+				$qb->expr()->neq('permissions', $qb->createNamedParameter('', IQueryBuilder::PARAM_STR))
+			);
 		$qb->executeStatement();
 		$qb = $this->connection->getQueryBuilder();
 
 		$qb->update('cospend_shares')
-		   ->set('accesslevel', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
-		   ->where(
-		   	$qb->expr()->eq('permissions', $qb->createNamedParameter('', IQueryBuilder::PARAM_STR))
-		   );
+			->set('accesslevel', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
+			->where(
+				$qb->expr()->eq('permissions', $qb->createNamedParameter('', IQueryBuilder::PARAM_STR))
+			);
 		$qb->executeStatement();
 		$qb = $this->connection->getQueryBuilder();
 
 		// guest permissions
 		$qb->update('cospend_projects')
-		   ->set('guestaccesslevel', $qb->createNamedParameter(2, IQueryBuilder::PARAM_INT))
-		   ->where(
-		   	$qb->expr()->neq('guestpermissions', $qb->createNamedParameter('', IQueryBuilder::PARAM_STR))
-		   );
+			->set('guestaccesslevel', $qb->createNamedParameter(2, IQueryBuilder::PARAM_INT))
+			->where(
+				$qb->expr()->neq('guestpermissions', $qb->createNamedParameter('', IQueryBuilder::PARAM_STR))
+			);
 		$qb->executeStatement();
 		$qb = $this->connection->getQueryBuilder();
 
 		$qb->update('cospend_projects')
-		   ->set('guestaccesslevel', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
-		   ->where(
-		   	$qb->expr()->eq('guestpermissions', $qb->createNamedParameter('', IQueryBuilder::PARAM_STR))
-		   );
+			->set('guestaccesslevel', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
+			->where(
+				$qb->expr()->eq('guestpermissions', $qb->createNamedParameter('', IQueryBuilder::PARAM_STR))
+			);
 		$qb->executeStatement();
 	}
 }

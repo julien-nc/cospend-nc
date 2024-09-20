@@ -53,7 +53,7 @@ class PageController extends Controller {
 		private IAppManager         $appManager,
 		private IEventDispatcher    $eventDispatcher,
 		private IConfig             $config,
-		private ?string             $userId
+		private ?string             $userId,
 	) {
 		parent::__construct($appName, $request);
 	}

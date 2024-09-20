@@ -275,7 +275,7 @@ class LocalProjectService implements IProjectService {
 	 */
 	public function createProject(
 		string $name, string $id, ?string $contact_email, string $userId = '',
-		bool $createDefaultCategories = true, bool $createDefaultPaymentModes = true
+		bool $createDefaultCategories = true, bool $createDefaultPaymentModes = true,
 	): array {
 		$newProject = $this->projectMapper->createProject(
 			$name, $id, $contact_email, $this->defaultCategories, $this->defaultPaymentModes,
@@ -408,7 +408,7 @@ class LocalProjectService implements IProjectService {
 			);
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()) {
-			$totalSpent = (float) $row['sum_amount'];
+			$totalSpent = (float)$row['sum_amount'];
 		}
 
 		return [
@@ -437,7 +437,7 @@ class LocalProjectService implements IProjectService {
 	public function getStatistics(
 		string $projectId, ?int $tsMin = null, ?int $tsMax = null,
 		?int $paymentModeId = null, ?int $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
-		bool $showDisabled = true, ?int $currencyId = null, ?int $payerId = null
+		bool $showDisabled = true, ?int $currencyId = null, ?int $payerId = null,
 	): array {
 		$timeZone = $this->dateTimeZone->getTimeZone();
 		$membersWeight = [];
@@ -486,7 +486,7 @@ class LocalProjectService implements IProjectService {
 			$memberId = $member['id'];
 			$allMembersIds[] = $memberId;
 			// only take enabled members or those with non-zero balance
-			$mBalance = (float) $membersBalance[$memberId];
+			$mBalance = (float)$membersBalance[$memberId];
 			if ($showDisabled || $member['activated'] || $mBalance >= 0.01 || $mBalance <= -0.01) {
 				$membersToDisplay[$memberId] = $member;
 			}
@@ -843,7 +843,7 @@ class LocalProjectService implements IProjectService {
 	public function getBills(
 		string $projectId, ?int $lastChanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false,
 		?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null, ?int $includeBillId = null,
-		?string $searchTerm = null, ?int $deleted = 0
+		?string $searchTerm = null, ?int $deleted = 0,
 	): array {
 		if ($limit) {
 			$bills = $this->billMapper->getBillsWithLimit(
@@ -901,7 +901,7 @@ class LocalProjectService implements IProjectService {
 		?float $amount, ?string $repeat, ?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null, int $repeatAllActive = 0, ?string $repeatUntil = null,
 		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null,
-		int $deleted = 0, bool $produceActivity = false
+		int $deleted = 0, bool $produceActivity = false,
 	): int {
 		// if we don't have the payment modes, get them now
 		if ($this->paymentModes === null) {
@@ -951,7 +951,7 @@ class LocalProjectService implements IProjectService {
 			if (!is_numeric($owerId)) {
 				throw new CospendBasicException('payed_for is not valid', Http::STATUS_BAD_REQUEST);
 			}
-			if ($this->getMemberById($projectId, (int) $owerId) === null) {
+			if ($this->getMemberById($projectId, (int)$owerId) === null) {
 				throw new CospendBasicException('payed_for is not valid', Http::STATUS_BAD_REQUEST);
 			}
 		}
@@ -1036,7 +1036,7 @@ class LocalProjectService implements IProjectService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function deleteBill(
-		string $projectId, int $billId, bool $force = false, bool $moveToTrash = true, bool $produceActivity = false
+		string $projectId, int $billId, bool $force = false, bool $moveToTrash = true, bool $produceActivity = false,
 	): void {
 		if ($force === false) {
 			$project = $this->getProjectInfo($projectId);
@@ -1132,8 +1132,8 @@ class LocalProjectService implements IProjectService {
 		foreach ($transactions as $transaction) {
 			$fromId = $transaction['from'];
 			$toId = $transaction['to'];
-			$amount = round((float) $transaction['amount'], $precision);
-			$billTitle = $memberIdToName[$fromId].' → '.$memberIdToName[$toId];
+			$amount = round((float)$transaction['amount'], $precision);
+			$billTitle = $memberIdToName[$fromId] . ' → ' . $memberIdToName[$toId];
 			try {
 				$this->createBill(
 					$projectId, null, $billTitle, $fromId, $toId, $amount,
@@ -1330,7 +1330,7 @@ class LocalProjectService implements IProjectService {
 	 */
 	public function editMember(
 		string $projectId, int $memberId, ?string $name = null, ?string $userId = null,
-		?float $weight = null, ?bool $activated = null, ?string $color = null
+		?float $weight = null, ?bool $activated = null, ?string $color = null,
 	): ?array {
 		$dbMember = $this->memberMapper->getMemberById($projectId, $memberId);
 		if ($dbMember === null) {
@@ -1404,7 +1404,7 @@ class LocalProjectService implements IProjectService {
 	public function editProject(
 		string  $projectId, ?string $name = null, ?string $contact_email = null,
 		?string $autoExport = null, ?string $currencyName = null, ?bool $deletionDisabled = null,
-		?string $categorySort = null, ?string $paymentModeSort = null, ?int $archivedTs = null
+		?string $categorySort = null, ?string $paymentModeSort = null, ?int $archivedTs = null,
 	): void {
 		$dbProject = $this->projectMapper->find($projectId);
 		if ($dbProject === null) {
@@ -1471,7 +1471,7 @@ class LocalProjectService implements IProjectService {
 	 */
 	public function createMember(
 		string $projectId, string $name, ?float $weight = 1.0, bool $active = true,
-		?string $color = null, ?string $userId = null
+		?string $color = null, ?string $userId = null,
 	): array {
 		if ($name === '') {
 			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['error' => $this->l10n->t('Name field is required')]);
@@ -1844,7 +1844,7 @@ class LocalProjectService implements IProjectService {
 				$req = $qb->executeQuery();
 				$order = 0;
 				while ($row = $req->fetch()) {
-					$dbId = (int) $row['id'];
+					$dbId = (int)$row['id'];
 					$mostUsedOrder[$dbId] = $order++;
 				}
 				$req->closeCursor();
@@ -1870,7 +1870,7 @@ class LocalProjectService implements IProjectService {
 				$req = $qb->executeQuery();
 				$order = 0;
 				while ($row = $req->fetch()) {
-					$dbId = (int) $row['id'];
+					$dbId = (int)$row['id'];
 					$mostUsedOrder[$dbId] = $order++;
 				}
 				$req->closeCursor();
@@ -2119,7 +2119,7 @@ class LocalProjectService implements IProjectService {
 		?float $amount, ?string $repeat, ?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null, ?int $repeatAllActive = null, ?string $repeatUntil = null,
 		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null,
-		?int $deleted = null, bool $produceActivity = false
+		?int $deleted = null, bool $produceActivity = false,
 	): void {
 		// if we don't have the payment modes, get them now
 		if ($this->paymentModes === null) {
@@ -2166,7 +2166,7 @@ class LocalProjectService implements IProjectService {
 					if (!is_numeric($owerId)) {
 						throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['payed_for' => $this->l10n->t('Invalid value')]);
 					}
-					if ($this->getMemberById($projectId, (int) $owerId) === null) {
+					if ($this->getMemberById($projectId, (int)$owerId) === null) {
 						throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['payed_for' => $this->l10n->t('Not a valid choice')]);
 					}
 				}
@@ -2300,7 +2300,7 @@ class LocalProjectService implements IProjectService {
 		?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null,
 		?int $repeatAllActive = null, ?string $repeatUntil = null, ?int $timestamp = null,
-		?string $comment = null, ?int $repeatFreq = null, ?int $deleted = null, bool $produceActivity = false
+		?string $comment = null, ?int $repeatFreq = null, ?int $deleted = null, bool $produceActivity = false,
 	): void {
 		foreach ($billIds as $billId) {
 			$this->editBill(
@@ -2550,7 +2550,7 @@ class LocalProjectService implements IProjectService {
 		$bill = $this->billMapper->getBill($projectId, $billId);
 
 		$owerIds = [];
-		if (((int) $bill['repeatallactive']) === 1) {
+		if (((int)$bill['repeatallactive']) === 1) {
 			$pInfo = $this->getProjectInfo($projectId);
 			foreach ($pInfo['active_members'] as $am) {
 				$owerIds[] = $am['id'];
@@ -2643,9 +2643,9 @@ class LocalProjectService implements IProjectService {
 				break;
 
 			case Application::FREQUENCY_SEMI_MONTHLY:
-				$day = (int) $billDate->format('d');
-				$month = (int) $billDate->format('m');
-				$year = (int) $billDate->format('Y');
+				$day = (int)$billDate->format('d');
+				$month = (int)$billDate->format('m');
+				$year = (int)$billDate->format('Y');
 
 				// first of next month
 				if ($day >= 15) {
@@ -2665,15 +2665,15 @@ class LocalProjectService implements IProjectService {
 
 			case Application::FREQUENCY_MONTHLY:
 				$freq = ($bill['repeatfreq'] < 2) ? 1 : $bill['repeatfreq'];
-				$billMonth = (int) $billDate->format('m');
+				$billMonth = (int)$billDate->format('m');
 				$yearDelta = intdiv($billMonth + $freq - 1, 12);
-				$nextYear = ((int) $billDate->format('Y')) + $yearDelta;
+				$nextYear = ((int)$billDate->format('Y')) + $yearDelta;
 				$nextMonth = (($billMonth + $freq - 1) % 12) + 1;
 
 				// same day of month if possible, otherwise at end of month
 				$firstOfNextMonth = $billDate->setDate($nextYear, $nextMonth, 1);
-				$billDay = (int) $billDate->format('d');
-				$nbDaysInTargetMonth = (int) $firstOfNextMonth->format('t');
+				$billDay = (int)$billDate->format('d');
+				$nbDaysInTargetMonth = (int)$firstOfNextMonth->format('t');
 				if ($billDay > $nbDaysInTargetMonth) {
 					return $billDate->setDate($nextYear, $nextMonth, $nbDaysInTargetMonth);
 				} else {
@@ -2683,14 +2683,14 @@ class LocalProjectService implements IProjectService {
 
 			case Application::FREQUENCY_YEARLY:
 				$freq = ($bill['repeatfreq'] < 2) ? 1 : $bill['repeatfreq'];
-				$billYear = (int) $billDate->format('Y');
-				$billMonth = (int) $billDate->format('m');
-				$billDay = (int) $billDate->format('d');
+				$billYear = (int)$billDate->format('Y');
+				$billMonth = (int)$billDate->format('m');
+				$billDay = (int)$billDate->format('d');
 				$nextYear = $billYear + $freq;
 
 				// same day of month if possible, otherwise at end of month + same month
 				$firstDayOfTargetMonth = $billDate->setDate($nextYear, $billMonth, 1);
-				$nbDaysInTargetMonth = (int) $firstDayOfTargetMonth->format('t');
+				$nbDaysInTargetMonth = (int)$firstDayOfTargetMonth->format('t');
 				if ($billDay > $nbDaysInTargetMonth) {
 					return $billDate->setDate($nextYear, $billMonth, $nbDaysInTargetMonth);
 				} else {
@@ -2784,7 +2784,7 @@ class LocalProjectService implements IProjectService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function editPaymentMode(
-		string $projectId, int $pmId, ?string $name = null, ?string $icon = null, ?string $color = null
+		string $projectId, int $pmId, ?string $name = null, ?string $icon = null, ?string $color = null,
 	): array {
 		if ($name === null || $name === '') {
 			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('Incorrect field values')]);
@@ -2889,7 +2889,7 @@ class LocalProjectService implements IProjectService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function editCategory(
-		string $projectId, int $categoryId, ?string $name = null, ?string $icon = null, ?string $color = null
+		string $projectId, int $categoryId, ?string $name = null, ?string $icon = null, ?string $color = null,
 	): array {
 		if ($name === null || $name === '') {
 			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('Incorrect field values')]);
@@ -2982,7 +2982,7 @@ class LocalProjectService implements IProjectService {
 	 */
 	public function createFederatedShare(
 		string $projectId, string $userCloudId, string $fromUserId, int $accessLevel = Application::ACCESS_LEVEL_PARTICIPANT,
-		bool $manually_added = true
+		bool $manually_added = true,
 	): Share {
 		try {
 			$this->shareMapper->getFederatedShareByProjectIdAndUserCloudId($projectId, $userCloudId);
@@ -3071,7 +3071,7 @@ class LocalProjectService implements IProjectService {
 	 */
 	public function createUserShare(
 		string $projectId, string $userId, string $fromUserId, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT,
-		bool $manually_added = true
+		bool $manually_added = true,
 	): array {
 		$user = $this->userManager->get($userId);
 		if ($user === null || $userId === $fromUserId) {
@@ -3149,7 +3149,7 @@ class LocalProjectService implements IProjectService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function createPublicShare(
-		string $projectId, ?string $label = null, ?string $password = null, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT
+		string $projectId, ?string $label = null, ?string $password = null, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT,
 	): array {
 		$shareToken = $this->secureRandom->generate(
 			FederationManager::TOKEN_LENGTH,
@@ -3374,7 +3374,7 @@ class LocalProjectService implements IProjectService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function createGroupShare(
-		string $projectId, string $groupId, ?string $fromUserId = null, int $accessLevel = Application::ACCESS_LEVEL_PARTICIPANT
+		string $projectId, string $groupId, ?string $fromUserId = null, int $accessLevel = Application::ACCESS_LEVEL_PARTICIPANT,
 	): array {
 		if (!$this->groupManager->groupExists($groupId)) {
 			return ['message' => $this->l10n->t('No such group')];
@@ -3445,7 +3445,7 @@ class LocalProjectService implements IProjectService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function createCircleShare(
-		string $projectId, string $circleId, ?string $fromUserId = null, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT
+		string $projectId, string $circleId, ?string $fromUserId = null, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT,
 	): array {
 		// check if circleId exists
 		$circlesEnabled = $this->appManager->isEnabledForUser('circles');

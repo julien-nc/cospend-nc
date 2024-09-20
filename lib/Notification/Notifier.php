@@ -27,7 +27,7 @@ class Notifier implements INotifier {
 		private IConfig $config,
 		private IUserManager $userManager,
 		private IURLGenerator $url,
-		private ?string $userId
+		private ?string $userId,
 	) {
 	}
 

@@ -50,7 +50,9 @@ class CospendService {
 	public function getFederatedProjects(string $userId): array {
 		$invitations = $this->invitationMapper->getInvitationsForUser($userId, Invitation::STATE_ACCEPTED);
 		return array_map(static function (Invitation $invitation) {
-			return $invitation->getRemoteProjectId() . '@' . $invitation->getRemoteServerUrl();
+			$jsonInvitation = $invitation->jsonSerialize();
+			unset($jsonInvitation['accessToken']);
+			return $jsonInvitation;
 		}, $invitations);
 	}
 

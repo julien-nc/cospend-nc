@@ -16,6 +16,7 @@
 	</NcAppNavigationItem>
 	<NcAppNavigationItem v-else
 		:name="project.name"
+		:title="project.id"
 		:allow-collapse="true"
 		:open="selected"
 		:active="selected"
@@ -308,11 +309,17 @@ export default {
 			emit('new-member-clicked', this.project.id)
 		},
 		onLeaveShareClick() {
-			network.rejectInvitation(this.project.federation.invitation_id).then(response => {
-				this.$nextTick(() => {
-					emit('remove-project', this.project.id)
+			network.rejectInvitation(this.project.federation.invitation_id)
+				.then(response => {
 				})
-			})
+				.catch(error => {
+					console.error(error)
+				})
+				.then(() => {
+					this.$nextTick(() => {
+						emit('remove-project', this.project.id)
+					})
+				})
 		},
 		onUpdateMenuOpen(isOpen) {
 			this.menuOpen = isOpen

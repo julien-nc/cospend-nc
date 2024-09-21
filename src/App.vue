@@ -6,6 +6,7 @@
 			:selected-member-id="selectedMemberId"
 			:trashbin-enabled="trashbinEnabled"
 			:pending-invitations="pendingInvitations"
+			:unreachable-projects="unreachableFederatedProject"
 			:loading="projectsLoading" />
 		<NcAppContent
 			:list-max-width="isSidebarOpen ? 40 : 50"
@@ -244,6 +245,7 @@ export default {
 			showMoveModal: false,
 			billToMove: null,
 			pendingInvitations: [],
+			unreachableFederatedProject: [],
 		}
 	},
 	computed: {
@@ -356,8 +358,9 @@ export default {
 		subscribe('clear-trashbin-clicked', this.onClearTrashBinClicked)
 
 		subscribe('add-project', this.addProject)
-		subscribe('delete-invitation', this.deleteInvitation)
+		subscribe('remove-pending-invitation', this.removePendingInvitation)
 		subscribe('remove-project', this.removeProject)
+		subscribe('remove-unreachable-project', this.removeUnreachableProject)
 	},
 	beforeDestroy() {
 		unsubscribe('nextcloud:unified-search.search', this.filter)
@@ -386,11 +389,18 @@ export default {
 		unsubscribe('clear-trashbin-clicked', this.onClearTrashBinClicked)
 
 		unsubscribe('add-project', this.addProject)
-		unsubscribe('delete-invitation', this.deleteInvitation)
+		unsubscribe('remove-pending-invitation', this.removePendingInvitation)
 		unsubscribe('remove-project', this.removeProject)
+		unsubscribe('remove-unreachable-project', this.removeUnreachableProject)
 	},
 	methods: {
-		deleteInvitation(invitationId) {
+		removeUnreachableProject(invitationId) {
+			const index = this.unreachableFederatedProject.findIndex(i => i.id === invitationId)
+			if (index !== -1) {
+				this.unreachableFederatedProject.splice(index, 1)
+			}
+		},
+		removePendingInvitation(invitationId) {
 			const index = this.pendingInvitations.findIndex(i => i.id === invitationId)
 			if (index !== -1) {
 				this.pendingInvitations.splice(index, 1)
@@ -895,8 +905,9 @@ export default {
 		initFederationData() {
 			network.getFederatedProjectIds().then(response => {
 				console.debug('[cospend] federated projects', response.data.ocs.data)
-				response.data.ocs.data.forEach(projectId => {
-					network.getProjectInfo(projectId).then(response => {
+				response.data.ocs.data.forEach(invite => {
+					const federatedProjectId = invite.remoteProjectId + '@' + invite.remoteServerUrl
+					network.getProjectInfo(federatedProjectId).then(response => {
 						console.debug('---------- FEDERATED PROJECT', response.data.ocs.data)
 						const project = response.data.ocs.data
 						this.addProject(project)
@@ -906,6 +917,7 @@ export default {
 					}).catch((error) => {
 						console.error(error)
 						showError(t('cospend', 'Failed to get federated project'))
+						this.unreachableFederatedProject.push(invite)
 					})
 				})
 			})

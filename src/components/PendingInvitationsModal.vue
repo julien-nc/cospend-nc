@@ -95,7 +95,7 @@ export default {
 				emit('add-project', response.data.ocs.data)
 				this.$emit('close')
 				this.$nextTick(() => {
-					emit('delete-invitation', invite.id)
+					emit('remove-pending-invitation', invite.id)
 					emit('project-clicked', response.data.ocs.data.id)
 				})
 			})
@@ -104,7 +104,7 @@ export default {
 			network.rejectInvitation(invite.id).then(response => {
 				this.$emit('close')
 				this.$nextTick(() => {
-					emit('delete-invitation', invite.id)
+					emit('remove-pending-invitation', invite.id)
 				})
 			})
 		},

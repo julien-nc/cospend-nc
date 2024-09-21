@@ -58,6 +58,9 @@
 				:selected-member-id="selectedMemberId"
 				:member-order="cospend.memberOrder"
 				:trashbin-enabled="trashbinEnabled" />
+			<AppNavigationUnreachableProjectItem v-for="invite in unreachableProjects"
+				:key="'invite-' + invite.id"
+				:invite="invite" />
 		</template>
 		<template #footer>
 			<div id="app-settings">
@@ -122,6 +125,7 @@ import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
 import AppNavigationProjectItem from './AppNavigationProjectItem.vue'
 import NewProjectModal from './NewProjectModal.vue'
 import PendingInvitationsModal from './PendingInvitationsModal.vue'
+import AppNavigationUnreachableProjectItem from './AppNavigationUnreachableProjectItem.vue'
 
 import cospend from '../state.js'
 import * as constants from '../constants.js'
@@ -134,6 +138,7 @@ import { showSuccess } from '@nextcloud/dialogs'
 export default {
 	name: 'CospendNavigation',
 	components: {
+		AppNavigationUnreachableProjectItem,
 		PendingInvitationsModal,
 		NewProjectModal,
 		AppNavigationProjectItem,
@@ -176,6 +181,10 @@ export default {
 			default: false,
 		},
 		pendingInvitations: {
+			type: Array,
+			default: () => [],
+		},
+		unreachableProjects: {
 			type: Array,
 			default: () => [],
 		},

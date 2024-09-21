@@ -206,8 +206,8 @@ class LocalProjectService implements IProjectService {
 				// is the project shared with the user ?
 				try {
 					$userShare = $this->shareMapper->getShareByProjectAndUser($projectId, $userId, Share::TYPE_USER);
-					if ($userShare->getAccesslevel() > $userMaxAccessLevel) {
-						$userMaxAccessLevel = $userShare->getAccesslevel();
+					if ($userShare->getAccessLevel() > $userMaxAccessLevel) {
+						$userMaxAccessLevel = $userShare->getAccessLevel();
 					}
 				} catch (\Throwable $e) {
 				}
@@ -217,8 +217,8 @@ class LocalProjectService implements IProjectService {
 
 				$groupShares = $this->shareMapper->getSharesOfProject($projectId, Share::TYPE_GROUP);
 				foreach ($groupShares as $groupShare) {
-					$groupId = $groupShare->getUserid();
-					$accessLevel = $groupShare->getAccesslevel();
+					$groupId = $groupShare->getUserId();
+					$accessLevel = $groupShare->getAccessLevel();
 					if ($this->groupManager->groupExists($groupId)
 						&& $this->groupManager->get($groupId)->inGroup($user)
 						&& $accessLevel > $userMaxAccessLevel
@@ -232,8 +232,8 @@ class LocalProjectService implements IProjectService {
 				if ($circlesEnabled) {
 					$circleShares = $this->shareMapper->getSharesOfProject($projectId, Share::TYPE_CIRCLE);
 					foreach ($circleShares as $circleShare) {
-						$circleId = $circleShare->getUserid();
-						$accessLevel = $circleShare->getAccesslevel();
+						$circleId = $circleShare->getUserId();
+						$accessLevel = $circleShare->getAccessLevel();
 						if ($this->isUserInCircle($userId, $circleId) && $accessLevel > $userMaxAccessLevel) {
 							$userMaxAccessLevel = $accessLevel;
 						}
@@ -257,7 +257,7 @@ class LocalProjectService implements IProjectService {
 	 */
 	public function getShareAccessLevel(string $projectId, int $shId): int {
 		$share = $this->shareMapper->getProjectShareById($projectId, $shId);
-		return $share->getAccesslevel();
+		return $share->getAccessLevel();
 	}
 
 	/**
@@ -293,28 +293,22 @@ class LocalProjectService implements IProjectService {
 		$this->projectMapper->deleteBillOwersOfProject($projectId);
 
 		$associatedTableNames = [
-			// 'cospend_bills',
-			'cospend_members',
-			'cospend_shares',
-			'cospend_currencies',
-			'cospend_categories',
-			'cospend_paymentmodes'
+			'cospend_bills' => 'project_id',
+			'cospend_members' => 'project_id',
+			'cospend_shares' => 'project_id',
+			'cospend_currencies' => 'project_id',
+			'cospend_categories' => 'project_id',
+			'cospend_paymentmodes' => 'project_id',
 		];
 
-		$qb = $this->db->getQueryBuilder();
-		foreach ($associatedTableNames as $tableName) {
+		foreach ($associatedTableNames as $tableName => $projectIdColumn) {
+			$qb = $this->db->getQueryBuilder();
 			$qb->delete($tableName)
 				->where(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+					$qb->expr()->eq($projectIdColumn, $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
-			$qb = $this->db->getQueryBuilder();
 		}
-		$qb->delete('cospend_bills')
-			->where(
-				$qb->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-			);
-		$qb->executeStatement();
 
 		$this->projectMapper->delete($dbProjectToDelete);
 	}
@@ -1005,8 +999,8 @@ class LocalProjectService implements IProjectService {
 		// insert bill owers
 		foreach ($owerIds as $owerId) {
 			$billOwer = new BillOwer();
-			$billOwer->setBillid($insertedBillId);
-			$billOwer->setMemberid((int)$owerId);
+			$billOwer->setBillId($insertedBillId);
+			$billOwer->setMemberId((int)$owerId);
 			$this->billOwerMapper->insert($billOwer);
 		}
 
@@ -1376,7 +1370,7 @@ class LocalProjectService implements IProjectService {
 
 		// UPDATE
 		$ts = (new DateTime())->getTimestamp();
-		$dbMember->setLastchanged($ts);
+		$dbMember->setLastChanged($ts);
 
 		if ($weight !== null) {
 			$dbMember->setWeight($weight);
@@ -1394,7 +1388,7 @@ class LocalProjectService implements IProjectService {
 		}
 
 		if ($userId !== null) {
-			$dbMember->setUserid($userId === '' ? null : $userId);
+			$dbMember->setUserId($userId === '' ? null : $userId);
 		}
 
 		$this->memberMapper->update($dbMember);
@@ -1505,10 +1499,10 @@ class LocalProjectService implements IProjectService {
 		}
 
 		$ts = (new DateTime())->getTimestamp();
-		$newMember->setLastchanged($ts);
-		$newMember->setProjectid($projectId);
+		$newMember->setLastChanged($ts);
+		$newMember->setProjectId($projectId);
 		if ($userId !== null) {
-			$newMember->setUserid($userId);
+			$newMember->setUserId($userId);
 		}
 		$newMember->setActivated($active ? 1 : 0);
 		$newMember->setName($name);
@@ -1645,9 +1639,9 @@ class LocalProjectService implements IProjectService {
 		// shared with user
 		$qb->select('p.id', 'p.name')
 			->from('cospend_projects', 'p')
-			->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
+			->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.project_id'))
 			->where(
-				$qb->expr()->eq('s.userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('s.user_id', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
 				$qb->expr()->eq('s.type', $qb->createNamedParameter(Share::TYPE_USER, IQueryBuilder::PARAM_STR))
@@ -1669,15 +1663,15 @@ class LocalProjectService implements IProjectService {
 
 		// get group with which a project is shared
 		$candidateGroupIds = [];
-		$qb->select('userid')
+		$qb->select('user_id')
 			->from('cospend_shares', 's')
 			->where(
 				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR))
 			)
-			->groupBy('userid');
+			->groupBy('user_id');
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()) {
-			$groupId = $row['userid'];
+			$groupId = $row['user_id'];
 			$candidateGroupIds[] = $groupId;
 		}
 		$req->closeCursor();
@@ -1690,9 +1684,9 @@ class LocalProjectService implements IProjectService {
 				// get projects shared with this group
 				$qb->select('p.id', 'p.name')
 					->from('cospend_projects', 'p')
-					->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
+					->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.project_id'))
 					->where(
-						$qb->expr()->eq('s.userid', $qb->createNamedParameter($candidateGroupId, IQueryBuilder::PARAM_STR))
+						$qb->expr()->eq('s.user_id', $qb->createNamedParameter($candidateGroupId, IQueryBuilder::PARAM_STR))
 					)
 					->andWhere(
 						$qb->expr()->eq('s.type', $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR))
@@ -1715,15 +1709,15 @@ class LocalProjectService implements IProjectService {
 		if ($circlesEnabled) {
 			// get circles with which a project is shared
 			$candidateCircleIds = [];
-			$qb->select('userid')
+			$qb->select('user_id')
 				->from('cospend_shares', 's')
 				->where(
 					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_CIRCLE, IQueryBuilder::PARAM_STR))
 				)
-				->groupBy('userid');
+				->groupBy('user_id');
 			$req = $qb->executeQuery();
 			while ($row = $req->fetch()) {
-				$circleId = $row['userid'];
+				$circleId = $row['user_id'];
 				$candidateCircleIds[] = $circleId;
 			}
 			$req->closeCursor();
@@ -1735,9 +1729,9 @@ class LocalProjectService implements IProjectService {
 					// get projects shared with this circle
 					$qb->select('p.id', 'p.name')
 						->from('cospend_projects', 'p')
-						->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
+						->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.project_id'))
 						->where(
-							$qb->expr()->eq('s.userid', $qb->createNamedParameter($candidateCircleId, IQueryBuilder::PARAM_STR))
+							$qb->expr()->eq('s.user_id', $qb->createNamedParameter($candidateCircleId, IQueryBuilder::PARAM_STR))
 						)
 						->andWhere(
 							$qb->expr()->eq('s.type', $qb->createNamedParameter(Application::SHARE_TYPE_CIRCLE, IQueryBuilder::PARAM_STR))
@@ -1834,7 +1828,7 @@ class LocalProjectService implements IProjectService {
 					->from($dbTable, $alias)
 					->innerJoin($alias, 'cospend_bills', 'bill', $qb->expr()->eq($alias . '.id', 'bill.' . $billTableField))
 					->where(
-						$qb->expr()->eq($alias . '.projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+						$qb->expr()->eq($alias . '.project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 					)
 					->andWhere(
 						$qb->expr()->eq('bill.deleted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
@@ -1860,7 +1854,7 @@ class LocalProjectService implements IProjectService {
 					->from($dbTable, $alias)
 					->innerJoin($alias, 'cospend_bills', 'bill', $qb->expr()->eq($alias . '.id', 'bill.' . $billTableField))
 					->where(
-						$qb->expr()->eq($alias . '.projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+						$qb->expr()->eq($alias . '.project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 					)
 					->andWhere(
 						$qb->expr()->eq('bill.deleted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
@@ -1926,10 +1920,10 @@ class LocalProjectService implements IProjectService {
 
 		$shares = $this->shareMapper->getSharesOfProject($projectId, Share::TYPE_USER);
 		foreach ($shares as $share) {
-			if (array_key_exists($share->getUserid(), $userIdToName)) {
-				$name = $userIdToName[$share->getUserid()];
+			if (array_key_exists($share->getUserId(), $userIdToName)) {
+				$name = $userIdToName[$share->getUserId()];
 			} else {
-				$user = $this->userManager->get($share->getUserid());
+				$user = $this->userManager->get($share->getUserId());
 				if ($user !== null) {
 					$userIdToName[$user->getUID()] = $user->getDisplayName();
 					$name = $user->getDisplayName();
@@ -1991,7 +1985,7 @@ class LocalProjectService implements IProjectService {
 
 		$groupShares = $this->shareMapper->getSharesOfProject($projectId, Share::TYPE_GROUP);
 		foreach ($groupShares as $groupShare) {
-			$groupId = $groupShare->getUserid();
+			$groupId = $groupShare->getUserId();
 			if (array_key_exists($groupId, $groupIdToName)) {
 				$name = $groupIdToName[$groupId];
 			} else {
@@ -2005,7 +1999,7 @@ class LocalProjectService implements IProjectService {
 			}
 			$jsonGroupShare = $groupShare->jsonSerialize();
 			$jsonGroupShare['name'] = $name;
-			$jsonGroupShare['groupid'] = $groupShare->getUserid();
+			$jsonGroupShare['groupid'] = $groupShare->getUserId();
 			$jsonGroupShares[] = $jsonGroupShare;
 		}
 
@@ -2037,7 +2031,7 @@ class LocalProjectService implements IProjectService {
 		$circleShares = $this->shareMapper->getSharesOfProject($projectId, Share::TYPE_CIRCLE);
 		foreach ($circleShares as $circleShare) {
 			$jsonCircleShare = $circleShare->jsonSerialize();
-			$circleId = $circleShare->getUserid();
+			$circleId = $circleShare->getUserId();
 			$circle = $circlesManager->getCircle($circleId);
 			$jsonCircleShare['name'] = $circle->getDisplayName();
 			$jsonCircleShare['circleid'] = $circleId;
@@ -2253,8 +2247,8 @@ class LocalProjectService implements IProjectService {
 			// insert bill owers
 			foreach ($owerIds as $owerId) {
 				$billOwer = new BillOwer();
-				$billOwer->setBillid($billId);
-				$billOwer->setMemberid((int)$owerId);
+				$billOwer->setBillId($billId);
+				$billOwer->setMemberId((int)$owerId);
 				$this->billOwerMapper->insert($billOwer);
 			}
 		}
@@ -2713,7 +2707,7 @@ class LocalProjectService implements IProjectService {
 	 */
 	public function createPaymentMode(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): int {
 		$pm = new PaymentMode();
-		$pm->setProjectid($projectId);
+		$pm->setProjectId($projectId);
 		$pm->setName($name);
 		$pm->setOrder(is_null($order) ? 0 : $order);
 		$pm->setColor($color);
@@ -2810,7 +2804,7 @@ class LocalProjectService implements IProjectService {
 	 */
 	public function createCategory(string $projectId, string $name, ?string $icon, string $color, ?int $order = 0): int {
 		$category = new Category();
-		$category->setProjectid($projectId);
+		$category->setProjectId($projectId);
 		$category->setName($name);
 		$category->setOrder(is_null($order) ? 0 : $order);
 		$category->setColor($color);
@@ -2915,7 +2909,7 @@ class LocalProjectService implements IProjectService {
 		$currency = new Currency();
 		$currency->setName($name);
 		$currency->setExchangeRate($rate);
-		$currency->setProjectid($projectId);
+		$currency->setProjectId($projectId);
 		$insertedCurrency = $this->currencyMapper->insert($currency);
 		return $insertedCurrency->getId();
 	}
@@ -3004,10 +2998,10 @@ class LocalProjectService implements IProjectService {
 		);
 
 		$newShare = new Share();
-		$newShare->setProjectid($projectId);
-		$newShare->setUserid($shareToken);
+		$newShare->setProjectId($projectId);
+		$newShare->setUserId($shareToken);
 		$newShare->setType(Share::TYPE_FEDERATION);
-		$newShare->setAccesslevel($accessLevel);
+		$newShare->setAccessLevel($accessLevel);
 		$newShare->setUserCloudId($userCloudId);
 		$newShare->setState(Invitation::STATE_PENDING);
 		$insertedShare = $this->shareMapper->insert($newShare);
@@ -3040,7 +3034,7 @@ class LocalProjectService implements IProjectService {
 			throw new CospendBasicException('Share does not exist', Http::STATUS_BAD_REQUEST);
 		}
 
-		if ($share->getProjectid() !== $projectId) {
+		if ($share->getProjectId() !== $projectId) {
 			throw new CospendBasicException('Wrong projectId in the share to delete', Http::STATUS_BAD_REQUEST);
 		}
 
@@ -3049,7 +3043,7 @@ class LocalProjectService implements IProjectService {
 		$this->backendNotifier->sendRemoteUnShare(
 			$cloudId->getRemote(),
 			$projectId,
-			$share->getUserid(),
+			$share->getUserId(),
 		);
 
 		$this->shareMapper->delete($share);
@@ -3096,10 +3090,10 @@ class LocalProjectService implements IProjectService {
 		}
 
 		$share = new Share();
-		$share->setProjectid($projectId);
-		$share->setUserid($userId);
+		$share->setProjectId($projectId);
+		$share->setUserId($userId);
 		$share->setType(Share::TYPE_USER);
-		$share->setAccesslevel($accesslevel);
+		$share->setAccessLevel($accesslevel);
 		$share->setManuallyAdded($manually_added ? 1 : 0);
 		$insertedShare = $this->shareMapper->insert($share);
 
@@ -3156,10 +3150,10 @@ class LocalProjectService implements IProjectService {
 			ISecureRandom::CHAR_HUMAN_READABLE
 		);
 		$share = new Share();
-		$share->setProjectid($projectId);
-		$share->setUserid($shareToken);
+		$share->setProjectId($projectId);
+		$share->setUserId($shareToken);
 		$share->setType(Share::TYPE_PUBLIC_LINK);
-		$share->setAccesslevel($accesslevel);
+		$share->setAccessLevel($accesslevel);
 		$share->setLabel($label);
 		$share->setPassword($password);
 		$insertedShare = $this->shareMapper->insert($share);
@@ -3212,7 +3206,7 @@ class LocalProjectService implements IProjectService {
 	public function editShareAccessLevel(string $projectId, int $shId, int $accessLevel): array {
 		try {
 			$share = $this->shareMapper->getProjectShareById($projectId, $shId);
-			$share->setAccesslevel($accessLevel);
+			$share->setAccessLevel($accessLevel);
 			$this->shareMapper->update($share);
 			return ['success' => true];
 		} catch (DoesNotExistException $e) {
@@ -3268,7 +3262,7 @@ class LocalProjectService implements IProjectService {
 		} catch (DoesNotExistException $e) {
 			return ['message' => $this->l10n->t('No such share')];
 		}
-		$dbUserId = $share->getUserid();
+		$dbUserId = $share->getUserId();
 		$this->shareMapper->delete($share);
 
 		// activity
@@ -3387,10 +3381,10 @@ class LocalProjectService implements IProjectService {
 		}
 
 		$share = new Share();
-		$share->setProjectid($projectId);
-		$share->setUserid($groupId);
+		$share->setProjectId($projectId);
+		$share->setUserId($groupId);
 		$share->setType(Share::TYPE_GROUP);
-		$share->setAccesslevel($accessLevel);
+		$share->setAccessLevel($accessLevel);
 		$insertedShare = $this->shareMapper->insert($share);
 
 		// activity
@@ -3420,7 +3414,7 @@ class LocalProjectService implements IProjectService {
 		} catch (DoesNotExistException $e) {
 			return ['message' => $this->l10n->t('No such share')];
 		}
-		$dbGroupId = $share->getUserid();
+		$dbGroupId = $share->getUserId();
 		$this->shareMapper->delete($share);
 		// activity
 		$projectObj = $this->projectMapper->find($projectId);
@@ -3476,10 +3470,10 @@ class LocalProjectService implements IProjectService {
 		}
 
 		$share = new Share();
-		$share->setProjectid($projectId);
-		$share->setUserid($circleId);
+		$share->setProjectId($projectId);
+		$share->setUserId($circleId);
 		$share->setType(Share::TYPE_CIRCLE);
-		$share->setAccesslevel($accesslevel);
+		$share->setAccessLevel($accesslevel);
 		$insertedShare = $this->shareMapper->insert($share);
 
 		// activity
@@ -3509,7 +3503,7 @@ class LocalProjectService implements IProjectService {
 	public function deleteCircleShare(string $projectId, int $shId, ?string $fromUserId = null): array {
 		try {
 			$share = $this->shareMapper->getProjectShareById($projectId, $shId, Share::TYPE_CIRCLE);
-			$dbCircleId = $share->getUserid();
+			$dbCircleId = $share->getUserId();
 			$this->shareMapper->delete($share);
 
 			// activity

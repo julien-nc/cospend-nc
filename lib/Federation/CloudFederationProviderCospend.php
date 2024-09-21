@@ -227,7 +227,7 @@ class CloudFederationProviderCospend implements ICloudFederationProvider {
 		} catch (Exception) {
 			throw new ShareNotFound(FederationManager::OCM_RESOURCE_NOT_FOUND);
 		}
-		if ($share->getUserid() !== $sharedSecret) {
+		if ($share->getUserId() !== $sharedSecret) {
 			throw new AuthenticationFailedException();
 		}
 		return $share;

@@ -36,37 +36,37 @@ class UserService {
 
 		// get user shares from project id
 		$qb = $this->dbconnection->getQueryBuilder();
-		$qb->select('userid')
+		$qb->select('user_id')
 			->from('cospend_shares', 's')
 			->where(
 				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_USER, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('project_id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 			);
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()) {
-			if (!in_array($row['userid'], $userIds)) {
-				array_push($userIds, $row['userid']);
+			if (!in_array($row['user_id'], $userIds)) {
+				$userIds[] = $row['user_id'];
 			}
 		}
 		$req->closeCursor();
 		$qb = $this->dbconnection->getQueryBuilder();
 
 		// get group shares from project id
-		$qb->select('userid')
+		$qb->select('user_id')
 			->from('cospend_shares', 's')
 			->where(
 				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('project_id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 			);
 		$req = $qb->executeQuery();
 		/** @var string[] $groupIds */
 		$groupIds = [];
 		while ($row = $req->fetch()) {
-			$groupIds[] = (string)$row['userid'];
+			$groupIds[] = (string)$row['user_id'];
 		}
 		$req->closeCursor();
 		// get users of groups

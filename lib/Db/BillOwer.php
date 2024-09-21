@@ -15,28 +15,28 @@ namespace OCA\Cospend\Db;
 use OCP\AppFramework\Db\Entity;
 
 /**
- * @method int getBillid()
- * @method void setBillid(int $billid)
- * @method int getMemberid()
- * @method void setMemberid(int $memberid)
+ * @method int getBillId()
+ * @method void setBillId(int $billId)
+ * @method int getMemberId()
+ * @method void setMemberId(int $memberId)
  **/
 class BillOwer extends Entity implements \JsonSerializable {
 
-	protected int $billid = 0;
-	protected int $memberid = 0;
+	protected int $billId = 0;
+	protected int $memberId = 0;
 
 	public function __construct() {
 		$this->addType('id', 'integer');
-		$this->addType('billid', 'integer');
-		$this->addType('memberid', 'integer');
+		$this->addType('bill_id', 'integer');
+		$this->addType('member_id', 'integer');
 	}
 
 	#[\ReturnTypeWillChange]
 	public function jsonSerialize() {
 		return [
 			'id' => $this->getId(),
-			'billid' => $this->getBillid(),
-			'memberid' => $this->getMemberid(),
+			'billid' => $this->getBillId(),
+			'memberid' => $this->getMemberId(),
 		];
 	}
 }

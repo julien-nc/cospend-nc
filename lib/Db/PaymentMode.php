@@ -11,8 +11,8 @@ namespace OCA\Cospend\Db;
 use OCP\AppFramework\Db\Entity;
 
 /**
- * @method void setProjectid(string $projectid)
- * @method string getProjectid()
+ * @method void setProjectId(string $projectId)
+ * @method string getProjectId()
  * @method void setName(string|null $name)
  * @method string|null getName()
  * @method void setColor(string|null $color)
@@ -25,7 +25,7 @@ use OCP\AppFramework\Db\Entity;
  * @method string|null getOldId()
  */
 class PaymentMode extends Entity implements \JsonSerializable {
-	protected string $projectid = '';
+	protected string $projectId = '';
 	protected ?string $name = null;
 	protected ?string $color = null;
 	protected ?string $encodedIcon = null;
@@ -33,7 +33,7 @@ class PaymentMode extends Entity implements \JsonSerializable {
 	protected ?string $oldId = null;
 
 	public function __construct() {
-		$this->addType('projectid', 'string');
+		$this->addType('project_id', 'string');
 		$this->addType('name', 'string');
 		$this->addType('color', 'string');
 		$this->addType('encoded_icon', 'string');
@@ -44,7 +44,7 @@ class PaymentMode extends Entity implements \JsonSerializable {
 	public function jsonSerialize(): array {
 		return [
 			'id' => $this->getId(),
-			'projectid' => $this->getProjectid(),
+			'projectid' => $this->getProjectId(),
 			'name' => $this->getName(),
 			'color' => $this->getColor(),
 			'icon' => $this->getEncodedIcon() === null ? null : urldecode($this->getEncodedIcon()),

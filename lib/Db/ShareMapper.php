@@ -63,7 +63,7 @@ class ShareMapper extends QBMapper {
 		$qb->select('*')
 			->from($this->getTableName())
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)))
-			->andWhere($qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR)));
+			->andWhere($qb->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR)));
 
 		if ($type !== null) {
 			$qb->andWhere($qb->expr()->eq('type', $qb->createNamedParameter($type, IQueryBuilder::PARAM_STR)));
@@ -87,7 +87,7 @@ class ShareMapper extends QBMapper {
 
 		$qb->select('*')
 			->from($this->getTableName())
-			->where($qb->expr()->eq('userid', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR)))
+			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR)))
 			->andWhere($qb->expr()->eq('type', $qb->createNamedParameter(Share::TYPE_PUBLIC_LINK, IQueryBuilder::PARAM_STR)));
 
 		return $this->findEntity($qb);
@@ -108,7 +108,7 @@ class ShareMapper extends QBMapper {
 
 		$qb->select('*')
 			->from($this->getTableName())
-			->where($qb->expr()->eq('userid', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR)));
+			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR)));
 
 		$or = $qb->expr()->orx();
 		$or->add($qb->expr()->eq('type', $qb->createNamedParameter(Share::TYPE_FEDERATION, IQueryBuilder::PARAM_STR)));
@@ -137,11 +137,11 @@ class ShareMapper extends QBMapper {
 
 		$qb->select('*')
 			->from($this->getTableName())
-			->where($qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR)))
+			->where($qb->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR)))
 			->andWhere($qb->expr()->eq('user_cloud_id', $qb->createNamedParameter($userCloudId, IQueryBuilder::PARAM_STR)));
 
 		if ($token !== null) {
-			$qb->andWhere($qb->expr()->eq('userid', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR)));
+			$qb->andWhere($qb->expr()->eq('user_id', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR)));
 		}
 
 		return $this->findEntity($qb);
@@ -157,7 +157,7 @@ class ShareMapper extends QBMapper {
 
 		$qb->select('*')
 			->from($this->getTableName())
-			->where($qb->expr()->eq('userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR)))
+			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR)))
 			->andWhere($qb->expr()->eq('type', $qb->createNamedParameter(Share::TYPE_USER, IQueryBuilder::PARAM_STR)));
 
 		return $this->findEntities($qb);
@@ -181,8 +181,8 @@ class ShareMapper extends QBMapper {
 
 		$qb->select('*')
 			->from($this->getTableName())
-			->where($qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR)))
-			->andWhere($qb->expr()->eq('userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR)));
+			->where($qb->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR)))
+			->andWhere($qb->expr()->eq('user_id', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR)));
 
 		if ($type !== null) {
 			$qb->andWhere($qb->expr()->eq('type', $qb->createNamedParameter($type, IQueryBuilder::PARAM_STR)));
@@ -202,7 +202,7 @@ class ShareMapper extends QBMapper {
 
 		$qb->select('*')
 			->from($this->getTableName())
-			->where($qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR)));
+			->where($qb->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR)));
 
 		if ($type !== null) {
 			$qb->andWhere($qb->expr()->eq('type', $qb->createNamedParameter($type, IQueryBuilder::PARAM_STR)));

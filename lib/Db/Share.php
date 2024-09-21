@@ -11,14 +11,14 @@ namespace OCA\Cospend\Db;
 use OCP\AppFramework\Db\Entity;
 
 /**
- * @method void setProjectid(string $projectid)
- * @method string getProjectid()
- * @method void setUserid(string|null $userid)
- * @method string|null getUserid()
+ * @method void setProjectId(string $projectId)
+ * @method string getProjectId()
+ * @method void setUserId(string|null $userId)
+ * @method string|null getUserId()
  * @method void setType(string $type)
  * @method string getType()
- * @method void setAccesslevel(int $accesslevel)
- * @method int getAccesslevel()
+ * @method void setAccessLevel(int $accessLevel)
+ * @method int getAccessLevel()
  * @method void setManuallyAdded(int $manuallyAdded)
  * @method int getManuallyAdded()
  * @method void setLabel(string|null $label)
@@ -37,10 +37,10 @@ class Share extends Entity implements \JsonSerializable {
 	public const TYPE_GROUP = 'g';
 	public const TYPE_CIRCLE = 'c';
 
-	protected string $projectid = '';
-	protected ?string $userid = null;
+	protected string $projectId = '';
+	protected ?string $userId = null;
 	protected string $type = self::TYPE_USER;
-	protected int $accesslevel = 2;
+	protected int $accessLevel = 2;
 	protected int $manuallyAdded = 1;
 	protected ?string $label = null;
 	protected ?string $password = null;
@@ -48,10 +48,10 @@ class Share extends Entity implements \JsonSerializable {
 	protected ?int $state = null;
 
 	public function __construct() {
-		$this->addType('projectid', 'string');
-		$this->addType('userid', 'string');
+		$this->addType('project_id', 'string');
+		$this->addType('user_id', 'string');
 		$this->addType('type', 'string');
-		$this->addType('accesslevel', 'integer');
+		$this->addType('access_level', 'integer');
 		$this->addType('manually_added', 'integer');
 		$this->addType('label', 'string');
 		$this->addType('password', 'string');
@@ -62,10 +62,10 @@ class Share extends Entity implements \JsonSerializable {
 	public function jsonSerialize(): array {
 		return [
 			'id' => $this->getId(),
-			'projectid' => $this->getProjectid(),
-			'userid' => $this->getUserid(),
+			'projectid' => $this->getProjectId(),
+			'userid' => $this->getUserId(),
 			'type' => $this->getType(),
-			'accesslevel' => $this->getAccesslevel(),
+			'accesslevel' => $this->getAccessLevel(),
 			'manuallyAdded' => $this->getManuallyAdded() === 1,
 			'label' => $this->getLabel(),
 			'password' => $this->getPassword(),

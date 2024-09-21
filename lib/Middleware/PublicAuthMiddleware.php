@@ -65,7 +65,7 @@ class PublicAuthMiddleware extends Middleware {
 				/** @var CospendPublicAuth $cospendAuthAttr */
 				$cospendAuthAttr = $attribute->newInstance();
 				$minLevel = $cospendAuthAttr->getMinimumLevel();
-				if ($share->getAccesslevel() < $minLevel) {
+				if ($share->getAccessLevel() < $minLevel) {
 					throw new CospendPublicAuthNotValidException(
 						$this->l->t('Insufficient access level'), Http::STATUS_UNAUTHORIZED,
 						$paramToken, $paramPassword, 'insufficient permissions'
@@ -73,7 +73,7 @@ class PublicAuthMiddleware extends Middleware {
 				}
 			}
 
-			$controller->projectId = $share->getProjectid();
+			$controller->projectId = $share->getProjectId();
 		}
 	}
 

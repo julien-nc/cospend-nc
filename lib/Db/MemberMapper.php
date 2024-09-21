@@ -23,12 +23,11 @@ use OCP\IDBConnection;
  * @extends QBMapper<Member>
  */
 class MemberMapper extends QBMapper {
-	public const TABLE_NAME = 'cospend_members';
 
 	public function __construct(
 		IDBConnection $db,
 	) {
-		parent::__construct($db, self::TABLE_NAME, Member::class);
+		parent::__construct($db, 'cospend_members', Member::class);
 	}
 
 	/**
@@ -39,9 +38,9 @@ class MemberMapper extends QBMapper {
 	public function getMemberByName(string $projectId, string $name): ?Member {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
-			->from(self::TABLE_NAME)
+			->from($this->getTableName())
 			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
 				$qb->expr()->eq('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR))
@@ -62,12 +61,12 @@ class MemberMapper extends QBMapper {
 	public function getMemberByUserid(string $projectId, string $userId): ?Member {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
-			->from(self::TABLE_NAME)
+			->from($this->getTableName())
 			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
-				$qb->expr()->eq('userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('user_id', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
 			);
 
 		try {
@@ -85,9 +84,9 @@ class MemberMapper extends QBMapper {
 	public function getMemberById(string $projectId, int $memberId): ?Member {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
-			->from(self::TABLE_NAME)
+			->from($this->getTableName())
 			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
 				$qb->expr()->eq('id', $qb->createNamedParameter($memberId, IQueryBuilder::PARAM_INT))
@@ -119,13 +118,13 @@ class MemberMapper extends QBMapper {
 		}
 
 		$qb->select('*')
-			->from(self::TABLE_NAME)
+			->from($this->getTableName())
 			->where(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
 		if ($lastchanged !== null) {
 			$qb->andWhere(
-				$qb->expr()->gt('lastchanged', $qb->createNamedParameter($lastchanged, IQueryBuilder::PARAM_INT))
+				$qb->expr()->gt('last_changed', $qb->createNamedParameter($lastchanged, IQueryBuilder::PARAM_INT))
 			);
 		}
 		$qb->orderBy($sqlOrder, 'ASC');
@@ -149,11 +148,11 @@ class MemberMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('bi.id')
 			->from('cospend_bill_owers', 'bo')
-			->innerJoin('bo', 'cospend_bills', 'bi', $qb->expr()->eq('bo.billid', 'bi.id'))
-			->innerJoin('bo', self::TABLE_NAME, 'm', $qb->expr()->eq('bo.memberid', 'm.id'));
+			->innerJoin('bo', 'cospend_bills', 'bi', $qb->expr()->eq('bo.bill_id', 'bi.id'))
+			->innerJoin('bo', $this->getTableName(), 'm', $qb->expr()->eq('bo.member_id', 'm.id'));
 		$or = $qb->expr()->orx();
 		$or->add($qb->expr()->eq('bi.payer_id', $qb->createNamedParameter($memberId, IQueryBuilder::PARAM_INT)));
-		$or->add($qb->expr()->eq('bo.memberid', $qb->createNamedParameter($memberId, IQueryBuilder::PARAM_INT)));
+		$or->add($qb->expr()->eq('bo.member_id', $qb->createNamedParameter($memberId, IQueryBuilder::PARAM_INT)));
 		$qb->where($or);
 		if ($deleted !== null) {
 			$qb->andWhere(

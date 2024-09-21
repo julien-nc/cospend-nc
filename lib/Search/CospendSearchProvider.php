@@ -115,7 +115,7 @@ class CospendSearchProvider implements IProvider {
 		$resultBills = array_slice($resultBills, $offset, $limit);
 
 		// build formatted
-		$formattedResults = array_map(function (array $bill) use ($projectsById):SearchResultEntry {
+		$formattedResults = array_map(function (array $bill) use ($projectsById): SearchResultEntry {
 			$projectId = $bill['projectId'];
 			$thumbnailUrl = $this->getThumbnailUrl($bill);
 			return new SearchResultEntry(

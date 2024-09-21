@@ -108,7 +108,7 @@ class ProjectMapper extends QBMapper {
 		if ($createDefaultCategories) {
 			foreach ($defaultCategories as $defaultCategory) {
 				$category = new Category();
-				$category->setProjectid($insertedProject->getId());
+				$category->setProjectId($insertedProject->getId());
 				$category->setName($defaultCategory['name']);
 				$category->setColor($defaultCategory['color']);
 				$category->setEncodedIcon(urlencode($defaultCategory['icon']));
@@ -119,7 +119,7 @@ class ProjectMapper extends QBMapper {
 		if ($createDefaultPaymentModes) {
 			foreach ($defaultPaymentModes as $defaultPm) {
 				$paymentMode = new PaymentMode();
-				$paymentMode->setProjectid($insertedProject->getId());
+				$paymentMode->setProjectId($insertedProject->getId());
 				$paymentMode->setName($defaultPm['name']);
 				$paymentMode->setColor($defaultPm['color']);
 				$paymentMode->setEncodedIcon(urlencode($defaultPm['icon']));
@@ -175,7 +175,7 @@ class ProjectMapper extends QBMapper {
 
 		$qb->delete('cospend_bill_owers')
 			->where(
-				$qb2->expr()->in('billid', $qb->createFunction($qb2->getSQL()), IQueryBuilder::PARAM_STR_ARRAY)
+				$qb2->expr()->in('bill_id', $qb->createFunction($qb2->getSQL()), IQueryBuilder::PARAM_STR_ARRAY)
 			);
 		$qb->executeStatement();
 	}

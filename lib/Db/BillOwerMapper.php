@@ -54,7 +54,7 @@ class BillOwerMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete($this->getTableName())
 			->where(
-				$qb->expr()->eq('billid', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('bill_id', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
 			);
 		$nbDeleted = $qb->executeStatement();
 		return $nbDeleted;
@@ -70,7 +70,7 @@ class BillOwerMapper extends QBMapper {
 
 		$qb->select('*')
 			->from($this->getTableName())
-			->where($qb->expr()->eq('billid', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_STR)));
+			->where($qb->expr()->eq('bill_id', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_STR)));
 
 		return $this->findEntities($qb);
 	}

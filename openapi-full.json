@@ -1238,12 +1238,60 @@
                                                 "data": {
                                                     "type": "array",
                                                     "items": {
-                                                        "$ref": "#/components/schemas/FullProjectInfo"
+                                                        "type": "object",
+                                                        "required": [
+                                                            "id",
+                                                            "remoteProjectId",
+                                                            "remoteProjectName",
+                                                            "remoteServerUrl",
+                                                            "state",
+                                                            "userId",
+                                                            "inviterCloudId",
+                                                            "inviterDisplayName"
+                                                        ],
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "format": "int64"
+                                                            },
+                                                            "remoteProjectId": {
+                                                                "type": "string"
+                                                            },
+                                                            "remoteProjectName": {
+                                                                "type": "string"
+                                                            },
+                                                            "remoteServerUrl": {
+                                                                "type": "string"
+                                                            },
+                                                            "state": {
+                                                                "type": "integer",
+                                                                "format": "int64"
+                                                            },
+                                                            "userId": {
+                                                                "type": "string"
+                                                            },
+                                                            "inviterCloudId": {
+                                                                "type": "string"
+                                                            },
+                                                            "inviterDisplayName": {
+                                                                "type": "string"
+                                                            }
+                                                        }
                                                     }
                                                 }
                                             }
                                         }
                                     }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
                                 }
                             }
                         }

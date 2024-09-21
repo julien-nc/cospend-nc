@@ -157,7 +157,8 @@ class ApiController extends OCSController {
 	/**
 	 * Get federated project list
 	 *
-	 * @return DataResponse<Http::STATUS_OK, CospendFullProjectInfo[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<array{id: int, remoteProjectId: string, remoteProjectName: string, remoteServerUrl: string, state: int, userId: string, inviterCloudId: string, inviterDisplayName: string}>, array{}>
+	 * @throws Exception
 	 *
 	 * 200: Project list
 	 */

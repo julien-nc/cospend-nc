@@ -140,6 +140,8 @@ class LocalProjectServiceTest extends TestCase {
 			'newproject',
 			'superprojS',
 			'tsl',
+			'tdm',
+			'testGetSettlement',
 		];
 		foreach ($projIds as $projId) {
 			try {

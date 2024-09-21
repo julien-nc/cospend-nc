@@ -20,6 +20,7 @@ use OCA\Cospend\Db\Invitation;
 use OCA\Cospend\Db\InvitationMapper;
 use OCA\Cospend\Utils;
 
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -47,13 +48,19 @@ class CospendService {
 	) {
 	}
 
+	/**
+	 * @param string $userId
+	 * @return list<array{id: int, remoteProjectId: string, remoteProjectName: string, remoteServerUrl: string, state: int, userId: string, inviterCloudId: string, inviterDisplayName: string}>
+	 * @throws Exception
+	 */
 	public function getFederatedProjects(string $userId): array {
 		$invitations = $this->invitationMapper->getInvitationsForUser($userId, Invitation::STATE_ACCEPTED);
-		return array_map(static function (Invitation $invitation) {
+		$jsonInvitations = array_map(static function (Invitation $invitation) {
 			$jsonInvitation = $invitation->jsonSerialize();
 			unset($jsonInvitation['accessToken']);
 			return $jsonInvitation;
 		}, $invitations);
+		return array_values($jsonInvitations);
 	}
 
 	/**

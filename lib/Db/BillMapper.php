@@ -51,23 +51,6 @@ class BillMapper extends QBMapper {
 		return $this->mapRowToEntity($row);
 	}
 
-	/**
-	 * Delete bill owers of given bill
-	 *
-	 * @param int $billId
-	 * @return int
-	 * @throws \OCP\DB\Exception
-	 */
-	public function deleteBillOwersOfBill(int $billId): int {
-		$qb = $this->db->getQueryBuilder();
-		$qb->delete('cospend_bill_owers')
-			->where(
-				$qb->expr()->eq('billid', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
-			);
-		$nbDeleted = $qb->executeStatement();
-		return $nbDeleted;
-	}
-
 	public function deleteDeletedBills(string $projectId): void {
 		// first delete the bill owers
 		$qb = $this->db->getQueryBuilder();
@@ -84,7 +67,7 @@ class BillMapper extends QBMapper {
 
 		$qb->delete('cospend_bill_owers')
 			->where(
-				$qb2->expr()->in('billid', $qb->createFunction($qb2->getSQL()), IQueryBuilder::PARAM_STR_ARRAY)
+				$qb2->expr()->in('bill_id', $qb->createFunction($qb2->getSQL()), IQueryBuilder::PARAM_STR_ARRAY)
 			);
 		$qb->executeStatement();
 
@@ -130,7 +113,7 @@ class BillMapper extends QBMapper {
 
 		$qb->delete('cospend_bill_owers')
 			->where(
-				$qb2->expr()->in('billid', $qb->createFunction($qb2->getSQL()), IQueryBuilder::PARAM_STR_ARRAY)
+				$qb2->expr()->in('bill_id', $qb->createFunction($qb2->getSQL()), IQueryBuilder::PARAM_STR_ARRAY)
 			);
 		$nbBillOwersDeleted = $qb->executeStatement();
 		$qb = $this->db->getQueryBuilder();
@@ -258,11 +241,11 @@ class BillMapper extends QBMapper {
 
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('memberid', 'm.name', 'm.weight', 'm.activated')
+		$qb->select('bo.member_id', 'm.name', 'm.weight', 'm.activated')
 			->from('cospend_bill_owers', 'bo')
-			->innerJoin('bo', 'cospend_members', 'm', $qb->expr()->eq('bo.memberid', 'm.id'))
+			->innerJoin('bo', 'cospend_members', 'm', $qb->expr()->eq('bo.member_id', 'm.id'))
 			->where(
-				$qb->expr()->eq('bo.billid', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('bo.bill_id', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
 			);
 		$req = $qb->executeQuery();
 
@@ -270,7 +253,7 @@ class BillMapper extends QBMapper {
 			$dbWeight = (float)$row['weight'];
 			$dbName = $row['name'];
 			$dbActivated = (((int)$row['activated']) === 1);
-			$dbOwerId = (int)$row['memberid'];
+			$dbOwerId = (int)$row['member_id'];
 			$billOwers[] = [
 				'id' => $dbOwerId,
 				'weight' => $dbWeight,
@@ -342,10 +325,10 @@ class BillMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('bi.id', 'what', 'comment', 'timestamp', 'amount', 'payer_id', 'repeat',
 			'payment_mode', 'payment_mode_id', 'category_id', 'bi.last_changed', 'repeat_all_active', 'repeat_until', 'repeat_frequency',
-			'deleted', 'memberid', 'm.name', 'm.weight', 'm.activated')
+			'deleted', 'bo.member_id', 'm.name', 'm.weight', 'm.activated')
 			->from('cospend_bill_owers', 'bo')
-			->innerJoin('bo', 'cospend_bills', 'bi', $qb->expr()->eq('bo.billid', 'bi.id'))
-			->innerJoin('bo', 'cospend_members', 'm', $qb->expr()->eq('bo.memberid', 'm.id'))
+			->innerJoin('bo', 'cospend_bills', 'bi', $qb->expr()->eq('bo.bill_id', 'bi.id'))
+			->innerJoin('bo', 'cospend_members', 'm', $qb->expr()->eq('bo.member_id', 'm.id'))
 			->where(
 				$qb->expr()->eq('bi.project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			);
@@ -432,7 +415,7 @@ class BillMapper extends QBMapper {
 			$dbWeight = (float)$row['weight'];
 			$dbName = $row['name'];
 			$dbActivated = ((int)$row['activated']) === 1;
-			$dbOwerId = (int)$row['memberid'];
+			$dbOwerId = (int)$row['member_id'];
 			$billDict[$dbBillId]['owers'][] = [
 				'id' => $dbOwerId,
 				'weight' => $dbWeight,
@@ -602,11 +585,11 @@ class BillMapper extends QBMapper {
 			$billOwers = [];
 			$billOwerIds = [];
 
-			$qb->select('memberid', 'm.name', 'm.weight', 'm.activated')
+			$qb->select('bo.member_id', 'm.name', 'm.weight', 'm.activated')
 				->from('cospend_bill_owers', 'bo')
-				->innerJoin('bo', 'cospend_members', 'm', $qb->expr()->eq('bo.memberid', 'm.id'))
+				->innerJoin('bo', 'cospend_members', 'm', $qb->expr()->eq('bo.member_id', 'm.id'))
 				->where(
-					$qb->expr()->eq('bo.billid', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
+					$qb->expr()->eq('bo.bill_id', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
 				);
 			$qb->setFirstResult(0);
 			$req = $qb->executeQuery();
@@ -614,7 +597,7 @@ class BillMapper extends QBMapper {
 				$dbWeight = (float)$row['weight'];
 				$dbName = $row['name'];
 				$dbActivated = ((int)$row['activated']) === 1;
-				$dbOwerId = (int)$row['memberid'];
+				$dbOwerId = (int)$row['member_id'];
 				$billOwers[] = [
 					'id' => $dbOwerId,
 					'weight' => $dbWeight,
@@ -711,7 +694,7 @@ class BillMapper extends QBMapper {
 		$qb->select(
 			'b.id', 'what', 'comment', 'amount', 'timestamp',
 			'payment_mode', 'payment_mode_id', 'category_id',
-			'pr.currency_name', 'me.name', 'me.userid'
+			'pr.currency_name', 'me.name', 'me.user_id'
 		)
 			->from($this->getTableName(), 'b')
 			->innerJoin('b', 'cospend_projects', 'pr', $qb->expr()->eq('b.project_id', 'pr.id'))
@@ -741,7 +724,7 @@ class BillMapper extends QBMapper {
 			$dbCategoryId = (int)$row['category_id'];
 			$dbProjectCurrencyName = $row['currency_name'];
 			$dbPayerName = $row['name'];
-			$dbPayerUserId = $row['userid'];
+			$dbPayerUserId = $row['user_id'];
 			$bills[] = [
 				'id' => $dbBillId,
 				'projectId' => $projectId,

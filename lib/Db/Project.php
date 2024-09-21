@@ -31,14 +31,14 @@ use OCP\AppFramework\Db\Entity;
  * @method void setCategorySort(string $categorySort)
  * @method string getPaymentModeSort()
  * @method void setPaymentModeSort(string $paymentModeSort)
- * @method string getCurrencyName()
- * @method void setCurrencyName(string $currencyName)
- * @method int getArchivedTs()
- * @method void setArchivedTs(int $archivedTs)
+ * @method string|null getCurrencyName()
+ * @method void setCurrencyName(string|null $currencyName)
+ * @method int|null getArchivedTs()
+ * @method void setArchivedTs(int|null $archivedTs)
  */
 class Project extends Entity implements \JsonSerializable {
 
-	protected ?string $userId = null;
+	protected string $userId = '';
 	protected string $name = '';
 	protected string $autoExport = 'n';
 	protected int $lastChanged = 0;
@@ -64,17 +64,17 @@ class Project extends Entity implements \JsonSerializable {
 	#[\ReturnTypeWillChange]
 	public function jsonSerialize() {
 		return [
-			'id' => $this->id,
-			'userid' => $this->userId,
-			'name' => $this->name,
+			'id' => $this->getId(),
+			'userid' => $this->getUserId(),
+			'name' => $this->getName(),
 			'email' => '',
-			'autoexport' => $this->autoExport,
-			'lastchanged' => $this->lastChanged,
-			'deletiondisabled' => $this->deletionDisabled === 1,
-			'categorysort' => $this->categorySort,
-			'paymentmodesort' => $this->paymentModeSort,
-			'currencyname' => $this->currencyName,
-			'archived_ts' => $this->archivedTs,
+			'autoexport' => $this->getAutoExport(),
+			'lastchanged' => $this->getLastChanged(),
+			'deletiondisabled' => $this->getDeletionDisabled() === 1,
+			'categorysort' => $this->getCategorySort(),
+			'paymentmodesort' => $this->getPaymentModeSort(),
+			'currencyname' => $this->getCurrencyName(),
+			'archived_ts' => $this->getArchivedTs(),
 		];
 	}
 }

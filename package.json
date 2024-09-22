@@ -8,9 +8,9 @@
 	},
 	"type": "module",
 	"scripts": {
-		"build": "vite --mode production build",
-		"dev": "vite --mode development build",
-		"watch": "vite --mode development build --watch",
+		"build": "NODE_ENV=production vite --mode production build",
+		"dev": "NODE_ENV=development vite --mode development build",
+		"watch": "NODE_ENV=development vite --mode development build --watch",
 		"serve": "NODE_ENV=development webpack serve --progress --config webpack.js",
 		"lint": "eslint --ext .js,.vue src",
 		"lint:fix": "eslint --ext .js,.vue src --fix",
@@ -34,8 +34,8 @@
 		"extends @nextcloud/browserslist-config"
 	],
 	"engines": {
-		"node": "^16.0.0",
-		"npm": "^8.0.0 || ^7.0.0"
+		"node": "^20",
+		"npm": "^10"
 	},
 	"dependencies": {
 		"@juliushaertl/vue-richtext": "^1.0.1",

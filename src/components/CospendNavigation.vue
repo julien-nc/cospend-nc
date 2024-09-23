@@ -49,6 +49,22 @@
 					<FolderIcon />
 				</template>
 			</NcEmptyContent>
+			<span v-if="showArchivedProjects" class="search-container">
+				<input
+					id="Search"
+					v-model="search"
+					type="text"
+					value=""
+					:placeholder="t('cospend', 'Search')">
+				<NcButton
+					:title="t('cospend', 'Reset search')"
+					:aria-label="t('cospend', 'Reset search')"
+					@click="search = ''">
+					<template #icon>
+						<DeleteIcon />
+					</template>
+				</NcButton>
+			</span>
 			<AppNavigationProjectItem
 				v-for="id in filteredProjectIds"
 				:key="id"
@@ -96,6 +112,7 @@ import FileImportIcon from 'vue-material-design-icons/FileImport.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
 import ArchiveLockIcon from 'vue-material-design-icons/ArchiveLock.vue'
 import CalendarIcon from 'vue-material-design-icons/Calendar.vue'
+import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
@@ -131,6 +148,7 @@ export default {
 		FolderPlusIcon,
 		ArchiveLockIcon,
 		CalendarIcon,
+		DeleteIcon,
 	},
 	directives: {
 		ClickOutside,
@@ -167,12 +185,13 @@ export default {
 			importingProject: false,
 			showCreationModal: false,
 			showArchivedProjects: false,
+			search: '',
 		}
 	},
 	computed: {
-		filteredProjectIds(opposite = false) {
+		filteredProjectIds() {
 			return this.showArchivedProjects
-			    ? this.sortedProjectIds.filter(id => this.projects[id].archived_ts !== null)
+				? this.sortedProjectIds.filter(id => this.projects[id].archived_ts !== null && this.projects[id].name.toLowerCase().includes(this.search.toLowerCase()))
 			    : this.sortedProjectIds.filter(id => this.projects[id].archived_ts === null)
 		},
 		sortedProjectIds() {
@@ -289,5 +308,15 @@ export default {
 	.submit {
 		align-self: end;
 	}
+}
+
+.search-container {
+	display: flex;
+	align-items: center;
+}
+
+.search-container input {
+	flex: 1;
+	margin-right: 8px;
 }
 </style>

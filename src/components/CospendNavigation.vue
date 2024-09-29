@@ -40,8 +40,7 @@
 			</NcAppNavigationItem>
 			<NewProjectModal v-if="showCreationModal"
 				@close="showCreationModal = false" />
-			<h2 v-if="loading"
-				class="icon-loading-small loading-icon" />
+			<NcLoadingIcon v-if="loading" :size="24" />
 			<NcEmptyContent v-else-if="sortedProjectIds.length === 0"
 				:name="t('cospend', 'No projects yet')"
 				:title="t('cospend', 'No projects yet')">
@@ -116,6 +115,7 @@ import CogIcon from 'vue-material-design-icons/Cog.vue'
 import ArchiveLockIcon from 'vue-material-design-icons/ArchiveLock.vue'
 import CalendarIcon from 'vue-material-design-icons/Calendar.vue'
 
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
@@ -147,6 +147,7 @@ export default {
 		NcAppNavigationItem,
 		NcActionButton,
 		NcCounterBubble,
+		NcLoadingIcon,
 		CogIcon,
 		FileImportIcon,
 		PlusIcon,
@@ -307,10 +308,6 @@ export default {
 
 .buttonItem {
 	border-bottom: solid 1px var(--color-border);
-}
-
-.loading-icon {
-	margin-top: 16px;
 }
 
 .creation-modal-content {

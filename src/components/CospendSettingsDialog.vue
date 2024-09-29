@@ -93,17 +93,15 @@
 				<div class="oneLine">
 					<NcButton @click="onImportClick">
 						<template #icon>
-							<FileImportIcon
-								:class="{ 'icon-loading': importingProject }"
-								:size="20" />
+							<NcLoadingIcon v-if="importingProject" />
+							<FileImportIcon v-else :size="20" />
 						</template>
 						{{ t('cospend', 'Import csv project') }}
 					</NcButton>
 					<NcButton @click="onImportSWClick">
 						<template #icon>
-							<FileImportIcon
-								:class="{ 'icon-loading': importingSWProject }"
-								:size="20" />
+							<NcLoadingIcon v-if="importingSWProject" />
+							<FileImportIcon v-else :size="20" />
 						</template>
 						{{ t('cospend', 'Import SplitWise project') }}
 					</NcButton>
@@ -196,6 +194,7 @@
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 import FileImportIcon from 'vue-material-design-icons/FileImport.vue'
 
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcAppSettingsDialog from '@nextcloud/vue/dist/Components/NcAppSettingsDialog.js'
 import NcAppSettingsSection from '@nextcloud/vue/dist/Components/NcAppSettingsSection.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
@@ -214,6 +213,7 @@ export default {
 		NcAppSettingsSection,
 		NcButton,
 		NcCheckboxRadioSwitch,
+		NcLoadingIcon,
 		FileImportIcon,
 		OpenInNewIcon,
 	},

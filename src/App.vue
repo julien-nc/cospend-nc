@@ -163,6 +163,7 @@ import moment from '@nextcloud/moment'
 import {
 	showSuccess,
 	showError,
+	showWarning,
 	showInfo,
 } from '@nextcloud/dialogs'
 
@@ -180,20 +181,28 @@ import CogIcon from 'vue-material-design-icons/Cog.vue'
 import ReimburseIcon from './components/icons/ReimburseIcon.vue'
 import CospendIcon from './components/icons/CospendIcon.vue'
 
-import Statistics from './components/statistics/Statistics.vue'
-import Settlement from './Settlement.vue'
-import CospendNavigation from './components/CospendNavigation.vue'
-import CospendSettingsDialog from './components/CospendSettingsDialog.vue'
-import BillForm from './BillForm.vue'
-import BillList from './BillList.vue'
-import Sidebar from './components/Sidebar.vue'
-import MoveToProjectList from './components/MoveToProjectList.vue'
-
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
+
+// import Statistics from './components/statistics/Statistics.vue'
+// import Settlement from './Settlement.vue'
+// import CospendNavigation from './components/CospendNavigation.vue'
+// import CospendSettingsDialog from './components/CospendSettingsDialog.vue'
+// import BillForm from './BillForm.vue'
+// import BillList from './BillList.vue'
+// import Sidebar from './components/Sidebar.vue'
+// import MoveToProjectList from './components/MoveToProjectList.vue'
+const Statistics = () => import('./components/statistics/Statistics.vue')
+const Settlement = () => import('./Settlement.vue')
+const CospendNavigation = () => import('./components/CospendNavigation.vue')
+const CospendSettingsDialog = () => import('./components/CospendSettingsDialog.vue')
+const BillForm = () => import('./BillForm.vue')
+const BillList = () => import('./BillList.vue')
+const Sidebar = () => import('./components/Sidebar.vue')
+const MoveToProjectList = () => import('./components/MoveToProjectList.vue')
 
 export default {
 	name: 'App',
@@ -916,7 +925,7 @@ export default {
 						}
 					}).catch((error) => {
 						console.error(error)
-						showError(t('cospend', 'Failed to get federated project'))
+						showWarning(t('cospend', 'Failed to get federated project'))
 						this.unreachableFederatedProject.push(invite)
 					})
 				})

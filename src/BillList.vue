@@ -172,9 +172,8 @@
 				<CospendIcon />
 			</template>
 		</NcEmptyContent>
-		<h2 v-show="loading"
-			class="icon-loading-small loading-icon" />
-		<transition-group v-if="!loading" name="list">
+		<NcLoadingIcon v-if="loading" :size="24" />
+		<transition-group v-else name="list">
 			<BillListItem
 				v-for="(bill, index) in bills"
 				:key="bill.id"
@@ -269,6 +268,7 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 
 import CospendIcon from './components/icons/CospendIcon.vue'
 
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcAppContentList from '@nextcloud/vue/dist/Components/NcAppContentList.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
@@ -302,6 +302,7 @@ export default {
 		NcEmptyContent,
 		NcDialog,
 		NcButton,
+		NcLoadingIcon,
 		InfiniteLoading,
 		PaymentModeMultiSelect,
 		CategoryMultiSelect,
@@ -785,10 +786,6 @@ export default {
 
 .nomember {
 	margin-top: 12px;
-}
-
-.loading-icon {
-	margin-top: 16px;
 }
 
 .multiSelectHint {

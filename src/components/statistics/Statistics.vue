@@ -9,9 +9,8 @@
 				projectid="dum"
 				@click="onExportClick">
 				<template #icon>
-					<ContentSaveIcon
-						:class="{ 'icon-loading': exporting }"
-						:size="20" />
+					<NcLoadingIcon v-if="exporting" />
+					<ContentSaveIcon v-else :size="20" />
 				</template>
 				{{ t('cospend', 'Export') }}
 			</NcButton>
@@ -435,6 +434,7 @@ import CurrencyUsdIcon from 'vue-material-design-icons/CurrencyUsd.vue'
 
 import CurrencyIcon from '../icons/CurrencyIcon.vue'
 
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcAppContentDetails from '@nextcloud/vue/dist/Components/NcAppContentDetails.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
@@ -468,6 +468,7 @@ export default {
 		NcAppContentDetails,
 		NcButton,
 		NcCheckboxRadioSwitch,
+		NcLoadingIcon,
 		CategoryMultiSelect,
 		PaymentModeMultiSelect,
 		CalendarStartIcon,

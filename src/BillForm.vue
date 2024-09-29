@@ -1761,6 +1761,7 @@ export default {
 
 <style scoped lang="scss">
 .bill-title {
+	margin-top: 0 !important;
 	padding: 20px 0px 20px 0px;
 	text-align: center;
 	display: flex;

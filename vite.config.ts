@@ -6,7 +6,6 @@ import { createAppConfig } from '@nextcloud/vite-config'
 import eslint from 'vite-plugin-eslint'
 import stylelint from 'vite-plugin-stylelint'
 
-console.error('process.env.NODE_ENV', process.env.NODE_ENV)
 const isProduction = process.env.NODE_ENV === 'production'
 
 export default createAppConfig({

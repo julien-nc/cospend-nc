@@ -1,7 +1,8 @@
 <template>
 	<NcAppContentDetails class="settlement-content">
 		<h2 id="settlementTitle">
-			<ReimburseIcon :class="{ 'icon-loading': loading }" :size="20" />
+			<NcLoadingIcon v-if="loading" />
+			<ReimburseIcon v-else :size="20" />
 			<span>
 				{{ t('cospend', 'Settlement of project {name}', { name: project.name }, undefined, { escape: false }) }}
 			</span>
@@ -91,7 +92,7 @@
 		<h3>
 			{{ maxTs ? t('cospend', 'Settlement plan on {date}', { date: formattedMaxDate }) : t('cospend', 'Settlement plan') }}
 		</h3>
-		<div v-if="loading" class="loading loading-animation" />
+		<NcLoadingIcon v-if="loading" :size="24" />
 		<v-table v-else-if="transactions"
 			id="settlementTable"
 			class="coloredTable avatarTable"
@@ -164,7 +165,7 @@
 		<h3>
 			{{ maxTs ? t('cospend', 'Balances on {date}', { date: formattedMaxDate }) : t('cospend', 'Balances') }}
 		</h3>
-		<div v-if="loading" class="loading loading-animation" />
+		<NcLoadingIcon v-if="loading" :size="24" />
 		<v-table v-else-if="balances"
 			id="balanceTable"
 			class="coloredTable avatarTable"
@@ -280,6 +281,7 @@ import CalendarMonthIcon from 'vue-material-design-icons/CalendarMonth.vue'
 import CospendIcon from './components/icons/CospendIcon.vue'
 import ReimburseIcon from './components/icons/ReimburseIcon.vue'
 
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcAppContentDetails from '@nextcloud/vue/dist/Components/NcAppContentDetails.js'
 import NcDateTimePicker from '@nextcloud/vue/dist/Components/NcDateTimePicker.js'
@@ -303,6 +305,7 @@ export default {
 		CospendTogglableAvatar,
 		ReimburseIcon,
 		CospendIcon,
+		NcLoadingIcon,
 		NcAppContentDetails,
 		NcDateTimePicker,
 		NcEmptyContent,
@@ -607,6 +610,7 @@ export default {
 }
 
 #settlementTitle {
+	margin-top: 0 !important;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -643,9 +647,5 @@ export default {
 
 table td span {
 	vertical-align: middle;
-}
-
-.loading-animation {
-	height: 70px;
 }
 </style>

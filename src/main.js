@@ -31,9 +31,6 @@ Vue.use(VueClipboard)
 Vue.use(SmartTable)
 Vue.directive('tooltip', Tooltip)
 
-// __webpack_nonce__ = btoa(getRequestToken()) // eslint-disable-line
-// __webpack_public_path__ = generateFilePath('cospend', '', 'js/') // eslint-disable-line
-
 function restoreOptions() {
 	network.getOptionValues().then((response) => {
 		getOptionValuesSuccess(response.data)

@@ -1,5 +1,5 @@
 <template>
-	<DashboardWidget :items="items"
+	<NcDashboardWidget :items="items"
 		:show-more-url="showMoreUrl"
 		:show-more-text="title"
 		:loading="state === 'loading'">
@@ -19,7 +19,7 @@
 				</template>
 			</NcEmptyContent>
 		</template>
-	</DashboardWidget>
+	</NcDashboardWidget>
 </template>
 
 <script>
@@ -29,7 +29,8 @@ import axios from '@nextcloud/axios'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import moment from '@nextcloud/moment'
-import { DashboardWidget } from '@nextcloud/vue-dashboard'
+
+import NcDashboardWidget from '@nextcloud/vue/dist/Components/NcDashboardWidget.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
@@ -38,7 +39,7 @@ export default {
 
 	components: {
 		CospendIcon,
-		DashboardWidget,
+		NcDashboardWidget,
 		NcEmptyContent,
 		NcButton,
 	},

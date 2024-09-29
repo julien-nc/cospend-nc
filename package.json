@@ -12,8 +12,8 @@
 		"dev": "NODE_ENV=development vite --mode development build",
 		"watch": "NODE_ENV=development vite --mode development build --watch",
 		"serve": "NODE_ENV=development webpack serve --progress --config webpack.js",
-		"lint": "eslint --ext .js,.vue src",
-		"lint:fix": "eslint --ext .js,.vue src --fix",
+		"lint": "eslint --ext .ts,.js,.vue src",
+		"lint:fix": "eslint --ext .ts,.js,.vue src --fix",
 		"stylelint": "stylelint src/**/*.vue src/**/*.scss src/**/*.css",
 		"stylelint:fix": "stylelint src/**/*.vue src/**/*.scss src/**/*.css --fix"
 	},

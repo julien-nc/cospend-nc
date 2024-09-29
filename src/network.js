@@ -18,7 +18,7 @@ export function saveOptionValues(optionValues) {
 		const req = {
 			options: optionValues,
 		}
-		console.debug('save', optionValues)
+		console.debug('save settings', optionValues)
 		const url = generateUrl('/apps/cospend/option-values')
 		axios.put(url, req)
 			.then((response) => {

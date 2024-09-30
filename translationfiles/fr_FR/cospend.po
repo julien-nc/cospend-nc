@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-09-29 23:02+0200\n"
-"PO-Revision-Date: 2024-09-29 21:04\n"
+"PO-Revision-Date: 2024-09-30 21:12\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -86,7 +86,7 @@ msgstr "Changements dans l'<strong>appli Cospend</strong>"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:578
 msgid "You are not allowed to access the target project"
-msgstr ""
+msgstr "Vous n'êtes pas autorisé à accéder au projet cible"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:848
 msgid "You are not allowed to give such shared access level"
@@ -315,12 +315,12 @@ msgstr "{user} a cessé de partager le projet %s avec vous"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:134
 msgid "Cospend federated project shared"
-msgstr ""
+msgstr "Projet Cospend fédéré partagé"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:135
 #, php-format
 msgid "%s (%s) shared Cospend project \"%s\" (%s) with you."
-msgstr ""
+msgstr "%s (%s) a partagé le projet Cospend \"%s\" (%s) avec vous."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProvider.php:179
 #, php-format
@@ -621,7 +621,7 @@ msgstr "Partage introuvable"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3243
 msgid "Invalid values"
-msgstr ""
+msgstr "Valeurs invalides"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3387
 msgid "No such group"
@@ -744,11 +744,11 @@ msgstr "Échec de la récupération des projets"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:23
 msgid "Failed to get federated project"
-msgstr ""
+msgstr "Impossible d'obtenir un projet fédéré"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:24
 msgid "Failed to get pending remote invitations"
-msgstr ""
+msgstr "Impossible d'obtenir les invitations fédérées en attente"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:25
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:26
@@ -1842,7 +1842,7 @@ msgstr "Désarchiver"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:310
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:314
 msgid "Leave share"
-msgstr ""
+msgstr "Quitter le partage"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:311
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:430
@@ -1860,7 +1860,7 @@ msgstr "Montrer la corbeille"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:315
 msgid "Project {projectId} ({projectName}) shared by {cloudId} ({displayName})"
-msgstr ""
+msgstr "Projet {projectId} ({projectName}) partagé par {cloudId} ({displayName})"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:318
 msgid "Everyone"
@@ -1931,7 +1931,7 @@ msgstr "Pas encore de projet"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:347
 msgid "Pending share invitations"
-msgstr ""
+msgstr "Invitations de partage en attente"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:348
 msgid "Show active projects"
@@ -2096,19 +2096,19 @@ msgstr "Sélecteur de mode de paiement"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:413
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:414
 msgid "Pending invitations for federated shares"
-msgstr ""
+msgstr "Invitations en attente pour les partages fédérées"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:415
 msgid "Reject"
-msgstr ""
+msgstr "Refuser"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:416
 msgid "Accept"
-msgstr ""
+msgstr "Accepter"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:417
 msgid "Project {projectName} shared by {inviterName} ({inviterCloudId})"
-msgstr ""
+msgstr "Projet {projectName} partagé par {inviterName} ({inviterCloudId})"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:418
 msgid "Rename project {n}"
@@ -2187,7 +2187,7 @@ msgstr "Partager le projet avec un utilisateur, un groupe ou un cercle"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:447
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:453
 msgid "Federated user"
-msgstr ""
+msgstr "Utilisateur Fédéré"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:448
 msgid "Start typing to search"
@@ -2207,11 +2207,11 @@ msgstr "Créer un nouveau lien de partage"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:454
 msgid "Pending share"
-msgstr ""
+msgstr "Partage en attente"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:454
 msgid "Accepted share"
-msgstr ""
+msgstr "Partage accepté"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:455
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:464
@@ -2220,7 +2220,7 @@ msgstr "Label"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:460
 msgid "Delete federated share"
-msgstr ""
+msgstr "Supprimer le partage fédéré"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:462
 msgid "Link copied"
@@ -2270,7 +2270,7 @@ msgstr "Impossible de modifier le lien de partage"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:483
 msgid "Federated share saved"
-msgstr ""
+msgstr "Partage fédéré enregistré"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:487
 msgid "Link could not be copied to clipboard"
@@ -2278,7 +2278,7 @@ msgstr "Le lien n'a pas pu être copié dans le presse-papiers"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:488
 msgid "Rename"
-msgstr ""
+msgstr "Renommer"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:489
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:490
@@ -2493,7 +2493,7 @@ msgstr "Combien a été payé par mode de paiement ?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:570
 msgid "Enable Federation in Cospend"
-msgstr ""
+msgstr "Activer la Fédération en Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:571
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:572

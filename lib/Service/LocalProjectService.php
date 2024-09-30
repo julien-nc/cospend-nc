@@ -980,14 +980,7 @@ class LocalProjectService implements IProjectService {
 			$newBill->setComment($comment);
 		}
 		$newBill->setTimestamp($dateTs);
-		// TODO figure out why it is problematic to insert a bill with an amount of 0
-		// this does not happen when inserting a currency with a 0 exchange rate
-		// it is apparently related with the fact that the methods accept null (even if the db column is set to NOTNULL)
-		if ($amount === 0.0) {
-			$newBill->setAmount(1);
-		} else {
-			$newBill->setAmount($amount);
-		}
+		$newBill->setAmount($amount);
 		$newBill->setPayerId($payer);
 		$newBill->setRepeat($repeat);
 		$newBill->setRepeatAllActive($repeatAllActive);
@@ -1002,12 +995,6 @@ class LocalProjectService implements IProjectService {
 		$createdBill = $this->billMapper->insert($newBill);
 
 		$insertedBillId = $createdBill->getId();
-
-		// TODO remove this after figuring it out
-		if ($amount === 0.0) {
-			$createdBill->setAmount(0);
-			$this->billMapper->update($createdBill);
-		}
 
 		// insert bill owers
 		foreach ($owerIds as $owerId) {

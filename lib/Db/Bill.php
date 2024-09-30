@@ -48,10 +48,10 @@ use OCP\AppFramework\Db\Entity;
  * @method void setDeleted(int $deleted) */
 class Bill extends Entity implements \JsonSerializable {
 
-	protected string $what = '';
+	protected string $what = '...';
 	protected ?string $comment = null;
 	protected int $payerId = 0;
-	protected float $amount = 0;
+	protected float $amount = -1;
 	protected int $timestamp = 0;
 	protected string $repeat = 'n';
 	protected int $repeatAllActive = 0;

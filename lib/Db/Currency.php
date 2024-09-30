@@ -13,15 +13,15 @@ use OCP\AppFramework\Db\Entity;
 /**
  * @method void setProjectId(string $projectId)
  * @method string getProjectId()
- * @method void setName(string|null $name)
- * @method string|null getName()
- * @method void setExchangeRate(float|null $exchangeRate)
- * @method float|null getExchangeRate()
+ * @method void setName(string $name)
+ * @method string getName()
+ * @method void setExchangeRate(float $exchangeRate)
+ * @method float getExchangeRate()
  */
 class Currency extends Entity implements \JsonSerializable {
 	protected string $projectId = '';
-	protected ?string $name = null;
-	protected ?float $exchangeRate = null;
+	protected string $name = '';
+	protected float $exchangeRate = -999;
 
 	public function __construct() {
 		$this->addType('project_id', 'string');

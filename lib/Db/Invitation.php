@@ -36,7 +36,7 @@ class Invitation extends Entity implements \JsonSerializable {
 	protected int $state = self::STATE_PENDING;
 	protected string $accessToken = '';
 	protected string $remoteProjectId = '';
-	protected string $remoteProjectName = '';
+	protected string $remoteProjectName = '...';
 	protected string $remoteServerUrl = '';
 	protected string $inviterCloudId = '';
 	protected string $inviterDisplayName = '';

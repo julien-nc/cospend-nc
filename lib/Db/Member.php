@@ -29,8 +29,8 @@ use OCP\IAvatarManager;
  * @method void setActivated(int $activated)
  * @method int getLastChanged()
  * @method void setLastChanged(int $lastChanged)
- * @method string getColor()
- * @method void setColor(string $color)
+ * @method string|null getColor()
+ * @method void setColor(string|null $color)
  * @method string|null getUserId()
  * @method void setUserId(string|null $userId)
  */
@@ -38,7 +38,7 @@ class Member extends Entity implements \JsonSerializable {
 
 	protected string $projectId = '';
 	protected string $name = '';
-	protected float $weight = 0;
+	protected float $weight = -1;
 	protected int $activated = 1;
 	protected int $lastChanged = 0;
 	protected ?string $color = null;

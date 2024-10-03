@@ -178,7 +178,6 @@ import AppNavigationMemberItem from './AppNavigationMemberItem.vue'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 
-import ClickOutside from 'vue-click-outside'
 import { emit } from '@nextcloud/event-bus'
 import cospend from '../state.js'
 import * as constants from '../constants.js'
@@ -207,9 +206,6 @@ export default {
 		FolderNetworkIcon,
 		FolderNetworkOutlineIcon,
 		CloseNetworkIcon,
-	},
-	directives: {
-		ClickOutside,
 	},
 	props: {
 		project: {

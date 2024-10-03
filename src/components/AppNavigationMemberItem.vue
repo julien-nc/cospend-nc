@@ -133,7 +133,6 @@ import PaletteIcon from 'vue-material-design-icons/Palette.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import UndoIcon from 'vue-material-design-icons/Undo.vue'
 import WeightIcon from 'vue-material-design-icons/Weight.vue'
-import ClickOutside from 'vue-click-outside'
 
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
@@ -168,9 +167,6 @@ export default {
 		PaletteIcon,
 		DeleteIcon,
 		UndoIcon,
-	},
-	directives: {
-		ClickOutside,
 	},
 	props: {
 		member: {

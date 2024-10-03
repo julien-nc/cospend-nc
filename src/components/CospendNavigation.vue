@@ -79,7 +79,7 @@
 							</NcCounterBubble>
 						</template>
 					</NcAppNavigationItem>
-					<NcAppNavigationItem v-if="!pageIsPublic"
+					<NcAppNavigationItem v-if="!pageIsPublic && (archivedProjectIds.length > 0 || showArchivedProjects)"
 						:name="showArchivedProjects ? t('cospend', 'Show active projects') : t('cospend', 'Show archived projects')"
 						@click="toggleArchivedProjects">
 						<template #icon>
@@ -131,7 +131,6 @@ import cospend from '../state.js'
 import * as constants from '../constants.js'
 import { strcmp, importCospendProject, importSWProject } from '../utils.js'
 
-import ClickOutside from 'vue-click-outside'
 import { emit } from '@nextcloud/event-bus'
 import { showSuccess } from '@nextcloud/dialogs'
 
@@ -156,9 +155,6 @@ export default {
 		ArchiveLockIcon,
 		CalendarIcon,
 		WebIcon,
-	},
-	directives: {
-		ClickOutside,
 	},
 	props: {
 		projects: {
@@ -204,10 +200,14 @@ export default {
 		}
 	},
 	computed: {
-		filteredProjectIds(opposite = false) {
-			return this.showArchivedProjects
-			    ? this.sortedProjectIds.filter(id => this.projects[id].archived_ts !== null)
-			    : this.sortedProjectIds.filter(id => this.projects[id].archived_ts === null)
+		filteredProjectIds() {
+			return this.showArchivedProjects ? this.archivedProjectIds : this.nonArchivedProjectIds
+		},
+		nonArchivedProjectIds() {
+			return this.sortedProjectIds.filter(id => this.projects[id].archived_ts === null)
+		},
+		archivedProjectIds() {
+			return this.sortedProjectIds.filter(id => this.projects[id].archived_ts !== null)
 		},
 		sortedProjectIds() {
 			if (this.cospend.sortOrder === 'name') {

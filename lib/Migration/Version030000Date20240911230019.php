@@ -51,7 +51,7 @@ class Version030000Date20240911230019 extends SimpleMigrationStep {
 				$table->addColumn('category_id', Types::BIGINT, [
 					'notnull' => false,
 					'default' => null,
-					'unsigned' => true,
+					'unsigned' => false,
 				]);
 				$schemaChanged = true;
 			}

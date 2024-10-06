@@ -24,9 +24,9 @@
 						:close-after-click="true"
 						@click="onAddBillClicked">
 						<template #icon>
-							<NotePlusOutlineIcon />
+							<NotePlusIcon />
 						</template>
-						{{ t('cospend', 'New bill') }}
+						{{ t('cospend', 'Create a bill') }}
 					</NcActionButton>
 					<NcActionButton v-if="oneActiveMember && trashbinEnabled"
 						:close-after-click="true"
@@ -166,15 +166,33 @@
 				</div>
 			</transition>
 		</div>
-		<h3 v-if="!oneActiveMember"
-			class="nomember">
-			{{ t('cospend', 'Add at least 2 members to start creating bills') }}
-		</h3>
+		<NcEmptyContent v-if="!oneActiveMember"
+			:name="t('cospend', 'No member')"
+			:description="t('cospend', 'Add at least 2 members to start creating bills')">
+			<template #icon>
+				<AccountIcon />
+			</template>
+			<template #action>
+				<NcButton @click="onAddMemberClicked">
+					<template #icon>
+						<AccountPlusIcon />
+					</template>
+					{{ t('cospend', 'Add a member') }}
+				</NcButton>
+			</template>
+		</NcEmptyContent>
 		<NcEmptyContent v-else-if="bills.length === 0 && !loading"
-			:name="t('cospend', 'No bills to show')"
-			:title="t('cospend', 'No bills to show')">
+			:name="t('cospend', 'No bills to show')">
 			<template #icon>
 				<CospendIcon />
+			</template>
+			<template v-if="!trashbinEnabled && editionAccess && oneActiveMember" #action>
+				<NcButton @click="onAddBillClicked">
+					<template #icon>
+						<NotePlusIcon />
+					</template>
+					{{ t('cospend', 'Create a bill') }}
+				</NcButton>
 			</template>
 		</NcEmptyContent>
 		<NcLoadingIcon v-if="loading" :size="24" />
@@ -269,8 +287,10 @@ import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 import FilterIcon from 'vue-material-design-icons/Filter.vue'
 import FormatListCheckboxIcon from 'vue-material-design-icons/FormatListCheckbox.vue'
-import NotePlusOutlineIcon from 'vue-material-design-icons/NotePlusOutline.vue'
+import NotePlusIcon from 'vue-material-design-icons/NotePlus.vue'
 import MagnifyIcon from 'vue-material-design-icons/Magnify.vue'
+import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
+import AccountIcon from 'vue-material-design-icons/Account.vue'
 
 import CospendIcon from './components/icons/CospendIcon.vue'
 
@@ -312,7 +332,7 @@ export default {
 		InfiniteLoading,
 		PaymentModeMultiSelect,
 		CategoryMultiSelect,
-		NotePlusOutlineIcon,
+		NotePlusIcon,
 		CloseIcon,
 		DeleteIcon,
 		FilterIcon,
@@ -322,6 +342,8 @@ export default {
 		RestoreIcon,
 		DeleteEmptyIcon,
 		MagnifyIcon,
+		AccountPlusIcon,
+		AccountIcon,
 	},
 
 	props: {
@@ -589,6 +611,9 @@ export default {
 			this.selectedBillIds = []
 			emit('close-trashbin', this.projectId)
 		},
+		onAddMemberClicked() {
+			emit('new-member-clicked', this.projectId)
+		},
 		onAddBillClicked() {
 			if (!this.editionAccess || !this.oneActiveMember) {
 				return
@@ -785,17 +810,6 @@ export default {
 			gap: 12px;
 		}
 	}
-}
-
-.nobill, .nomember {
-	text-align: center;
-	color: var(--color-text-lighter);
-	margin-top: 8px;
-	margin-left: 40px;
-}
-
-.nomember {
-	margin-top: 12px;
 }
 
 .multiSelectHint {

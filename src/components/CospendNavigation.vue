@@ -7,7 +7,7 @@
 				<template #actions>
 					<NcActions>
 						<template #icon>
-							<FolderPlusOutlineIcon />
+							<FolderPlusIcon />
 						</template>
 						<NcActionButton
 							:close-after-click="true"
@@ -107,7 +107,7 @@
 
 <script>
 import WebIcon from 'vue-material-design-icons/Web.vue'
-import FolderPlusOutlineIcon from 'vue-material-design-icons/FolderPlusOutline.vue'
+import FolderPlusIcon from 'vue-material-design-icons/FolderPlus.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import FileImportIcon from 'vue-material-design-icons/FileImport.vue'
@@ -155,7 +155,7 @@ export default {
 		FileImportIcon,
 		PlusIcon,
 		FolderIcon,
-		FolderPlusOutlineIcon,
+		FolderPlusIcon,
 		ArchiveLockIcon,
 		CalendarIcon,
 		WebIcon,

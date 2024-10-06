@@ -70,7 +70,7 @@
 			<NcActionButton v-if="maintenerAccess"
 				@click="onAddMemberClick">
 				<template #icon>
-					<AccountIcon :size="20" />
+					<AccountPlusIcon :size="20" />
 				</template>
 				{{ t('cospend', 'Add member') }}
 			</NcActionButton>
@@ -138,7 +138,7 @@
 				:name="t('cospend', 'Add a member')"
 				@click="onAddMemberClick">
 				<template #icon>
-					<PlusIcon :size="20" />
+					<AccountPlusIcon />
 				</template>
 			</NcAppNavigationItem>
 			<AppNavigationMemberItem v-for="member in sortedMembers"
@@ -161,9 +161,8 @@ import FolderNetworkOutlineIcon from 'vue-material-design-icons/FolderNetworkOut
 import DeleteVariantIcon from 'vue-material-design-icons/DeleteVariant.vue'
 import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
-import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
-import AccountIcon from 'vue-material-design-icons/Account.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import FolderOutlineIcon from 'vue-material-design-icons/FolderOutline.vue'
 import ChartLineIcon from 'vue-material-design-icons/ChartLine.vue'
@@ -196,8 +195,7 @@ export default {
 		FolderOutlineIcon,
 		CogIcon,
 		ShareVariantIcon,
-		AccountIcon,
-		PlusIcon,
+		AccountPlusIcon,
 		DeleteIcon,
 		DeleteVariantIcon,
 		ArchiveIcon,

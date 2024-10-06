@@ -168,7 +168,7 @@
 		</div>
 		<NcEmptyContent v-if="!oneActiveMember"
 			:name="t('cospend', 'No member')"
-			:description="t('cospend', 'Add at least 2 members to start creating bills')">
+			:description="t('cospend', 'Add at least one member to start creating bills')">
 			<template #icon>
 				<AccountIcon />
 			</template>

@@ -1,4 +1,4 @@
-name: Phpunit tests
+name: Phpunit multi tests
 
 on:
   push:
@@ -98,5 +98,5 @@ jobs:
         #if: ${{ !(matrix.databases == 'sqlite' && matrix.php-versions == '8.3' && matrix.server-versions == 'master') }}
         run: |
           cd ~/html/nextcloud/apps/${{ env.APP_ID }}
-          composer run phpunit && SUCCESS=yes || SUCCESS=no
+          composer run test:unit && SUCCESS=yes || SUCCESS=no
           if [ $SUCCESS = "yes" ]; then echo "TESTS PASSED"; else echo "TESTS FAILED"; exit 1; fi

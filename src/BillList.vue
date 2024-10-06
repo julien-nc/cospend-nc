@@ -17,7 +17,7 @@
 					:show-trailing-button="!['', null].includes(billFilterQuery)"
 					@trailing-button-click="onUpdateBillFilterQuery(''); billFilterQuery = ''"
 					@update:value="onUpdateBillFilterQuery">
-					<MagnifyIcon />
+					<MagnifyIcon :size="20" />
 				</NcTextField>
 				<NcActions :inline="1">
 					<NcActionButton v-if="!trashbinEnabled && editionAccess && oneActiveMember"

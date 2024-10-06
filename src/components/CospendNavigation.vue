@@ -1,43 +1,43 @@
 <template>
 	<NcAppNavigation>
-		<template #list>
-			<NcAppNavigationItem v-if="!pageIsPublic && !loading"
-				class="addProjectItem"
-				:name="t('cospend', 'New project')"
-				:loading="importingProject"
-				:menu-open="importMenuOpen"
-				@click="importMenuOpen = true"
-				@update:menuOpen="updateImportMenuOpen">
-				<template #icon>
-					<PlusIcon :size="20" />
-				</template>
+		<template v-if="!pageIsPublic && !loading" #search>
+			<NcAppNavigationSearch v-model="projectFilterQuery"
+				label="plop"
+				:placeholder="t('cospend', 'Search projects')">
 				<template #actions>
-					<NcActionButton
-						:close-after-click="true"
-						@click="showCreationModal = true">
+					<NcActions>
 						<template #icon>
-							<FolderPlusIcon />
+							<FolderPlusOutlineIcon />
 						</template>
-						{{ t('cospend', 'Create empty project') }}
-					</NcActionButton>
-					<NcActionButton
-						:close-after-click="true"
-						@click="onImportClick">
-						<template #icon>
-							<FileImportIcon />
-						</template>
-						{{ t('cospend', 'Import csv project') }}
-					</NcActionButton>
-					<NcActionButton
-						:close-after-click="true"
-						@click="onImportSWClick">
-						<template #icon>
-							<FileImportIcon />
-						</template>
-						{{ t('cospend', 'Import SplitWise project') }}
-					</NcActionButton>
+						<NcActionButton
+							:close-after-click="true"
+							@click="showCreationModal = true">
+							<template #icon>
+								<PlusIcon />
+							</template>
+							{{ t('cospend', 'Create empty project') }}
+						</NcActionButton>
+						<NcActionButton
+							:close-after-click="true"
+							@click="onImportClick">
+							<template #icon>
+								<FileImportIcon />
+							</template>
+							{{ t('cospend', 'Import csv project') }}
+						</NcActionButton>
+						<NcActionButton
+							:close-after-click="true"
+							@click="onImportSWClick">
+							<template #icon>
+								<FileImportIcon />
+							</template>
+							{{ t('cospend', 'Import SplitWise project') }}
+						</NcActionButton>
+					</NcActions>
 				</template>
-			</NcAppNavigationItem>
+			</NcAppNavigationSearch>
+		</template>
+		<template #list>
 			<NewProjectModal v-if="showCreationModal"
 				@close="showCreationModal = false" />
 			<NcLoadingIcon v-if="loading" :size="24" />
@@ -107,7 +107,7 @@
 
 <script>
 import WebIcon from 'vue-material-design-icons/Web.vue'
-import FolderPlusIcon from 'vue-material-design-icons/FolderPlus.vue'
+import FolderPlusOutlineIcon from 'vue-material-design-icons/FolderPlusOutline.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import FileImportIcon from 'vue-material-design-icons/FileImport.vue'
@@ -121,6 +121,8 @@ import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcAppNavigationSearch from '@nextcloud/vue/dist/Components/NcAppNavigationSearch.js'
 
 import AppNavigationProjectItem from './AppNavigationProjectItem.vue'
 import NewProjectModal from './NewProjectModal.vue'
@@ -147,11 +149,13 @@ export default {
 		NcActionButton,
 		NcCounterBubble,
 		NcLoadingIcon,
+		NcActions,
+		NcAppNavigationSearch,
 		CogIcon,
 		FileImportIcon,
 		PlusIcon,
 		FolderIcon,
-		FolderPlusIcon,
+		FolderPlusOutlineIcon,
 		ArchiveLockIcon,
 		CalendarIcon,
 		WebIcon,
@@ -197,11 +201,15 @@ export default {
 			showCreationModal: false,
 			showArchivedProjects: false,
 			showPendingInvitations: false,
+			projectFilterQuery: '',
 		}
 	},
 	computed: {
 		filteredProjectIds() {
-			return this.showArchivedProjects ? this.archivedProjectIds : this.nonArchivedProjectIds
+			const projectIds = this.showArchivedProjects ? this.archivedProjectIds : this.nonArchivedProjectIds
+			return this.projectFilterQuery === ''
+				? projectIds
+				: projectIds.filter(id => this.projects[id].name.toLowerCase().includes(this.projectFilterQuery.toLowerCase()))
 		},
 		nonArchivedProjectIds() {
 			return this.sortedProjectIds.filter(id => this.projects[id].archived_ts === null)
@@ -271,53 +279,5 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-.addProjectItem {
-	position: sticky;
-	top: 0;
-	z-index: 1000;
-	border-bottom: 1px solid var(--color-border);
-	::v-deep .app-navigation-entry {
-		background-color: var(--color-main-background-blur, var(--color-main-background));
-		backdrop-filter: var(--filter-background-blur, none);
-		&:hover {
-			background-color: var(--color-background-hover);
-		}
-	}
-}
-
-#app-settings-content {
-	p {
-		margin-top: 20px;
-		margin-bottom: 20px;
-		color: var(--color-text-light);
-	}
-}
-
-.project-create {
-	order: 1;
-	display: flex;
-	height: 44px;
-	form {
-		display: flex;
-		flex-grow: 1;
-		input[type='text'] {
-			flex-grow: 1;
-		}
-	}
-}
-
-.buttonItem {
-	border-bottom: solid 1px var(--color-border);
-}
-
-.creation-modal-content {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
-	padding: 16px;
-
-	.submit {
-		align-self: end;
-	}
-}
+// nothing
 </style>

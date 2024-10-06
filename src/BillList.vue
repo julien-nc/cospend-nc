@@ -42,7 +42,7 @@
 						<template #icon>
 							<DeleteVariantIcon />
 						</template>
-						{{ t('cospend', 'Show trashbin') }}
+						{{ t('cospend', 'Show the trash bin') }}
 					</NcActionButton>
 					<NcActionButton v-if="trashbinEnabled && editionAccess && bills.length > 0"
 						:close-after-click="true"

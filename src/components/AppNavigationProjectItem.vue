@@ -257,8 +257,8 @@ export default {
 		},
 		trashbinActionLabel() {
 			return this.selected && this.trashbinEnabled
-				? t('cospend', 'Close trash bin')
-				: t('cospend', 'Show trash bin')
+				? t('cospend', 'Close the trash bin')
+				: t('cospend', 'Show the trash bin')
 		},
 	},
 	beforeMount() {

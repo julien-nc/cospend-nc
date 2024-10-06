@@ -1884,6 +1884,7 @@ button {
 .field-with-info {
 	width: 100%;
 	display: flex;
+	gap: 4px;
 	align-items: center;
 	flex-grow: 1;
 	input,

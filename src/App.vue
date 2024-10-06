@@ -341,8 +341,9 @@ export default {
 		this.getProjects()
 	},
 	mounted() {
-		subscribe('nextcloud:unified-search.search', this.filter)
-		subscribe('nextcloud:unified-search.reset', this.cleanSearch)
+		subscribe('nextcloud:unified-search:search', this.filter)
+		subscribe('bill-search', this.filter)
+		subscribe('nextcloud:unified-search:reset', this.cleanSearch)
 
 		subscribe('project-clicked', this.onProjectClicked)
 		subscribe('delete-project', this.onDeleteProject)
@@ -372,8 +373,9 @@ export default {
 		subscribe('remove-unreachable-project', this.removeUnreachableProject)
 	},
 	beforeDestroy() {
-		unsubscribe('nextcloud:unified-search.search', this.filter)
-		unsubscribe('nextcloud:unified-search.reset', this.cleanSearch)
+		unsubscribe('nextcloud:unified-search:search', this.filter)
+		unsubscribe('bill-search', this.filter)
+		unsubscribe('nextcloud:unified-search:reset', this.cleanSearch)
 
 		unsubscribe('project-clicked', this.onProjectClicked)
 		unsubscribe('delete-project', this.onDeleteProject)
@@ -473,7 +475,7 @@ export default {
 			this.activeSidebarTab = 'sharing'
 		},
 		filter({ query }) {
-			this.filterQuery = query
+			this.filterQuery = query === '' ? null : query
 			this.onFilterChange()
 		},
 		cleanSearch() {

@@ -3,27 +3,32 @@
 		ref="list">
 		<div class="list-header">
 			<div class="list-header-header">
-				<NcAppNavigationItem
-					v-show="!loading && !trashbinEnabled"
-					class="list-header-item"
-					:name="(editionAccess && oneActiveMember) ? t('cospend', 'New bill') : ''"
-					:force-display-actions="editionAccess && oneActiveMember"
-					@click="onAddBillClicked">
-					<template #icon>
-						<PlusIcon v-show="editionAccess && oneActiveMember" :size="20" />
-					</template>
-				</NcAppNavigationItem>
-				<NcAppNavigationItem
-					v-show="!loading && trashbinEnabled"
-					class="list-header-item"
-					:name="t('cospend', 'Trash bin')"
-					:force-display-actions="true">
+				<NcButton v-if="trashbinEnabled"
+					type="tertiary"
+					:aria-label="t('cospend', 'Trash bin')">
 					<template #icon>
 						<DeleteVariantIcon class="header-trashbin-icon" />
 					</template>
-				</NcAppNavigationItem>
-				<NcActions :inline="trashbinEnabled ? 1 : 0">
-					<NcActionButton v-if="trashbinEnabled"
+				</NcButton>
+				<NcTextField
+					:value.sync="billFilterQuery"
+					:placeholder="t('cospend', 'Search bills')"
+					:disabled="bills.length === 0"
+					:show-trailing-button="!['', null].includes(billFilterQuery)"
+					@trailing-button-click="onUpdateBillFilterQuery(''); billFilterQuery = ''"
+					@update:value="onUpdateBillFilterQuery">
+					<MagnifyIcon />
+				</NcTextField>
+				<NcActions :inline="1">
+					<NcActionButton v-if="!trashbinEnabled && editionAccess && oneActiveMember"
+						:close-after-click="true"
+						@click="onAddBillClicked">
+						<template #icon>
+							<NotePlusOutlineIcon />
+						</template>
+						{{ t('cospend', 'New bill') }}
+					</NcActionButton>
+					<NcActionButton v-if="oneActiveMember && trashbinEnabled"
 						:close-after-click="true"
 						@click="onCloseTrashbinClicked">
 						<template #icon>
@@ -31,7 +36,7 @@
 						</template>
 						{{ t('cospend', 'Close trashbin') }}
 					</NcActionButton>
-					<NcActionButton v-else
+					<NcActionButton v-if="oneActiveMember && !trashbinEnabled"
 						:close-after-click="true"
 						@click="showTrashbin">
 						<template #icon>
@@ -47,7 +52,7 @@
 						</template>
 						{{ t('cospend', 'Clear trashbin') }}
 					</NcActionButton>
-					<NcActionButton v-show="bills.length > 0 || filterMode"
+					<NcActionButton v-if="bills.length > 0 || filterMode"
 						:close-after-click="true"
 						@click="toggleFilterMode">
 						<template #icon>
@@ -56,7 +61,7 @@
 						</template>
 						{{ filterToggleText }}
 					</NcActionButton>
-					<NcActionButton v-show="(editionAccess && bills.length > 0) || selectMode"
+					<NcActionButton v-if="(editionAccess && bills.length > 0) || selectMode"
 						:close-after-click="true"
 						@click="toggleSelectMode">
 						<template #icon>
@@ -264,7 +269,8 @@ import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 import FilterIcon from 'vue-material-design-icons/Filter.vue'
 import FormatListCheckboxIcon from 'vue-material-design-icons/FormatListCheckbox.vue'
-import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import NotePlusOutlineIcon from 'vue-material-design-icons/NotePlusOutline.vue'
+import MagnifyIcon from 'vue-material-design-icons/Magnify.vue'
 
 import CospendIcon from './components/icons/CospendIcon.vue'
 
@@ -272,10 +278,10 @@ import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcAppContentList from '@nextcloud/vue/dist/Components/NcAppContentList.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 import PaymentModeMultiSelect from './components/PaymentModeMultiSelect.vue'
 import CategoryMultiSelect from './components/CategoryMultiSelect.vue'
@@ -296,17 +302,17 @@ export default {
 		BillListItem,
 		CospendIcon,
 		NcAppContentList,
-		NcAppNavigationItem,
 		NcActions,
 		NcActionButton,
 		NcEmptyContent,
 		NcDialog,
 		NcButton,
+		NcTextField,
 		NcLoadingIcon,
 		InfiniteLoading,
 		PaymentModeMultiSelect,
 		CategoryMultiSelect,
-		PlusIcon,
+		NotePlusOutlineIcon,
 		CloseIcon,
 		DeleteIcon,
 		FilterIcon,
@@ -315,6 +321,7 @@ export default {
 		DeleteVariantIcon,
 		RestoreIcon,
 		DeleteEmptyIcon,
+		MagnifyIcon,
 	},
 
 	props: {
@@ -367,6 +374,7 @@ export default {
 			showDeletionConfirmation: false,
 			showRestorationConfirmation: false,
 			showClearTrashBinConfirmation: false,
+			billFilterQuery: '',
 		}
 	},
 
@@ -574,6 +582,9 @@ export default {
 				return bill.id === this.selectedBillId
 			}
 		},
+		onUpdateBillFilterQuery(query) {
+			emit('bill-search', { query })
+		},
 		onCloseTrashbinClicked() {
 			this.selectedBillIds = []
 			emit('close-trashbin', this.projectId)
@@ -705,13 +716,12 @@ export default {
 
 	.list-header-header {
 		display: flex;
-		.list-header-item {
-			padding-left: 40px;
-			flex-shrink: 1;
+		gap: 4px;
+		padding: var(--app-navigation-padding);
+		padding-left: calc(var(--default-clickable-area) + 12px);
 
-			.header-trashbin-icon {
-				color: var(--color-error);
-			}
+		.header-trashbin-icon {
+			color: var(--color-error);
 		}
 	}
 

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-10-06 19:47+0200\n"
-"PO-Revision-Date: 2024-10-06 17:48\n"
+"PO-Revision-Date: 2024-10-07 17:44\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -1177,7 +1177,7 @@ msgstr "Corbeille"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:134
 msgid "Search bills"
-msgstr ""
+msgstr "Rechercher des factures"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:136
 msgid "Close trashbin"
@@ -1237,11 +1237,11 @@ msgstr "Restaurer les factures sélectionnées"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:149
 msgid "No member"
-msgstr ""
+msgstr "Aucun membre"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:150
 msgid "Add at least one member to start creating bills"
-msgstr ""
+msgstr "Ajoutez au moins un membre pour commencer à créer des factures"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:151
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:314
@@ -1912,7 +1912,7 @@ msgstr "Nom"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:344
 msgid "Search projects"
-msgstr ""
+msgstr "Rechercher des projets"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:345
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:410

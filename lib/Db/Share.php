@@ -31,21 +31,22 @@ use OCP\AppFramework\Db\Entity;
  * @method int|null getState()
  */
 class Share extends Entity implements \JsonSerializable {
+
 	public const TYPE_FEDERATION = 'f';
 	public const TYPE_PUBLIC_LINK = 'l';
 	public const TYPE_USER = 'u';
 	public const TYPE_GROUP = 'g';
 	public const TYPE_CIRCLE = 'c';
 
-	protected string $projectId = '';
-	protected ?string $userId = null;
-	protected string $type = self::TYPE_USER;
-	protected int $accessLevel = 2;
-	protected int $manuallyAdded = 1;
-	protected ?string $label = null;
-	protected ?string $password = null;
-	protected ?string $userCloudId = null;
-	protected ?int $state = null;
+	protected $projectId;
+	protected $userId;
+	protected $type;
+	protected $accessLevel;
+	protected $manuallyAdded;
+	protected $label;
+	protected $password;
+	protected $userCloudId;
+	protected $state;
 
 	public function __construct() {
 		$this->addType('project_id', 'string');

@@ -23,11 +23,12 @@ use OCP\AppFramework\Db\Entity;
  * @method int getOrder()
  */
 class Category extends Entity implements \JsonSerializable {
-	protected string $projectId = '';
-	protected ?string $name = null;
-	protected ?string $color = null;
-	protected ?string $encodedIcon = null;
-	protected int $order = 0;
+
+	protected $projectId;
+	protected $name;
+	protected $color;
+	protected $encodedIcon;
+	protected $order;
 
 	public function __construct() {
 		$this->addType('project_id', 'string');

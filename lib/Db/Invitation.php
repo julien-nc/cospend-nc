@@ -29,17 +29,18 @@ use OCP\AppFramework\Db\Entity;
  * @method string getInviterDisplayName()
  */
 class Invitation extends Entity implements \JsonSerializable {
+
 	public const STATE_PENDING = 0;
 	public const STATE_ACCEPTED = 1;
 
-	protected string $userId = '';
-	protected int $state = self::STATE_PENDING;
-	protected string $accessToken = '';
-	protected string $remoteProjectId = '';
-	protected string $remoteProjectName = '...';
-	protected string $remoteServerUrl = '';
-	protected string $inviterCloudId = '';
-	protected string $inviterDisplayName = '';
+	protected $userId;
+	protected $state;
+	protected $accessToken;
+	protected $remoteProjectId;
+	protected $remoteProjectName;
+	protected $remoteServerUrl;
+	protected $inviterCloudId;
+	protected $inviterDisplayName;
 
 	public function __construct() {
 		$this->addType('userId', 'string');

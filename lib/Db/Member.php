@@ -36,13 +36,13 @@ use OCP\IAvatarManager;
  */
 class Member extends Entity implements \JsonSerializable {
 
-	protected string $projectId = '';
-	protected string $name = '';
-	protected float $weight = -1;
-	protected int $activated = 1;
-	protected int $lastChanged = 0;
-	protected ?string $color = null;
-	protected ?string $userId = null;
+	protected $projectId;
+	protected $name;
+	protected $weight;
+	protected $activated;
+	protected $lastChanged;
+	protected $color;
+	protected $userId;
 
 	private $avatarManager;
 

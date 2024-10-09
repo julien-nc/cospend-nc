@@ -38,15 +38,15 @@ use OCP\AppFramework\Db\Entity;
  */
 class Project extends Entity implements \JsonSerializable {
 
-	protected string $userId = '';
-	protected string $name = '';
-	protected string $autoExport = 'n';
-	protected int $lastChanged = 0;
-	protected int $deletionDisabled = 0;
-	protected string $categorySort = 'a';
-	protected string $paymentModeSort = 'a';
-	protected ?string $currencyName = null;
-	protected ?int $archivedTs = null;
+	protected $userId;
+	protected $name;
+	protected $autoExport;
+	protected $lastChanged;
+	protected $deletionDisabled;
+	protected $categorySort;
+	protected $paymentModeSort;
+	protected $currencyName;
+	protected $archivedTs;
 
 	public function __construct() {
 		$this->addType('id', 'string');

@@ -48,21 +48,21 @@ use OCP\AppFramework\Db\Entity;
  * @method void setDeleted(int $deleted) */
 class Bill extends Entity implements \JsonSerializable {
 
-	protected string $what = '...';
-	protected ?string $comment = null;
-	protected int $payerId = 0;
-	protected float $amount = -1;
-	protected int $timestamp = 0;
-	protected string $repeat = 'n';
-	protected int $repeatAllActive = 0;
-	protected ?string $repeatUntil = null;
-	protected int $repeatFrequency = 1;
-	protected string $projectId = '';
-	protected ?int $categoryId = null;
-	protected ?string $paymentMode = null;
-	protected ?int $paymentModeId = 0;
-	protected int $lastChanged = 0;
-	protected int $deleted = 0;
+	protected $what;
+	protected $comment;
+	protected $payerId;
+	protected $amount;
+	protected $timestamp;
+	protected $repeat;
+	protected $repeatAllActive;
+	protected $repeatUntil;
+	protected $repeatFrequency;
+	protected $projectId;
+	protected $categoryId;
+	protected $paymentMode;
+	protected $paymentModeId;
+	protected $lastChanged;
+	protected $deleted;
 
 	public function __construct() {
 		$this->addType('id', 'integer');

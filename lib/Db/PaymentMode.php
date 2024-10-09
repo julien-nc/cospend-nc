@@ -25,12 +25,13 @@ use OCP\AppFramework\Db\Entity;
  * @method string|null getOldId()
  */
 class PaymentMode extends Entity implements \JsonSerializable {
-	protected string $projectId = '';
-	protected ?string $name = null;
-	protected ?string $color = null;
-	protected ?string $encodedIcon = null;
-	protected int $order = 0;
-	protected ?string $oldId = null;
+
+	protected $projectId;
+	protected $name;
+	protected $color;
+	protected $encodedIcon;
+	protected $order;
+	protected $oldId;
 
 	public function __construct() {
 		$this->addType('project_id', 'string');

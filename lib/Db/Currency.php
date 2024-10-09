@@ -19,9 +19,10 @@ use OCP\AppFramework\Db\Entity;
  * @method float getExchangeRate()
  */
 class Currency extends Entity implements \JsonSerializable {
-	protected string $projectId = '';
-	protected string $name = '';
-	protected float $exchangeRate = -999;
+
+	protected $projectId;
+	protected $name;
+	protected $exchangeRate;
 
 	public function __construct() {
 		$this->addType('project_id', 'string');

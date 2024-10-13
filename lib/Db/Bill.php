@@ -92,7 +92,8 @@ class Bill extends Entity implements \JsonSerializable {
 			'comment' => $this->getComment() ?? '',
 			'payer_id' => $this->getPayerId(),
 			'timestamp' => $this->getTimestamp(),
-			'date' => DateTime::createFromFormat('U', (string)$this->getTimestamp())->format('Y-m-d'),
+			// TODO replace all DateTime::createFromFormat('U' by @blabla
+			'date' => (new DateTime('@' . $this->getTimestamp()))->format('Y-m-d'),
 			'amount' => $this->getAmount(),
 			'repeat' => $this->getRepeat(),
 			'repeatallactive' => $this->getRepeatAllActive(),

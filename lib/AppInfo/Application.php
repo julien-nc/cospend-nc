@@ -14,6 +14,7 @@ namespace OCA\Cospend\AppInfo;
 use OCA\Cospend\Capabilities;
 use OCA\Cospend\Dashboard\CospendWidget;
 use OCA\Cospend\Federation\CloudFederationProviderCospend;
+use OCA\Cospend\Listener\CSPListener;
 use OCA\Cospend\Middleware\FederationMiddleware;
 use OCA\Cospend\Middleware\PublicAuthMiddleware;
 use OCA\Cospend\Middleware\UserPermissionMiddleware;
@@ -28,6 +29,7 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\IConfig;
+use OCP\Security\CSP\AddContentSecurityPolicyEvent;
 use OCP\Server;
 use OCP\Util;
 
@@ -117,6 +119,7 @@ class Application extends App implements IBootstrap {
 		$context->registerMiddleware(FederationMiddleware::class);
 
 		$context->registerCapability(Capabilities::class);
+		$context->registerEventListener(AddContentSecurityPolicyEvent::class, CSPListener::class);
 	}
 
 	public function boot(IBootContext $context): void {

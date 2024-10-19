@@ -91,7 +91,7 @@
 						</template>
 						{{ t('cospend', 'Show project settings') }}
 					</NcButton>
-					<NcButton v-if="!cospend.pageIsPublic && currentProjectId && !currentProject.federated"
+					<NcButton v-if="!cospend.pageIsPublic && currentProjectId && !isCurrentProjectFederated"
 						@click="onShareClicked(currentProjectId)">
 						<template #icon>
 							<ShareVariantIcon />
@@ -231,6 +231,7 @@ export default {
 	mixins: [isMobile],
 	provide() {
 		return {
+			isCurrentProjectFederated: () => this.isCurrentProjectFederated,
 		}
 	},
 	data() {
@@ -271,6 +272,9 @@ export default {
 		},
 		currentProject() {
 			return this.projects[this.currentProjectId]
+		},
+		isCurrentProjectFederated() {
+			return this.currentProject?.federated === true
 		},
 		selectedBillId() {
 			return (this.currentBill !== null) ? this.currentBill.id : -1
@@ -1144,7 +1148,10 @@ export default {
 			this.$set(this.projects[projectId], 'precision', precision)
 		},
 		createMember(projectId, name, userid = null) {
-			network.createMember(projectId, name, userid).then((response) => {
+			const isProjectFederated = this.projects[projectId].federated === true
+			// avoid adding local users as members in federated project, the user won't exist in the remote instance
+			const newMemberUserId = isProjectFederated ? null : userid
+			network.createMember(projectId, name, newMemberUserId).then((response) => {
 				const responseData = response.data.ocs.data
 				responseData.balance = 0
 				responseData.color = rgbObjToHex(responseData.color).replace('#', '')

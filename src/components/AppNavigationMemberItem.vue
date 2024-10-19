@@ -23,6 +23,7 @@
 						ref="avatar"
 						:member="member"
 						:size="24"
+						:force-is-no-user="project.federated"
 						:show-user-status="true" />
 				</template>
 			</NcColorPicker>
@@ -32,6 +33,7 @@
 			<MemberAvatar
 				:member="member"
 				:size="24"
+				:force-is-no-user="project.federated"
 				:show-user-status="true" />
 		</div>
 		<template v-if="inNavigation"

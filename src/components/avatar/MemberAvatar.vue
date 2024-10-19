@@ -27,6 +27,15 @@ export default {
 			type: Object,
 			required: true,
 		},
+		/**
+		 * For the special case of member nav item that is displayed even if its project is not the selected one
+		 * So we need to avoid treating the member as a user independently of the current selected project
+		 * The alternative would be to pass the project to all MemberAvatar but it would be heavy
+		 */
+		forceIsNoUser: {
+			type: Boolean,
+			default: false,
+		},
 	},
 
 	data() {
@@ -36,7 +45,7 @@ export default {
 
 	computed: {
 		isNoUser() {
-			return this.isCurrentProjectFederated() || !!this.member.userid === false
+			return this.forceIsNoUser || this.isCurrentProjectFederated() || !!this.member.userid === false
 		},
 	},
 

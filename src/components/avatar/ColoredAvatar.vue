@@ -2,6 +2,8 @@
 	<NcAvatar v-if="showMe"
 		class="colored-avatar"
 		:is-no-user="isNoUser"
+		:disable-menu="disableMenu"
+		:disable-tooltip="disableTooltip"
 		:show-user-status="showUserStatus"
 		:display-name="displayName"
 		:style="cssVars"
@@ -35,9 +37,17 @@ export default {
 			type: Boolean,
 			default: false,
 		},
-		showUserStatus: {
+		disableMenu: {
 			type: Boolean,
 			default: true,
+		},
+		disableTooltip: {
+			type: Boolean,
+			default: true,
+		},
+		showUserStatus: {
+			type: Boolean,
+			default: false,
 		},
 		displayName: {
 			type: String,

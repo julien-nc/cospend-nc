@@ -13,33 +13,19 @@
 		@input="onMemberSelected">
 		<template #option="option">
 			<div class="memberSelectOption">
-				<CospendTogglableAvatar
+				<MemberAvatar
 					v-if="option.id"
-					:enabled="option.activated"
-					:color="option.color"
-					:size="34"
-					:disable-menu="true"
-					:disable-tooltip="true"
-					:show-user-status="false"
-					:is-no-user="option.userid === undefined || option.userid === '' || option.userid === null"
-					:user="option.userid"
-					:display-name="option.name" />
+					:member="option"
+					:size="34" />
 				<span class="select-display-name">{{ option.displayName }}</span>
 			</div>
 		</template>
 		<template #selected-option="option">
 			<div class="memberSelectOption">
-				<CospendTogglableAvatar
+				<MemberAvatar
 					v-if="option.id"
-					:enabled="option.activated"
-					:color="option.color"
-					:size="24"
-					:disable-menu="true"
-					:disable-tooltip="true"
-					:show-user-status="false"
-					:is-no-user="option.userid === undefined || option.userid === '' || option.userid === null"
-					:user="option.userid"
-					:display-name="option.name" />
+					:member="option"
+					:size="24" />
 				<span class="select-display-name">{{ option.displayName }}</span>
 			</div>
 		</template>
@@ -49,7 +35,7 @@
 <script>
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 
-import CospendTogglableAvatar from './avatar/CospendTogglableAvatar.vue'
+import MemberAvatar from './avatar/MemberAvatar.vue'
 
 import { getSmartMemberName } from '../utils.js'
 
@@ -57,7 +43,7 @@ export default {
 	name: 'MemberMultiSelect',
 
 	components: {
-		CospendTogglableAvatar,
+		MemberAvatar,
 		NcSelect,
 	},
 

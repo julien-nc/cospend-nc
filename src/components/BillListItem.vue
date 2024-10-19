@@ -21,16 +21,9 @@
 			</div>
 		</template>
 		<template #icon>
-			<CospendTogglableAvatar
-				:enabled="!payerDisabled"
-				:color="payerColor"
-				:size="40"
-				:disable-menu="true"
-				:disable-tooltip="true"
-				:show-user-status="false"
-				:is-no-user="payerUserId === ''"
-				:user="payerUserId"
-				:display-name="payerName" />
+			<MemberAvatar
+				:member="billItemPayer"
+				:size="40" />
 		</template>
 		<template #actions>
 			<NcActionButton v-if="editionAccess && !selectMode && bill.id !== 0 && bill.deleted === 1 && !timerOn"
@@ -91,7 +84,7 @@ import UndoIcon from 'vue-material-design-icons/Undo.vue'
 import SwapHorizontalIcon from 'vue-material-design-icons/SwapHorizontal.vue'
 import ContentDuplicateIcon from 'vue-material-design-icons/ContentDuplicate.vue'
 
-import CospendTogglableAvatar from './avatar/CospendTogglableAvatar.vue'
+import MemberAvatar from './avatar/MemberAvatar.vue'
 
 import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
@@ -106,7 +99,7 @@ export default {
 	name: 'BillListItem',
 
 	components: {
-		CospendTogglableAvatar,
+		MemberAvatar,
 		NcListItem,
 		CalendarSyncIcon,
 		UndoIcon,
@@ -166,27 +159,19 @@ export default {
 		members() {
 			return cospend.members[this.projectId]
 		},
+		payer() {
+			return this.members[this.bill.payer_id]
+		},
+		billItemPayer() {
+			return this.bill.id === 0
+				? {
+					name: '*',
+					color: '000000',
+				}
+				: this.payer
+		},
 		payerDisabled() {
 			return this.bill.id !== 0 && !this.members[this.bill.payer_id].activated
-		},
-		payerUserId() {
-			return this.bill.id !== 0 && this.members[this.bill.payer_id]
-				? this.members[this.bill.payer_id].userid || ''
-				: ''
-		},
-		payerColor() {
-			return (this.bill.payer_id === 0 || this.bill.id === 0)
-				? '000000'
-				: this.members[this.bill.payer_id]
-					? this.members[this.bill.payer_id].color
-					: '000000'
-		},
-		payerName() {
-			return (this.bill.payer_id === 0 || this.bill.id === 0)
-				? '*'
-				: this.members[this.bill.payer_id]
-					? this.members[this.bill.payer_id].name
-					: ''
 		},
 		pageIsPublic() {
 			return cospend.pageIsPublic

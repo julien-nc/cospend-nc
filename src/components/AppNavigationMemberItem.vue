@@ -18,31 +18,21 @@
 				:value="`#${member.color}`"
 				@input="updateColor">
 				<template #default="{ attrs }">
-					<CospendTogglableAvatar
+					<MemberAvatar
 						v-bind="attrs"
 						ref="avatar"
-						:enabled="member.activated"
-						:color="member.color"
+						:member="member"
 						:size="24"
-						:disable-menu="true"
-						:disable-tooltip="true"
-						:is-no-user="!isUser"
-						:user="member.userid || ''"
-						:display-name="member.name" />
+						:show-user-status="true" />
 				</template>
 			</NcColorPicker>
 		</div>
 		<div v-else
 			slot="icon">
-			<CospendTogglableAvatar
-				:enabled="member.activated"
-				:color="member.color"
+			<MemberAvatar
+				:member="member"
 				:size="24"
-				:disable-menu="true"
-				:disable-tooltip="true"
-				:is-no-user="!isUser"
-				:user="member.userid || ''"
-				:display-name="member.name" />
+				:show-user-status="true" />
 		</div>
 		<template v-if="inNavigation"
 			#counter>
@@ -142,7 +132,7 @@ import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.
 import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
 import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
 
-import CospendTogglableAvatar from './avatar/CospendTogglableAvatar.vue'
+import MemberAvatar from './avatar/MemberAvatar.vue'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { emit } from '@nextcloud/event-bus'
@@ -155,7 +145,7 @@ import { showError } from '@nextcloud/dialogs'
 export default {
 	name: 'AppNavigationMemberItem',
 	components: {
-		CospendTogglableAvatar,
+		MemberAvatar,
 		NcAppNavigationItem,
 		NcActionButton,
 		NcActionRadio,

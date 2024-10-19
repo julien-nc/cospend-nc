@@ -175,16 +175,9 @@
 					:key="value.member.id">
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
 						<div class="owerAvatar">
-							<CospendTogglableAvatar
-								:enabled="!isMemberDisabled(value.member.id)"
-								:color="getMemberColor(value.member.id)"
-								:size="24"
-								:disable-menu="true"
-								:disable-tooltip="true"
-								:show-user-status="false"
-								:is-no-user="getMemberUserId(value.member.id) === ''"
-								:user="getMemberUserId(value.member.id)"
-								:display-name="getMemberName(value.member.id)" />
+							<MemberAvatar
+								:member="members[value.member.id]"
+								:size="24" />
 						</div>
 						<span>
 							{{ myGetSmartMemberName(value.member.id) }}
@@ -357,16 +350,9 @@
 					class="avatared centered-cell"
 					:style="'border: 2px solid #' + myGetMemberColor(mid) + ';'">
 					<div class="owerAvatar">
-						<CospendTogglableAvatar
-							:enabled="!isMemberDisabled(mid)"
-							:color="getMemberColor(mid)"
-							:size="24"
-							:disable-menu="true"
-							:disable-tooltip="true"
-							:show-user-status="false"
-							:is-no-user="getMemberUserId(mid) === ''"
-							:user="getMemberUserId(mid)"
-							:display-name="getMemberName(mid)" />
+						<MemberAvatar
+							:member="members[mid]"
+							:size="24" />
 					</div>
 					<span>{{ myGetSmartMemberName(mid) }}</span>
 				</v-th>
@@ -381,7 +367,10 @@
 						class="centered-cell"
 						:style="'border: 2px solid #' + myGetMemberColor(value.memberid) + ';'">
 						<div class="owerAvatar">
-							<CospendTogglableAvatar
+							<MemberAvatar
+								:member="members[value.memberid]"
+								:size="24" />
+							<!--CospendTogglableAvatar
 								:enabled="!isMemberDisabled(value.memberid)"
 								:color="getMemberColor(value.memberid)"
 								:size="24"
@@ -390,7 +379,7 @@
 								:show-user-status="false"
 								:is-no-user="getMemberUserId(value.memberid) === ''"
 								:user="getMemberUserId(value.memberid)"
-								:display-name="getMemberName(value.memberid)" />
+								:display-name="getMemberName(value.memberid)" /-->
 						</div>
 						<span>{{ myGetSmartMemberName(value.memberid) }}</span>
 					</td>
@@ -439,7 +428,7 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcAppContentDetails from '@nextcloud/vue/dist/Components/NcAppContentDetails.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 
-import CospendTogglableAvatar from '../avatar/CospendTogglableAvatar.vue'
+import MemberAvatar from '../avatar/MemberAvatar.vue'
 import MemberMultiSelect from '../MemberMultiSelect.vue'
 import CategoryMultiSelect from '../CategoryMultiSelect.vue'
 import PaymentModeMultiSelect from '../PaymentModeMultiSelect.vue'
@@ -458,7 +447,7 @@ export default {
 	name: 'Statistics',
 
 	components: {
-		CospendTogglableAvatar,
+		MemberAvatar,
 		CurrencyIcon,
 		MemberMultiSelect,
 		PieChartJs,
@@ -1165,18 +1154,6 @@ export default {
 				balanceClass = 'balanceNegative'
 			}
 			return balanceClass
-		},
-		isMemberDisabled(mid) {
-			return !this.members[mid].activated
-		},
-		getMemberColor(mid) {
-			return this.members[mid].color || ''
-		},
-		getMemberUserId(mid) {
-			return this.members[mid].userid || ''
-		},
-		getMemberName(mid) {
-			return this.members[mid].name
 		},
 		myGetSmartMemberName(mid) {
 			let smartName = getSmartMemberName(this.projectId, mid)

@@ -24,16 +24,9 @@
 						<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
 							<div v-if="value.member.id !== 0"
 								class="owerAvatar">
-								<CospendTogglableAvatar
-									:enabled="!isMemberDisabled(value.member.id)"
-									:color="getMemberColor(value.member.id)"
-									:size="24"
-									:disable-menu="true"
-									:disable-tooltip="true"
-									:show-user-status="false"
-									:is-no-user="getMemberUserId(value.member.id) === ''"
-									:user="getMemberUserId(value.member.id)"
-									:display-name="getMemberName(value.member.id)" />
+								<MemberAvatar
+									:member="members[value.member.id]"
+									:size="24" />
 							</div>
 							<span>
 								{{ (value.member.id !== 0) ? myGetSmartMemberName(value.member.id) : value.member.name }}
@@ -62,7 +55,7 @@
 </template>
 
 <script>
-import CospendTogglableAvatar from '../avatar/CospendTogglableAvatar.vue'
+import MemberAvatar from '../avatar/MemberAvatar.vue'
 
 import { getSmartMemberName } from '../../utils.js'
 import cospend from '../../state.js'
@@ -72,7 +65,7 @@ export default {
 	name: 'MemberMonthly',
 
 	components: {
-		CospendTogglableAvatar,
+		MemberAvatar,
 		LineChartJs,
 	},
 
@@ -239,18 +232,6 @@ export default {
 			if (data.length > 0 && data[0].index !== undefined) {
 				this.selectedMemberMonthlyCol = data[0].index
 			}
-		},
-		isMemberDisabled(mid) {
-			return !this.members[mid].activated
-		},
-		getMemberColor(mid) {
-			return this.members[mid].color || ''
-		},
-		getMemberUserId(mid) {
-			return this.members[mid].userid || ''
-		},
-		getMemberName(mid) {
-			return this.members[mid].name
 		},
 		myGetSmartMemberName(mid) {
 			let smartName = getSmartMemberName(this.projectId, mid)

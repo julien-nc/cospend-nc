@@ -2,17 +2,11 @@
 	<NcAppContentDetails class="bill-form-content">
 		<h2 class="bill-title">
 			<div class="billFormAvatar">
-				<CospendTogglableAvatar
-					:enabled="!payerDisabled"
-					:color="payerColor"
-					:size="44"
-					:disable-menu="true"
-					:disable-tooltip="true"
-					:show-user-status="false"
-					:icon-class="billLoading ? 'icon-loading' : undefined"
-					:is-no-user="payerUserId === ''"
-					:user="payerUserId"
-					:display-name="payerName" />
+				<NcLoadingIcon v-if="billLoading"
+					:size="44" />
+				<MemberAvatar v-else
+					:member="billItemPayer"
+					:size="44" />
 			</div>
 			<span>
 				{{ billFormattedTitle }}
@@ -446,16 +440,9 @@
 								class="nc-checkbox"
 								@update:checked="onOwerChecked2($event, ower.id)">
 								<div class="nc-checkbox-content">
-									<CospendTogglableAvatar
-										:enabled="!isMemberDisabled(ower.id)"
-										:color="getMemberColor(ower.id)"
-										:size="24"
-										:disable-menu="true"
-										:disable-tooltip="true"
-										:show-user-status="false"
-										:is-no-user="getMemberUserId(ower.id) === ''"
-										:user="getMemberUserId(ower.id)"
-										:display-name="getMemberName(ower.id)" />
+									<MemberAvatar
+										:member="members[ower.id]"
+										:size="24" />
 									<span
 										class="owerCheckboxName">
 										{{ ower.name }}
@@ -477,16 +464,9 @@
 								class="nc-checkbox"
 								@update:checked="onOwerChecked2($event, ower.id)">
 								<div class="nc-checkbox-content">
-									<CospendTogglableAvatar
-										:enabled="!isMemberDisabled(ower.id)"
-										:color="getMemberColor(ower.id)"
-										:size="24"
-										:disable-menu="true"
-										:disable-tooltip="true"
-										:show-user-status="false"
-										:is-no-user="getMemberUserId(ower.id) === ''"
-										:user="getMemberUserId(ower.id)"
-										:display-name="getMemberName(ower.id)" />
+									<MemberAvatar
+										:member="members[ower.id]"
+										:size="24" />
 									<span
 										class="owerCheckboxName">
 										{{ ower.name }}
@@ -508,16 +488,9 @@
 							:key="ower.id"
 							class="owerEntry">
 							<div class="owerAvatar">
-								<CospendTogglableAvatar
-									:enabled="!isMemberDisabled(ower.id)"
-									:color="getMemberColor(ower.id)"
-									:size="24"
-									:disable-menu="true"
-									:disable-tooltip="true"
-									:show-user-status="false"
-									:is-no-user="getMemberUserId(ower.id) === ''"
-									:user="getMemberUserId(ower.id)"
-									:display-name="getMemberName(ower.id)" />
+								<MemberAvatar
+									:member="members[ower.id]"
+									:size="24" />
 							</div>
 							<label
 								class="numberlabel"
@@ -540,16 +513,9 @@
 							:key="ower.id"
 							class="owerEntry">
 							<div class="owerAvatar">
-								<CospendTogglableAvatar
-									:enabled="!isMemberDisabled(ower.id)"
-									:color="getMemberColor(ower.id)"
-									:size="24"
-									:disable-menu="true"
-									:disable-tooltip="true"
-									:show-user-status="false"
-									:is-no-user="getMemberUserId(ower.id) === ''"
-									:user="getMemberUserId(ower.id)"
-									:display-name="getMemberName(ower.id)" />
+								<MemberAvatar
+									:member="members[ower.id]"
+									:size="24" />
 							</div>
 							<label
 								class="numberlabel"
@@ -620,8 +586,9 @@ import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 
-import CospendTogglableAvatar from './components/avatar/CospendTogglableAvatar.vue'
+import MemberAvatar from './components/avatar/MemberAvatar.vue'
 import MemberMultiSelect from './components/MemberMultiSelect.vue'
 
 import { emit } from '@nextcloud/event-bus'
@@ -636,7 +603,7 @@ import {
 } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
 import {
-	delay, getCategory, getPaymentMode, getSmartMemberName, strcmp, evalAlgebricFormula,
+	delay, getCategory, getPaymentMode, strcmp, evalAlgebricFormula,
 } from './utils.js'
 import cospend from './state.js'
 import * as network from './network.js'
@@ -646,7 +613,7 @@ export default {
 	name: 'BillForm',
 
 	components: {
-		CospendTogglableAvatar,
+		MemberAvatar,
 		CurrencyIcon,
 		CospendIcon,
 		NcDateTimePicker,
@@ -654,6 +621,7 @@ export default {
 		NcSelect,
 		NcCheckboxRadioSwitch,
 		NcTextField,
+		NcLoadingIcon,
 		MemberMultiSelect,
 		NcButton,
 		NcRichContenteditable,
@@ -899,6 +867,17 @@ export default {
 		},
 		project() {
 			return cospend.projects[this.projectId]
+		},
+		payer() {
+			return this.members[this.myBill.payer_id]
+		},
+		billItemPayer() {
+			return this.myBill.id === 0
+				? {
+					name: '*',
+					color: '000000',
+				}
+				: this.payer
 		},
 		payerDisabled() {
 			return this.myBill.id !== 0 && !this.members[this.myBill.payer_id].activated
@@ -1210,32 +1189,6 @@ export default {
 			return this.useTime
 				? moment(value, 'LLL', this.locale).toDate()
 				: moment(value, 'LL', this.locale).toDate()
-		},
-		myGetSmartMemberName(mid) {
-			let smartName = getSmartMemberName(this.projectId, mid)
-			if (smartName === t('cospend', 'You')) {
-				smartName += ' (' + this.members[mid].name + ')'
-			}
-			return smartName
-		},
-		getMemberName(mid) {
-			return this.members[mid].name
-		},
-		getMemberUserId(mid) {
-			return this.members[mid].userid || ''
-		},
-		getMemberColor(mid) {
-			return this.members[mid].color || ''
-		},
-		isMemberDisabled(mid) {
-			return !this.members[mid].activated
-		},
-		myGetMemberColor(mid) {
-			if (mid === 0) {
-				return '888888'
-			} else {
-				return this.members[mid].color
-			}
 		},
 		onOwerChecked2(checked, value) {
 			console.debug('ccccccccccccc', checked, value)
@@ -1773,9 +1726,7 @@ export default {
 	}
 
 	.billFormAvatar {
-		display: inline-block;
-		vertical-align: middle;
-		height: 46px;
+		display: flex;
 	}
 	.duplicate-bill {
 		width: 44px;

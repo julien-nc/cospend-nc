@@ -110,35 +110,21 @@
 			</thead>
 			<tbody slot="body" slot-scope="{displayData}">
 				<tr v-for="value in displayData" :key="value.from + ':' + value.to">
-					<td :style="'border: 2px solid #' + myGetMemberColor(value.from) + ';'">
+					<td :style="'border: 2px solid #' + members[value.from].color + ';'">
 						<div class="owerAvatar">
-							<CospendTogglableAvatar
-								:enabled="!isMemberDisabled(value.from)"
-								:color="getMemberColor(value.from)"
-								:size="24"
-								:disable-menu="true"
-								:disable-tooltip="true"
-								:show-user-status="false"
-								:is-no-user="getMemberUserId(value.from) === ''"
-								:user="getMemberUserId(value.from)"
-								:display-name="value.fromName" />
+							<MemberAvatar
+								:member="members[value.from]"
+								:size="24" />
 						</div>
 						<span>
 							{{ myGetSmartMemberName(project.id, value.from) }}
 						</span>
 					</td>
-					<td :style="'border: 2px solid #' + myGetMemberColor(value.to) + ';'">
+					<td :style="'border: 2px solid #' + members[value.to].color + ';'">
 						<div class="owerAvatar">
-							<CospendTogglableAvatar
-								:enabled="!isMemberDisabled(value.to)"
-								:color="getMemberColor(value.to)"
-								:size="24"
-								:disable-menu="true"
-								:disable-tooltip="true"
-								:show-user-status="false"
-								:is-no-user="getMemberUserId(value.to) === ''"
-								:user="getMemberUserId(value.to)"
-								:display-name="value.toName" />
+							<MemberAvatar
+								:member="members[value.to]"
+								:size="24" />
 						</div>
 						<span>
 							{{ myGetSmartMemberName(project.id, value.to) }}
@@ -181,25 +167,18 @@
 			<tbody slot="body" slot-scope="{displayData}">
 				<tr v-for="value in displayData"
 					:key="value.mid">
-					<td :style="'border: 2px solid #' + myGetMemberColor(value.mid) + ';'">
+					<td :style="'border: 2px solid #' + members[value.mid].color + ';'">
 						<div class="owerAvatar">
-							<CospendTogglableAvatar
-								:enabled="!isMemberDisabled(value.mid)"
-								:color="getMemberColor(value.mid)"
-								:size="24"
-								:disable-menu="true"
-								:disable-tooltip="true"
-								:show-user-status="false"
-								:is-no-user="getMemberUserId(value.mid) === ''"
-								:user="getMemberUserId(value.mid)"
-								:display-name="value.memberName" />
+							<MemberAvatar
+								:member="members[value.mid]"
+								:size="24" />
 						</div>
 						<span>
 							{{ myGetSmartMemberName(project.id, value.mid) }}
 						</span>
 					</td>
 					<td :class="getBalanceClass(value.balance)"
-						:style="'border: 2px solid #' + myGetMemberColor(value.mid) +';'">
+						:style="'border: 2px solid #' + members[value.mid].color +';'">
 						{{ value.balance.toFixed(2) }}
 						<span v-if="project.currencyname">
 							{{ project.currencyname }}
@@ -288,7 +267,7 @@ import NcDateTimePicker from '@nextcloud/vue/dist/Components/NcDateTimePicker.js
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
 
-import CospendTogglableAvatar from './components/avatar/CospendTogglableAvatar.vue'
+import MemberAvatar from './components/avatar/MemberAvatar.vue'
 
 import { showSuccess, showError } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
@@ -302,7 +281,7 @@ export default {
 	name: 'Settlement',
 
 	components: {
-		CospendTogglableAvatar,
+		MemberAvatar,
 		ReimburseIcon,
 		CospendIcon,
 		NcLoadingIcon,
@@ -418,20 +397,8 @@ export default {
 		myGetSmartMemberName(pid, mid) {
 			return getSmartMemberName(pid, mid)
 		},
-		myGetMemberColor(mid) {
-			return this.members[mid].color
-		},
 		getMemberName(mid) {
 			return this.members[mid].name
-		},
-		getMemberColor(mid) {
-			return this.members[mid].color || ''
-		},
-		getMemberUserId(mid) {
-			return this.members[mid].userid || ''
-		},
-		isMemberDisabled(mid) {
-			return !this.members[mid].activated
 		},
 		getBalanceClass(balance) {
 			let balanceClass = ''

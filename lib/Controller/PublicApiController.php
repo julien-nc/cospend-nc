@@ -257,7 +257,7 @@ class PublicApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Projects'])]
 	public function publicGetProjectStatistics(
 		string $token, ?int $tsMin = null, ?int $tsMax = null,
-		?int   $paymentModeId = null, ?int $categoryId = null,
+		?int $paymentModeId = null, ?int $categoryId = null,
 		?float $amountMin = null, ?float $amountMax = null,
 		string $showDisabled = '1', ?int $currencyId = null, ?int $payerId = null,
 	): DataResponse {
@@ -894,7 +894,7 @@ class PublicApiController extends OCSController {
 	#[BruteForceProtection(action: 'CospendPublicEditCat')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Categories'])]
 	public function publicEditCategory(
-		string  $token, int $categoryId,
+		string $token, int $categoryId,
 		?string $name = null, ?string $icon = null, ?string $color = null,
 	): DataResponse {
 		try {

@@ -42,12 +42,12 @@ use OCP\Search\SearchResultEntry;
 class CospendSearchProvider implements IProvider {
 
 	public function __construct(
-		private IAppManager         $appManager,
-		private IL10N               $l10n,
-		private IURLGenerator       $urlGenerator,
-		private IDateTimeFormatter  $dateFormatter,
+		private IAppManager $appManager,
+		private IL10N $l10n,
+		private IURLGenerator $urlGenerator,
+		private IDateTimeFormatter $dateFormatter,
 		private LocalProjectService $projectService,
-		private BillMapper          $billMapper,
+		private BillMapper $billMapper,
 	) {
 	}
 

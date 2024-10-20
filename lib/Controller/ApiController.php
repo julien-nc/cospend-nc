@@ -214,7 +214,7 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	#[SupportFederatedProject]
 	public function editProject(
-		string  $projectId, ?string $name = null,
+		string $projectId, ?string $name = null,
 		?string $autoExport = null, ?string $currencyName = null, ?bool $deletionDisabled = null,
 		?string $categorySort = null, ?string $paymentModeSort = null, ?int $archivedTs = null,
 	): DataResponse {

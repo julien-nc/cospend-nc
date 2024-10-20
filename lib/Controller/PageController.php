@@ -45,15 +45,15 @@ use OCP\PreConditionNotMetException;
 class PageController extends Controller {
 
 	public function __construct(
-		string                      $appName,
-		IRequest                    $request,
-		private IL10N               $trans,
+		string $appName,
+		IRequest $request,
+		private IL10N $trans,
 		private LocalProjectService $projectService,
-		private IInitialState       $initialStateService,
-		private IAppManager         $appManager,
-		private IEventDispatcher    $eventDispatcher,
-		private IConfig             $config,
-		private ?string             $userId,
+		private IInitialState $initialStateService,
+		private IAppManager $appManager,
+		private IEventDispatcher $eventDispatcher,
+		private IConfig $config,
+		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
 	}

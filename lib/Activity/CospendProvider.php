@@ -41,14 +41,14 @@ class CospendProvider implements IProvider {
 	private array $projectNames;
 
 	public function __construct(
-		private IURLGenerator       $urlGenerator,
-		private ActivityManager     $activityManager,
-		private IUserManager        $userManager,
-		private IGroupManager       $groupManager,
-		private IAppManager         $appManager,
-		private IL10N               $l10n,
+		private IURLGenerator $urlGenerator,
+		private ActivityManager $activityManager,
+		private IUserManager $userManager,
+		private IGroupManager $groupManager,
+		private IAppManager $appManager,
+		private IL10N $l10n,
 		private LocalProjectService $projectService,
-		private ?string             $userId,
+		private ?string $userId,
 	) {
 		$this->projectNames = [];
 		if (!is_null($userId)) {

@@ -35,7 +35,7 @@ class Category extends Entity implements \JsonSerializable {
 		$this->addType('name', 'string');
 		$this->addType('color', 'string');
 		$this->addType('encoded_icon', 'string');
-		$this->addType('order', 'int');
+		$this->addType('order', 'integer');
 	}
 
 	public function jsonSerialize(): array {

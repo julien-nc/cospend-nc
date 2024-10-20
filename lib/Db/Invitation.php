@@ -44,7 +44,7 @@ class Invitation extends Entity implements \JsonSerializable {
 
 	public function __construct() {
 		$this->addType('userId', 'string');
-		$this->addType('state', 'int');
+		$this->addType('state', 'integer');
 		$this->addType('accessToken', 'string');
 		$this->addType('remoteProjectId', 'string');
 		$this->addType('remoteProjectName', 'string');

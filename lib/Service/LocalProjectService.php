@@ -1396,7 +1396,7 @@ class LocalProjectService implements IProjectService {
 	}
 
 	public function editProject(
-		string  $projectId, ?string $name = null, ?string $contact_email = null,
+		string $projectId, ?string $name = null, ?string $contact_email = null,
 		?string $autoExport = null, ?string $currencyName = null, ?bool $deletionDisabled = null,
 		?string $categorySort = null, ?string $paymentModeSort = null, ?int $archivedTs = null,
 	): void {

@@ -316,7 +316,7 @@ class BillMapper extends QBMapper {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function getBillsClassic(
-		string  $projectId, ?int $tsMin = null, ?int $tsMax = null,
+		string $projectId, ?int $tsMin = null, ?int $tsMax = null,
 		?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $category = null, ?float $amountMin = null, ?float $amountMax = null,
 		?int $lastchanged = null, ?int $limit = null,

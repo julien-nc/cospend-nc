@@ -311,7 +311,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
 	#[BruteForceProtection(action: 'CospendPublicAddMember')]
 	public function apiAddMember(string $token, string $name,
-		float  $weight = 1, int $active = 1, ?string $color = null): DataResponse {
+		float $weight = 1, int $active = 1, ?string $color = null): DataResponse {
 		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
 		try {
 			$member = $this->localProjectService->createMember(
@@ -404,7 +404,7 @@ class OldApiController extends ApiController {
 	#[CORS]
 	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
-	public function apiPrivAddBill(string  $projectId, ?string $date = null, ?string $what = null, ?int $payer = null,
+	public function apiPrivAddBill(string $projectId, ?string $date = null, ?string $what = null, ?int $payer = null,
 		?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
 		?string $paymentmode = null, ?int $paymentmodeid = null,
 		?int $categoryid = null, int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
@@ -448,7 +448,7 @@ class OldApiController extends ApiController {
 	#[CospendPublicAuth(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[BruteForceProtection(action: 'CospendPublicEditBill')]
 	public function apiEditBill(
-		string  $token, int $billid, ?string $date = null, ?string $what = null,
+		string $token, int $billid, ?string $date = null, ?string $what = null,
 		?int $payer = null, ?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
 		?string $paymentmode = null, ?int $paymentmodeid = null,
 		?int $categoryid = null, ?int $repeatallactive = null,

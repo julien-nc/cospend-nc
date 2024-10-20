@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.0.2-dev – 2024-10-20
+
+### Added
+
+- Federated project sharing!
+- Project filter
+- Bill filter
+- Add cumulated balance for current user in navigation sidebar footer (disabled by default)
+
+### Changed
+
+- Replace "eval" by algebric parsing to perform amount calculations
+- Compute balances from past bills only
+
 ## 2.0.0 – 2024-08-11
 
 ### Changed

@@ -67,6 +67,17 @@
 					<PendingInvitationsModal v-if="!pageIsPublic && showPendingInvitations"
 						:invitations="pendingInvitations"
 						@close="showPendingInvitations = false" />
+					<NcAppNavigationItem v-if="!pageIsPublic && showMyBalance && myBalance !== null"
+						:name="t('cospend', 'My balance')">
+						<template #icon>
+							<ColoredAvatar :user="currentUserId" />
+						</template>
+						<template #counter>
+							<NcCounterBubble>
+								<span :class="balanceClass">{{ myBalance }}</span>
+							</NcCounterBubble>
+						</template>
+					</NcAppNavigationItem>
 					<NcAppNavigationItem v-if="!pageIsPublic && pendingInvitations.length > 0"
 						:name="t('cospend', 'Pending share invitations')"
 						@click="showPendingInvitations = true">
@@ -128,6 +139,7 @@ import AppNavigationProjectItem from './AppNavigationProjectItem.vue'
 import NewProjectModal from './NewProjectModal.vue'
 import PendingInvitationsModal from './PendingInvitationsModal.vue'
 import AppNavigationUnreachableProjectItem from './AppNavigationUnreachableProjectItem.vue'
+import ColoredAvatar from './avatar/ColoredAvatar.vue'
 
 import cospend from '../state.js'
 import * as constants from '../constants.js'
@@ -135,10 +147,12 @@ import { strcmp, importCospendProject, importSWProject } from '../utils.js'
 
 import { emit } from '@nextcloud/event-bus'
 import { showSuccess } from '@nextcloud/dialogs'
+import { getCurrentUser } from '@nextcloud/auth'
 
 export default {
 	name: 'CospendNavigation',
 	components: {
+		ColoredAvatar,
 		AppNavigationUnreachableProjectItem,
 		PendingInvitationsModal,
 		NewProjectModal,
@@ -202,9 +216,29 @@ export default {
 			showArchivedProjects: false,
 			showPendingInvitations: false,
 			projectFilterQuery: '',
+			currentUserId: getCurrentUser()?.uid,
 		}
 	},
 	computed: {
+		showMyBalance() {
+			return cospend.showMyBalance
+		},
+		myBalance() {
+			return Object.values(this.projects)
+				.filter(p => p.archived_ts === null)
+				.map(p => {
+					const me = p.members.find(m => m.userid === this.currentUserId)
+					return me ? me.balance : null
+				})
+				.filter(b => b !== null)
+				.reduce((acc, balance) => acc + balance, 0)
+		},
+		balanceClass() {
+			return {
+				balancePositive: this.myBalance >= 0.01,
+				balanceNegative: this.myBalance <= -0.01,
+			}
+		},
 		filteredProjectIds() {
 			const projectIds = this.showArchivedProjects ? this.archivedProjectIds : this.nonArchivedProjectIds
 			return this.projectFilterQuery === ''

@@ -15,7 +15,7 @@
 			{{ activity.subject }}
 		</span>
 		<span
-			v-tooltip.top="{ content: formattedTime }"
+			:title="formattedTime"
 			class="time">
 			{{ relativeTime }}
 		</span>

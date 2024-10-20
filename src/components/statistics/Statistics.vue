@@ -388,17 +388,15 @@
 					</td>
 					<td v-for="mid in stats.allMemberIds"
 						:key="value.memberid + '-' + mid"
-						v-tooltip.top="{
-							content: value.memberid === 0
-								? t('cospend', 'Total owed by {name}', { name: myGetSmartMemberName(mid) })
-								: myGetSmartMemberName(value.memberid) + ' → ' + myGetSmartMemberName(mid)
-						}"
+						:title="value.memberid === 0
+							? t('cospend', 'Total owed by {name}', { name: myGetSmartMemberName(mid) })
+							: myGetSmartMemberName(value.memberid) + ' → ' + myGetSmartMemberName(mid)"
 						:style="'border: 2px solid ' + (value.memberid === 0 ? 'lightgrey' : '#' + myGetMemberColor(value.memberid)) + ';'">
 						{{ value[mid].toFixed(2) }}
 						{{ selectedCurrencyName }}
 					</td>
 					<td v-if="value.memberid !== 0"
-						v-tooltip.top="{ content: t('cospend', 'Total paid by {name}', { name: myGetSmartMemberName(value.memberid) }) }"
+						:title="t('cospend', 'Total paid by {name}', { name: myGetSmartMemberName(value.memberid) })"
 						style="border: 2px solid lightgrey;">
 						{{ value.total.toFixed(2) }}
 						{{ selectedCurrencyName }}

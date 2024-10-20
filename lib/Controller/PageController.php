@@ -78,9 +78,6 @@ class PageController extends Controller {
 		$this->initialStateService->provideInitialState('pathBillId', $billId ?? 0);
 		$this->eventDispatcher->dispatchTyped(new RenderReferenceEvent());
 		$response = new TemplateResponse('cospend', 'main');
-		$csp = new ContentSecurityPolicy();
-		$csp->allowEvalScript();
-		$response->setContentSecurityPolicy($csp);
 		return $response;
 	}
 

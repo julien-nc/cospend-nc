@@ -14,10 +14,7 @@ import './bootstrap.js'
 import App from './App.vue'
 import { showError } from '@nextcloud/dialogs'
 import '@nextcloud/dialogs/style.css'
-// import { getRequestToken } from '@nextcloud/auth'
-// import { generateFilePath } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
 import vueAwesomeCountdown from 'vue-awesome-countdown'
 import VueClipboard from 'vue-clipboard2'
 import SmartTable from 'vuejs-smart-table'
@@ -29,7 +26,6 @@ import '../css/cospend.scss'
 Vue.use(vueAwesomeCountdown, 'vac')
 Vue.use(VueClipboard)
 Vue.use(SmartTable)
-Vue.directive('tooltip', Tooltip)
 
 function restoreOptions() {
 	network.getOptionValues().then((response) => {
@@ -47,16 +43,12 @@ function getOptionValuesSuccess(response) {
 		for (const k in optionsValues) {
 			if (k === 'selectedProject') {
 				cospend.restoredCurrentProjectId = optionsValues[k]
-			} else if (k === 'outputDirectory') {
-				cospend.outputDirectory = optionsValues[k]
-			} else if (k === 'sortOrder') {
-				cospend.sortOrder = optionsValues[k]
-			} else if (k === 'memberOrder') {
-				cospend.memberOrder = optionsValues[k]
-			} else if (k === 'maxPrecision') {
-				cospend.maxPrecision = optionsValues[k]
 			} else if (k === 'useTime') {
 				cospend.useTime = optionsValues[k] !== '0'
+			} else if (k === 'showMyBalance') {
+				cospend.showMyBalance = optionsValues[k] !== '0'
+			} else {
+				cospend[k] = optionsValues[k]
 			}
 		}
 	}

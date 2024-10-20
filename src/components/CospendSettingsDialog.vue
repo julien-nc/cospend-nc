@@ -182,8 +182,13 @@
 				</h3>
 				<NcCheckboxRadioSwitch
 					:checked.sync="useTime"
-					@update:checked="onUseTimeChange">
+					@update:checked="onCheckboxChange($event, 'useTime')">
 					{{ t('cospend', 'Use time in dates') }}
+				</NcCheckboxRadioSwitch>
+				<NcCheckboxRadioSwitch
+					:checked.sync="showMyBalance"
+					@update:checked="onCheckboxChange($event, 'showMyBalance')">
+					{{ t('cospend', 'Show my cumulated balance') }}
 				</NcCheckboxRadioSwitch>
 			</NcAppSettingsSection>
 		</NcAppSettingsDialog>
@@ -227,6 +232,7 @@ export default {
 			memberOrder: cospend.memberOrder || 'name',
 			maxPrecision: cospend.maxPrecision || 2,
 			useTime: cospend.useTime ?? true,
+			showMyBalance: cospend.showMyBalance ?? false,
 			importingProject: false,
 			importingSWProject: false,
 			cospendVersion: OC.getCapabilities()?.cospend?.version || '??',
@@ -280,9 +286,9 @@ export default {
 			cospend.maxPrecision = this.maxPrecision
 			this.$emit('update-max-precision')
 		},
-		onUseTimeChange(checked) {
-			emit('save-option', { key: 'useTime', value: checked ? '1' : '0' })
-			cospend.useTime = checked
+		onCheckboxChange(checked, key) {
+			emit('save-option', { key, value: checked ? '1' : '0' })
+			cospend[key] = checked
 		},
 		onImportClick() {
 			importCospendProject(() => {

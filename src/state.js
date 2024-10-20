@@ -22,6 +22,7 @@ const cospend = {
 	memberOrder: 'name',
 	useTime: true,
 	activity_enabled: false,
+	showMyBalance: false,
 }
 
 export default cospend

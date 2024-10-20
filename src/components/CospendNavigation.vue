@@ -68,7 +68,7 @@
 						:invitations="pendingInvitations"
 						@close="showPendingInvitations = false" />
 					<NcAppNavigationItem v-if="!pageIsPublic && showMyBalance && myBalance !== null"
-						:name="t('cospend', 'My balance')">
+						:name="t('cospend', 'My cumulated balance')">
 						<template #icon>
 							<ColoredAvatar :user="currentUserId" />
 						</template>

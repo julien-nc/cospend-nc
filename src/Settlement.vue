@@ -149,7 +149,7 @@
 		</NcEmptyContent>
 
 		<h3>
-			{{ maxTs ? t('cospend', 'Balances on {date}', { date: formattedMaxDate }) : t('cospend', 'Balances') }}
+			{{ maxTs ? t('cospend', 'Balances on {date}', { date: formattedMaxDate }) : t('cospend', 'Global balances') }}
 		</h3>
 		<NcLoadingIcon v-if="loading" :size="24" />
 		<v-table v-else-if="balances"

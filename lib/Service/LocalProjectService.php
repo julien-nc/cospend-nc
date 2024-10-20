@@ -339,7 +339,8 @@ class LocalProjectService implements IProjectService {
 				$activeMembers[] = $member;
 			}
 		}
-		$balance = $this->getBalance($dbProjectId);
+		// compute balances for past bills only
+		$balance = $this->getBalance($dbProjectId, time());
 		$currencies = $this->getCurrencies($dbProjectId);
 		$categories = $this->getCategoriesOrPaymentModes($dbProjectId);
 		$paymentModes = $this->getCategoriesOrPaymentModes($dbProjectId, false);

@@ -166,8 +166,9 @@
 					sort-key="filtered_balance">
 					{{ t('cospend', 'Filtered balance') }}
 				</v-th>
-				<v-th sort-key="balance">
-					{{ t('cospend', 'Balance') }}
+				<v-th sort-key="balance"
+					:title="t('cospend', 'This balance is computed from the complete bill list')">
+					{{ t('cospend', 'Global Balance') }}
 				</v-th>
 			</thead>
 			<tbody slot="body" slot-scope="{displayData}">
@@ -198,7 +199,8 @@
 						{{ selectedCurrencyName }}
 					</td>
 					<td :class="getBalanceClass(value.balance)"
-						:style="'border: 2px solid #' + myGetMemberColor(value.member.id) +';'">
+						:style="'border: 2px solid #' + myGetMemberColor(value.member.id) +';'"
+						:title="t('cospend', 'This balance is computed from the complete bill list')">
 						{{ value.balance.toFixed(2) }}
 						{{ selectedCurrencyName }}
 					</td>

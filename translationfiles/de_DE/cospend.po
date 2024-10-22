@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-10-06 19:47+0200\n"
-"PO-Revision-Date: 2024-10-06 17:48\n"
+"PO-Revision-Date: 2024-10-22 12:13\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -86,7 +86,7 @@ msgstr "Änderungen in der <strong>Cospend App</strong>"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:578
 msgid "You are not allowed to access the target project"
-msgstr ""
+msgstr "Du bist nicht berechtigt, auf dieses Projekt zuzugreifen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:848
 msgid "You are not allowed to give such shared access level"
@@ -277,7 +277,7 @@ msgstr "Scheck"
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:102
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:172
 msgid "Transfer"
-msgstr "Überweisung"
+msgstr "Transfer"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:77
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:109
@@ -621,7 +621,7 @@ msgstr "Keine solche Freigabe"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3230
 msgid "Invalid values"
-msgstr ""
+msgstr "Ungültige Werte"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3374
 msgid "No such group"
@@ -1177,7 +1177,7 @@ msgstr "Papierkorb"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:134
 msgid "Search bills"
-msgstr ""
+msgstr "Rechnungen suchen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:136
 msgid "Close trashbin"
@@ -1237,7 +1237,7 @@ msgstr "Ausgewählte Ausgaben wiederherstellen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:149
 msgid "No member"
-msgstr ""
+msgstr "Kein Mitglied"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:150
 msgid "Add at least one member to start creating bills"
@@ -1912,7 +1912,7 @@ msgstr "Name"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:344
 msgid "Search projects"
-msgstr ""
+msgstr "Projekte suchen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:345
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:410
@@ -2106,11 +2106,11 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:418
 msgid "Reject"
-msgstr ""
+msgstr "Ablehnen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:419
 msgid "Accept"
-msgstr ""
+msgstr "Akzeptieren"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:420
 msgid "Project {projectName} shared by {inviterName} ({inviterCloudId})"
@@ -2213,11 +2213,11 @@ msgstr "Einen neuen Link zur Freigabe erstellen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:457
 msgid "Pending share"
-msgstr ""
+msgstr "Ausstehende Freigabe"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:457
 msgid "Accepted share"
-msgstr ""
+msgstr "Akzeptierte Freigabe"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:458
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:467
@@ -2284,7 +2284,7 @@ msgstr "Link konnte nicht in die Zwischenablage kopiert werden"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:491
 msgid "Rename"
-msgstr ""
+msgstr "Umbenennen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:492
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:493

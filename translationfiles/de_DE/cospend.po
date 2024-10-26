@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-10-06 19:47+0200\n"
-"PO-Revision-Date: 2024-10-23 12:32\n"
+"PO-Revision-Date: 2024-10-26 08:27\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -320,7 +320,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:135
 #, php-format
 msgid "%s (%s) shared Cospend project \"%s\" (%s) with you."
-msgstr ""
+msgstr "%s (%s) hat das Cospend Projekt \"%s\" (%s) mit Ihnen geteilt."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProvider.php:179
 #, php-format

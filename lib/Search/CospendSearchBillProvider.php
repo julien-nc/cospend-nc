@@ -39,7 +39,7 @@ use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
 use OCP\Search\SearchResultEntry;
 
-class CospendSearchProvider implements IProvider {
+class CospendSearchBillProvider implements IProvider {
 
 	public function __construct(
 		private IAppManager $appManager,
@@ -55,21 +55,21 @@ class CospendSearchProvider implements IProvider {
 	 * @inheritDoc
 	 */
 	public function getId(): string {
-		return 'cospend-search';
+		return 'cospend-search-bills';
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function getName(): string {
-		return $this->l10n->t('Cospend');
+		return $this->l10n->t('Cospend bills');
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function getOrder(string $route, array $routeParameters): int {
-		if (strpos($route, Application::APP_ID . '.') === 0) {
+		if (str_starts_with($route, Application::APP_ID . '.')) {
 			// Active app, prefer Cospend results
 			return -1;
 		}
@@ -81,7 +81,7 @@ class CospendSearchProvider implements IProvider {
 	 * @inheritDoc
 	 */
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
-		if (!$this->appManager->isEnabledForUser('cospend', $user)) {
+		if (!$this->appManager->isEnabledForUser(Application::APP_ID, $user)) {
 			return SearchResult::complete($this->getName(), []);
 		}
 
@@ -181,17 +181,20 @@ class CospendSearchProvider implements IProvider {
 
 	/**
 	 * @param string $projectId
+	 * @param int $billId
 	 * @return string
 	 */
 	protected function getDeepLinkToCospendApp(string $projectId, int $billId): string {
-		return $this->urlGenerator->getAbsoluteURL(
-			$this->urlGenerator->linkToRoute('cospend.page.indexBill', [
-				'projectId' => $projectId,
-				'billId' => $billId,
-			])
-		);
+		return $this->urlGenerator->linkToRouteAbsolute('cospend.page.indexBill', [
+			'projectId' => $projectId,
+			'billId' => $billId,
+		]);
 	}
 
+	/**
+	 * @param array $bill
+	 * @return string
+	 */
 	protected function getThumbnailUrl(array $bill): string {
 		if ($bill['payer_user_id']) {
 			return $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $bill['payer_user_id'], 'size' => 44]);

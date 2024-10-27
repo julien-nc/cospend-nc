@@ -14,18 +14,21 @@ namespace OCA\Cospend\AppInfo;
 use OCA\Cospend\Capabilities;
 use OCA\Cospend\Dashboard\CospendWidget;
 use OCA\Cospend\Federation\CloudFederationProviderCospend;
+use OCA\Cospend\Listener\BeforeTemplateRenderedListener;
 use OCA\Cospend\Listener\CSPListener;
 use OCA\Cospend\Middleware\FederationMiddleware;
 use OCA\Cospend\Middleware\PublicAuthMiddleware;
 use OCA\Cospend\Middleware\UserPermissionMiddleware;
 use OCA\Cospend\Notification\Notifier;
-use OCA\Cospend\Search\CospendSearchProvider;
+use OCA\Cospend\Search\CospendSearchBillProvider;
+use OCA\Cospend\Search\CospendSearchProjectProvider;
 use OCA\Cospend\UserMigration\UserMigrator;
 use OCP\AppFramework\App;
 
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\IConfig;
@@ -102,14 +105,13 @@ class Application extends App implements IBootstrap {
 	public function __construct(array $urlParams = []) {
 		parent::__construct(self::APP_ID, $urlParams);
 		// TODO
-		// - rename db columns with underscores, change new APIs param names, keep a second jsonSerialize method for old APIs
-		// - check if it makes sense to have a paypal integration
 		// - check how to switch to numerical project IDs (keep unique slug for client compatibility)
 	}
 
 	public function register(IRegistrationContext $context): void {
 		$context->registerNotifierService(Notifier::class);
-		$context->registerSearchProvider(CospendSearchProvider::class);
+		$context->registerSearchProvider(CospendSearchBillProvider::class);
+		$context->registerSearchProvider(CospendSearchProjectProvider::class);
 		$context->registerDashboardWidget(CospendWidget::class);
 
 		$context->registerUserMigrator(UserMigrator::class);
@@ -120,10 +122,10 @@ class Application extends App implements IBootstrap {
 
 		$context->registerCapability(Capabilities::class);
 		$context->registerEventListener(AddContentSecurityPolicyEvent::class, CSPListener::class);
+		$context->registerEventListener(BeforeTemplateRenderedEvent::class, BeforeTemplateRenderedListener::class);
 	}
 
 	public function boot(IBootContext $context): void {
-		Util::addStyle(self::APP_ID, 'cospend-search');
 		$context->injectFn([$this, 'registerCloudFederationProviderManager']);
 	}
 

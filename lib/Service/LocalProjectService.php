@@ -1759,6 +1759,9 @@ class LocalProjectService implements IProjectService {
 	 *
 	 * @param string $userId
 	 * @return array
+	 * @throws CospendBasicException
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function getLocalProjects(string $userId): array {

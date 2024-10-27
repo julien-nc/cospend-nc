@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## 3.0.2-dev – 2024-10-20
+## 3.0.3-dev – 2024-10-20
 
 ### Added
 
@@ -12,11 +12,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Project filter
 - Bill filter
 - Add cumulated balance for current user in navigation sidebar footer (disabled by default)
+- Unified search provider for projects @julien-nc [#304](https://github.com/julien-nc/cospend-nc/issues/304)
 
 ### Changed
 
 - Replace "eval" by algebric parsing to perform amount calculations
 - Compute balances from past bills only
+
+### Fixed
+
+- Make encoded_icon columns larger @julien-nc [#309](https://github.com/julien-nc/cospend-nc/issues/309)
+- Style issues in cat/pm/curr cancel countdown
 
 ## 2.0.0 – 2024-08-11
 

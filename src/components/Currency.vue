@@ -164,19 +164,21 @@ export default {
 }
 
 .one-currency-label {
+	position: relative;
+	flex-grow: 1;
 	display: flex;
 	align-items: center;
 	margin-right: 20px;
 	padding: 4px 0 4px 0;
+	> * {
+		margin: 0 4px 0 4px;
+	}
 	.one-currency-label-label {
 		width: 50%;
 	}
 	.one-currency-label-timer {
 		position: absolute;
-		right: 4px;
-	}
-	> * {
-		margin: 0 4px 0 4px;
+		right: -20px;
 	}
 }
 

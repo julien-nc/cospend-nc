@@ -212,11 +212,12 @@ export default {
 }
 
 .one-element-label {
+	position: relative;
 	flex-grow: 1;
 	display: flex;
 	align-items: center;
-	padding: 4px 0 4px 0;
 	margin-right: 20px;
+	padding: 4px 0 4px 0;
 	> * {
 		margin: 0 4px 0 4px;
 	}
@@ -225,7 +226,7 @@ export default {
 	}
 	.one-element-label-timer {
 		position: absolute;
-		right: -5px;
+		right: -20px;
 	}
 }
 

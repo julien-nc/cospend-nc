@@ -34,7 +34,6 @@ use OCP\Federation\ICloudFederationProviderManager;
 use OCP\IConfig;
 use OCP\Security\CSP\AddContentSecurityPolicyEvent;
 use OCP\Server;
-use OCP\Util;
 
 class Application extends App implements IBootstrap {
 

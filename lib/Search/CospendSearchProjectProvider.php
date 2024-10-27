@@ -91,7 +91,7 @@ class CospendSearchProjectProvider implements IProvider {
 
 		// get user's projects
 		$projects = $this->projectService->getLocalProjects($user->getUID());
-		$resultProjects = array_filter($projects, static function(array $project) use ($term) {
+		$resultProjects = array_filter($projects, static function (array $project) use ($term) {
 			$projectName = $project['name'];
 			return str_contains(strtolower($projectName), strtolower($term));
 		});

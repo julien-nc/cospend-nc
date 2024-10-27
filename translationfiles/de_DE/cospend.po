@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-10-06 19:47+0200\n"
-"PO-Revision-Date: 2024-10-26 08:27\n"
+"PO-Revision-Date: 2024-10-27 09:09\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -315,7 +315,7 @@ msgstr "{user} hat die Freigabe des Projektes %s gestoppt"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:134
 msgid "Cospend federated project shared"
-msgstr ""
+msgstr "Externes Cospend Projekt geteilt"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:135
 #, php-format
@@ -535,7 +535,7 @@ msgstr "Name darf nicht leer sein"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1411
 msgid "Invalid frequency"
-msgstr "Ungültiges Intervall"
+msgstr "Ungültige Wiederholungsfrequenz"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1414
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1417
@@ -746,11 +746,11 @@ msgstr "Laden der Projekte nicht möglich"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:23
 msgid "Failed to get federated project"
-msgstr ""
+msgstr "Fehler beim Aufruf des externen Projekts"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:24
 msgid "Failed to get pending remote invitations"
-msgstr ""
+msgstr "Ausstehende externe Einladungen konnten nicht abgerufen werden"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:25
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:26
@@ -972,11 +972,11 @@ msgstr "Weitere Informationen zur Rechnungswiederholung"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:79
 msgid "Frequency"
-msgstr "Intervall"
+msgstr "Wiederholungsfrequenz"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:80
 msgid "Leave empty for maximum frequency"
-msgstr "Für kürzestes Intervall leer lassen"
+msgstr "Für häufigste Wiederholungsfrequenz leer lassen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:81
 msgid "Include all active members on repeat"
@@ -1241,7 +1241,7 @@ msgstr "Kein Mitglied"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:150
 msgid "Add at least one member to start creating bills"
-msgstr ""
+msgstr "Fügen Sie mindestens ein Mitglied hinzu, um Rechnungen zu erstellen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:151
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:314
@@ -1854,7 +1854,7 @@ msgstr "Entarchivieren"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:313
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:317
 msgid "Leave share"
-msgstr ""
+msgstr "Freigabe verlassen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:315
 msgid "Close trash bin"
@@ -1866,7 +1866,7 @@ msgstr "Papierkorb öffnen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:318
 msgid "Project {projectId} ({projectName}) shared by {cloudId} ({displayName})"
-msgstr ""
+msgstr "Projekt {projectId} ({projectName}) geteilt von {cloudId} ({displayName})"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:321
 msgid "Everyone"
@@ -1937,7 +1937,7 @@ msgstr "Noch keine Projekte"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:350
 msgid "Pending share invitations"
-msgstr ""
+msgstr "Ausstehende Einladungen für Freigaben"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:351
 msgid "Show active projects"
@@ -2102,7 +2102,7 @@ msgstr "Liste der Zahlungsarten"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:416
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:417
 msgid "Pending invitations for federated shares"
-msgstr ""
+msgstr "Ausstehende Einladungen für externe Freigaben"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:418
 msgid "Reject"
@@ -2193,7 +2193,7 @@ msgstr "Projekt mit einem Nutzer, einer Gruppe oder einem Kreis teilen"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:450
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:456
 msgid "Federated user"
-msgstr ""
+msgstr "Externe Benutzer"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:451
 msgid "Start typing to search"
@@ -2226,7 +2226,7 @@ msgstr "Etikett"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:463
 msgid "Delete federated share"
-msgstr ""
+msgstr "Externe Freigabe löschen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:465
 msgid "Link copied"
@@ -2276,7 +2276,7 @@ msgstr "Fehler beim Bearbeiten des Freigabe-Links"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:486
 msgid "Federated share saved"
-msgstr ""
+msgstr "Externe Freigabe gespeichert"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:490
 msgid "Link could not be copied to clipboard"
@@ -2499,7 +2499,7 @@ msgstr "Wie viel wurde pro Zahlungsart bezahlt?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:573
 msgid "Enable Federation in Cospend"
-msgstr ""
+msgstr "Externe Freigaben in Cospend aktivieren"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:574
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:575

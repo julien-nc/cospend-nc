@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2024-10-06 19:47+0200\n"
-"PO-Revision-Date: 2024-10-06 17:48\n"
+"POT-Creation-Date: 2024-10-27 17:48+0100\n"
+"PO-Revision-Date: 2024-10-27 16:51\n"
 "Last-Translator: \n"
 "Language-Team: Bulgarian\n"
 "Language: bg_BG\n"
@@ -73,10 +73,9 @@ msgstr "кръг %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/Filter.php:51
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:50
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProvider.php:65
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/UserMigration/UserMigrator.php:164
 #: /home/julien/html/dev/server/apps-extra/cospend/specialAppInfoFakeDummyForL10nScript.php:2
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:572
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:575
 msgid "Cospend"
 msgstr ""
 
@@ -155,31 +154,31 @@ msgstr "Хипервръзка за споделяне (%s)"
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PublicApiController.php:372
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PublicApiController.php:431
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PublicApiController.php:558
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:454
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:464
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:455
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:465
 msgid "Share link"
 msgstr "Хипервръзка за споделяне"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:191
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:253
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:188
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:250
 #, php-format
 msgid "Enter link password of project %s"
 msgstr "Въведете хипервръзка с парола за проекта %s"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:201
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:239
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:198
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:236
 #, php-format
 msgid "Project %s"
 msgstr "Проект %s"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:203
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:238
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:252
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:200
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:235
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:249
 msgid "Cospend shared link access"
 msgstr "Достъп до споделена хипервръзка за Cospend"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:206
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:264
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:203
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:261
 msgid "No such Cospend share link"
 msgstr "Няма такава хипервръзка към Cospend за споделяне"
 
@@ -322,10 +321,23 @@ msgstr ""
 msgid "%s (%s) shared Cospend project \"%s\" (%s) with you."
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProvider.php:179
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchBillProvider.php:65
+msgid "Cospend bills"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchBillProvider.php:179
 #, php-format
 msgid "in %1$s"
 msgstr "в %1$s"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProjectProvider.php:62
+msgid "Cospend projects"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProjectProvider.php:139
+#, php-format
+msgid "Owned by %1$s"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:192
 #, php-format
@@ -439,47 +451,46 @@ msgid "Impossible to create %1$s"
 msgstr "Невъзможно да създаде %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:832
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:247
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:246
 msgid "Who pays?"
 msgstr "Кой плаща?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:833
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:248
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:247
 msgid "To whom?"
 msgstr "До кого?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:834
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:49
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:249
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:248
 msgid "How much?"
 msgstr "Колко?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:896
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:253
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:531
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:252
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:532
 msgid "Member name"
 msgstr "Име на участник"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:897
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:532
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:533
 msgid "Paid"
 msgstr "Платено"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:898
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:533
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:566
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:534
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:569
 msgid "Spent"
 msgstr "Изразходвано"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:899
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:254
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:253
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:382
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:535
 msgid "Balance"
 msgstr "Баланс"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:186
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:274
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:273
 #: /home/julien/html/dev/server/apps-extra/cospend/src/constants.js:46
 msgid "Reimbursement"
 msgstr "Възстановяване"
@@ -488,162 +499,162 @@ msgstr "Възстановяване"
 msgid "Not Found"
 msgstr "Не е намерен"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:638
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:639
 msgid "Average per month"
 msgstr "Средномесечно"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1111
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1112
 msgid "Error when getting project settlement transactions"
 msgstr "Грешка при определяне на трансакциите за изплащания по проекта"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1141
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1142
 msgid "Error when adding a bill"
 msgstr "Грешка при добавяне на сметка"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1331
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1332
 msgid "This project have no such member"
 msgstr "Този проект няма такъв участник"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1345
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1474
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1346
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1475
 msgid "Invalid member name"
 msgstr "Невалидно име на участник"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1350
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1351
 msgid "Name already exists"
 msgstr "Името вече съществува"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1363
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2133
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2140
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2157
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1364
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2137
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2144
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2161
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2165
 msgid "Invalid value"
 msgstr "Невалидна стойност"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1368
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1369
 msgid "Not a valid decimal value"
 msgstr "Невалидна десетична стойност"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1405
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1406
 msgid "There is no such project"
 msgstr "Няма такъв проект"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1408
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1409
 msgid "Name can't be empty"
 msgstr "Името не може да бъде празно"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1411
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1412
 msgid "Invalid frequency"
 msgstr "Невалидна честота"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1414
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1417
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1415
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1418
 msgid "Invalid sort order"
 msgstr "Невалидно сортиране"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1471
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1472
 msgid "Name field is required"
 msgstr "Името на полето се изисква"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1477
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1478
 msgid "Weight is not a valid decimal value"
 msgstr "Теглото не представлява валидна десетична стойност"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1480
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1481
 msgid "Invalid color value"
 msgstr "Невалидна стойност за цвета"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1483
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1484
 msgid "This project already has this member"
 msgstr "Такъв член вече съществува в проекта"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1486
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1487
 msgid "This project already has this member (user)"
 msgstr "Този член (потребител) вече е в настоящия проект"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2126
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2130
 msgid "There is no such bill"
 msgstr "Няма такава сметка"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2147
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2164
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2151
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2168
 msgid "Not a valid choice"
 msgstr "Няма действителен избор"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2494
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2498
 msgid "Cannot match payer"
 msgstr "Не може да се отнесе към платеца"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2524
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2528
 #, php-format
 msgid "Cannot create new bill: %1$s"
 msgstr "Не може да се създаде нова сметка: %1$s"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2784
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2889
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2950
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2788
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2893
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2954
 msgid "Incorrect field values"
 msgstr "Неправилни стойности в полето"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2931
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2935
 msgid "Not found"
 msgstr "Не е намерена"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2955
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2959
 msgid "This project have no such currency"
 msgstr "Този проект няма такава валута"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3072
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3076
 msgid "No such user"
 msgstr "Няма такъв потребител"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3079
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3083
 msgid "Impossible to share the project with its owner"
 msgstr "Невъзможно е проектът да бъде споделян с неговия създател"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3084
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3088
 msgid "Already shared with this user"
 msgstr "Вече е споделен с този потребител"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3089
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3093
 msgid "You are not authorized to give such access level"
 msgstr "Нямате право да давате такова ниво на достъп"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3213
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3243
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3263
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3319
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3415
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3519
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3217
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3247
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3267
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3323
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3419
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3523
 msgid "No such share"
 msgstr "Няма такова споделяне"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3230
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3234
 msgid "Invalid values"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3374
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3378
 msgid "No such group"
 msgstr "Няма такава група"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3379
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3383
 msgid "Already shared with this group"
 msgstr "Вече е споделен с тази група"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3447
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3451
 msgid "Circles app is not enabled"
 msgstr "Приложението „Кръгове“ не е активирано"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3454
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3458
 msgid "Impossible to get the circle manager"
 msgstr "Невъзможно е да се достигне до ръководителя на кръга"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3462
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3466
 msgid "No such circle"
 msgstr "Няма такъв кръг"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3468
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3472
 msgid "Already shared with this circle"
 msgstr "Вече е споделен с този кръг"
 
@@ -665,8 +676,8 @@ msgid "These actions are also available in the sidebar project context menu."
 msgstr "Тези действия също са налични и в страничното контекстно меню на проекта."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:135
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:153
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:134
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:152
 msgid "Create a bill"
 msgstr "Създаване на сметка"
 
@@ -679,10 +690,13 @@ msgid "Share the project"
 msgstr "Сподели проекта"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:314
 msgid "Close the trash bin"
 msgstr "Затвори кошчето"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:136
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:315
 msgid "Show the trash bin"
 msgstr "Покажи кошчето"
 
@@ -724,7 +738,7 @@ msgid "Bills restored"
 msgstr "Възстановени сметки"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:18
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:181
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:180
 msgid "Failed to delete bills"
 msgstr "Неуспешно изтриване на сметките"
 
@@ -782,13 +796,13 @@ msgid "Created member {name}"
 msgstr "Създаден участник {name}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:33
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:447
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:448
 msgid "Failed to add member"
 msgstr "Неуспешно добавяне на член"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:34
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:301
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:482
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:300
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:483
 msgid "Failed to add shared access"
 msgstr "Неуспешно добавяне на споделен достъп"
 
@@ -834,7 +848,7 @@ msgstr "Невъзможно е да се дублира сметка с дез�
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:43
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:44
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:320
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:319
 msgid "Duplicate bill"
 msgstr "Дублиране на сметка"
 
@@ -865,10 +879,10 @@ msgstr "Повече информация за полето за въвежда�
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:52
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:57
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:78
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:238
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:260
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:431
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:438
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:237
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:259
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:432
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:439
 msgid "Info"
 msgstr "Инфо"
 
@@ -889,14 +903,14 @@ msgid "Who paid?"
 msgstr "Кой е платил?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:59
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:440
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:523
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:441
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:524
 msgid "Choose a member"
 msgstr "Изберете член"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:60
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:61
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:239
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:238
 msgid "When?"
 msgstr "Кога?"
 
@@ -905,7 +919,7 @@ msgid "Choose a payment mode"
 msgstr "Избиране на начин на плащане"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:63
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:514
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:515
 msgid "Payment mode"
 msgstr "Вид плащане"
 
@@ -914,7 +928,7 @@ msgid "Choose or add a category"
 msgstr "Избиране или добавяне на категория"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:65
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:516
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:517
 msgid "Category"
 msgstr "Категория"
 
@@ -935,17 +949,17 @@ msgid "Repeat"
 msgstr "Повторение"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:69
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:424
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:425
 msgid "No"
 msgstr "Не"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:70
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:425
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:426
 msgid "Daily"
 msgstr "Ежедневно"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:71
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:426
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:427
 msgid "Weekly"
 msgstr "Ежеседмично"
 
@@ -958,7 +972,7 @@ msgid "Semi-monthly (twice a month)"
 msgstr "Полумесечно (два пъти месечно)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:74
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:427
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:428
 msgid "Monthly"
 msgstr "Ежемесечно"
 
@@ -1070,7 +1084,7 @@ msgstr "Премести тази сметка в кошчето"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:106
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:108
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:109
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:210
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:209
 msgid "None"
 msgstr "Без"
 
@@ -1115,825 +1129,816 @@ msgid "Failed to add category"
 msgstr "Неуспешно добавяне на категория"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:118
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:286
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:402
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:509
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:571
-#: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:66
-msgid "You"
-msgstr "Вие"
-
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:119
 msgid "Impossible to save bill, invalid values"
 msgstr "Сметката не може да се запише, невалидни стойности"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:120
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:119
 msgid "Bill saved"
 msgstr "Записана сметка"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:121
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:120
 msgid "Failed to save bill"
 msgstr "Неуспешно записване на сметка"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:122
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:124
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:126
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:128
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:121
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:123
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:125
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:127
 msgid "Bill values are not valid"
 msgstr "Стойностите за сметката са невалидни"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:123
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:122
 msgid "Personal parts are bigger than the paid amount"
 msgstr "Личните разходи са по-големи от платената сума"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:125
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:124
 msgid "There is no custom amount"
 msgstr "Няма персонализирана сума"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:127
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:126
 msgid "There is no custom share number"
 msgstr "Няма персонализиран дял"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:129
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:275
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:128
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:274
 msgid "Failed to create bill"
 msgstr "Неуспешно създаване на сметка"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:130
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:129
 msgid "Bill created"
 msgstr "Създадена сметка"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:131
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:130
 msgid "Choose file"
 msgstr "Избиране на файл"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:132
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:131
 msgid "Failed to generate share link to file"
 msgstr "Неуспешно генериране на хипервръзка за споделяне на файл"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:133
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:132
 msgid "Trash bin"
 msgstr "Кошче"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:134
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:133
 msgid "Search bills"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:136
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:135
 msgid "Close trashbin"
 msgstr "Затвори кошчето"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:137
-msgid "Show trashbin"
-msgstr "Покажи кошчето"
-
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:138
 msgid "Clear trashbin"
 msgstr "Изчисти кошчето"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:139
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:138
 msgid "Filters"
 msgstr "Филтри"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:140
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:173
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:139
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:172
 msgid "Close filters"
 msgstr "Затваряне на филтрите"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:141
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:517
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:547
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:140
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:518
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:550
 msgid "Select a category"
 msgstr "Избиране на категория"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:142
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:515
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:141
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:516
 msgid "Select a payment mode"
 msgstr "Избор на метод на плащане"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:143
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:142
 msgid "Multi select actions"
 msgstr "Действия с множествен избор"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:144
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:143
 msgid "Leave multiple select mode"
 msgstr "Излизане от режима на множествен избор"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:145
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:144
 msgid "Assign a category"
 msgstr "Категоризиране"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:146
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:145
 msgid "Assign a payment mode"
 msgstr "Задаване на метод на плащане"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:147
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:146
 msgid "Select bills to make grouped actions"
 msgstr "Избор на сметки за създаване на групирани действия"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:148
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:147
 msgid "Restore selected bills"
 msgstr "Възстановяване на избраните сметки"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:149
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:148
 msgid "No member"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:150
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:149
 msgid "Add at least one member to start creating bills"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:151
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:314
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:433
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:150
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:313
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:434
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:435
 msgid "Add a member"
 msgstr "Добавяне на член"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:152
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:151
 msgid "No bills to show"
 msgstr "Няма сметки за показване"
 
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:153
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:154
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:155
 msgid "No more bills"
 msgstr "Няма повече сметки"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:156
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:155
 msgid "Confirm deletion"
 msgstr "Потвърждаване на изтриването"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:157
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:160
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:163
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:214
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:326
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:156
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:159
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:162
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:213
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:325
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:339
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:340
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:341
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:397
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:398
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:399
 msgid "Cancel"
 msgstr "Отменяне"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:158
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:298
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:312
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:327
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:157
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:297
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:311
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:326
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:332
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:333
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:334
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:394
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:395
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:396
 msgid "Delete"
 msgstr "Изтриване"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:159
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:158
 msgid "Confirm restoration"
 msgstr "Потвърждаване на възстановяването"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:161
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:319
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:160
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:318
 msgid "Restore"
 msgstr "Възстановяване"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:162
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:161
 msgid "Confirm clear trash bin"
 msgstr "Потвърждаване на изчистването на кошчето"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:164
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:163
 msgid "Clear"
 msgstr "Изчистване"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:165
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:164
 msgid "All payment modes"
 msgstr "Всички видове плащания"
 
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:165
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:166
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:167
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:564
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:567
 #: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:114
 msgid "No payment mode"
 msgstr "Няма начин на плащане"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:168
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:167
 msgid "All categories"
 msgstr "Всички категории"
 
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:168
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:169
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:170
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:561
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:564
 #: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:94
 msgid "No category"
 msgstr "Няма категория"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:171
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:170
 msgid "Leave multiple selection mode"
 msgstr "Напускане на режима на многостранно избиране"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:172
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:171
 msgid "Enter multiple selection mode"
 msgstr "Влизане в режима на многостранно избиране"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:174
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:173
 msgid "Open filters"
 msgstr "Отваряне на филтрите"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:175
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:174
 msgid "Move selected bills to trash"
 msgstr "Преместване на избраните сметки в кошчето"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:176
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:175
 msgid "Delete selected bills"
 msgstr "Изтриване на избраните сметки"
 
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:176
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:177
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:178
 msgid "Failed to save bills"
 msgstr "Неуспешно запазване на сметка"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:179
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:178
 msgid "Bills edited"
 msgstr "Редактирани сметки"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:180
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:179
 msgid "Bills deleted"
 msgstr "Изтрити сметки"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:182
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:181
 msgid "Are you sure you want to delete {nb} bill?"
 msgid_plural "Are you sure you want to delete {nb} bills?"
 msgstr[0] "Сигурни ли сте, че искате да изтриете сметка {nb}?"
 msgstr[1] "Сигурни ли сте, че искате да изтриете сметките {nb}?"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:183
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:182
 msgid "Are you sure you want to move {nb} bill to the trash bin?"
 msgid_plural "Are you sure you want to move {nb} bills to the trash bin?"
 msgstr[0] "Сигурни ли сте, че искате да преместите {nb} сметка в кошчето?"
 msgstr[1] "Сигурни ли сте, че искате да преместите {nb} сметки в кошчето?"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:184
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:183
 msgid "Are you sure you want to restore {nb} bill?"
 msgid_plural "Are you sure you want to restore {nb} bills?"
 msgstr[0] "Сигурни ли сте, че искате да възстановите {nb} сметка?"
 msgstr[1] "Сигурни ли сте, че искате да възстановите {nb} сметки?"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:185
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:184
 msgid "Are you sure you want to clear the trash bin? ({nb} bill)"
 msgid_plural "Are you sure you want to clear the trash bin? ({nb} bills)"
 msgstr[0] "Сигурни ли сте, че искате да изчистите кошчето? ({nb} сметки)"
 msgstr[1] "Сигурни ли сте, че искате да изчистите кошчето? ({nb} сметки)"
 
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:185
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:186
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:187
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:334
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:335
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:336
 msgid "Color"
 msgstr "Цвят"
 
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:187
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:188
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:189
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:336
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:337
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:338
 msgid "Icon"
 msgstr "Икона"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:190
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:189
 msgid "Alphabetical"
 msgstr "В азбучен ред"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:191
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:190
 msgid "Manual"
 msgstr "Ръчно"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:192
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:191
 msgid "Most used"
 msgstr "Най-използвани"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:193
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:192
 msgid "Most recently used"
 msgstr "Най-скоро използвани"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:194
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:193
 msgid "Category sort method"
 msgstr "Начин на сортиране по категория"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:194
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:193
 msgid "Payment mode sort method"
 msgstr "Начин на сортиране на начина на плащане"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:195
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:194
 msgid "Add category"
 msgstr "Добавяне на категория"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:195
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:194
 msgid "Add payment mode"
 msgstr "Добавяне на начин на плащане"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:196
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:195
 msgid "Category name"
 msgstr "Наименование на категорията"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:196
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:195
 msgid "Payment mode name"
 msgstr "Наименование на начина на плащане"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:197
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:196
 msgid "Add this category"
 msgstr "Добавяне на тази категория"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:197
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:196
 msgid "Add this payment mode"
 msgstr "Добавяне на този начин на плащане"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:198
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:197
 msgid "Category list"
 msgstr "Списък на категориите"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:198
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:197
 msgid "Payment mode list"
 msgstr "Списък на начините на плащане"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:199
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:198
 msgid "Drag categories to set manual order"
 msgstr "Издърпайте категориите, за да зададете ръчно подреждане"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:199
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:198
 msgid "Drag payment modes to set manual order"
 msgstr "Издърпайте начините на плащане, за да зададете ръчно подреждане"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:200
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:199
 msgid "No categories"
 msgstr "Няма категории"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:200
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:199
 msgid "No payment modes"
 msgstr "Няма начини на плащане"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:201
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:206
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:200
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:205
 msgid "Name should not be empty"
 msgstr "Наименованието не трябва да бъде празно"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:202
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:201
 msgid "Failed to add {name}"
 msgstr "Неуспешно добавяне на {name}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:203
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:202
 msgid "{name} was added"
 msgstr "{name} бе добавено"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:204
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:203
 msgid "Failed to delete category"
 msgstr "Неуспешно изтриване на категорията"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:205
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:204
 msgid "Failed to delete payment mode"
 msgstr "Неуспешно изтриване на начина на плащане"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:207
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:206
 msgid "Failed to edit category"
 msgstr "Неуспешно редактиране на категорията"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:208
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:207
 msgid "Order saved"
 msgstr "Редът е записан"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:209
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:208
 msgid "Main currency"
 msgstr "Основна валута"
 
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:210
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:211
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:212
 msgid "Set main currency name"
 msgstr "Задаване на името на основната валута"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:213
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:212
 msgid "Main currency name"
 msgstr "Име на основната валута"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:215
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:214
 msgid "Cancel currency edition"
 msgstr "Отмяна на промяната на валутата"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:216
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:215
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:341
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:342
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:343
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:399
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:400
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:401
 msgid "Save"
 msgstr "Записване"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:217
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:216
 msgid "Save currency"
 msgstr "Запази валутата"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:218
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:217
 msgid "Add currency"
 msgstr "Добавяне на валута"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:219
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:396
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:218
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:397
 msgid "Currency name"
 msgstr "Име на валутата"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:220
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:219
 msgid "Exchange rate to main currency"
 msgstr "Обменен курс спрямо основната валута"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:221
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:220
 msgid "(1 of this currency = X of main currency)"
 msgstr "(1 от тази валута = Х от основната валута)"
 
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:221
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:222
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:223
 msgid "Add this currency"
 msgstr "Добавяне на тази валута"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:224
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:223
 msgid "Currency list"
 msgstr "Списък с валути"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:225
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:224
 msgid "No currencies to display"
 msgstr "Няма валути за показване"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:226
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:229
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:225
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:228
 msgid "Currency name should not be empty"
 msgstr "Името на валутата не трябва да бъде празно"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:227
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:226
 msgid "Exchange rate should be a number"
 msgstr "Обменният курс трябва да бъде число"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:228
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:227
 msgid "Currency {n} added"
 msgstr "Добавена валута {n}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:230
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:229
 msgid "Settlement of project {name}"
 msgstr "Изплащане на проекта {name}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:231
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:511
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:230
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:512
 msgid "Export"
 msgstr "Изнасяне"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:232
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:231
 msgid "Add these payments to the project"
 msgstr "Добавяне на тези плащания към проекта"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:233
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:232
 msgid "Center settlement on"
 msgstr "Задаване на изплащането на"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:234
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:233
 msgid "Nobody (optimal)"
 msgstr "Никого (оптимално)"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:235
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:234
 msgid "Settlement date"
 msgstr "Дата на плащане"
 
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:235
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:236
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:237
 msgid "Information on settlement date"
 msgstr "Информация за датата на изплащане"
 
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:239
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:240
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:241
 msgid "Set to beginning of this day"
 msgstr "Задаване за началото на тази дата"
 
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:241
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:242
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:243
 msgid "Set to beginning of this week"
 msgstr "Задаване в началото на настоящата седмица"
 
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:243
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:244
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:245
 msgid "Set to beginning of this month"
 msgstr "Задаване за началото на настоящия месец"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:246
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:245
 msgid "Settlement plan on {date}"
 msgstr "План за изплащане на {date}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:246
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:245
 msgid "Settlement plan"
 msgstr "План за изплащане"
 
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:249
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:250
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:251
 msgid "No transactions found"
 msgstr "Не са открити трансакции"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:252
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:251
 msgid "Balances on {date}"
 msgstr "Салда към {date}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:252
-msgid "Balances"
-msgstr "Салда"
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:251
+msgid "Global balances"
+msgstr ""
 
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:254
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:255
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:256
 msgid "No balances found"
 msgstr "Не са открити салда"
 
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:256
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:257
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:258
 msgid "Information on individual reimbursement"
 msgstr "Информация за отделното възстановяване"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:259
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:258
 msgid "Individual reimbursement"
 msgstr "Индивидуално възстановяване на суми"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:261
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:522
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:260
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:523
 msgid "Payer"
 msgstr "Платец"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:262
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:261
 msgid "Receiver"
 msgstr "Получател"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:263
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:262
 msgid "Create bill ({amount} {currencyName})"
 msgstr "Създаване на сметка ({amount}{currencyName})"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:264
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:263
 msgid "Create bill ({amount})"
 msgstr "Създаване на сметка ({amount})"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:265
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:264
 msgid "Set a maximum date to only consider bills until then."
 msgstr "Задаване на крайна дата единствено за отчитане на сметките дотогава."
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:266
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:265
 msgid "Useful if you want to settle at a precise date and ignore the bills created since then."
 msgstr "Полезно е, ако искате да определите точна дата и да пренебрегнете сметките след нея."
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:267
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:266
 msgid "Automatic settlement will create bills one second before the maximum date."
 msgstr "Автоматичното изплащане ще създаде сметки секунда преди крайната дата."
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:268
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:267
 msgid "This feature is useful when a member with a negative balance wants to get out of the project but you don't want to make a full settlement plan."
 msgstr "Тази функция е полезна, когато даден член с отрицателно салдо иска да напусне проекта, а Вие не желаете да правите план за цялостно изплащане."
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:269
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:268
 msgid "Select a payer who wants to get a zero balance, then a receiver who will be the only one to get the reimbursement money."
 msgstr "Изберете платец, който желае да получи нулево салдо, после получател, който ще бъде единственият за получаване на сумите за възстановяване."
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:270
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:269
 msgid "Make sure the \"real\" reimbursement has been done between those 2 members in real life. Then press \"Create bill\" to automatically create the corresponding bill."
 msgstr "Уверете се, че в реалния живот „истинското“ възстановяване е извършено между тези двама членове. След това натиснете „Създаване на сметка“ за автоматично създаване на съответната сметка."
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:271
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:270
 msgid "Failed to get settlement"
 msgstr "Неуспешно получаване на плащане"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:272
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:271
 msgid "Project settlement bills added."
 msgstr "Добавени сметки за изплащане на проекта."
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:273
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:272
 msgid "Project settlement exported in {path}"
 msgstr "Изплащането на проекта е изнесено в {path}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:276
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:275
 msgid "{user} have updated the bill {billName}"
 msgstr "{user} актуализира сметката {billName}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:277
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:276
 msgid "{user} has updated the bill {billName}"
 msgstr "{user} актуализира сметката {billName}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:278
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:277
 msgid "{user} have created a new bill {billName}"
 msgstr "{user} създаде нова сметка {billName}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:279
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:278
 msgid "{user} has created a new bill {billName}"
 msgstr "{user} създаде нова сметка {billName}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:280
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:279
 msgid "{user} have deleted the bill {billName}"
 msgstr "{user} изтри сметката {billName}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:281
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:280
 msgid "{user} has deleted the bill {billName}"
 msgstr "{user} изтри сметката {billName}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:282
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:281
 msgid "{user} have shared the project with {who}"
 msgstr "{user} сподели проекта с {who}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:283
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:282
 msgid "{user} has shared the project with {who}"
 msgstr "{user} сподели проекта с {who}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:284
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:283
 msgid "{user} have removed {who} from the project"
 msgstr "{user} извади {who} от проекта"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:285
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:284
 msgid "{user} has removed {who} from the project"
 msgstr "{user} извади {who} от проекта"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:287
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:285
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:403
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:510
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:574
+#: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:66
+msgid "You"
+msgstr "Вие"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:286
 msgid "you"
 msgstr "вие"
 
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:287
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:288
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:289
 msgid "No more activity"
 msgstr "Няма друга дейност"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:290
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:289
 msgid "Rename member"
 msgstr "Преименуване на член"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:291
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:290
 msgid "Change color"
 msgstr "Смяна на цвета"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:292
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:291
 msgid "Weight"
 msgstr "Дял"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:293
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:292
 msgid "No access"
 msgstr "Няма достъп"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:294
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:459
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:470
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:477
-msgid "Viewer"
-msgstr "Разглеждачка"
-
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:295
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:293
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:460
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:471
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:478
-msgid "Participant"
-msgstr "Участник"
+msgid "Viewer"
+msgstr "Разглеждачка"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:296
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:294
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:461
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:472
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:479
-msgid "Maintainer"
-msgstr "Поддържащо лице"
+msgid "Participant"
+msgstr "Участник"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:297
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:295
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:462
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:473
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:480
+msgid "Maintainer"
+msgstr "Поддържащо лице"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:296
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:463
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:474
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:481
 msgid "Admin"
 msgstr "Админ"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:298
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:297
 msgid "Deactivate"
 msgstr "Дезактивиране"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:299
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:298
 msgid "Reactivate"
 msgstr "Повторно активиране"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:300
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:299
 msgid "A member is already named like that"
 msgstr "Вече има член с такова име"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:302
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:483
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:301
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:484
 msgid "Failed to edit shared access level"
 msgstr "Неуспешно редактиране на нивото на споделен достъп"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:303
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:489
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:302
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:490
 msgid "Failed to delete shared access"
 msgstr "Неуспешно изтриване на споделения достъп"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:304
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:303
 msgid "Are you sure?"
 msgstr "Сигурни ли сте?"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:305
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:494
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:304
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:495
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:496
 msgid "Settings"
 msgstr "Настройки"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:306
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:305
 msgid "Share"
 msgstr "Споделяне"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:307
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:306
 msgid "Add member"
 msgstr "Добавяне на участник"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:308
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:307
 msgid "Statistics"
 msgstr "Статистика"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:309
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:308
 msgid "Project settlement"
 msgstr "Изплащане по проекта"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:310
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:309
 msgid "Archive"
 msgstr "Архивиране"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:311
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:310
 msgid "Unarchive"
 msgstr "Разархивиране"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:313
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:317
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:312
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:316
 msgid "Leave share"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:315
-msgid "Close trash bin"
-msgstr "Затвори кошчето"
-
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:316
-msgid "Show trash bin"
-msgstr "Покажи кошчето"
-
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:318
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:317
 msgid "Project {projectId} ({projectName}) shared by {cloudId} ({displayName})"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:321
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:320
 msgid "Everyone"
 msgstr "Всеки"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:322
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:324
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:321
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:323
 msgid "Everyone except {member}"
 msgstr "Всеки, освен {member}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:323
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:322
 msgid "{member1} and {member2}"
 msgstr "{member1} и {member2}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:325
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:324
 msgid "Member list is not up to date. Reloading in 5 sec."
 msgstr "Списъкът с членове не е актуален. Презареждане след 5 сек."
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:328
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:327
 msgid "Move to trash"
 msgstr "Премести в кошчето"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:329
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:328
 msgid "Move to other project"
 msgstr "Премести в друг проект"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:330
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:329
 msgid "Category selector"
 msgstr "Избор на категория"
 
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:330
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:331
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:332
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:392
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:393
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:394
 msgid "Edit"
 msgstr "Редактиране"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:339
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:338
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:377
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:381
 msgid "Name"
 msgstr "Име"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:344
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:343
 msgid "Search projects"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:345
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:410
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:344
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:411
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:412
 msgid "Create empty project"
 msgstr "Създаване на празен проект"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:346
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:345
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:368
 msgid "Import csv project"
 msgstr "Внасяне на проект в csv формат"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:347
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:346
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:369
 msgid "Import SplitWise project"
 msgstr "Внасяне на проект от SplitWise"
 
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:347
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:348
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:349
 msgid "No projects yet"
 msgstr "Все още няма проекти"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:349
+msgid "My cumulated balance"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:350
 msgid "Pending share invitations"
@@ -1955,8 +1960,8 @@ msgstr "Настройки на Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:353
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:354
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:390
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:391
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:392
 msgid "Project imported"
 msgstr "Проектът е внесен"
 
@@ -2054,483 +2059,496 @@ msgid "Use time in dates"
 msgstr "Използвай часа в датите"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:389
+msgid "Show my cumulated balance"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:390
 msgid "Choose where to write output files (stats, settlement, export)"
 msgstr "Избиране на място за записване на резултатните файлове (статистика, изплащане, изнасяне)"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:401
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:402
 msgid "Member select"
 msgstr "Избор на член"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:403
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:404
 msgid "Move bill \"{bill}\" to a different project:"
 msgstr "Премести сметка „{bill}“ в друг проект:"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:404
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:405
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:406
 msgid "Only one project available, in which this bill already exists"
 msgstr "Наличен е само един проект, в който тази сметка вече съществува"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:406
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:407
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:408
 msgid "No projects found"
 msgstr "Не са открити проекти"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:408
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:409
 msgid "Bill moved to \"{project}\" successfully"
 msgstr "Успешно преместване на сметката в „{project}“"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:409
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:410
 msgid "Failed to move bill"
 msgstr "Неуспешно преместване на сметката"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:412
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:413
 msgid "Project name"
 msgstr "Име на проекта"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:413
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:414
 msgid "My new project"
 msgstr "Моят нов проект"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:414
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:415
 msgid "Create"
 msgstr "Създаване"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:415
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:416
 msgid "Payment mode selector"
 msgstr "Избор на начин на плащане"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:416
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:417
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:418
 msgid "Pending invitations for federated shares"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:418
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:419
 msgid "Reject"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:419
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:420
 msgid "Accept"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:420
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:421
 msgid "Project {projectName} shared by {inviterName} ({inviterCloudId})"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:421
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:422
 msgid "Rename project {n}"
 msgstr "Преименуване на проекта {n}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:422
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:423
 msgid "Disable bill deletion"
 msgstr "Дезактивирано изтриване на сметки"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:423
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:424
 msgid "Automatic export"
 msgstr "Автоматично изнасяне"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:428
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:429
 msgid "Export project"
 msgstr "Изнасяне на проекта"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:429
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:430
 msgid "Members"
 msgstr "Членове"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:430
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:431
 msgid "More information on adding members"
 msgstr "Повече информация за добавянето на членове"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:432
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:433
 msgid "You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab."
 msgstr "Можете да добавите обикновен потребител или потребител на Nextcloud към проекта. В контекстното меню можете да дадете достъп на потребител на Nextcloud до проекта. Можете също така да дадете достъп на потребители на Nextcloud, които не са членове в раздела „Споделяне“."
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:435
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:436
 msgid "Enter a member name"
 msgstr "Въведете името на член"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:436
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:437
 msgid "Associate a project member with a Nextcloud user"
 msgstr "Свързване на член по проекта с потребител на Nextcloud"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:437
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:438
 msgid "More information on adding Nextcloud users as members"
 msgstr "Повече информация относно добавянето на потребители на Nextcloud като членове"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:439
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:440
 msgid "Choose a project member, then a Nextcloud user to associate with."
 msgstr "Избиране на член в проекта, след което потребител на Nextcloud, с когото да бъде свързан."
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:439
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:440
 msgid "You can cut the link with a Nextcloud user by renaming the member."
 msgstr "Можете да изрежете хипервръзката с потребител на Nextcloud, като преименувате члена."
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:441
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:442
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:443
 msgid "Choose a Nextcloud user"
 msgstr "Избиране на потребител на Nextcloud"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:443
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:444
 msgid "Type to search users"
 msgstr "Въведете, за да потърсите потребители"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:444
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:445
 msgid "New member name"
 msgstr "Име на нов член"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:445
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:446
 msgid "New member (or Nextcloud user) name"
 msgstr "Име на нов член (или потребител на Nextcloud)"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:446
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:447
 msgid "Create simple member"
 msgstr "Създаване на обикновен потребител"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:448
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:449
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:450
 msgid "Share project with a user, group or circle"
 msgstr "Споделяне на проект с потребител, група или кръг"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:450
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:456
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:451
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:457
 msgid "Federated user"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:451
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:452
 msgid "Start typing to search"
 msgstr "Започнете да въвеждате, за да потърсите"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:452
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:453
 msgid "Scan this QRCode with your mobile device to add project \"{name}\" in MoneyBuster or PayForMe"
 msgstr "Сканирайте този QR код с мобилното си устройство, за да добавите проекта {name} в MoneyBuster или PayForMe"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:453
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:454
 msgid "QRCode content: "
 msgstr "Съдържание на QR кода: "
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:455
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:456
 msgid "Create a new share link"
 msgstr "Създаване на нова хипервръзка за споделяне"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:457
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:458
 msgid "Pending share"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:457
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:458
 msgid "Accepted share"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:458
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:467
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:459
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:468
 msgid "Label"
 msgstr "Етикет"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:463
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:464
 msgid "Delete federated share"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:465
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:466
 msgid "Link copied"
 msgstr "Копирана хипервръзка"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:465
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:466
 msgid "Copy to clipboard"
 msgstr "Копиране в клипборда"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:466
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:467
 msgid "Show QRCode for mobile clients"
 msgstr "Показване на QR код за мобилни клиенти"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:468
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:469
 msgid "Password protect"
 msgstr "Защита на паролата"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:469
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:470
 msgid "Set link password"
 msgstr "Задаване на парола за хипервръзката"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:474
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:475
 msgid "Delete link"
 msgstr "Изтриване на хипервръзката"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:475
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:476
 msgid "Add another link"
 msgstr "Добавяне на друга хипервръзка"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:476
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:477
 msgid "Project owner"
 msgstr "Отговорник за проекта"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:481
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:482
 msgid "Delete access"
 msgstr "Изтриване на достъпа"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:484
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:487
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:485
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:488
 msgid "Share link saved"
 msgstr "Запазена хипервръзка за споделяне"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:485
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:488
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:486
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:489
 msgid "Failed to edit share link"
 msgstr "Неуспешно редактиране на хипервръзка за споделяне"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:486
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:487
 msgid "Federated share saved"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:490
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:491
 msgid "Link could not be copied to clipboard"
 msgstr "Хипервръзката не може да се копира в клипборда"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:491
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:492
 msgid "Rename"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:492
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:493
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:494
 msgid "Sharing"
 msgstr "Споделяне"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:496
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:497
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:498
 msgid "Activity"
 msgstr "Дейност"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:498
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:499
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:500
 msgid "Categories"
 msgstr "Категории"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:500
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:501
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:502
 msgid "Payment modes"
 msgstr "Начини на плащане"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:502
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:503
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:504
 msgid "Currencies"
 msgstr "Валути"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:504
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:505
 msgid "{nb} bills, {nbMembers} active members, {spentAmount} {currency} spent"
 msgstr "{nb} сметки, {nbMembers} активни членове, изхарчени {spentAmount}{currency}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:505
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:506
 msgid "{nb} bills, {nbMembers} active members, {spentAmount} spent"
 msgstr "{nb} сметки, {nbMembers} активни членове, изхарчени {spentAmount}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:506
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:507
 msgid "Member/Month"
 msgstr "Участник/месец"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:507
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:508
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:558
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:559
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:509
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:561
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:562
 msgid "All members"
 msgstr "Всички участници"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:510
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:511
 msgid "Statistics of project {name}"
 msgstr "Статистика за проекта {name}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:512
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:513
 msgid "Minimum date"
 msgstr "Минимална дата"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:513
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:514
 msgid "Maximum date"
 msgstr "Максимална дата"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:518
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:519
 msgid "Minimum amount"
 msgstr "Минимална сума"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:519
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:520
 msgid "Maximum amount"
 msgstr "Максимална сума"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:520
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:521
 msgid "Convert in currency"
 msgstr "Преобразуване във валута"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:521
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:522
 msgid "Main project's currency"
 msgstr "Основна валута на проекта"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:524
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:525
 msgid "Show disabled members"
 msgstr "Показване на изключените членове"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:525
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:526
 msgid "Chart type"
 msgstr "Вид графика"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:526
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:527
 msgid "Pie"
 msgstr "Кръгова"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:527
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:528
 msgid "Bar"
 msgstr "Лента"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:528
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:529
 msgid "Total paid by all the members: {t} {currencyName}"
 msgstr "Изцяло платено от всичките членове: {t} {currencyName}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:529
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:530
 msgid "Total paid by all the members: {t}"
 msgstr "Обща сума, платена от всички членове: {t}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:530
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:531
 msgid "Global stats"
 msgstr "Глобална статистика"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:534
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:535
 msgid "Filtered balance"
 msgstr "Филтрирано салдо"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:536
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:538
+msgid "This balance is computed from the complete bill list"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:537
+msgid "Global Balance"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:539
 msgid "Monthly paid per member"
 msgstr "Месечно, платено от всеки член"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:537
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:540
 msgid "Payments per member per month"
 msgstr "Плащания на член ежемесечно"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:538
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:541
 msgid "Monthly spent per member"
 msgstr "Средномесечни харчове на един член"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:539
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:542
 msgid "Spendings per member per month"
 msgstr "Ежемесечни харчове на един член"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:540
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:543
 msgid "Monthly paid per category"
 msgstr "Ежемесечни плащания по категория"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:541
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:544
 msgid "Payments per category per month"
 msgstr "Ежемесечни плащания по категория"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:542
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:545
 msgid "Category/Month"
 msgstr "Категория/месец"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:543
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:546
 msgid "Monthly paid per payment mode"
 msgstr "Месечни плащания по начин на плащане"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:544
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:547
 msgid "Payments per payment mode per month"
 msgstr "Ежемесечни плащания по начин на плащане"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:545
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:548
 msgid "Payment mode/Month"
 msgstr "Начин на плащане/месец"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:546
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:549
 msgid "Who paid for this category?"
 msgstr "Кой е платил за тази категория?"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:548
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:551
 msgid "What did they pay for?"
 msgstr "За какво са платили?"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:549
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:552
 msgid "Select a member"
 msgstr "Избиране на член"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:550
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:553
 msgid "Who paid for whom?"
 msgstr "Кой е платил за кого?"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:551
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:554
 msgid "paid for"
 msgstr "платено за"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:552
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:555
 msgid "Total paid"
 msgstr "Обща платена сума"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:553
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:556
 msgid "Total owed"
 msgstr "Обща дължима сума"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:554
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:557
 msgid "Total owed by {name}"
 msgstr "Обща сума, дължима от {name}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:555
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:558
 msgid "Total paid by {name}"
 msgstr "Обща сума, платена от {name}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:556
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:562
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:559
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:565
 msgid "All except reimbursement"
 msgstr "Всички освен възстановените суми"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:557
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:560
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:563
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:566
 msgid "All"
 msgstr "Всички"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:565
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:568
 msgid "Payed"
 msgstr "Платено"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:567
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:570
 msgid "Who paid (outside circle) and spent (inside pie)?"
 msgstr "Кой е платил (външен кръг) и изхарчил (вътрешен кръг)?"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:568
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:571
 msgid "Who paid and spent?"
 msgstr "Кой плати и похарчи?"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:569
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:572
 msgid "How much was paid per category?"
 msgstr "Колко е платено по категория?"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:570
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:573
 msgid "How much was paid per payment mode?"
 msgstr "Колко е платено по начин на плащане?"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:573
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:576
 msgid "Enable Federation in Cospend"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:574
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:575
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:577
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:578
 msgid "No recent activity"
 msgstr "Няма скорошна дейност"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:576
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:579
 msgid "Go to Cospend"
 msgstr "Отиди на Cospend"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:577
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:580
 msgid "{user} shared {project} with {who}"
 msgstr "{user} сподели {project} с {who}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:578
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:581
 msgid "{user} unshared {project} with {who}"
 msgstr "{user} вече не споделя {project} с {who}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:579
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:582
 msgid "{user} created {bill}"
 msgstr "{user} създаде {bill}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:580
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:583
 msgid "{user} deleted {bill}"
 msgstr "{user} изтри {bill}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:581
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:584
 msgid "{user} edited {bill}"
 msgstr "{user} редактира {bill}"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/src/main.js:38
+#: /home/julien/html/dev/server/apps-extra/cospend/src/main.js:34
 msgid "Failed to restore options values"
 msgstr "Неуспешно възстановяване на стойностите на опциите"
 

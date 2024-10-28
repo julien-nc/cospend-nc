@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-10-27 17:48+0100\n"
-"PO-Revision-Date: 2024-10-27 16:51\n"
+"PO-Revision-Date: 2024-10-28 16:55\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -323,7 +323,7 @@ msgstr "%s (%s) a partagé le projet Cospend \"%s\" (%s) avec vous."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchBillProvider.php:65
 msgid "Cospend bills"
-msgstr ""
+msgstr "Factures Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchBillProvider.php:179
 #, php-format
@@ -332,12 +332,12 @@ msgstr "dans %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProjectProvider.php:62
 msgid "Cospend projects"
-msgstr ""
+msgstr "Projets Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProjectProvider.php:139
 #, php-format
 msgid "Owned by %1$s"
-msgstr ""
+msgstr "Possédé par %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:192
 #, php-format
@@ -1634,7 +1634,7 @@ msgstr "Balances au {date}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:251
 msgid "Global balances"
-msgstr ""
+msgstr "Balances globales"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:254
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:255
@@ -1938,7 +1938,7 @@ msgstr "Pas encore de projet"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:349
 msgid "My cumulated balance"
-msgstr ""
+msgstr "Ma balance cumulée"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:350
 msgid "Pending share invitations"
@@ -2060,7 +2060,7 @@ msgstr "Utiliser le temps dans les dates"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:389
 msgid "Show my cumulated balance"
-msgstr ""
+msgstr "Afficher ma balance cumulée"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:390
 msgid "Choose where to write output files (stats, settlement, export)"
@@ -2402,11 +2402,11 @@ msgstr "Solde filtré"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:536
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:538
 msgid "This balance is computed from the complete bill list"
-msgstr ""
+msgstr "Cette balance est calculée à partir de la liste complète des factures"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:537
 msgid "Global Balance"
-msgstr ""
+msgstr "Balance globale"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:539
 msgid "Monthly paid per member"

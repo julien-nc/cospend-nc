@@ -58,10 +58,10 @@ export default {
 	},
 	computed: {
 		name() {
-			return this.invite.remoteProjectId + '@' + this.invite.remoteServerUrl
+			return this.invite.remoteProjectName
 		},
 		title() {
-			return t('cospend', 'Project {projectId} ({projectName}) shared by {cloudId} ({displayName})', {
+			return t('cospend', 'Project {projectName} ({projectId}) shared by {displayName} ({cloudId})', {
 				projectId: this.invite.remoteProjectId,
 				projectName: this.invite.remoteProjectName,
 				cloudId: this.invite.inviterCloudId,

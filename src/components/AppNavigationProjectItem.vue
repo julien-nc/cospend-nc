@@ -16,7 +16,7 @@
 	</NcAppNavigationItem>
 	<NcAppNavigationItem v-else
 		:name="project.name"
-		:title="project.id"
+		:title="title"
 		:allow-collapse="true"
 		:open="selected"
 		:active="selected"
@@ -259,6 +259,18 @@ export default {
 			return this.selected && this.trashbinEnabled
 				? t('cospend', 'Close the trash bin')
 				: t('cospend', 'Show the trash bin')
+		},
+		title() {
+			return this.project.federated
+				? t('cospend', 'Project {projectName} ({projectId}) shared by {displayName} ({cloudId})', {
+					projectId: this.project.federation.remote_project_id,
+					projectName: this.project.name,
+					cloudId: this.project.federation.inviter_cloud_id,
+					displayName: this.project.federation.inviter_display_name,
+				})
+				: this.project.name !== this.project.id
+					? this.project.name + ' (' + this.project.id + ')'
+					: this.project.name
 		},
 	},
 	beforeMount() {

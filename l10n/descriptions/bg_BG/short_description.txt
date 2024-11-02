@@ -1,1 +1,1 @@
-Shared budget manager
+Инструмент за споделен бюджет

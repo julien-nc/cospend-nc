@@ -16,22 +16,22 @@ Die privaten und öffentlichen APIs sind mit [der Nextcloud OpenAPI Extractor Ap
 
 ## Funktionen
 
-* ✎ Create/edit/delete projects, members, bills, bill categories, currencies
-* ⚖ Check member balances
-* 🗠 Display project statistics
-* ♻ Display settlement plan
-* Move bills from one project to another
-* Move bills to trash before actually deleting them
-* Archive old projects before deleting them
-* 🎇 Automatically create reimbursement bills from settlement plan
-* 🗓 Create recurring bills (day/week/month/year)
-* 📊 Optionally provide custom amount for each member in new bills
-* 🔗 Link personal files to bills (picture of physical receipt for example)
-* 👩 Public links for people outside Nextcloud (can be password protected)
-* 👫 Share projects with Nextcloud users/groups/circles
-* 🖫 Import/export projects as csv (compatible with csv files from IHateMoney and SplitWise)
-* 🔗 Generate link/QRCode to easily add projects in MoneyBuster
-* 🗲 Implement Nextcloud notifications and activity stream
+* ✎ Projekte, Mitglieder, Rechnungen, Rechnungskategorien, Währungen erstellen/bearbeiten/löschen
+* ⚖ Kontrolle der Mitgliederguthaben
+* 🗠 Projektstatistiken anzeigen
+* ♻ Anzeige des Abrechnungsplans
+* Rechnungen von einem Projekt zu einem anderen verschieben
+* Rechnungen in den Papierkorb verschieben, bevor sie tatsächlich gelöscht werden
+* Alte Projekte archivieren, bevor sie gelöscht werden
+* 🎇 Automatisch Erstattungsrechnungen aus dem Abrechnungsplan erstellen
+* 🗓 Wiederkehrende Rechnungen erstellen (Tag/Woche/Monat/Jahr)
+* 📊 Optionaler benutzerdefinierter Betrag für jedes Mitglied in neuen Rechnungen bereitstellen
+* 🔗 Verknüpfen Sie persönliche Dateien mit Rechnungen (z. B. ein Bild einer Quittung)
+* 👩 Öffentliche Links für Personen außerhalb von Nextcloud (können passwortgeschützt werden)
+* 👫 Projekte mit Nextcloud-Nutzern/Gruppen/Zirkeln teilen
+* 🖫 Projekte als csv importieren/exportieren (kompatibel mit csv-Dateien von IHateMoney und SplitWise)
+* 🔗 Link/QRCode zum einfachen Hinzufügen von Projekten in MoneyBuster generieren
+* 🗲 Implementierung von Nextcloud-Benachrichtigungen und Aktivitätsstrom
 
 Diese App unterstützt in der Regel die 2 oder 3 letzten Hauptversionen von Nextcloud.
 

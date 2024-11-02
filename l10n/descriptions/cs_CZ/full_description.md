@@ -2,17 +2,17 @@
 
 Nextcloud Cospend je správce skupinových/sdílených rozpočtů. Inspirováno skvělým [IHateMoney](https://github.com/spiral-project/ihatemoney/).
 
-You can use it when you share a house, when you go on vacation with friends, whenever you share expenses with a group of people.
+Můžete ji používat když sdílíte dům, jste s příteli na dovolené a nebo kdykoliv máte ze skupinou lidí sdílené výdaje.
 
-Umožňuje vytvářet projekty se členy a účty. Každý člen má zůstek vypočítaný z projektových účtů. Balances are not an absolute amount of money at members disposal but rather a relative information showing if a member has spent more for the group than the group has spent for her/him, independently of exactly who spent money for whom. Tak je možné vidět kdo dluží skupině a naopak komu dluží skupina. V konečném důsledku můžete požádat o plán vypořádání, který vám oznámí, které platby mají být provedeny za účelem vynulování zůstatků členů.
+Umožňuje vytvářet projekty se členy a účty. Každý člen má zůstek vypočítaný z projektových účtů. Zůstatky nejsou absolutní částkou peněz, které mají členové k dispozici, ale spíše relativní informací uvádějící, zda člen za skupinu utratil více, než skupina utratila za něj, nezávisle na tom, kdo za koho co utratil. Tak je možné vidět kdo dluží skupině a naopak komu dluží skupina. V konečném důsledku můžete požádat o plán vypořádání, který vám oznámí, které platby mají být provedeny za účelem vynulování zůstatků členů.
 
-Členové projektu jsou nezávislí na uživatelích z Nextcloud. Projects can be shared with other Nextcloud users or via public links.
+Členové projektu jsou nezávislí na uživatelích z Nextcloud. Projekty lze sdílet s jinými uživateli služby Nextcloud nebo pomocí veřejných odkazů.
 
 Android klient [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) je [k dispozici v repozitáři F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) a v katalogu [Google Play](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
-[PayForMe](https://github.com/mayflower/PayForMe) iOS client is currently under developpement!
+Ve vývoji je současně také iOS klient [PayForMe](https://github.com/mayflower/PayForMe)!
 
-The private and public APIs are documented using [the Nextcloud OpenAPI extractor](https://github.com/nextcloud/openapi-extractor/). This documentation can be accessed directly in Nextcloud. All you need is to install Cospend (>= v1.6.0) and use the [the OCS API Viewer app](https://apps.nextcloud.com/apps/ocs_api_viewer) to browse the OpenAPI documentation.
+Soukromé a veřejné API jsou zdokumentováne pomocí [Nextcloud OpenAPI extractor](https://github.com/nextcloud/openapi-extractor/). K této dokumentaci lze přistupovat přímo v službě Nextcloud. Vše, co potřebujete, je nainstalovat Cospend (>= v1.6.0) a použít [aplikaci OCS API Viewer](https://apps.nextcloud.com/apps/ocs_api_viewer) k procházení OpenAPI dokumentace.
 
 ## Funkce
 

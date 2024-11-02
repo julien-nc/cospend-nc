@@ -12,13 +12,13 @@ Project members are independent from Nextcloud users. Projects can be shared wit
 
 [PayForMe](https://github.com/mayflower/PayForMe) iOS client is currently under developpement!
 
-The private and public APIs are documented using [the Nextcloud OpenAPI extractor](https://github.com/nextcloud/openapi-extractor/). This documentation can be accessed directly in Nextcloud. All you need is to install Cospend (>= v1.6.0) and use the [the OCS API Viewer app](https://apps.nextcloud.com/apps/ocs_api_viewer) to browse the OpenAPI documentation.
+The private and public APIs are documented using [the Nextcloud OpenAPI extractor](https://github.com/nextcloud/openapi-extractor/). Ця документація доступна безпосередньо в Nextcloud. Все, що вам потрібно — встановити Cospend (>= v1.6.0) і використовувати [OCS API Viewer додатків](https://apps.nextcloud.com/apps/ocs_api_viewer) для перегляду документації OpenAPI.
 
-## Features
+## Можливості
 
 * ✎ Create/edit/delete projects, members, bills, bill categories, currencies
 * ⚖ Check member balances
-* 🗠 Display project statistics
+* 🗠Переглядати статистику проекту
 * ♻ Display settlement plan
 * Move bills from one project to another
 * Move bills to trash before actually deleting them
@@ -27,31 +27,31 @@ The private and public APIs are documented using [the Nextcloud OpenAPI extracto
 * 🗓 Create recurring bills (day/week/month/year)
 * 📊 Optionally provide custom amount for each member in new bills
 * 🔗 Link personal files to bills (picture of physical receipt for example)
-* 👩 Public links for people outside Nextcloud (can be password protected)
-* 👫 Share projects with Nextcloud users/groups/circles
+* 👩 Публічні посилання для людей поза Nextcloud (можуть бути захищені паролем)
+* 👫 Ділитися проєктами з користувачами/групами/колами Nextcloud
 * 🖫 Import/export projects as csv (compatible with csv files from IHateMoney and SplitWise)
 * 🔗 Generate link/QRCode to easily add projects in MoneyBuster
 * 🗲 Implement Nextcloud notifications and activity stream
 
-This app usually support the 2 or 3 last major versions of Nextcloud.
+Додаток зазвичай підтримує 2 або 3 останні основні версії Nextcloud.
 
-This app is under development.
+Цей додаток в стадії розробки.
 
-🌍 Help us to translate this app on [Nextcloud-Cospend/MoneyBuster Crowdin project](https://crowdin.com/project/moneybuster).
+🌍 Допоможіть нам перекласти цей додаток на [PhoneTrack Crowdin](https://crowdin. com/project/phonetrack).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://github.com/julien-nc/cospend-nc/blob/master/CONTRIBUTING.md).
+⚒️ Перегляньте інші способи допомогти в [інструкціях з внеску оголошень](https://github.com/julien-nc/cospend-nc/blob/master/CONTRIBUTING.md).
 
-## Documentation
+## Документація
 
-* [User documentation](https://github.com/julien-nc/cospend-nc/blob/master/docs/user.md)
-* [Admin documentation](https://github.com/julien-nc/cospend-nc/blob/master/docs/admin.md)
-* [Developer documentation](https://github.com/julien-nc/cospend-nc/blob/master/docs/dev.md)
+* [Документація користувача](https://github.com/julien-nc/cospend-nc/blob/master/docs/user.md)
+* [Документація для адміністратора](https://github.com/julien-nc/cospend-nc/blob/master/docs/admin.md)
+* [Документація для розробника](https://github.com/julien-nc/cospend-nc/blob/master/docs/dev.md)
 * [CHANGELOG](https://github.com/julien-nc/cospend-nc/blob/master/CHANGELOG.md#change-log)
-* [AUTHORS](https://github.com/julien-nc/cospend-nc/blob/master/AUTHORS.md#authors)
+* [АВТОРИ](https://github.com/julien-nc/cospend-nc/blob/master/AUTHORS.md#authors)
 
-## Known issues
+## Відомі проблеми
 
-* It does not make you rich
+* Це не зробить вас багатим
 
-Any feedback will be appreciated.
+Будемо вдячні за будь-який відгук.
 

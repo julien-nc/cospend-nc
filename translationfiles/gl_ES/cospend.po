@@ -5,71 +5,71 @@ msgstr ""
 "POT-Creation-Date: 2024-10-27 17:48+0100\n"
 "PO-Revision-Date: 2024-10-27 16:51\n"
 "Last-Translator: \n"
-"Language-Team: Persian\n"
-"Language: fa_IR\n"
+"Language-Team: Galician\n"
+"Language: gl_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: moneybuster\n"
 "X-Crowdin-Project-ID: 340933\n"
-"X-Crowdin-Language: fa\n"
+"X-Crowdin-Language: gl\n"
 "X-Crowdin-File: /main/translationfiles/templates/cospend.pot\n"
 "X-Crowdin-File-ID: 195\n"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:76
 msgid "You have created a new bill {bill} in project {project}"
-msgstr "شما یک رسید تازه {bill} در پروژه {project} ساختید"
+msgstr "Vde. creou unha nova factura {bill} no proxecto {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:76
 msgid "{user} has created a new bill {bill} in project {project}"
-msgstr "{user} یک رسید تازه {bill} در پروژه {project} ساخت"
+msgstr "{user} creou unha nova factura {bill} no proxecto {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:79
 msgid "You have deleted the bill {bill} of project {project}"
-msgstr "شما رسید {bill} پروژه {project} را حذف کردید"
+msgstr "Vde. eliminou a factura {bill} do proxecto {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:79
 msgid "{user} has deleted the bill {bill} of project {project}"
-msgstr "{user} رسید {bill} پروژه {project} را حذف کرد"
+msgstr "{user} eliminou a factura {bill} do proxecto {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:82
 msgid "You have shared the project {project} with {who}"
-msgstr "شما پروژه {project} را با {who} به اشتراک گذاشتید"
+msgstr "Vde. compartiu o proxecto {project} con {who}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:82
 msgid "{user} has shared the project {project} with {who}"
-msgstr "{user} پروژه {project} را با {who} به اشتراک گذاشت"
+msgstr "{user} compartiu o proxecto {project} con {who}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:85
 msgid "You have removed {who} from the project {project}"
-msgstr "شما {who} را از پروژه {project} حذف کردید"
+msgstr "Vde. retirou a {who} do proxecto {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:85
 msgid "{user} has removed {who} from the project {project}"
-msgstr "{user} ،{who} را از پروژه {project} حذف کرد"
+msgstr "{user} retirou a {who} do proxecto {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:88
 msgid "You have updated the bill {bill} of project {project}"
-msgstr "شما رسید {bill} پروژه {project} را به‌روز کردید"
+msgstr "Vde. actualizou a factura {bill} do proxecto {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:88
 msgid "{user} has updated the bill {bill} of project {project}"
-msgstr "{user} رسید {bill} پروژه {project} را به‌روز کرد"
+msgstr "{user} actualizou a factura {bill} do proxecto {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:164
 msgid "A guest user"
-msgstr "کاربر مهمان"
+msgstr "Un usuario convidado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/BillSetting.php:41
 msgid "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted"
-msgstr "یک <strong>رسید</strong> درون برنامه Cospend به‎روز/ساخته/حذف شد"
+msgstr "Actualizouse/creouse/eliminouse unha <strong>factura</strong> dentro da aplicación Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:254
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:262
 #, php-format
 msgid "circle %1$s"
-msgstr "حلقه %1$s"
+msgstr "círculo %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/Filter.php:51
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:50
@@ -77,11 +77,11 @@ msgstr "حلقه %1$s"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialAppInfoFakeDummyForL10nScript.php:2
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:575
 msgid "Cospend"
-msgstr ""
+msgstr "Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/Setting.php:49
 msgid "Changes in the <strong>Cospend app</strong>"
-msgstr "تغییرات در <strong>Cospend app</strong>"
+msgstr "Cambios na <strong>aplicación Cospend</strong>"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:578
 msgid "You are not allowed to access the target project"
@@ -89,11 +89,11 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:848
 msgid "You are not allowed to give such shared access level"
-msgstr "شما مجاز به دادن چنین سطح دسترسی اشتراکی نیستید"
+msgstr "Non ten permiso para conceder ese nivel de acceso compartido"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:885
 msgid "You are not allowed to edit this shared access"
-msgstr ""
+msgstr "Non ten permiso para editar este acceso compartido"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:1248
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:1319
@@ -101,7 +101,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:1434
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:1492
 msgid "You are not allowed to remove this shared access"
-msgstr "شما مجاز به حذف این دسترسی مشترک نیستید"
+msgstr "Non ten permiso para retirar este acceso compartido"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:1516
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:1520
@@ -113,14 +113,14 @@ msgstr "شما مجاز به حذف این دسترسی مشترک نیستید"
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:650
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:653
 msgid "Access denied"
-msgstr "دسترسی رد شد"
+msgstr "Acceso denegado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:142
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:159
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PublicApiController.php:231
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Middleware/PublicAuthMiddleware.php:53
 msgid "Project not found"
-msgstr "پروژه یافت نشد"
+msgstr "Non se atopou o proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:385
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:467
@@ -128,7 +128,7 @@ msgstr "پروژه یافت نشد"
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:599
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:627
 msgid "Guest access"
-msgstr ""
+msgstr "Acceso de convidado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:388
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:470
@@ -142,7 +142,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PublicApiController.php:556
 #, php-format
 msgid "Share link (%s)"
-msgstr ""
+msgstr "Ligazón para compartir (%s)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:390
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:472
@@ -157,160 +157,160 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:455
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:465
 msgid "Share link"
-msgstr ""
+msgstr "Ligazón para compartir"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:188
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:250
 #, php-format
 msgid "Enter link password of project %s"
-msgstr ""
+msgstr "Introduza o contrasinal da ligazón do proxecto %s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:198
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:236
 #, php-format
 msgid "Project %s"
-msgstr "پروژه %s"
+msgstr "Proxecto %s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:200
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:235
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:249
 msgid "Cospend shared link access"
-msgstr ""
+msgstr "Ligazón de acceso compartido a Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:203
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:261
 msgid "No such Cospend share link"
-msgstr ""
+msgstr "Non hai ningunha ligazón para compartir Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Dashboard/CospendWidget.php:52
 msgid "Cospend activity"
-msgstr ""
+msgstr "Actividade de Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Db/ProjectMapper.php:97
 msgid "Invalid project id"
-msgstr "شناسه پروژه نامعتبر است"
+msgstr "ID de proxecto non válido"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Middleware/PublicAuthMiddleware.php:59
 msgid "Project password is invalid"
-msgstr ""
+msgstr "O contrasinal do proxecto non é válido"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Middleware/PublicAuthMiddleware.php:70
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Middleware/UserPermissionMiddleware.php:54
 msgid "Insufficient access level"
-msgstr ""
+msgstr "Nivel de acceso insuficiente"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:98
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:96
 msgid "Grocery"
-msgstr "خواربار"
+msgstr "Tenda de alimentación"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:99
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:101
 msgid "Bar/Party"
-msgstr "بار/مهمانی"
+msgstr "Bar/Festa"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:100
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:106
 msgid "Rent"
-msgstr "اجاره"
+msgstr "Alugueiro"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:101
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:111
 msgid "Bill"
-msgstr "رسید"
+msgstr "Factura"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:102
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:116
 msgid "Excursion/Culture"
-msgstr "گشت و گذار/ فرهنگ"
+msgstr "Excursión/Cultura"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:103
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:121
 msgid "Health"
-msgstr "بهداشت و درمان"
+msgstr "Saúde"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:104
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:126
 msgid "Shopping"
-msgstr "خرید"
+msgstr "Compras"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:106
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:131
 msgid "Restaurant"
-msgstr "رستوران"
+msgstr "Restaurante"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:107
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:136
 msgid "Accommodation"
-msgstr "اسکان"
+msgstr "Aloxamento"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:108
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:141
 msgid "Transport"
-msgstr "حمل و نقل"
+msgstr "Transporte"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:109
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:146
 msgid "Sport"
-msgstr "ورزشی"
+msgstr "Deporte"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:73
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:81
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:154
 msgid "Credit card"
-msgstr "کارت اعتباری"
+msgstr "Tarxeta de crédito"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:74
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:88
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:160
 msgid "Cash"
-msgstr "پول نقد"
+msgstr "Efectivo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:75
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:95
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:166
 msgid "Check"
-msgstr "بررسی"
+msgstr "Cheque"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:76
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:102
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:172
 msgid "Transfer"
-msgstr "انتقال"
+msgstr "Transferencia"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:77
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:109
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:178
 msgid "Online service"
-msgstr "سرویس آنلاین"
+msgstr "Servizos en liña"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:79
 msgid "Cospend project shared"
-msgstr ""
+msgstr "Proxecto Cospend compartido"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:80
 #, php-format
 msgid "User \"%s\" shared Cospend project \"%s\" with you."
-msgstr "کاربر \"%s\" پروژه \"%s\" را با شما به اشتراک گذاشت."
+msgstr "O usuario «%s» compartiu o proxecto «%s» de Cospend con Vde."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:90
 #, php-format
 msgid "{user} shared project %s with you"
-msgstr ""
+msgstr "{user} compartiu o proxecto %s con Vde."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:108
 msgid "Cospend project share removed"
-msgstr ""
+msgstr "Retirouse a compartición do proxecto de Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:109
 #, php-format
 msgid "User \"%s\" stopped sharing Cospend project \"%s\" with you."
-msgstr "کاربر \"%s\" هم‌رسانی پروژه \"%s\" با شما را متوقف کرد."
+msgstr "O usuario «%s» deixou de compartir o proxecto «%s» de Cospend con Vde."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:121
 #, php-format
 msgid "{user} stopped sharing project %s with you"
-msgstr ""
+msgstr "{user} deixou de compartir o proxecto %s con Vde."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:134
 msgid "Cospend federated project shared"
@@ -328,7 +328,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchBillProvider.php:179
 #, php-format
 msgid "in %1$s"
-msgstr ""
+msgstr "en %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProjectProvider.php:62
 msgid "Cospend projects"
@@ -342,187 +342,187 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:192
 #, php-format
 msgid "Malformed CSV, bad column names at line %1$s"
-msgstr ""
+msgstr "CSV con formato incorrecto, nomes de columna incorrectos na liña %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:207
 #, php-format
 msgid "Error when adding category %1$s"
-msgstr "خطا هنگام افزودن دسته‌بندی %1$s"
+msgstr "Produciuse un erro ao engadir a categoría %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:225
 #, php-format
 msgid "Error when adding payment mode %1$s"
-msgstr ""
+msgstr "Produciuse un erro ao engadir o método de pagamento %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:239
 #, php-format
 msgid "Error when adding currency %1$s"
-msgstr "خطا هنگام افزودن واحد پولی %1$s"
+msgstr "Produciuse un erro ao engadir a moeda %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:254
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:403
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:616
 #, php-format
 msgid "Error when adding member %1$s"
-msgstr "خطا هنگام افزودن عضو %1$s"
+msgstr "Produciuse un erro ao engadir o membro %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:269
 #, php-format
 msgid "Malformed CSV, invalid member on line %1$s"
-msgstr ""
+msgstr "CSV con formato incorrecto, membro non válido na liña %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:275
 #, php-format
 msgid "Malformed CSV, invalid amount on line %1$s"
-msgstr ""
+msgstr "CSV con formato incorrecto, cantidade non válida na liña %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:291
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:520
 #, php-format
 msgid "Malformed CSV, missing or invalid date/timestamp on line %1$s"
-msgstr ""
+msgstr "CSV con formato incorrecto, falta ou non é valida a data ou a marca de tempo na liña %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:318
 #, php-format
 msgid "Malformed CSV, invalid payer weight on line %1$s"
-msgstr ""
+msgstr "CSV con formato incorrecto, ponderación do pagador non válida na liña %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:323
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:331
 #, php-format
 msgid "Malformed CSV, invalid owers on line %1$s"
-msgstr ""
+msgstr "CSV con formato incorrecto, debedores non válidos na liña %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:375
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:596
 #, php-format
 msgid "Error in project creation, %1$s"
-msgstr "خطا در ساختن پروژه، %1$s"
+msgstr "Produciuse un erro na creación do proxecto, %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:437
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:642
 #, php-format
 msgid "Error when adding bill %1$s"
-msgstr "خطا هنگام افزودن رسید %1$s"
+msgstr "Produciuse un erro ao engadir a factura %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:497
 msgid "Malformed CSV, cannot have an empty ower"
-msgstr ""
+msgstr "CSV con formato incorrecto, non pode ter un campo debedor baleiro"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:541
 #, php-format
 msgid "Malformed CSV, bad amount on line %1$s"
-msgstr ""
+msgstr "CSV con formato incorrecto, cantidade incorrecta na liña %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:558
 #, php-format
 msgid "Malformed CSV, no payer on line %1$s"
-msgstr ""
+msgstr "CSV con formato incorrecto, non hai pagador na liña %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:579
 msgid "Malformed CSV, impossible to find the column names. Make sure your Splitwise account language is set to English first, then export the project again."
-msgstr ""
+msgstr "CSV con formato incorrecto, non é posíbel atopar os nomes das columnas. Asegúrese primeiro de que o idioma da súa conta de Splitwise estea configurada en inglés e após exporte de novo o proxecto."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:677
 msgid "daily"
-msgstr "روزانه"
+msgstr "diaria"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:692
 msgid "weekly"
-msgstr "هفتگی"
+msgstr "semanal"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:713
 msgid "monthly"
-msgstr "ماهانه"
+msgstr "mensual"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:784
 #, php-format
 msgid "%1$s is not a folder"
-msgstr "%1$s یک پوشه نیست"
+msgstr "%1$s non é un cartafol"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:786
 #, php-format
 msgid "%1$s is not writeable"
-msgstr "%1$s قابل نوشتن نیست"
+msgstr "Non é posíbel escribir en %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:791
 #, php-format
 msgid "Impossible to create %1$s"
-msgstr "ساختن %1$s ناممکن است"
+msgstr "Non é posíbel crear %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:832
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:246
 msgid "Who pays?"
-msgstr "چه کسی پرداخت می‌کند؟"
+msgstr "Quen paga?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:833
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:247
 msgid "To whom?"
-msgstr "به چه کسی؟"
+msgstr "A quen?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:834
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:49
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:248
 msgid "How much?"
-msgstr "چقدر؟"
+msgstr "Canto?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:896
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:252
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:532
 msgid "Member name"
-msgstr "نام عضو"
+msgstr "Nome do membro"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:897
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:533
 msgid "Paid"
-msgstr "پرداخت شده"
+msgstr "Pagado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:898
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:534
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:569
 msgid "Spent"
-msgstr "خرج شده"
+msgstr "Gastado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:899
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:253
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:382
 msgid "Balance"
-msgstr "موجودی"
+msgstr "Saldo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:186
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:273
 #: /home/julien/html/dev/server/apps-extra/cospend/src/constants.js:46
 msgid "Reimbursement"
-msgstr "بازپرداخت"
+msgstr "Reembolso"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:291
 msgid "Not Found"
-msgstr "یافت نشد"
+msgstr "Non atopado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:639
 msgid "Average per month"
-msgstr "متوسط ​​در هر ماه"
+msgstr "Promedio por mes"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1112
 msgid "Error when getting project settlement transactions"
-msgstr "خطا هنگام دریافت معاملات تسویه حساب پروژه"
+msgstr "Produciuse un erro ao obter as transaccións de liquidación do proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1142
 msgid "Error when adding a bill"
-msgstr "خطا هنگام افزودن رسید"
+msgstr "Produciuse un erro ao engadir unha factura"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1332
 msgid "This project have no such member"
-msgstr "این پروژه چنین عضوی ندارد"
+msgstr "Este proxecto non ten ese membro"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1346
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1475
 msgid "Invalid member name"
-msgstr "نام عضو نامعتبر است"
+msgstr "O nome de membro non é válido"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1351
 msgid "Name already exists"
-msgstr ""
+msgstr "O nome xa existe"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1364
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2137
@@ -530,96 +530,96 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2161
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2165
 msgid "Invalid value"
-msgstr "مقدار نامعتبر است"
+msgstr "Valor non válido"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1369
 msgid "Not a valid decimal value"
-msgstr "یک مقدار اعشاری معتبر نیست"
+msgstr "Non é un valor decimal válido"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1406
 msgid "There is no such project"
-msgstr "چنین پروژه‌ای وجود ندارد"
+msgstr "Non existe ese proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1409
 msgid "Name can't be empty"
-msgstr ""
+msgstr "O nome non pode estar baleiro"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1412
 msgid "Invalid frequency"
-msgstr ""
+msgstr "A frecuencia non é válida"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1415
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1418
 msgid "Invalid sort order"
-msgstr ""
+msgstr "A orde de clasificación non é válida"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1472
 msgid "Name field is required"
-msgstr "بخش نام الزامی است"
+msgstr "O campo Nome é obrigatorio"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1478
 msgid "Weight is not a valid decimal value"
-msgstr "وزن یک مقدار اعشاری معتبر نیست"
+msgstr "A ponderación non é un valor decimal válido"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1481
 msgid "Invalid color value"
-msgstr ""
+msgstr "O valor da cor non é válido"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1484
 msgid "This project already has this member"
-msgstr "پروژه از قبل این عضو را دارد"
+msgstr "Este proxecto xa conta con este membro"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1487
 msgid "This project already has this member (user)"
-msgstr ""
+msgstr "Este proxecto xa conta con este membro (usuario)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2130
 msgid "There is no such bill"
-msgstr "چنین رسیدی وجود ندارد"
+msgstr "Non existe esa factura"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2151
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2168
 msgid "Not a valid choice"
-msgstr "انتخاب معتبری نمی‌باشد"
+msgstr "Non é unha opción válida"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2498
 msgid "Cannot match payer"
-msgstr ""
+msgstr "Ninguén coincide co pagador"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2528
 #, php-format
 msgid "Cannot create new bill: %1$s"
-msgstr ""
+msgstr "Non é posíbel crear unha nova factura: %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2788
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2893
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2954
 msgid "Incorrect field values"
-msgstr "مقادیر بخش نادرست است"
+msgstr "Valores de campo incorrectos"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2935
 msgid "Not found"
-msgstr "یافت نشد"
+msgstr "Non atopado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2959
 msgid "This project have no such currency"
-msgstr "این پروژه چنین واحد پولی ندارد"
+msgstr "Este proxecto non ten esa moeda"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3076
 msgid "No such user"
-msgstr "چنین کاربری وجود ندارد"
+msgstr "Este usuario non existe"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3083
 msgid "Impossible to share the project with its owner"
-msgstr "هم‌رسانی پروژه با صاحبش ناممکن است"
+msgstr "Non é posíbel compartir o proxecto co seu propietario"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3088
 msgid "Already shared with this user"
-msgstr "قبلا با این کاربر هم‌رسانی شده است"
+msgstr "Xa foi compartido con este usuario"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3093
 msgid "You are not authorized to give such access level"
-msgstr "شما مجاز به اعطای چنین سطح دسترسی نیستید"
+msgstr "Non está autorizado para conceder ese nivel de acceso"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3217
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3247
@@ -628,7 +628,7 @@ msgstr "شما مجاز به اعطای چنین سطح دسترسی نیستی�
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3419
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3523
 msgid "No such share"
-msgstr "چنین هم‌رسانی وجود ندارد"
+msgstr "Non existe esta compartición"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3234
 msgid "Invalid values"
@@ -636,31 +636,31 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3378
 msgid "No such group"
-msgstr "چنین گروهی وجود ندارد"
+msgstr "Non existe ese grupo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3383
 msgid "Already shared with this group"
-msgstr "قبلا با این گروه هم‌رسانی شده است"
+msgstr "Xa foi compartido con este grupo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3451
 msgid "Circles app is not enabled"
-msgstr "برنامه حلقه فعال نیست"
+msgstr "A aplicación de Círculos non está activada"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3458
 msgid "Impossible to get the circle manager"
-msgstr ""
+msgstr "Non é posíbel obter o xestor do círculo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3466
 msgid "No such circle"
-msgstr "چنین حلقه‌ای وجود ندارد"
+msgstr "Non existe ese círculo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3472
 msgid "Already shared with this circle"
-msgstr "قبلا با این حلقه به اشتراک گذاشته شده است"
+msgstr "Xa foi compartido con este círculo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/UserMigration/UserMigrator.php:173
 msgid "Cospend projects and user settings"
-msgstr ""
+msgstr "Axustes de usuarios e proxectos de Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialAppInfoFakeDummyForL10nScript.php:3
 msgid " "
@@ -669,94 +669,94 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:1
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "What do you want to do?"
-msgstr ""
+msgstr "Que quere facer?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:3
 msgid "These actions are also available in the sidebar project context menu."
-msgstr ""
+msgstr "Estas accións tamén están dispoñíbeis no menú contextual da barra lateral do proxecto."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:134
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:152
 msgid "Create a bill"
-msgstr ""
+msgstr "Crear unha factura"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5
 msgid "Show project settings"
-msgstr ""
+msgstr "Amosar os axustes do proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6
 msgid "Share the project"
-msgstr ""
+msgstr "Compartir o proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:314
 msgid "Close the trash bin"
-msgstr ""
+msgstr "Pechar o cesto do lixo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:136
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:315
 msgid "Show the trash bin"
-msgstr ""
+msgstr "Amosar o cesto do lixo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8
 msgid "Show project statistics"
-msgstr ""
+msgstr "Amosar as estatísticas do proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:9
 msgid "Show project settlement plan"
-msgstr ""
+msgstr "Amosar o plan de liquidación do proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:10
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:11
 msgid "Select a project"
-msgstr ""
+msgstr "Seleccionar un proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:12
 msgid "Nothing to repeat"
-msgstr ""
+msgstr "Nada que repetir"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:13
 msgid "Bill deleted"
-msgstr ""
+msgstr "Factura eliminada"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:14
 msgid "Failed to delete bill"
-msgstr "شکست در حذف رسید"
+msgstr "Produciuse un fallo ao eliminar a factura"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:15
 msgid "Bill restored"
-msgstr ""
+msgstr "A factura foi restaurada"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:16
 msgid "Failed to restore bill"
-msgstr ""
+msgstr "Produciuse un fallo ao restaurar a factura"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:17
 msgid "Bills restored"
-msgstr ""
+msgstr "As facturas foron restauradas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:18
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:180
 msgid "Failed to delete bills"
-msgstr ""
+msgstr "Produciuse un fallo ao eliminar as facturas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:19
 msgid "Trashbin has been cleared"
-msgstr ""
+msgstr "O cesto do lixo foi limpado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:20
 msgid "Member {name} already exists"
-msgstr "عضو {name} از قبل وجود دارد"
+msgstr "O membro {name} xa existe"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:21
 msgid "Impossible to move bill. No candidate project found."
-msgstr ""
+msgstr "Non é posíbel mover a factura. Non se atopou ningún proxecto candidato."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:22
 msgid "Failed to get projects"
-msgstr "دریافت پروژه ناموفق بود"
+msgstr "Produciuse un fallo ao obter os proxectos"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:23
 msgid "Failed to get federated project"
@@ -769,112 +769,112 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:25
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:26
 msgid "Failed to get bills"
-msgstr ""
+msgstr "Produciuse un fallo ao obter as facturas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:27
 msgid "Invalid project name"
-msgstr "نام پروژه نامعتبر است"
+msgstr "O nome de proxecto non é válido"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:28
 msgid "Failed to create project"
-msgstr "ساختن پروژه ناموفق بود"
+msgstr "Produciuse un fallo ao crear un proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:29
 msgid "Deleted project {id}"
-msgstr "پروژه {id} حذف شد"
+msgstr "O proxecto {id} foi eliminado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:30
 msgid "Failed to delete project"
-msgstr "حذف پروژه ناموفق بود"
+msgstr "Produciuse un fallo ao eliminar o proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:31
 msgid "Failed to update balances"
-msgstr "به‌روز رسانی موجودی‌ها ناموفق بود"
+msgstr "Produciuse un fallo ao actualizar os saldos"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:32
 msgid "Created member {name}"
-msgstr "عضو ساخته شده {name}"
+msgstr "Creouse o membro {name}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:33
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:448
 msgid "Failed to add member"
-msgstr "افزودن عضو ناموفق بود"
+msgstr "Produciuse un fallo ao engadir un membro"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:34
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:300
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:483
 msgid "Failed to add shared access"
-msgstr "افزودن دسترسی هم‌رسانی شده شکست خورد"
+msgstr "Produciuse un fallo ao engadir o acceso compartido"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:35
 msgid "Failed to save member"
-msgstr "ذخیره عضو ناموفق بود"
+msgstr "Produciuse un fallo ao gardar un membro"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:36
 msgid "Member deleted"
-msgstr ""
+msgstr "Membro eliminado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:37
 msgid "Member saved"
-msgstr ""
+msgstr "Membro gardado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:38
 msgid "Project saved"
-msgstr "پروژه ذخیره شد"
+msgstr "Proxecto gardado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:39
 msgid "Failed to edit project"
-msgstr "ویرایش پروژه ناموفق بود"
+msgstr "Produciuse un fallo ao editar o proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:40
 msgid "{nb} bill was created"
 msgid_plural "{nb} bills were created"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Creouse {nb} factura"
+msgstr[1] "Creáronse {nb} facturas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:41
 msgid "link"
-msgstr "پیوند"
+msgstr "ligazón"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:42
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:102
 msgid "Press Shift+Enter to validate"
-msgstr "برای تایید اعتبار Shift+Enter را فشار دهید"
+msgstr "Preme Maiús+Intro para validar"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:43
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:44
 msgid "Impossible to duplicate a bill with a disabled payer"
-msgstr ""
+msgstr "Non é posíbel duplicar unha factura cun pagador desactivado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:43
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:44
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:319
 msgid "Duplicate bill"
-msgstr ""
+msgstr "Factura duplicada"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:45
 msgid "What?"
-msgstr "چه چیزی؟"
+msgstr "Que?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:46
 msgid "What is the bill about?"
-msgstr "رسید درباره چیست؟"
+msgstr "De que é a factura?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:47
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:48
 msgid "Attach share link to personal file"
-msgstr ""
+msgstr "Anexar a ligazón para compartir ao ficheiro persoal"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:50
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:55
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:76
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:90
 msgid "More information"
-msgstr ""
+msgstr "Máis información"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:51
 msgid "More information on amount input field"
-msgstr ""
+msgstr "Máis información sobre o campo de entrada de importe"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:52
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:57
@@ -884,201 +884,201 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:432
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:439
 msgid "Info"
-msgstr "اطلاعات"
+msgstr "Información"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:53
 msgid "You can type simple math operations and validate by pressing Enter key."
-msgstr ""
+msgstr "Pode escribir operacións matemáticas sinxelas e validalas premendo a tecla Intro."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:54
 msgid "Convert to"
-msgstr "تبدیل به"
+msgstr "Converter a"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:56
 msgid "More information on currency conversion"
-msgstr ""
+msgstr "Máis información sobre a conversión de divisas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:58
 msgid "Who paid?"
-msgstr ""
+msgstr "Quen pagou?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:59
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:441
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:524
 msgid "Choose a member"
-msgstr ""
+msgstr "Escolla un membro"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:60
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:61
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:238
 msgid "When?"
-msgstr "چه زمانی؟"
+msgstr "Cando?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:62
 msgid "Choose a payment mode"
-msgstr ""
+msgstr "Escolla un método de pagamento"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:63
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:515
 msgid "Payment mode"
-msgstr "شیوه پرداخت"
+msgstr "Método de pagamento"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:64
 msgid "Choose or add a category"
-msgstr ""
+msgstr "Escoller ou engadir unha categoría"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:65
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:517
 msgid "Category"
-msgstr "دسته‌بندی"
+msgstr "Categoría"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:66
 msgid "Comment"
-msgstr "توضیح"
+msgstr "Comentario"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:67
 msgid "More details about the bill"
-msgstr ""
+msgstr "Máis detalles sobre a factura"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:67
 msgid "({n} characters max)"
-msgstr ""
+msgstr "({n} caracteres máximo)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:68
 msgid "Repeat"
-msgstr "تکرار"
+msgstr "Repetir"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:69
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:425
 msgid "No"
-msgstr "نه"
+msgstr "Non"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:70
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:426
 msgid "Daily"
-msgstr "روزانه"
+msgstr "Diario"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:71
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:427
 msgid "Weekly"
-msgstr "هفتگی"
+msgstr "Semanal"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:72
 msgid "Bi-weekly (every 2 weeks)"
-msgstr ""
+msgstr "Quincenal (cada 2 semanas)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:73
 msgid "Semi-monthly (twice a month)"
-msgstr ""
+msgstr "Cada medio mes (dúas veces por mes)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:74
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:428
 msgid "Monthly"
-msgstr "ماهانه"
+msgstr "Mensual"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:75
 msgid "Yearly"
-msgstr "سالیانه"
+msgstr "Anual"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:77
 msgid "More information on bill repetition"
-msgstr ""
+msgstr "Máis información sobre a repetición de facturas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:79
 msgid "Frequency"
-msgstr ""
+msgstr "Frecuencia"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:80
 msgid "Leave empty for maximum frequency"
-msgstr ""
+msgstr "Déixeo baleiro para a frecuencia máxima"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:81
 msgid "Include all active members on repeat"
-msgstr "شامل‌کردن همه اعضای فعال هنگام تکرار"
+msgstr "Incluír todos os membros activos ao repetir"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:82
 msgid "Repeat until"
-msgstr "تکرار تا زمانی که"
+msgstr "Repetir ata"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:83
 msgid "No limit"
-msgstr ""
+msgstr "Sen límite"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:84
 msgid "Repeat now"
-msgstr ""
+msgstr "Repetir agora"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:85
 msgid "Bill type"
-msgstr "نوع رسید"
+msgstr "Tipo de factura"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:86
 msgid "Classic, even split"
-msgstr "کلاسیک، حتی تقسیم شده است"
+msgstr "Clásico, división equitativa"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:87
 msgid "Even split with optional personal parts"
-msgstr "حتی با بخش‌های اختیاری شخصی تقسیم شود"
+msgstr "División equitativa con partes persoais opcionais"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:88
 msgid "Custom owed amount per member"
-msgstr "مبلغ بدهکاری سفارشی برای هر عضو"
+msgstr "Importe adebedado personalizado por membro"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:89
 msgid "Custom share per member"
-msgstr ""
+msgstr "Repartición personalizada por membro"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:91
 msgid "More information on bill mode"
-msgstr ""
+msgstr "Máis información sobre o modo da factura"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:92
 msgid "Ignore member weights"
-msgstr ""
+msgstr "Ignorar as ponderacións dos membros"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:93
 msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
-msgstr ""
+msgstr "Modo clásico: escolla un pagador, introduza o importe da factura e seleccione a quen lle afecta todo o gasto, a factura divídese equitativamente entre os membros seleccionados. Exemplo da vida real: unha persoa paga toda a factura do restaurante e todos aceptan dividir o custo equitativamente."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:94
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually paid. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
-msgstr ""
+msgstr "Modo clásico+persoal: este modo é semellante ao clásico. Escolla un pagador e introduza o importe da factura correspondente ao que se pagou realmente. A continuación, seleccione a quen lle afecta a factura e, opcionalmente, estabeleza o importe relacionado coa parte persoal para algúns membros. Crearanse varias facturas: unha para o gasto compartido e outra para cada parte persoal. Exemplo da vida real: imos de compras, parte do que se comprou corresponde ao grupo mais tamén alguén engadiu algo persoal (como unha camisa) que os demais non queren pagar colectivamente."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:95
 msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
-msgstr ""
+msgstr "Modo personalizado, división desigual: escolla un pagador, ignore o importe da factura (que está desactivado) e introduza un importe endebedado personalizado para cada membro en cuestión. A continuación, prema en «Crear as facturas». Crearanse varias facturas. Exemplo da vida real: unha persoa paga toda a factura do restaurante pero hai grandes diferenzas de prezo entre o que comía cada persoa."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:96
 msgid "Custom share mode, uneven split: Choose a payer, set the bill amount and enter a custom share number for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: Someone pays an electricity bill for the month but one member was only there during half the month. This member should then pay half a share (0.5) while the others pay a full share (1)."
-msgstr ""
+msgstr "Modo de repartición personalizada, división desigual: escolla un pagador, estabeleza o importe da factura e introduza un valor (número) de participación personalizado para cada membro en cuestión. A continuación, prema en «Crear as facturas». Crearanse varias facturas. Exemplo da vida real: alguén paga unha factura da luz durante o mes, mais un membro só estivo alí durante a metade do mes. Este membro debe pagar media parte (0,5) mentres que os demais pagan unha parte completa (1)."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:97
 msgid "For whom?"
-msgstr "برای چه کسی؟"
+msgstr "Para quen?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:98
 msgid "All/None"
-msgstr "همه/هیچ کس"
+msgstr "Todos/Ninguén"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:99
 msgid "Personal amount"
-msgstr "مبلغ شخصی"
+msgstr "Importe persoal"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:100
 msgid "Custom amount"
-msgstr "مبلغ سفارشی"
+msgstr "Importe personalizado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:101
 msgid "Custom share number"
-msgstr ""
+msgstr "Número de repartición personalizada"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:103
 msgid "Delete this bill"
-msgstr ""
+msgstr "Eliminar esta factura"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:104
 msgid "Move this bill to the trashbin"
-msgstr ""
+msgstr "Mover esta factura ao lixo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:105
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:106
@@ -1086,99 +1086,99 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:109
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:209
 msgid "None"
-msgstr "هیچ کدام"
+msgstr "Ningunha"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:107
 msgid "Add payment mode \"{name}\""
-msgstr ""
+msgstr "Engadir o método de pagamento «{name}»"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:110
 msgid "Add category \"{name}\""
-msgstr ""
+msgstr "Engadir a categoría «{name}»"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:111
 msgid "Bill : {what}"
-msgstr "رسید: {what}"
+msgstr "Factura: {what}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:112
 msgid "Create the bill"
-msgstr "ساختن رسید"
+msgstr "Crear a factura"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:112
 msgid "Create the bills"
-msgstr "ساختن رسیدها"
+msgstr "Crear as facturas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:113
 msgid "This is just a currency converter. Bill amount can be entered in another currency and then converted to \"{maincur}\". Value is always stored in \"{maincur}\"."
-msgstr ""
+msgstr "Este é só un conversor de divisas. O importe da factura pódese introducir noutra moeda e após converterse a «{maincur}». O valor sempre se garda en «{maincur}»."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:114
 msgid "Bill repetition process runs once a day as a background job. If your bills are not automatically repeated, ask your Nextcloud administrator to check if \"Cron\" method is selected in admin settings."
-msgstr ""
+msgstr "O proceso de repetición de facturas execútase unha vez ao día como traballo en segundo plano. Se as túas facturas non se repiten automaticamente, pídalle á administración do seu Nextcloud que verifique se o método «Cron» está seleccionado nos axustes de administración."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:115
 msgid "You can also manually repeat the current bill with the \"Repeat now\" button."
-msgstr ""
+msgstr "Tamén pode repetir manualmente a factura actual co botón «Repetir agora»."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:116
 msgid "Failed to add payment mode"
-msgstr ""
+msgstr "Produciuse un falle ao engadir o método de pagamento"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:117
 msgid "Failed to add category"
-msgstr "افزودن دسته‌بندی ناموفق بود"
+msgstr "Produciuse un fallo ao engadir a categoría"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:118
 msgid "Impossible to save bill, invalid values"
-msgstr ""
+msgstr "Non é posíbel gardar a factura, os valores non son válidos"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:119
 msgid "Bill saved"
-msgstr ""
+msgstr "Factura gardada"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:120
 msgid "Failed to save bill"
-msgstr "ذخیره رسید ناموفق بود"
+msgstr "Produciuse un fallo ao gardar a factura"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:121
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:123
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:125
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:127
 msgid "Bill values are not valid"
-msgstr ""
+msgstr "Os valores da factura non son válidos"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:122
 msgid "Personal parts are bigger than the paid amount"
-msgstr ""
+msgstr "As partes persoais son maiores que o importe pagado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:124
 msgid "There is no custom amount"
-msgstr ""
+msgstr "Non hai ningún importe personalizado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:126
 msgid "There is no custom share number"
-msgstr ""
+msgstr "Non hai ningún número de repartición personalizada"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:128
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:274
 msgid "Failed to create bill"
-msgstr "شکست در ساختن رسید."
+msgstr "Produciuse un fallo ao crear a factura"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:129
 msgid "Bill created"
-msgstr ""
+msgstr "Factura creada"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:130
 msgid "Choose file"
-msgstr "انتخاب پرونده"
+msgstr "Escoller ficheiro"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:131
 msgid "Failed to generate share link to file"
-msgstr ""
+msgstr "Produciuse un fallo ao xerar a ligazón ao ficheiro compartido"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:132
 msgid "Trash bin"
-msgstr ""
+msgstr "Lixo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:133
 msgid "Search bills"
@@ -1186,55 +1186,55 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:135
 msgid "Close trashbin"
-msgstr ""
+msgstr "Pechar o cesto do lixo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:137
 msgid "Clear trashbin"
-msgstr ""
+msgstr "Limpar o cesto do lixo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:138
 msgid "Filters"
-msgstr ""
+msgstr "Filtros"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:139
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:172
 msgid "Close filters"
-msgstr ""
+msgstr "Pechar os filtros"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:140
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:518
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:550
 msgid "Select a category"
-msgstr ""
+msgstr "Seleccione unha categoría"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:141
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:516
 msgid "Select a payment mode"
-msgstr ""
+msgstr "Seleccione un método de pagamento"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:142
 msgid "Multi select actions"
-msgstr ""
+msgstr "Accións de selección múltiple"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:143
 msgid "Leave multiple select mode"
-msgstr ""
+msgstr "Saír do modo de selección múltiple"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:144
 msgid "Assign a category"
-msgstr ""
+msgstr "Asignar unha categoría"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:145
 msgid "Assign a payment mode"
-msgstr ""
+msgstr "Asignar un método de pagamento"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:146
 msgid "Select bills to make grouped actions"
-msgstr ""
+msgstr "Seleccione facturas para facer accións agrupadas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:147
 msgid "Restore selected bills"
-msgstr ""
+msgstr "Restaurar as facturas seleccionadas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:148
 msgid "No member"
@@ -1249,20 +1249,20 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:434
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:435
 msgid "Add a member"
-msgstr ""
+msgstr "Engadir un membro"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:151
 msgid "No bills to show"
-msgstr ""
+msgstr "Non hai ningunha factura para mostrar"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:153
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:154
 msgid "No more bills"
-msgstr ""
+msgstr "Non hai máis facturas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:155
 msgid "Confirm deletion"
-msgstr ""
+msgstr "Confirmar a eliminación"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:156
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:159
@@ -1274,7 +1274,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:398
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:399
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:157
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:297
@@ -1285,235 +1285,235 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:395
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:396
 msgid "Delete"
-msgstr "حذف"
+msgstr "Eliminar"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:158
 msgid "Confirm restoration"
-msgstr ""
+msgstr "Confirmar a restauración"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:160
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:318
 msgid "Restore"
-msgstr ""
+msgstr "Restaurar"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:161
 msgid "Confirm clear trash bin"
-msgstr ""
+msgstr "Confirmar a limpeza do cesto do lixo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:163
 msgid "Clear"
-msgstr ""
+msgstr "Limpar"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:164
 msgid "All payment modes"
-msgstr ""
+msgstr "Todos os métodos de pagamento"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:165
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:166
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:567
 #: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:114
 msgid "No payment mode"
-msgstr ""
+msgstr "Non hai ningún método de pagamento"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:167
 msgid "All categories"
-msgstr ""
+msgstr "Todas as categorías"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:168
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:169
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:564
 #: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:94
 msgid "No category"
-msgstr "بدون دسته بندی"
+msgstr "Sen categoría"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:170
 msgid "Leave multiple selection mode"
-msgstr ""
+msgstr "Saír do modo de selección múltiple"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:171
 msgid "Enter multiple selection mode"
-msgstr ""
+msgstr "Entrar no modo de selección múltiple"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:173
 msgid "Open filters"
-msgstr ""
+msgstr "Abrir os filtros"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:174
 msgid "Move selected bills to trash"
-msgstr ""
+msgstr "Mover as facturas seleccionadas ao lixo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:175
 msgid "Delete selected bills"
-msgstr ""
+msgstr "Eliminar as facturas seleccionadas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:176
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:177
 msgid "Failed to save bills"
-msgstr ""
+msgstr "Produciuse un fallo ao gardar as facturas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:178
 msgid "Bills edited"
-msgstr ""
+msgstr "Facturas editadas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:179
 msgid "Bills deleted"
-msgstr ""
+msgstr "Facturas eliminadas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:181
 msgid "Are you sure you want to delete {nb} bill?"
 msgid_plural "Are you sure you want to delete {nb} bills?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Confirma que quere eliminar {nb} factura?"
+msgstr[1] "Confirma que quere eliminar {nb} facturas?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:182
 msgid "Are you sure you want to move {nb} bill to the trash bin?"
 msgid_plural "Are you sure you want to move {nb} bills to the trash bin?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Confirma que quere mover {nb} factura ao cesto do lixo?"
+msgstr[1] "Confirma que quere mover {nb} facturas ao cesto do lixo?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:183
 msgid "Are you sure you want to restore {nb} bill?"
 msgid_plural "Are you sure you want to restore {nb} bills?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Confirma que quere restaurar {nb} factura?"
+msgstr[1] "Confirma que quere restaurar {nb} facturas?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:184
 msgid "Are you sure you want to clear the trash bin? ({nb} bill)"
 msgid_plural "Are you sure you want to clear the trash bin? ({nb} bills)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Confirma que quere limpar o cesto do lixo? ({nb} factura)"
+msgstr[1] "Confirma que quere limpar o cesto do lixo? ({nb} facturas)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:185
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:186
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:334
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:335
 msgid "Color"
-msgstr "رنگ"
+msgstr "Cor"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:187
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:188
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:336
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:337
 msgid "Icon"
-msgstr "نماد"
+msgstr "Icona"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:189
 msgid "Alphabetical"
-msgstr ""
+msgstr "Alfabética"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:190
 msgid "Manual"
-msgstr ""
+msgstr "Manual"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:191
 msgid "Most used"
-msgstr ""
+msgstr "Máis utilizada"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:192
 msgid "Most recently used"
-msgstr ""
+msgstr "Utilizadas recentemente"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:193
 msgid "Category sort method"
-msgstr ""
+msgstr "Método de clasificación por categorías"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:193
 msgid "Payment mode sort method"
-msgstr ""
+msgstr "Método de clasificación do método de pagamento"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:194
 msgid "Add category"
-msgstr "افزودن دسته‌بندی"
+msgstr "Engadir categoría"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:194
 msgid "Add payment mode"
-msgstr ""
+msgstr "Engadir método de pagamento"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:195
 msgid "Category name"
-msgstr "نام دسته‌بندی"
+msgstr "Nome da categoría"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:195
 msgid "Payment mode name"
-msgstr ""
+msgstr "Nome do método de pagamento"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:196
 msgid "Add this category"
-msgstr ""
+msgstr "Engadir esta categoría"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:196
 msgid "Add this payment mode"
-msgstr ""
+msgstr "Engadir este método de pagamento"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:197
 msgid "Category list"
-msgstr "فهرست دسته‌بندی"
+msgstr "Lista de categorías"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:197
 msgid "Payment mode list"
-msgstr ""
+msgstr "Lista de métodos de pagamento"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:198
 msgid "Drag categories to set manual order"
-msgstr ""
+msgstr "Arrastre as categorías para definir a orde manualmente"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:198
 msgid "Drag payment modes to set manual order"
-msgstr ""
+msgstr "Arrastre os métodos de pagamento para definir a orde manualmente"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:199
 msgid "No categories"
-msgstr ""
+msgstr "Sen categoría"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:199
 msgid "No payment modes"
-msgstr ""
+msgstr "Non hai ningún método de pagamento"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:200
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:205
 msgid "Name should not be empty"
-msgstr ""
+msgstr "O nome non debe estar baleiro"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:201
 msgid "Failed to add {name}"
-msgstr ""
+msgstr "Produciuse un fallo ao engadir a {name}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:202
 msgid "{name} was added"
-msgstr ""
+msgstr "{name} foi engadido"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:203
 msgid "Failed to delete category"
-msgstr "حذف دسته‌بندی ناموفق بود"
+msgstr "Produciuse un fallo ao eliminar a categoría"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:204
 msgid "Failed to delete payment mode"
-msgstr ""
+msgstr "Produciuse un falle ao eliminar o método de pagamento"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:206
 msgid "Failed to edit category"
-msgstr "ویرایش دسته‌بندی ناموفق بود"
+msgstr "Produciuse un fallo ao editar a categoría"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:207
 msgid "Order saved"
-msgstr ""
+msgstr "Orde gardada"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:208
 msgid "Main currency"
-msgstr "واحد پول اصلی"
+msgstr "Moeda principal"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:210
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:211
 msgid "Set main currency name"
-msgstr ""
+msgstr "Definir o nome da moeda principal"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:212
 msgid "Main currency name"
-msgstr "نام واحد پول اصلی"
+msgstr "Nome da moeda principal"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:214
 msgid "Cancel currency edition"
-msgstr ""
+msgstr "Cancelar a edición da moeda"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:215
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:341
@@ -1521,116 +1521,116 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:400
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:401
 msgid "Save"
-msgstr ""
+msgstr "Gardar"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:216
 msgid "Save currency"
-msgstr ""
+msgstr "Gardar a moeda"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:217
 msgid "Add currency"
-msgstr "افزودن واحد پولی"
+msgstr "Engadir moeda"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:218
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:397
 msgid "Currency name"
-msgstr "نام واحد پولی"
+msgstr "Nome da moeda"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:219
 msgid "Exchange rate to main currency"
-msgstr "نرخ تبدیل به واحد پول اصلی"
+msgstr "Taxa de cambio á moeda principal"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:220
 msgid "(1 of this currency = X of main currency)"
-msgstr "(۱ از این واحد پولی = X از واحد پولی اصلی)"
+msgstr "(1 desta moeda = X da moeda principal)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:221
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:222
 msgid "Add this currency"
-msgstr "افزودن این واحد پولی"
+msgstr "Engadir esta moeda"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:223
 msgid "Currency list"
-msgstr "فهرست ارزها"
+msgstr "Lista de moedas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:224
 msgid "No currencies to display"
-msgstr "واحد پولی برای نمایش نیست"
+msgstr "Non hai moedas para amosar"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:225
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:228
 msgid "Currency name should not be empty"
-msgstr ""
+msgstr "O nome da moeda non debería estar baleiro"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:226
 msgid "Exchange rate should be a number"
-msgstr ""
+msgstr "A taxa de cambio debe ser un número"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:227
 msgid "Currency {n} added"
-msgstr ""
+msgstr "Engadiuse a moeda {n}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:229
 msgid "Settlement of project {name}"
-msgstr "تسویه حساب پروژه {name}"
+msgstr "Liquidación do proxecto {name}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:230
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:512
 msgid "Export"
-msgstr "برون‌بری"
+msgstr "Exportar"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:231
 msgid "Add these payments to the project"
-msgstr ""
+msgstr "Engadir estes pagamentos ao proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:232
 msgid "Center settlement on"
-msgstr "مرکز تسویه حساب در"
+msgstr "Centrar a liquidación en"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:233
 msgid "Nobody (optimal)"
-msgstr "هیچ‌کس (بهینه)"
+msgstr "Ninguén (ideal)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:234
 msgid "Settlement date"
-msgstr ""
+msgstr "Data de liquidación"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:235
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:236
 msgid "Information on settlement date"
-msgstr ""
+msgstr "Información sobre a data de liquidación"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:239
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:240
 msgid "Set to beginning of this day"
-msgstr ""
+msgstr "Definir ao comezo deste día"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:241
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:242
 msgid "Set to beginning of this week"
-msgstr ""
+msgstr "Definir para principios desta semana"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:243
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:244
 msgid "Set to beginning of this month"
-msgstr ""
+msgstr "Definir para principios deste mes"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:245
 msgid "Settlement plan on {date}"
-msgstr ""
+msgstr "Plan de liquidación a {date}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:245
 msgid "Settlement plan"
-msgstr ""
+msgstr "Plan de liquidación"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:249
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:250
 msgid "No transactions found"
-msgstr ""
+msgstr "Non se atopou ningunha transacción"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:251
 msgid "Balances on {date}"
-msgstr ""
+msgstr "Saldos o {date}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:251
 msgid "Global balances"
@@ -1639,109 +1639,109 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:254
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:255
 msgid "No balances found"
-msgstr ""
+msgstr "Non se atopou ningún saldo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:256
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:257
 msgid "Information on individual reimbursement"
-msgstr ""
+msgstr "Información sobre o reembolso individual"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:258
 msgid "Individual reimbursement"
-msgstr ""
+msgstr "Reembolso individual"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:260
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:523
 msgid "Payer"
-msgstr ""
+msgstr "Pagador"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:261
 msgid "Receiver"
-msgstr ""
+msgstr "Receptor"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:262
 msgid "Create bill ({amount} {currencyName})"
-msgstr ""
+msgstr "Crear a factura ({amount} {currencyName})"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:263
 msgid "Create bill ({amount})"
-msgstr ""
+msgstr "Crear a factura ({amount})"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:264
 msgid "Set a maximum date to only consider bills until then."
-msgstr ""
+msgstr "Definir unha data máxima para ter en conta as facturas só ata entón."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:265
 msgid "Useful if you want to settle at a precise date and ignore the bills created since then."
-msgstr ""
+msgstr "Útil se quere liquidar nunha data precisa e ignorar as facturas creadas dende entón."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:266
 msgid "Automatic settlement will create bills one second before the maximum date."
-msgstr ""
+msgstr "A liquidación automática creará facturas un segundo antes da data máxima."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:267
 msgid "This feature is useful when a member with a negative balance wants to get out of the project but you don't want to make a full settlement plan."
-msgstr ""
+msgstr "Esta funcionalidade é útil cando un membro cun saldo negativo quere saír do proxecto mais non quere facer un plan de liquidación completo."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:268
 msgid "Select a payer who wants to get a zero balance, then a receiver who will be the only one to get the reimbursement money."
-msgstr ""
+msgstr "Seleccione un pagador que queira obter un saldo cero e, a continuación, un receptor que será o único en recibir o diñeiro do reembolso."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:269
 msgid "Make sure the \"real\" reimbursement has been done between those 2 members in real life. Then press \"Create bill\" to automatically create the corresponding bill."
-msgstr ""
+msgstr "Asegúrese de que o reembolso «real» foi realizado entre eses 2 membros na realidade. A continuación, prema en «Crear factura» para crear automaticamente a factura correspondente."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:270
 msgid "Failed to get settlement"
-msgstr "دریافت تسویه حساب ناموفق بود"
+msgstr "Produciuse un fallo ao obter a liquidación"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:271
 msgid "Project settlement bills added."
-msgstr "رسید تسویه حساب پروژه افزوده شد."
+msgstr "Engadíronse as facturas de liquidación do proxecto."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:272
 msgid "Project settlement exported in {path}"
-msgstr "تسویه حساب پروژه در {path} برون‌برده شده"
+msgstr "A liquidación do proxecto foi exportado a {path}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:275
 msgid "{user} have updated the bill {billName}"
-msgstr ""
+msgstr "{user} actualizaron a factura {billName}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:276
 msgid "{user} has updated the bill {billName}"
-msgstr ""
+msgstr "{user} actualizou a factura {billName}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:277
 msgid "{user} have created a new bill {billName}"
-msgstr ""
+msgstr "{user} crearon unha nova factura {billName}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:278
 msgid "{user} has created a new bill {billName}"
-msgstr ""
+msgstr "{user} creou unha nova factura {billName}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:279
 msgid "{user} have deleted the bill {billName}"
-msgstr ""
+msgstr "{user} eliminaron a factura {billName}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:280
 msgid "{user} has deleted the bill {billName}"
-msgstr ""
+msgstr "{user} eliminou a factura {billName}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:281
 msgid "{user} have shared the project with {who}"
-msgstr ""
+msgstr "{user} compartiron o proxecto con {who}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:282
 msgid "{user} has shared the project with {who}"
-msgstr ""
+msgstr "{user} compartiu o proxecto con {who}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:283
 msgid "{user} have removed {who} from the project"
-msgstr ""
+msgstr "{user} retiraron a {who} do proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:284
 msgid "{user} has removed {who} from the project"
-msgstr ""
+msgstr "{user} retirou a {who} do proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:285
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:403
@@ -1749,116 +1749,116 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:574
 #: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:66
 msgid "You"
-msgstr "شما"
+msgstr "Vostede"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:286
 msgid "you"
-msgstr ""
+msgstr "vostede"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:287
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:288
 msgid "No more activity"
-msgstr ""
+msgstr "Non hai máis actividade"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:289
 msgid "Rename member"
-msgstr ""
+msgstr "Cambiar o nome do membro"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:290
 msgid "Change color"
-msgstr "تغییر رنگ"
+msgstr "Cambiar a cor"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:291
 msgid "Weight"
-msgstr "وزن"
+msgstr "Ponderación"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:292
 msgid "No access"
-msgstr "بدون دسترسی"
+msgstr "Sen acceso"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:293
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:460
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:471
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:478
 msgid "Viewer"
-msgstr "بیننده"
+msgstr "Observador"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:294
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:461
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:472
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:479
 msgid "Participant"
-msgstr "شرکت کننده"
+msgstr "Participante"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:295
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:462
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:473
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:480
 msgid "Maintainer"
-msgstr "نگه‌دارنده"
+msgstr "Mantedor"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:296
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:463
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:474
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:481
 msgid "Admin"
-msgstr "مدیر"
+msgstr "Administración"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:297
 msgid "Deactivate"
-msgstr "غیرفعال کردن"
+msgstr "Desactivar"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:298
 msgid "Reactivate"
-msgstr "فعال‌سازی دوباره"
+msgstr "Reactivar"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:299
 msgid "A member is already named like that"
-msgstr ""
+msgstr "Xa hai un membro que se chama así"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:301
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:484
 msgid "Failed to edit shared access level"
-msgstr "ویرایش سطح دسترسی هم‌رسانی شده شکست خورد"
+msgstr "Produciuse un fallo ao editar o nivel de acceso compartido"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:302
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:490
 msgid "Failed to delete shared access"
-msgstr "حذف دسترسی هم‌رسانی شده شکست خورد"
+msgstr "Produciuse un fallo ao eliminar o acceso compartido"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:303
 msgid "Are you sure?"
-msgstr ""
+msgstr "Confirma isto?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:304
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:495
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:496
 msgid "Settings"
-msgstr "تنظیمات"
+msgstr "Axustes"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:305
 msgid "Share"
-msgstr ""
+msgstr "Compartir"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:306
 msgid "Add member"
-msgstr "افزودن عضو"
+msgstr "Engadir membros"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:307
 msgid "Statistics"
-msgstr "آمار"
+msgstr "Estatísticas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:308
 msgid "Project settlement"
-msgstr "تسویه حساب پروژه"
+msgstr "Liquidación do proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:309
 msgid "Archive"
-msgstr ""
+msgstr "Arquivar"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:310
 msgid "Unarchive"
-msgstr ""
+msgstr "Desarquivar"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:312
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:316
@@ -1871,45 +1871,45 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:320
 msgid "Everyone"
-msgstr "همه"
+msgstr "Todos"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:321
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:323
 msgid "Everyone except {member}"
-msgstr "همه بجز {member}"
+msgstr "Todos agás {member}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:322
 msgid "{member1} and {member2}"
-msgstr "{member1} و {member2}"
+msgstr "{member1} e {member2}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:324
 msgid "Member list is not up to date. Reloading in 5 sec."
-msgstr "فهرست اعضا به‌روز نیست. بارگیری مجدد در 5 ثانیه."
+msgstr "A lista de membros non está actualizada. Recargando en 5 s."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:327
 msgid "Move to trash"
-msgstr ""
+msgstr "Mover ao lixo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:328
 msgid "Move to other project"
-msgstr ""
+msgstr "Mover a outro proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:329
 msgid "Category selector"
-msgstr ""
+msgstr "Selector de categorías"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:330
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:331
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:393
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:394
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:338
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:377
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:381
 msgid "Name"
-msgstr "نام"
+msgstr "Nome"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:343
 msgid "Search projects"
@@ -1919,22 +1919,22 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:411
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:412
 msgid "Create empty project"
-msgstr ""
+msgstr "Crear un proxecto baleiro"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:345
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:368
 msgid "Import csv project"
-msgstr "وارد کردن پروژه csv"
+msgstr "Importar un proxecto dende CSV"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:346
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:369
 msgid "Import SplitWise project"
-msgstr "واردکردن پروژه SplitWise"
+msgstr "Importar un proxecto dende SplitWise"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:347
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:348
 msgid "No projects yet"
-msgstr ""
+msgstr "Aínda non hai proxectos"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:349
 msgid "My cumulated balance"
@@ -1946,117 +1946,117 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:351
 msgid "Show active projects"
-msgstr ""
+msgstr "Amosar os proxectos activos"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:351
 msgid "Show archived projects"
-msgstr ""
+msgstr "Amosar os proxectos arquivados"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:352
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:355
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:356
 msgid "Cospend settings"
-msgstr ""
+msgstr "Axustes de Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:353
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:354
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:391
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:392
 msgid "Project imported"
-msgstr ""
+msgstr "Proxecto importado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:357
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:358
 msgid "About Cospend"
-msgstr ""
+msgstr "Sobre Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:359
 msgid "Thanks for using Cospend"
-msgstr ""
+msgstr "Grazas por usar Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:360
 msgid "App version: {version}"
-msgstr ""
+msgstr "Versión da aplicación: {version}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:361
 msgid "Bug/issue tracker"
-msgstr ""
+msgstr "Seguimento de fallos/incidencias"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:362
 msgid "Translation"
-msgstr ""
+msgstr "Tradución"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:363
 msgid "User documentation"
-msgstr ""
+msgstr "Documentación para usuarios"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:364
 msgid "Admin documentation"
-msgstr ""
+msgstr "Documentación para a administración"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:365
 msgid "Developer documentation"
-msgstr ""
+msgstr "Documentación de desenvolvemento"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:366
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:367
 msgid "Import projects"
-msgstr ""
+msgstr "Importar proxectos"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:370
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:371
 msgid "Export location"
-msgstr ""
+msgstr "Lugar de exportación"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:372
 msgid "Select export directory"
-msgstr ""
+msgstr "Seleccionar o directorio de exportación"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:373
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:374
 msgid "Sort criterias"
-msgstr ""
+msgstr "Criterios de ordenación"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:375
 msgid "How projects are sorted in navigation sidebar"
-msgstr ""
+msgstr "Como se ordenan os proxectos na barra lateral de navegación"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:376
 msgid "Projects order"
-msgstr ""
+msgstr "Orde de proxectos"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:378
 msgid "Last activity"
-msgstr ""
+msgstr "Última actividade"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:379
 msgid "How members are sorted"
-msgstr ""
+msgstr "Como ordenar os membros"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:380
 msgid "Members order"
-msgstr ""
+msgstr "Orde dos membros"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:383
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:384
 msgid "Misc"
-msgstr ""
+msgstr "Miscelánea"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:385
 msgid "Maximum decimal precision to show in balances"
-msgstr ""
+msgstr "Máxima precisión decimal para amosar nos saldos"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:386
 msgid "Maximum precision"
-msgstr ""
+msgstr "Máxima precisión"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:387
 msgid "Do you want to see and choose time in bill dates?"
-msgstr ""
+msgstr "Quere ver e escoller a hora nas datas de facturación?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:388
 msgid "Use time in dates"
-msgstr ""
+msgstr "Usar a hora nas datas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:389
 msgid "Show my cumulated balance"
@@ -2064,49 +2064,49 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:390
 msgid "Choose where to write output files (stats, settlement, export)"
-msgstr "مکانی را برای نوشتن پرونده‌های خروجی انتخاب کنید (آمار، تسویه حساب، برون‌بری)"
+msgstr "Escolla onde escribir os ficheiros de saída (estatísticas, liquidación, exportación)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:402
 msgid "Member select"
-msgstr ""
+msgstr "Membro seleccionado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:404
 msgid "Move bill \"{bill}\" to a different project:"
-msgstr ""
+msgstr "Mover a factura «{bill}» a un proxecto diferente:"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:405
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:406
 msgid "Only one project available, in which this bill already exists"
-msgstr ""
+msgstr "Só hai un proxecto dispoñíbel, no que xa existe esta factura"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:407
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:408
 msgid "No projects found"
-msgstr ""
+msgstr "Non se atopou ningún proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:409
 msgid "Bill moved to \"{project}\" successfully"
-msgstr ""
+msgstr "A factura foi movida a «{project}» satisfactoriamente"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:410
 msgid "Failed to move bill"
-msgstr ""
+msgstr "Produciuse un fallo ao mover a factura"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:413
 msgid "Project name"
-msgstr ""
+msgstr "Nome do proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:414
 msgid "My new project"
-msgstr ""
+msgstr "O meu novo proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:415
 msgid "Create"
-msgstr ""
+msgstr "Crear"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:416
 msgid "Payment mode selector"
-msgstr ""
+msgstr "Selector de métodos de pagamento"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:417
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:418
@@ -2127,77 +2127,77 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:422
 msgid "Rename project {n}"
-msgstr "تغییرنام پروژه {n}"
+msgstr "Cambiar o nome do proxecto {n}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:423
 msgid "Disable bill deletion"
-msgstr ""
+msgstr "Desactivar a eliminación de facturas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:424
 msgid "Automatic export"
-msgstr "برون‌بری خودکار"
+msgstr "Exportación automática"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:429
 msgid "Export project"
-msgstr "برون‌بری پروژه"
+msgstr "Exportar proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:430
 msgid "Members"
-msgstr ""
+msgstr "Membros"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:431
 msgid "More information on adding members"
-msgstr ""
+msgstr "Máis información sobre como engadir membros"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:433
 msgid "You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab."
-msgstr ""
+msgstr "Pode engadir un membro simple ou un usuario de Nextcloud ao proxecto. Pode darlle aos usuarios de Nextcloud acceso ao proxecto no menú contextual. Tamén pode dar acceso aos usuarios de Nextcloud que non sexan membros na lapela Compartir."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:436
 msgid "Enter a member name"
-msgstr ""
+msgstr "Introduza un nome de membro"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:437
 msgid "Associate a project member with a Nextcloud user"
-msgstr ""
+msgstr "Asocie un membro do proxecto cun usuario de Nextcloud"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:438
 msgid "More information on adding Nextcloud users as members"
-msgstr ""
+msgstr "Máis información sobre como engadir usuarios de Nextcloud como membros"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:440
 msgid "Choose a project member, then a Nextcloud user to associate with."
-msgstr "یک عضو پروژه، سپس یک کاربر Nextcloud را انتخاب کرده تا با آن پیوندبرقرار کند."
+msgstr "Escolla un membro do proxecto e, a continuación, un usuario de Nextcloud co que asocialo."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:440
 msgid "You can cut the link with a Nextcloud user by renaming the member."
-msgstr ""
+msgstr "Pode cortar a ligazón cun usuario de Nextcloud cambiando o nome do membro."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:442
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:443
 msgid "Choose a Nextcloud user"
-msgstr "یک کاربر Nextcloud انتخاب کنید"
+msgstr "Escolla un usuario de Nextcloud"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:444
 msgid "Type to search users"
-msgstr ""
+msgstr "Escriba para buscar usuarios"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:445
 msgid "New member name"
-msgstr "نام عضو تازه"
+msgstr "Nome do novo membro"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:446
 msgid "New member (or Nextcloud user) name"
-msgstr "نام عضو تازه (یا کاربر Nextcloud)"
+msgstr "Nome do novo membro (ou usuario de Nextcloud)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:447
 msgid "Create simple member"
-msgstr ""
+msgstr "Crear un membro simple"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:449
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:450
 msgid "Share project with a user, group or circle"
-msgstr ""
+msgstr "Compartir o proxecto cun usuario, grupo ou círculo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:451
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:457
@@ -2206,19 +2206,19 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:452
 msgid "Start typing to search"
-msgstr ""
+msgstr "Comece a escribir para buscar"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:453
 msgid "Scan this QRCode with your mobile device to add project \"{name}\" in MoneyBuster or PayForMe"
-msgstr ""
+msgstr "Escanee este código QR co seu dispositivo móbil para engadir o proxecto «{name}» en MoneyBuster ou PayForMe"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:454
 msgid "QRCode content: "
-msgstr ""
+msgstr "Contido do código QR: "
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:456
 msgid "Create a new share link"
-msgstr ""
+msgstr "Crear unha nova ligazón para compartir"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:458
 msgid "Pending share"
@@ -2231,7 +2231,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:459
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:468
 msgid "Label"
-msgstr ""
+msgstr "Etiqueta"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:464
 msgid "Delete federated share"
@@ -2239,49 +2239,49 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:466
 msgid "Link copied"
-msgstr ""
+msgstr "Ligazón copiada"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:466
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Copiar ao portapapeis"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:467
 msgid "Show QRCode for mobile clients"
-msgstr ""
+msgstr "Amosar o código QR para clientes móbiles"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:469
 msgid "Password protect"
-msgstr ""
+msgstr "Protexer con contrasinal"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:470
 msgid "Set link password"
-msgstr ""
+msgstr "Definir o contrasinal para a ligazón"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:475
 msgid "Delete link"
-msgstr "حذف پیوند"
+msgstr "Eliminar ligazón"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:476
 msgid "Add another link"
-msgstr ""
+msgstr "Engadir outra ligazón"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:477
 msgid "Project owner"
-msgstr "کارفرمای پروژه"
+msgstr "Propietario do proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:482
 msgid "Delete access"
-msgstr "حذف دسترسی"
+msgstr "Eliminar o acceso"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:485
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:488
 msgid "Share link saved"
-msgstr ""
+msgstr "Gardouse a ligazón para compartir"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:486
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:489
 msgid "Failed to edit share link"
-msgstr ""
+msgstr "Produciuse un fallo ao editar a ligazón para compartir"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:487
 msgid "Federated share saved"
@@ -2289,7 +2289,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:491
 msgid "Link could not be copied to clipboard"
-msgstr ""
+msgstr "Non foi posíbel copiar a ligazón ao portapapeis"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:492
 msgid "Rename"
@@ -2298,106 +2298,106 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:493
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:494
 msgid "Sharing"
-msgstr "هم‌رسانی"
+msgstr "Compartindo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:497
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:498
 msgid "Activity"
-msgstr ""
+msgstr "Actividade"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:499
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:500
 msgid "Categories"
-msgstr "دسته‌بندی‌ها"
+msgstr "Categorías"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:501
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:502
 msgid "Payment modes"
-msgstr ""
+msgstr "Métodos de pagamento"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:503
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:504
 msgid "Currencies"
-msgstr "ارزها"
+msgstr "Moedas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:505
 msgid "{nb} bills, {nbMembers} active members, {spentAmount} {currency} spent"
-msgstr ""
+msgstr "{nb} facturas, {nbMembers} membros activos, {spentAmount} {currency} gastados"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:506
 msgid "{nb} bills, {nbMembers} active members, {spentAmount} spent"
-msgstr ""
+msgstr "{nb} facturas, {nbMembers} membros activos, {spentAmount} gastados"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:507
 msgid "Member/Month"
-msgstr "عضو/ماه"
+msgstr "Membro/Mes"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:508
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:509
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:561
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:562
 msgid "All members"
-msgstr "همه عضوها"
+msgstr "Todos os membros"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:511
 msgid "Statistics of project {name}"
-msgstr "آمار پروژه {name}"
+msgstr "Estatísticas do proxecto {name}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:513
 msgid "Minimum date"
-msgstr "کمینه‌ تاریخ"
+msgstr "Data mínima"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:514
 msgid "Maximum date"
-msgstr "بیشینۀ تاریخ"
+msgstr "Data máxima"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:519
 msgid "Minimum amount"
-msgstr "کم‌ترین مقدار"
+msgstr "Importe mínimo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:520
 msgid "Maximum amount"
-msgstr "بیشترین مقدار"
+msgstr "Importe máximo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:521
 msgid "Convert in currency"
-msgstr ""
+msgstr "Converter a moeda"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:522
 msgid "Main project's currency"
-msgstr "واحد پولی پروژه اصلی"
+msgstr "Moeda principal do proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:525
 msgid "Show disabled members"
-msgstr "نمایش اعضای غیرفعال شده"
+msgstr "Amosar os membros desactivados"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:526
 msgid "Chart type"
-msgstr ""
+msgstr "Tipo de gráfico"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:527
 msgid "Pie"
-msgstr ""
+msgstr "Torta"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:528
 msgid "Bar"
-msgstr ""
+msgstr "Barras"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:529
 msgid "Total paid by all the members: {t} {currencyName}"
-msgstr ""
+msgstr "Total pagado por todos os membros: {t} {currencyName}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:530
 msgid "Total paid by all the members: {t}"
-msgstr ""
+msgstr "Total pagado por todos os membros: {t}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:531
 msgid "Global stats"
-msgstr "آمار جهانی"
+msgstr "Estatísticas globais"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:535
 msgid "Filtered balance"
-msgstr "موجودی پالایش شده"
+msgstr "Saldo filtrado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:536
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:538
@@ -2410,110 +2410,110 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:539
 msgid "Monthly paid per member"
-msgstr ""
+msgstr "Pago mensual por membro"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:540
 msgid "Payments per member per month"
-msgstr "پرداخت‌ها برای هر عضو در هر ماه"
+msgstr "Pagamentos por membro por mes"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:541
 msgid "Monthly spent per member"
-msgstr ""
+msgstr "Gasto mensual por membro"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:542
 msgid "Spendings per member per month"
-msgstr ""
+msgstr "Gastos por membro ao mes"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:543
 msgid "Monthly paid per category"
-msgstr ""
+msgstr "Pago mensual por categoría"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:544
 msgid "Payments per category per month"
-msgstr "پرداخت‌ها برای هر دسته‌بندی در هر ماه"
+msgstr "Pagamentos por categoría por mes"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:545
 msgid "Category/Month"
-msgstr "دسته‌بندی/ماه"
+msgstr "Categoría/Mes"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:546
 msgid "Monthly paid per payment mode"
-msgstr ""
+msgstr "Pago mensual por método de pagamento"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:547
 msgid "Payments per payment mode per month"
-msgstr ""
+msgstr "Pagamentos por método de pagamento por mes"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:548
 msgid "Payment mode/Month"
-msgstr ""
+msgstr "Método de pagamento/mes"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:549
 msgid "Who paid for this category?"
-msgstr "چه کسی برای این دسته‌بندی پرداخته کرده؟"
+msgstr "Quen pagou esta categoría?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:551
 msgid "What did they pay for?"
-msgstr ""
+msgstr "Que pagaron?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:552
 msgid "Select a member"
-msgstr "انتخاب یک عضو"
+msgstr "Seleccione un membro"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:553
 msgid "Who paid for whom?"
-msgstr ""
+msgstr "Quen pagou por quen?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:554
 msgid "paid for"
-msgstr ""
+msgstr "pagado por"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:555
 msgid "Total paid"
-msgstr ""
+msgstr "Total pagado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:556
 msgid "Total owed"
-msgstr ""
+msgstr "Total endebedado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:557
 msgid "Total owed by {name}"
-msgstr ""
+msgstr "Total endebedado por {name}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:558
 msgid "Total paid by {name}"
-msgstr ""
+msgstr "Total pagado por {name}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:559
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:565
 msgid "All except reimbursement"
-msgstr "همه به‌جز بازپرداخت"
+msgstr "Todos agás o reembolso"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:560
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:563
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:566
 msgid "All"
-msgstr "همه"
+msgstr "Todos"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:568
 msgid "Payed"
-msgstr ""
+msgstr "Pagado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:570
 msgid "Who paid (outside circle) and spent (inside pie)?"
-msgstr "چه کسی پرداخت کرده ( بیرون از حلقه) و خرج کرده (درون pie)؟"
+msgstr "Quen pagou (fóra do círculo) e quen gastou (dentro do círculo)?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:571
 msgid "Who paid and spent?"
-msgstr ""
+msgstr "Quen pagou e gastou?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:572
 msgid "How much was paid per category?"
-msgstr ""
+msgstr "Canto se pagou por categoría?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:573
 msgid "How much was paid per payment mode?"
-msgstr ""
+msgstr "Canto se pagou por método de pagamento?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:576
 msgid "Enable Federation in Cospend"
@@ -2522,101 +2522,101 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:577
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:578
 msgid "No recent activity"
-msgstr ""
+msgstr "Non hai actividade recente"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:579
 msgid "Go to Cospend"
-msgstr ""
+msgstr "Ir a Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:580
 msgid "{user} shared {project} with {who}"
-msgstr ""
+msgstr "{user} compartiu o proxecto {project} con {who}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:581
 msgid "{user} unshared {project} with {who}"
-msgstr ""
+msgstr "{user} deixou de compartir o proxecto {project} con {who}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:582
 msgid "{user} created {bill}"
-msgstr ""
+msgstr "{user} creou {bill}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:583
 msgid "{user} deleted {bill}"
-msgstr ""
+msgstr "{user} eliminou {bill}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:584
 msgid "{user} edited {bill}"
-msgstr ""
+msgstr "{user} editou {bill}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/main.js:34
 msgid "Failed to restore options values"
-msgstr ""
+msgstr "Produciuse un fallo ao restaurar os valores das opcións"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:27
 msgid "Failed to save option values"
-msgstr "ذخیره مقادیر گزینه ناموفق بود"
+msgstr "Produciuse un fallo ao gardar os valores das opcións"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:43
 msgid "Project {name} exported in {path}"
-msgstr "پروژه {name} در {path} برون‌برده شده"
+msgstr "O proxecto {name} foi exportado a {path}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:46
 msgid "Failed to export project"
-msgstr "برون‌بری پروژه ناموفق بود"
+msgstr "Produciuse un fallo ao exportar o proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:393
 msgid "Failed to add currency"
-msgstr "افزودن واحد پولی ناموفق بود"
+msgstr "Produciuse un fallo ao engadir a moeda"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:409
 msgid "Failed to delete currency"
-msgstr "حذف واحد پولی ناموفق بود"
+msgstr "Produciuse un fallo ao eliminar a moeda"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:429
 msgid "Failed to edit currency"
-msgstr "ویرایش واحد پولی ناموفق بود"
+msgstr "Produciuse un fallo ao editar a moeda"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:448
 msgid "Failed to get statistics"
-msgstr ""
+msgstr "Produciuse un fallo ao obter as estatísticas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:465
 msgid "Project statistics exported in {path}"
-msgstr "آمار پروژه در {path} برون‌برده شد"
+msgstr "As estatísticas do proxecto foron exportadas a {path}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:469
 msgid "Failed to export project statistics"
-msgstr "برون‎بری آمار پروژه ناموفق بود"
+msgstr "Produciuse un fallo ao exportar as estatísticas do proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:511
 msgid "Failed to add project settlement bills"
-msgstr "افزودن رسیدهای تسویه حساب پروژه ناموفق بود"
+msgstr "Produciuse un fallo ao engadir as facturas de liquidación do proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:531
 msgid "Failed to export project settlement"
-msgstr "برون‎بری تسویه حساب پروژه ناموفق بود"
+msgstr "Produciuse un fallo ao exportar a liquidación do proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:13
 msgid "Choose csv project file"
-msgstr "انتخاب پرونده پروژه csv"
+msgstr "Escoller o ficheiro de proxecto CSV"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:27
 msgid "Choose SplitWise project file"
-msgstr "انتخاب پرونده پروژه SplitWise"
+msgstr "Escoller o ficheiro de proxecto SplitWise"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:50
 msgid "Failed to import project file"
-msgstr "واردکردن پرونده پروژه ناموفق بود"
+msgstr "Produciuse un fallo ao importar o ficheiro do proxecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/templates/sharepassword.php:10
 msgid "Authentication"
-msgstr "شناسایی"
+msgstr "Autenticación"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/templates/sharepassword.php:15
 msgid "Wrong link password"
-msgstr ""
+msgstr "Contrasinal da ligazón incorrecto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/templates/sharepassword.php:27
 msgid "Share link password"
-msgstr ""
+msgstr "Contrasinal da ligazón para compartir"
 

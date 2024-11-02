@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2024-03-03 17:57+0100\n"
-"PO-Revision-Date: 2024-03-03 16:59\n"
+"POT-Creation-Date: 2024-10-27 17:48+0100\n"
+"PO-Revision-Date: 2024-10-27 16:51\n"
 "Last-Translator: \n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
@@ -17,2553 +17,2601 @@ msgstr ""
 "X-Crowdin-File: /main/translationfiles/templates/cospend.pot\n"
 "X-Crowdin-File-ID: 195\n"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:76
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:76
 msgid "You have created a new bill {bill} in project {project}"
 msgstr "プロジェクト {project} で新しい請求書 {bill} を作成しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:76
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:76
 msgid "{user} has created a new bill {bill} in project {project}"
 msgstr "{user} がプロジェクト {bill} で新しい請求書 {project} を作成しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:79
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:79
 msgid "You have deleted the bill {bill} of project {project}"
 msgstr "プロジェクト {project} の請求書 {bill} を削除しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:79
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:79
 msgid "{user} has deleted the bill {bill} of project {project}"
 msgstr "{user} がプロジェクト {project} の請求書 {bill} を削除しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:82
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:82
 msgid "You have shared the project {project} with {who}"
 msgstr "プロジェクト {project} を {who} と共有しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:82
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:82
 msgid "{user} has shared the project {project} with {who}"
 msgstr "{user} はプロジェクト {project} を {who} と共有しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:85
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:85
 msgid "You have removed {who} from the project {project}"
 msgstr "プロジェクト {project} からメンバー {who} を削除しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:85
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:85
 msgid "{user} has removed {who} from the project {project}"
 msgstr "{user} がプロジェクト {project} からメンバー {who} を削除しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:88
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:88
 msgid "You have updated the bill {bill} of project {project}"
 msgstr "プロジェクト {project} の請求書 {bill} を更新しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:88
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:88
 msgid "{user} has updated the bill {bill} of project {project}"
 msgstr "{user} がプロジェクト {project} の請求書 {bill} を更新しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:164
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:164
 msgid "A guest user"
 msgstr "ゲストユーザー"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/BillSetting.php:41
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/BillSetting.php:41
 msgid "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted"
 msgstr "Cospend アプリ内の <strong>請求書</strong> が更新/作成/削除されました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/CospendProvider.php:254
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/CospendProvider.php:262
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:254
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:262
 #, php-format
 msgid "circle %1$s"
 msgstr "サークル %1$s"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/Filter.php:51
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Notification/Notifier.php:50
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Search/CospendSearchProvider.php:65
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/UserMigration/UserMigrator.php:150
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:2
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/Filter.php:51
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:50
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/UserMigration/UserMigrator.php:164
+#: /home/julien/html/dev/server/apps-extra/cospend/specialAppInfoFakeDummyForL10nScript.php:2
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:575
 msgid "Cospend"
 msgstr "Cospend"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/Setting.php:47
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/Setting.php:49
 msgid "Changes in the <strong>Cospend app</strong>"
 msgstr "<strong>Cospend アプリ</strong> の変更点"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/ApiController.php:576
-msgid "You are not allowed to access the destination project"
-msgstr "そのプロジェクトにアクセスする権限がありません"
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:578
+msgid "You are not allowed to access the target project"
+msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/ApiController.php:892
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:848
 msgid "You are not allowed to give such shared access level"
 msgstr "その共有アクセスレベルを与える権限がありません"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/ApiController.php:928
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:885
 msgid "You are not allowed to edit this shared access"
 msgstr "この共有アクセスを編集する権限がありません"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/ApiController.php:1246
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/ApiController.php:1302
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/ApiController.php:1359
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/ApiController.php:1418
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:1248
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:1319
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:1376
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:1434
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:1492
 msgid "You are not allowed to remove this shared access"
 msgstr "この共有アクセスを削除する権限がありません"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/ApiController.php:1443
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/ApiController.php:1447
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/ApiController.php:1450
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4455
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4458
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4461
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4981
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4984
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4987
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:1516
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:1520
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:1523
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:116
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:119
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:122
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:647
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:650
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:653
 msgid "Access denied"
 msgstr "アクセスが拒否されました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:124
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:141
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PublicApiController.php:230
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Middleware/PublicAuthMiddleware.php:45
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:142
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:159
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PublicApiController.php:231
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Middleware/PublicAuthMiddleware.php:53
 msgid "Project not found"
 msgstr "プロジェクトが見つかりません"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:356
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:436
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:470
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:561
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:588
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PublicApiController.php:129
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PublicApiController.php:171
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PublicApiController.php:369
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PublicApiController.php:427
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PublicApiController.php:559
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:385
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:467
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:504
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:599
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:627
 msgid "Guest access"
 msgstr "ゲストとしてアクセス"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:359
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:439
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:473
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:564
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:591
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PublicApiController.php:132
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PublicApiController.php:174
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PublicApiController.php:372
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PublicApiController.php:430
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PublicApiController.php:562
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:388
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:470
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:507
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:602
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:630
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PublicApiController.php:136
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PublicApiController.php:176
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PublicApiController.php:370
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PublicApiController.php:429
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PublicApiController.php:556
 #, php-format
 msgid "Share link (%s)"
 msgstr "リンクを共有 (%s)"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:361
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:441
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:475
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:566
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/OldApiController.php:593
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PublicApiController.php:134
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PublicApiController.php:176
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PublicApiController.php:374
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PublicApiController.php:432
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PublicApiController.php:564
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:444
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:446
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:390
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:472
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:509
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:604
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/OldApiController.php:632
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PublicApiController.php:138
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PublicApiController.php:178
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PublicApiController.php:372
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PublicApiController.php:431
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PublicApiController.php:558
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:455
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:465
 msgid "Share link"
 msgstr "リンクを共有"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:191
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:254
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:188
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:250
 #, php-format
 msgid "Enter link password of project %s"
 msgstr "プロジェクト %sのリンクパスワードを入力してください"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:201
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:240
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:198
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:236
 #, php-format
 msgid "Project %s"
 msgstr "プロジェクト %s"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:203
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:239
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:253
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:200
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:235
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:249
 msgid "Cospend shared link access"
 msgstr "Cospend 共有リンクアクセス"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:206
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:265
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:203
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:261
 msgid "No such Cospend share link"
-msgstr ""
+msgstr "そのCospend共有リンクはありません"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Dashboard/CospendWidget.php:52
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Dashboard/CospendWidget.php:52
 msgid "Cospend activity"
 msgstr "Cospend アクティビティ"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Db/ProjectMapper.php:62
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Db/ProjectMapper.php:97
 msgid "Invalid project id"
 msgstr "無効なプロジェクト Id"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Db/ProjectMapper.php:119
-#, php-format
-msgid "A project with id \"%1$s\" already exists"
-msgstr "Id \"%1$s\" のプロジェクトは既に存在します"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Middleware/PublicAuthMiddleware.php:51
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Middleware/PublicAuthMiddleware.php:59
 msgid "Project password is invalid"
-msgstr ""
+msgstr "プロジェクトパスワードが無効です"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Middleware/PublicAuthMiddleware.php:62
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Middleware/UserPermissionMiddleware.php:50
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Middleware/PublicAuthMiddleware.php:70
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Middleware/UserPermissionMiddleware.php:54
 msgid "Insufficient access level"
-msgstr ""
+msgstr "アクセスレベルが足りません"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:92
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:81
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:98
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:96
 msgid "Grocery"
 msgstr "スーパーマーケット"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:93
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:86
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:99
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:101
 msgid "Bar/Party"
 msgstr "飲み代"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:94
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:91
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:100
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:106
 msgid "Rent"
 msgstr "レンタル"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:95
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:96
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:101
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:111
 msgid "Bill"
 msgstr "請求書"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:96
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:101
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:102
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:116
 msgid "Excursion/Culture"
 msgstr "旅行/文化"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:97
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:106
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:103
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:121
 msgid "Health"
 msgstr "健康"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:98
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:111
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:104
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:126
 msgid "Shopping"
 msgstr "ショッピング"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:100
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:116
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:106
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:131
 msgid "Restaurant"
 msgstr "レストラン"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:101
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:121
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:107
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:136
 msgid "Accommodation"
 msgstr "宿泊"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:102
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:126
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:108
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:141
 msgid "Transport"
 msgstr "交通"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:103
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:131
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:109
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:146
 msgid "Sport"
 msgstr "スポーツ"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version010314Date20210828143421.php:68
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version010314Date20210828143421.php:76
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:139
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:73
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:81
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:154
 msgid "Credit card"
 msgstr "クレジットカード"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version010314Date20210828143421.php:69
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version010314Date20210828143421.php:83
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:145
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:74
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:88
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:160
 msgid "Cash"
 msgstr "現金"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version010314Date20210828143421.php:70
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version010314Date20210828143421.php:90
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:151
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:75
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:95
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:166
 msgid "Check"
 msgstr "チェック"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version010314Date20210828143421.php:71
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version010314Date20210828143421.php:97
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:157
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:76
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:102
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:172
 msgid "Transfer"
 msgstr "振込"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version010314Date20210828143421.php:72
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version010314Date20210828143421.php:104
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:163
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:77
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:109
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:178
 msgid "Online service"
 msgstr "オンライン サービス"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Notification/Notifier.php:79
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:79
 msgid "Cospend project shared"
 msgstr "Cospend プロジェクトを共有しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Notification/Notifier.php:80
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:80
 #, php-format
 msgid "User \"%s\" shared Cospend project \"%s\" with you."
 msgstr "ユーザー \"%s\" がCospend プロジェクト \"%s\" をあなたと共有しました。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Notification/Notifier.php:90
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:90
 #, php-format
 msgid "{user} shared project %s with you"
 msgstr "{user} がプロジェクト %s をあなたと共有しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Notification/Notifier.php:108
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:108
 msgid "Cospend project share removed"
 msgstr "共有プロジェクト共有を削除しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Notification/Notifier.php:109
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:109
 #, php-format
 msgid "User \"%s\" stopped sharing Cospend project \"%s\" with you."
 msgstr "ユーザー \"%s\" がCospend プロジェクト \"%s\" をあなたと共有しました。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Notification/Notifier.php:121
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:121
 #, php-format
 msgid "{user} stopped sharing project %s with you"
 msgstr "{user} がプロジェクト %s の共有を停止しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Search/CospendSearchProvider.php:179
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:134
+msgid "Cospend federated project shared"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:135
+#, php-format
+msgid "%s (%s) shared Cospend project \"%s\" (%s) with you."
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchBillProvider.php:65
+msgid "Cospend bills"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchBillProvider.php:179
 #, php-format
 msgid "in %1$s"
 msgstr "%1$s で"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:171
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:274
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/src/constants.js:45
-msgid "Reimbursement"
-msgstr "経費精算"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:328
-msgid "Not Found"
-msgstr "見つかりません"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:659
-msgid "Average per month"
-msgstr "月あたりの平均"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:894
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:930
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:934
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1312
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2309
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2316
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2333
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2337
-msgid "Invalid value"
-msgstr "無効な値"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:896
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1385
-msgid "Invalid frequency"
-msgstr "無効な頻度"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:904
-msgid "Timestamp (or date) field is required"
-msgstr "タイムスタンプ（または日付）フィールドが必要です"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:908
-msgid "Invalid date"
-msgstr "無効な日付"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:919
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:922
-msgid "This field is required"
-msgstr "このフィールドは必須です"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:925
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:937
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2323
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2340
-msgid "Not a valid choice"
-msgstr "有効な選択ではありません"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1065
-msgid "Error when getting project settlement transactions"
-msgstr "プロジェクト決済トランザクションの取得時にエラーが発生しました"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1092
-msgid "Error when adding a bill"
-msgstr "請求書の追加時にエラーが発生しました"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1280
-msgid "This project have no such member"
-msgstr "そのメンバーはこのプロジェクトにいません"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1294
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1461
-msgid "Invalid member name"
-msgstr "無効なメンバー名"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1299
-msgid "Name already exists"
-msgstr "名前は既に存在します"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1317
-msgid "Not a valid decimal value"
-msgstr "有効な小数ではありません"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1370
-msgid "There is no such project"
-msgstr "そのようなプロジェクトはありません"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1374
-msgid "Name can't be empty"
-msgstr "名前を空にすることはできません"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1379
-msgid "Invalid email address"
-msgstr "メールアドレスが無効です"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1391
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1397
-msgid "Invalid sort order"
-msgstr "ソート順が無効です"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1458
-msgid "Name field is required"
-msgstr "名前フィールドは必須です"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1464
-msgid "Weight is not a valid decimal value"
-msgstr "重みが有効な小数点以下ではありません"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1467
-msgid "Invalid color value"
-msgstr "無効な色の値"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1470
-msgid "This project already has this member"
-msgstr "このプロジェクトにはすでにそのメンバーがいます"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1473
-msgid "This project already has this member (user)"
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProjectProvider.php:62
+msgid "Cospend projects"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2302
-msgid "There is no such bill"
-msgstr "そのような請求書はありません"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2643
-msgid "Cannot match payer"
-msgstr "支払者が一致しません"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2673
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProjectProvider.php:139
 #, php-format
-msgid "Cannot create new bill: %1$s"
-msgstr "新しい請求書を作成できません: %1$s"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2951
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3129
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3292
-msgid "Not found"
-msgstr "見つかりませんでした"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3010
-msgid "Impossible to get the edited payment mode"
+msgid "Owned by %1$s"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3014
-msgid "This project has no such payment mode"
-msgstr "このプロジェクトにはそのような支払い方法はありません"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3017
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3201
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3331
-msgid "Incorrect field values"
-msgstr "不正なフィールド値"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3194
-msgid "Impossible to get the edited category"
-msgstr ""
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3198
-msgid "This project has no such category"
-msgstr "このプロジェクトにはそのようなカテゴリはありません"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3324
-msgid "Impossible to get the edited currency"
-msgstr ""
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3328
-msgid "This project have no such currency"
-msgstr "このプロジェクトにはそのような通貨はありません"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3433
-msgid "You are not authorized to give such access level"
-msgstr "そのようなアクセスレベルを付与する権限がありません"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3436
-msgid "Already shared with this user"
-msgstr "すでにこのユーザーと共有されています"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3439
-msgid "Impossible to share the project with its owner"
-msgstr "プロジェクトを所有者と共有することはできません"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3442
-msgid "No such user"
-msgstr "そのようなユーザーはいません"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3563
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3622
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3712
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3931
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4089
-msgid "No such share"
-msgstr "そのような共有リンクはありません"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3797
-msgid "No such shared access"
-msgstr "そのような共有アクセスはありません"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3867
-msgid "Already shared with this group"
-msgstr "すでにこのグループと共有しています"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3870
-msgid "No such group"
-msgstr "そのようなグループはありません"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3955
-msgid "Impossible to get the circle manager"
-msgstr "サークル管理者を取得できません"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4021
-msgid "Already shared with this circle"
-msgstr "すでにこのサークルと共有しています"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4025
-msgid "No such circle"
-msgstr "そのようなサークルはありません"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4028
-msgid "Circles app is not enabled"
-msgstr "サークルアプリが有効になっていません"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4127
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:248
-msgid "Who pays?"
-msgstr "誰が支払う？"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4128
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:249
-msgid "To whom?"
-msgstr "誰のために?"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4129
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:49
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:250
-msgid "How much?"
-msgstr "金額を入力"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4172
-#, php-format
-msgid "%1$s is not a folder"
-msgstr "%1$s はフォルダではありません"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4174
-#, php-format
-msgid "%1$s is not writeable"
-msgstr "%1$s は書き込みできません"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4179
-#, php-format
-msgid "Impossible to create %1$s"
-msgstr "%1$s を作成できません"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4226
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:254
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:510
-msgid "Member name"
-msgstr "メンバー名"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4227
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:511
-msgid "Paid"
-msgstr "支払済"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4228
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:512
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:545
-msgid "Spent"
-msgstr "支出"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4229
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:255
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:382
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:514
-msgid "Balance"
-msgstr "残高"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4531
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:192
 #, php-format
 msgid "Malformed CSV, bad column names at line %1$s"
 msgstr "CSV形式が不正です　%1$s 行目に不正な桁名があります。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4546
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:207
 #, php-format
 msgid "Error when adding category %1$s"
 msgstr "カテゴリー %1$sの追加時にエラーが発生しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4564
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:225
 #, php-format
 msgid "Error when adding payment mode %1$s"
 msgstr "支払い方法 %1$sの追加時にエラーが発生しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4578
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:239
 #, php-format
 msgid "Error when adding currency %1$s"
 msgstr "通貨 %1$sの追加時にエラーが発生しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4593
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:254
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:403
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:616
 #, php-format
 msgid "Error when adding member %1$s"
 msgstr "メンバー %1$sの追加時にエラーが発生しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4608
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:269
 #, php-format
 msgid "Malformed CSV, invalid member on line %1$s"
 msgstr "CSV形式が不正です　%1$s行目のメンバーが無効です"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4614
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:275
 #, php-format
 msgid "Malformed CSV, invalid amount on line %1$s"
 msgstr "CSV形式が不正です　%1$s行目の金額が無効です"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4630
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4854
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:291
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:520
 #, php-format
 msgid "Malformed CSV, missing or invalid date/timestamp on line %1$s"
 msgstr "CSV形式が不正です　%1$s行目の日時が無効です"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4657
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:318
 #, php-format
 msgid "Malformed CSV, invalid payer weight on line %1$s"
 msgstr "CSV形式が不正です　%1$s行目の支払い者の重みが無効です"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4662
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4670
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:323
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:331
 #, php-format
 msgid "Malformed CSV, invalid owers on line %1$s"
 msgstr "CSVが不正な形式　%1$s 行目に無効な債務者があります。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4714
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4930
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:375
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:596
 #, php-format
 msgid "Error in project creation, %1$s"
 msgstr "プロジェクトの作成中にエラーが発生しました。 %1$s"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4771
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4976
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:437
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:642
 #, php-format
 msgid "Error when adding bill %1$s"
 msgstr "請求書 %1$s の追加時にエラーが発生しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4831
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:497
 msgid "Malformed CSV, cannot have an empty ower"
 msgstr "不正なCSVです　債務者がありません"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4875
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:541
 #, php-format
 msgid "Malformed CSV, bad amount on line %1$s"
 msgstr "CSV形式が不正です　%1$s行目の金額が無効です"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4892
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:558
 #, php-format
 msgid "Malformed CSV, no payer on line %1$s"
 msgstr "CSV形式が不正です。 %1$s行目に支払者がありせん"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4913
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:579
 msgid "Malformed CSV, impossible to find the column names. Make sure your Splitwise account language is set to English first, then export the project again."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:5011
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:677
 msgid "daily"
 msgstr "日"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:5026
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:692
 msgid "weekly"
 msgstr "週"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:5047
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:713
 msgid "monthly"
 msgstr "月"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/UserMigration/UserMigrator.php:159
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:784
+#, php-format
+msgid "%1$s is not a folder"
+msgstr "%1$s はフォルダではありません"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:786
+#, php-format
+msgid "%1$s is not writeable"
+msgstr "%1$s は書き込みできません"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:791
+#, php-format
+msgid "Impossible to create %1$s"
+msgstr "%1$s を作成できません"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:832
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:246
+msgid "Who pays?"
+msgstr "誰が支払う？"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:833
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:247
+msgid "To whom?"
+msgstr "誰に?"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:834
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:49
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:248
+msgid "How much?"
+msgstr "金額を入力"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:896
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:252
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:532
+msgid "Member name"
+msgstr "メンバー名"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:897
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:533
+msgid "Paid"
+msgstr "支払済"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:898
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:534
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:569
+msgid "Spent"
+msgstr "支出"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:899
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:253
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:382
+msgid "Balance"
+msgstr "残高"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:186
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:273
+#: /home/julien/html/dev/server/apps-extra/cospend/src/constants.js:46
+msgid "Reimbursement"
+msgstr "経費精算"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:291
+msgid "Not Found"
+msgstr "見つかりません"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:639
+msgid "Average per month"
+msgstr "月あたりの平均"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1112
+msgid "Error when getting project settlement transactions"
+msgstr "プロジェクト決済トランザクションの取得時にエラーが発生しました"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1142
+msgid "Error when adding a bill"
+msgstr "請求書の追加時にエラーが発生しました"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1332
+msgid "This project have no such member"
+msgstr "そのメンバーはこのプロジェクトにいません"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1346
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1475
+msgid "Invalid member name"
+msgstr "無効なメンバー名"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1351
+msgid "Name already exists"
+msgstr "名前は既に存在します"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1364
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2137
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2144
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2161
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2165
+msgid "Invalid value"
+msgstr "無効な値"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1369
+msgid "Not a valid decimal value"
+msgstr "有効な小数ではありません"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1406
+msgid "There is no such project"
+msgstr "そのようなプロジェクトはありません"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1409
+msgid "Name can't be empty"
+msgstr "名前を空にすることはできません"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1412
+msgid "Invalid frequency"
+msgstr "無効な頻度"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1415
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1418
+msgid "Invalid sort order"
+msgstr "ソート順が無効です"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1472
+msgid "Name field is required"
+msgstr "名前フィールドは必須です"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1478
+msgid "Weight is not a valid decimal value"
+msgstr "重みが有効な小数点以下ではありません"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1481
+msgid "Invalid color value"
+msgstr "無効な色の値"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1484
+msgid "This project already has this member"
+msgstr "このプロジェクトにはすでにそのメンバーがいます"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1487
+msgid "This project already has this member (user)"
+msgstr "このプロジェクトにはすでにそのメンバー（ユーザー）がいます"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2130
+msgid "There is no such bill"
+msgstr "そのような請求書はありません"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2151
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2168
+msgid "Not a valid choice"
+msgstr "有効な選択ではありません"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2498
+msgid "Cannot match payer"
+msgstr "支払者が一致しません"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2528
+#, php-format
+msgid "Cannot create new bill: %1$s"
+msgstr "新しい請求書を作成できません: %1$s"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2788
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2893
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2954
+msgid "Incorrect field values"
+msgstr "不正なフィールド値"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2935
+msgid "Not found"
+msgstr "見つかりませんでした"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2959
+msgid "This project have no such currency"
+msgstr "このプロジェクトにはそのような通貨はありません"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3076
+msgid "No such user"
+msgstr "そのようなユーザーはいません"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3083
+msgid "Impossible to share the project with its owner"
+msgstr "プロジェクトを所有者と共有することはできません"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3088
+msgid "Already shared with this user"
+msgstr "すでにこのユーザーと共有されています"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3093
+msgid "You are not authorized to give such access level"
+msgstr "そのようなアクセスレベルを付与する権限がありません"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3217
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3247
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3267
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3323
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3419
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3523
+msgid "No such share"
+msgstr "そのような共有リンクはありません"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3234
+msgid "Invalid values"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3378
+msgid "No such group"
+msgstr "そのようなグループはありません"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3383
+msgid "Already shared with this group"
+msgstr "すでにこのグループと共有しています"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3451
+msgid "Circles app is not enabled"
+msgstr "サークルアプリが有効になっていません"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3458
+msgid "Impossible to get the circle manager"
+msgstr "サークル管理者を取得できません"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3466
+msgid "No such circle"
+msgstr "そのようなサークルはありません"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3472
+msgid "Already shared with this circle"
+msgstr "すでにこのサークルと共有しています"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/UserMigration/UserMigrator.php:173
 msgid "Cospend projects and user settings"
 msgstr "Cospend プロジェクトとユーザー設定"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:3
+#: /home/julien/html/dev/server/apps-extra/cospend/specialAppInfoFakeDummyForL10nScript.php:3
 msgid " "
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:1
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:2
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:1
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "What do you want to do?"
 msgstr "下記のどれかを選択して下さい。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:3
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:3
 msgid "These actions are also available in the sidebar project context menu."
 msgstr "これらのアクションはサイドバーのプロジェクトコンテキストメニューでも使用できます。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:4
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:134
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:152
 msgid "Create a bill"
 msgstr "請求書を作成"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:5
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5
 msgid "Show project settings"
 msgstr "プロジェクト設定を表示"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:6
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6
 msgid "Share the project"
 msgstr "このプロジェクトを共有"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:7
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:314
 msgid "Close the trash bin"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:7
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:136
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:315
 msgid "Show the trash bin"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:8
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8
 msgid "Show project statistics"
 msgstr "プロジェクトの集計を表示"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:9
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:9
 msgid "Show project settlement plan"
 msgstr "プロジェクト決算プランを表示"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:10
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:11
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:10
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:11
 msgid "Select a project"
 msgstr "プロジェクトを選択"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:12
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:13
-msgid "Toggle sidebar"
-msgstr "サイドバーを切り替え"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:14
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:12
 msgid "Nothing to repeat"
 msgstr "繰り返しなし"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:15
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:13
 msgid "Bill deleted"
 msgstr "請求書が削除されました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:16
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:14
 msgid "Failed to delete bill"
 msgstr "請求書の削除に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:17
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:15
 msgid "Bill restored"
 msgstr "請求書が復元されました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:18
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:16
 msgid "Failed to restore bill"
 msgstr "請求書の復元に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:19
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:17
 msgid "Bills restored"
 msgstr "請求書が復元されました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:20
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:181
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:18
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:180
 msgid "Failed to delete bills"
 msgstr "請求書の削除に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:21
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:19
 msgid "Trashbin has been cleared"
 msgstr "ごみ箱を空にしました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:22
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:20
 msgid "Member {name} already exists"
 msgstr "メンバー {name} は既に存在します"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:23
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:21
 msgid "Impossible to move bill. No candidate project found."
 msgstr "法案を移動できません。候補プロジェクトが見つかりませんでした。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:24
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:22
 msgid "Failed to get projects"
 msgstr "プロジェクトの読み込みに失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:25
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:26
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:23
+msgid "Failed to get federated project"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:24
+msgid "Failed to get pending remote invitations"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:25
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:26
 msgid "Failed to get bills"
 msgstr "請求書の取得に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:27
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:27
 msgid "Invalid project name"
 msgstr "無効なプロジェクト名"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:28
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:28
 msgid "Failed to create project"
 msgstr "プロジェクトの作成に失敗しました。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:29
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:29
 msgid "Deleted project {id}"
 msgstr "削除されたプロジェクト {id}"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:30
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:30
 msgid "Failed to delete project"
 msgstr "プロジェクトの削除に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:31
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:31
 msgid "Failed to update balances"
 msgstr "残高の更新に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:32
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:32
 msgid "Created member {name}"
 msgstr "メンバー {name} を作成しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:33
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:438
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:33
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:448
 msgid "Failed to add member"
 msgstr "メンバーの追加に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:34
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:301
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:464
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:34
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:300
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:483
 msgid "Failed to add shared access"
 msgstr "共有アクセスを追加できませんでした"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:35
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:35
 msgid "Failed to save member"
 msgstr "メンバーの保存に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:36
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:36
 msgid "Member deleted"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:37
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:37
 msgid "Member saved"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:38
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:38
 msgid "Project saved"
 msgstr "プロジェクトを保存しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:39
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:39
 msgid "Failed to edit project"
 msgstr "プロジェクトの編集に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:40
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:40
 msgid "{nb} bill was created"
 msgid_plural "{nb} bills were created"
 msgstr[0] "{nb} の請求書が作成されました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:41
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:41
 msgid "link"
 msgstr "リンク"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:42
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:105
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:42
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:102
 msgid "Press Shift+Enter to validate"
 msgstr "Shift+Enter を押して検証します"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:43
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:44
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:43
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:44
 msgid "Impossible to duplicate a bill with a disabled payer"
 msgstr "無効な支払者の請求書を複製することはできません"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:43
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:44
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:317
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:43
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:44
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:319
 msgid "Duplicate bill"
 msgstr "請求書を複製"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:45
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:45
 msgid "What?"
 msgstr "これは何？"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:46
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:46
 msgid "What is the bill about?"
 msgstr "何の支払い？"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:47
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:48
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:47
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:48
 msgid "Attach share link to personal file"
 msgstr "個人ﾌｧｲﾙへの共有ﾘﾝｸ"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:50
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:55
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:79
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:93
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:50
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:55
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:76
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:90
 msgid "More information"
 msgstr "詳細情報"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:51
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:51
 msgid "More information on amount input field"
 msgstr "金額入力フィールドの詳細情報"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:52
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:57
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:81
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:239
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:261
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:422
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:429
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:52
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:57
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:78
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:237
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:259
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:432
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:439
 msgid "Info"
 msgstr "情報"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:53
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:53
 msgid "You can type simple math operations and validate by pressing Enter key."
 msgstr "単純な数学演算を入力し、Enter キーを押して計算することができます。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:54
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:54
 msgid "Convert to"
 msgstr "換算先: "
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:56
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:56
 msgid "More information on currency conversion"
 msgstr "通貨換算の詳細情報"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:58
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:58
 msgid "Who paid?"
 msgstr "誰が支払った？"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:59
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:431
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:503
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:59
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:441
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:524
 msgid "Choose a member"
 msgstr "メンバーを選択"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:60
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:61
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:240
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:60
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:61
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:238
 msgid "When?"
 msgstr "いつ？"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:62
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:63
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:494
-msgid "Payment mode"
-msgstr "支払い方法"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:64
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:62
 msgid "Choose a payment mode"
 msgstr "支払い方法を選択"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:65
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:66
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:496
-msgid "Category"
-msgstr "カテゴリー"
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:63
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:515
+msgid "Payment mode"
+msgstr "支払い方法"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:67
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:64
 msgid "Choose or add a category"
 msgstr "カテゴリを選択または追加"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:68
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:65
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:517
+msgid "Category"
+msgstr "カテゴリー"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:66
 msgid "Comment"
 msgstr "コメント"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:69
-msgid "More details about the bill (300 char. max)"
-msgstr "請求書の詳細（最大300文字）"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:70
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:67
 msgid "More details about the bill"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:70
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:67
 msgid "({n} characters max)"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:71
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:68
 msgid "Repeat"
 msgstr "繰り返し"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:72
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:415
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:69
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:425
 msgid "No"
 msgstr "なし"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:73
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:416
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:70
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:426
 msgid "Daily"
 msgstr "毎日"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:74
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:417
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:71
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:427
 msgid "Weekly"
 msgstr "毎週"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:75
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:72
 msgid "Bi-weekly (every 2 weeks)"
 msgstr "隔週（2週間ごと）"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:76
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:73
 msgid "Semi-monthly (twice a month)"
 msgstr "半月（月に2回）"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:77
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:418
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:74
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:428
 msgid "Monthly"
 msgstr "毎月"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:78
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:75
 msgid "Yearly"
 msgstr "毎年"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:80
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:77
 msgid "More information on bill repetition"
 msgstr "請求書の繰り返しに関する詳細情報"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:82
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:79
 msgid "Frequency"
 msgstr "頻度"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:83
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:80
 msgid "Leave empty for maximum frequency"
 msgstr "最大頻度の場合は空のままにする"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:84
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:81
 msgid "Include all active members on repeat"
 msgstr "すべてのアクティブなメンバーを繰り返しに含める"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:85
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:82
 msgid "Repeat until"
 msgstr "繰り返し期限"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:86
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:83
 msgid "No limit"
 msgstr "期限なし"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:87
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:84
 msgid "Repeat now"
 msgstr "今すぐ繰り返す"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:88
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:85
 msgid "Bill type"
 msgstr "請求の方法"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:89
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:86
 msgid "Classic, even split"
 msgstr "等分"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:90
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:87
 msgid "Even split with optional personal parts"
 msgstr "個人負担額を設定し、のこりを全員で等分"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:91
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:88
 msgid "Custom owed amount per member"
 msgstr "メンバーごとの支払額を指定"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:92
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:89
 msgid "Custom share per member"
 msgstr "メンバーごとの負担率を指定"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:94
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:91
 msgid "More information on bill mode"
 msgstr "請求方法の詳細情報"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:95
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:92
 msgid "Ignore member weights"
 msgstr "メンバーの重み付けを無視"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:96
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:93
 msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
 msgstr "等分: 支払い者を選択し、請求書の金額を入力し、支出全体に関係するメンバーを選択します。 請求額は選ばれたメンバーに均等に分割されます。具体的な使用例: 1人がレストランの請求全体を支払い、均等に割り勘にする。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:97
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:94
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually paid. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
 msgstr "個人負担額を指定 + 残りを等分：この方法は等分と似ています。支払者を選択し、実際に支払った請求書の金額を入力します。 次に、関係するユーザーを選択し、一部のメンバーの個人的な負担金額を設定します。 複数の請求書が作成されます: 共有支出のための1つと、個人的な部分ごとの1つ。 具体的な使用例: 私たちは買い物に行き、買ったものの一部はグループ全体の買い物ですが、誰かが個人的なもの（シャツのようなもの）を追加しました。この部分はシャツを追加した人が負担します。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:98
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:95
 msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
 msgstr "金額を指定: 請求書の合計金額を無視し、各メンバーの負担金額を入力します。次に「請求書を作成」を押します。 複数の請求書が作成されます。 具体的な使用例: 一人の人は、レストラン全体の請求書を支払うが、一人一人が食べたものの間に大きな価格差があります。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:99
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:96
 msgid "Custom share mode, uneven split: Choose a payer, set the bill amount and enter a custom share number for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: Someone pays an electricity bill for the month but one member was only there during half the month. This member should then pay half a share (0.5) while the others pay a full share (1)."
 msgstr "負担率を指定: 支払い者を選択し、請求書の金額を設定し、メンバーごとに負担率を入力します。 次に「請求書を作成」を押します。複数の請求書が作成されます。 実際の生活例: 誰かが月の電気代を支払うが、1 人のメンバーは半月の間しかそこになかった。 このメンバーは、その後、半分を支払う必要があります(0.5) 他のメンバーは1ヶ月分を支払う(1)。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:100
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:97
 msgid "For whom?"
 msgstr "誰に？"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:101
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:98
 msgid "All/None"
 msgstr "すべて/なし"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:102
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:99
 msgid "Personal amount"
 msgstr "個人の金額"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:103
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:100
 msgid "Custom amount"
 msgstr "カスタム金額"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:104
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:101
 msgid "Custom share number"
 msgstr "負担率指定"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:106
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:103
 msgid "Delete this bill"
 msgstr "この請求書を削除"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:107
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:104
 msgid "Move this bill to the trashbin"
 msgstr "この請求書をごみ箱に移動する"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:108
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:109
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:111
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:112
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:210
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:105
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:106
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:108
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:109
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:209
 msgid "None"
 msgstr "なし"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:110
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:107
 msgid "Add payment mode \"{name}\""
 msgstr "支払い方法 \"{name}\" を追加"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:113
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:110
 msgid "Add category \"{name}\""
 msgstr "カテゴリ \"{name}\" を追加"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:114
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:111
 msgid "Bill : {what}"
 msgstr "請求書 : {what}"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:115
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:112
 msgid "Create the bill"
 msgstr "請求書を作成"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:115
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:112
 msgid "Create the bills"
 msgstr "請求書を作成"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:116
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:113
 msgid "This is just a currency converter. Bill amount can be entered in another currency and then converted to \"{maincur}\". Value is always stored in \"{maincur}\"."
 msgstr "これは通貨換算器です。入力された請求金額は \"{maincur}\" に換算され、値はつねに \"{maincur}\" で保存されます。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:117
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:114
 msgid "Bill repetition process runs once a day as a background job. If your bills are not automatically repeated, ask your Nextcloud administrator to check if \"Cron\" method is selected in admin settings."
 msgstr "請求書の繰り返しプロセスは、バックグラウンドの仕事として1日1回実行されます。 請求書が自動的に繰り返されない場合は、Nextcloud管理者に、管理者設定で「Cron」メソッドが選択されているかどうかを確認してください。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:118
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:115
 msgid "You can also manually repeat the current bill with the \"Repeat now\" button."
 msgstr "「今すぐ繰り返す」ボタンで現在の請求書を手動で繰り返すこともできます。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:119
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:116
 msgid "Failed to add payment mode"
 msgstr "支払いモードの追加に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:120
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:117
 msgid "Failed to add category"
 msgstr "カテゴリの追加に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:121
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:286
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:402
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:489
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:550
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/src/utils.js:65
-msgid "You"
-msgstr "あなた"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:122
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:118
 msgid "Impossible to save bill, invalid values"
 msgstr "請求書を保存できません　無効な値です"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:123
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:119
 msgid "Bill saved"
 msgstr "請求書を保存しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:124
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:120
 msgid "Failed to save bill"
 msgstr "請求書の保存に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:125
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:127
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:129
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:131
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:121
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:123
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:125
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:127
 msgid "Bill values are not valid"
 msgstr "請求書の値が有効ではありません"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:126
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:122
 msgid "Personal parts are bigger than the paid amount"
 msgstr "個人負担額が支払金額を超えています"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:128
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:124
 msgid "There is no custom amount"
 msgstr "金額指定がありません"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:130
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:126
 msgid "There is no custom share number"
 msgstr "負担率指定がありません"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:132
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:275
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:128
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:274
 msgid "Failed to create bill"
 msgstr "請求書の作成に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:133
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:129
 msgid "Bill created"
 msgstr "請求書を作成しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:134
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:130
 msgid "Choose file"
 msgstr "ファイルを選択"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:135
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:131
 msgid "Failed to generate share link to file"
 msgstr "ファイルへの共有リンクを生成できませんでした"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:136
-msgid "New bill"
-msgstr "新しい請求書"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:137
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:132
 msgid "Trash bin"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:138
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:133
+msgid "Search bills"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:135
 msgid "Close trashbin"
 msgstr "ごみ箱を閉じる"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:139
-msgid "Show trashbin"
-msgstr "ごみ箱を表示"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:140
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:137
 msgid "Clear trashbin"
 msgstr "ごみ箱を空にする"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:141
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:138
 msgid "Filters"
 msgstr "フィルター"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:142
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:173
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:139
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:172
 msgid "Close filters"
 msgstr "フィルターを閉じる"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:143
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:497
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:526
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:140
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:518
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:550
 msgid "Select a category"
 msgstr "カテゴリーを選択する"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:144
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:495
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:141
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:516
 msgid "Select a payment mode"
 msgstr "支払い方法を選択してください"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:145
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:142
 msgid "Multi select actions"
 msgstr "複数選択アクション"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:146
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:143
 msgid "Leave multiple select mode"
 msgstr "複数選択モードを終了する"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:147
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:144
 msgid "Assign a category"
 msgstr "カテゴリーを設定"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:148
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:145
 msgid "Assign a payment mode"
 msgstr "支払い方法を設定"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:149
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:146
 msgid "Select bills to make grouped actions"
 msgstr "グループ化アクションを行う請求書を選択してください"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:150
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:147
 msgid "Restore selected bills"
 msgstr "選択した請求書を復元"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:151
-msgid "Add at least 2 members to start creating bills"
-msgstr "少なくとも2人のメンバーを追加して、請求書の作成を開始します"
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:148
+msgid "No member"
+msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:152
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:153
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:149
+msgid "Add at least one member to start creating bills"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:150
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:313
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:434
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:435
+msgid "Add a member"
+msgstr "メンバーを追加"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:151
 msgid "No bills to show"
 msgstr "表示する請求書がありません"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:154
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:155
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:153
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:154
 msgid "No more bills"
 msgstr "これ以上請求書はありません"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:156
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:155
 msgid "Confirm deletion"
 msgstr "削除を確認"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:157
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:160
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:163
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:214
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:323
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:337
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:338
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:397
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:398
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:156
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:159
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:162
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:213
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:325
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:339
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:340
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:398
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:399
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:158
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:298
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:312
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:324
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:330
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:331
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:394
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:395
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:157
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:297
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:311
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:326
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:332
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:333
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:395
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:396
 msgid "Delete"
 msgstr "削除"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:159
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:158
 msgid "Confirm restoration"
 msgstr "復元を確認"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:161
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:316
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:160
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:318
 msgid "Restore"
 msgstr "復元"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:162
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:161
 msgid "Confirm clear trash bin"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:164
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:163
 msgid "Clear"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:165
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:164
 msgid "All payment modes"
 msgstr "すべての支払い方法"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:166
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:167
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:543
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/src/utils.js:113
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:165
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:166
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:567
+#: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:114
 msgid "No payment mode"
 msgstr "支払い方法なし"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:168
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:167
 msgid "All categories"
 msgstr "すべてのカテゴリー"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:169
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:170
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:540
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/src/utils.js:93
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:168
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:169
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:564
+#: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:94
 msgid "No category"
 msgstr "カテゴリーなし"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:171
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:170
 msgid "Leave multiple selection mode"
 msgstr "複数選択モードを終了する"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:172
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:171
 msgid "Enter multiple selection mode"
 msgstr "複数選択モードにする"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:174
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:173
 msgid "Open filters"
 msgstr "フィルタを開く"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:175
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:174
 msgid "Move selected bills to trash"
 msgstr "選択した請求書をごみ箱へ移動"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:176
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:175
 msgid "Delete selected bills"
 msgstr "選択した請求書を削除"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:177
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:178
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:176
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:177
 msgid "Failed to save bills"
 msgstr "請求書の保存に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:179
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:178
 msgid "Bills edited"
 msgstr "請求書が編集されました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:180
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:179
 msgid "Bills deleted"
 msgstr "請求書が削除されました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:182
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:181
 msgid "Are you sure you want to delete {nb} bill?"
 msgid_plural "Are you sure you want to delete {nb} bills?"
 msgstr[0] "{nb} の請求書を削除してもよろしいですか？"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:183
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:182
 msgid "Are you sure you want to move {nb} bill to the trash bin?"
 msgid_plural "Are you sure you want to move {nb} bills to the trash bin?"
 msgstr[0] ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:184
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:183
 msgid "Are you sure you want to restore {nb} bill?"
 msgid_plural "Are you sure you want to restore {nb} bills?"
 msgstr[0] "{nb} 請求書を復元してもよろしいですか？"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:185
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:184
 msgid "Are you sure you want to clear the trash bin? ({nb} bill)"
 msgid_plural "Are you sure you want to clear the trash bin? ({nb} bills)"
 msgstr[0] ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:186
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:187
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:332
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:333
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:185
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:186
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:334
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:335
 msgid "Color"
 msgstr "色"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:188
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:189
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:334
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:335
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:187
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:188
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:336
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:337
 msgid "Icon"
 msgstr "アイコン"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:190
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:189
 msgid "Alphabetical"
 msgstr "アルファベット順"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:191
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:190
 msgid "Manual"
 msgstr "手動"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:192
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:191
 msgid "Most used"
 msgstr "使用回数順"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:193
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:192
 msgid "Most recently used"
 msgstr "最近使用した"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:194
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:193
 msgid "Category sort method"
 msgstr "カテゴリの並べ替え方法"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:194
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:193
 msgid "Payment mode sort method"
 msgstr "支払い方法の並べ替え方法"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:195
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:194
 msgid "Add category"
 msgstr "カテゴリーの追加"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:195
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:194
 msgid "Add payment mode"
 msgstr "支払い方法の追加"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:196
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:195
 msgid "Category name"
 msgstr "カテゴリー名"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:196
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:195
 msgid "Payment mode name"
 msgstr "支払い方法名"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:197
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:196
 msgid "Add this category"
 msgstr "このカテゴリーを追加"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:197
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:196
 msgid "Add this payment mode"
 msgstr "この支払い方法を追加"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:198
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:197
 msgid "Category list"
 msgstr "カテゴリ一覧"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:198
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:197
 msgid "Payment mode list"
 msgstr "支払い方法一覧"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:199
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:198
 msgid "Drag categories to set manual order"
 msgstr "カテゴリをドラッグして手動で順序を設定"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:199
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:198
 msgid "Drag payment modes to set manual order"
 msgstr "支払い方法をドラッグして手動で順序を設定"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:200
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:199
 msgid "No categories"
 msgstr "カテゴリーなし"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:200
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:199
 msgid "No payment modes"
 msgstr "支払い方法なし"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:201
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:206
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:200
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:205
 msgid "Name should not be empty"
 msgstr "名前は空にできません"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:202
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:201
 msgid "Failed to add {name}"
 msgstr "{name} の追加に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:203
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:202
 msgid "{name} was added"
 msgstr "{name} が追加されました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:204
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:203
 msgid "Failed to delete category"
 msgstr "カテゴリーの削除に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:205
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:204
 msgid "Failed to delete payment mode"
 msgstr "支払い方法の削除に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:207
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:206
 msgid "Failed to edit category"
 msgstr "カテゴリーの編集に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:208
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:207
 msgid "Order saved"
 msgstr "並び替えを保存しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:209
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:208
 msgid "Main currency"
 msgstr "基本通貨"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:211
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:212
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:210
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:211
 msgid "Set main currency name"
 msgstr "基本通貨の名前を設定"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:213
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:212
 msgid "Main currency name"
 msgstr "基本通貨の名前"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:215
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:214
 msgid "Cancel currency edition"
 msgstr "通貨編集をキャンセル"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:216
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:339
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:340
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:399
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:400
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:215
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:341
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:342
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:400
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:401
 msgid "Save"
 msgstr "保存"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:217
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:216
 msgid "Save currency"
 msgstr "通貨を保存"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:218
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:217
 msgid "Add currency"
 msgstr "通貨を追加"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:219
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:336
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:377
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:381
-msgid "Name"
-msgstr "名前"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:220
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:396
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:218
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:397
 msgid "Currency name"
 msgstr "通貨名"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:221
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:219
 msgid "Exchange rate to main currency"
 msgstr "基本通貨への為替レート"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:222
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:220
 msgid "(1 of this currency = X of main currency)"
 msgstr "（この通貨の1は、基本通貨のX）"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:223
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:224
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:221
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:222
 msgid "Add this currency"
 msgstr "この通貨を追加"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:225
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:223
 msgid "Currency list"
 msgstr "通貨リスト"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:226
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:224
 msgid "No currencies to display"
 msgstr "表示する通貨がありません"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:227
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:230
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:225
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:228
 msgid "Currency name should not be empty"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:228
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:226
 msgid "Exchange rate should be a number"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:229
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:227
 msgid "Currency {n} added"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:231
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:229
 msgid "Settlement of project {name}"
 msgstr "プロジェクト {name} の決算"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:232
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:491
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:230
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:512
 msgid "Export"
 msgstr "エクスポート"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:233
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:231
 msgid "Add these payments to the project"
 msgstr "これらの支払いをプロジェクトに追加"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:234
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:232
 msgid "Center settlement on"
 msgstr "1人を中心に決算する"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:235
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:233
 msgid "Nobody (optimal)"
-msgstr "誰も（最適）"
+msgstr "なし（最適）"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:236
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:234
 msgid "Settlement date"
 msgstr "決算日"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:237
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:238
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:235
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:236
 msgid "Information on settlement date"
 msgstr "決算日に関する詳細情報"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:241
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:242
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:239
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:240
 msgid "Set to beginning of this day"
 msgstr "この日の初めに設定"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:243
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:244
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:241
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:242
 msgid "Set to beginning of this week"
 msgstr "この週の始めに設定"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:245
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:246
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:243
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:244
 msgid "Set to beginning of this month"
 msgstr "この月の初めに設定"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:247
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:245
 msgid "Settlement plan on {date}"
 msgstr "{date} の決算日"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:247
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:245
 msgid "Settlement plan"
-msgstr "決算日"
+msgstr "決算計画"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:251
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:252
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:249
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:250
 msgid "No transactions found"
 msgstr "取引がありません"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:253
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:251
 msgid "Balances on {date}"
 msgstr "{date} の残高"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:253
-msgid "Balances"
-msgstr "残高"
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:251
+msgid "Global balances"
+msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:256
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:257
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:254
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:255
 msgid "No balances found"
 msgstr "残高が見つかりません"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:258
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:259
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:256
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:257
 msgid "Information on individual reimbursement"
 msgstr "各個人への精算の情報"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:260
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:258
 msgid "Individual reimbursement"
 msgstr "各個人への精算"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:262
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:502
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:260
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:523
 msgid "Payer"
 msgstr "支払者"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:263
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:261
 msgid "Receiver"
 msgstr "受領者"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:264
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:262
+msgid "Create bill ({amount} {currencyName})"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:263
 msgid "Create bill ({amount})"
 msgstr "請求書を作成 ({amount})"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:265
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:264
 msgid "Set a maximum date to only consider bills until then."
 msgstr "これまでの請求書のみを考慮した最大日付を設定。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:266
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:265
 msgid "Useful if you want to settle at a precise date and ignore the bills created since then."
 msgstr "それ以降に作成された請求書を無視したい場合に便利です。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:267
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:266
 msgid "Automatic settlement will create bills one second before the maximum date."
 msgstr "自動決算は、最大日付の1秒前に請求書を作成します。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:268
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:267
 msgid "This feature is useful when a member with a negative balance wants to get out of the project but you don't want to make a full settlement plan."
 msgstr "この機能は、負の残高を持つメンバーがプロジェクトから抜けたいが、完全な決算プランを作成したくない場合に便利です。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:269
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:268
 msgid "Select a payer who wants to get a zero balance, then a receiver who will be the only one to get the reimbursement money."
 msgstr "残高をゼロにしたい支払者を選択し、この1人のみが精算を受けます。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:270
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:269
 msgid "Make sure the \"real\" reimbursement has been done between those 2 members in real life. Then press \"Create bill\" to automatically create the corresponding bill."
 msgstr "実際の2人のメンバーの間で「現実に」払い戻しが完了したことを確認してください。次に「請求書を作成」を押して、対応する請求書を自動的に作成します。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:271
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:270
 msgid "Failed to get settlement"
 msgstr "決算を取得できませんでした"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:272
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:271
 msgid "Project settlement bills added."
 msgstr "プロジェクト決算請求書が追加されました。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:273
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:272
 msgid "Project settlement exported in {path}"
 msgstr "プロジェクト決算を {path} にエクスポートしました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:276
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:275
 msgid "{user} have updated the bill {billName}"
 msgstr "{user} が請求書 {billName} を更新しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:277
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:276
 msgid "{user} has updated the bill {billName}"
 msgstr "{user} が請求書 {billName} を更新しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:278
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:277
 msgid "{user} have created a new bill {billName}"
 msgstr "{user} が新しい請求書 {billName} を作成しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:279
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:278
 msgid "{user} has created a new bill {billName}"
 msgstr "{user} が新しい請求書 {billName} を作成しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:280
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:279
 msgid "{user} have deleted the bill {billName}"
 msgstr "{user} が請求書 {billName} を削除しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:281
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:280
 msgid "{user} has deleted the bill {billName}"
 msgstr "{user} が請求書 {billName} を削除しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:282
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:281
 msgid "{user} have shared the project with {who}"
 msgstr "{user} はプロジェクトを {who} と共有しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:283
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:282
 msgid "{user} has shared the project with {who}"
 msgstr "{user} はプロジェクトを {who} と共有しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:284
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:283
 msgid "{user} have removed {who} from the project"
 msgstr "{user} は {who} をプロジェクトから削除しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:285
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:284
 msgid "{user} has removed {who} from the project"
 msgstr "{user} は {who} をプロジェクトから削除しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:287
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:285
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:403
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:510
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:574
+#: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:66
+msgid "You"
+msgstr "あなた"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:286
 msgid "you"
 msgstr "あなた"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:288
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:289
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:287
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:288
 msgid "No more activity"
 msgstr "これ以上のアクティビティはありません"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:290
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:289
 msgid "Rename member"
 msgstr "メンバー名を変更"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:291
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:290
 msgid "Change color"
 msgstr "色を変える"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:292
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:291
 msgid "Weight"
 msgstr "重み付け"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:293
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:292
 msgid "No access"
 msgstr "アクセスなし"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:294
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:452
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:459
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:293
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:460
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:471
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:478
 msgid "Viewer"
 msgstr "表示者"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:295
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:453
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:460
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:294
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:461
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:472
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:479
 msgid "Participant"
 msgstr "参加者"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:296
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:454
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:461
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:295
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:462
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:473
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:480
 msgid "Maintainer"
 msgstr "管理者"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:297
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:455
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:462
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:296
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:463
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:474
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:481
 msgid "Admin"
 msgstr "運営者"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:298
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:297
 msgid "Deactivate"
 msgstr "無効にする"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:299
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:298
 msgid "Reactivate"
 msgstr "再有効化する"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:300
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:299
 msgid "A member is already named like that"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:302
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:465
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:301
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:484
 msgid "Failed to edit shared access level"
 msgstr "共有アクセスレベルの編集に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:303
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:470
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:302
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:490
 msgid "Failed to delete shared access"
 msgstr "共有アクセスの削除に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:304
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:303
 msgid "Are you sure?"
 msgstr "本当によろしいですか？"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:305
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:474
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:475
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:304
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:495
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:496
 msgid "Settings"
 msgstr "設定"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:306
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:305
 msgid "Share"
 msgstr "共有"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:307
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:306
 msgid "Add member"
 msgstr "メンバーを追加"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:308
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:307
 msgid "Statistics"
 msgstr "集計"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:309
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:308
 msgid "Project settlement"
 msgstr "プロジェクトの決算"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:310
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:309
 msgid "Archive"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:311
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:310
 msgid "Unarchive"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:313
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:424
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:425
-msgid "Add a member"
-msgstr "メンバーを追加"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:314
-msgid "Close trash bin"
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:312
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:316
+msgid "Leave share"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:315
-msgid "Show trash bin"
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:317
+msgid "Project {projectId} ({projectName}) shared by {cloudId} ({displayName})"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:318
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:320
 msgid "Everyone"
 msgstr "全員"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:319
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:321
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:321
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:323
 msgid "Everyone except {member}"
 msgstr "{member} 以外のすべて"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:320
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:322
 msgid "{member1} and {member2}"
 msgstr "{member1} と {member2}"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:322
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:324
 msgid "Member list is not up to date. Reloading in 5 sec."
 msgstr "メンバーリストが最新ではありません。5秒後に再読み込みします。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:325
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:327
 msgid "Move to trash"
 msgstr "ごみ箱へ移動"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:326
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:328
 msgid "Move to other project"
 msgstr "他のプロジェクトへ移動"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:327
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:329
 msgid "Category selector"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:328
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:329
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:392
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:393
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:330
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:331
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:393
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:394
 msgid "Edit"
 msgstr "編集"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:341
-msgid "New project"
-msgstr "新しいプロジェクト"
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:338
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:377
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:381
+msgid "Name"
+msgstr "名前"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:342
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:345
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:343
+msgid "Search projects"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:344
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:411
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:412
 msgid "Create empty project"
 msgstr "空のプロジェクトを作成"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:343
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:368
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:345
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:368
 msgid "Import csv project"
 msgstr "CSVプロジェクトをインポート"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:344
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:369
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:346
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:369
 msgid "Import SplitWise project"
 msgstr "SplitWiseプロジェクトをインポート"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:346
-msgid "Project name"
-msgstr "プロジェクト名"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:347
-msgid "My new project"
-msgstr ""
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:348
-msgid "Create"
-msgstr "作成"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:349
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:350
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:347
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:348
 msgid "No projects yet"
 msgstr "プロジェクトはまだありません"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:351
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:349
+msgid "My cumulated balance"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:350
+msgid "Pending share invitations"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:351
 msgid "Show active projects"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:351
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:351
 msgid "Show archived projects"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:352
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:355
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:356
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:352
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:355
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:356
 msgid "Cospend settings"
 msgstr "Cospend 設定"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:353
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:354
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:390
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:391
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:353
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:354
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:391
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:392
 msgid "Project imported"
 msgstr "プロジェクトがインポートされました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:357
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:358
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:357
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:358
 msgid "About Cospend"
 msgstr "Cospend について"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:359
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:359
 msgid "Thanks for using Cospend"
 msgstr "Cospend をご利用いただきありがとうございます。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:360
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:360
 msgid "App version: {version}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:361
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:361
 msgid "Bug/issue tracker"
 msgstr "バグ/課題トラッカー"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:362
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:362
 msgid "Translation"
 msgstr "翻訳"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:363
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:363
 msgid "User documentation"
 msgstr "利用者向けドキュメント"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:364
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:364
 msgid "Admin documentation"
 msgstr "管理ドキュメント"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:365
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:365
 msgid "Developer documentation"
 msgstr "開発者ドキュメント"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:366
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:367
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:366
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:367
 msgid "Import projects"
 msgstr "プロジェクトのインポート"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:370
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:371
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:370
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:371
 msgid "Export location"
 msgstr "場所をエクスポート"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:372
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:372
 msgid "Select export directory"
 msgstr "エクスポート ディレクトリを選択"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:373
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:374
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:373
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:374
 msgid "Sort criterias"
 msgstr "並べ替え条件"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:375
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:375
 msgid "How projects are sorted in navigation sidebar"
 msgstr "ナビゲーションサイドバーでのプロジェクトのソート方法"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:376
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:376
 msgid "Projects order"
 msgstr "プロジェクトの並べ替え"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:378
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:378
 msgid "Last activity"
 msgstr "最近のアクティビティ"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:379
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:379
 msgid "How members are sorted"
 msgstr "メンバーのソート方法"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:380
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:380
 msgid "Members order"
 msgstr "メンバーの並べ替え"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:383
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:384
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:383
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:384
 msgid "Misc"
 msgstr "その他"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:385
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:385
 msgid "Maximum decimal precision to show in balances"
 msgstr "残高に表示する最大の小数桁数"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:386
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:386
 msgid "Maximum precision"
 msgstr "最大の桁数"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:387
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:387
 msgid "Do you want to see and choose time in bill dates?"
 msgstr "請求書の日付で時刻を表示・選択しますか？"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:388
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:388
 msgid "Use time in dates"
 msgstr "日付で時刻を使用する"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:389
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:389
+msgid "Show my cumulated balance"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:390
 msgid "Choose where to write output files (stats, settlement, export)"
 msgstr "出力ファイルを書き出す場所を選択します (集計、決算、エクスポート)"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:401
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:402
 msgid "Member select"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:403
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:404
 msgid "Move bill \"{bill}\" to a different project:"
 msgstr "請求書 \"{bill}\" を別のプロジェクトに移動:"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:404
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:405
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:405
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:406
 msgid "Only one project available, in which this bill already exists"
 msgstr "この請求書がすでに存在するプロジェクトは1つだけです"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:406
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:407
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:407
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:408
 msgid "No projects found"
 msgstr "プロジェクトが見つかりませんでした"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:408
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:409
 msgid "Bill moved to \"{project}\" successfully"
 msgstr "請求書は \"{project}\" に移動しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:409
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:410
 msgid "Failed to move bill"
 msgstr "請求書の移動に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:410
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:413
+msgid "Project name"
+msgstr "プロジェクト名"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:414
+msgid "My new project"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:415
+msgid "Create"
+msgstr "作成"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:416
 msgid "Payment mode selector"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:411
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:417
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:418
+msgid "Pending invitations for federated shares"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:419
+msgid "Reject"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:420
+msgid "Accept"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:421
+msgid "Project {projectName} shared by {inviterName} ({inviterCloudId})"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:422
 msgid "Rename project {n}"
 msgstr "プロジェクト {n} の名前を変更"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:412
-msgid "Rename project"
-msgstr "プロジェクトの名前を変更"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:413
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:423
 msgid "Disable bill deletion"
 msgstr "請求書の削除を無効にする"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:414
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:424
 msgid "Automatic export"
 msgstr "自動エクスポート"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:419
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:429
 msgid "Export project"
 msgstr "プロジェクトのエクスポート"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:420
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:430
 msgid "Members"
 msgstr "メンバー"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:421
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:431
 msgid "More information on adding members"
 msgstr "メンバーの追加に関する詳細情報"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:423
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:433
 msgid "You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab."
 msgstr "プロジェクトに単純なメンバーまたはNextcloudユーザーを追加できます。 コンテキストメニューから、Nextcloudユーザーにプロジェクトへのアクセス権を付与できます。 また、共有タブでメンバーではないNextcloudユーザーにもアクセス権を与えることができます。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:426
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:436
 msgid "Enter a member name"
 msgstr "メンバー名を入力してください"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:427
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:437
 msgid "Associate a project member with a Nextcloud user"
 msgstr "プロジェクトメンバーを Nextcloudユーザーに関連付けます"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:428
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:438
 msgid "More information on adding Nextcloud users as members"
 msgstr "Nextcloudユーザーのメンバー追加に関する詳細情報"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:430
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:440
 msgid "Choose a project member, then a Nextcloud user to associate with."
 msgstr "プロジェクトメンバーを選択し、関連付けるNextcloudユーザーを選択します。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:430
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:440
 msgid "You can cut the link with a Nextcloud user by renaming the member."
 msgstr "メンバーの名前を変更することで、Nextcloudユーザーとのリンクをカットできます。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:432
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:433
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:442
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:443
 msgid "Choose a Nextcloud user"
 msgstr "Nextcloudユーザーを選択してください"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:434
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:444
 msgid "Type to search users"
 msgstr "ユーザーを検索"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:435
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:445
 msgid "New member name"
 msgstr "新規メンバー名"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:436
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:446
 msgid "New member (or Nextcloud user) name"
 msgstr "新規メンバー（またはNextcloudユーザー）名"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:437
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:447
 msgid "Create simple member"
 msgstr "単純なメンバーを作成"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:439
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:440
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:449
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:450
 msgid "Share project with a user, group or circle"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:441
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:451
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:457
+msgid "Federated user"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:452
 msgid "Start typing to search"
 msgstr "検索"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:442
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:453
 msgid "Scan this QRCode with your mobile device to add project \"{name}\" in MoneyBuster or PayForMe"
 msgstr "MoneyBuster または PayForMe にプロジェクト \"{name}\" を追加するには、このQRコードをモバイルデバイスでスキャンしてください"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:443
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:454
 msgid "QRCode content: "
 msgstr "QRコードの内容: "
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:445
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:456
 msgid "Create a new share link"
 msgstr "新しい共有リンクを作成"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:447
-msgid "Link copied"
-msgstr "リンクをコピーしました"
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:458
+msgid "Pending share"
+msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:447
-msgid "Copy to clipboard"
-msgstr "クリップボードにコピー"
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:458
+msgid "Accepted share"
+msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:448
-msgid "Show QRCode for mobile clients"
-msgstr "モバイルクライアント用のQRコードを表示"
-
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:449
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:459
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:468
 msgid "Label"
 msgstr "ラベル"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:450
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:464
+msgid "Delete federated share"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:466
+msgid "Link copied"
+msgstr "リンクをコピーしました"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:466
+msgid "Copy to clipboard"
+msgstr "クリップボードにコピー"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:467
+msgid "Show QRCode for mobile clients"
+msgstr "モバイルクライアント用のQRコードを表示"
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:469
 msgid "Password protect"
 msgstr "パスワード保護"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:451
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:470
 msgid "Set link password"
 msgstr "リンクのパスワードを設定"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:456
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:475
 msgid "Delete link"
 msgstr "リンクを削除する"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:457
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:476
 msgid "Add another link"
 msgstr "他のリンクを追加"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:458
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:477
 msgid "Project owner"
 msgstr "プロジェクトの所有者"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:463
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:482
 msgid "Delete access"
 msgstr "アクセスを削除"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:466
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:468
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:485
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:488
 msgid "Share link saved"
 msgstr "共有リンクを保存しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:467
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:469
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:486
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:489
 msgid "Failed to edit share link"
 msgstr "共有リンクの編集に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:471
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:487
+msgid "Federated share saved"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:491
 msgid "Link could not be copied to clipboard"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:472
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:473
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:492
+msgid "Rename"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:493
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:494
 msgid "Sharing"
 msgstr "共有"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:476
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:477
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:497
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:498
 msgid "Activity"
 msgstr "アクティビティ"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:478
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:479
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:499
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:500
 msgid "Categories"
 msgstr "カテゴリー"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:480
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:481
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:501
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:502
 msgid "Payment modes"
 msgstr "支払い方法"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:482
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:483
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:503
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:504
 msgid "Currencies"
 msgstr "通貨"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:484
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:505
 msgid "{nb} bills, {nbMembers} active members, {spentAmount} {currency} spent"
 msgstr "{nb} 請求書, {nbMembers} アクティブメンバー, {spentAmount} {currency} 支払い"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:485
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:506
 msgid "{nb} bills, {nbMembers} active members, {spentAmount} spent"
 msgstr "{nb} 請求書, {nbMembers} アクティブメンバー, {spentAmount} 支払い"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:486
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:507
 msgid "Member/Month"
 msgstr "メンバー/月"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:487
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:488
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:537
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:538
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:508
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:509
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:561
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:562
 msgid "All members"
 msgstr "すべてのメンバー"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:490
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:511
 msgid "Statistics of project {name}"
 msgstr "プロジェクト {name} の集計"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:492
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:513
 msgid "Minimum date"
 msgstr "最小日付"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:493
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:514
 msgid "Maximum date"
 msgstr "最大日付"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:498
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:519
 msgid "Minimum amount"
 msgstr "最小金額"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:499
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:520
 msgid "Maximum amount"
 msgstr "最大金額"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:500
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:521
 msgid "Convert in currency"
 msgstr "通貨に変換"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:501
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:522
 msgid "Main project's currency"
 msgstr "プロジェクトの基本通貨"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:504
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:525
 msgid "Show disabled members"
 msgstr "無効なメンバーを表示"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:505
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:526
 msgid "Chart type"
 msgstr "グラフの種類"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:506
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:527
 msgid "Pie"
 msgstr "円グラフ"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:507
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:528
 msgid "Bar"
 msgstr "棒グラフ"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:508
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:529
+msgid "Total paid by all the members: {t} {currencyName}"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:530
 msgid "Total paid by all the members: {t}"
 msgstr "全てのメンバーが支払った合計: {t}"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:509
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:531
 msgid "Global stats"
 msgstr "全体の集計"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:513
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:535
 msgid "Filtered balance"
 msgstr "フィルター残高"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:515
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:536
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:538
+msgid "This balance is computed from the complete bill list"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:537
+msgid "Global Balance"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:539
 msgid "Monthly paid per member"
 msgstr "メンバー毎の毎月の支払"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:516
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:540
 msgid "Payments per member per month"
 msgstr "ひと月毎のメンバー毎の支払"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:517
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:541
 msgid "Monthly spent per member"
 msgstr "メンバー毎の毎月の消費"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:518
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:542
 msgid "Spendings per member per month"
 msgstr "ひと月毎のメンバー毎の消費"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:519
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:543
 msgid "Monthly paid per category"
 msgstr "月毎のカテゴリー毎の支払"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:520
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:544
 msgid "Payments per category per month"
 msgstr "月毎のカテゴリ毎の支払"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:521
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:545
 msgid "Category/Month"
 msgstr "カテゴリー/月"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:522
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:546
 msgid "Monthly paid per payment mode"
 msgstr "月毎の支払い方法毎の支払"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:523
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:547
 msgid "Payments per payment mode per month"
 msgstr "月毎の支払い方法毎の支払"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:524
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:548
 msgid "Payment mode/Month"
 msgstr "支払い方法/月"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:525
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:549
 msgid "Who paid for this category?"
 msgstr "誰がこのカテゴリーに支払ったか？"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:527
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:551
 msgid "What did they pay for?"
 msgstr "彼らは何に支払ったか？"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:528
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:552
 msgid "Select a member"
 msgstr "メンバーを選択"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:529
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:553
 msgid "Who paid for whom?"
 msgstr "誰が誰のために支払ったか？"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:530
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:554
 msgid "paid for"
 msgstr "誰のための支払い"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:531
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:555
 msgid "Total paid"
 msgstr "支払額合計"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:532
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:556
 msgid "Total owed"
 msgstr "負債額合計"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:533
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:557
 msgid "Total owed by {name}"
 msgstr "{name} の負債額合計"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:534
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:558
 msgid "Total paid by {name}"
 msgstr "{name} の支払額合計"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:535
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:541
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:559
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:565
 msgid "All except reimbursement"
 msgstr "その他すべての払い戻し"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:536
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:539
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:542
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:560
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:563
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:566
 msgid "All"
 msgstr "すべて"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:544
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:568
 msgid "Payed"
 msgstr "支払い済み"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:546
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:570
 msgid "Who paid (outside circle) and spent (inside pie)?"
-msgstr "誰が支払い(サークルの外に)、誰が消費(サークル内で)したか?"
+msgstr "誰が支払い(外周)、誰が消費(内周)したか?"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:547
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:571
 msgid "Who paid and spent?"
 msgstr "誰が支払い、誰が消費したか?"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:548
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:572
 msgid "How much was paid per category?"
 msgstr "カテゴリーごとに支払われた金額は？"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:549
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:573
 msgid "How much was paid per payment mode?"
 msgstr "支払い方法ごとに支払われた金額は？"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:551
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:552
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:576
+msgid "Enable Federation in Cospend"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:577
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:578
 msgid "No recent activity"
 msgstr "最近のアクティビティがありません"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:553
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:579
 msgid "Go to Cospend"
 msgstr "Cospend に行く"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:554
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:580
 msgid "{user} shared {project} with {who}"
 msgstr "{user} はプロジェクト {project} を {who} と共有しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:555
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:581
 msgid "{user} unshared {project} with {who}"
 msgstr "{user} は {project} を {who} と共有解除しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:556
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:582
 msgid "{user} created {bill}"
 msgstr "{user} が {bill} を作成しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:557
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:583
 msgid "{user} deleted {bill}"
 msgstr "{user} が {bill} を削除しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:558
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:584
 msgid "{user} edited {bill}"
 msgstr "{user} が {bill} を編集しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/src/main.js:41
+#: /home/julien/html/dev/server/apps-extra/cospend/src/main.js:34
 msgid "Failed to restore options values"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/src/network.js:28
+#: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:27
 msgid "Failed to save option values"
 msgstr "オプション値の保存に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/src/network.js:45
+#: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:43
 msgid "Project {name} exported in {path}"
 msgstr "プロジェクト {name} を {path} にエクスポートしました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/src/network.js:49
+#: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:46
 msgid "Failed to export project"
 msgstr "オブジェクトのエクスポートに失敗しました。"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/src/network.js:392
+#: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:393
 msgid "Failed to add currency"
 msgstr "通貨の追加に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/src/network.js:408
+#: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:409
 msgid "Failed to delete currency"
 msgstr "通貨の削除に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/src/network.js:428
+#: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:429
 msgid "Failed to edit currency"
 msgstr "通貨の編集に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/src/network.js:447
+#: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:448
 msgid "Failed to get statistics"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/src/network.js:464
+#: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:465
 msgid "Project statistics exported in {path}"
 msgstr "プロジェクトの集計を {path} にエクスポートしました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/src/network.js:468
+#: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:469
 msgid "Failed to export project statistics"
 msgstr "プロジェクトの集計のエクスポートに失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/src/network.js:510
+#: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:511
 msgid "Failed to add project settlement bills"
 msgstr "プロジェクト決算請求書の追加に失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/src/network.js:530
+#: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:531
 msgid "Failed to export project settlement"
 msgstr "プロジェクトの決算のエクスポートに失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/src/utils.js:12
+#: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:13
 msgid "Choose csv project file"
 msgstr "CSVプロジェクトファイルを選択"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/src/utils.js:26
+#: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:27
 msgid "Choose SplitWise project file"
 msgstr "SplitWiseプロジェクトファイルを選択"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/src/utils.js:49
+#: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:50
 msgid "Failed to import project file"
 msgstr "プロジェクトファイルのインポートに失敗しました"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/templates/sharepassword.php:10
+#: /home/julien/html/dev/server/apps-extra/cospend/templates/sharepassword.php:10
 msgid "Authentication"
 msgstr "認証"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/templates/sharepassword.php:15
+#: /home/julien/html/dev/server/apps-extra/cospend/templates/sharepassword.php:15
 msgid "Wrong link password"
 msgstr "リンクパスワードが間違っています"
 
-#: /datadisk/tera/julien/html/dev/server/apps/cospend/templates/sharepassword.php:27
+#: /home/julien/html/dev/server/apps-extra/cospend/templates/sharepassword.php:27
 msgid "Share link password"
 msgstr "共有リンクパスワード"
 

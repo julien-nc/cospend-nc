@@ -1,45 +1,45 @@
 # Nextcloud Cospend 💰
 
-Nextcloud Cospend управлява бюджет за група/споделен бюджет. It was inspired by the great [IHateMoney](https://github.com/spiral-project/ihatemoney/).
+Nextcloud Cospend управлява бюджет за група/споделен бюджет. Вдъхновен е от великолепния [IHateMoney](https://github.com/spiral-project/ihatemoney/).
 
-You can use it when you share a house, when you go on vacation with friends, whenever you share expenses with a group of people.
+Можете да го използвате, когато споделят къща, когато отивате на почивка с приятели, винаги когато споделяте разходи с група хора.
 
-It lets you create projects with members and bills. Each member has a balance computed from the project bills. Balances are not an absolute amount of money at members disposal but rather a relative information showing if a member has spent more for the group than the group has spent for her/him, independently of exactly who spent money for whom. This way you can see who owes the group and who the group owes. Ultimately you can ask for a settlement plan telling you which payments to make to reset members balances.
+Дава ви възможност да създавате проекти с членове и сметки. За всеки член се изчислява салдо от сметките по проекта. Салдата не представляват абсолютна сума парични средства на разположение на членовете, а по-скоро относителна информация, показваща дали даден член е похарчил повече от групата, отколкото групата е похарчила за нея/него, без значение точно кой е похарчил за кого. Така можете да виждате кой ръководи групата и кои са нейни членове. В крайна сметка можете да помолите за план за уреждане на сметките, който да Ви дава информация кои плащания да се извършат с цел възстановяване на салдата на членовете.
 
-Project members are independent from Nextcloud users. Projects can be shared with other Nextcloud users or via public links.
+Членовете по проекта са независими от потребителите на Nextcloud. Проектите може да се споделят с други потребители на Nextcloud или посредством общественодостъпни хипервръзки.
 
 [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) за Android се [предлага за F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) и в [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
-[PayForMe](https://github.com/mayflower/PayForMe) iOS client is currently under developpement!
+В момента в процес на разработка е [PayForMe](https://github.com/mayflower/PayForMe) за iOS!
 
-The private and public APIs are documented using [the Nextcloud OpenAPI extractor](https://github.com/nextcloud/openapi-extractor/). This documentation can be accessed directly in Nextcloud. All you need is to install Cospend (>= v1.6.0) and use the [the OCS API Viewer app](https://apps.nextcloud.com/apps/ocs_api_viewer) to browse the OpenAPI documentation.
+Частните и общодостъпните APIs са документирани посредством [ инструмента за извличане Nextcloud OpenAPI](https://github.com/nextcloud/openapi-extractor/). Достъп до настоящата документация може да се получи директно в Nextcloud. Само трябва да инсталирате Cospend (>= v1.6.0) и да използвате [приложението OCS API Viewer](https://apps.nextcloud.com/apps/ocs_api_viewer), за да преглеждате документацията на OpenAPI.
 
 ## Функции
 
-* ✎ Create/edit/delete projects, members, bills, bill categories, currencies
-* ⚖ Check member balances
-* 🗠 Display project statistics
-* ♻ Display settlement plan
-* Move bills from one project to another
-* Move bills to trash before actually deleting them
-* Archive old projects before deleting them
-* 🎇 Automatically create reimbursement bills from settlement plan
-* 🗓 Create recurring bills (day/week/month/year)
-* 📊 Optionally provide custom amount for each member in new bills
-* 🔗 Link personal files to bills (picture of physical receipt for example)
-* 👩 Public links for people outside Nextcloud (can be password protected)
-* 👫 Share projects with Nextcloud users/groups/circles
-* 🖫 Import/export projects as csv (compatible with csv files from IHateMoney and SplitWise)
-* 🔗 Generate link/QRCode to easily add projects in MoneyBuster
-* 🗲 Implement Nextcloud notifications and activity stream
+* ✎ Създаване/редактиране/изтриване на проекти, членове, сметки, категории сметки, валути
+* ⚖ Проверявайте салдата на членовете
+* 🗠 Показвайте статистиката за проекта
+* ♻ Показвайте плана за уреждане на сметките
+* Местете сметки от едни проект в друг
+* Премествайте сметки в кошчето, преди реално да ги изтриете
+* Архивирайте старите проекти, преди да ги изтриете
+* 🎇 Автоматично създавайте сметки за възстановяване от плана за уреждане на сметките
+* 🗓 Създайте повтарящи се сметки (за деня/седмицата/месеца/годината)
+* 📊 По желание определете сума за всеки участник – за новите сметки
+* 🔗 Свържете личните файлове със сметките (снимка на физическа разписка например)
+* 👩 Общественодостъпни хипервръзки за хората извън Nextcloud (може да са защитени с парола)
+* 👫 Споделяне на проекти с ползватели/групи/кръгове на Nextcloud
+* 🖫 Импортиране/експортиране на проекти като csv (съвместими със csv файлове от IHateMoney и SplitWise)
+* 🔗 Генериране на хипервръзка/QR код за лесно добавяне на проекти в MoneyBuster
+* 🗲 Изпълнение на уведомления в Nextcloud и на поток на дейността
 
-This app usually support the 2 or 3 last major versions of Nextcloud.
+Това приложение обичайно поддържа последните 2 или 3 от основните версии на Nextcloud.
 
 Приложението се разработва.
 
 🌍 Помогнете ни да преведем това приложение в Crowdin проекта [Nextcloud-Cospend/MoneyBuster ](https://crowdin.com/project/moneybuster).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://github.com/julien-nc/cospend-nc/blob/master/CONTRIBUTING.md).
+⚒ Проверете други начини за подкрепа в [насоките за принос](https://github.com/julien-nc/cospend-nc/blob/master/CONTRIBUTING.md).
 
 ## Документация
 
@@ -51,7 +51,7 @@ This app usually support the 2 or 3 last major versions of Nextcloud.
 
 ## Известни проблеми
 
-* It does not make you rich
+* Не ви прави богати
 
 Всяка обратна връзка ще бъде оценена.
 

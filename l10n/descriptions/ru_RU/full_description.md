@@ -18,11 +18,11 @@ The private and public APIs are documented using [the Nextcloud OpenAPI extracto
 
 * ✎ Create/edit/delete projects, members, bills, bill categories, currencies
 * ⚖ Check member balances
-* 🗠 Display project statistics
-* ♻ Display settlement plan
-* Move bills from one project to another
-* Move bills to trash before actually deleting them
-* Archive old projects before deleting them
+* 🗠 Показать статистику проекта
+* ♻ План расчета
+* Переместить счета из одного проекта в другой
+* Переместить счета в корзину перед их удалением
+* Архивировать старые проекты перед их удалением
 * 🎇 Automatically create reimbursement bills from settlement plan
 * 🗓 Create recurring bills (day/week/month/year)
 * 📊 Optionally provide custom amount for each member in new bills
@@ -33,7 +33,7 @@ The private and public APIs are documented using [the Nextcloud OpenAPI extracto
 * 🔗 Generate link/QRCode to easily add projects in MoneyBuster
 * 🗲 Implement Nextcloud notifications and activity stream
 
-This app usually support the 2 or 3 last major versions of Nextcloud.
+Это приложение обычно поддерживает 2 или 3 последние основные версии Nextcloud.
 
 Это приложение находится в стадии разработки.
 
@@ -46,12 +46,12 @@ This app usually support the 2 or 3 last major versions of Nextcloud.
 * [Пользовательская документация](https://github.com/julien-nc/cospend-nc/blob/master/docs/user.md)
 * [Документация по админу](https://github.com/julien-nc/cospend-nc/blob/master/docs/admin.md)
 * [Документация для разработчиков](https://github.com/julien-nc/cospend-nc/blob/master/docs/dev.md)
-* [CHANGELOG](https://github.com/julien-nc/cospend-nc/blob/master/CHANGELOG.md#change-log)
+* [ИСТОРИЯ ИЗМЕНЕНИЙ](https://github.com/julien-nc/cospend-nc/blob/master/CHANGELOG.md#change-log)
 * [АВТОРЫ](https://github.com/julien-nc/cospend-nc/blob/master/AUTHORS.md#authors)
 
 ## Известные проблемы
 
-* It does not make you rich
+* Это не сделает вас богатым
 
 Мы будем признательны за любую обратную связь.
 

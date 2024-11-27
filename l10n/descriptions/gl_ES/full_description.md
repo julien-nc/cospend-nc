@@ -23,7 +23,7 @@ As API públicas e privadas están documentadas mediante o [extractor de Nextclo
 * Mover facturas dun proxecto cara a outro
 * Mover facturas cara ao lixo antes de eliminalas
 * Arquivar proxectos antigos antes de eliminalos
-* 🎇 Crear automaticamente facturas de reembolso dende o plan de liquidación
+* 🎇 Crear automaticamente facturas de reembolso desde o plan de liquidación
 * 🗓️ Crear facturas recorrentes (día/semana/mes/ano)
 * 📊 Opcionalmente, fornece un importe personalizado para cada membro nas novas facturas
 * 🔗 Ligar ficheiros persoais a facturas (por exemplo, a imaxe do recibo físico)

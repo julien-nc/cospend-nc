@@ -443,10 +443,7 @@
 									<MemberAvatar
 										:member="members[ower.id]"
 										:size="24" />
-									<span
-										class="owerCheckboxName">
-										{{ ower.name }}
-									</span>
+									<span>{{ ower.name }}</span>
 									<span v-if="myBill.owerIds.includes(ower.id)"
 										class="spentlabel">
 										&nbsp;({{ (owerAmount[ower.id] || 0) + (project.currencyname ? ' ' + project.currencyname : '') }})
@@ -467,10 +464,7 @@
 									<MemberAvatar
 										:member="members[ower.id]"
 										:size="24" />
-									<span
-										class="owerCheckboxName">
-										{{ ower.name }}
-									</span>
+									<span>{{ ower.name }}</span>
 								</div>
 							</NcCheckboxRadioSwitch>
 							<input v-show="myBill.owerIds.includes(ower.id)"
@@ -487,11 +481,9 @@
 						<div v-for="ower in activatedOrOwer"
 							:key="ower.id"
 							class="owerEntry">
-							<div class="owerAvatar">
-								<MemberAvatar
-									:member="members[ower.id]"
-									:size="24" />
-							</div>
+							<MemberAvatar
+								:member="members[ower.id]"
+								:size="24" />
 							<label
 								class="numberlabel"
 								:for="'amountdum' + ower.id">
@@ -512,11 +504,9 @@
 						<div v-for="ower in activatedOrOwer"
 							:key="ower.id"
 							class="owerEntry">
-							<div class="owerAvatar">
-								<MemberAvatar
-									:member="members[ower.id]"
-									:size="24" />
-							</div>
+							<MemberAvatar
+								:member="members[ower.id]"
+								:size="24" />
 							<label
 								class="numberlabel"
 								:for="'amountdum' + ower.id">
@@ -1070,14 +1060,6 @@ export default {
 	methods: {
 		isRepeatUntilDateDisabled(date) {
 			return moment(date).isBefore(this.billDateMoment)
-		},
-		onOwerAvatarClick(owerId) {
-			if (this.myBill.owerIds.includes(owerId)) {
-				const index = this.myBill.owerIds.findIndex(elem => owerId === elem)
-				this.myBill.owerIds.splice(index, 1)
-			} else {
-				this.myBill.owerIds.push(owerId)
-			}
 		},
 		memberSelected(selected) {
 			if (selected) {
@@ -1775,16 +1757,7 @@ button {
 				margin-right: 8px;
 			}
 		}
-
-		.owerCheckboxName {
-			margin-left: 6px;
-		}
 	}
-}
-
-.owerAllNoneDiv label,
-.owerEntry label {
-	margin-left: 5px;
 }
 
 .bill-owers {
@@ -1805,10 +1778,12 @@ button {
 .owerEntry {
 	display: flex;
 	align-items: center;
+	gap: 4px;
 	height: 34px;
 	margin: 10px 0 10px 26px;
 	.nc-checkbox-content {
 		display: flex;
+		gap: 4px;
 	}
 }
 
@@ -1922,15 +1897,5 @@ button {
 
 #billTypeLine {
 	display: flex;
-}
-
-::v-deep .owerAvatar {
-	cursor: pointer;
-	div {
-		cursor: pointer;
-		div {
-			cursor: pointer;
-		}
-	}
 }
 </style>

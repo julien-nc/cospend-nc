@@ -3,7 +3,7 @@
 		<div class="tableWrapper"
 			@mouseleave="selectedMemberDataset = null ; hoveredTableMonth = null">
 			<v-table
-				class="memberMonthlyTable coloredTable avatarTable"
+				class="memberMonthlyTable coloredTable"
 				:data="memberMonthlyStats">
 				<thead slot="head">
 					<v-th sort-key="member.name">
@@ -22,15 +22,14 @@
 						:class="{ 'all-members': value.member.id === 0 }"
 						@mouseenter="selectedMemberDataset = value.member.id">
 						<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
-							<div v-if="value.member.id !== 0"
-								class="owerAvatar">
-								<MemberAvatar
+							<div class="left-aligned-cell-content">
+								<MemberAvatar v-if="value.member.id !== 0"
 									:member="members[value.member.id]"
 									:size="24" />
+								<span>
+									{{ (value.member.id !== 0) ? myGetSmartMemberName(value.member.id) : value.member.name }}
+								</span>
 							</div>
-							<span>
-								{{ (value.member.id !== 0) ? myGetSmartMemberName(value.member.id) : value.member.name }}
-							</span>
 						</td>
 						<td v-for="(st, month) in stats"
 							:key="month"
@@ -282,7 +281,7 @@ export default {
 		font-weight: bold;
 	}
 	td:first-child {
-		padding: 0px 5px 0px 5px;
+		padding: 4px 5px 4px 5px;
 	}
 }
 

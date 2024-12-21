@@ -95,7 +95,7 @@
 		<NcLoadingIcon v-if="loading" :size="24" />
 		<v-table v-else-if="transactions"
 			id="settlementTable"
-			class="coloredTable avatarTable"
+			class="coloredTable"
 			:data="transactions">
 			<thead slot="head">
 				<v-th sort-key="fromName">
@@ -111,24 +111,24 @@
 			<tbody slot="body" slot-scope="{displayData}">
 				<tr v-for="value in displayData" :key="value.from + ':' + value.to">
 					<td :style="'border: 2px solid #' + members[value.from].color + ';'">
-						<div class="owerAvatar">
+						<div class="left-aligned-cell-content">
 							<MemberAvatar
 								:member="members[value.from]"
 								:size="24" />
+							<span>
+								{{ myGetSmartMemberName(project.id, value.from) }}
+							</span>
 						</div>
-						<span>
-							{{ myGetSmartMemberName(project.id, value.from) }}
-						</span>
 					</td>
 					<td :style="'border: 2px solid #' + members[value.to].color + ';'">
-						<div class="owerAvatar">
+						<div class="left-aligned-cell-content">
 							<MemberAvatar
 								:member="members[value.to]"
 								:size="24" />
+							<span>
+								{{ myGetSmartMemberName(project.id, value.to) }}
+							</span>
 						</div>
-						<span>
-							{{ myGetSmartMemberName(project.id, value.to) }}
-						</span>
 					</td>
 					<td>
 						{{ value.amount.toFixed(precision) }}
@@ -154,7 +154,7 @@
 		<NcLoadingIcon v-if="loading" :size="24" />
 		<v-table v-else-if="balances"
 			id="balanceTable"
-			class="coloredTable avatarTable"
+			class="coloredTable"
 			:data="balances">
 			<thead slot="head">
 				<v-th sort-key="memberName">
@@ -168,14 +168,14 @@
 				<tr v-for="value in displayData"
 					:key="value.mid">
 					<td :style="'border: 2px solid #' + members[value.mid].color + ';'">
-						<div class="owerAvatar">
+						<div class="left-aligned-cell-content">
 							<MemberAvatar
 								:member="members[value.mid]"
 								:size="24" />
+							<span>
+								{{ myGetSmartMemberName(project.id, value.mid) }}
+							</span>
 						</div>
-						<span>
-							{{ myGetSmartMemberName(project.id, value.mid) }}
-						</span>
 					</td>
 					<td :class="getBalanceClass(value.balance)"
 						:style="'border: 2px solid #' + members[value.mid].color +';'">
@@ -592,7 +592,7 @@ export default {
 	display: table;
 	margin: 20px auto 20px auto;
 	td {
-		padding: 0 5px 0 5px;
+		padding: 4px 5px 4px 5px;
 	}
 }
 
@@ -602,7 +602,7 @@ export default {
 
 	td {
 		border: 1px solid var(--color-border-dark);
-		padding: 0 5px 0 5px;
+		padding: 4px 5px 4px 5px;
 		text-align: left;
 	}
 

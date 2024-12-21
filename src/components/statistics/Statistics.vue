@@ -150,7 +150,7 @@
 		</h2>
 		<v-table v-if="stats"
 			id="statsTable"
-			class="coloredTable avatarTable"
+			class="coloredTable"
 			:data="stats.stats">
 			<thead slot="head">
 				<v-th sort-key="member.name">
@@ -175,14 +175,14 @@
 				<tr v-for="value in displayData"
 					:key="value.member.id">
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
-						<div class="owerAvatar">
+						<div class="left-aligned-cell-content">
 							<MemberAvatar
 								:member="members[value.member.id]"
 								:size="24" />
+							<span>
+								{{ myGetSmartMemberName(value.member.id) }}
+							</span>
 						</div>
-						<span>
-							{{ myGetSmartMemberName(value.member.id) }}
-						</span>
 					</td>
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
 						{{ value.paid.toFixed(2) }}
@@ -340,7 +340,7 @@
 		</h2>
 		<v-table v-if="stats"
 			id="paidForTable"
-			class="coloredTable avatarTable"
+			class="coloredTable"
 			:data="membersPaidForData">
 			<thead slot="head">
 				<v-th sort-key="name">
@@ -351,12 +351,12 @@
 					:sort-key="mid.toString()"
 					class="avatared centered-cell"
 					:style="'border: 2px solid #' + myGetMemberColor(mid) + ';'">
-					<div class="owerAvatar">
+					<div class="left-aligned-cell-content">
 						<MemberAvatar
 							:member="members[mid]"
 							:size="24" />
+						<span>{{ myGetSmartMemberName(mid) }}</span>
 					</div>
-					<span>{{ myGetSmartMemberName(mid) }}</span>
 				</v-th>
 				<v-th sort-key="total">
 					{{ t('cospend', 'Total paid') }}
@@ -368,22 +368,12 @@
 					<td v-if="value.memberid !== 0"
 						class="centered-cell"
 						:style="'border: 2px solid #' + myGetMemberColor(value.memberid) + ';'">
-						<div class="owerAvatar">
+						<div class="left-aligned-cell-content">
 							<MemberAvatar
 								:member="members[value.memberid]"
 								:size="24" />
-							<!--CospendTogglableAvatar
-								:enabled="!isMemberDisabled(value.memberid)"
-								:color="getMemberColor(value.memberid)"
-								:size="24"
-								:disable-menu="true"
-								:disable-tooltip="true"
-								:show-user-status="false"
-								:is-no-user="getMemberUserId(value.memberid) === ''"
-								:user="getMemberUserId(value.memberid)"
-								:display-name="getMemberName(value.memberid)" /-->
+							<span>{{ myGetSmartMemberName(value.memberid) }}</span>
 						</div>
-						<span>{{ myGetSmartMemberName(value.memberid) }}</span>
 					</td>
 					<td v-else style="padding-left: 5px; border: 2px solid lightgrey;">
 						{{ t('cospend', 'Total owed') }}
@@ -1352,7 +1342,7 @@ export default {
 		background-color: var(--color-background-dark);
 	}
 	td:first-child {
-		padding: 0px 5px 0px 5px;
+		padding: 4px 5px 4px 5px;
 	}
 }
 
@@ -1362,12 +1352,6 @@ export default {
 
 ::v-deep .coloredTable svg {
 	margin-bottom: -3px;
-}
-
-::v-deep #paidForTable th.avatared {
-	.owerAvatar {
-		margin-left: 0;
-	}
 }
 
 #paidForTable {
@@ -1391,7 +1375,7 @@ export default {
 		background-color: var(--color-main-background);
 	}
 	td:first-child {
-		padding: 0px 5px 0px 5px;
+		padding: 4px 5px 4px 5px;
 	}
 }
 

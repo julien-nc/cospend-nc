@@ -70,21 +70,6 @@ body {
 	height: 44px;
 }
 
-.avatarTable {
-	.owerAvatar {
-		height: 24px;
-		margin: 2px 0px 2px 0px;
-	}
-	.owerAvatar img {
-		margin-bottom: 2px;
-	}
-}
-.owerAvatar {
-	display: inline-block;
-	vertical-align: middle;
-	height: 26px;
-}
-
 input[type=number] {
 	-moz-appearance: number-input !important;
 	-webkit-appearance: initial !important;
@@ -101,6 +86,7 @@ input[type=number] {
 		font-weight: bold;
 		text-align: center;
 		border: 1px solid var(--color-border-dark);
+		border-radius: var(--border-radius-element);
 		padding: 0px 5px 0px 5px;
 
 		span {
@@ -113,9 +99,17 @@ input[type=number] {
 	td {
 		text-align: right;
 		padding-right: 2px;
+		border-radius: var(--border-radius-element);
 	}
 	td:first-child {
 		text-align: left;
+	}
+
+	.left-aligned-cell-content {
+		display: flex;
+		align-items: center;
+		justify-content: start;
+		gap: 4px;
 	}
 }
 .undoDeleteBill {

@@ -7,7 +7,7 @@
 				<template #actions>
 					<NcActions>
 						<template #icon>
-							<FolderPlusIcon />
+							<FolderPlusIcon :title="t('cospend', 'Create a project')" />
 						</template>
 						<NcActionButton
 							:close-after-click="true"

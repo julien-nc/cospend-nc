@@ -7,7 +7,7 @@
 		<span
 			v-if="subjectRich"
 			class="subject">
-			<RichText
+			<NcRichText
 				:text="subjectRich"
 				:arguments="subjectParameters" />
 		</span>
@@ -30,10 +30,10 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 
 import NcUserBubble from '@nextcloud/vue/dist/Components/NcUserBubble.js'
+import NcRichText from '@nextcloud/vue/dist/Components/NcRichText.js'
 
 import moment from '@nextcloud/moment'
 import { getCurrentUser } from '@nextcloud/auth'
-import RichText from '@juliushaertl/vue-richtext'
 
 const icons = {
 	bill_update: {
@@ -59,7 +59,7 @@ export default {
 	name: 'ActivityEntry',
 
 	components: {
-		RichText,
+		NcRichText,
 		ShareVariantIcon,
 		PencilIcon,
 		PlusIcon,

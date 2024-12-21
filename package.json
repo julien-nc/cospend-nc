@@ -38,7 +38,6 @@
 		"npm": "^10"
 	},
 	"dependencies": {
-		"@juliushaertl/vue-richtext": "^1.0.1",
 		"@nextcloud/auth": "^2.0.0",
 		"@nextcloud/axios": "^2.0.0",
 		"@nextcloud/dialogs": "^6.0.0",
@@ -69,6 +68,6 @@
 		"@nextcloud/vite-config": "^1.4.2",
 		"@vue/tsconfig": "^0.5.1",
 		"vite-plugin-eslint": "^1.8.1",
-		"vite-plugin-stylelint": "^5.3.1"
+		"vite-plugin-stylelint": "^6.0.0"
 	}
 }

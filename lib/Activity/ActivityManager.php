@@ -240,7 +240,7 @@ class ActivityManager {
 	 * @return array[]
 	 */
 	private function findDetailsForBill(object $bill): array {
-		$project = $this->projectMapper->find($bill->getProjectid());
+		$project = $this->projectMapper->find($bill->getProjectId());
 		$bill = [
 			'id' => $bill->getId(),
 			'name' => $bill->getWhat(),

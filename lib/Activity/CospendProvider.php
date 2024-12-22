@@ -114,7 +114,9 @@ class CospendProvider implements IProvider {
 				'type' => 'highlight',
 				'id' => $event->getObjectId(),
 				'name' => $event->getObjectName(),
-				'link' => $this->cospendUrl('/project/' . $event->getObjectId()),
+				'link' => $this->urlGenerator->linkToRouteAbsolute('cospend.page.indexProject', [
+					'projectId' => $event->getObjectId(),
+				]),
 			];
 			$params['project'] = $project;
 		}
@@ -130,7 +132,10 @@ class CospendProvider implements IProvider {
 			];
 
 			if (array_key_exists('project', $subjectParams)) {
-				$bill['link'] = $this->cospendUrl('/project/' . $subjectParams['project']['id']);
+				$bill['link'] = $this->urlGenerator->linkToRouteAbsolute('cospend.page.indexBill', [
+					'projectId' => $subjectParams['project']['id'],
+					'billId' => $event->getObjectId(),
+				]);
 			}
 			$params['bill'] = $bill;
 		}
@@ -166,8 +171,8 @@ class CospendProvider implements IProvider {
 			}
 		}
 
-		$event->setParsedSubject(str_replace($placeholders, $replacements, $subject))
-			->setRichSubject($subject, $richParameters);
+		$event->setParsedSubject(str_replace($placeholders, $replacements, $subject));
+		$event->setRichSubject($subject, $richParameters);
 		$event->setSubject($subject, $parameters);
 	}
 
@@ -211,7 +216,9 @@ class CospendProvider implements IProvider {
 				'type' => 'highlight',
 				'id' => $subjectParams[$paramName]['id'],
 				'name' => $this->projectNames[$subjectParams[$paramName]['id']] ?? $subjectParams[$paramName]['name'],
-				'link' => $this->cospendUrl('?project=' . $subjectParams[$paramName]['id']),
+				'link' => $this->urlGenerator->linkToRouteAbsolute('cospend.page.indexProject', [
+					'projectId' => $subjectParams[$paramName]['id'],
+				]),
 			];
 		}
 		return $params;
@@ -220,9 +227,12 @@ class CospendProvider implements IProvider {
 		if (array_key_exists($paramName, $subjectParams)) {
 			$params[$paramName] = [
 				'type' => 'highlight',
-				'id' => $subjectParams[$paramName]['id'],
+				'id' => (string)$subjectParams[$paramName]['id'],
 				'name' => $subjectParams[$paramName]['name'] . ' (' . $subjectParams[$paramName]['amount'] . ')',
-				'link' => $this->cospendUrl('?project=' . $subjectParams['project']['id']) . '&bill=' . $subjectParams[$paramName]['id'],
+				'link' => $this->urlGenerator->linkToRouteAbsolute('cospend.page.indexBill', [
+					'projectId' => $subjectParams['project']['id'],
+					'billId' => $subjectParams[$paramName]['id'],
+				]),
 			];
 		}
 		return $params;
@@ -274,9 +284,5 @@ class CospendProvider implements IProvider {
 			}
 		}
 		return $params;
-	}
-
-	public function cospendUrl($endpoint): string {
-		return $this->urlGenerator->linkToRouteAbsolute('cospend.page.index') . $endpoint;
 	}
 }

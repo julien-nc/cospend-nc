@@ -794,6 +794,7 @@ export default {
 			display: flex;
 			align-items: center;
 			width: 100%;
+			padding-right: 10px;
 		}
 		span.icon {
 			width: 44px;

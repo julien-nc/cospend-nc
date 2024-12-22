@@ -144,7 +144,7 @@ class ApiController extends OCSController {
 	/**
 	 * Get local project list
 	 *
-	 * @return DataResponse<Http::STATUS_OK, CospendFullProjectInfo[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<CospendFullProjectInfo>, array{}>
 	 * @throws Exception
 	 *
 	 * 200: Project list
@@ -344,7 +344,7 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param int|null $lastChanged
-	 * @return DataResponse<Http::STATUS_OK, CospendMember[], array{}>|DataResponse<Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<CospendMember>, array{}>|DataResponse<Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 *
 	 * 200: List of members
 	 */
@@ -509,7 +509,7 @@ class ApiController extends OCSController {
 	 * Edit multiple bills
 	 *
 	 * @param string $projectId
-	 * @param array<int> $billIds
+	 * @param list<int> $billIds
 	 * @param int|null $categoryId
 	 * @param string|null $date
 	 * @param string|null $what
@@ -525,7 +525,7 @@ class ApiController extends OCSController {
 	 * @param string|null $comment
 	 * @param int|null $repeatFreq
 	 * @param int|null $deleted
-	 * @return DataResponse<Http::STATUS_OK, int[], array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<int>, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 * @throws Exception
 	 */
 	#[NoAdminRequired]
@@ -613,7 +613,7 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $projectId
 	 * @param int $billId
-	 * @return DataResponse<Http::STATUS_OK, array<array{new_bill_id: int, date_orig: string, date_repeat: string, what: string, project_name: string}>, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<array{new_bill_id: int, date_orig: string, date_repeat: string, what: string, project_name: string}>, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
@@ -730,7 +730,7 @@ class ApiController extends OCSController {
 	 * Delete multiple bills
 	 *
 	 * @param string $projectId
-	 * @param array<int> $billIds
+	 * @param list<int> $billIds
 	 * @param bool $moveToTrash
 	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 * @throws DoesNotExistException
@@ -769,7 +769,7 @@ class ApiController extends OCSController {
 	 * @param int|null $includeBillId
 	 * @param string|null $searchTerm
 	 * @param int|null $deleted
-	 * @return DataResponse<Http::STATUS_OK, array{nb_bills: int, allBillIds: int[], timestamp: int, bills: CospendBill[]}, array{}>|DataResponse<Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{nb_bills: int, allBillIds: list<int>, timestamp: int, bills: list<CospendBill>}, array{}>|DataResponse<Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
@@ -951,7 +951,7 @@ class ApiController extends OCSController {
 	 * Save payment modes order
 	 *
 	 * @param string $projectId
-	 * @param array<array{order: int, id: int}> $order Array of objects, each object contains the order number and the payment mode ID
+	 * @param list<array{order: int, id: int}> $order Array of objects, each object contains the order number and the payment mode ID
 	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 * @throws DoesNotExistException
 	 * @throws Exception
@@ -1064,7 +1064,7 @@ class ApiController extends OCSController {
 	 * Save categories order
 	 *
 	 * @param string $projectId
-	 * @param array<array{order: int, id: int}> $order
+	 * @param list<array{order: int, id: int}> $order
 	 * @return DataResponse<Http::STATUS_OK, true, array{}>|DataResponse<Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 * @throws DoesNotExistException
 	 * @throws Exception
@@ -1703,7 +1703,7 @@ class ApiController extends OCSController {
 	 *
 	 * Used by MoneyBuster to check if weblogin is valid
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array<?string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<?string>, array{}>
 	 */
 	#[NoAdminRequired]
 	public function ping(): DataResponse {

@@ -264,8 +264,8 @@
                         }
                     },
                     "balance": {
-                        "type": "array",
-                        "items": {
+                        "type": "object",
+                        "additionalProperties": {
                             "type": "number",
                             "format": "double"
                         }
@@ -295,14 +295,14 @@
                         }
                     },
                     "categories": {
-                        "type": "array",
-                        "items": {
+                        "type": "object",
+                        "additionalProperties": {
                             "$ref": "#/components/schemas/CategoryOrPaymentMode"
                         }
                     },
                     "paymentmodes": {
-                        "type": "array",
-                        "items": {
+                        "type": "object",
+                        "additionalProperties": {
                             "$ref": "#/components/schemas/CategoryOrPaymentMode"
                         }
                     }
@@ -704,23 +704,20 @@
                 ]
             },
             "Share": {
-                "type": "array",
-                "items": {
-                    "anyOf": [
-                        {
-                            "$ref": "#/components/schemas/UserShare"
-                        },
-                        {
-                            "$ref": "#/components/schemas/GroupShare"
-                        },
-                        {
-                            "$ref": "#/components/schemas/CircleShare"
-                        },
-                        {
-                            "$ref": "#/components/schemas/PublicShare"
-                        }
-                    ]
-                }
+                "anyOf": [
+                    {
+                        "$ref": "#/components/schemas/UserShare"
+                    },
+                    {
+                        "$ref": "#/components/schemas/GroupShare"
+                    },
+                    {
+                        "$ref": "#/components/schemas/CircleShare"
+                    },
+                    {
+                        "$ref": "#/components/schemas/PublicShare"
+                    }
+                ]
             },
             "UserShare": {
                 "allOf": [

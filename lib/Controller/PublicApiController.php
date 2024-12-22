@@ -157,7 +157,7 @@ class PublicApiController extends OCSController {
 	 * Delete multiple bills
 	 *
 	 * @param string $token
-	 * @param array<int> $billIds
+	 * @param list<int> $billIds
 	 * @param bool $moveToTrash
 	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, array<string, string>, array{}>
 	 * @throws DoesNotExistException
@@ -390,7 +390,7 @@ class PublicApiController extends OCSController {
 	 * Edit multiple bills
 	 *
 	 * @param string $token
-	 * @param array<int> $billIds
+	 * @param list<int> $billIds
 	 * @param int|null $categoryId
 	 * @param string|null $date
 	 * @param string|null $what
@@ -406,7 +406,7 @@ class PublicApiController extends OCSController {
 	 * @param string|null $comment
 	 * @param int|null $repeatFreq
 	 * @param int|null $deleted
-	 * @return DataResponse<Http::STATUS_OK, int[], array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<int>, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws DoesNotExistException
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
@@ -456,7 +456,7 @@ class PublicApiController extends OCSController {
 	 *
 	 * @param string $token
 	 * @param int $billId
-	 * @return DataResponse<Http::STATUS_OK, array<array{new_bill_id: int, date_orig: string, date_repeat: string, what: string, project_name: string}>, array{}>|DataResponse<Http::STATUS_NOT_FOUND, '', array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<array{new_bill_id: int, date_orig: string, date_repeat: string, what: string, project_name: string}>, array{}>|DataResponse<Http::STATUS_NOT_FOUND, '', array{}>
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -583,7 +583,7 @@ class PublicApiController extends OCSController {
 	 * @param int|null $includeBillId
 	 * @param string|null $searchTerm
 	 * @param int|null $deleted
-	 * @return DataResponse<Http::STATUS_OK, array{nb_bills: int, allBillIds: int[], timestamp: int, bills: CospendBill[]}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{nb_bills: int, allBillIds: list<int>, timestamp: int, bills: list<CospendBill>}, array{}>
 	 * @throws Exception
 	 */
 	#[NoAdminRequired]
@@ -650,7 +650,7 @@ class PublicApiController extends OCSController {
 	 *
 	 * @param string $token
 	 * @param int|null $lastChanged
-	 * @return DataResponse<Http::STATUS_OK, CospendMember[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<CospendMember>, array{}>
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
@@ -815,7 +815,7 @@ class PublicApiController extends OCSController {
 	 * Save payment modes order
 	 *
 	 * @param string $token
-	 * @param array<array{order: int, id: int}> $order
+	 * @param list<array{order: int, id: int}> $order
 	 * @return DataResponse<Http::STATUS_OK, '', array{}>
 	 * @throws DoesNotExistException
 	 * @throws Exception
@@ -914,7 +914,7 @@ class PublicApiController extends OCSController {
 	 * Save categories order
 	 *
 	 * @param string $token Project share token
-	 * @param array<array{order: int, id: int}> $order Array describing the categories ordering
+	 * @param list<array{order: int, id: int}> $order Array describing the categories ordering
 	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 *
 	 * 200: Categories order is saved

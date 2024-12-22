@@ -26,9 +26,10 @@ declare(strict_types=1);
 
 namespace OCA\Cospend;
 
+// @psalm-type CospendShareType = 'l'|'u'|'g'|'c'
+
 /**
  * @psalm-type CospendAccessLevel = 0|1|2|3|4
- * @psalm-type CospendShareType = 'l'|'u'|'g'|'c'
  * @psalm-type CospendFrequency = 'n'|'d'|'w'|'b'|'s'|'m'|'y'
  *
  * @psalm-type CospendMember = array{
@@ -72,7 +73,7 @@ namespace OCA\Cospend;
  *     password: ?string,
  * }
  *
- * @psalm-type CospendShare = array<CospendUserShare|CospendGroupShare|CospendCircleShare|CospendPublicShare>
+ * @psalm-type CospendShare = CospendUserShare|CospendGroupShare|CospendCircleShare|CospendPublicShare
  *
  * @psalm-type CospendCurrency = array{
  *     id: int,
@@ -97,16 +98,16 @@ namespace OCA\Cospend;
  *  }
  *
  * @psalm-type CospendExtraProjectInfo = array{
- *      active_members: CospendMember[],
- *      members: CospendMember[],
- *      balance: array<float>,
+ *      active_members: list<CospendMember>,
+ *      members: list<CospendMember>,
+ *      balance: array<string, float>,
  *      nb_bills: int,
  *      total_spent: float,
  *      nb_trashbin_bills: int,
- *      shares: CospendShare[],
- *      currencies: CospendCurrency[],
- *      categories: CospendCategoryOrPaymentMode[],
- *      paymentmodes: CospendCategoryOrPaymentMode[],
+ *      shares: list<CospendShare>,
+ *      currencies: list<CospendCurrency>,
+ *      categories: array<string, CospendCategoryOrPaymentMode>,
+ *      paymentmodes: array<string, CospendCategoryOrPaymentMode>,
  *  }
  *
  * @psalm-type CospendPublicProjectInfo = array{
@@ -151,8 +152,8 @@ namespace OCA\Cospend;
  *     timestamp: int,
  *     date: string,
  *     payer_id: int,
- *     owers: CospendOwer[],
- *     owerIds: int[],
+ *     owers: list<CospendOwer>,
+ *     owerIds: list<int>,
  *     repeat: CospendFrequency,
  *     paymentmode: string,
  *     paymentmodeid: int,
@@ -165,7 +166,7 @@ namespace OCA\Cospend;
  * }
  *
  * @psalm-type CospendProjectSettlement = array{
- *     transactions: ?array<array{to: int, amount: float, from: int}>,
+ *     transactions: ?list<array{to: int, amount: float, from: int}>,
  *     balances: array<string, float>,
  * }
  *

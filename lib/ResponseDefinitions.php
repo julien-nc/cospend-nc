@@ -111,7 +111,7 @@ namespace OCA\Cospend;
  *  }
  *
  * @psalm-type CospendPublicProjectInfo = array{
- *     id: int,
+ *     id: string,
  *     name: string,
  *     email: ?string,
  *     autoexport: string,

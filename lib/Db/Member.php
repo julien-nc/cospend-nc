@@ -12,11 +12,14 @@
 
 namespace OCA\Cospend\Db;
 
+use OCA\Cospend\ResponseDefinitions;
 use OCA\Cospend\Utils;
 use OCP\AppFramework\Db\Entity;
 use OCP\IAvatarManager;
 
 /**
+ * @psalm-import-type CospendMember from ResponseDefinitions
+ *
  * @method int getId()
  * @method void setId(int $id)
  * @method string getProjectId()
@@ -58,6 +61,9 @@ class Member extends Entity implements \JsonSerializable {
 		$this->avatarManager = \OC::$server->get(IAvatarManager::class);
 	}
 
+	/**
+	 * @return CospendMember
+	 */
 	#[\ReturnTypeWillChange]
 	public function jsonSerialize() {
 		return [

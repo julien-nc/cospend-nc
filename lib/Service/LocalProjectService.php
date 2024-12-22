@@ -59,6 +59,7 @@ use OCP\Notification\IManager as INotificationManager;
 use OCP\Security\ISecureRandom;
 
 /**
+ * @psalm-import-type CospendFullProjectInfo from ResponseDefinitions
  * @psalm-import-type CospendProjectInfoPlusExtra from ResponseDefinitions
  * @psalm-import-type CospendMember from ResponseDefinitions
  */
@@ -584,7 +585,7 @@ class LocalProjectService implements IProjectService {
 			$payerId = $bill['payer_id'];
 			$amount = $bill['amount'];
 			$owers = $bill['owers'];
-			$date = DateTime::createFromFormat('U', $bill['timestamp']);
+			$date = DateTime::createFromFormat('U', (string)$bill['timestamp']);
 			$date->setTimezone($timeZone);
 			$month = $date->format('Y-m');
 			//////////////// PAID
@@ -764,7 +765,7 @@ class LocalProjectService implements IProjectService {
 		$paymentModeMonthlyStats = [];
 		foreach ($bills as $bill) {
 			$amount = $bill['amount'];
-			$date = DateTime::createFromFormat('U', $bill['timestamp']);
+			$date = DateTime::createFromFormat('U', (string)$bill['timestamp']);
 			$date->setTimezone($timeZone);
 			$month = $date->format('Y-m');
 
@@ -1518,13 +1519,13 @@ class LocalProjectService implements IProjectService {
 	 * @param string $projectId
 	 * @param string|null $order
 	 * @param int|null $lastchanged
-	 * @return array
+	 * @return list<CospendMember>
 	 */
 	public function getMembers(string $projectId, ?string $order = null, ?int $lastchanged = null): array {
 		$members = $this->memberMapper->getMembers($projectId, $order, $lastchanged);
-		return array_map(static function (Member $dbMember) {
+		return array_values(array_map(static function (Member $dbMember) {
 			return $dbMember->jsonSerialize();
-		}, $members);
+		}, $members));
 	}
 
 	/**
@@ -1758,7 +1759,7 @@ class LocalProjectService implements IProjectService {
 	 * Get detailed project list for a given NC user
 	 *
 	 * @param string $userId
-	 * @return array
+	 * @return list<CospendFullProjectInfo>
 	 * @throws CospendBasicException
 	 * @throws DoesNotExistException
 	 * @throws MultipleObjectsReturnedException
@@ -2336,7 +2337,7 @@ class LocalProjectService implements IProjectService {
 	 * daily check of repeated bills
 	 *
 	 * @param int|null $billId
-	 * @return array
+	 * @return list<array{new_bill_id: int, date_orig: string, date_repeat: string, what: string, project_name: string}>
 	 */
 	public function cronRepeatBills(?int $billId = null): array {
 		$result = [];

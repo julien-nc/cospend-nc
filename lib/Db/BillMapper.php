@@ -15,6 +15,7 @@ namespace OCA\Cospend\Db;
 use DateTime;
 use Exception;
 use OCA\Cospend\AppInfo\Application;
+use OCA\Cospend\ResponseDefinitions;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\QBMapper;
@@ -22,6 +23,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 /**
+ * @psalm-import-type CospendBill from ResponseDefinitions
  * @extends QBMapper<Bill>
  */
 class BillMapper extends QBMapper {
@@ -312,7 +314,7 @@ class BillMapper extends QBMapper {
 	 * @param bool $reverse
 	 * @param int|null $payerId
 	 * @param int|null $deleted
-	 * @return array
+	 * @return list<CospendBill>
 	 * @throws \OCP\DB\Exception
 	 */
 	public function getBillsClassic(
@@ -400,6 +402,7 @@ class BillMapper extends QBMapper {
 		$req = $qb->executeQuery();
 
 		// bills by id
+		/** @var array<string, CospendBill> $billDict */
 		$billDict = [];
 		// ordered list of bill ids
 		$orderedBillIds = [];
@@ -426,6 +429,7 @@ class BillMapper extends QBMapper {
 		}
 		$req->closeCursor();
 
+		/** @var list<CospendBill> $resultBills */
 		$resultBills = [];
 		foreach ($orderedBillIds as $bid) {
 			$resultBills[] = $billDict[$bid];
@@ -453,7 +457,7 @@ class BillMapper extends QBMapper {
 	 * @param int|null $includeBillId
 	 * @param string|null $searchTerm
 	 * @param int|null $deleted
-	 * @return array
+	 * @return list<CospendBill>
 	 * @throws \OCP\DB\Exception
 	 */
 	public function getBillsWithLimit(
@@ -612,6 +616,7 @@ class BillMapper extends QBMapper {
 			$bills[$i]['owerIds'] = $billOwerIds;
 		}
 
+		/** @var list<CospendBill> $bills */
 		return $bills;
 	}
 
@@ -795,7 +800,7 @@ class BillMapper extends QBMapper {
 	 *
 	 * @param string $projectId
 	 * @param int|null $deleted
-	 * @return array
+	 * @return list<int>
 	 * @throws \OCP\DB\Exception
 	 */
 	public function getAllBillIds(string $projectId, ?int $deleted = 0): array {

@@ -9,16 +9,16 @@
     "packages-dev": [
         {
             "name": "adhocore/cli",
-            "version": "v1.7.2",
+            "version": "v1.9.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/adhocore/php-cli.git",
-                "reference": "57834cbaa4fb68cda849417ab86577fba2b15298"
+                "reference": "86be16e3c3b42d76fcdb32529bcded0fedb925d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/adhocore/php-cli/zipball/57834cbaa4fb68cda849417ab86577fba2b15298",
-                "reference": "57834cbaa4fb68cda849417ab86577fba2b15298",
+                "url": "https://api.github.com/repos/adhocore/php-cli/zipball/86be16e3c3b42d76fcdb32529bcded0fedb925d3",
+                "reference": "86be16e3c3b42d76fcdb32529bcded0fedb925d3",
                 "shasum": ""
             },
             "require": {
@@ -29,6 +29,9 @@
             },
             "type": "library",
             "autoload": {
+                "files": [
+                    "src/functions.php"
+                ],
                 "psr-4": {
                     "Ahc\\Cli\\": "src/"
                 }
@@ -63,7 +66,7 @@
             ],
             "support": {
                 "issues": "https://github.com/adhocore/php-cli/issues",
-                "source": "https://github.com/adhocore/php-cli/tree/v1.7.2"
+                "source": "https://github.com/adhocore/php-cli/tree/v1.9.3"
             },
             "funding": [
                 {
@@ -75,7 +78,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-09-05T00:08:47+00:00"
+            "time": "2024-12-04T03:40:29+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -195,16 +198,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.12.0",
+            "version": "1.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "3a6b9a42cd8f8771bd4295d13e1423fa7f3d942c"
+                "reference": "123267b2c49fbf30d78a7b2d333f6be754b94845"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/3a6b9a42cd8f8771bd4295d13e1423fa7f3d942c",
-                "reference": "3a6b9a42cd8f8771bd4295d13e1423fa7f3d942c",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/123267b2c49fbf30d78a7b2d333f6be754b94845",
+                "reference": "123267b2c49fbf30d78a7b2d333f6be754b94845",
                 "shasum": ""
             },
             "require": {
@@ -243,7 +246,7 @@
             ],
             "support": {
                 "issues": "https://github.com/myclabs/DeepCopy/issues",
-                "source": "https://github.com/myclabs/DeepCopy/tree/1.12.0"
+                "source": "https://github.com/myclabs/DeepCopy/tree/1.12.1"
             },
             "funding": [
                 {
@@ -251,7 +254,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-06-12T14:39:25+00:00"
+            "time": "2024-11-08T17:47:46+00:00"
         },
         {
             "name": "nextcloud/coding-standard",
@@ -301,16 +304,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nextcloud-deps/ocp.git",
-                "reference": "b5b767571ac461011820e8d292509dd0e5bff59d"
+                "reference": "15a749fe867b97ae5e699a3ce9e1d50a792c1777"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nextcloud-deps/ocp/zipball/b5b767571ac461011820e8d292509dd0e5bff59d",
-                "reference": "b5b767571ac461011820e8d292509dd0e5bff59d",
+                "url": "https://api.github.com/repos/nextcloud-deps/ocp/zipball/15a749fe867b97ae5e699a3ce9e1d50a792c1777",
+                "reference": "15a749fe867b97ae5e699a3ce9e1d50a792c1777",
                 "shasum": ""
             },
             "require": {
-                "php": "~8.0 || ~8.1 || ~8.2 || ~8.3",
+                "php": "~8.1 || ~8.2 || ~8.3",
                 "psr/clock": "^1.0",
                 "psr/container": "^2.0.2",
                 "psr/event-dispatcher": "^1.0",
@@ -331,14 +334,18 @@
                 {
                     "name": "Christoph Wurst",
                     "email": "christoph@winzerhof-wurst.at"
+                },
+                {
+                    "name": "Joas Schilling",
+                    "email": "coding@schilljs.com"
                 }
             ],
-            "description": "Composer package containing Nextcloud's public API (classes, interfaces)",
+            "description": "Composer package containing Nextcloud's public OCP API and the unstable NCU API",
             "support": {
                 "issues": "https://github.com/nextcloud-deps/ocp/issues",
                 "source": "https://github.com/nextcloud-deps/ocp/tree/master"
             },
-            "time": "2024-10-23T11:48:49+00:00"
+            "time": "2024-12-21T00:43:01+00:00"
         },
         {
             "name": "nextcloud/openapi-extractor",
@@ -346,12 +353,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nextcloud/openapi-extractor.git",
-                "reference": "e36607030a8edf71b2324999003c1f5a04eb6053"
+                "reference": "34ca701a3cf08388f37bd0a7fb4ead12ee66796b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nextcloud/openapi-extractor/zipball/e36607030a8edf71b2324999003c1f5a04eb6053",
-                "reference": "e36607030a8edf71b2324999003c1f5a04eb6053",
+                "url": "https://api.github.com/repos/nextcloud/openapi-extractor/zipball/34ca701a3cf08388f37bd0a7fb4ead12ee66796b",
+                "reference": "34ca701a3cf08388f37bd0a7fb4ead12ee66796b",
                 "shasum": ""
             },
             "require": {
@@ -363,12 +370,13 @@
             },
             "require-dev": {
                 "nextcloud/coding-standard": "^1.2",
-                "nextcloud/ocp": "dev-master"
+                "nextcloud/ocp": "dev-master",
+                "rector/rector": "^2.0"
             },
             "default-branch": true,
             "bin": [
-                "generate-spec",
-                "merge-specs"
+                "bin/generate-spec",
+                "bin/merge-specs"
             ],
             "type": "library",
             "autoload": {
@@ -378,7 +386,7 @@
             },
             "scripts": {
                 "lint": [
-                    "find . -name \\*.php -not -path './tests/*' -not -path './vendor/*' -not -path './build/*' -print0 | xargs -0 -n1 php -l && php -l generate-spec && php -l merge-specs"
+                    "find . -name \\*.php -not -path './tests/*' -not -path './vendor/*' -not -path './build/*' -print0 | xargs -0 -n1 php -l"
                 ],
                 "cs:check": [
                     "php-cs-fixer fix --dry-run --diff"
@@ -387,7 +395,10 @@
                     "php-cs-fixer fix"
                 ],
                 "test:unit": [
-                    "cd tests && ../generate-spec"
+                    "cd tests && ../bin/generate-spec"
+                ],
+                "rector": [
+                    "rector && composer cs:fix"
                 ]
             },
             "license": [
@@ -398,7 +409,7 @@
                 "source": "https://github.com/nextcloud/openapi-extractor/tree/main",
                 "issues": "https://github.com/nextcloud/openapi-extractor/issues"
             },
-            "time": "2024-10-19T05:55:38+00:00"
+            "time": "2024-12-22T10:23:45+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -578,16 +589,16 @@
         },
         {
             "name": "php-cs-fixer/shim",
-            "version": "v3.64.0",
+            "version": "v3.65.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/shim.git",
-                "reference": "81ccfd24baf3a10810dab1152c403981a790b837"
+                "reference": "4983ec79b9dee926695ac324ea6e8d291935525d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/shim/zipball/81ccfd24baf3a10810dab1152c403981a790b837",
-                "reference": "81ccfd24baf3a10810dab1152c403981a790b837",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/shim/zipball/4983ec79b9dee926695ac324ea6e8d291935525d",
+                "reference": "4983ec79b9dee926695ac324ea6e8d291935525d",
                 "shasum": ""
             },
             "require": {
@@ -624,9 +635,9 @@
             "description": "A tool to automatically fix PHP code style",
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/shim/issues",
-                "source": "https://github.com/PHP-CS-Fixer/shim/tree/v3.64.0"
+                "source": "https://github.com/PHP-CS-Fixer/shim/tree/v3.65.0"
             },
-            "time": "2024-08-30T23:10:11+00:00"
+            "time": "2024-11-25T00:39:41+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",
@@ -996,16 +1007,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.6.21",
+            "version": "9.6.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "de6abf3b6f8dd955fac3caad3af7a9504e8c2ffa"
+                "reference": "f80235cb4d3caa59ae09be3adf1ded27521d1a9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/de6abf3b6f8dd955fac3caad3af7a9504e8c2ffa",
-                "reference": "de6abf3b6f8dd955fac3caad3af7a9504e8c2ffa",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/f80235cb4d3caa59ae09be3adf1ded27521d1a9c",
+                "reference": "f80235cb4d3caa59ae09be3adf1ded27521d1a9c",
                 "shasum": ""
             },
             "require": {
@@ -1016,7 +1027,7 @@
                 "ext-mbstring": "*",
                 "ext-xml": "*",
                 "ext-xmlwriter": "*",
-                "myclabs/deep-copy": "^1.12.0",
+                "myclabs/deep-copy": "^1.12.1",
                 "phar-io/manifest": "^2.0.4",
                 "phar-io/version": "^3.2.1",
                 "php": ">=7.3",
@@ -1079,7 +1090,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.21"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.22"
             },
             "funding": [
                 {
@@ -1095,7 +1106,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-19T10:50:18+00:00"
+            "time": "2024-12-05T13:48:26+00:00"
         },
         {
             "name": "psalm/phar",

@@ -23,7 +23,7 @@ use SensitiveParameter;
  *
  * @method Share mapRowToEntity(array $row)
  * @method Share findEntity(IQueryBuilder $query)
- * @method Share[] findEntities(IQueryBuilder $query)
+ * @method list<Share> findEntities(IQueryBuilder $query)
  * @template-extends QBMapper<Share>
  */
 class ShareMapper extends QBMapper {

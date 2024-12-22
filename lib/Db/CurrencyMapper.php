@@ -22,7 +22,7 @@ use OCP\IDBConnection;
  *
  * @method Currency mapRowToEntity(array $row)
  * @method Currency findEntity(IQueryBuilder $query)
- * @method Currency[] findEntities(IQueryBuilder $query)
+ * @method list<Currency> findEntities(IQueryBuilder $query)
  * @template-extends QBMapper<Currency>
  */
 class CurrencyMapper extends QBMapper {

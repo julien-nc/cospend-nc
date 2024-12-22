@@ -22,7 +22,7 @@ use OCP\IDBConnection;
  *
  * @method PaymentMode mapRowToEntity(array $row)
  * @method PaymentMode findEntity(IQueryBuilder $query)
- * @method PaymentMode[] findEntities(IQueryBuilder $query)
+ * @method list<PaymentMode> findEntities(IQueryBuilder $query)
  * @template-extends QBMapper<PaymentMode>
  */
 class PaymentModeMapper extends QBMapper {

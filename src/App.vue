@@ -77,7 +77,7 @@
 				</NcEmptyContent>
 				<div v-show="showProjectEmptyContent"
 					class="project-actions">
-					<NcButton
+					<NcButton v-if="currentProjectHasOneMember"
 						@click="onNewBillClicked(null)">
 						<template #icon>
 							<PlusIcon />
@@ -308,6 +308,9 @@ export default {
 			return (this.currentProjectId && this.currentProjectId in this.members)
 				? this.members[this.currentProjectId]
 				: {}
+		},
+		currentProjectHasOneMember() {
+			return Object.keys(this.currentMembers).length > 0
 		},
 		editionAccess() {
 			return this.currentProjectId && this.projects[this.currentProjectId].myaccesslevel >= constants.ACCESS.PARTICIPANT

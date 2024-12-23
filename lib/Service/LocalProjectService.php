@@ -48,6 +48,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 
 use OCP\Federation\ICloudIdManager;
 
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
 
@@ -73,6 +74,7 @@ class LocalProjectService implements IProjectService {
 	public function __construct(
 		private IL10N $l10n,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 		private ProjectMapper $projectMapper,
 		private BillMapper $billMapper,
 		private MemberMapper $memberMapper,
@@ -341,7 +343,8 @@ class LocalProjectService implements IProjectService {
 			}
 		}
 		// compute balances for past bills only
-		$balance = $this->getBalance($dbProjectId, time());
+		$balancePastBillsOnly = $this->appConfig->getValueString('cospend', 'balance_past_bills_only', '0') === '1';
+		$balance = $this->getBalance($dbProjectId, $balancePastBillsOnly ? time() : null);
 		$currencies = $this->getCurrencies($dbProjectId);
 		$categories = $this->getCategoriesOrPaymentModes($dbProjectId);
 		$paymentModes = $this->getCategoriesOrPaymentModes($dbProjectId, false);

@@ -5,14 +5,18 @@
 			{{ t('cospend', 'Cospend') }}
 		</h2>
 		<div id="cospend-content">
-			<div>
-				<NcCheckboxRadioSwitch :checked="isFederationEnabled"
-					:disabled="loading"
-					type="switch"
-					@update:checked="saveFederationEnabled">
-					{{ t('cospend', 'Enable Federation in Cospend') }}
-				</NcCheckboxRadioSwitch>
-			</div>
+			<NcCheckboxRadioSwitch :checked="state.federation_enabled"
+				:disabled="loading"
+				type="switch"
+				@update:checked="saveFederationEnabled">
+				{{ t('cospend', 'Enable Federation in Cospend') }}
+			</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch :checked="state.balance_past_bills_only"
+				:disabled="loading"
+				type="switch"
+				@update:checked="saveBalancePastBillsOnly">
+				{{ t('cospend', 'Only consider past bills to compute balances') }}
+			</NcCheckboxRadioSwitch>
 		</div>
 	</div>
 </template>
@@ -24,8 +28,6 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadi
 
 import { loadState } from '@nextcloud/initial-state'
 
-const FEDERATION_ENABLED = loadState('cospend', 'federation_enabled', false)
-
 export default {
 	name: 'AdminSettings',
 
@@ -36,7 +38,7 @@ export default {
 
 	data() {
 		return {
-			isFederationEnabled: FEDERATION_ENABLED,
+			state: loadState('cospend', 'admin-settings', {}),
 			loading: false,
 		}
 	},
@@ -56,7 +58,16 @@ export default {
 			OCP.AppConfig.setValue('cospend', 'federation_enabled', value ? '1' : '0', {
 				success: () => {
 					this.loading = false
-					this.isFederationEnabled = value
+					this.state.isFederationEnabled = value
+				},
+			})
+		},
+		saveBalancePastBillsOnly(value) {
+			this.loading = true
+			OCP.AppConfig.setValue('cospend', 'balance_past_bills_only', value ? '1' : '0', {
+				success: () => {
+					this.loading = false
+					this.state.balance_past_bills_only = value
 				},
 			})
 		},

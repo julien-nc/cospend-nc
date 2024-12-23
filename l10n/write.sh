@@ -4,6 +4,7 @@ translationtool.phar convert-po-files
 cd -
 rename 's/fr_FR/fr/g' *.js*
 rename 's/es_ES/es/g' *.js*
+rename 's/gl_ES/gl/g' *.js*
 rename 's/de_DE/de/g' *.js*
 rename 's/ja_JP/ja/g' *.js*
 rename 's/ru_RU/ru/g' *.js*

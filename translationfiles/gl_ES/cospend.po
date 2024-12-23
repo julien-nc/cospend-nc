@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-10-27 17:48+0100\n"
-"PO-Revision-Date: 2024-10-27 16:51\n"
+"PO-Revision-Date: 2024-11-27 13:13\n"
 "Last-Translator: \n"
 "Language-Team: Galician\n"
 "Language: gl_ES\n"
@@ -1673,7 +1673,7 @@ msgstr "Definir unha data máxima para ter en conta as facturas só ata entón."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:265
 msgid "Useful if you want to settle at a precise date and ignore the bills created since then."
-msgstr "Útil se quere liquidar nunha data precisa e ignorar as facturas creadas dende entón."
+msgstr "Útil se quere liquidar nunha data precisa e ignorar as facturas creadas desde entón."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:266
 msgid "Automatic settlement will create bills one second before the maximum date."
@@ -1924,12 +1924,12 @@ msgstr "Crear un proxecto baleiro"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:345
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:368
 msgid "Import csv project"
-msgstr "Importar un proxecto dende CSV"
+msgstr "Importar un proxecto desde CSV"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:346
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:369
 msgid "Import SplitWise project"
-msgstr "Importar un proxecto dende SplitWise"
+msgstr "Importar un proxecto desde SplitWise"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:347
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:348

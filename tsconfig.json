@@ -5,7 +5,7 @@
     "declaration": true,
     "esModuleInterop": true,
     "lib": ["DOM", "ESNext"],
-    "noEmit": true,
+    "noEmit": false,
     "outDir": "./js",
     "plugins": [
       { "name": "typescript-plugin-css-modules" }

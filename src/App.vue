@@ -187,22 +187,22 @@ import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
 
-// import Statistics from './components/statistics/Statistics.vue'
-// import Settlement from './Settlement.vue'
-// import CospendNavigation from './components/CospendNavigation.vue'
-// import CospendSettingsDialog from './components/CospendSettingsDialog.vue'
-// import BillForm from './BillForm.vue'
-// import BillList from './BillList.vue'
-// import Sidebar from './components/Sidebar.vue'
-// import MoveToProjectList from './components/MoveToProjectList.vue'
-const Statistics = () => import('./components/statistics/Statistics.vue')
-const Settlement = () => import('./Settlement.vue')
-const CospendNavigation = () => import('./components/CospendNavigation.vue')
-const CospendSettingsDialog = () => import('./components/CospendSettingsDialog.vue')
-const BillForm = () => import('./BillForm.vue')
-const BillList = () => import('./BillList.vue')
-const Sidebar = () => import('./components/Sidebar.vue')
-const MoveToProjectList = () => import('./components/MoveToProjectList.vue')
+import Statistics from './components/statistics/Statistics.vue'
+import Settlement from './Settlement.vue'
+import CospendNavigation from './components/CospendNavigation.vue'
+import CospendSettingsDialog from './components/CospendSettingsDialog.vue'
+import BillForm from './BillForm.vue'
+import BillList from './BillList.vue'
+import Sidebar from './components/Sidebar.vue'
+import MoveToProjectList from './components/MoveToProjectList.vue'
+// const Statistics = () => import('./components/statistics/Statistics.vue')
+// const Settlement = () => import('./Settlement.vue')
+// const CospendNavigation = () => import('./components/CospendNavigation.vue')
+// const CospendSettingsDialog = () => import('./components/CospendSettingsDialog.vue')
+// const BillForm = () => import('./BillForm.vue')
+// const BillList = () => import('./BillList.vue')
+// const Sidebar = () => import('./components/Sidebar.vue')
+// const MoveToProjectList = () => import('./components/MoveToProjectList.vue')
 
 export default {
 	name: 'App',

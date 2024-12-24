@@ -7,7 +7,7 @@ import {
 	FilePickerType,
 } from '@nextcloud/dialogs'
 import * as network from './network.js'
-import { calculate } from './calc.ts'
+// import { calculate } from './calc.ts'
 
 export function importCospendProject(importBeginCallback, importSuccessCallback, importEndCallback) {
 	const picker = getFilePickerBuilder(t('cospend', 'Choose csv project file'))
@@ -138,7 +138,7 @@ export function evalAlgebricFormula(formula) {
 	let calc = 'a'
 	try {
 		const saneFormula = formula.replace(/[^-()\d/*+.]/g, '')
-		calc = parseFloat(calculate(saneFormula).toFixed(12))
+		// calc = parseFloat(calculate(saneFormula).toFixed(12))
 	} catch (err) {
 		console.error(err)
 	}

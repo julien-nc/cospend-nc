@@ -35,7 +35,7 @@ class Version030000Date20240910234723 extends SimpleMigrationStep {
 			// rename columns
 			if (!$table->hasColumn('user_id')) {
 				$table->addColumn('user_id', Types::STRING, [
-					'notnull' => true,
+					'notnull' => false,
 					'length' => 64,
 				]);
 				$schemaChanged = true;

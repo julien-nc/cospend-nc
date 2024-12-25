@@ -35,14 +35,14 @@ class Version030000Date20240911230019 extends SimpleMigrationStep {
 			// rename columns
 			if (!$table->hasColumn('project_id')) {
 				$table->addColumn('project_id', Types::STRING, [
-					'notnull' => true,
+					'notnull' => false,
 					'length' => 64,
 				]);
 				$schemaChanged = true;
 			}
 			if (!$table->hasColumn('payer_id')) {
 				$table->addColumn('payer_id', Types::BIGINT, [
-					'notnull' => true,
+					'notnull' => false,
 					'unsigned' => true,
 				]);
 				$schemaChanged = true;

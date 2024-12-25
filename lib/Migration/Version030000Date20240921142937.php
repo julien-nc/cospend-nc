@@ -35,14 +35,14 @@ class Version030000Date20240921142937 extends SimpleMigrationStep {
 			$table = $schema->getTable('cospend_bill_owers');
 			if (!$table->hasColumn('bill_id')) {
 				$table->addColumn('bill_id', Types::BIGINT, [
-					'notnull' => true,
+					'notnull' => false,
 					'unsigned' => true,
 				]);
 				$schemaChanged = true;
 			}
 			if (!$table->hasColumn('member_id')) {
 				$table->addColumn('member_id', Types::BIGINT, [
-					'notnull' => true,
+					'notnull' => false,
 					'unsigned' => true,
 				]);
 				$schemaChanged = true;
@@ -53,7 +53,7 @@ class Version030000Date20240921142937 extends SimpleMigrationStep {
 			$table = $schema->getTable('cospend_categories');
 			if (!$table->hasColumn('project_id')) {
 				$table->addColumn('project_id', Types::STRING, [
-					'notnull' => true,
+					'notnull' => false,
 					'length' => 64,
 				]);
 				$schemaChanged = true;
@@ -64,7 +64,7 @@ class Version030000Date20240921142937 extends SimpleMigrationStep {
 			$table = $schema->getTable('cospend_currencies');
 			if (!$table->hasColumn('project_id')) {
 				$table->addColumn('project_id', Types::STRING, [
-					'notnull' => true,
+					'notnull' => false,
 					'length' => 64,
 				]);
 				$schemaChanged = true;
@@ -75,7 +75,7 @@ class Version030000Date20240921142937 extends SimpleMigrationStep {
 			$table = $schema->getTable('cospend_paymentmodes');
 			if (!$table->hasColumn('project_id')) {
 				$table->addColumn('project_id', Types::STRING, [
-					'notnull' => true,
+					'notnull' => false,
 					'length' => 64,
 				]);
 				$schemaChanged = true;
@@ -86,7 +86,7 @@ class Version030000Date20240921142937 extends SimpleMigrationStep {
 			$table = $schema->getTable('cospend_shares');
 			if (!$table->hasColumn('project_id')) {
 				$table->addColumn('project_id', Types::STRING, [
-					'notnull' => true,
+					'notnull' => false,
 					'length' => 64,
 				]);
 				$schemaChanged = true;
@@ -112,7 +112,7 @@ class Version030000Date20240921142937 extends SimpleMigrationStep {
 			$table = $schema->getTable('cospend_members');
 			if (!$table->hasColumn('project_id')) {
 				$table->addColumn('project_id', Types::STRING, [
-					'notnull' => true,
+					'notnull' => false,
 					'length' => 64,
 				]);
 				$schemaChanged = true;

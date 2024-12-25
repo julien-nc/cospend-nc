@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.0.6 – 2024-12-25
+
+### Fixed
+
+- Fix migration adding incorrect NotNull constraint on oc_cospend_project.user_id
+
 ## 3.0.5 – 2024-12-24
 
 ### Fixed

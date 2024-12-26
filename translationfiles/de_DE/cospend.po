@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-10-27 17:48+0100\n"
-"PO-Revision-Date: 2024-12-25 00:10\n"
+"PO-Revision-Date: 2024-12-26 00:30\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -1634,7 +1634,7 @@ msgstr "Salden zum {date}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:251
 msgid "Global balances"
-msgstr ""
+msgstr "Globale Salden"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:254
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:255
@@ -2402,11 +2402,11 @@ msgstr "Gefilterter Saldo"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:536
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:538
 msgid "This balance is computed from the complete bill list"
-msgstr ""
+msgstr "Dieser Saldo wird anhand der vollständigen Rechnungsliste berechnet"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:537
 msgid "Global Balance"
-msgstr ""
+msgstr "Globale Saldo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:539
 msgid "Monthly paid per member"

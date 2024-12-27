@@ -30,7 +30,7 @@ class Version030007Date20241225163007 extends SimpleMigrationStep {
 			$table = $schema->getTable('cospend_projects');
 			if ($table->hasColumn('user_id')) {
 				$column = $table->getColumn('user_id');
-				$column->setNotnull(true);
+				$column->setNotnull(false);
 				$schemaChanged = true;
 			}
 		}

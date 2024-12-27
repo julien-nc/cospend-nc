@@ -524,7 +524,8 @@
                         ],
                         "properties": {
                             "userid": {
-                                "type": "string"
+                                "type": "string",
+                                "nullable": true
                             }
                         }
                     }

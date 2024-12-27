@@ -124,7 +124,7 @@ namespace OCA\Cospend;
  * }
  *
  * @psalm-type CospendProjectInfo = CospendPublicProjectInfo&array{
- *     userid: string,
+ *     userid: ?string,
  * }
  *
  * @psalm-type CospendPublicProjectInfoPlusExtra = CospendPublicProjectInfo&CospendExtraProjectInfo

@@ -17,8 +17,8 @@ use OCP\AppFramework\Db\Entity;
 /**
  * @method string getId()
  * @method void setId(string $id)
- * @method string getUserId()
- * @method void setUserId(string $userId)
+ * @method string|null getUserId()
+ * @method void setUserId(string|null $userId)
  * @method string getName()
  * @method void setName(string $name)
  * @method string getAutoExport()

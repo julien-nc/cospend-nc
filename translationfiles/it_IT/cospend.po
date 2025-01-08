@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-10-27 17:48+0100\n"
-"PO-Revision-Date: 2024-10-27 16:51\n"
+"PO-Revision-Date: 2025-01-08 14:00\n"
 "Last-Translator: \n"
 "Language-Team: Italian\n"
 "Language: it_IT\n"
@@ -77,7 +77,7 @@ msgstr "cerchio %1$s"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialAppInfoFakeDummyForL10nScript.php:2
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:575
 msgid "Cospend"
-msgstr ""
+msgstr "Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/Setting.php:49
 msgid "Changes in the <strong>Cospend app</strong>"
@@ -85,7 +85,7 @@ msgstr "Modifiche nella app <strong>Cospend</strong>"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:578
 msgid "You are not allowed to access the target project"
-msgstr ""
+msgstr "Non si hanno i permessi per accedere a questo progetto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:848
 msgid "You are not allowed to give such shared access level"
@@ -180,7 +180,7 @@ msgstr "Cospend accesso link condiviso"
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:203
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:261
 msgid "No such Cospend share link"
-msgstr ""
+msgstr "Collegamento di condivisione di Cospend inesistente"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Dashboard/CospendWidget.php:52
 msgid "Cospend activity"
@@ -192,12 +192,12 @@ msgstr "Id progetto non valido"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Middleware/PublicAuthMiddleware.php:59
 msgid "Project password is invalid"
-msgstr ""
+msgstr "Password del progetto non valida"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Middleware/PublicAuthMiddleware.php:70
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Middleware/UserPermissionMiddleware.php:54
 msgid "Insufficient access level"
-msgstr ""
+msgstr "Livello di accesso insufficiente"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:98
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:96
@@ -232,7 +232,7 @@ msgstr "Salute"
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:104
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:126
 msgid "Shopping"
-msgstr ""
+msgstr "Shopping"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:106
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:131
@@ -252,7 +252,7 @@ msgstr "Transporto"
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:109
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:146
 msgid "Sport"
-msgstr ""
+msgstr "Sport"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:73
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:81
@@ -314,30 +314,30 @@ msgstr "{user} ha smesso di condividere il progetto %s con te"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:134
 msgid "Cospend federated project shared"
-msgstr ""
+msgstr "Condivisione progetto federato di Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:135
 #, php-format
 msgid "%s (%s) shared Cospend project \"%s\" (%s) with you."
-msgstr ""
+msgstr "%s (%s) ha condiviso il progetto Cospend \"%s\" (%s)."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchBillProvider.php:65
 msgid "Cospend bills"
-msgstr ""
+msgstr "Spese Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchBillProvider.php:179
 #, php-format
 msgid "in %1$s"
-msgstr ""
+msgstr "in %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProjectProvider.php:62
 msgid "Cospend projects"
-msgstr ""
+msgstr "Progetti Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProjectProvider.php:139
 #, php-format
 msgid "Owned by %1$s"
-msgstr ""
+msgstr "Posseduta da %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:192
 #, php-format
@@ -421,7 +421,7 @@ msgstr "CSV malformato, nessun pagatore alla linea %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:579
 msgid "Malformed CSV, impossible to find the column names. Make sure your Splitwise account language is set to English first, then export the project again."
-msgstr ""
+msgstr "CSV malformato, impossibile trovare i nomi delle colonne. Assicurarsi che la lingua del'account Splitwise sia impostata prima all'inglese, quindi esportare di nuovo il progetto."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:677
 msgid "daily"
@@ -571,7 +571,7 @@ msgstr "Questo progetto ha già questo membro"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1487
 msgid "This project already has this member (user)"
-msgstr ""
+msgstr "Questo progetto ha già questo membro (utente)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2130
 msgid "There is no such bill"
@@ -584,12 +584,12 @@ msgstr "Scelta non valida"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2498
 msgid "Cannot match payer"
-msgstr ""
+msgstr "Impossibile abbinare il pagatore"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2528
 #, php-format
 msgid "Cannot create new bill: %1$s"
-msgstr ""
+msgstr "Impossibile creare una nuova spesa: %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2788
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2893
@@ -632,7 +632,7 @@ msgstr "Condivisione inesistente"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3234
 msgid "Invalid values"
-msgstr ""
+msgstr "Valori non validi"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3378
 msgid "No such group"
@@ -648,7 +648,7 @@ msgstr "L'app Circles non è abilitata"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3458
 msgid "Impossible to get the circle manager"
-msgstr ""
+msgstr "Impossibile ottenere il gestore del gruppo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3466
 msgid "No such circle"
@@ -660,7 +660,7 @@ msgstr "Già condiviso con questo circle"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/UserMigration/UserMigrator.php:173
 msgid "Cospend projects and user settings"
-msgstr ""
+msgstr "Impostazioni dei progetti Cospend e dell'utente"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialAppInfoFakeDummyForL10nScript.php:3
 msgid " "
@@ -669,44 +669,44 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:1
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "What do you want to do?"
-msgstr ""
+msgstr "Cosa si vuole fare?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:3
 msgid "These actions are also available in the sidebar project context menu."
-msgstr ""
+msgstr "Queste azioni sono disponibili anche nel menu contestuale del progetto nella barra laterale."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:134
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:152
 msgid "Create a bill"
-msgstr ""
+msgstr "Crea una spesa"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5
 msgid "Show project settings"
-msgstr ""
+msgstr "Mostra impostazioni progetto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6
 msgid "Share the project"
-msgstr ""
+msgstr "Condividi il progetto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:314
 msgid "Close the trash bin"
-msgstr ""
+msgstr "Chiudi il cestino"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:136
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:315
 msgid "Show the trash bin"
-msgstr ""
+msgstr "Mostra il cestino"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8
 msgid "Show project statistics"
-msgstr ""
+msgstr "Mostra statistiche del progetto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:9
 msgid "Show project settlement plan"
-msgstr ""
+msgstr "Mostra piano di risoluzione del progetto"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:10
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:11
@@ -727,15 +727,15 @@ msgstr "Impossibile eliminare la spesa"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:15
 msgid "Bill restored"
-msgstr ""
+msgstr "Spesa ripristinata"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:16
 msgid "Failed to restore bill"
-msgstr ""
+msgstr "Impossibile ripristinare la spesa"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:17
 msgid "Bills restored"
-msgstr ""
+msgstr "Spese ripristinate"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:18
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:180
@@ -744,7 +744,7 @@ msgstr "Impossibile eliminare le spese"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:19
 msgid "Trashbin has been cleared"
-msgstr ""
+msgstr "Il cestino è stato svuotato"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:20
 msgid "Member {name} already exists"

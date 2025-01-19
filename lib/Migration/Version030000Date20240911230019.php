@@ -6,6 +6,7 @@ namespace OCA\Cospend\Migration;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\Types;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
@@ -112,6 +113,15 @@ class Version030000Date20240911230019 extends SimpleMigrationStep {
 	 * @param array $options
 	 */
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
+		// refs https://github.com/julien-nc/cospend-nc/issues/328
+		$qb = $this->connection->getQueryBuilder();
+		$qb->update('cospend_bills');
+		$qb->set('paymentmodeid', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+			->where(
+				$qb->expr()->lt('paymentmodeid', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+			);
+		$qb->executeStatement();
+
 		$qb = $this->connection->getQueryBuilder();
 		$qb->update('cospend_bills');
 		$qb->set('project_id', 'projectid');

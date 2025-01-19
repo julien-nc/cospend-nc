@@ -22,15 +22,15 @@ import { hexToDarkerHex } from './utils.js'
 import * as network from './network.js'
 import cospend from './state.js'
 import '../css/cospend.scss'
-// import { linkTo } from '@nextcloud/router'
-// import { getRequestToken } from '@nextcloud/auth'
+import { linkTo } from '@nextcloud/router'
+import { getRequestToken } from '@nextcloud/auth'
 
 Vue.use(vueAwesomeCountdown, 'vac')
 Vue.use(VueClipboard)
 Vue.use(SmartTable)
 
-// __webpack_nonce__ = btoa(getRequestToken()) // eslint-disable-line
-// __webpack_public_path__ = linkTo('cospend', '', 'js/') // eslint-disable-line
+__webpack_nonce__ = btoa(getRequestToken()) // eslint-disable-line
+__webpack_public_path__ = linkTo('cospend', 'js/') // eslint-disable-line
 
 function restoreOptions() {
 	network.getOptionValues().then((response) => {

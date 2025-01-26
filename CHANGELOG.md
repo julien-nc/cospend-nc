@@ -4,12 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## 3.0.9 – 2025-01-26
+## 3.0.10 – 2025-01-26
+
+### Changed
+
+- Set Max NC version to 32
 
 ### Fixed
 
-- fix file picker by setting `__webpack_nonce__` and `__webpack_public_path__`
-- fix migration that could set negative values to bills.payment_mode_id (unsigned) because they existed in bills.paymentmodeid (not unsigned)
+- Fix file picker by setting `__webpack_nonce__` and `__webpack_public_path__`
+- Fix migration that could set negative values to bills.payment_mode_id (unsigned) because they existed in bills.paymentmodeid (not unsigned)
 
 ## 3.0.8 – 2024-12-25
 

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-10-27 17:48+0100\n"
-"PO-Revision-Date: 2024-10-27 16:51\n"
+"PO-Revision-Date: 2025-01-27 18:23\n"
 "Last-Translator: \n"
 "Language-Team: Catalan\n"
 "Language: ca_ES\n"
@@ -332,7 +332,7 @@ msgstr "a %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProjectProvider.php:62
 msgid "Cospend projects"
-msgstr ""
+msgstr "Projecte Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProjectProvider.php:139
 #, php-format
@@ -403,7 +403,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:642
 #, php-format
 msgid "Error when adding bill %1$s"
-msgstr ""
+msgstr "Error en afegir factura %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:497
 msgid "Malformed CSV, cannot have an empty ower"
@@ -632,7 +632,7 @@ msgstr "No es pot compartir"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3234
 msgid "Invalid values"
-msgstr ""
+msgstr "Valors no vàlids"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3378
 msgid "No such group"
@@ -727,7 +727,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:15
 msgid "Bill restored"
-msgstr ""
+msgstr "Factura recuperada"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:16
 msgid "Failed to restore bill"
@@ -735,7 +735,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:17
 msgid "Bills restored"
-msgstr ""
+msgstr "Factures recuperades"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:18
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:180
@@ -850,7 +850,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:44
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:319
 msgid "Duplicate bill"
-msgstr ""
+msgstr "Factura duplicada"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:45
 msgid "What?"
@@ -1102,11 +1102,11 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:112
 msgid "Create the bill"
-msgstr ""
+msgstr "Crear la factura"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:112
 msgid "Create the bills"
-msgstr ""
+msgstr "Crear les factures"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:113
 msgid "This is just a currency converter. Bill amount can be entered in another currency and then converted to \"{maincur}\". Value is always stored in \"{maincur}\"."
@@ -1126,11 +1126,11 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:117
 msgid "Failed to add category"
-msgstr ""
+msgstr "No s'ha pogut crear la categoria"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:118
 msgid "Impossible to save bill, invalid values"
-msgstr ""
+msgstr "No s'ha pogut desar la factura, valors invàlids"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:119
 msgid "Bill saved"
@@ -1166,7 +1166,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:129
 msgid "Bill created"
-msgstr ""
+msgstr "Factura creada"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:130
 msgid "Choose file"

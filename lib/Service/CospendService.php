@@ -757,7 +757,7 @@ class CospendService {
 				if (!$userFolder->nodeExists($outPath . '/' . $exportName)) {
 					$projectInfo = $this->localProjectService->getProjectInfoWithAccessLevel($dbProjectId, $uid);
 					$bills = $this->localProjectService->getBills($dbProjectId);
-					$this->exportCsvProject($dbProjectId, $uid, $projectInfo, $bills, $exportName);
+					$this->exportCsvProject($dbProjectId, $uid, $projectInfo, $bills['bills'] ?? [], $exportName);
 				}
 			}
 			$req->closeCursor();

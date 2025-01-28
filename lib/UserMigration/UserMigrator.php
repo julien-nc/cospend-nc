@@ -71,7 +71,7 @@ class UserMigrator implements IMigrator, ISizeEstimationMigrator {
 				$content = '';
 				$projectInfo = $this->localProjectService->getProjectInfoWithAccessLevel($project->getId(), $userId);
 				$bills = $this->localProjectService->getBills($project->getId());
-				foreach ($this->cospendService->getJsonProject($projectInfo, $bills) as $chunk) {
+				foreach ($this->cospendService->getJsonProject($projectInfo, $bills['bills'] ?? []) as $chunk) {
 					$content .= $chunk;
 				}
 				$exportDestination->addFileContents($exportFilePath, $content);

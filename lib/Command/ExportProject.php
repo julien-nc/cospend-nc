@@ -52,7 +52,7 @@ class ExportProject extends Base {
 		if ($dbProject !== null) {
 			$projectInfo = $this->localProjectService->getProjectInfoWithAccessLevel($projectId, $dbProject->getUserId());
 			$bills = $this->localProjectService->getBills($projectId);
-			$result = $this->cospendService->exportCsvProject($projectId, $dbProject->getUserId(), $projectInfo, $bills, $name);
+			$result = $this->cospendService->exportCsvProject($projectId, $dbProject->getUserId(), $projectInfo, $bills['bills'] ?? [], $name);
 			if (array_key_exists('path', $result)) {
 				$output->writeln(
 					'Project "' . $projectId . '" exported in "' . $result['path'] .

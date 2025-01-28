@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.0.11 – 2025-01-28
+
+### Fixed
+
+- Fix getting the bill list when migrating a user, for cron-autoexport and in the export command
+
 ## 3.0.10 – 2025-01-26
 
 ### Changed

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-10-27 17:48+0100\n"
-"PO-Revision-Date: 2025-01-29 09:35\n"
+"PO-Revision-Date: 2025-01-30 11:30\n"
 "Last-Translator: \n"
 "Language-Team: Italian\n"
 "Language: it_IT\n"
@@ -2147,7 +2147,7 @@ msgstr "Utenti"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:431
 msgid "More information on adding members"
-msgstr ""
+msgstr "Ulteriori informazioni sull'aggiunta di membri"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:433
 msgid "You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab."

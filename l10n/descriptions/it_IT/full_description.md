@@ -2,44 +2,44 @@
 
 Nextcloud Cospend è un budget manager condiviso/di gruppo. Ha tratto ispirazione dal grande [IHateMoney](https://github.com/spiral-project/ihatemoney/).
 
-You can use it when you share a house, when you go on vacation with friends, whenever you share expenses with a group of people.
+Puoi usarlo per condividere le spese di casa, delle vacanze con gli amici e in ogni altra occasione in cui condividi delle spese con altri.
 
-Permette di creare progetti con utenti e spese. Ogni utente ha un saldo derivante dalle spese del progetto. Balances are not an absolute amount of money at members disposal but rather a relative information showing if a member has spent more for the group than the group has spent for her/him, independently of exactly who spent money for whom. Così puoi vedere chi deve al gruppo quanto e quanto deve il gruppo a chi. Infine, puoi visualizzare un piano di rientro dal debito che indichi i pagamenti da effettuare per riportare a zero i saldi degli utenti.
+Permette di creare progetti con utenti e spese. Ogni utente ha un saldo derivante dalle spese del progetto. I saldi non sono un importo assoluto di denaro a disposizione dei membri, ma piuttosto un'informazione relativa che mostra se un membro ha speso più per il gruppo che il gruppo ha speso per lei/lui, indipendentemente da chi ha speso i soldi per chi. Così puoi vedere chi deve al gruppo quanto e quanto deve il gruppo a chi. Infine, puoi visualizzare un piano di rientro dal debito che indichi i pagamenti da effettuare per riportare a zero i saldi degli utenti.
 
-Gli utenti del progetto sono indipendenti dagli utenti Nextcloud. Projects can be shared with other Nextcloud users or via public links.
+Gli utenti del progetto sono indipendenti dagli utenti Nextcloud. I progetti possono essere condivisi con altri utenti Nextcloud o tramite link pubblici.
 
 Il client per Android [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) è [disponibile su F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) e sul [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
-[PayForMe](https://github.com/mayflower/PayForMe) iOS client is currently under developpement!
+[PayForMe](https://github.com/mayflower/PayForMe) è un client iOS attualmente in fase di sviluppo!
 
-The private and public APIs are documented using [the Nextcloud OpenAPI extractor](https://github.com/nextcloud/openapi-extractor/). This documentation can be accessed directly in Nextcloud. All you need is to install Cospend (>= v1.6.0) and use the [the OCS API Viewer app](https://apps.nextcloud.com/apps/ocs_api_viewer) to browse the OpenAPI documentation.
+Le API private e pubbliche sono documentate utilizzando [il Nextcloud OpenAPI extractor](https://github.com/nextcloud/openapi-extractor/). Questa documentazione può essere consultata direttamente su Nextcloud. Tutto quello che serve è installare Cospend (>= v1.6.) e utilizzare l' [l'app API OCS Viewer](https://apps.nextcloud.com/apps/ocs_api_viewer) per sfogliare la documentazione OpenAPI.
 
 ## Funzioni
 
-* ✎ Create/edit/delete projects, members, bills, bill categories, currencies
-* ⚖ Check member balances
-* 🗠 Display project statistics
-* ♻ Display settlement plan
-* Move bills from one project to another
-* Move bills to trash before actually deleting them
-* Archive old projects before deleting them
-* 🎇 Automatically create reimbursement bills from settlement plan
-* 🗓 Create recurring bills (day/week/month/year)
-* 📊 Optionally provide custom amount for each member in new bills
-* 🔗 Link personal files to bills (picture of physical receipt for example)
-* 👩 Public links for people outside Nextcloud (can be password protected)
-* 👫 Share projects with Nextcloud users/groups/circles
-* 🖫 Import/export projects as csv (compatible with csv files from IHateMoney and SplitWise)
-* 🔗 Generate link/QRCode to easily add projects in MoneyBuster
-* 🗲 Implement Nextcloud notifications and activity stream
+* ✎ Crea/modifica/elimina progetti, utenti, spese, categorie di spese, valute
+* ⚖ Controlla i saldi degli utenti
+* 🗠 Visualizza le statistiche del progetto
+* ♻ Visualizza il piano di compensazione del debito
+* Sposta le spese da un progetto a un altro
+* Sposta le spese nel cestino prima di eliminarle
+* Archivia i vecchi progetti prima di eliminarli
+* 🎇 Crea automaticamente le spese di rimborso dal piano di rientro del debito
+* 🗓 Crea spese ricorrenti (giorno/settimana/mese/anno)
+* 📊 Fornisci opzionalmente un importo personalizzato per ciascun utente nelle spese nuove
+* 🔗 Collega file personali alle spese (per esempio l'immagine della ricevuta fisica)
+* 👩 Link pubblici per le persone al di fuori di Nextcloud (può essere protetto da password)
+* 👫 Condividi progetti con utenti/gruppi/cerchie di Nextcloud
+* 🖫 Importa/esporta progetti in formato csv (compatibile con i file csv di IHateMoney e SplitWise)
+* 🔗 Genera link/codice QR per importare facilmente progetti in MoneyBuster
+* 🗲 Implementa le notifiche e il flusso di attività di Nextcloud
 
-This app usually support the 2 or 3 last major versions of Nextcloud.
+Questa app di solito supporta le ultime 2 o 3 versioni principali di Nextcloud.
 
 Questa app è in fase di sviluppo.
 
 🌍 Aiutaci a tradurre questa app su [Nextcloud-Cospend/MoneyBuster progetto Crowdin](https://crowdin.com/project/moneybuster).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://github.com/julien-nc/cospend-nc/blob/master/CONTRIBUTING.md).
+⚒️ Scopri altri modi per aiutare nelle [ linee guida su come contribuire](https://github.com/julien-nc/cospend-nc/blob/master/CONTRIBUTING.md).
 
 ## Documentazione
 
@@ -51,7 +51,7 @@ Questa app è in fase di sviluppo.
 
 ## Problemi noti
 
-* It does not make you rich
+* Non ti renderà ricco
 
 Ogni feedback é apprezzato.
 

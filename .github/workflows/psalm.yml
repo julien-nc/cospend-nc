@@ -38,8 +38,8 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        ocp-version: ['30', 'dev-master']
-        php-version: ['8.1', '8.2', '8.3']
+        ocp-version: ['30', 'dev-stable31', 'dev-master']
+        php-version: ['8.1', '8.2', '8.3', '8.4']
 
 
     name: Psalm, PHP ${{ matrix.php-version }}, OCP ${{ matrix.ocp-version }}

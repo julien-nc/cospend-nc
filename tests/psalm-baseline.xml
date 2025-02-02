@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
+<files psalm-version="6.1.0@827971f8bc7a28bb4f842f34bf8901521de1cea3">
+  <file src="lib/Db/ProjectMapper.php">
+    <InvalidArgument>
+      <code><![CDATA[$id]]></code>
+    </InvalidArgument>
+  </file>
   <file src="lib/Migration/Version000406Date20200426154317.php">
     <RedundantCast>
       <code><![CDATA[(int)$strId]]></code>

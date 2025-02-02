@@ -45,12 +45,12 @@
 				<referencedClass name="Doctrine\DBAL\Types\Type" />
 			</errorLevel>
 		</UndefinedDocblockClass>
-		<InvalidClass>
+		<!--InvalidClass>
 			<errorLevel type="suppress">
 				<referencedClass name="OCP\Db\Exception" />
 				<referencedClass name="OCP\AppFramework\Db\QBMapper" />
 			</errorLevel>
-		</InvalidClass>
+		</InvalidClass-->
 	</issueHandlers>
 	<stubs>
 		<file name="tests/stubs/oc_core_command_base.php" />

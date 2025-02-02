@@ -1,0 +1,90 @@
+name: phpunit-pgsql
+
+on:
+  push:
+    branches: [ main, test ]
+    paths:
+      - .github/workflows/phpunit.yml
+      - appinfo/**
+      - composer.*
+      - lib/**
+      - templates/**
+      - tests/**
+  pull_request:
+    branches: [ main ]
+    paths:
+      - .github/workflows/phpunit.yml
+      - appinfo/**
+      - composer.*
+      - lib/**
+      - templates/**
+      - tests/**
+
+env:
+  APP_ID: cospend
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['8.1', '8.2', '8.3', '8.4']
+        server-versions: ['stable30', 'stable31', 'master']
+        exclude:
+          - php-versions: 8.4
+            server-versions: stable30
+
+    name: php${{ matrix.php-versions }}-pgsql-${{ matrix.server-versions }}
+
+    services:
+      postgres:
+        image: postgres:14
+        ports:
+          - 4445:5432/tcp
+        env:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: rootpassword
+          POSTGRES_DB: nextcloud
+        options: --health-cmd pg_isready --health-interval 5s --health-timeout 2s --health-retries 5
+
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, intl, sqlite3, curl, xml, json, zip, gd
+          ini-values: post_max_size=256M, max_execution_time=180
+          #coverage: xdebug
+          #tools: php-cs-fixer
+
+      - uses: actions/checkout@v2
+
+      - name: Setup Nextcloud
+        run: |
+          export DEBIAN_FRONTEND=noninteractive
+          #sudo apt update -y
+          #sudo apt install python3-pip git sudo unzip curl wget sed make rsync -y
+          mkdir -p ~/html
+          echo "git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b ${{ matrix.server-versions }} ~/html/nextcloud"
+          git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b ${{ matrix.server-versions }} ~/html/nextcloud
+          sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' ~/html/nextcloud/lib/autoloader.php
+          cp -r $GITHUB_WORKSPACE ~/html/nextcloud/apps/${{ env.APP_ID }}
+          # SETUP NEXTCLOUD
+          export DB_PORT=4445
+          echo "php ~/html/nextcloud/occ maintenance:install --verbose --database=pgsql --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin"
+          php ~/html/nextcloud/occ maintenance:install --verbose --database=pgsql --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
+          php ~/html/nextcloud/occ app:enable --force ${{ env.APP_ID }}
+          php ~/html/nextcloud/occ maintenance:mode --off
+          echo "##### App is installed"
+          cd ~/html/nextcloud/apps/${{ env.APP_ID }}
+          composer i
+
+      - name: Perform PhpUnit tests
+        #if: ${{ !(matrix.databases == 'sqlite' && matrix.php-versions == '8.3' && matrix.server-versions == 'master') }}
+        run: |
+          cd ~/html/nextcloud/apps/${{ env.APP_ID }}
+          composer run phpunit && SUCCESS=yes || SUCCESS=no
+          if [ $SUCCESS = "yes" ]; then echo "TESTS PASSED"; else echo "TESTS FAILED"; exit 1; fi

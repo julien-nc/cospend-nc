@@ -1,4 +1,4 @@
-name: Phpunit tests
+name: phpunit-mysql
 
 on:
   push:
@@ -31,25 +31,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.1', '8.2', '8.3']
-        server-versions: ['stable30', 'master']
-        databases: ['sqlite', 'mysql', 'pgsql']
-        #php-versions: ['8.3']
-        #databases: ['sqlite']
-        #server-versions: ['master']
+        php-versions: ['8.1', '8.2', '8.3', '8.4']
+        server-versions: ['stable30', 'stable31', 'master']
+        exclude:
+          - php-versions: 8.4
+            server-versions: stable30
 
-    name: php${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
+    name: php${{ matrix.php-versions }}-mysql-${{ matrix.server-versions }}
 
     services:
-      postgres:
-        image: postgres:14
-        ports:
-          - 4445:5432/tcp
-        env:
-          POSTGRES_USER: root
-          POSTGRES_PASSWORD: rootpassword
-          POSTGRES_DB: nextcloud
-        options: --health-cmd pg_isready --health-interval 5s --health-timeout 2s --health-retries 5
       mysql:
         image: mariadb:10.5
         ports:
@@ -81,13 +71,9 @@ jobs:
           sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' ~/html/nextcloud/lib/autoloader.php
           cp -r $GITHUB_WORKSPACE ~/html/nextcloud/apps/${{ env.APP_ID }}
           # SETUP NEXTCLOUD
-          if [ "${{ matrix.databases }}" = "mysql" ]; then
-            export DB_PORT=4444
-          elif [ "${{ matrix.databases }}" = "pgsql" ]; then
-            export DB_PORT=4445
-          fi
-          echo "php ~/html/nextcloud/occ maintenance:install --verbose --database=${{ matrix.databases }} --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin"
-          php ~/html/nextcloud/occ maintenance:install --verbose --database=${{ matrix.databases }} --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
+          export DB_PORT=4444
+          echo "php ~/html/nextcloud/occ maintenance:install --verbose --database=mysql --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin"
+          php ~/html/nextcloud/occ maintenance:install --verbose --database=mysql --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
           php ~/html/nextcloud/occ app:enable --force ${{ env.APP_ID }}
           php ~/html/nextcloud/occ maintenance:mode --off
           echo "##### App is installed"

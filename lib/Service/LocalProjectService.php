@@ -332,7 +332,7 @@ class LocalProjectService implements IProjectService {
 		} catch (DoesNotExistException) {
 			throw new CospendBasicException('', Http::STATUS_NOT_FOUND, ['error' => 'project not found']);
 		}
-		$dbProjectId = $dbProject->getId();
+		$dbProjectId = (string)$dbProject->getId();
 
 		$smallStats = $this->getSmallStats($dbProjectId);
 		$members = $this->getMembers($dbProjectId, 'lowername');

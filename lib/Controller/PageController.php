@@ -134,12 +134,16 @@ class PageController extends Controller {
 
 		// add fill (fill is not present on black elements)
 		$fillRe = '/<((circle|rect|path)((?!fill)[a-z0-9 =".\-#():;,])+)\/>/mi';
-		$svg = preg_replace($fillRe, '<$1 fill="#' . $color . '"/>', $svg);
+		try {
+			$colorizedSvg = preg_replace($fillRe, '<$1 fill="#' . $color . '"/>', $svg);
 
-		// replace any fill or stroke colors
-		$svg = preg_replace('/stroke="#([a-z0-9]{3,6})"/mi', 'stroke="#' . $color . '"', $svg);
-		$svg = preg_replace('/fill="#([a-z0-9]{3,6})"/mi', 'fill="#' . $color . '"', $svg);
-		return $svg;
+			// replace any fill or stroke colors
+			$colorizedSvg = preg_replace('/stroke="#([a-z0-9]{3,6})"/mi', 'stroke="#' . $color . '"', $colorizedSvg);
+			$colorizedSvg = preg_replace('/fill="#([a-z0-9]{3,6})"/mi', 'fill="#' . $color . '"', $colorizedSvg);
+			return $colorizedSvg ?? $svg;
+		} catch (\Exception|\Throwable $e) {
+			return $svg;
+		}
 	}
 
 	/**

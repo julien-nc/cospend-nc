@@ -222,7 +222,7 @@ class ActivityManager {
 		if ($objectType === self::COSPEND_OBJECT_PROJECT) {
 			switch ($className) {
 				case Project::class:
-					$objectId = $entity->getId();
+					$objectId = (string)$entity->getId();
 					break;
 				default:
 					throw new InvalidArgumentException('No entity relation present for ' . $className . ' to ' . $objectType);

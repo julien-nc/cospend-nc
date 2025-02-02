@@ -158,6 +158,6 @@ class Utils {
 		$str = preg_replace('/\s+/', '-', $str);
 		$str = preg_replace('/-+/', '-', $str);
 		$str = preg_replace('/^-+/', '', $str);
-		return preg_replace('/-+$/', '', $str);
+		return preg_replace('/-+$/', '', $str) ?? $text;
 	}
 }

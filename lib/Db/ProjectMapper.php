@@ -104,11 +104,12 @@ class ProjectMapper extends QBMapper {
 		$project->setName($name);
 		$project->setLastChanged($ts);
 		$insertedProject = $this->insert($project);
+		$insertedProjectId = (string)$insertedProject->getId();
 
 		if ($createDefaultCategories) {
 			foreach ($defaultCategories as $defaultCategory) {
 				$category = new Category();
-				$category->setProjectId($insertedProject->getId());
+				$category->setProjectId($insertedProjectId);
 				$category->setName($defaultCategory['name']);
 				$category->setColor($defaultCategory['color']);
 				$category->setEncodedIcon(urlencode($defaultCategory['icon']));
@@ -119,7 +120,7 @@ class ProjectMapper extends QBMapper {
 		if ($createDefaultPaymentModes) {
 			foreach ($defaultPaymentModes as $defaultPm) {
 				$paymentMode = new PaymentMode();
-				$paymentMode->setProjectId($insertedProject->getId());
+				$paymentMode->setProjectId($insertedProjectId);
 				$paymentMode->setName($defaultPm['name']);
 				$paymentMode->setColor($defaultPm['color']);
 				$paymentMode->setEncodedIcon(urlencode($defaultPm['icon']));

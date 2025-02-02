@@ -67,10 +67,11 @@ class UserMigrator implements IMigrator, ISizeEstimationMigrator {
 		$projects = $this->projectMapper->getProjects($userId);
 		foreach ($projects as $project) {
 			try {
-				$exportFilePath = self::PROJECTS_PATH . '/' . $project->getId() . '.csv';
+				$projectId = (string)$project->getId();
+				$exportFilePath = self::PROJECTS_PATH . '/' . $projectId . '.csv';
 				$content = '';
-				$projectInfo = $this->localProjectService->getProjectInfoWithAccessLevel($project->getId(), $userId);
-				$bills = $this->localProjectService->getBills($project->getId());
+				$projectInfo = $this->localProjectService->getProjectInfoWithAccessLevel($projectId, $userId);
+				$bills = $this->localProjectService->getBills($projectId);
 				foreach ($this->cospendService->getJsonProject($projectInfo, $bills['bills'] ?? []) as $chunk) {
 					$content .= $chunk;
 				}

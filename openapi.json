@@ -3174,6 +3174,7 @@
             "delete": {
                 "operationId": "public_api-public-delete-project",
                 "summary": "Delete a project",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Projects"
                 ],
@@ -3296,6 +3297,7 @@
             "put": {
                 "operationId": "public_api-public-edit-project",
                 "summary": "Edit a project",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Projects"
                 ],
@@ -3456,6 +3458,7 @@
             "get": {
                 "operationId": "public_api-public-get-project-info",
                 "summary": "Get project information",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Projects"
                 ],
@@ -3592,6 +3595,7 @@
             "get": {
                 "operationId": "public_api-public-get-project-statistics",
                 "summary": "Get statistics data",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Projects"
                 ],
@@ -3770,6 +3774,7 @@
             "get": {
                 "operationId": "public_api-public-get-project-settlement",
                 "summary": "Get project settlement info",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Projects"
                 ],
@@ -3876,6 +3881,7 @@
             "get": {
                 "operationId": "public_api-public-auto-settlement",
                 "summary": "Get automatic settlement plan",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Projects"
                 ],
@@ -6025,6 +6031,7 @@
             "post": {
                 "operationId": "public_api-public-create-bill",
                 "summary": "Create a bill",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Bills"
                 ],
@@ -6235,6 +6242,7 @@
             "get": {
                 "operationId": "public_api-public-get-bills",
                 "summary": "Get a project's bill list",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Bills"
                 ],
@@ -6454,6 +6462,7 @@
             "delete": {
                 "operationId": "public_api-public-delete-bills",
                 "summary": "Delete multiple bills",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Bills"
                 ],
@@ -6640,6 +6649,7 @@
             "put": {
                 "operationId": "public_api-public-edit-bills",
                 "summary": "Edit multiple bills",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Bills"
                 ],
@@ -6866,6 +6876,7 @@
             "get": {
                 "operationId": "public_api-public-repeat-bill",
                 "summary": "Trigger bill repetition for a specific bill",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Bills"
                 ],
@@ -7020,6 +7031,7 @@
         "/ocs/v2.php/apps/cospend/api/{apiVersion}/public/projects/{token}/{password}/bills/{billId}": {
             "get": {
                 "operationId": "public_api-public-get-bill",
+                "summary": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Bills"
                 ],
@@ -7145,6 +7157,7 @@
             "delete": {
                 "operationId": "public_api-public-delete-bill",
                 "summary": "Delete a bill",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Bills"
                 ],
@@ -7328,6 +7341,7 @@
             "put": {
                 "operationId": "public_api-public-edit-bill",
                 "summary": "Edit a bill",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Bills"
                 ],
@@ -7549,6 +7563,7 @@
             "delete": {
                 "operationId": "public_api-public-clear-trash-bin",
                 "summary": "Clear the trash bin",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Projects"
                 ],
@@ -8347,6 +8362,7 @@
             "get": {
                 "operationId": "public_api-public-get-members",
                 "summary": "Get a project's member list",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Members"
                 ],
@@ -8445,6 +8461,7 @@
             "post": {
                 "operationId": "public_api-public-create-member",
                 "summary": "Create a project member",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Members"
                 ],
@@ -8609,6 +8626,7 @@
             "put": {
                 "operationId": "public_api-public-edit-member",
                 "summary": "Edit a project member",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Members"
                 ],
@@ -8770,6 +8788,7 @@
             "delete": {
                 "operationId": "public_api-public-delete-member",
                 "summary": "Delete or disable a member",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Members"
                 ],
@@ -11462,6 +11481,7 @@
             "post": {
                 "operationId": "public_api-public-create-currency",
                 "summary": "Create a currency",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Currencies"
                 ],
@@ -11607,6 +11627,7 @@
             "put": {
                 "operationId": "public_api-public-edit-currency",
                 "summary": "Edit a currency",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Currencies"
                 ],
@@ -11834,6 +11855,7 @@
             "delete": {
                 "operationId": "public_api-public-delete-currency",
                 "summary": "Delete a currency",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Currencies"
                 ],
@@ -12592,6 +12614,7 @@
             "post": {
                 "operationId": "public_api-public-create-payment-mode",
                 "summary": "Create a payment mode",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Payment-modes"
                 ],
@@ -12723,6 +12746,7 @@
             "put": {
                 "operationId": "public_api-public-edit-payment-mode",
                 "summary": "Edit a payment mode",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Payment-modes"
                 ],
@@ -12875,6 +12899,7 @@
             "delete": {
                 "operationId": "public_api-public-delete-payment-mode",
                 "summary": "Delete a payment mode",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Payment-modes"
                 ],
@@ -13006,6 +13031,7 @@
             "put": {
                 "operationId": "public_api-public-save-payment-mode-order",
                 "summary": "Save payment modes order",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Payment-modes"
                 ],
@@ -13779,6 +13805,7 @@
             "post": {
                 "operationId": "public_api-public-create-category",
                 "summary": "Create a category",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Categories"
                 ],
@@ -13910,6 +13937,7 @@
             "put": {
                 "operationId": "public_api-public-edit-category",
                 "summary": "Edit a category",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Categories"
                 ],
@@ -14062,6 +14090,7 @@
             "delete": {
                 "operationId": "public_api-public-delete-category",
                 "summary": "Delete a category",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Categories"
                 ],
@@ -14195,6 +14224,7 @@
             "put": {
                 "operationId": "public_api-public-save-category-order",
                 "summary": "Save categories order",
+                "description": "This endpoint allows CORS requests",
                 "tags": [
                     "Public-API_Categories"
                 ],

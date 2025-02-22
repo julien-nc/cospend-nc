@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-10-27 17:48+0100\n"
-"PO-Revision-Date: 2024-11-27 13:13\n"
+"PO-Revision-Date: 2025-02-22 11:09\n"
 "Last-Translator: \n"
 "Language-Team: Galician\n"
 "Language: gl_ES\n"
@@ -85,7 +85,7 @@ msgstr "Cambios na <strong>aplicación Cospend</strong>"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:578
 msgid "You are not allowed to access the target project"
-msgstr ""
+msgstr "Non ten permiso para acceder ao proxecto de destino"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:848
 msgid "You are not allowed to give such shared access level"
@@ -314,16 +314,16 @@ msgstr "{user} deixou de compartir o proxecto %s con Vde."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:134
 msgid "Cospend federated project shared"
-msgstr ""
+msgstr "Proxecto federado Cospend de gasto compartido"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:135
 #, php-format
 msgid "%s (%s) shared Cospend project \"%s\" (%s) with you."
-msgstr ""
+msgstr "O usuario %s (%s) compartiu o proxecto de gasto de Cospend «%s» (%s) con Vde."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchBillProvider.php:65
 msgid "Cospend bills"
-msgstr ""
+msgstr "Facturas de gastos"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchBillProvider.php:179
 #, php-format
@@ -337,7 +337,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProjectProvider.php:139
 #, php-format
 msgid "Owned by %1$s"
-msgstr ""
+msgstr "Propiedade de %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:192
 #, php-format
@@ -632,7 +632,7 @@ msgstr "Non existe esta compartición"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3234
 msgid "Invalid values"
-msgstr ""
+msgstr "Valores non válidos"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3378
 msgid "No such group"
@@ -760,11 +760,11 @@ msgstr "Produciuse un fallo ao obter os proxectos"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:23
 msgid "Failed to get federated project"
-msgstr ""
+msgstr "Produciuse un fallo ao obter un proxecto federado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:24
 msgid "Failed to get pending remote invitations"
-msgstr ""
+msgstr "Produciuse un fallo ao obter os convites remotos pendentes"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:25
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:26
@@ -1182,7 +1182,7 @@ msgstr "Lixo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:133
 msgid "Search bills"
-msgstr ""
+msgstr "Buscar facturas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:135
 msgid "Close trashbin"

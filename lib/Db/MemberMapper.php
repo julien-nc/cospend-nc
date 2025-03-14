@@ -167,4 +167,12 @@ class MemberMapper extends QBMapper {
 		}
 		return $billIds;
 	}
+
+	public function unsetMemberUserId(string $userId): void {
+		$qb = $this->db->getQueryBuilder();
+		$qb->update($this->getTableName())
+			->set('user_id', $qb->createNamedParameter(null))
+			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)));
+		$qb->executeStatement();
+	}
 }

@@ -17,6 +17,7 @@ use OCA\Cospend\Dashboard\CospendWidget;
 use OCA\Cospend\Federation\CloudFederationProviderCospend;
 use OCA\Cospend\Listener\BeforeTemplateRenderedListener;
 use OCA\Cospend\Listener\CSPListener;
+use OCA\Cospend\Listener\UserDeletedListener;
 use OCA\Cospend\Middleware\FederationMiddleware;
 use OCA\Cospend\Middleware\PublicAuthMiddleware;
 use OCA\Cospend\Middleware\UserPermissionMiddleware;
@@ -35,6 +36,7 @@ use OCP\Federation\ICloudFederationProviderManager;
 use OCP\IConfig;
 use OCP\Security\CSP\AddContentSecurityPolicyEvent;
 use OCP\Server;
+use OCP\User\Events\UserDeletedEvent;
 
 class Application extends App implements IBootstrap {
 
@@ -123,6 +125,7 @@ class Application extends App implements IBootstrap {
 		$context->registerCapability(Capabilities::class);
 		$context->registerEventListener(AddContentSecurityPolicyEvent::class, CSPListener::class);
 		$context->registerEventListener(BeforeTemplateRenderedEvent::class, BeforeTemplateRenderedListener::class);
+		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
 	}
 
 	public function boot(IBootContext $context): void {

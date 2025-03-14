@@ -18,6 +18,7 @@ use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\IUserManager;
 
 /**
  * @extends QBMapper<Member>
@@ -26,6 +27,7 @@ class MemberMapper extends QBMapper {
 
 	public function __construct(
 		IDBConnection $db,
+		private IUserManager $userManager,
 	) {
 		parent::__construct($db, 'cospend_members', Member::class);
 	}
@@ -182,5 +184,41 @@ class MemberMapper extends QBMapper {
 			->set('name', $qb->createNamedParameter($displayName))
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)));
 		$qb->executeStatement();
+	}
+
+	/**
+	 * Set user_id to null when it points to a user that does not exist
+	 *
+	 * @return array
+	 * @throws Exception
+	 */
+	public function cleanupUserMembers(): array {
+		$qbSelect = $this->db->getQueryBuilder();
+		$qbSelect->selectDistinct('user_id')
+			->from($this->getTableName())
+			->where(
+				$qbSelect->expr()->isNotNull('user_id')
+			);
+
+		$userIdsToCleanup = [];
+
+		$result = $qbSelect->executeQuery();
+		while ($row = $result->fetch()) {
+			$userId = $row['user_id'];
+			if ($this->userManager->get($userId) === null) {
+				$userIdsToCleanup[] = $userId;
+			}
+		}
+		$result->closeCursor();
+
+		$qbUpdate = $this->db->getQueryBuilder();
+		$qbUpdate->update($this->getTableName())
+			->set('user_id', $qbUpdate->createNamedParameter(null))
+			->where(
+				$qbUpdate->expr()->in('user_id', $qbUpdate->createNamedParameter($userIdsToCleanup, IQueryBuilder::PARAM_STR_ARRAY))
+			);
+		$qbUpdate->executeStatement();
+
+		return $userIdsToCleanup;
 	}
 }

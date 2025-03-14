@@ -3,7 +3,7 @@
 	<id>cospend</id>
 	<name>Cospend</name>
 	<summary> </summary><description> </description>
-	<version>3.0.11</version>
+	<version>3.0.12</version>
 	<licence>agpl</licence>
 	<author mail="julien-nc@posteo.net">Julien Veyssier</author>
 	<namespace>Cospend</namespace>
@@ -27,6 +27,11 @@
 		<job>OCA\Cospend\Cron\RepeatBills</job>
 		<job>OCA\Cospend\Cron\AutoExport</job>
 	</background-jobs>
+    <repair-steps>
+        <post-migration>
+            <step>OCA\Cospend\Migration\CleanupUserMembers</step>
+        </post-migration>
+    </repair-steps>
 	<settings>
 		<admin>OCA\Cospend\Settings\Admin</admin>
 	</settings>

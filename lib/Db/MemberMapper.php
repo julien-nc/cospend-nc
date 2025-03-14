@@ -175,4 +175,12 @@ class MemberMapper extends QBMapper {
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)));
 		$qb->executeStatement();
 	}
+
+	public function updateMemberNameByUserId(string $userId, string $displayName): void {
+		$qb = $this->db->getQueryBuilder();
+		$qb->update($this->getTableName())
+			->set('name', $qb->createNamedParameter($displayName))
+			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)));
+		$qb->executeStatement();
+	}
 }

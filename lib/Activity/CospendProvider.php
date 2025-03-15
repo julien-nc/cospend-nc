@@ -113,13 +113,15 @@ class CospendProvider implements IProvider {
 			}
 			$project = [
 				'type' => 'highlight',
-				'id' => $event->getObjectId(),
+				'id' => (string)$event->getObjectId(),
 				'name' => $event->getObjectName(),
 				'link' => $this->urlGenerator->linkToRouteAbsolute('cospend.page.indexProject', [
 					'projectId' => $event->getObjectId(),
 				]),
 			];
 			$params['project'] = $project;
+			// if there is a project involved, use the project link as the activity entry link
+			$event->setLink($project['link']);
 		}
 
 		if (isset($subjectParams['bill']) && $event->getObjectType() === ActivityManager::COSPEND_OBJECT_BILL) {
@@ -128,7 +130,7 @@ class CospendProvider implements IProvider {
 			}
 			$bill = [
 				'type' => 'highlight',
-				'id' => $event->getObjectId(),
+				'id' => (string)$event->getObjectId(),
 				'name' => $event->getObjectName(),
 			];
 
@@ -137,6 +139,8 @@ class CospendProvider implements IProvider {
 					'projectId' => $subjectParams['project']['id'],
 					'billId' => $event->getObjectId(),
 				]);
+				// if there is a bill involved, prefer the bill link as the activity entry link
+				$event->setLink($bill['link']);
 			}
 			$params['bill'] = $bill;
 		}
@@ -144,8 +148,6 @@ class CospendProvider implements IProvider {
 		$params = $this->parseParamForProject('project', $subjectParams, $params);
 		$params = $this->parseParamForBill('bill', $subjectParams, $params);
 		$params = $this->parseParamForWho($subjectParams, $params);
-
-		$event->setLink($subjectIdentifier);
 
 		try {
 			$subject = $this->activityManager->getActivityFormat($subjectIdentifier, $subjectParams, $ownActivity);
@@ -201,10 +203,16 @@ class CospendProvider implements IProvider {
 					$this->urlGenerator->imagePath('files', 'delete-color.svg')
 				)
 			);
-		} elseif ($event->getSubject() === 'project_share' || $event->getSubject() === 'project_unshare') {
+		} elseif ($event->getSubject() === 'project_share') {
 			$event->setIcon(
 				$this->urlGenerator->getAbsoluteURL(
 					$this->urlGenerator->imagePath('core', 'actions/share.svg')
+				)
+			);
+		} elseif ($event->getSubject() === 'project_unshare') {
+			$event->setIcon(
+				$this->urlGenerator->getAbsoluteURL(
+					$this->urlGenerator->imagePath('core', 'actions/unshare.svg')
 				)
 			);
 		}
@@ -215,7 +223,7 @@ class CospendProvider implements IProvider {
 		if (array_key_exists($paramName, $subjectParams)) {
 			$params[$paramName] = [
 				'type' => 'highlight',
-				'id' => $subjectParams[$paramName]['id'],
+				'id' => (string)$subjectParams[$paramName]['id'],
 				'name' => $this->projectNames[$subjectParams[$paramName]['id']] ?? $subjectParams[$paramName]['name'],
 				'link' => $this->urlGenerator->linkToRouteAbsolute('cospend.page.indexProject', [
 					'projectId' => $subjectParams[$paramName]['id'],
@@ -249,7 +257,7 @@ class CospendProvider implements IProvider {
 				$params['who'] = [
 					'type' => 'user',
 					'id' => $subjectParams['who'],
-					'name' => $user !== null ? $user->getDisplayName() : $subjectParams['who']
+					'name' => $user->getDisplayName(),
 				];
 			} elseif ($subjectParams['type'] === Application::SHARE_TYPE_GROUP) {
 				$group = $this->groupManager->get($subjectParams['who']);
@@ -259,7 +267,7 @@ class CospendProvider implements IProvider {
 				$params['who'] = [
 					'type' => 'highlight',
 					'id' => $subjectParams['who'],
-					'name' => $group !== null ? $group->getDisplayName() : $subjectParams['who']
+					'name' => $group->getDisplayName(),
 				];
 			} elseif ($subjectParams['type'] === Application::SHARE_TYPE_CIRCLE) {
 				$displayName = $this->l10n->t('circle %1$s', [$subjectParams['who']]);

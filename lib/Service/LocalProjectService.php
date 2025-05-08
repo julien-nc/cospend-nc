@@ -46,6 +46,7 @@ use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
+use OCP\Exceptions\AppConfigTypeConflictException;
 use OCP\Federation\ICloudIdManager;
 
 use OCP\IAppConfig;
@@ -327,6 +328,7 @@ class LocalProjectService implements IProjectService {
 	 * @throws DoesNotExistException
 	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
+	 * @throws AppConfigTypeConflictException
 	 */
 	public function getProjectInfo(string $projectId): array {
 		try {

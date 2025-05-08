@@ -55,6 +55,7 @@ use OCP\IDateTimeZone;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Security\ISecureRandom;
@@ -93,6 +94,7 @@ class LocalProjectService implements IProjectService {
 		private INotificationManager $notificationManager,
 		private IDBConnection $db,
 		private ISecureRandom $secureRandom,
+		private IUrlGenerator $urlGenerator,
 	) {
 		$this->defaultCategories = [
 			[
@@ -3117,21 +3119,24 @@ class LocalProjectService implements IProjectService {
 		$manager = $this->notificationManager;
 		$notification = $manager->createNotification();
 
+		/*
 		$acceptAction = $notification->createAction();
 		$acceptAction->setLabel('accept')
-			->setLink('/apps/cospend', 'GET');
+			->setLink($this->urlGenerator->linkToRouteAbsolute('cospend.page.index'), 'GET');
 
 		$declineAction = $notification->createAction();
 		$declineAction->setLabel('decline')
-			->setLink('/apps/cospend', 'GET');
+			->setLink($this->urlGenerator->linkToRouteAbsolute('cospend.page.index'), 'GET');
+		*/
 
 		$notification->setApp('cospend')
 			->setUser($userId)
 			->setDateTime(new DateTime())
 			->setObject('addusershare', $projectId)
 			->setSubject('add_user_share', [$fromUserId, $projectInfo['name']])
-			->addAction($acceptAction)
-			->addAction($declineAction);
+			// ->addAction($acceptAction)
+			// ->addAction($declineAction)
+		;
 
 		$manager->notify($notification);
 
@@ -3288,21 +3293,23 @@ class LocalProjectService implements IProjectService {
 			$manager = $this->notificationManager;
 			$notification = $manager->createNotification();
 
+			/*
 			$acceptAction = $notification->createAction();
 			$acceptAction->setLabel('accept')
-				->setLink('/apps/cospend', 'GET');
+				->setLink($this->urlGenerator->linkToRouteAbsolute('cospend.page.index'), 'GET');
 
 			$declineAction = $notification->createAction();
 			$declineAction->setLabel('decline')
-				->setLink('/apps/cospend', 'GET');
+				->setLink($this->urlGenerator->linkToRouteAbsolute('cospend.page.index'), 'GET');
+			*/
 
 			$notification->setApp('cospend')
 				->setUser($dbUserId)
 				->setDateTime(new DateTime())
 				->setObject('deleteusershare', $projectId)
 				->setSubject('delete_user_share', [$fromUserId, $projectInfo['name']])
-				->addAction($acceptAction)
-				->addAction($declineAction)
+				// ->addAction($acceptAction)
+				// ->addAction($declineAction)
 			;
 
 			$manager->notify($notification);

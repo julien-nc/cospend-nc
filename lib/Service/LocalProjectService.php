@@ -2973,6 +2973,18 @@ class LocalProjectService implements IProjectService {
 	}
 
 	/**
+	 * Generate a random share token for a project
+	 *
+	 * @return string
+	 */
+	private function generateShareToken() {
+		return $this->secureRandom->generate(
+			FederationManager::TOKEN_LENGTH,
+			ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS
+		);
+	}
+
+	/**
 	 * Add a federated shared access to a project
 	 *
 	 * @param string $projectId
@@ -3004,11 +3016,7 @@ class LocalProjectService implements IProjectService {
 			);
 		}
 
-		$shareToken = $this->secureRandom->generate(
-			FederationManager::TOKEN_LENGTH,
-			ISecureRandom::CHAR_HUMAN_READABLE
-		);
-
+		$shareToken = $this->generateShareToken();
 		$newShare = new Share();
 		$newShare->setProjectId($projectId);
 		$newShare->setUserId($shareToken);
@@ -3160,10 +3168,7 @@ class LocalProjectService implements IProjectService {
 	public function createPublicShare(
 		string $projectId, ?string $label = null, ?string $password = null, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT,
 	): array {
-		$shareToken = $this->secureRandom->generate(
-			FederationManager::TOKEN_LENGTH,
-			ISecureRandom::CHAR_HUMAN_READABLE
-		);
+		$shareToken = $this->generateShareToken();
 		$share = new Share();
 		$share->setProjectId($projectId);
 		$share->setUserId($shareToken);

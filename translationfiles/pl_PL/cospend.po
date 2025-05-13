@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-10-27 17:48+0100\n"
-"PO-Revision-Date: 2025-05-08 12:47\n"
+"PO-Revision-Date: 2025-05-13 18:53\n"
 "Last-Translator: \n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -1595,7 +1595,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:232
 msgid "Center settlement on"
-msgstr "Rozliczenie główne nakierowane na"
+msgstr "Rozliczenie nakierowane na"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:233
 msgid "Nobody (optimal)"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-10-27 17:48+0100\n"
-"PO-Revision-Date: 2025-05-13 18:53\n"
+"PO-Revision-Date: 2025-05-14 18:50\n"
 "Last-Translator: \n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -894,7 +894,7 @@ msgstr "Możesz wpisać proste operacje arytmetyczne i potwierdzić, naciskając
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:54
 msgid "Convert to"
-msgstr "Przelicz na"
+msgstr "Waluta rachunku"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:56
 msgid "More information on currency conversion"
@@ -1552,7 +1552,7 @@ msgstr "Kurs wymiany na główną walutę"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:220
 msgid "(1 of this currency = X of main currency)"
-msgstr "(1 z tej waluty = x głównej waluty)"
+msgstr "(np. x3.8182031306975) waluty głównej"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:221
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:222

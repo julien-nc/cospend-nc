@@ -14,7 +14,8 @@ on:
       - 'tests/**'
       - 'vendor/**'
       - 'vendor-bin/**'
-      - composer.*
+      - composer.lock
+      - composer.json
   pull_request:
     paths:
       - 'lib/**'
@@ -22,7 +23,8 @@ on:
       - 'tests/**'
       - 'vendor/**'
       - 'vendor-bin/**'
-      - composer.*
+      - composer.lock
+      - composer.json
 
 permissions:
   contents: read
@@ -44,7 +46,7 @@ jobs:
       - name: Set up php
         uses: shivammathur/setup-php@c5fc0d8281aba02c7fda07d3a70cc5371548067d # v2
         with:
-          php-version: 8.1
+          php-version: 8.2
           coverage: none
           ini-file: development
         env:

@@ -1318,6 +1318,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -1464,32 +1465,39 @@
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "autoExport": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "currencyName": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "deletionDisabled": {
                                         "type": "boolean",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "categorySort": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "paymentModeSort": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "archivedTs": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     }
                                 }
                             }
@@ -1512,6 +1520,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -1657,6 +1666,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -1815,6 +1825,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -1825,7 +1836,8 @@
                         "in": "query",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -2215,6 +2227,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -2226,7 +2239,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -2235,7 +2249,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -2244,7 +2259,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -2253,7 +2269,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -2262,7 +2279,8 @@
                         "schema": {
                             "type": "number",
                             "format": "double",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -2271,7 +2289,8 @@
                         "schema": {
                             "type": "number",
                             "format": "double",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -2288,7 +2307,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -2297,7 +2317,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -2420,6 +2441,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -2431,7 +2453,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -2440,7 +2463,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -2449,7 +2473,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -2458,7 +2483,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -2467,7 +2493,8 @@
                         "schema": {
                             "type": "number",
                             "format": "double",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -2476,7 +2503,8 @@
                         "schema": {
                             "type": "number",
                             "format": "double",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -2494,7 +2522,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -2629,6 +2658,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -2641,7 +2671,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -2651,7 +2682,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -2764,6 +2796,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -2775,7 +2808,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -2793,7 +2827,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -2939,6 +2974,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -2950,7 +2986,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -2959,7 +2996,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -3241,6 +3279,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -3357,32 +3396,39 @@
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "autoExport": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "currencyName": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "deletionDisabled": {
                                         "type": "boolean",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "categorySort": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "paymentModeSort": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "archivedTs": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     }
                                 }
                             }
@@ -3405,6 +3451,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -3525,6 +3572,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -3662,6 +3710,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -3682,7 +3731,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -3691,7 +3741,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -3700,7 +3751,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -3709,7 +3761,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -3718,7 +3771,8 @@
                         "schema": {
                             "type": "number",
                             "format": "double",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -3727,7 +3781,8 @@
                         "schema": {
                             "type": "number",
                             "format": "double",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -3744,7 +3799,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -3753,7 +3809,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -3841,6 +3898,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -3861,7 +3919,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -3870,7 +3929,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -3948,6 +4008,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -3968,7 +4029,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -3986,7 +4048,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -4091,43 +4154,52 @@
                                 "properties": {
                                     "date": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "what": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "payer": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "payedFor": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "amount": {
                                         "type": "number",
                                         "format": "double",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "repeat": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "paymentMode": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "paymentModeId": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "categoryId": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "repeatAllActive": {
                                         "type": "integer",
@@ -4136,21 +4208,25 @@
                                     },
                                     "repeatUntil": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "timestamp": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "comment": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "repeatFreq": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     }
                                 }
                             }
@@ -4173,6 +4249,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -4329,6 +4406,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -4340,7 +4418,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -4359,7 +4438,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -4380,7 +4460,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -4389,7 +4470,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -4398,7 +4480,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -4407,7 +4490,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -4415,7 +4499,8 @@
                         "in": "query",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -4564,6 +4649,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -4636,7 +4722,7 @@
                         }
                     },
                     "404": {
-                        "description": "",
+                        "description": "The bill was not found",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4747,70 +4833,85 @@
                                     "categoryId": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "date": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "what": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "payer": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "payedFor": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "amount": {
                                         "type": "number",
                                         "format": "double",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "repeat": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "paymentMode": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "paymentModeId": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "repeatAllActive": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "repeatUntil": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "timestamp": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "comment": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "repeatFreq": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "deleted": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     }
                                 }
                             }
@@ -4833,6 +4934,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -4994,6 +5096,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -5002,6 +5105,7 @@
                     {
                         "name": "billId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -5148,6 +5252,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -5156,6 +5261,7 @@
                     {
                         "name": "billId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -5350,71 +5456,86 @@
                                 "properties": {
                                     "date": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "what": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "payer": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "payedFor": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "amount": {
                                         "type": "number",
                                         "format": "double",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "repeat": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "paymentMode": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "paymentModeId": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "categoryId": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "repeatAllActive": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "repeatUntil": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "timestamp": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "comment": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "repeatFreq": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "deleted": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     }
                                 }
                             }
@@ -5437,6 +5558,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -5445,6 +5567,7 @@
                     {
                         "name": "billId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -5604,6 +5727,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -5652,7 +5776,7 @@
                         }
                     },
                     "424": {
-                        "description": "",
+                        "description": "Failed to clear the trash bin",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -5737,6 +5861,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -5745,6 +5870,7 @@
                     {
                         "name": "billId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -5915,6 +6041,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -5923,6 +6050,7 @@
                     {
                         "name": "billId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -6091,25 +6219,30 @@
                                 "properties": {
                                     "date": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "what": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "payer": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "payedFor": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "amount": {
                                         "type": "number",
                                         "format": "double",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "repeat": {
                                         "type": "string",
@@ -6117,17 +6250,20 @@
                                     },
                                     "paymentMode": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "paymentModeId": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "categoryId": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "repeatAllActive": {
                                         "type": "integer",
@@ -6136,21 +6272,25 @@
                                     },
                                     "repeatUntil": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "timestamp": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "comment": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "repeatFreq": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     }
                                 }
                             }
@@ -6173,6 +6313,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -6309,6 +6450,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -6329,7 +6471,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -6348,7 +6491,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -6369,7 +6513,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -6378,7 +6523,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -6387,7 +6533,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -6396,7 +6543,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -6404,7 +6552,8 @@
                         "in": "query",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -6529,6 +6678,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -6720,29 +6870,35 @@
                                     "categoryId": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "date": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "what": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "payer": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "payedFor": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "amount": {
                                         "type": "number",
                                         "format": "double",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "repeat": {
                                         "type": "string",
@@ -6751,40 +6907,48 @@
                                     },
                                     "paymentMode": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "paymentModeId": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "repeatAllActive": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "repeatUntil": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "timestamp": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "comment": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "repeatFreq": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "deleted": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     }
                                 }
                             }
@@ -6807,6 +6971,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -6943,6 +7108,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -6960,6 +7126,7 @@
                     {
                         "name": "billId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -7098,6 +7265,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -7115,6 +7283,7 @@
                     {
                         "name": "billId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -7224,6 +7393,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -7241,6 +7411,7 @@
                     {
                         "name": "billId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -7401,25 +7572,30 @@
                                 "properties": {
                                     "date": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "what": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "payer": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "payedFor": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "amount": {
                                         "type": "number",
                                         "format": "double",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "repeat": {
                                         "type": "string",
@@ -7427,45 +7603,54 @@
                                     },
                                     "paymentMode": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "paymentModeId": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "categoryId": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "repeatAllActive": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "repeatUntil": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "timestamp": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "comment": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "repeatFreq": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "deleted": {
                                         "type": "integer",
                                         "format": "int64",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     }
                                 }
                             }
@@ -7488,6 +7673,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -7505,6 +7691,7 @@
                     {
                         "name": "billId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -7630,6 +7817,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -7750,6 +7938,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -7761,7 +7950,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -7873,7 +8063,8 @@
                                     },
                                     "userId": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "weight": {
                                         "type": "number",
@@ -7887,7 +8078,8 @@
                                     },
                                     "color": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     }
                                 }
                             }
@@ -7910,6 +8102,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -8070,23 +8263,28 @@
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "weight": {
                                         "type": "number",
                                         "format": "double",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "activated": {
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "color": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "userId": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     }
                                 }
                             }
@@ -8109,6 +8307,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -8117,6 +8316,7 @@
                     {
                         "name": "memberId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -8274,6 +8474,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -8282,6 +8483,7 @@
                     {
                         "name": "memberId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -8429,6 +8631,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -8449,7 +8652,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -8537,11 +8741,13 @@
                                     },
                                     "color": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "userId": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     }
                                 }
                             }
@@ -8564,6 +8770,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -8686,23 +8893,28 @@
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "weight": {
                                         "type": "number",
                                         "format": "double",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "activated": {
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "color": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "userId": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     }
                                 }
                             }
@@ -8725,6 +8937,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -8742,6 +8955,7 @@
                     {
                         "name": "memberId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -8855,6 +9069,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -8872,6 +9087,7 @@
                     {
                         "name": "memberId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -9019,6 +9235,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -9143,6 +9360,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -9151,6 +9369,7 @@
                     {
                         "name": "shId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -9342,6 +9561,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -9466,6 +9686,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -9474,6 +9695,7 @@
                     {
                         "name": "shId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -9665,6 +9887,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -9789,6 +10012,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -9797,6 +10021,7 @@
                     {
                         "name": "shId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -9958,11 +10183,13 @@
                                 "properties": {
                                     "label": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "password": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "accessLevel": {
                                         "type": "integer",
@@ -9990,6 +10217,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -10081,6 +10309,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -10089,6 +10318,7 @@
                     {
                         "name": "shId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -10176,7 +10406,7 @@
                         }
                     },
                     "401": {
-                        "description": "",
+                        "description": "The user is not authorized to delete this public share",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -10284,6 +10514,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -10413,6 +10644,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -10421,6 +10653,7 @@
                     {
                         "name": "shId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -10608,6 +10841,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -10616,6 +10850,7 @@
                     {
                         "name": "shId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -10780,11 +11015,13 @@
                                 "properties": {
                                     "label": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "password": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     }
                                 }
                             }
@@ -10807,6 +11044,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -10815,6 +11053,7 @@
                     {
                         "name": "shId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -11047,6 +11286,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -11096,7 +11336,7 @@
                         }
                     },
                     "424": {
-                        "description": "",
+                        "description": "Failed to create the currency",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -11195,6 +11435,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -11203,6 +11444,7 @@
                     {
                         "name": "currencyId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -11355,7 +11597,6 @@
             "delete": {
                 "operationId": "api-delete-currency",
                 "summary": "Delete a currency",
-                "description": "* @throws MultipleObjectsReturnedException",
                 "tags": [
                     "Currencies"
                 ],
@@ -11383,6 +11624,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -11391,6 +11633,7 @@
                     {
                         "name": "currencyId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -11506,7 +11749,7 @@
                         }
                     },
                     "500": {
-                        "description": "",
+                        "description": "                  * @throws MultipleObjectsReturnedException",
                         "content": {
                             "text/plain": {
                                 "schema": {
@@ -11571,6 +11814,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -11717,6 +11961,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -11734,6 +11979,7 @@
                     {
                         "name": "currencyId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -11922,6 +12168,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -11939,6 +12186,7 @@
                     {
                         "name": "currencyId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -12086,6 +12334,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -12194,15 +12443,18 @@
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "icon": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "color": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     }
                                 }
                             }
@@ -12225,6 +12477,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -12233,6 +12486,7 @@
                     {
                         "name": "pmId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -12389,6 +12643,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -12397,6 +12652,7 @@
                     {
                         "name": "pmId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -12446,7 +12702,7 @@
                         }
                     },
                     "424": {
-                        "description": "",
+                        "description": "Failed to delete the payment mode",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -12558,6 +12814,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -12606,7 +12863,7 @@
                         }
                     },
                     "424": {
-                        "description": "",
+                        "description": "Failed to save the payment mode order",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -12713,6 +12970,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -12806,15 +13064,18 @@
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "icon": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "color": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     }
                                 }
                             }
@@ -12837,6 +13098,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -12854,6 +13116,7 @@
                     {
                         "name": "pmId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -12966,6 +13229,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -12983,6 +13247,7 @@
                     {
                         "name": "pmId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -13133,6 +13398,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -13265,6 +13531,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -13314,7 +13581,7 @@
                         }
                     },
                     "424": {
-                        "description": "",
+                        "description": "Failed to create the category",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -13383,15 +13650,18 @@
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "icon": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "color": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     }
                                 }
                             }
@@ -13414,6 +13684,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -13422,6 +13693,7 @@
                     {
                         "name": "categoryId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -13578,6 +13850,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -13586,6 +13859,7 @@
                     {
                         "name": "categoryId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -13635,7 +13909,7 @@
                         }
                     },
                     "424": {
-                        "description": "",
+                        "description": "Failed to delete the category",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -13746,6 +14020,7 @@
                     {
                         "name": "projectId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -13797,7 +14072,7 @@
                         }
                     },
                     "424": {
-                        "description": "",
+                        "description": "Failed to save the category order",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -13904,6 +14179,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -13997,15 +14273,18 @@
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "icon": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     },
                                     "color": {
                                         "type": "string",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "default": null
                                     }
                                 }
                             }
@@ -14028,6 +14307,7 @@
                     {
                         "name": "token",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -14045,6 +14325,7 @@
                     {
                         "name": "categoryId",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -14385,7 +14666,7 @@
                         }
                     },
                     "400": {
-                        "description": "",
+                        "description": "Not saved",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -14452,6 +14733,7 @@
                     {
                         "name": "size",
                         "in": "path",
+                        "description": "",
                         "required": true,
                         "schema": {
                             "type": "integer",

@@ -682,7 +682,7 @@ class ApiController extends OCSController {
 	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 *
 	 * 200: The trash bin was successfully cleared
-	 * 400: Failed to clear the trash bin
+	 * 424: Failed to clear the trash bin
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
@@ -738,7 +738,7 @@ class ApiController extends OCSController {
 	 * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: Bills were successfully deleted
-	 * 403: This action is forbidden
+	 * 404: The bill was not found
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
@@ -958,7 +958,7 @@ class ApiController extends OCSController {
 	 * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: The payment mode order was successfully saved
-	 * 400: Failed to save the payment mode order
+	 * 424: Failed to save the payment mode order
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
@@ -984,7 +984,7 @@ class ApiController extends OCSController {
 	 * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: The payment mode was successfully deleted
-	 * 400: Failed to delete the payment mode
+	 * 424: Failed to delete the payment mode
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
@@ -1011,7 +1011,7 @@ class ApiController extends OCSController {
 	 * @throws Exception
 	 *
 	 * 200: The category was successfully created
-	 * 400: Failed to create the category
+	 * 424: Failed to create the category
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
@@ -1071,7 +1071,7 @@ class ApiController extends OCSController {
 	 * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: The category order was successfully saved
-	 * 400: Failed to save the category order
+	 * 424: Failed to save the category order
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
@@ -1097,7 +1097,7 @@ class ApiController extends OCSController {
 	 * @throws MultipleObjectsReturnedException
 	 *
 	 * 200: The category was successfully deleted
-	 * 400: Failed to delete the category
+	 * 424: Failed to delete the category
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
@@ -1122,7 +1122,7 @@ class ApiController extends OCSController {
 	 * @throws Exception
 	 *
 	 * 200: The currency was successfully created
-	 * 400: Failed to create the currency
+	 * 424: Failed to create the currency
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
@@ -1334,7 +1334,6 @@ class ApiController extends OCSController {
 	 * @throws Exception
 	 *
 	 * 200: The public share was successfully created
-	 * 400: Failed to create the public share
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
@@ -1358,7 +1357,7 @@ class ApiController extends OCSController {
 	 *
 	 * 200: The public share was successfully deleted
 	 * 400: Failed to delete the public share
-	 * 403: The user is not authorized to delete this public share
+	 * 401: The user is not authorized to delete this public share
 	 */
 	#[NoAdminRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]

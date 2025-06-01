@@ -918,7 +918,7 @@ class PublicApiController extends OCSController {
 	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 *
 	 * 200: Categories order is saved
-	 * 403: Not saved
+	 * 400: Not saved
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]

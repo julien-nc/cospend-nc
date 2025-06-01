@@ -590,6 +590,7 @@ class LocalProjectService implements IProjectService {
 		$allMembersKey = 0;
 		foreach ($bills as $bill) {
 			$payerId = $bill['payer_id'];
+			/** @var float $amount */
 			$amount = $bill['amount'];
 			$owers = $bill['owers'];
 			$date = DateTime::createFromFormat('U', (string)$bill['timestamp']);
@@ -600,9 +601,9 @@ class LocalProjectService implements IProjectService {
 			if (!array_key_exists($month, $memberMonthlyPaidStats)) {
 				$memberMonthlyPaidStats[$month] = [];
 				foreach ($membersToDisplay as $memberId => $member) {
-					$memberMonthlyPaidStats[$month][$memberId] = 0;
+					$memberMonthlyPaidStats[$month][$memberId] = 0.0;
 				}
-				$memberMonthlyPaidStats[$month][$allMembersKey] = 0;
+				$memberMonthlyPaidStats[$month][$allMembersKey] = 0.0;
 			}
 
 			// add paid amount
@@ -615,9 +616,9 @@ class LocalProjectService implements IProjectService {
 			if (!array_key_exists($month, $memberMonthlySpentStats)) {
 				$memberMonthlySpentStats[$month] = [];
 				foreach ($membersToDisplay as $memberId => $member) {
-					$memberMonthlySpentStats[$month][$memberId] = 0;
+					$memberMonthlySpentStats[$month][$memberId] = 0.0;
 				}
-				$memberMonthlySpentStats[$month][$allMembersKey] = 0;
+				$memberMonthlySpentStats[$month][$allMembersKey] = 0.0;
 			}
 			// spent value for all members is the bill amount (like the paid value)
 			$memberMonthlySpentStats[$month][$allMembersKey] += $amount;
@@ -652,35 +653,35 @@ class LocalProjectService implements IProjectService {
 			////////////////////// PAID
 			$averagePaidStats = [];
 			foreach ($membersToDisplay as $memberId => $member) {
-				$sum = 0;
+				$sum = 0.0;
 				foreach ($memberMonthlyPaidStats as $month => $mStat) {
 					$sum += $memberMonthlyPaidStats[$month][$memberId];
 				}
-				$averagePaidStats[$memberId] = $sum / $nbMonth;
+				$averagePaidStats[$memberId] = $sum / (float)$nbMonth;
 			}
 			// average for all members
-			$sum = 0;
+			$sum = 0.0;
 			foreach ($memberMonthlyPaidStats as $month => $mStat) {
 				$sum += $memberMonthlyPaidStats[$month][$allMembersKey];
 			}
-			$averagePaidStats[$allMembersKey] = $sum / $nbMonth;
+			$averagePaidStats[$allMembersKey] = $sum / (float)$nbMonth;
 
 			$memberMonthlyPaidStats[$averageKey] = $averagePaidStats;
 			////////////////////// SPENT
 			$averageSpentStats = [];
 			foreach ($membersToDisplay as $memberId => $member) {
-				$sum = 0;
+				$sum = 0.0;
 				foreach ($memberMonthlySpentStats as $month => $mStat) {
 					$sum += $memberMonthlySpentStats[$month][$memberId];
 				}
-				$averageSpentStats[$memberId] = $sum / $nbMonth;
+				$averageSpentStats[$memberId] = $sum / (float)$nbMonth;
 			}
 			// average for all members
-			$sum = 0;
+			$sum = 0.0;
 			foreach ($memberMonthlySpentStats as $month => $mStat) {
 				$sum += $memberMonthlySpentStats[$month][$allMembersKey];
 			}
-			$averageSpentStats[$allMembersKey] = $sum / $nbMonth;
+			$averageSpentStats[$allMembersKey] = $sum / (float)$nbMonth;
 
 			$memberMonthlySpentStats[$averageKey] = $averageSpentStats;
 		}
@@ -712,9 +713,10 @@ class LocalProjectService implements IProjectService {
 			) {
 				$billCategoryId = 0;
 			}
+			/** @var float $amount */
 			$amount = $bill['amount'];
 			if (!array_key_exists($billCategoryId, $categoryStats)) {
-				$categoryStats[$billCategoryId] = 0;
+				$categoryStats[$billCategoryId] = 0.0;
 			}
 			$categoryStats[$billCategoryId] += $amount;
 
@@ -723,9 +725,8 @@ class LocalProjectService implements IProjectService {
 			if (!array_key_exists(strval($paymentModeId), $projectPaymentModes)) {
 				$paymentModeId = 0;
 			}
-			$amount = $bill['amount'];
 			if (!array_key_exists($paymentModeId, $paymentModeStats)) {
-				$paymentModeStats[$paymentModeId] = 0;
+				$paymentModeStats[$paymentModeId] = 0.0;
 			}
 			$paymentModeStats[$paymentModeId] += $amount;
 		}
@@ -748,11 +749,12 @@ class LocalProjectService implements IProjectService {
 			) {
 				$billCategoryId = 0;
 			}
+			/** @var float $amount */
 			$amount = $bill['amount'];
 			if (!array_key_exists($billCategoryId, $categoryMemberStats)) {
 				$categoryMemberStats[$billCategoryId] = [];
 				foreach ($membersToDisplay as $memberId => $member) {
-					$categoryMemberStats[$billCategoryId][$memberId] = 0;
+					$categoryMemberStats[$billCategoryId][$memberId] = 0.0;
 				}
 			}
 			if (array_key_exists($payerId, $membersToDisplay)) {
@@ -771,6 +773,7 @@ class LocalProjectService implements IProjectService {
 		$categoryMonthlyStats = [];
 		$paymentModeMonthlyStats = [];
 		foreach ($bills as $bill) {
+			/** @var float $amount */
 			$amount = $bill['amount'];
 			$date = DateTime::createFromFormat('U', (string)$bill['timestamp']);
 			$date->setTimezone($timeZone);
@@ -782,7 +785,7 @@ class LocalProjectService implements IProjectService {
 				$categoryMonthlyStats[$billCategoryId] = [];
 			}
 			if (!array_key_exists($month, $categoryMonthlyStats[$billCategoryId])) {
-				$categoryMonthlyStats[$billCategoryId][$month] = 0;
+				$categoryMonthlyStats[$billCategoryId][$month] = 0.0;
 			}
 			$categoryMonthlyStats[$billCategoryId][$month] += $amount;
 
@@ -792,25 +795,25 @@ class LocalProjectService implements IProjectService {
 				$paymentModeMonthlyStats[$paymentModeId] = [];
 			}
 			if (!array_key_exists($month, $paymentModeMonthlyStats[$paymentModeId])) {
-				$paymentModeMonthlyStats[$paymentModeId][$month] = 0;
+				$paymentModeMonthlyStats[$paymentModeId][$month] = 0.0;
 			}
 			$paymentModeMonthlyStats[$paymentModeId][$month] += $amount;
 		}
 		// average per month
 		foreach ($categoryMonthlyStats as $catId => $monthValues) {
-			$sum = 0;
+			$sum = 0.0;
 			foreach ($monthValues as $month => $value) {
 				$sum += $value;
 			}
-			$avg = $sum / $nbMonth;
+			$avg = $sum / (float)$nbMonth;
 			$categoryMonthlyStats[$catId][$averageKey] = $avg;
 		}
 		foreach ($paymentModeMonthlyStats as $pmId => $monthValues) {
-			$sum = 0;
+			$sum = 0.0;
 			foreach ($monthValues as $month => $value) {
 				$sum += $value;
 			}
-			$avg = $sum / $nbMonth;
+			$avg = $sum / (float)$nbMonth;
 			$paymentModeMonthlyStats[$pmId][$averageKey] = $avg;
 		}
 		// convert if necessary

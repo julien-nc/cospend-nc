@@ -846,7 +846,7 @@ class CospendService {
 				$handler,
 				'"' . $memberIdToName[$transaction['from']]
 				. '","' . $memberIdToName[$transaction['to']]
-				. '",' . (float)$transaction['amount']
+				. '",' . strval((float)$transaction['amount'])
 				. "\n"
 			);
 		}
@@ -905,9 +905,9 @@ class CospendService {
 			fwrite(
 				$handler,
 				'"' . $stat['member']['name']
-				. '",' . (float)$stat['paid']
-				. ',' . (float)$stat['spent']
-				. ',' . (float)$stat['balance']
+				. '",' . strval((float)$stat['paid'])
+				. ',' . strval((float)$stat['spent'])
+				. ',' . strval((float)$stat['balance'])
 				. "\n"
 			);
 		}
@@ -985,7 +985,7 @@ class CospendService {
 			$memberIdToActive[$member['id']] = (int)$member['activated'];
 			$c = $member['color'];
 			yield '"' . $member['name'] . '",'
-				. (float)$member['weight'] . ','
+				. strval((float)$member['weight']) . ','
 				. (int)$member['activated'] . ',"'
 				. sprintf('#%02x%02x%02x', $c['r'] ?? 0, $c['g'] ?? 0, $c['b'] ?? 0) . '"'
 				. "\n";
@@ -1006,11 +1006,11 @@ class CospendService {
 			$dateTime = DateTime::createFromFormat('U', $bill['timestamp']);
 			$oldDateStr = $dateTime->format('Y-m-d');
 			yield '"' . $bill['what'] . '",'
-				. (float)$bill['amount'] . ','
+				. strval((float)$bill['amount']) . ','
 				. $oldDateStr . ','
 				. $bill['timestamp'] . ',"'
 				. $payer_name . '",'
-				. (float)$payer_weight . ','
+				. strval((float)$payer_weight) . ','
 				. $payer_active . ',"'
 				. $owersTxt . '",'
 				. $bill['repeat'] . ','
@@ -1059,7 +1059,7 @@ class CospendService {
 			yield '"' . $projectInfo['currencyname'] . '",1' . "\n";
 			foreach ($currencies as $cur) {
 				yield '"' . $cur['name']
-					. '",' . (float)$cur['exchange_rate']
+					. '",' . strval((float)$cur['exchange_rate'])
 					. "\n";
 			}
 		}

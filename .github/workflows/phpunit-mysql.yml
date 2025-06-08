@@ -64,11 +64,10 @@ jobs:
         run: |
           export DEBIAN_FRONTEND=noninteractive
           #sudo apt update -y
-          #sudo apt install python3-pip git sudo unzip curl wget sed make rsync -y
+          #sudo apt install python3-pip git sudo unzip curl wget make rsync -y
           mkdir -p ~/html
           echo "git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b ${{ matrix.server-versions }} ~/html/nextcloud"
           git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b ${{ matrix.server-versions }} ~/html/nextcloud
-          sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' ~/html/nextcloud/lib/autoloader.php
           cp -r $GITHUB_WORKSPACE ~/html/nextcloud/apps/${{ env.APP_ID }}
           # SETUP NEXTCLOUD
           export DB_PORT=4444
@@ -84,5 +83,5 @@ jobs:
         #if: ${{ !(matrix.databases == 'sqlite' && matrix.php-versions == '8.3' && matrix.server-versions == 'master') }}
         run: |
           cd ~/html/nextcloud/apps/${{ env.APP_ID }}
-          composer run phpunit && SUCCESS=yes || SUCCESS=no
+          composer run test:unit && SUCCESS=yes || SUCCESS=no
           if [ $SUCCESS = "yes" ]; then echo "TESTS PASSED"; else echo "TESTS FAILED"; exit 1; fi

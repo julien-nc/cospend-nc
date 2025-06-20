@@ -1,6 +1,8 @@
 <template>
 	<div class="activity-entry">
-		<element :is="icon.component"
+		<component
+			:is="icon.component"
+			v-if="icon"
 			class="activity-entry-icon"
 			:style="icon.color ? 'color: ' + icon.color + ';' : ''"
 			:size="16" />
@@ -79,7 +81,6 @@ export default {
 
 	computed: {
 		icon() {
-			console.debug('aaaaaaaaaaaaaa icon', icons, this.activity)
 			return icons[this.activity.link]
 		},
 		relativeTime() {

@@ -73,7 +73,10 @@
 							<ColoredAvatar :user="currentUserId" />
 						</template>
 						<template #counter>
-							<NcCounterBubble :class="balanceClass" :count="myBalance" />
+							<NcCounterBubble :class="balanceClass"
+								:count="myBalance"
+								:title="myBalance"
+								:raw="true" />
 						</template>
 					</NcAppNavigationItem>
 					<NcAppNavigationItem v-if="!pageIsPublic && pendingInvitations.length > 0"

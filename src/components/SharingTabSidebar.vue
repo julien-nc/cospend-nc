@@ -150,25 +150,29 @@
 					<NcActionSeparator />
 					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.VIEWER, access)"
-						:model-value="access.accesslevel === constants.ACCESS.VIEWER"
+						:model-value="access.accesslevel"
+						:value="constants.ACCESS.VIEWER"
 						@change="clickAccessLevel(access, constants.ACCESS.VIEWER)">
 						{{ t('cospend', 'Viewer') }}
 					</NcActionRadio>
 					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.PARTICIPANT, access)"
-						:model-value="access.accesslevel === constants.ACCESS.PARTICIPANT"
+						:model-value="access.accesslevel"
+						:value="constants.ACCESS.PARTICIPANT"
 						@change="clickAccessLevel(access, constants.ACCESS.PARTICIPANT)">
 						{{ t('cospend', 'Participant') }}
 					</NcActionRadio>
 					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.MAINTENER, access)"
-						:model-value="access.accesslevel === constants.ACCESS.MAINTENER"
+						:model-value="access.accesslevel"
+						:value="constants.ACCESS.MAINTENER"
 						@change="clickAccessLevel(access, constants.ACCESS.MAINTENER)">
 						{{ t('cospend', 'Maintainer') }}
 					</NcActionRadio>
 					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.ADMIN, access)"
-						:model-value="access.accesslevel === constants.ACCESS.ADMIN"
+						:model-value="access.accesslevel"
+						:value="constants.ACCESS.ADMIN"
 						@change="clickAccessLevel(access, constants.ACCESS.ADMIN)">
 						{{ t('cospend', 'Admin') }}
 					</NcActionRadio>
@@ -253,25 +257,29 @@
 					<NcActionSeparator />
 					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.VIEWER, access)"
-						:model-value="access.accesslevel === constants.ACCESS.VIEWER"
+						:model-value="access.accesslevel"
+						:value="constants.ACCESS.VIEWER"
 						@change="clickAccessLevel(access, constants.ACCESS.VIEWER)">
 						{{ t('cospend', 'Viewer') }}
 					</NcActionRadio>
 					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.PARTICIPANT, access)"
-						:model-value="access.accesslevel === constants.ACCESS.PARTICIPANT"
+						:model-value="access.accesslevel"
+						:value="constants.ACCESS.PARTICIPANT"
 						@change="clickAccessLevel(access, constants.ACCESS.PARTICIPANT)">
 						{{ t('cospend', 'Participant') }}
 					</NcActionRadio>
 					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.MAINTENER, access)"
-						:model-value="access.accesslevel === constants.ACCESS.MAINTENER"
+						:model-value="access.accesslevel"
+						:value="constants.ACCESS.MAINTENER"
 						@change="clickAccessLevel(access, constants.ACCESS.MAINTENER)">
 						{{ t('cospend', 'Maintainer') }}
 					</NcActionRadio>
 					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.ADMIN, access)"
-						:model-value="access.accesslevel === constants.ACCESS.ADMIN"
+						:model-value="access.accesslevel"
+						:value="constants.ACCESS.ADMIN"
 						@change="clickAccessLevel(access, constants.ACCESS.ADMIN)">
 						{{ t('cospend', 'Admin') }}
 					</NcActionRadio>
@@ -325,25 +333,29 @@
 					placement="bottom">
 					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.VIEWER, access)"
-						:model-value="access.accesslevel === constants.ACCESS.VIEWER"
+						:model-value="access.accesslevel"
+						:value="constants.ACCESS.VIEWER"
 						@change="clickAccessLevel(access, constants.ACCESS.VIEWER)">
 						{{ t('cospend', 'Viewer') }}
 					</NcActionRadio>
 					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.PARTICIPANT, access)"
-						:model-value="access.accesslevel === constants.ACCESS.PARTICIPANT"
+						:model-value="access.accesslevel"
+						:value="constants.ACCESS.PARTICIPANT"
 						@change="clickAccessLevel(access, constants.ACCESS.PARTICIPANT)">
 						{{ t('cospend', 'Participant') }}
 					</NcActionRadio>
 					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.MAINTENER, access)"
-						:model-value="access.accesslevel === constants.ACCESS.MAINTENER"
+						:model-value="access.accesslevel"
+						:value="constants.ACCESS.MAINTENER"
 						@change="clickAccessLevel(access, constants.ACCESS.MAINTENER)">
 						{{ t('cospend', 'Maintainer') }}
 					</NcActionRadio>
 					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.ADMIN, access)"
-						:model-value="access.accesslevel === constants.ACCESS.ADMIN"
+						:model-value="access.accesslevel"
+						:value="constants.ACCESS.ADMIN"
 						@change="clickAccessLevel(access, constants.ACCESS.ADMIN)">
 						{{ t('cospend', 'Admin') }}
 					</NcActionRadio>

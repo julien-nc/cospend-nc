@@ -78,7 +78,7 @@
 			<NcButton
 				:title="t('cospend', 'Save')"
 				:aria-label="t('cospend', 'Save')"
-				type="primary"
+				variant="primary"
 				@click="onClickEditOk">
 				<template #icon>
 					<CheckIcon :size="20" />
@@ -96,9 +96,9 @@ import UndoIcon from 'vue-material-design-icons/Undo.vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
-import NcEmojiPicker from '@nextcloud/vue/dist/Components/NcEmojiPicker.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
+import NcEmojiPicker from '@nextcloud/vue/components/NcEmojiPicker'
 
 import { Timer } from '../utils.js'
 
@@ -249,13 +249,13 @@ $clickable-area: 44px;
 	border-radius: 50%;
 }
 
-::v-deep .deleteItemButton:hover {
+:deep(.deleteItemButton:hover) {
 	.delete-icon {
 		color: var(--color-error);
 	}
 }
 
-::v-deep .emojiButton * {
+:deep(.emojiButton *) {
 	margin: 0 !important;
 	margin-left: 0 !important;
 	margin-right: 0 !important;

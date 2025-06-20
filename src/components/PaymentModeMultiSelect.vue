@@ -1,6 +1,6 @@
 <template>
 	<NcSelect
-		:value="selectedPmItem"
+		:model-value="selectedPmItem"
 		class="pmMultiSelect"
 		:aria-label-combobox="t('cospend', 'Payment mode selector')"
 		label="displayName"
@@ -8,11 +8,11 @@
 		:clearable="false"
 		:placeholder="placeholder"
 		:options="formattedOptions"
-		@input="onPmSelected" />
+		@update:model-value="onPmSelected" />
 </template>
 
 <script>
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 
 export default {
 	name: 'PaymentModeMultiSelect',

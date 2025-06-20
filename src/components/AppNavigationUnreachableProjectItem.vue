@@ -31,8 +31,8 @@
 import HelpNetworkOutlineIcon from 'vue-material-design-icons/HelpNetworkOutline.vue'
 import CloseNetworkIcon from 'vue-material-design-icons/CloseNetwork.vue'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 
 import { emit } from '@nextcloud/event-bus'
 import * as network from '../network.js'

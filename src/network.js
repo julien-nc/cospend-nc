@@ -1,4 +1,3 @@
-import cospend from './state.js'
 import * as constants from './constants.js'
 import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
@@ -14,7 +13,7 @@ export function getOptionValues() {
 }
 
 export function saveOptionValues(optionValues) {
-	if (!cospend.pageIsPublic) {
+	if (!OCA.Cospend.state.pageIsPublic) {
 		const req = {
 			options: optionValues,
 		}
@@ -49,8 +48,8 @@ export function exportProject(filename, projectId, projectName) {
 }
 
 export function getLocalProjects() {
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}', { projectId: cospend.projectid, password: cospend.password })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password })
 		: generateOcsUrl('/apps/cospend/api/v1/projects')
 	return axios.get(url)
 }
@@ -78,8 +77,8 @@ export function getBills(
 			deleted: deleted ? 1 : 0,
 		},
 	}
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/bills', { projectId: cospend.projectid, password: cospend.password })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/bills', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/bills', { projectId })
 	return axios.get(url, req)
 }
@@ -96,17 +95,17 @@ export function createProject(name, id) {
 
 export function deleteProject(projectId) {
 	let url
-	if (!cospend.pageIsPublic) {
+	if (!OCA.Cospend.state.pageIsPublic) {
 		url = generateOcsUrl('/apps/cospend/api/v1/projects/' + projectId)
 	} else {
-		url = generateOcsUrl('/apps/cospend/api/v1/public/projects/' + cospend.projectid + '/' + cospend.password)
+		url = generateOcsUrl('/apps/cospend/api/v1/public/projects/' + OCA.Cospend.state.projectid + '/' + OCA.Cospend.state.password)
 	}
 	return axios.delete(url)
 }
 
 export function getProjectInfo(projectId) {
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}', { projectId: cospend.projectid, password: cospend.password })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}', { projectId })
 	return axios.get(url)
 }
@@ -118,8 +117,8 @@ export function createMember(projectId, name, userId) {
 	if (userId !== null) {
 		req.userId = userId
 	}
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/members', { projectId: cospend.projectid, password: cospend.password })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/members', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/members', { projectId })
 	return axios.post(url, req)
 }
@@ -133,8 +132,8 @@ export function editMember(projectId, member) {
 		color: member.color,
 		userId: (member.userid === null) ? '' : member.userid,
 	}
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/members/{memberId}', { projectId: cospend.projectid, password: cospend.password, memberId })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/members/{memberId}', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password, memberId })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/members/{memberId}', { projectId, memberId })
 	return axios.put(url, req)
 }
@@ -150,15 +149,15 @@ export function editProject(project, password) {
 		paymentModeSort: project.paymentmodesort,
 		archivedTs: project.archived_ts,
 	}
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}', { projectId: cospend.projectid, password: cospend.password })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}', { projectId })
 	return axios.put(url, req)
 }
 
 export function repeatBill(projectId, billId) {
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/bills/{billId}/repeat', { projectId: cospend.projectid, password: cospend.password, billId })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/bills/{billId}/repeat', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password, billId })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/bills/{billId}/repeat', { projectId, billId })
 	return axios.get(url)
 }
@@ -178,8 +177,8 @@ export function editBill(projectId, bill) {
 		paymentModeId: bill.paymentmodeid,
 		categoryId: bill.categoryid,
 	}
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/bills/{billId}', { projectId: cospend.projectid, password: cospend.password, billId: bill.id })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/bills/{billId}', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password, billId: bill.id })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/bills/{billId}', { projectId, billId: bill.id })
 	return axios.put(url, req)
 }
@@ -199,8 +198,8 @@ export function editBills(projectId, billIds, categoryId, paymentModeId) {
 		categoryId,
 		billIds,
 	}
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/bills', { projectId: cospend.projectid, password: cospend.password })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/bills', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/bills', { projectId })
 	return axios.put(url, req)
 }
@@ -209,8 +208,8 @@ export function restoreBill(projectId, bill) {
 	const req = {
 		deleted: 0,
 	}
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/bills/{billId}', { projectId: cospend.projectid, password: cospend.password, billId: bill.id })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/bills/{billId}', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password, billId: bill.id })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/bills/{billId}', { projectId, billId: bill.id })
 	return axios.put(url, req)
 }
@@ -220,15 +219,15 @@ export function restoreBills(projectId, billIds) {
 		deleted: 0,
 		billIds,
 	}
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/bills', { projectId: cospend.projectid, password: cospend.password })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/bills', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/bills', { projectId })
 	return axios.put(url, req)
 }
 
 export function createBill(projectId, req) {
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/bills', { projectId: cospend.projectid, password: cospend.password })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/bills', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/bills', { projectId })
 	return axios.post(url, req)
 }
@@ -249,25 +248,25 @@ export function generatePublicLinkToFile(targetPath) {
 }
 
 export function clearTrashBin(projectId) {
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/trash-bin', { projectId: cospend.projectid, password: cospend.password })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/trash-bin', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/trash-bin', { projectId })
 	return axios.delete(url)
 }
 
 export function deleteBill(projectId, bill) {
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/bills/{billId}', { projectId: cospend.projectid, password: cospend.password, billId: bill.id })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/bills/{billId}', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password, billId: bill.id })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/bills/{billId}', { projectId, billId: bill.id })
 	return axios.delete(url)
 }
 
 export function deleteBills(projectId, billIds) {
 	let url
-	if (!cospend.pageIsPublic) {
+	if (!OCA.Cospend.state.pageIsPublic) {
 		url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/bills', { projectId })
 	} else {
-		url = generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/bills', { projectId: cospend.projectid, password: cospend.password })
+		url = generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/bills', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password })
 	}
 	const req = {
 		params: {
@@ -299,8 +298,8 @@ export function createCategory(projectId, name, icon, color, order) {
 		color,
 		order,
 	}
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/category', { projectId: cospend.projectid, password: cospend.password })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/category', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/category', { projectId })
 	return axios.post(url, req)
 }
@@ -312,22 +311,22 @@ export function createPaymentMode(projectId, name, icon, color, order) {
 		color,
 		order,
 	}
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/paymentmode', { projectId: cospend.projectid, password: cospend.password })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/paymentmode', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/paymentmode', { projectId })
 	return axios.post(url, req)
 }
 
 export function deleteCategory(projectId, categoryId) {
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/category/{categoryId}', { projectId: cospend.projectid, password: cospend.password, categoryId })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/category/{categoryId}', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password, categoryId })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/category/{categoryId}', { projectId, categoryId })
 	return axios.delete(url)
 }
 
 export function deletePaymentMode(projectId, pmId) {
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/paymentmode/{pmId}', { projectId: cospend.projectid, password: cospend.password, pmId })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/paymentmode/{pmId}', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password, pmId })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/paymentmode/{pmId}', { projectId, pmId })
 	return axios.delete(url)
 }
@@ -338,8 +337,8 @@ export function editCategory(projectId, category, backupCategory) {
 		icon: category.icon,
 		color: category.color,
 	}
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/category/{categoryId}', { projectId: cospend.projectid, password: cospend.password, categoryId: category.id })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/category/{categoryId}', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password, categoryId: category.id })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/category/{categoryId}', { projectId, categoryId: category.id })
 	return axios.put(url, req)
 }
@@ -350,8 +349,8 @@ export function editPaymentMode(projectId, pm, backupPm) {
 		icon: pm.icon,
 		color: pm.color,
 	}
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/paymentmode/{pmId}', { projectId: cospend.projectid, password: cospend.password, pmId: pm.id })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/paymentmode/{pmId}', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password, pmId: pm.id })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/paymentmode/{pmId}', { projectId, pmId: pm.id })
 	return axios.put(url, req)
 }
@@ -360,8 +359,8 @@ export function saveCategoryOrder(projectId, order) {
 	const req = {
 		order,
 	}
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/category-order', { projectId: cospend.projectid, password: cospend.password })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/category-order', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/category-order', { projectId })
 	return axios.put(url, req)
 }
@@ -370,8 +369,8 @@ export function savePaymentModeOrder(projectId, order) {
 	const req = {
 		order,
 	}
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/paymentmode-order', { projectId: cospend.projectid, password: cospend.password })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/paymentmode-order', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/paymentmode-order', { projectId })
 	return axios.put(url, req)
 }
@@ -381,8 +380,8 @@ export function createCurrency(projectId, name, rate, successCB) {
 		name,
 		rate,
 	}
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/currency', { projectId: cospend.projectid, password: cospend.password })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/currency', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/currency', { projectId })
 	axios.post(url, req)
 		.then((response) => {
@@ -397,8 +396,8 @@ export function createCurrency(projectId, name, rate, successCB) {
 }
 
 export function deleteCurrency(projectId, currency, successCB) {
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/currency/{currencyId}', { projectId: cospend.projectid, password: cospend.password, currencyId: currency.id })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/currency/{currencyId}', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password, currencyId: currency.id })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/currency/{currencyId}', { projectId, currencyId: currency.id })
 	axios.delete(url)
 		.then((response) => {
@@ -417,8 +416,8 @@ export function editCurrency(projectId, currency, backupCurrency, failCB) {
 		name: currency.name,
 		rate: currency.exchange_rate,
 	}
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/currency/{currencyId}', { projectId: cospend.projectid, password: cospend.password, currencyId: currency.id })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/currency/{currencyId}', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password, currencyId: currency.id })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/currency/{currencyId}', { projectId, currencyId: currency.id })
 	axios.put(url, req)
 		.then((response) => {
@@ -436,8 +435,8 @@ export function getStats(projectId, params, isFiltered, successCB, doneCB) {
 	const req = {
 		params,
 	}
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/statistics', { projectId: cospend.projectid, password: cospend.password })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/statistics', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/statistics', { projectId })
 	axios.get(url, req)
 		.then((response) => {
@@ -485,8 +484,8 @@ export function getSettlement(projectId, centeredOn, maxTimestamp) {
 			maxTimestamp,
 		},
 	}
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/settlement', { projectId: cospend.projectid, password: cospend.password })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/settlement', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/settlement', { projectId })
 	return axios.get(url, req)
 }
@@ -499,8 +498,8 @@ export function autoSettlement(projectId, centeredOn, maxTimestamp, precision, s
 			maxTimestamp,
 		},
 	}
-	const url = cospend.pageIsPublic
-		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/auto-settlement', { projectId: cospend.projectid, password: cospend.password })
+	const url = OCA.Cospend.state.pageIsPublic
+		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/auto-settlement', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password })
 		: generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/auto-settlement', { projectId })
 	axios.get(url, req)
 		.then((response) => {

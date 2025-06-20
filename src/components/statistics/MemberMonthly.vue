@@ -57,7 +57,6 @@
 import MemberAvatar from '../avatar/MemberAvatar.vue'
 
 import { getSmartMemberName } from '../../utils.js'
-import cospend from '../../state.js'
 import LineChartJs from '../LineChartJs.vue'
 
 export default {
@@ -101,7 +100,7 @@ export default {
 
 	data() {
 		return {
-			cospend,
+			cospend: OCA.Cospend.state,
 			loadingStats: false,
 			selectedMemberMonthlyCol: null,
 			selectedMemberDataset: null,
@@ -111,7 +110,7 @@ export default {
 
 	computed: {
 		members() {
-			return cospend.members[this.projectId]
+			return this.cospend.members[this.projectId]
 		},
 		memberMonthlyStats() {
 			const memberIds = this.memberIds
@@ -119,7 +118,7 @@ export default {
 			mids.push('0')
 			return mids.map((mid) => {
 				const row = {
-					member: mid === '0' ? { name: t('cospend', 'All members'), id: 0 } : cospend.members[this.projectId][mid],
+					member: mid === '0' ? { name: t('cospend', 'All members'), id: 0 } : this.cospend.members[this.projectId][mid],
 				}
 				for (const month in this.stats) {
 					row[month] = this.stats[month][mid]

@@ -29,8 +29,8 @@ import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 
-import NcUserBubble from '@nextcloud/vue/dist/Components/NcUserBubble.js'
-import { NcRichText } from '@nextcloud/vue/dist/Components/NcRichText.js'
+import NcUserBubble from '@nextcloud/vue/components/NcUserBubble'
+import { NcRichText } from '@nextcloud/vue/components/NcRichText'
 
 import moment from '@nextcloud/moment'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -79,6 +79,7 @@ export default {
 
 	computed: {
 		icon() {
+			console.debug('aaaaaaaaaaaaaa icon', icons, this.activity)
 			return icons[this.activity.link]
 		},
 		relativeTime() {
@@ -180,7 +181,7 @@ export default {
 	}
 }
 
-::v-deep .user-bubble__wrapper {
+:deep(.user-bubble__wrapper) {
 	margin-bottom: -2px;
 }
 </style>

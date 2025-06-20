@@ -73,9 +73,7 @@
 							<ColoredAvatar :user="currentUserId" />
 						</template>
 						<template #counter>
-							<NcCounterBubble>
-								<span :class="balanceClass">{{ myBalance }}</span>
-							</NcCounterBubble>
+							<NcCounterBubble :class="balanceClass" :count="myBalance" />
 						</template>
 					</NcAppNavigationItem>
 					<NcAppNavigationItem v-if="!pageIsPublic && pendingInvitations.length > 0"
@@ -85,9 +83,7 @@
 							<WebIcon />
 						</template>
 						<template #counter>
-							<NcCounterBubble>
-								{{ pendingInvitations.length }}
-							</NcCounterBubble>
+							<NcCounterBubble :count="pendingInvitations.length" />
 						</template>
 					</NcAppNavigationItem>
 					<NcAppNavigationItem v-if="!pageIsPublic && (archivedProjectIds.length > 0 || showArchivedProjects)"
@@ -98,9 +94,7 @@
 							<ArchiveLockIcon v-else />
 						</template>
 						<template #counter>
-							<NcCounterBubble>
-								{{ sortedProjectIds.length - filteredProjectIds.length }}
-							</NcCounterBubble>
+							<NcCounterBubble :count="sortedProjectIds.length - filteredProjectIds.length" />
 						</template>
 					</NcAppNavigationItem>
 					<NcAppNavigationItem
@@ -126,14 +120,14 @@ import CogIcon from 'vue-material-design-icons/Cog.vue'
 import ArchiveLockIcon from 'vue-material-design-icons/ArchiveLock.vue'
 import CalendarIcon from 'vue-material-design-icons/Calendar.vue'
 
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcAppNavigationSearch from '@nextcloud/vue/dist/Components/NcAppNavigationSearch.js'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcAppNavigation from '@nextcloud/vue/components/NcAppNavigation'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcAppNavigationSearch from '@nextcloud/vue/components/NcAppNavigationSearch'
 
 import AppNavigationProjectItem from './AppNavigationProjectItem.vue'
 import NewProjectModal from './NewProjectModal.vue'
@@ -141,7 +135,6 @@ import PendingInvitationsModal from './PendingInvitationsModal.vue'
 import AppNavigationUnreachableProjectItem from './AppNavigationUnreachableProjectItem.vue'
 import ColoredAvatar from './avatar/ColoredAvatar.vue'
 
-import cospend from '../state.js'
 import * as constants from '../constants.js'
 import { strcmp, importCospendProject, importSWProject } from '../utils.js'
 
@@ -208,8 +201,8 @@ export default {
 		return {
 			opened: false,
 			creating: false,
-			cospend,
-			pageIsPublic: cospend.pageIsPublic,
+			cospend: OCA.Cospend.state,
+			pageIsPublic: OCA.Cospend.state.pageIsPublic,
 			importMenuOpen: false,
 			importingProject: false,
 			showCreationModal: false,
@@ -221,7 +214,7 @@ export default {
 	},
 	computed: {
 		showMyBalance() {
-			return cospend.showMyBalance
+			return this.cospend.showMyBalance
 		},
 		myBalance() {
 			return Object.values(this.projects)

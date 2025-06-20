@@ -5,16 +5,16 @@
 			{{ t('cospend', 'Cospend') }}
 		</h2>
 		<div id="cospend-content">
-			<NcCheckboxRadioSwitch :checked="state.federation_enabled"
+			<NcCheckboxRadioSwitch :model-value="state.federation_enabled"
 				:disabled="loading"
 				type="switch"
-				@update:checked="saveFederationEnabled">
+				@update:model-value="saveFederationEnabled">
 				{{ t('cospend', 'Enable Federation in Cospend') }}
 			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch :checked="state.balance_past_bills_only"
+			<NcCheckboxRadioSwitch :model-value="state.balance_past_bills_only"
 				:disabled="loading"
 				type="switch"
-				@update:checked="saveBalancePastBillsOnly">
+				@update:model-value="saveBalancePastBillsOnly">
 				{{ t('cospend', 'Only consider past bills to compute balances') }}
 			</NcCheckboxRadioSwitch>
 		</div>
@@ -24,7 +24,7 @@
 <script>
 import CospendIcon from '../components/icons/CospendIcon.vue'
 
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
 import { loadState } from '@nextcloud/initial-state'
 

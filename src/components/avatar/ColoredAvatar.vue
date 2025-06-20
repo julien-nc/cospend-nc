@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import { getColorBrightness, hexToRgb } from '../../utils.js'
 
 export default {

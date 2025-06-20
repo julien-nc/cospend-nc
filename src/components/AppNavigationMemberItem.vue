@@ -15,8 +15,8 @@
 			slot="icon">
 			<NcColorPicker
 				class="app-navigation-entry-bullet-wrapper memberColorPicker"
-				:value="`#${member.color}`"
-				@input="updateColor">
+				:model-value="`#${member.color}`"
+				@update:model-value="updateColor">
 				<template #default="{ attrs }">
 					<MemberAvatar
 						v-bind="attrs"
@@ -38,9 +38,8 @@
 		</div>
 		<template v-if="inNavigation"
 			#counter>
-			<NcCounterBubble class="balance">
-				<span :class="balanceClass">{{ balanceCounter }}</span>
-			</NcCounterBubble>
+			<NcCounterBubble :class="{ balance: true, [balanceClass]: true }"
+				:count="balanceCounter" />
 		</template>
 		<template v-if="maintenerAccess"
 			#actions>
@@ -55,7 +54,7 @@
 				ref="weightInput"
 				type="number"
 				step="0.01"
-				:value="''"
+				:model-value="''"
 				:disabled="false"
 				@submit="onWeightSubmit">
 				<template #icon>
@@ -80,7 +79,7 @@
 				v-if="showShareEdition"
 				name="accessLevel"
 				:disabled="!canSetAccessLevel(constants.ACCESS.NO_ACCESS, access)"
-				:checked="!access"
+				:model-value="!access"
 				@change="clickAccessLevel(constants.ACCESS.NO_ACCESS)">
 				{{ t('cospend', 'No access') }}
 			</NcActionRadio>
@@ -88,7 +87,7 @@
 				v-if="showShareEdition"
 				name="accessLevel"
 				:disabled="!canSetAccessLevel(constants.ACCESS.VIEWER, access)"
-				:checked="access && access.accesslevel === constants.ACCESS.VIEWER"
+				:model-value="access && access.accesslevel === constants.ACCESS.VIEWER"
 				@change="clickAccessLevel(constants.ACCESS.VIEWER)">
 				{{ t('cospend', 'Viewer') }}
 			</NcActionRadio>
@@ -96,7 +95,7 @@
 				v-if="showShareEdition"
 				name="accessLevel"
 				:disabled="!canSetAccessLevel(constants.ACCESS.PARTICIPANT, access)"
-				:checked="access && access.accesslevel === constants.ACCESS.PARTICIPANT"
+				:model-value="access && access.accesslevel === constants.ACCESS.PARTICIPANT"
 				@change="clickAccessLevel(constants.ACCESS.PARTICIPANT)">
 				{{ t('cospend', 'Participant') }}
 			</NcActionRadio>
@@ -104,7 +103,7 @@
 				v-if="showShareEdition"
 				name="accessLevel"
 				:disabled="!canSetAccessLevel(constants.ACCESS.MAINTENER, access)"
-				:checked="access && access.accesslevel === constants.ACCESS.MAINTENER"
+				:model-value="access && access.accesslevel === constants.ACCESS.MAINTENER"
 				@change="clickAccessLevel(constants.ACCESS.MAINTENER)">
 				{{ t('cospend', 'Maintainer') }}
 			</NcActionRadio>
@@ -112,7 +111,7 @@
 				v-if="showShareEdition"
 				name="accessLevel"
 				:disabled="!canSetAccessLevel(constants.ACCESS.ADMIN, access)"
-				:checked="access && access.accesslevel === constants.ACCESS.ADMIN"
+				:model-value="access && access.accesslevel === constants.ACCESS.ADMIN"
 				@change="clickAccessLevel(constants.ACCESS.ADMIN)">
 				{{ t('cospend', 'Admin') }}
 			</NcActionRadio>
@@ -126,19 +125,18 @@ import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import UndoIcon from 'vue-material-design-icons/Undo.vue'
 import WeightIcon from 'vue-material-design-icons/Weight.vue'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
-import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
-import NcActionRadio from '@nextcloud/vue/dist/Components/NcActionRadio.js'
-import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
-import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
-import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
+import NcActionInput from '@nextcloud/vue/components/NcActionInput'
+import NcActionRadio from '@nextcloud/vue/components/NcActionRadio'
+import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
+import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
+import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
 
 import MemberAvatar from './avatar/MemberAvatar.vue'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { emit } from '@nextcloud/event-bus'
-import cospend from '../state.js'
 import * as constants from '../constants.js'
 import * as network from '../network.js'
 import { getSmartMemberName, delay } from '../utils.js'
@@ -184,25 +182,26 @@ export default {
 	},
 	data() {
 		return {
+			cospend: OCA.Cospend.state,
 			constants,
 			menuOpen: false,
 		}
 	},
 	computed: {
 		project() {
-			return cospend.projects[this.projectId]
+			return this.cospend.projects[this.projectId]
 		},
 		cMember() {
-			return cospend.members[this.projectId][this.member.id]
+			return this.cospend.members[this.projectId][this.member.id]
 		},
 		myAccessLevel() {
 			return this.project.myaccesslevel
 		},
 		maintenerAccess() {
-			return this.projectId && cospend.projects[this.projectId].myaccesslevel >= constants.ACCESS.MAINTENER
+			return this.projectId && this.cospend.projects[this.projectId].myaccesslevel >= constants.ACCESS.MAINTENER
 		},
 		editionAccess() {
-			return this.projectId && cospend.projects[this.projectId].myaccesslevel >= constants.ACCESS.PARTICIPANT
+			return this.projectId && this.cospend.projects[this.projectId].myaccesslevel >= constants.ACCESS.PARTICIPANT
 		},
 		isCurrentUser() {
 			return (uid) => uid === getCurrentUser().uid
@@ -280,7 +279,7 @@ export default {
 		},
 		onRename(newName) {
 			// check if name already exists
-			const members = cospend.projects[this.projectId].members
+			const members = this.cospend.projects[this.projectId].members
 			for (const mid in members) {
 				if (members[mid].name === newName && parseInt(mid) !== this.member.id) {
 					showError(t('cospend', 'A member is already named like that'))

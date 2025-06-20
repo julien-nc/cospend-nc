@@ -16,7 +16,6 @@ import { showError } from '@nextcloud/dialogs'
 import '@nextcloud/dialogs/style.css'
 import { loadState } from '@nextcloud/initial-state'
 import vueAwesomeCountdown from 'vue-awesome-countdown'
-import VueClipboard from 'vue-clipboard2'
 import SmartTable from 'vuejs-smart-table'
 import { hexToDarkerHex } from './utils.js'
 import * as network from './network.js'
@@ -26,7 +25,6 @@ import { linkTo } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
 
 Vue.use(vueAwesomeCountdown, 'vac')
-Vue.use(VueClipboard)
 Vue.use(SmartTable)
 
 __webpack_nonce__ = btoa(getRequestToken()) // eslint-disable-line

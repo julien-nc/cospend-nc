@@ -687,7 +687,7 @@ export default {
 		async copyLink(access) {
 			const publicLink = this.generatePublicLink(access)
 			try {
-				await this.$copyText(publicLink)
+				await navigator.clipboard.writeText(publicLink)
 				this.$set(this.linkCopied, access.id, true)
 				// eslint-disable-next-line
 				new Timer(() => {

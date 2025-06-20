@@ -1,6 +1,6 @@
 <template>
 	<NcSelect
-		:value="selectedCategoryItem"
+		:model-value="selectedCategoryItem"
 		class="categoryMultiSelect"
 		:aria-label-combobox="t('cospend', 'Category selector')"
 		label="displayName"
@@ -8,11 +8,11 @@
 		:clearable="false"
 		:placeholder="placeholder"
 		:options="formattedOptions"
-		@input="onCategorySelected" />
+		@update:model-value="onCategorySelected" />
 </template>
 
 <script>
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 
 export default {
 	name: 'CategoryMultiSelect',

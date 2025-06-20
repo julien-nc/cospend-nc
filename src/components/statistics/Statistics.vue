@@ -112,9 +112,9 @@
 			<div />
 			<div />
 			<NcCheckboxRadioSwitch
-				:checked.sync="showDisabled"
+				v-model="showDisabled"
 				class="checkFilter"
-				@update:checked="getStats">
+				@update:model-value="getStats">
 				{{ t('cospend', 'Show disabled members') }}
 			</NcCheckboxRadioSwitch>
 			<label for="prefChartType">
@@ -413,10 +413,10 @@ import CurrencyUsdIcon from 'vue-material-design-icons/CurrencyUsd.vue'
 
 import CurrencyIcon from '../icons/CurrencyIcon.vue'
 
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcAppContentDetails from '@nextcloud/vue/dist/Components/NcAppContentDetails.js'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcAppContentDetails from '@nextcloud/vue/components/NcAppContentDetails'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
 import MemberAvatar from '../avatar/MemberAvatar.vue'
 import MemberMultiSelect from '../MemberMultiSelect.vue'
@@ -429,7 +429,6 @@ import BarChartJs from '../BarChartJs.vue'
 
 import moment from '@nextcloud/moment'
 import { getCategory, getPaymentMode, getSmartMemberName, strcmp } from '../../utils.js'
-import cospend from '../../state.js'
 import * as network from '../../network.js'
 import * as constants from '../../constants.js'
 
@@ -489,7 +488,7 @@ export default {
 			selectedMemberId: -1,
 			selectedCurrencyId: 0,
 			isFiltered: true,
-			cospend,
+			cospend: OCA.Cospend.state,
 			exporting: false,
 			loadingStats: false,
 			preferredChartType: 'pie',
@@ -499,10 +498,10 @@ export default {
 
 	computed: {
 		project() {
-			return cospend.projects[this.projectId]
+			return this.cospend.projects[this.projectId]
 		},
 		members() {
-			return cospend.members[this.projectId]
+			return this.cospend.members[this.projectId]
 		},
 		membersArray() {
 			return Object.values(this.members)
@@ -579,11 +578,11 @@ export default {
 			if (this.selectedCategoryId === -1) {
 				return null
 			}
-			return cospend.projects[this.projectId].categories[this.selectedCategoryId]
+			return this.cospend.projects[this.projectId].categories[this.selectedCategoryId]
 				?? this.hardCodedCategories[this.selectedCategoryId]
 		},
 		paymentmodes() {
-			return cospend.projects[this.projectId].paymentmodes
+			return this.cospend.projects[this.projectId].paymentmodes
 		},
 		sortedPaymentModes() {
 			if ([
@@ -608,7 +607,7 @@ export default {
 			return []
 		},
 		categories() {
-			return cospend.projects[this.projectId].categories
+			return this.cospend.projects[this.projectId].categories
 		},
 		sortedCategories() {
 			if ([
@@ -633,10 +632,10 @@ export default {
 			return []
 		},
 		hardCodedCategories() {
-			return cospend.hardCodedCategories
+			return this.cospend.hardCodedCategories
 		},
 		currencies() {
-			return cospend.projects[this.projectId].currencies
+			return this.cospend.projects[this.projectId].currencies
 		},
 		membersPaidForData() {
 			const rows = []
@@ -1350,7 +1349,7 @@ export default {
 	margin: 0px 20px 0px 20px;
 }
 
-::v-deep .coloredTable svg {
+:deep(.coloredTable svg) {
 	margin-bottom: -3px;
 }
 
@@ -1387,7 +1386,7 @@ table td span {
 	vertical-align: middle;
 }
 
-::v-deep #memberPerCategoryMultiSelect input {
+:deep(#memberPerCategoryMultiSelect input) {
 	padding: 0 0 0 5px !important;
 }
 

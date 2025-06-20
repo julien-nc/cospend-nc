@@ -19,8 +19,7 @@
 	</div>
 </template>
 <script>
-import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
-import cospend from '../state.js'
+import NcListItem from '@nextcloud/vue/components/NcListItem'
 import * as network from '../network.js'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 
@@ -41,17 +40,17 @@ export default {
 	},
 	data() {
 		return {
-			cospend,
+			cospend: OCA.Cospend.state,
 		}
 	},
 	computed: {
 		candidateTargetProjects() {
 			// only those with a member named like the bill payer
-			const payerName = cospend.members[this.projectId][this.bill.payer_id].name
+			const payerName = this.cospend.members[this.projectId][this.bill.payer_id].name
 			const projects = {}
-			Object.values(cospend.projects).forEach(p => {
+			Object.values(this.cospend.projects).forEach(p => {
 				if (p.id !== this.projectId && this.projectHasMemberNamed(p.id, payerName)) {
-					projects[p.id] = cospend.projects[p.id]
+					projects[p.id] = this.cospend.projects[p.id]
 				}
 			})
 			return projects
@@ -61,7 +60,7 @@ export default {
 	},
 	methods: {
 		projectHasMemberNamed(projectId, nameQuery) {
-			const foundMember = Object.values(cospend.members[projectId]).find(m => {
+			const foundMember = Object.values(this.cospend.members[projectId]).find(m => {
 				return m.name === nameQuery
 			})
 			return !!foundMember

@@ -174,11 +174,10 @@ import ReimburseIcon from './icons/ReimburseIcon.vue'
 
 import AppNavigationMemberItem from './AppNavigationMemberItem.vue'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 
 import { emit } from '@nextcloud/event-bus'
-import cospend from '../state.js'
 import * as constants from '../constants.js'
 import { Timer, getSortedMembers } from '../utils.js'
 import * as network from '../network.js'
@@ -233,6 +232,7 @@ export default {
 	},
 	data() {
 		return {
+			cospend: OCA.Cospend.state,
 			deleting: false,
 			deletionTimer: null,
 			menuOpen: false,
@@ -240,7 +240,7 @@ export default {
 	},
 	computed: {
 		pageIsPublic() {
-			return cospend.pageIsPublic
+			return this.cospend.pageIsPublic
 		},
 		maintenerAccess() {
 			return this.project.myaccesslevel >= constants.ACCESS.MAINTENER
@@ -339,7 +339,7 @@ export default {
 	padding-left: 20px !important;
 }
 
-::v-deep .detailButton {
+:deep(.detailButton) {
 	border-radius: 50%;
 	&:hover {
 		background-color: var(--color-background-darker);

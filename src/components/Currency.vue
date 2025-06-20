@@ -57,7 +57,7 @@
 			<NcButton
 				:title="t('cospend', 'Save')"
 				:aria-label="t('cospend', 'Save')"
-				type="primary"
+				variant="primary"
 				@click="onClickEditOk">
 				<template #icon>
 					<CheckIcon :size="20" />
@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import UndoIcon from 'vue-material-design-icons/Undo.vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
@@ -194,7 +194,7 @@ export default {
 	color: white;
 }
 
-::v-deep .deleteCurrencyButton:hover {
+:deep(.deleteCurrencyButton:hover) {
 	.delete-icon {
 		color: var(--color-error);
 	}

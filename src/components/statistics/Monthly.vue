@@ -46,7 +46,6 @@
 </template>
 
 <script>
-import cospend from '../../state.js'
 import LineChartJs from '../LineChartJs.vue'
 
 export default {
@@ -89,7 +88,6 @@ export default {
 
 	data() {
 		return {
-			cospend,
 			loadingStats: false,
 			selectedMonthlyCol: null,
 			selectedDataset: null,

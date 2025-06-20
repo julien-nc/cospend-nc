@@ -46,7 +46,7 @@
 						<InformationOutlineIcon />
 					</template>
 				</NcButton>
-				<NcDialog :open.sync="showDateInfo"
+				<NcDialog v-model:open="showDateInfo"
 					:name="t('cospend', 'Info')"
 					:message="dateInfoText" />
 				<NcDateTimePicker
@@ -209,7 +209,7 @@
 			</NcButton>
 			<span>{{ t('cospend', 'Individual reimbursement') }}</span>
 		</h2>
-		<NcDialog :open.sync="showIndividualInfo"
+		<NcDialog v-model:open="showIndividualInfo"
 			:name="t('cospend', 'Info')"
 			:message="individualInfoText" />
 		<div id="individual-form">
@@ -260,12 +260,12 @@ import CalendarMonthIcon from 'vue-material-design-icons/CalendarMonth.vue'
 import CospendIcon from './components/icons/CospendIcon.vue'
 import ReimburseIcon from './components/icons/ReimburseIcon.vue'
 
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcAppContentDetails from '@nextcloud/vue/dist/Components/NcAppContentDetails.js'
-import NcDateTimePicker from '@nextcloud/vue/dist/Components/NcDateTimePicker.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcAppContentDetails from '@nextcloud/vue/components/NcAppContentDetails'
+import NcDateTimePicker from '@nextcloud/vue/components/NcDateTimePicker'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
 
 import MemberAvatar from './components/avatar/MemberAvatar.vue'
 
@@ -273,7 +273,6 @@ import { showSuccess, showError } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
 import { getLocale } from '@nextcloud/l10n'
 import { getSmartMemberName } from './utils.js'
-import cospend from './state.js'
 import * as constants from './constants.js'
 import * as network from './network.js'
 
@@ -307,6 +306,7 @@ export default {
 
 	data() {
 		return {
+			cospend: OCA.Cospend.state,
 			loading: false,
 			transactions: null,
 			balancesObject: null,
@@ -327,10 +327,10 @@ export default {
 
 	computed: {
 		project() {
-			return cospend.projects[this.projectId]
+			return this.cospend.projects[this.projectId]
 		},
 		members() {
-			return cospend.members[this.projectId]
+			return this.cospend.members[this.projectId]
 		},
 		membersWithNegativeBalance() {
 			return Object.values(this.members).filter((m) => {

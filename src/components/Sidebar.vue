@@ -121,9 +121,9 @@ import CogIcon from 'vue-material-design-icons/Cog.vue'
 
 import CurrencyIcon from './icons/CurrencyIcon.vue'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcAppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar.js'
-import NcAppSidebarTab from '@nextcloud/vue/dist/Components/NcAppSidebarTab.js'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcAppSidebar from '@nextcloud/vue/components/NcAppSidebar'
+import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
 
 import SharingTabSidebar from './SharingTabSidebar.vue'
 import SettingsTabSidebar from './SettingsTabSidebar.vue'
@@ -132,7 +132,6 @@ import CurrencyManagement from '../CurrencyManagement.vue'
 import ActivityTabSidebar from './ActivityTabSidebar.vue'
 
 import { generateUrl } from '@nextcloud/router'
-import cospend from '../state.js'
 import * as constants from '../constants.js'
 
 export default {
@@ -181,17 +180,13 @@ export default {
 			backgroundImageUrl: generateUrl('/apps/theming/img/core/filetypes/folder.svg?v=' + (window.OCA?.Theming?.cacheBuster || 0)),
 			nameEditable: false,
 			tmpName: '',
+			pageIsPublic: OCA.Cospend.state.pageIsPublic,
+			activityEnabled: OCA.Cospend.state.activity_enabled,
 		}
 	},
 	computed: {
-		pageIsPublic() {
-			return cospend.pageIsPublic
-		},
-		activityEnabled() {
-			return cospend.activity_enabled
-		},
 		project() {
-			return cospend.projects[this.projectId]
+			return OCA.Cospend.state.projects[this.projectId]
 		},
 		title() {
 			return this.project.name
@@ -258,7 +253,7 @@ export default {
 		onNameSubmit() {
 			this.nameEditable = false
 			if (this.project.name !== this.tmpName) {
-				cospend.projects[this.projectId].name = this.tmpName
+				OCA.Cospend.state.projects[this.projectId].name = this.tmpName
 				this.$emit('project-edited', this.projectId)
 			}
 		},

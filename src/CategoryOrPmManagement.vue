@@ -39,7 +39,7 @@
 					<NcButton
 						:title="addTooltip"
 						:aria-label="addTooltip"
-						type="primary"
+						variant="primary"
 						@click="onAddElement">
 						<template #icon>
 							<PlusIcon :size="20" />
@@ -138,10 +138,10 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import ShapeIcon from 'vue-material-design-icons/Shape.vue'
 import TagIcon from 'vue-material-design-icons/Tag.vue'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
-import NcEmojiPicker from '@nextcloud/vue/dist/Components/NcEmojiPicker.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
+import NcEmojiPicker from '@nextcloud/vue/components/NcEmojiPicker'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 
 import CategoryOrPm from './components/CategoryOrPm.vue'
 
@@ -152,7 +152,6 @@ import {
 
 import { Container, Draggable } from 'vue-smooth-dnd'
 
-import cospend from './state.js'
 import * as constants from './constants.js'
 import * as network from './network.js'
 import { strcmp } from './utils.js'
@@ -189,6 +188,7 @@ export default {
 
 	data() {
 		return {
+			cospend: OCA.Cospend.state,
 			constants,
 			editMode: false,
 			newColor: '#000000',
@@ -198,7 +198,7 @@ export default {
 
 	computed: {
 		project() {
-			return cospend.projects[this.projectId]
+			return this.cospend.projects[this.projectId]
 		},
 		sortOrderLabel() {
 			return this.type === 'category' ? t('cospend', 'Category sort method') : t('cospend', 'Payment mode sort method')
@@ -296,13 +296,12 @@ export default {
 			})
 		},
 		addElementSuccess(response, name, icon, color) {
-			// make sure to update vue
-			this.$set(this.elements, response, {
+			this.elements[response] = {
 				name,
 				icon,
 				color,
 				id: response,
-			})
+			}
 			showSuccess(t('cospend', '{name} was added', { name }))
 			this.$refs.newName.value = ''
 			this.newColor = '#000000'
@@ -402,9 +401,9 @@ export default {
 		},
 		onSortChange(e) {
 			if (this.type === 'category') {
-				cospend.projects[this.projectId].categorysort = e.target.value
+				this.cospend.projects[this.projectId].categorysort = e.target.value
 			} else {
-				cospend.projects[this.projectId].paymentmodesort = e.target.value
+				this.cospend.projects[this.projectId].paymentmodesort = e.target.value
 			}
 			this.$emit('project-edited', this.projectId)
 		},
@@ -424,7 +423,7 @@ h3 {
 	margin-left: 37px;
 }
 
-::v-deep .emojiButton * {
+:deep(.emojiButton *) {
 	margin: 0 !important;
 	margin-left: 0 !important;
 	margin-right: 0 !important;

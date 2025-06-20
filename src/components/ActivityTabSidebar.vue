@@ -4,7 +4,7 @@
 			v-for="a in activities"
 			:key="a.activity_id"
 			:activity="a" />
-		<InfiniteLoading v-if="activities.length >= 50"
+		<!--InfiniteLoading v-if="activities.length >= 50"
 			:identifier="projectId"
 			@infinite="infiniteHandler">
 			<template #no-results>
@@ -13,12 +13,12 @@
 			<template #no-more>
 				{{ t('cospend', 'No more activity') }}
 			</template>
-		</InfiniteLoading>
+		</InfiniteLoading-->
 	</div>
 </template>
 
 <script>
-import InfiniteLoading from 'vue-infinite-loading'
+// import InfiniteLoading from 'vue-infinite-loading'
 
 import ActivityEntry from './ActivityEntry.vue'
 
@@ -29,7 +29,7 @@ export default {
 	name: 'ActivityTabSidebar',
 
 	components: {
-		InfiniteLoading,
+		// InfiniteLoading,
 		ActivityEntry,
 	},
 

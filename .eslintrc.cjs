@@ -12,6 +12,7 @@ module.exports = {
 		'jsdoc/require-jsdoc': 'off',
 		'jsdoc/tag-lines': 'off',
 		'vue/first-attribute-linebreak': 'off',
-		'import/extensions': 'off'
+		'import/extensions': 'off',
+		'vue/no-v-model-argument': 'off'
 	}
 }

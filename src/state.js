@@ -1,6 +1,6 @@
 import * as constants from './constants.js'
 
-const cospend = {
+const state = {
 	restoredCurrentProjectId: null,
 	restoredCurrentBillId: null,
 	currentProjectId: null,
@@ -25,4 +25,10 @@ const cospend = {
 	showMyBalance: false,
 }
 
-export default cospend
+export function initState() {
+	if (!OCA.Cospend) {
+		OCA.Cospend = {
+			state,
+		}
+	}
+}

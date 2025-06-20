@@ -1,4 +1,3 @@
-import cospend from './state.js'
 import { getCurrentUser } from '@nextcloud/auth'
 import {
 	showInfo,
@@ -58,11 +57,11 @@ export function importProject(targetPath, isSplitWise = false, importBeginCallba
 }
 
 export function getMemberName(projectid, memberid) {
-	return cospend.members[projectid][memberid].name
+	return OCA.Cospend.state.members[projectid][memberid].name
 }
 
 export function getSmartMemberName(projectid, memberid) {
-	return (!cospend.pageIsPublic && cospend.members[projectid][memberid].userid === getCurrentUser().uid)
+	return (!OCA.Cospend.state.pageIsPublic && OCA.Cospend.state.members[projectid][memberid].userid === getCurrentUser().uid)
 		? t('cospend', 'You')
 		: getMemberName(projectid, memberid)
 }
@@ -82,14 +81,14 @@ export function getSortedMembers(members, order) {
 
 export function getCategory(projectid, catId) {
 	let icon, name, color
-	if (catId in cospend.hardCodedCategories) {
-		name = cospend.hardCodedCategories[catId].name
-		icon = cospend.hardCodedCategories[catId].icon
-		color = cospend.hardCodedCategories[catId].color
-	} else if (catId in cospend.projects[projectid].categories) {
-		name = cospend.projects[projectid].categories[catId].name || ''
-		icon = cospend.projects[projectid].categories[catId].icon || ''
-		color = cospend.projects[projectid].categories[catId].color || 'red'
+	if (catId in OCA.Cospend.state.hardCodedCategories) {
+		name = OCA.Cospend.state.hardCodedCategories[catId].name
+		icon = OCA.Cospend.state.hardCodedCategories[catId].icon
+		color = OCA.Cospend.state.hardCodedCategories[catId].color
+	} else if (catId in OCA.Cospend.state.projects[projectid].categories) {
+		name = OCA.Cospend.state.projects[projectid].categories[catId].name || ''
+		icon = OCA.Cospend.state.projects[projectid].categories[catId].icon || ''
+		color = OCA.Cospend.state.projects[projectid].categories[catId].color || 'red'
 	} else {
 		name = t('cospend', 'No category')
 		icon = ''
@@ -106,10 +105,10 @@ export function getCategory(projectid, catId) {
 
 export function getPaymentMode(projectid, pmId) {
 	let icon, name, color
-	if (pmId in cospend.projects[projectid].paymentmodes) {
-		name = cospend.projects[projectid].paymentmodes[pmId].name || ''
-		icon = cospend.projects[projectid].paymentmodes[pmId].icon || ''
-		color = cospend.projects[projectid].paymentmodes[pmId].color || 'red'
+	if (pmId in OCA.Cospend.state.projects[projectid].paymentmodes) {
+		name = OCA.Cospend.state.projects[projectid].paymentmodes[pmId].name || ''
+		icon = OCA.Cospend.state.projects[projectid].paymentmodes[pmId].icon || ''
+		color = OCA.Cospend.state.projects[projectid].paymentmodes[pmId].color || 'red'
 	} else {
 		name = t('cospend', 'No payment mode')
 		icon = ''

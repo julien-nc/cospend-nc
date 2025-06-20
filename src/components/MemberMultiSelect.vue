@@ -1,6 +1,6 @@
 <template>
 	<NcSelect
-		:value="selectedMemberItem"
+		:model-value="selectedMemberItem"
 		class="memberMultiSelect"
 		:input-label="inputLabel"
 		:aria-label-combobox="inputLabel ? undefined : t('cospend', 'Member select')"
@@ -10,7 +10,7 @@
 		:options="formattedOptions"
 		:append-to-body="false"
 		:clearable="false"
-		@input="onMemberSelected">
+		@update:model-value="onMemberSelected">
 		<template #option="option">
 			<div class="memberSelectOption">
 				<MemberAvatar
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 
 import MemberAvatar from './avatar/MemberAvatar.vue'
 

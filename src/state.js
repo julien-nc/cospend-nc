@@ -1,6 +1,7 @@
 import * as constants from './constants.js'
+import { reactive } from '@vue/reactivity'
 
-const state = {
+const state = reactive({
 	restoredCurrentProjectId: null,
 	restoredCurrentBillId: null,
 	currentProjectId: null,
@@ -23,7 +24,7 @@ const state = {
 	useTime: true,
 	activity_enabled: false,
 	showMyBalance: false,
-}
+})
 
 export function initState() {
 	if (!OCA.Cospend) {

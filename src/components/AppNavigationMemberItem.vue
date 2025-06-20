@@ -11,9 +11,8 @@
 		@update:menuOpen="onUpdateMenuOpen"
 		@update:name="onRename"
 		@click="onClick">
-		<div v-if="maintenerAccess"
-			slot="icon">
-			<NcColorPicker
+		<template #icon>
+			<NcColorPicker v-if="maintenerAccess"
 				class="app-navigation-entry-bullet-wrapper memberColorPicker"
 				:model-value="`#${member.color}`"
 				@update:model-value="updateColor">
@@ -27,19 +26,18 @@
 						:show-user-status="true" />
 				</template>
 			</NcColorPicker>
-		</div>
-		<div v-else
-			slot="icon">
-			<MemberAvatar
+			<MemberAvatar v-else
 				:member="member"
 				:size="24"
 				:force-is-no-user="project.federated"
 				:show-user-status="true" />
-		</div>
+		</template>
 		<template v-if="inNavigation"
 			#counter>
-			<NcCounterBubble :class="{ balance: true, [balanceClass]: true }"
-				:count="balanceCounter" />
+			<NcCounterBubble :class="balanceClass"
+				:count="balanceCounter"
+				:title="balanceCounter"
+				:raw="true" />
 		</template>
 		<template v-if="maintenerAccess"
 			#actions>
@@ -240,6 +238,7 @@ export default {
 		},
 		balanceClass() {
 			return {
+				balance: true,
 				balancePositive: this.member.balance >= 0.01,
 				balanceNegative: this.member.balance <= -0.01,
 			}
@@ -389,6 +388,6 @@ export default {
 }
 
 .balance {
-	max-width: 64px !important;
+	max-width: 80px !important;
 }
 </style>

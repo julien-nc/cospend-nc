@@ -150,7 +150,7 @@ import {
 	showError,
 } from '@nextcloud/dialogs'
 
-import { Container, Draggable } from 'vue-smooth-dnd'
+import { Container, Draggable } from 'vue3-smooth-dnd'
 
 import * as constants from './constants.js'
 import * as network from './network.js'

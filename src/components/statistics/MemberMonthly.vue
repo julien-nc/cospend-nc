@@ -2,7 +2,7 @@
 	<div>
 		<div class="tableWrapper"
 			@mouseleave="selectedMemberDataset = null ; hoveredTableMonth = null">
-			<v-table
+			<!--v-table
 				class="memberMonthlyTable coloredTable"
 				:data="memberMonthlyStats">
 				<thead slot="head">
@@ -41,7 +41,7 @@
 						</td>
 					</tr>
 				</tbody>
-			</v-table>
+			</v-table-->
 		</div>
 		<div class="memberMonthlyChart"
 			@mouseleave="selectedMemberMonthlyCol = null">
@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import MemberAvatar from '../avatar/MemberAvatar.vue'
+// import MemberAvatar from '../avatar/MemberAvatar.vue'
 
 import { getSmartMemberName } from '../../utils.js'
 import LineChartJs from '../LineChartJs.vue'
@@ -63,7 +63,7 @@ export default {
 	name: 'MemberMonthly',
 
 	components: {
-		MemberAvatar,
+		// MemberAvatar,
 		LineChartJs,
 	},
 
@@ -286,5 +286,9 @@ export default {
 
 table td span {
 	vertical-align: middle;
+}
+
+.memberMonthlyChart {
+	height: 400px;
 }
 </style>

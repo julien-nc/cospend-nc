@@ -145,14 +145,14 @@
 			</span>
 		</p>
 		<br><hr>
-		<!--h2 class="statTableTitle">
+		<h2 class="statTableTitle">
 			{{ t('cospend', 'Global stats') }}
 		</h2>
 		<v-table v-if="stats"
 			id="statsTable"
 			class="coloredTable"
 			:data="stats.stats">
-			<thead slot="head">
+			<template #head>
 				<v-th sort-key="member.name">
 					{{ t('cospend', 'Member name') }}
 				</v-th>
@@ -170,45 +170,45 @@
 					:title="t('cospend', 'This balance is computed from the complete bill list')">
 					{{ t('cospend', 'Global Balance') }}
 				</v-th>
-			</thead>
-			<tbody slot="body" slot-scope="{displayData}">
-				<tr v-for="value in displayData"
-					:key="value.member.id">
-					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
+			</template>
+			<template #body="{ rows }">
+				<tr v-for="row in rows"
+					:key="row.member.id">
+					<td :style="'border: 2px solid #' + myGetMemberColor(row.member.id) + ';'">
 						<div class="left-aligned-cell-content">
 							<MemberAvatar
-								:member="members[value.member.id]"
+								:member="members[row.member.id]"
 								:size="24" />
 							<span>
-								{{ myGetSmartMemberName(value.member.id) }}
+								{{ myGetSmartMemberName(row.member.id) }}
 							</span>
 						</div>
 					</td>
-					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
-						{{ value.paid.toFixed(2) }}
+					<td :style="'border: 2px solid #' + myGetMemberColor(row.member.id) + ';'">
+						{{ row.paid.toFixed(2) }}
 						{{ selectedCurrencyName }}
 					</td>
-					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) +';'">
-						{{ value.spent.toFixed(2) }}
+					<td :style="'border: 2px solid #' + myGetMemberColor(row.member.id) +';'">
+						{{ row.spent.toFixed(2) }}
 						{{ selectedCurrencyName }}
 					</td>
 					<td v-if="isFiltered"
-						:class="getBalanceClass(value.filtered_balance)"
-						:style="'border: 2px solid #' + myGetMemberColor(value.member.id) +';'">
-						{{ value.filtered_balance.toFixed(2) }}
+						:class="getBalanceClass(row.filtered_balance)"
+						:style="'border: 2px solid #' + myGetMemberColor(row.member.id) +';'">
+						{{ row.filtered_balance.toFixed(2) }}
 						{{ selectedCurrencyName }}
 					</td>
-					<td :class="getBalanceClass(value.balance)"
-						:style="'border: 2px solid #' + myGetMemberColor(value.member.id) +';'"
+					<td :class="getBalanceClass(row.balance)"
+						:style="'border: 2px solid #' + myGetMemberColor(row.member.id) +';'"
 						:title="t('cospend', 'This balance is computed from the complete bill list')">
-						{{ value.balance.toFixed(2) }}
+						{{ row.balance.toFixed(2) }}
 						{{ selectedCurrencyName }}
 					</td>
 				</tr>
-			</tbody>
+			</template>
 			<tfoot />
 		</v-table>
-		<div v-else-if="loadingStats" class="loading loading-stats-animation" /-->
+		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		<hr>
 		<h2 class="statTableTitle">
 			{{ t('cospend', 'Monthly paid per member') }}
@@ -338,11 +338,11 @@
 		<h2 class="statTableTitle">
 			{{ t('cospend', 'Who paid for whom?') }}
 		</h2>
-		<!--v-table v-if="stats"
+		<v-table v-if="stats"
 			id="paidForTable"
 			class="coloredTable"
 			:data="membersPaidForData">
-			<thead slot="head">
+			<template #head>
 				<v-th sort-key="name">
 					↓ {{ t('cospend', 'paid for') }} →
 				</v-th>
@@ -361,42 +361,42 @@
 				<v-th sort-key="total">
 					{{ t('cospend', 'Total paid') }}
 				</v-th>
-			</thead>
-			<tbody slot="body" slot-scope="{displayData}">
-				<tr v-for="value in displayData"
-					:key="value.memberid">
-					<td v-if="value.memberid !== 0"
+			</template>
+			<template #body="{ rows }">
+				<tr v-for="row in rows"
+					:key="row.memberid">
+					<td v-if="row.memberid !== 0"
 						class="centered-cell"
-						:style="'border: 2px solid #' + myGetMemberColor(value.memberid) + ';'">
+						:style="'border: 2px solid #' + myGetMemberColor(row.memberid) + ';'">
 						<div class="left-aligned-cell-content">
 							<MemberAvatar
-								:member="members[value.memberid]"
+								:member="members[row.memberid]"
 								:size="24" />
-							<span>{{ myGetSmartMemberName(value.memberid) }}</span>
+							<span>{{ myGetSmartMemberName(row.memberid) }}</span>
 						</div>
 					</td>
 					<td v-else style="padding-left: 5px; border: 2px solid lightgrey;">
 						{{ t('cospend', 'Total owed') }}
 					</td>
 					<td v-for="mid in stats.allMemberIds"
-						:key="value.memberid + '-' + mid"
-						:title="value.memberid === 0
+						:key="row.memberid + '-' + mid"
+						:title="row.memberid === 0
 							? t('cospend', 'Total owed by {name}', { name: myGetSmartMemberName(mid) })
-							: myGetSmartMemberName(value.memberid) + ' → ' + myGetSmartMemberName(mid)"
-						:style="'border: 2px solid ' + (value.memberid === 0 ? 'lightgrey' : '#' + myGetMemberColor(value.memberid)) + ';'">
-						{{ value[mid].toFixed(2) }}
+							: myGetSmartMemberName(row.memberid) + ' → ' + myGetSmartMemberName(mid)"
+						:style="'border: 2px solid ' + (row.memberid === 0 ? 'lightgrey' : '#' + myGetMemberColor(row.memberid)) + ';'">
+						{{ row[mid].toFixed(2) }}
 						{{ selectedCurrencyName }}
 					</td>
-					<td v-if="value.memberid !== 0"
-						:title="t('cospend', 'Total paid by {name}', { name: myGetSmartMemberName(value.memberid) })"
+					<td v-if="row.memberid !== 0"
+						:title="t('cospend', 'Total paid by {name}', { name: myGetSmartMemberName(row.memberid) })"
 						style="border: 2px solid lightgrey;">
-						{{ value.total.toFixed(2) }}
+						{{ row.total.toFixed(2) }}
 						{{ selectedCurrencyName }}
 					</td>
 				</tr>
-			</tbody>
+			</template>
 		</v-table>
-		<div v-else-if="loadingStats" class="loading loading-stats-animation" /-->
+		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 	</NcAppContentDetails>
 </template>
 
@@ -418,7 +418,7 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcAppContentDetails from '@nextcloud/vue/components/NcAppContentDetails'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
-// import MemberAvatar from '../avatar/MemberAvatar.vue'
+import MemberAvatar from '../avatar/MemberAvatar.vue'
 import MemberMultiSelect from '../MemberMultiSelect.vue'
 import CategoryMultiSelect from '../CategoryMultiSelect.vue'
 import PaymentModeMultiSelect from '../PaymentModeMultiSelect.vue'
@@ -436,7 +436,7 @@ export default {
 	name: 'Statistics',
 
 	components: {
-		// MemberAvatar,
+		MemberAvatar,
 		CurrencyIcon,
 		MemberMultiSelect,
 		PieChartJs,

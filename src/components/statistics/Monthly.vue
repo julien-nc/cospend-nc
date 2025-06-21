@@ -3,10 +3,10 @@
 		<!-- mouseout does not work -->
 		<div class="tableWrapper"
 			@mouseleave="selectedDataset = null ; hoveredTableMonth = null">
-			<!--v-table
+			<v-table
 				class="monthlyTable coloredTable"
 				:data="tableData">
-				<thead slot="head">
+				<template #head>
 					<v-th sort-key="name">
 						{{ firstColumnTitle }}
 					</v-th>
@@ -16,25 +16,25 @@
 						:class="{ selected: selectedMonthlyCol === distinctMonths.indexOf(month) }">
 						{{ month }}
 					</v-th>
-				</thead>
-				<tbody slot="body" slot-scope="{displayData}">
-					<tr v-for="vals in displayData"
-						:key="vals.id"
-						@mouseenter="selectedDataset = vals.id">
-						<td :style="'border: 2px solid ' + vals.color + ';'">
-							{{ vals.name }}
+				</template>
+				<template #body="{ rows }">
+					<tr v-for="row in rows"
+						:key="row.id"
+						@mouseenter="selectedDataset = row.id">
+						<td :style="'border: 2px solid ' + row.color + ';'">
+							{{ row.name }}
 						</td>
 						<td v-for="month in distinctMonths"
 							:key="month"
 							:class="{ selected: selectedMonthlyCol === distinctMonths.indexOf(month) }"
-							:style="'border: 2px solid ' + vals.color + ';'"
+							:style="'border: 2px solid ' + row.color + ';'"
 							@mouseenter="hoveredTableMonth = month">
-							{{ (vals[month] || 0).toFixed(2) }}
+							{{ (row[month] || 0).toFixed(2) }}
 							{{ currencyName }}
 						</td>
 					</tr>
-				</tbody>
-			</v-table-->
+				</template>
+			</v-table>
 		</div>
 		<div class="categoryMonthlyChart"
 			@mouseleave="selectedMonthlyCol = null">

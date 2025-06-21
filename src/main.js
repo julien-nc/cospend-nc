@@ -15,7 +15,7 @@ import { showError } from '@nextcloud/dialogs'
 import '@nextcloud/dialogs/style.css'
 import { loadState } from '@nextcloud/initial-state'
 // import vueAwesomeCountdown from 'vue-awesome-countdown'
-// import SmartTable from 'vuejs-smart-table'
+import SmartTable from 'vuejs-smart-table'
 import { hexToDarkerHex } from './utils.js'
 import * as network from './network.js'
 import { initState } from './state.js'
@@ -100,5 +100,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 function main() {
 	const app = createApp(App)
 	app.mixin({ methods: { t, n } })
+	app.use(SmartTable)
 	app.mount('#content')
 }

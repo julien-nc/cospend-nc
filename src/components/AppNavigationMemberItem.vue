@@ -15,22 +15,20 @@
 			<NcColorPicker v-if="maintenerAccess"
 				class="app-navigation-entry-bullet-wrapper memberColorPicker"
 				:model-value="`#${member.color}`"
-				@update:model-value="updateColor">
+				@submit="updateColor">
 				<template #default="{ attrs }">
 					<MemberAvatar
 						v-bind="attrs"
 						ref="avatar"
 						:member="member"
 						:size="24"
-						:force-is-no-user="project.federated"
-						:show-user-status="true" />
+						:force-is-no-user="project.federated" />
 				</template>
 			</NcColorPicker>
 			<MemberAvatar v-else
 				:member="member"
 				:size="24"
-				:force-is-no-user="project.federated"
-				:show-user-status="true" />
+				:force-is-no-user="project.federated" />
 		</template>
 		<template v-if="inNavigation"
 			#counter>
@@ -137,7 +135,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { emit } from '@nextcloud/event-bus'
 import * as constants from '../constants.js'
 import * as network from '../network.js'
-import { getSmartMemberName, delay } from '../utils.js'
+import { getSmartMemberName } from '../utils.js'
 import { showError } from '@nextcloud/dialogs'
 
 export default {
@@ -252,7 +250,7 @@ export default {
 	methods: {
 		onClick(e) {
 			if (e.target.tagName !== 'DIV') {
-				this.$emit('click')
+				this.$emit('safe-click')
 			}
 		},
 		getDeletionText() {
@@ -300,9 +298,7 @@ export default {
 			emit('member-edited', { projectId: this.projectId, memberId: this.member.id })
 		},
 		updateColor(color) {
-			delay(() => {
-				this.applyUpdateColor(color)
-			}, 2000)()
+			this.applyUpdateColor(color)
 		},
 		applyUpdateColor(color) {
 			this.cMember.color = color.replace('#', '')

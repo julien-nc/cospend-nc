@@ -16,6 +16,7 @@
 				<MemberAvatar
 					v-if="option.id"
 					:member="option"
+					:hide-status="true"
 					:size="34" />
 				<span class="select-display-name">{{ option.displayName }}</span>
 			</div>
@@ -25,6 +26,7 @@
 				<MemberAvatar
 					v-if="option.id"
 					:member="option"
+					:hide-status="true"
 					:size="24" />
 				<span class="select-display-name">{{ option.displayName }}</span>
 			</div>

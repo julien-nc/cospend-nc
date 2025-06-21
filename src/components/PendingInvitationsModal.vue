@@ -15,7 +15,7 @@
 				<NcAvatar
 					:url="getRemoteAvatarUrl(invite.inviterCloudId)"
 					:is-no-user="true"
-					:show-user-status="false"
+					:hide-status="true"
 					:disable-menu="true"
 					:disable-tooltip="true" />
 				<div class="spacer" />

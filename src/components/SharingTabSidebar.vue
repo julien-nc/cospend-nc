@@ -18,18 +18,18 @@
 					<NcAvatar v-if="option.type === constants.SHARE_TYPE.USER"
 						class="avatar-option"
 						:user="option.user"
-						:show-user-status="false" />
+						:hide-status="true" />
 					<NcAvatar v-else-if="[constants.SHARE_TYPE.GROUP, constants.SHARE_TYPE.CIRCLE].includes(option.type)"
 						class="avatar-option"
 						:display-name="option.name"
 						:is-no-user="true"
-						:show-user-status="false" />
+						:hide-status="true" />
 					<div v-else-if="option.type === constants.SHARE_TYPE.FEDERATED"
 						class="federated-avatar-wrapper">
 						<NcAvatar
 							:url="getRemoteAvatarUrl(option.user)"
 							:is-no-user="true"
-							:show-user-status="false"
+							:hide-status="true"
 							:disable-menu="true"
 							:disable-tooltip="true" />
 						<span
@@ -112,7 +112,7 @@
 						:display-name="access.userCloudId"
 						:url="getRemoteAvatarUrl(access.userCloudId)"
 						:is-no-user="true"
-						:show-user-status="false"
+						:hide-status="true"
 						:disable-menu="true"
 						:disable-tooltip="true" />
 					<span
@@ -205,7 +205,7 @@
 							<ClipboardCheckOutlineIcon v-if="linkCopied[access.id]"
 								class="success"
 								:size="20" />
-							<ClippyIcon v-else
+							<ContentCopyIcon v-else
 								:size="16" />
 						</template>
 					</NcActionLink>
@@ -386,8 +386,7 @@ import TextBoxIcon from 'vue-material-design-icons/TextBox.vue'
 import LinkVariantIcon from 'vue-material-design-icons/LinkVariant.vue'
 import QrcodeIcon from 'vue-material-design-icons/Qrcode.vue'
 import WebIcon from 'vue-material-design-icons/Web.vue'
-
-import ClippyIcon from './icons/ClippyIcon.vue'
+import ContentCopyIcon from 'vue-material-design-icons/ContentCopy.vue'
 
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
@@ -419,7 +418,6 @@ export default {
 	name: 'SharingTabSidebar',
 
 	components: {
-		ClippyIcon,
 		NcAvatar,
 		NcActions,
 		NcActionButton,
@@ -445,6 +443,7 @@ export default {
 		GoogleCirclesCommunitiesIcon,
 		CheckNetworkOutlineIcon,
 		HelpNetworkOutlineIcon,
+		ContentCopyIcon,
 	},
 
 	props: {

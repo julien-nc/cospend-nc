@@ -454,6 +454,7 @@ export default {
 			// we load bills from scratch to make sure we get the correct total number of bills
 			// and infinite scroll works fine
 			this.getBills(this.cospend.currentProjectId, null, null, null, this.trashbinEnabled)
+			console.debug('[cospend] click on nav member', memberId, 'new selected member', this.selectedMemberId)
 		},
 		onActiveSidebarTabChanged(newActive) {
 			this.activeSidebarTab = newActive

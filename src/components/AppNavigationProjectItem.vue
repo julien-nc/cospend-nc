@@ -149,7 +149,7 @@
 				:project-id="project.id"
 				:in-navigation="true"
 				:precision="precision"
-				@click="onMemberClick(member.id)" />
+				@safe-click="onMemberClick(member.id)" />
 		</template>
 	</NcAppNavigationItem>
 </template>

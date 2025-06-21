@@ -13,10 +13,9 @@
 				<NcTextField
 					v-model="billFilterQuery"
 					:placeholder="t('cospend', 'Search bills')"
-					:disabled="bills.length === 0"
 					:show-trailing-button="!['', null].includes(billFilterQuery)"
-					@trailing-button-click="onUpdateBillFilterQuery(''); billFilterQuery = ''"
-					@update:model-value="onUpdateBillFilterQuery">
+					@trailing-button-click="updateBillFilterQuery(''); billFilterQuery = ''"
+					@input="onUpdateBillFilterQueryInput">
 					<MagnifyIcon :size="20" />
 				</NcTextField>
 				<NcActions :inline="1">
@@ -310,6 +309,7 @@ import BillListItem from './components/BillListItem.vue'
 // import InfiniteLoading from 'vue-infinite-loading'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
+import debounce from 'debounce'
 import * as network from './network.js'
 import * as constants from './constants.js'
 import { strcmp } from './utils.js'
@@ -603,7 +603,10 @@ export default {
 				return bill.id === this.selectedBillId
 			}
 		},
-		onUpdateBillFilterQuery(query) {
+		onUpdateBillFilterQueryInput: debounce(function(e) {
+			this.updateBillFilterQuery(e.target.value)
+		}, 2000),
+		updateBillFilterQuery(query) {
 			emit('bill-search', { query })
 		},
 		onCloseTrashbinClicked() {

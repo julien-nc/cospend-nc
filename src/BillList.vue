@@ -71,7 +71,7 @@
 					</NcActionButton>
 				</NcActions>
 			</div>
-			<transition name="fade">
+			<Transition name="fade">
 				<div v-if="filterMode"
 					class="filterOptions">
 					<div class="header">
@@ -101,8 +101,8 @@
 							@input="onFilterPaymentModeChange" />
 					</div>
 				</div>
-			</transition>
-			<transition name="fade">
+			</Transition>
+			<Transition name="fade">
 				<div v-if="selectMode"
 					class="selectionOptions">
 					<div>
@@ -163,7 +163,7 @@
 						</div>
 					</div>
 				</div>
-			</transition>
+			</Transition>
 		</div>
 		<NcEmptyContent v-if="!oneActiveMember"
 			:name="t('cospend', 'No member')"
@@ -195,9 +195,9 @@
 			</template>
 		</NcEmptyContent>
 		<NcLoadingIcon v-if="loading" :size="24" />
-		<!--transition-group v-else name="list"-->
 		<BillListItem
 			v-for="(bill, index) in bills"
+			v-else
 			:key="bill.id"
 			:bill="bill"
 			:project-id="projectId"
@@ -209,7 +209,6 @@
 			@clicked="onItemClicked"
 			@move="onItemMove(bill)"
 			@duplicate-bill="$emit('duplicate-bill', $event)" />
-		<!--/transition-group-->
 		<InfiniteLoading v-if="!loading && bills.length > 30"
 			:identifier="projectId"
 			@infinite="infiniteHandler">
@@ -822,13 +821,13 @@ export default {
 	padding: 10px 0 0 10px;
 }
 
-.list-enter-active,
-.list-leave-active {
+.fade-enter-active,
+.fade-leave-active {
 	transition: all var(--animation-slow);
 }
 
-.list-enter,
-.list-leave-to {
+.fade-enter-from,
+.fade-leave-to {
 	opacity: 0;
 	height: 0px;
 	transform: scaleY(0);

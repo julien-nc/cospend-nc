@@ -3,7 +3,7 @@
 		<!-- mouseout does not work -->
 		<div class="tableWrapper"
 			@mouseleave="selectedDataset = null ; hoveredTableMonth = null">
-			<v-table
+			<!--v-table
 				class="monthlyTable coloredTable"
 				:data="tableData">
 				<thead slot="head">
@@ -34,9 +34,9 @@
 						</td>
 					</tr>
 				</tbody>
-			</v-table>
+			</v-table-->
 		</div>
-		<div id="categoryMonthlyChart"
+		<div class="categoryMonthlyChart"
 			@mouseleave="selectedMonthlyCol = null">
 			<LineChartJs
 				:chart-data="myChartData"
@@ -192,5 +192,9 @@ export default {
 	td:first-child {
 		padding: 0px 5px 0px 5px;
 	}
+}
+
+.categoryMonthlyChart {
+	height: 400px;
 }
 </style>

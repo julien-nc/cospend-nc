@@ -145,7 +145,7 @@
 			</span>
 		</p>
 		<br><hr>
-		<h2 class="statTableTitle">
+		<!--h2 class="statTableTitle">
 			{{ t('cospend', 'Global stats') }}
 		</h2>
 		<v-table v-if="stats"
@@ -208,7 +208,7 @@
 			</tbody>
 			<tfoot />
 		</v-table>
-		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
+		<div v-else-if="loadingStats" class="loading loading-stats-animation" /-->
 		<hr>
 		<h2 class="statTableTitle">
 			{{ t('cospend', 'Monthly paid per member') }}
@@ -338,7 +338,7 @@
 		<h2 class="statTableTitle">
 			{{ t('cospend', 'Who paid for whom?') }}
 		</h2>
-		<v-table v-if="stats"
+		<!--v-table v-if="stats"
 			id="paidForTable"
 			class="coloredTable"
 			:data="membersPaidForData">
@@ -396,7 +396,7 @@
 				</tr>
 			</tbody>
 		</v-table>
-		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
+		<div v-else-if="loadingStats" class="loading loading-stats-animation" /-->
 	</NcAppContentDetails>
 </template>
 
@@ -418,7 +418,7 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcAppContentDetails from '@nextcloud/vue/components/NcAppContentDetails'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
-import MemberAvatar from '../avatar/MemberAvatar.vue'
+// import MemberAvatar from '../avatar/MemberAvatar.vue'
 import MemberMultiSelect from '../MemberMultiSelect.vue'
 import CategoryMultiSelect from '../CategoryMultiSelect.vue'
 import PaymentModeMultiSelect from '../PaymentModeMultiSelect.vue'
@@ -436,7 +436,7 @@ export default {
 	name: 'Statistics',
 
 	components: {
-		MemberAvatar,
+		// MemberAvatar,
 		CurrencyIcon,
 		MemberMultiSelect,
 		PieChartJs,

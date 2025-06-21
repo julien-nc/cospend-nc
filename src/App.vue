@@ -267,11 +267,9 @@ export default {
 					|| (this.mode === 'edition' && this.currentBill === null))
 		},
 		currentProjectId() {
-			console.debug('aaaaaaaaaaaaa COMPUTED currentProjectId', this.cospend.currentProjectId)
 			return this.cospend.currentProjectId
 		},
 		currentProject() {
-			console.debug('aaaaaaaaaaaaa COMPUTED currentProject', this.cospend.currentProjectId, this.currentProjectId)
 			return this.projects[this.cospend.currentProjectId]
 		},
 		isCurrentProjectFederated() {

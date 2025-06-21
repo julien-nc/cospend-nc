@@ -162,17 +162,13 @@
 						<label for="dateInput">
 							{{ t('cospend', 'When?') }}
 						</label>
-						<NcDateTimePicker v-if="showDatePicker"
+						<NcDateTimePickerNative v-if="showDatePicker"
 							id="dateInput"
 							v-model="billDatetime"
 							class="datetime-picker"
-							:type="useTime ? 'datetime' : 'date'"
-							:placeholder="t('cospend', 'When?')"
-							:minute-step="1"
-							:show-second="false"
-							:formatter="formatWhen"
-							:disabled="!editionAccess"
-							:confirm="true" />
+							:type="useTime ? 'datetime-local' : 'date'"
+							:hide-label="true"
+							:disabled="!editionAccess" />
 					</div>
 				</div>
 				<div class="bill-field bill-payment-mode">
@@ -318,17 +314,15 @@
 						<div class="input">
 							<label>
 								{{ t('cospend', 'Repeat until') }}
+								{{ billStringRepeatUntil ? '' : ' (' + t('cospend', 'No limit') + ')' }}
 							</label>
-							<NcDateTimePicker v-if="showDatePicker"
+							<NcDateTimePickerNative v-if="showDatePicker"
 								v-model="billStringRepeatUntil"
 								class="datetime-picker"
 								type="date"
-								:clearable="true"
-								:disabled-date="isRepeatUntilDateDisabled"
-								:placeholder="t('cospend', 'No limit')"
-								:formatter="formatRepeatUntil"
-								:readonly="!editionAccess"
-								:confirm="true" />
+								:min="billDateObject"
+								:hide-label="true"
+								:readonly="!editionAccess" />
 						</div>
 					</div>
 					<div v-if="editionAccess && !isNewBill"
@@ -442,7 +436,8 @@
 								<div class="nc-checkbox-content">
 									<MemberAvatar
 										:member="members[ower.id]"
-										:size="24" />
+										:size="24"
+										:hide-status="true" />
 									<span>{{ ower.name }}</span>
 									<span v-if="myBill.owerIds.includes(ower.id)"
 										class="spentlabel">
@@ -569,7 +564,7 @@ import CospendIcon from './components/icons/CospendIcon.vue'
 import CurrencyIcon from './components/icons/CurrencyIcon.vue'
 
 import NcButton from '@nextcloud/vue/components/NcButton'
-import NcDateTimePicker from '@nextcloud/vue/components/NcDateTimePicker'
+import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
 import NcAppContentDetails from '@nextcloud/vue/components/NcAppContentDetails'
 import NcRichContenteditable from '@nextcloud/vue/components/NcRichContenteditable'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
@@ -605,7 +600,7 @@ export default {
 		MemberAvatar,
 		CurrencyIcon,
 		CospendIcon,
-		NcDateTimePicker,
+		NcDateTimePickerNative,
 		NcAppContentDetails,
 		NcSelect,
 		NcCheckboxRadioSwitch,

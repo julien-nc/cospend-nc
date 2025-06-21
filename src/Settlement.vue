@@ -49,17 +49,12 @@
 				<NcDialog v-model:open="showDateInfo"
 					:name="t('cospend', 'Info')"
 					:message="dateInfoText" />
-				<NcDateTimePicker
+				<NcDateTimePickerNative
 					id="max-date"
 					v-model="maxDate"
 					class="datetime-picker"
-					type="datetime"
-					:placeholder="t('cospend', 'When?')"
-					:minute-step="5"
-					:show-second="false"
-					:formatter="format"
-					:clearable="true"
-					confirm
+					type="datetime-local"
+					:hide-label="true"
 					@change="onChangeMaxDate" />
 				<NcButton
 					:title="t('cospend', 'Set to beginning of this day')"
@@ -263,7 +258,7 @@ import ReimburseIcon from './components/icons/ReimburseIcon.vue'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcAppContentDetails from '@nextcloud/vue/components/NcAppContentDetails'
-import NcDateTimePicker from '@nextcloud/vue/components/NcDateTimePicker'
+import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 
@@ -285,7 +280,7 @@ export default {
 		CospendIcon,
 		NcLoadingIcon,
 		NcAppContentDetails,
-		NcDateTimePicker,
+		NcDateTimePickerNative,
 		NcEmptyContent,
 		NcButton,
 		NcDialog,

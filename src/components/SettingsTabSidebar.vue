@@ -95,11 +95,11 @@
 					<div class="addUserSelectOption">
 						<NcAvatar v-if="option.type === 's'"
 							:is-no-user="true"
-							:show-user-status="false"
+							:hide-status="true"
 							:user="option.name" />
 						<NcAvatar v-else
 							:is-no-user="false"
-							:show-user-status="false"
+							:hide-status="true"
 							:user="option.user" />
 						<span class="select-display-name">{{ option.displayName }}</span>
 						<div v-if="option.type === 'u'" class="select-icon">
@@ -164,7 +164,7 @@
 							<div class="affectUserSelectOption">
 								<NcAvatar
 									:is-no-user="false"
-									:show-user-status="false"
+									:hide-status="true"
 									:user="option.user" />
 								<span class="select-display-name">{{ option.displayName }}</span>
 								<span :class="option.icon + ' select-icon'" />

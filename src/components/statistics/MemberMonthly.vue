@@ -2,10 +2,10 @@
 	<div>
 		<div class="tableWrapper"
 			@mouseleave="selectedMemberDataset = null ; hoveredTableMonth = null">
-			<!--v-table
+			<v-table
 				class="memberMonthlyTable coloredTable"
 				:data="memberMonthlyStats">
-				<thead slot="head">
+				<template #head>
 					<v-th sort-key="member.name">
 						{{ t('cospend', 'Member/Month') }}
 					</v-th>
@@ -15,33 +15,33 @@
 						:class="{ selected: selectedMemberMonthlyCol === Object.keys(stats).indexOf(month) }">
 						{{ month }}
 					</v-th>
-				</thead>
-				<tbody slot="body" slot-scope="{displayData}">
-					<tr v-for="value in displayData"
-						:key="value.member.id"
-						:class="{ 'all-members': value.member.id === 0 }"
-						@mouseenter="selectedMemberDataset = value.member.id">
-						<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
+				</template>
+				<template #body="{ rows }">
+					<tr v-for="row in rows"
+						:key="row.member.id"
+						:class="{ 'all-members': row.member.id === 0 }"
+						@mouseenter="selectedMemberDataset = row.member.id">
+						<td :style="'border: 2px solid #' + myGetMemberColor(row.member.id) + ';'">
 							<div class="left-aligned-cell-content">
-								<MemberAvatar v-if="value.member.id !== 0"
-									:member="members[value.member.id]"
+								<MemberAvatar v-if="row.member.id !== 0"
+									:member="members[row.member.id]"
 									:size="24" />
 								<span>
-									{{ (value.member.id !== 0) ? myGetSmartMemberName(value.member.id) : value.member.name }}
+									{{ (row.member.id !== 0) ? myGetSmartMemberName(row.member.id) : row.member.name }}
 								</span>
 							</div>
 						</td>
 						<td v-for="(st, month) in stats"
 							:key="month"
 							:class="{ selected: selectedMemberMonthlyCol === Object.keys(stats).indexOf(month) }"
-							:style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'"
+							:style="'border: 2px solid #' + myGetMemberColor(row.member.id) + ';'"
 							@mouseenter="hoveredTableMonth = month">
-							{{ value[month].toFixed(2) }}
+							{{ row[month].toFixed(2) }}
 							{{ currencyName }}
 						</td>
 					</tr>
-				</tbody>
-			</v-table-->
+				</template>
+			</v-table>
 		</div>
 		<div class="memberMonthlyChart"
 			@mouseleave="selectedMemberMonthlyCol = null">
@@ -54,7 +54,7 @@
 </template>
 
 <script>
-// import MemberAvatar from '../avatar/MemberAvatar.vue'
+import MemberAvatar from '../avatar/MemberAvatar.vue'
 
 import { getSmartMemberName } from '../../utils.js'
 import LineChartJs from '../LineChartJs.vue'
@@ -63,7 +63,7 @@ export default {
 	name: 'MemberMonthly',
 
 	components: {
-		// MemberAvatar,
+		MemberAvatar,
 		LineChartJs,
 	},
 

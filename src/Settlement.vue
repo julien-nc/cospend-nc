@@ -97,7 +97,7 @@
 			id="settlementTable"
 			class="coloredTable"
 			:data="transactions">
-			<thead slot="head">
+			<template #head>
 				<v-th sort-key="fromName">
 					{{ t('cospend', 'Who pays?') }}
 				</v-th>
@@ -107,37 +107,37 @@
 				<v-th sort-key="amount">
 					{{ t('cospend', 'How much?') }}
 				</v-th>
-			</thead>
-			<tbody slot="body" slot-scope="{displayData}">
-				<tr v-for="value in displayData" :key="value.from + ':' + value.to">
-					<td :style="'border: 2px solid #' + members[value.from].color + ';'">
+			</template>
+			<template #body="{ rows }">
+				<tr v-for="row in rows" :key="row.from + ':' + row.to">
+					<td :style="'border: 2px solid #' + members[row.from].color + ';'">
 						<div class="left-aligned-cell-content">
 							<MemberAvatar
-								:member="members[value.from]"
+								:member="members[row.from]"
 								:size="24" />
 							<span>
-								{{ myGetSmartMemberName(project.id, value.from) }}
+								{{ myGetSmartMemberName(project.id, row.from) }}
 							</span>
 						</div>
 					</td>
-					<td :style="'border: 2px solid #' + members[value.to].color + ';'">
+					<td :style="'border: 2px solid #' + members[row.to].color + ';'">
 						<div class="left-aligned-cell-content">
 							<MemberAvatar
-								:member="members[value.to]"
+								:member="members[row.to]"
 								:size="24" />
 							<span>
-								{{ myGetSmartMemberName(project.id, value.to) }}
+								{{ myGetSmartMemberName(project.id, row.to) }}
 							</span>
 						</div>
 					</td>
 					<td>
-						{{ value.amount.toFixed(precision) }}
+						{{ row.amount.toFixed(precision) }}
 						<span v-if="project.currencyname">
 							{{ project.currencyname }}
 						</span>
 					</td>
 				</tr>
-			</tbody>
+			</template>
 		</v-table>
 		<NcEmptyContent v-else
 			class="central-empty-content"
@@ -156,36 +156,36 @@
 			id="balanceTable"
 			class="coloredTable"
 			:data="balances">
-			<thead slot="head">
+			<template #head>
 				<v-th sort-key="memberName">
 					{{ t('cospend', 'Member name') }}
 				</v-th>
 				<v-th sort-key="balance">
 					{{ t('cospend', 'Balance') }}
 				</v-th>
-			</thead>
-			<tbody slot="body" slot-scope="{displayData}">
-				<tr v-for="value in displayData"
-					:key="value.mid">
-					<td :style="'border: 2px solid #' + members[value.mid].color + ';'">
+			</template>
+			<template #body="{ rows }">
+				<tr v-for="row in rows"
+					:key="row.mid">
+					<td :style="'border: 2px solid #' + members[row.mid].color + ';'">
 						<div class="left-aligned-cell-content">
 							<MemberAvatar
-								:member="members[value.mid]"
+								:member="members[row.mid]"
 								:size="24" />
 							<span>
-								{{ myGetSmartMemberName(project.id, value.mid) }}
+								{{ myGetSmartMemberName(project.id, row.mid) }}
 							</span>
 						</div>
 					</td>
-					<td :class="getBalanceClass(value.balance)"
-						:style="'border: 2px solid #' + members[value.mid].color +';'">
-						{{ value.balance.toFixed(2) }}
+					<td :class="getBalanceClass(row.balance)"
+						:style="'border: 2px solid #' + members[row.mid].color +';'">
+						{{ row.balance.toFixed(2) }}
 						<span v-if="project.currencyname">
 							{{ project.currencyname }}
 						</span>
 					</td>
 				</tr>
-			</tbody>
+			</template>
 			<tfoot />
 		</v-table>
 		<NcEmptyContent v-else

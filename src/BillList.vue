@@ -210,7 +210,7 @@
 			@move="onItemMove(bill)"
 			@duplicate-bill="$emit('duplicate-bill', $event)" />
 		<!--/transition-group-->
-		<!--InfiniteLoading v-if="!loading && bills.length > 30"
+		<InfiniteLoading v-if="!loading && bills.length > 30"
 			:identifier="projectId"
 			@infinite="infiniteHandler">
 			<template #no-results>
@@ -219,7 +219,7 @@
 			<template #no-more>
 				{{ t('cospend', 'No more bills') }}
 			</template>
-		</InfiniteLoading-->
+		</InfiniteLoading>
 		<NcDialog v-model:open="showDeletionConfirmation"
 			:name="t('cospend', 'Confirm deletion')"
 			:message="deletionConfirmationMessage">
@@ -306,7 +306,7 @@ import PaymentModeMultiSelect from './components/PaymentModeMultiSelect.vue'
 import CategoryMultiSelect from './components/CategoryMultiSelect.vue'
 import BillListItem from './components/BillListItem.vue'
 
-// import InfiniteLoading from 'vue-infinite-loading'
+import InfiniteLoading from '@codog/vue3-infinite-loading'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import debounce from 'debounce'
@@ -328,7 +328,7 @@ export default {
 		NcButton,
 		NcTextField,
 		NcLoadingIcon,
-		// InfiniteLoading,
+		InfiniteLoading,
 		PaymentModeMultiSelect,
 		CategoryMultiSelect,
 		NotePlusIcon,

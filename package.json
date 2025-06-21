@@ -37,6 +37,7 @@
 		"npm": "^10"
 	},
 	"dependencies": {
+		"@codog/vue3-infinite-loading": "^0.0.9",
 		"@nextcloud/auth": "^2.0.0",
 		"@nextcloud/axios": "^2.0.0",
 		"@nextcloud/dialogs": "^7.0.0-rc.1",

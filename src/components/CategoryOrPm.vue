@@ -29,11 +29,7 @@
 			</NcButton>
 			<label v-if="timerOn"
 				class="one-element-label-timer">
-				<vac :end-time="new Date().getTime() + (7000)">
-					<template #process="{ timeObj }">
-						<span>{{ `${timeObj.s}` }}</span>
-					</template>
-				</vac>
+				<Countdown :duration="7" />
 			</label>
 		</div>
 		<div v-if="editMode"
@@ -100,12 +96,15 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
 import NcEmojiPicker from '@nextcloud/vue/components/NcEmojiPicker'
 
+import Countdown from './Countdown.vue'
+
 import { Timer } from '../utils.js'
 
 export default {
 	name: 'CategoryOrPm',
 
 	components: {
+		Countdown,
 		NcColorPicker,
 		NcEmojiPicker,
 		PaletteIcon,

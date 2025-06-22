@@ -1076,10 +1076,10 @@ export default {
 		},
 		removeProject(projectId) {
 			this.currentBill = null
-			this.$delete(this.projects, projectId)
-			this.$delete(this.bills, projectId)
-			this.$delete(this.billLists, projectId)
-			this.$delete(this.members, projectId)
+			delete this.projects[projectId]
+			delete this.bills[projectId]
+			delete this.billLists[projectId]
+			delete this.members[projectId]
 			if (this.currentProjectId === projectId) {
 				this.deselectProject()
 			}
@@ -1087,10 +1087,10 @@ export default {
 		deleteProject(projectId) {
 			network.deleteProject(projectId).then((response) => {
 				this.currentBill = null
-				this.$delete(this.projects, projectId)
-				this.$delete(this.bills, projectId)
-				this.$delete(this.billLists, projectId)
-				this.$delete(this.members, projectId)
+				delete this.projects[projectId]
+				delete this.bills[projectId]
+				delete this.billLists[projectId]
+				delete this.members[projectId]
 
 				if (this.cospend.pageIsPublic) {
 					const redirectUrl = generateUrl('/apps/cospend/login')
@@ -1226,7 +1226,7 @@ export default {
 		editMemberSuccess(projectId, memberid, member) {
 			if (!member) {
 				// delete member
-				this.$delete(this.members[projectId], memberid)
+				delete this.members[projectId][memberid]
 				const i = this.projects[projectId].members.findIndex((m) => m.id === memberid)
 				if (i !== -1) {
 					this.projects[projectId].members.splice(i, 1)

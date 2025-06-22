@@ -4,14 +4,7 @@
 		:undo="true"
 		@undo="cancelDeletion">
 		<template #counter>
-			<vac :end-time="new Date().getTime() + (7000)">
-				<template #process="{ timeObj }">
-					<span>{{ `${timeObj.s}` }}</span>
-				</template>
-				<!--template v-slot:finish>
-					<span>Done!</span>
-				</template-->
-			</vac>
+			<Countdown :duration="7" />
 		</template>
 	</NcAppNavigationItem>
 	<NcAppNavigationItem v-else
@@ -173,6 +166,7 @@ import ArchiveOutlineIcon from 'vue-material-design-icons/ArchiveOutline.vue'
 import ReimburseIcon from './icons/ReimburseIcon.vue'
 
 import AppNavigationMemberItem from './AppNavigationMemberItem.vue'
+import Countdown from './Countdown.vue'
 
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
@@ -185,6 +179,7 @@ import * as network from '../network.js'
 export default {
 	name: 'AppNavigationProjectItem',
 	components: {
+		Countdown,
 		ReimburseIcon,
 		AppNavigationMemberItem,
 		NcAppNavigationItem,

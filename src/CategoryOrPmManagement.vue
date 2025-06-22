@@ -310,12 +310,14 @@ export default {
 		onDeleteElement(element) {
 			if (this.type === 'category') {
 				network.deleteCategory(this.project.id, element.id).then((response) => {
+					console.debug('aaaaaaaaa delete element', element)
 					this.deleteElementSuccess(element.id)
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to delete category')
 						+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 					)
+					console.error(error)
 				})
 			} else {
 				network.deletePaymentMode(this.project.id, element.id).then((response) => {
@@ -329,7 +331,7 @@ export default {
 			}
 		},
 		deleteElementSuccess(elementid) {
-			this.$delete(this.elements, elementid)
+			delete this.elements[elementid]
 			this.$emit('element-deleted', elementid)
 		},
 		onEditElement(element, name, icon, color) {

@@ -14,7 +14,6 @@ import App from './App.vue'
 import { showError } from '@nextcloud/dialogs'
 import '@nextcloud/dialogs/style.css'
 import { loadState } from '@nextcloud/initial-state'
-// import vueAwesomeCountdown from 'vue-awesome-countdown'
 import SmartTable from 'vuejs-smart-table'
 import { hexToDarkerHex } from './utils.js'
 import * as network from './network.js'
@@ -22,9 +21,6 @@ import { initState } from './state.js'
 import '../css/cospend.scss'
 // import { linkTo } from '@nextcloud/router'
 // import { getRequestToken } from '@nextcloud/auth'
-
-// Vue.use(vueAwesomeCountdown, 'vac')
-// Vue.use(SmartTable)
 
 // __webpack_nonce__ = btoa(getRequestToken()) // eslint-disable-line
 // __webpack_public_path__ = linkTo('cospend', 'js/') // eslint-disable-line

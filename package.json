@@ -54,7 +54,6 @@
 		"kjua-svg": "^1.13.1",
 		"sass": "^1.54.5",
 		"vue": "^3.5.17",
-		"vue-awesome-countdown": "^1.1.4",
 		"vue-chartjs": "^5.3.2",
 		"vue-material-design-icons": "^5.1.2",
 		"vue3-smooth-dnd": "^0.0.6",

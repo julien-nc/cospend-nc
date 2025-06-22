@@ -24,11 +24,7 @@
 			</NcButton>
 			<label v-if="timerOn"
 				class="one-currency-label-timer">
-				<vac :end-time="new Date().getTime() + (7000)">
-					<template #process="{ timeObj }">
-						<span>{{ `${timeObj.s}` }}</span>
-					</template>
-				</vac>
+				<Countdown :duration="7" />
 			</label>
 		</div>
 		<div v-if="editMode"
@@ -73,12 +69,16 @@ import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import UndoIcon from 'vue-material-design-icons/Undo.vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
+
+import Countdown from './Countdown.vue'
+
 import { Timer } from '../utils.js'
 
 export default {
 	name: 'Currency',
 
 	components: {
+		Countdown,
 		PencilIcon,
 		DeleteIcon,
 		UndoIcon,

@@ -28,8 +28,19 @@ export default createAppConfig({
 		plugins: [eslint(), stylelint()],
 		build: {
 			cssCodeSplit: true,
+			rollupOptions: {
+				treeshake: {
+					// Remove unused module exports
+					moduleSideEffects: false,
+					// Optimize property access
+					propertyReadSideEffects: false,
+					// Remove unused imports
+					tryCatchDeoptimization: false
+				}
+			},
 		},
 	},
 	inlineCSS: { relativeCSSInjection: true },
-	minify: isProduction,
+	minify: 'esbuild',
+	target: 'esnext',
 })

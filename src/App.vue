@@ -166,6 +166,7 @@ import {
 	showWarning,
 	showInfo,
 } from '@nextcloud/dialogs'
+import { defineAsyncComponent } from 'vue'
 
 import * as network from './network.js'
 import * as constants from './constants.js'
@@ -180,47 +181,24 @@ import CogIcon from 'vue-material-design-icons/Cog.vue'
 import ReimburseIcon from './components/icons/ReimburseIcon.vue'
 import CospendIcon from './components/icons/CospendIcon.vue'
 
-import NcModal from '@nextcloud/vue/components/NcModal'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
-import NcContent from '@nextcloud/vue/components/NcContent'
-import NcAppContent from '@nextcloud/vue/components/NcAppContent'
-
-import Statistics from './components/statistics/Statistics.vue'
-import Settlement from './Settlement.vue'
-import CospendNavigation from './components/CospendNavigation.vue'
-import CospendSettingsDialog from './components/CospendSettingsDialog.vue'
-import BillForm from './BillForm.vue'
-import BillList from './BillList.vue'
-import Sidebar from './components/Sidebar.vue'
-import MoveToProjectList from './components/MoveToProjectList.vue'
-// const Statistics = () => import('./components/statistics/Statistics.vue')
-// const Settlement = () => import('./Settlement.vue')
-// const CospendNavigation = () => import('./components/CospendNavigation.vue')
-// const CospendSettingsDialog = () => import('./components/CospendSettingsDialog.vue')
-// const BillForm = () => import('./BillForm.vue')
-// const BillList = () => import('./BillList.vue')
-// const Sidebar = () => import('./components/Sidebar.vue')
-// const MoveToProjectList = () => import('./components/MoveToProjectList.vue')
-
 export default {
 	name: 'App',
 	components: {
+		CospendNavigation: defineAsyncComponent(() => import('./components/CospendNavigation.vue')),
+		CospendSettingsDialog: defineAsyncComponent(() => import('./components/CospendSettingsDialog.vue')),
+		BillList: defineAsyncComponent(() => import('./BillList.vue')),
+		BillForm: defineAsyncComponent(() => import('./BillForm.vue')),
+		Statistics: defineAsyncComponent(() => import('./components/statistics/Statistics.vue')),
+		Settlement: defineAsyncComponent(() => import('./Settlement.vue')),
+		Sidebar: defineAsyncComponent(() => import('./components/Sidebar.vue')),
+		MoveToProjectList: defineAsyncComponent(() => import('./components/MoveToProjectList.vue')),
+		NcContent: defineAsyncComponent(() => import('@nextcloud/vue/components/NcContent')),
+		NcAppContent: defineAsyncComponent(() => import('@nextcloud/vue/components/NcAppContent')),
+		NcEmptyContent: defineAsyncComponent(() => import('@nextcloud/vue/components/NcEmptyContent')),
+		NcButton: defineAsyncComponent(() => import('@nextcloud/vue/components/NcButton')),
+		NcModal: defineAsyncComponent(() => import('@nextcloud/vue/components/NcModal')),
 		ReimburseIcon,
 		CospendIcon,
-		CospendNavigation,
-		CospendSettingsDialog,
-		BillList,
-		BillForm,
-		Statistics,
-		Settlement,
-		Sidebar,
-		NcContent,
-		NcAppContent,
-		NcEmptyContent,
-		NcButton,
-		MoveToProjectList,
-		NcModal,
 		PlusIcon,
 		CogIcon,
 		ShareVariantIcon,

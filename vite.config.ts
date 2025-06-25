@@ -41,6 +41,6 @@ export default createAppConfig({
 		},
 	},
 	inlineCSS: { relativeCSSInjection: true },
-	minify: 'esbuild',
+	minify: isProduction,
 	target: 'esnext',
 })

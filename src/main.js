@@ -10,68 +10,36 @@
  */
 
 import { createApp } from 'vue'
+import { reactive } from '@vue/reactivity'
 import App from './App.vue'
-import { showError } from '@nextcloud/dialogs'
 import '@nextcloud/dialogs/style.css'
 import { loadState } from '@nextcloud/initial-state'
 import SmartTable from 'vuejs-smart-table'
 import { hexToDarkerHex } from './utils.js'
-import * as network from './network.js'
-import { initState } from './state.js'
+import { defaultState } from './state.js'
 import '../css/cospend.scss'
 
-function restoreOptions() {
-	network.getOptionValues().then((response) => {
-		getOptionValuesSuccess(response.data)
-	}).catch((error) => {
-		showError(t('cospend', 'Failed to restore options values'))
-		console.error(error)
-	})
-}
-
-function getOptionValuesSuccess(response) {
-	let optionsValues = {}
-	optionsValues = response.values
-	if (optionsValues) {
-		for (const k in optionsValues) {
-			if (k === 'selectedProject') {
-				OCA.Cospend.state.restoredCurrentProjectId = optionsValues[k]
-			} else if (k === 'useTime') {
-				OCA.Cospend.state.useTime = optionsValues[k] !== '0'
-			} else if (k === 'showMyBalance') {
-				OCA.Cospend.state.showMyBalance = optionsValues[k] !== '0'
-			} else {
-				OCA.Cospend.state[k] = optionsValues[k]
-			}
-		}
-	}
-	// get path restore projectId and billId, this overrides saved options
-	const restoredCurrentProjectId = loadState('cospend', 'pathProjectId')
-	if (restoredCurrentProjectId !== '') {
-		OCA.Cospend.state.restoredCurrentProjectId = restoredCurrentProjectId
-	}
-	const restoredCurrentBillId = loadState('cospend', 'pathBillId')
-	if (restoredCurrentBillId !== 0) {
-		OCA.Cospend.state.restoredCurrentBillId = restoredCurrentBillId
-	}
-	console.debug('restored project ID', OCA.Cospend.state.restoredCurrentProjectId)
-	console.debug('restored bill ID', OCA.Cospend.state.restoredCurrentBillId)
-	main()
+if (!OCA.Cospend) {
+	OCA.Cospend = {}
 }
 
 document.addEventListener('DOMContentLoaded', (event) => {
-	initState()
-	OCA.Cospend.state.pageIsPublic = (document.URL.includes('/cospend/project') || document.URL.includes('/cospend/s/'))
-	if (!OCA.Cospend.state.pageIsPublic) {
-		restoreOptions()
-		OCA.Cospend.state.activity_enabled = loadState('cospend', 'activity_enabled') === '1'
+	const pageIsPublic = (document.URL.includes('/cospend/project') || document.URL.includes('/cospend/s/'))
+	if (!pageIsPublic) {
+		OCA.Cospend.state = reactive({
+			...defaultState,
+			...loadState('cospend', 'cospend-state', {}),
+		})
 	} else {
-		OCA.Cospend.state.projectid = loadState('cospend', 'projectid')
-		OCA.Cospend.state.password = loadState('cospend', 'password')
-		// TODO restore project when accessed via token, following projectid is wrong as it's a token
-		OCA.Cospend.state.restoredCurrentProjectId = OCA.Cospend.state.projectid
-		main()
+		OCA.Cospend.state = reactive({
+			...defaultState,
+			projectid: loadState('cospend', 'projectid'),
+			password: loadState('cospend', 'password'),
+			// TODO restore project when accessed via token, following projectid is wrong as it's a token
+			restoredCurrentProjectId: loadState('cospend', 'projectid'),
+		})
 	}
+	OCA.Cospend.state.pageIsPublic = pageIsPublic
 	if (OCA.Theming) {
 		const c = OCA.Theming.color
 		// invalid color
@@ -86,6 +54,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 		OCA.Cospend.state.themeColor = '#0082C9'
 	}
 	OCA.Cospend.state.themeColorDark = hexToDarkerHex(OCA.Cospend.state.themeColor)
+	main()
 })
 
 function main() {

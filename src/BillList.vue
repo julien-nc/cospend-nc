@@ -13,7 +13,7 @@
 				<NcTextField
 					:value.sync="billFilterQuery"
 					:placeholder="t('cospend', 'Search bills')"
-					:disabled="bills.length === 0"
+					:disabled="bills.length === 0 && billFilterQuery === ''"
 					:show-trailing-button="!['', null].includes(billFilterQuery)"
 					@trailing-button-click="onUpdateBillFilterQuery(''); billFilterQuery = ''"
 					@update:value="onUpdateBillFilterQuery">

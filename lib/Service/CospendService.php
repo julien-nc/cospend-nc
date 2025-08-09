@@ -1030,11 +1030,11 @@ class CospendService {
 		if (count($categories) > 0) {
 			yield "\ncategoryname,categoryid,icon,color\n";
 			foreach ($categories as $id => $cat) {
-				yield '"' . $cat['name'] . '",' .
-					(int)$id . ',"' .
-					$cat['icon'] . '","' .
-					$cat['color'] . '"' .
-					"\n";
+				yield '"' . $cat['name'] . '",'
+					. (int)$id . ',"'
+					. $cat['icon'] . '","'
+					. $cat['color'] . '"'
+					. "\n";
 			}
 		}
 
@@ -1043,11 +1043,11 @@ class CospendService {
 		if (count($paymentModes) > 0) {
 			yield "\npaymentmodename,paymentmodeid,icon,color\n";
 			foreach ($paymentModes as $id => $pm) {
-				yield '"' . $pm['name'] . '",' .
-					(int)$id . ',"' .
-					$pm['icon'] . '","' .
-					$pm['color'] . '"' .
-					"\n";
+				yield '"' . $pm['name'] . '",'
+					. (int)$id . ',"'
+					. $pm['icon'] . '","'
+					. $pm['color'] . '"'
+					. "\n";
 			}
 		}
 

@@ -55,8 +55,8 @@ class ExportProject extends Base {
 			$result = $this->cospendService->exportCsvProject($projectId, $dbProject->getUserId(), $projectInfo, $bills['bills'] ?? [], $name);
 			if (array_key_exists('path', $result)) {
 				$output->writeln(
-					'Project "' . $projectId . '" exported in "' . $result['path'] .
-					'" of user "' . $dbProject->getUserId() . '" storage'
+					'Project "' . $projectId . '" exported in "' . $result['path']
+					. '" of user "' . $dbProject->getUserId() . '" storage'
 				);
 			} else {
 				$output->writeln('Error: ' . $result['message']);

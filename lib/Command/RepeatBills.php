@@ -34,8 +34,8 @@ class RepeatBills extends Base {
 		$repeated = $this->localProjectService->cronRepeatBills();
 		foreach ($repeated as $r) {
 			$output->writeln(
-				'[Project "' . $r['project_name'] . '"] Bill "' . $r['what'] .
-				'" (' . $r['date_orig'] . ') repeated on (' . $r['date_repeat'] . ')'
+				'[Project "' . $r['project_name'] . '"] Bill "' . $r['what']
+				. '" (' . $r['date_orig'] . ') repeated on (' . $r['date_repeat'] . ')'
 			);
 		}
 		return 0;

@@ -708,8 +708,8 @@ class LocalProjectService implements IProjectService {
 		foreach ($bills as $bill) {
 			// category
 			$billCategoryId = $bill['categoryid'];
-			if (!array_key_exists(strval($billCategoryId), $this->hardCodedCategoryNames) &&
-				!array_key_exists(strval($billCategoryId), $projectCategories)
+			if (!array_key_exists(strval($billCategoryId), $this->hardCodedCategoryNames)
+				&& !array_key_exists(strval($billCategoryId), $projectCategories)
 			) {
 				$billCategoryId = 0;
 			}
@@ -744,8 +744,8 @@ class LocalProjectService implements IProjectService {
 		foreach ($bills as $bill) {
 			$payerId = $bill['payer_id'];
 			$billCategoryId = $bill['categoryid'];
-			if (!array_key_exists(strval($billCategoryId), $this->hardCodedCategoryNames) &&
-				!array_key_exists(strval($billCategoryId), $projectCategories)
+			if (!array_key_exists(strval($billCategoryId), $this->hardCodedCategoryNames)
+				&& !array_key_exists(strval($billCategoryId), $projectCategories)
 			) {
 				$billCategoryId = 0;
 			}

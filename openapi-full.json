@@ -8356,8 +8356,12 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "$ref": "#/components/schemas/Member",
-                                                    "nullable": true
+                                                    "nullable": true,
+                                                    "allOf": [
+                                                        {
+                                                            "$ref": "#/components/schemas/Member"
+                                                        }
+                                                    ]
                                                 }
                                             }
                                         }
@@ -8995,8 +8999,12 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "$ref": "#/components/schemas/Member",
-                                                    "nullable": true
+                                                    "nullable": true,
+                                                    "allOf": [
+                                                        {
+                                                            "$ref": "#/components/schemas/Member"
+                                                        }
+                                                    ]
                                                 }
                                             }
                                         }

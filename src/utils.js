@@ -15,11 +15,22 @@ export function importCospendProject(importBeginCallback, importSuccessCallback,
 		.addMimeTypeFilter('text/csv')
 		// .allowDirectories()
 		// .startAt(this.outputDir)
+		.addButton({
+			label: t('cospend', 'Choose'),
+			variant: 'primary',
+			callback: (nodes) => {
+				const node = nodes[0]
+				const path = node.path
+				importProject(path, false, importBeginCallback, importSuccessCallback, importEndCallback)
+			},
+		})
 		.build()
 	picker.pick()
+	/*
 		.then(async (path) => {
 			importProject(path, false, importBeginCallback, importSuccessCallback, importEndCallback)
 		})
+	*/
 }
 
 export function importSWProject(importBeginCallback, importSuccessCallback, importEndCallback) {
@@ -29,11 +40,22 @@ export function importSWProject(importBeginCallback, importSuccessCallback, impo
 		.addMimeTypeFilter('text/csv')
 		// .allowDirectories()
 		// .startAt(this.outputDir)
+		.addButton({
+			label: t('cospend', 'Choose'),
+			variant: 'primary',
+			callback: (nodes) => {
+				const node = nodes[0]
+				const path = node.path
+				importProject(path, true, importBeginCallback, importSuccessCallback, importEndCallback)
+			},
+		})
 		.build()
 	picker.pick()
+	/*
 		.then(async (path) => {
 			importProject(path, true, importBeginCallback, importSuccessCallback, importEndCallback)
 		})
+	*/
 }
 
 export function importProject(targetPath, isSplitWise = false, importBeginCallback, importSuccessCallback, importEndCallback) {

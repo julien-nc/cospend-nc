@@ -262,16 +262,33 @@ export default {
 				.addMimeTypeFilter('httpd/unix-directory')
 				.allowDirectories()
 				.startAt(this.outputDir)
+				.addButton({
+					label: t('cospend', 'Pick current directory'),
+					variant: 'primary',
+					callback: (nodes) => {
+						const node = nodes[0]
+						let path = node.path
+						if (path === '') {
+							path = '/'
+						}
+						path = path.replace(/^\/+/, '/')
+						this.outputDir = path
+						emit('save-option', { key: 'outputDirectory', value: path })
+					},
+				})
 				.build()
 			picker.pick()
-				.then(async (path) => {
-					if (path === '') {
-						path = '/'
-					}
-					path = path.replace(/^\/+/, '/')
-					this.outputDir = path
-					emit('save-option', { key: 'outputDirectory', value: path })
-				})
+			/*
+			.then(async (path) => {
+				console.debug('aaaaaaaaaaaaa', path)
+				if (path === '') {
+					path = '/'
+				}
+				path = path.replace(/^\/+/, '/')
+				this.outputDir = path
+				emit('save-option', { key: 'outputDirectory', value: path })
+			})
+			*/
 		},
 		onSortOrderChange() {
 			emit('save-option', { key: 'sortOrder', value: this.sortOrder })

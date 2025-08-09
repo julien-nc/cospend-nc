@@ -1654,11 +1654,22 @@ export default {
 				// .addMimeTypeFilter('text/csv')
 				// .allowDirectories()
 				// .startAt(this.outputDir)
+				.addButton({
+					label: t('cospend', 'Choose'),
+					variant: 'primary',
+					callback: (nodes) => {
+						const node = nodes[0]
+						const path = node.path
+						this.generatePublicLinkToFile(path)
+					},
+				})
 				.build()
 			picker.pick()
+			/*
 				.then(async (path) => {
 					this.generatePublicLinkToFile(path)
 				})
+			*/
 		},
 		generatePublicLinkToFile(targetPath) {
 			network.generatePublicLinkToFile(targetPath).then((response) => {

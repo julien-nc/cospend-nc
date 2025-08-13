@@ -28,6 +28,7 @@ This feature adds the ability to view aggregated balance information across all 
   - Verify that archived projects are excluded from calculations
   - Test with projects where user is not a member (should be excluded)
   - Test with mixed positive/negative balances across projects
+  - Test with multiple projects in different currencies
 
 ### 3. Display Logic
 - **"You owe" vs "Owes you" labels**: 
@@ -121,9 +122,6 @@ This ensures that cross-project totals match the sum of individual project balan
 
 ## To Do
 This is just the first version that gets the calculation to work. Future improvements should include:
-- Currency handling
-    - Currency conversion or
-    - Display balances by currency (preferred)
 - Settlement logic
 - Mobile-optimized layouts
     - Compatibility with Moneybuster (?)

@@ -1715,10 +1715,7 @@ class ApiController extends OCSController {
 	 * @return DataResponse<Http::STATUS_OK, array, array{}>
 	 * @throws Exception
 	 *
-	 * 200: Cross-project balances
-	 */
-	/**
-	 * Get cross-project balances for the current user
+	 * 200: Cross-project balance
 	 * 
 	 * This endpoint implements Cross - project balances from GitHub issue #281.
 	 * It provides aggregated balance information showing what the current user owes

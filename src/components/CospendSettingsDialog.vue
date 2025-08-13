@@ -170,7 +170,7 @@
 					{{ t('cospend', 'Show cumulated balances') }}
 				</NcCheckboxRadioSwitch>
 				<h3 class="app-settings-section__hint">
-					{{ t('cospend', 'Cumulated balances view customisation') }}
+					{{ t('cospend', 'Cumulative balances view customization') }}
 				</h3>
 				<!-- Cross-project balance display order control -->
 				<!-- Allows users to choose whether Summary or People section appears first -->

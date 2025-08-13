@@ -33,7 +33,13 @@
 					</p>
 				</div>
 				<NcButton type="tertiary"
-					:aria-label="t('cospend', 'Close cumulated balances')"
+					<h2>{{ t('cospend', 'Cumulative Balances') }}</h2>
+					<p class="subtitle">
+						{{ t('cospend', 'Overview of your debts and credits across all projects') }}
+					</p>
+				</div>
+				<NcButton type="tertiary"
+					:aria-label="t('cospend', 'Close cumulative balances')"
 					@click="$emit('close')">
 					<template #icon>
 						<CloseIcon />
@@ -44,7 +50,7 @@
 
 		<div v-if="loading" class="loading-container">
 			<NcLoadingIcon :size="64" />
-			<p>{{ t('cospend', 'Loading cumulated balances...') }}</p>
+			<p>{{ t('cospend', 'Loading cumulative balances...') }}</p>
 		</div>
 
 		<div v-else-if="error" class="error-container">
@@ -463,7 +469,8 @@ export default {
 				this.balanceData = response.data.ocs.data
 			} catch (error) {
 				console.error('Failed to load cumulated balances:', error)
-				this.error = error.response?.data?.ocs?.meta?.message || t('cospend', 'Failed to load cumulated balances')
+				console.error('Failed to load cumulative balances:', error)
+				this.error = error.response?.data?.ocs?.meta?.message || t('cospend', 'Failed to load cumulative balances')
 				showError(this.error)
 			} finally {
 				this.loading = false

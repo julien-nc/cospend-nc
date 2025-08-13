@@ -2670,7 +2670,7 @@ msgstr ""
 msgid "Share link password"
 msgstr ""
 
-#: Cross-project balance feature
+# Translators: Cross-project balance feature
 msgid "Cross-project balances"
 msgstr ""
 

@@ -66,6 +66,11 @@
 					v-else-if="mode === 'settle'"
 					:project-id="currentProjectId"
 					@auto-settled="onAutoSettled" />
+				<!-- Cross-project balance view component (GitHub issue #281) -->
+				<!-- Shows aggregated balance information across all user's projects -->
+				<CrossProjectBalanceView
+					v-else-if="mode === 'cross-project-balances'"
+					@close="onCloseCrossProjectBalances" />
 				<NcEmptyContent v-show="showProjectEmptyContent"
 					class="central-empty-content"
 					:name="t('cospend', 'What do you want to do?')"
@@ -189,6 +194,7 @@ import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
 
 import Statistics from './components/statistics/Statistics.vue'
 import Settlement from './Settlement.vue'
+import CrossProjectBalanceView from './components/CrossProjectBalanceView.vue'
 import CospendNavigation from './components/CospendNavigation.vue'
 import CospendSettingsDialog from './components/CospendSettingsDialog.vue'
 import BillForm from './BillForm.vue'
@@ -215,6 +221,7 @@ export default {
 		BillForm,
 		Statistics,
 		Settlement,
+		CrossProjectBalanceView,
 		Sidebar,
 		NcContent,
 		NcAppContent,
@@ -369,6 +376,8 @@ export default {
 		subscribe('restore-bill', this.onRestoreBill)
 		subscribe('restore-bills', this.onRestoreBills)
 		subscribe('delete-bill', this.onDeleteBill)
+		// Subscribe to cross-project balance view requests from navigation
+		subscribe('show-cross-project-balances', this.onShowCrossProjectBalances)
 
 		subscribe('trashbin-clicked', this.onTrashbinClicked)
 		subscribe('close-trashbin', this.onCloseTrashbinClicked)
@@ -401,6 +410,8 @@ export default {
 		unsubscribe('restore-bill', this.onRestoreBill)
 		unsubscribe('restore-bills', this.onRestoreBills)
 		unsubscribe('delete-bill', this.onDeleteBill)
+		// Unsubscribe from cross-project balance view events
+		unsubscribe('show-cross-project-balances', this.onShowCrossProjectBalances)
 
 		unsubscribe('trashbin-clicked', this.onTrashbinClicked)
 		unsubscribe('close-trashbin', this.onCloseTrashbinClicked)
@@ -678,6 +689,28 @@ export default {
 			}
 			this.currentBill = null
 			this.mode = 'settle'
+		},
+		/**
+		 * Handle request to show cross-project balances view
+		 * This method is triggered by the navigation component when user clicks
+		 * on their cumulative balance. It switches the app to cross-project mode
+		 * which displays aggregated balances across all projects.
+		 */
+		onShowCrossProjectBalances() {
+			// Clear project selection to show cross-project view instead of single project
+			this.cospend.currentProjectId = null
+			this.currentBill = null
+			this.mode = 'cross-project-balances' // Switch to cross-project balance mode
+		},
+		/**
+		 * Handle closing of cross-project balances view
+		 * Returns user to the normal project view or empty state.
+		 */
+		onCloseCrossProjectBalances() {
+			// Return to normal mode
+			this.mode = 'edition'
+			this.currentBill = null
+			// Don't select any specific project, let user choose
 		},
 		onTrashbinClicked(projectId) {
 			if (cospend.currentProjectId === projectId && this.trashbinEnabled) {

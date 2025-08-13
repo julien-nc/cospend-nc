@@ -114,6 +114,8 @@ return [
 		// projects
 		['name' => 'api#getLocalProjects', 'url' => '/api/{apiVersion}/projects', 'verb' => 'GET', 'requirements' => $requirements],
 		['name' => 'api#getFederatedProjects', 'url' => '/api/{apiVersion}/federated-projects', 'verb' => 'GET', 'requirements' => $requirements],
+		// Cross-project balance aggregation endpoint (GitHub issue #281)
+		['name' => 'api#getCrossGroupBalances', 'url' => '/api/{apiVersion}/cross-project-balances', 'verb' => 'GET', 'requirements' => $requirements],
 		['name' => 'api#createProject', 'url' => '/api/{apiVersion}/projects', 'verb' => 'POST', 'requirements' => $requirements],
 		['name' => 'api#deleteProject', 'url' => '/api/{apiVersion}/projects/{projectId}', 'verb' => 'DELETE', 'requirements' => $requirements],
 		['name' => 'api#editProject', 'url' => '/api/{apiVersion}/projects/{projectId}', 'verb' => 'PUT', 'requirements' => $requirements],

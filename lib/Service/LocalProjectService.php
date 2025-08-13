@@ -1544,9 +1544,6 @@ class LocalProjectService implements IProjectService {
 	 * @param string $projectId
 	 * @param int|null $maxTimestamp
 	 * @return array
-	 */
-	/**
-	 * Get balance for all members in a project (public method for cross-project calculations)
 	 * 
 	 * This public wrapper method exposes the existing private getBalance() functionality
 	 * for use by the cross-project balance feature (GitHub issue #281). It maintains

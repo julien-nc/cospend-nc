@@ -125,8 +125,8 @@
 			</NcAppSettingsSection>
 			<NcAppSettingsSection
 				id="sort"
-				:name="t('cospend', 'Sort criterias')"
-				:title="t('cospend', 'Sort criterias')"
+				:name="t('cospend', 'Sort criteria')"
+				:title="t('cospend', 'Sort criteria')"
 				class="app-settings-section">
 				<div v-if="!pageIsPublic">
 					<h3 class="app-settings-section__hint">
@@ -160,6 +160,47 @@
 				</select>
 			</NcAppSettingsSection>
 			<NcAppSettingsSection
+				id="cumulated-balance"
+				:name="t('cospend', 'Cumulated balances')"
+				:title="t('cospend', 'Cumulated balances')"
+				class="app-settings-section">
+				<NcCheckboxRadioSwitch
+					:checked.sync="showMyBalance"
+					@update:checked="onCheckboxChange($event, 'showMyBalance')">
+					{{ t('cospend', 'Show cumulated balances') }}
+				</NcCheckboxRadioSwitch>
+				<h3 class="app-settings-section__hint">
+					{{ t('cospend', 'Cumulated balances view customisation') }}
+				</h3>
+				<!-- Cross-project balance display order control -->
+				<!-- Allows users to choose whether Summary or People section appears first -->
+				<label for="display-order-select">
+					{{ t('cospend', 'First Section: ') }}
+				</label>
+				<select id="display-order-select" v-model="displayOrder" @change="onDisplayOrderChange">
+					<option value="summary">
+						{{ t('cospend', 'Balance Summary') }}
+					</option>
+					<option value="people">
+						{{ t('cospend', 'Balances by People') }}
+					</option>
+				</select>
+				<br>
+				<!-- Project details visibility control -->
+				<!-- Replaces problematic checkbox with reliable dropdown for hiding/showing project breakdowns -->
+				<label for="hide-projects-select">
+					{{ t('cospend', 'Project details: ') }}
+				</label>
+				<select id="hide-projects-select" v-model="hideProjectsVisibility" @change="onHideProjectsChange">
+					<option value="show">
+						{{ t('cospend', 'Expand by default') }}
+					</option>
+					<option value="hide">
+						{{ t('cospend', 'Collapse by default') }}
+					</option>
+				</select>
+			</NcAppSettingsSection>
+			<NcAppSettingsSection
 				id="misc"
 				:name="t('cospend', 'Misc')"
 				:title="t('cospend', 'Misc')"
@@ -184,11 +225,6 @@
 					:checked.sync="useTime"
 					@update:checked="onCheckboxChange($event, 'useTime')">
 					{{ t('cospend', 'Use time in dates') }}
-				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch
-					:checked.sync="showMyBalance"
-					@update:checked="onCheckboxChange($event, 'showMyBalance')">
-					{{ t('cospend', 'Show my cumulated balance') }}
 				</NcCheckboxRadioSwitch>
 			</NcAppSettingsSection>
 		</NcAppSettingsDialog>
@@ -233,6 +269,14 @@ export default {
 			maxPrecision: cospend.maxPrecision || 2,
 			useTime: cospend.useTime ?? true,
 			showMyBalance: cospend.showMyBalance ?? false,
+			// Cross-project balance display settings:
+			// Convert boolean showSummaryFirst to dropdown-friendly string value
+			displayOrder: cospend.showSummaryFirst ? 'summary' : 'people',
+			// Store the actual boolean value for direct cospend state updates
+			hideProjectsByDefault: cospend.hideProjectsByDefault ?? true,
+			// Convert boolean hideProjectsByDefault to dropdown-friendly string value
+			// This allows for intuitive dropdown selection (show/hide) instead of boolean checkbox
+			hideProjectsVisibility: (cospend.hideProjectsByDefault ?? true) ? 'hide' : 'show',
 			importingProject: false,
 			importingSWProject: false,
 			cospendVersion: OC.getCapabilities()?.cospend?.version || '??',
@@ -240,6 +284,17 @@ export default {
 	},
 
 	computed: {
+	},
+
+	watch: {
+		// Sync dropdown values with global cospend state changes
+		// This ensures UI stays in sync if settings are changed elsewhere
+		'cospend.showSummaryFirst'(newValue) {
+			this.displayOrder = newValue ? 'summary' : 'people'
+		},
+		'cospend.hideProjectsByDefault'(newValue) {
+			this.hideProjectsVisibility = newValue ? 'hide' : 'show'
+		},
 	},
 
 	mounted() {
@@ -253,6 +308,9 @@ export default {
 	methods: {
 		handleShowSettings() {
 			this.showSettings = true
+			// Refresh values from cospend state when dialog opens
+			this.displayOrder = cospend.showSummaryFirst ? 'summary' : 'people'
+			this.hideProjectsVisibility = cospend.hideProjectsByDefault ? 'hide' : 'show'
 		},
 
 		onOutputDirClick() {
@@ -289,6 +347,24 @@ export default {
 		onCheckboxChange(checked, key) {
 			emit('save-option', { key, value: checked ? '1' : '0' })
 			cospend[key] = checked
+		},
+		onDisplayOrderChange() {
+			// Convert dropdown selection to boolean for cospend state
+			// 'summary' = true (show summary first), 'people' = false (show people first)
+			const showSummaryFirst = this.displayOrder === 'summary'
+			emit('save-option', { key: 'showSummaryFirst', value: showSummaryFirst ? '1' : '0' })
+			cospend.showSummaryFirst = showSummaryFirst
+		},
+		onHideProjectsChange() {
+			// Convert dropdown selection to boolean for project details visibility
+			// 'hide' = true (hide by default), 'show' = false (show by default)
+			const hideProjectsByDefault = this.hideProjectsVisibility === 'hide'
+			// Update local data property to keep in sync
+			this.hideProjectsByDefault = hideProjectsByDefault
+			// Persist setting to server (as string '1'/'0' for database storage)
+			emit('save-option', { key: 'hideProjectsByDefault', value: hideProjectsByDefault ? '1' : '0' })
+			// Update global cospend state immediately for reactive UI updates
+			cospend.hideProjectsByDefault = hideProjectsByDefault
 		},
 		onImportClick() {
 			importCospendProject(() => {

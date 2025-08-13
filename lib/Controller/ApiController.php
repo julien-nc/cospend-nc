@@ -1708,4 +1708,38 @@ class ApiController extends OCSController {
 	public function ping(): DataResponse {
 		return new DataResponse([$this->userId]);
 	}
+
+	/**
+	 * Get cross-project balances for the current user
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array, array{}>
+	 * @throws Exception
+	 *
+	 * 200: Cross-project balances
+	 */
+	/**
+	 * Get cross-project balances for the current user
+	 * 
+	 * This endpoint implements Cross - project balances from GitHub issue #281.
+	 * It provides aggregated balance information showing what the current user owes
+	 * to and is owed by other users across all projects they participate in.
+	 * 
+	 * Returns:
+	 * - Summary totals (total owed, total owed to user, net balance)
+	 * - Per-person breakdowns with project-level details
+	 * - Human-readable summary for quick display
+	 * 
+	 * The calculation maintains consistency with individual project settlement views
+	 * by using the same underlying balance calculation logic.
+	 * 
+	 * @return DataResponse Array containing cross-project balance data
+	 * 
+	 * @since 1.6.0 Added for cross-project balance aggregation feature
+	 */
+	#[NoAdminRequired]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
+	public function getCrossGroupBalances(): DataResponse {
+		$balances = $this->cospendService->getCrossGroupBalances($this->userId);
+		return new DataResponse($balances);
+	}
 }

@@ -1066,4 +1066,243 @@ class CospendService {
 
 		return [];
 	}
+
+    /**
+     * Get cross-project balances aggregated by person across all projects
+     * 
+     * This method implements GitHub issue #281 - Cross-project balances feature.
+     * It calculates and aggregates debts/credits between the current user and all other
+     * members across all projects they participate in.
+     * 
+     * The calculation logic:
+     * 1. Iterates through all non-archived projects where user is a member
+     * 2. For each project, gets the current balance state using existing settlement logic
+     * 3. Aggregates balances by person (using userid if available, or name as fallback)
+     * 4. Returns summary totals and per-person breakdowns with project details
+     * 
+     * Balance interpretation (from current user's perspective):
+     * - Positive balance = current user owes money to that person
+     * - Negative balance = that person owes money to current user
+     * 
+     * This matches the existing settlement view's calculation logic for consistency.
+     * 
+     * @param string $userId The current user's Nextcloud user ID
+     * @return array Contains:
+     *   - totalOwed: Total amount current user owes across all projects
+     *   - totalOwedTo: Total amount owed to current user across all projects  
+     *   - netBalance: Net balance (totalOwedTo - totalOwed)
+     *   - personBalances: Array of per-person balance details with project breakdowns
+     *   - summary: Human-readable summary arrays for display
+     * 
+     * @since 1.6.0 Added for cross-project balance aggregation feature
+     */
+    public function getCrossGroupBalances(string $userId): array {
+        $projects = $this->localProjectService->getLocalProjects($userId);
+        $crossProjectBalances = [];
+        $totalOwed = 0.0;      // Total amount current user owes to others
+        $totalOwedTo = 0.0;    // Total amount others owe to current user
+        
+        // Get current user info for filtering projects
+        $currentUserId = $userId;
+        
+        // Track debts by person (aggregated across all projects)
+        // Key = unique person identifier, Value = person data with aggregated balances
+        $personBalances = []; // [personIdentifier => [name, totalBalance, projects => [projectId => balance]]]
+        
+        // If no projects, return empty data structure
+        if (empty($projects)) {
+            return [
+                'totalOwed' => 0.0,
+                'totalOwedTo' => 0.0,
+                'netBalance' => 0.0,
+                'personBalances' => [],
+                'summary' => ['owedToMe' => [], 'iOwe' => []]
+            ];
+        }
+        
+        foreach ($projects as $project) {
+            $projectId = $project['id'];
+            $projectName = $project['name'];
+            
+            // Skip archived projects as they don't contribute to active balances
+            if ($project['archived_ts'] !== null) {
+                continue;
+            }
+            
+            // Get current balance state for this project using existing balance calculation
+            $balances = $this->localProjectService->getProjectBalance($projectId);
+            $members = $project['members'] ?? [];
+            
+            // Find current user's member ID and balance in this project
+            $currentUserMemberId = null;
+            $currentUserBalance = 0.0;
+            
+            foreach ($members as $member) {
+                if (isset($member['userid']) && $member['userid'] === $currentUserId) {
+                    $currentUserMemberId = (int)$member['id'];
+                    $currentUserBalance = $balances[$member['id']] ?? 0.0;
+                    break;
+                }
+            }
+            
+            // If current user is not a member of this project, skip it
+            if ($currentUserMemberId === null) {
+                continue;
+            }
+            
+            // Calculate cross-member debts for this project and add to aggregated totals
+            $this->calculateProjectDebts($projectId, $currentUserMemberId, $currentUserBalance, $members, $balances, $projectName, $personBalances);
+        }
+        
+        // Calculate final totals from aggregated person balances
+        foreach ($personBalances as $personData) {
+            if ($personData['totalBalance'] > 0.01) {
+                // Positive balance = current user owes money to this person
+                $totalOwed += $personData['totalBalance'];
+            } elseif ($personData['totalBalance'] < -0.01) {
+                // Negative balance = this person owes money to current user
+                $totalOwedTo += abs($personData['totalBalance']);
+            }
+        }
+        
+        // Return structured data for frontend consumption
+        return [
+            'totalOwed' => $totalOwed,          // What current user owes to others
+            'totalOwedTo' => $totalOwedTo,      // What others owe to current user
+            'netBalance' => $totalOwedTo - $totalOwed,  // Net position (positive = net creditor)
+            'personBalances' => array_values($personBalances),  // Per-person details
+            'summary' => $this->generateBalanceSummary($personBalances)  // Human-readable summary
+        ];
+    }
+    
+    /**
+     * Calculate what the current user owes to/is owed by each member in a specific project
+     * 
+     * This method processes each project's balance state and aggregates the relationships
+     * between the current user and other members. It uses the existing balance calculation
+     * logic to ensure consistency with the settlement view.
+     * 
+     * The key insight is that member balances from getProjectBalance() represent what 
+     * each member owes/is owed in the project, and we need to determine the direct
+     * relationship between current user and each other member.
+     * 
+     * @param string $projectId Project identifier
+     * @param int $currentUserMemberId Current user's member ID in this project  
+     * @param float $currentUserBalance Current user's balance in this project (unused in current logic)
+     * @param array $members All project members
+     * @param array $balances Member balances from getProjectBalance()
+     * @param string $projectName Project name for display
+     * @param array &$personBalances Reference to aggregated balance array (modified in place)
+     * 
+     * @since 1.6.0 Added for cross-project balance aggregation feature
+     */
+    private function calculateProjectDebts(string $projectId, int $currentUserMemberId, float $currentUserBalance, array $members, array $balances, string $projectName, array &$personBalances): void {
+        // Process each member to determine relationship with current user
+        foreach ($members as $member) {
+            if ($member['id'] === $currentUserMemberId) {
+                continue; // Skip current user (no debt to self)
+            }
+            
+            if (!($member['activated'] ?? true)) {
+                continue; // Skip inactive/deactivated members
+            }
+            
+            $memberBalance = $balances[$member['id']] ?? 0.0;
+            $personIdentifier = $this->getPersonIdentifier($member);
+            $personName = $member['name'] ?? 'Unknown';
+            
+            // Initialize person data if not seen before across projects
+            if (!isset($personBalances[$personIdentifier])) {
+                $personBalances[$personIdentifier] = [
+                    'name' => $personName,
+                    'identifier' => $personIdentifier,
+                    'totalBalance' => 0.0,
+                    'projects' => []
+                ];
+            }
+            
+            // Balance interpretation from current user's perspective:
+            // The member balance from getProjectBalance() represents what the member 
+            // owes (negative) or is owed (positive) in the project overall.
+            // 
+            // For cross-project aggregation, we interpret this as:
+            // - Negative memberBalance = member owes money = negative value for us (they owe us)
+            // - Positive memberBalance = member is owed money = positive value for us (we owe them)
+            // 
+            // This maintains consistency with the settlement view's calculations and ensures
+            // that the cross-project balances match what users see in individual projects.
+            
+            $relationshipBalance = 0.0;
+            
+            if (abs($memberBalance) > 0.01) {  // Only process significant balances (ignore rounding errors)
+                // The member's balance directly represents our relationship:
+                // - Positive: we owe them money  
+                // - Negative: they owe us money
+                $relationshipBalance = $memberBalance;
+                
+                // Add this project's contribution to the person's total across all projects
+                $personBalances[$personIdentifier]['totalBalance'] += $relationshipBalance;
+                $personBalances[$personIdentifier]['projects'][] = [
+                    'projectId' => $projectId,
+                    'projectName' => $projectName,
+                    'balance' => $relationshipBalance
+                ];
+            }
+        }
+    }
+    
+    /**
+     * Get unique identifier for a person across projects
+     * 
+     * This method creates consistent identifiers for the same person across multiple
+     * projects to enable proper aggregation. It prioritizes Nextcloud user ID when
+     * available (for registered users) and falls back to normalized name matching.
+     * 
+     * Priority order:
+     * 1. userid (if the person is a Nextcloud user) - most reliable
+     * 2. name (case-insensitive, trimmed) - fallback for guest users
+     * 
+     * @param array $member Member data containing userid and/or name
+     * @return string Unique identifier for cross-project aggregation
+     * 
+     * @since 1.6.0 Added for cross-project balance aggregation feature
+     */
+    private function getPersonIdentifier(array $member): string {
+        if (!empty($member['userid'])) {
+            return 'user:' . $member['userid'];
+        }
+        return 'name:' . strtolower(trim($member['name'] ?? ''));
+    }
+    
+    /**
+     * Generate a human-readable summary of balances for display purposes
+     * 
+     * Creates simplified arrays of who owes what to whom, used for quick
+     * summary display in the UI. Separates positive balances (what user owes)
+     * from negative balances (what others owe to user).
+     * 
+     * @param array $personBalances Aggregated person balance data
+     * @return array Contains 'owedToMe' and 'iOwe' arrays with formatted strings
+     * 
+     * @since 1.6.0 Added for cross-project balance aggregation feature
+     */
+    private function generateBalanceSummary(array $personBalances): array {
+        $owedToMe = [];  // Others owe money to current user
+        $iOwe = [];      // Current user owes money to others
+        
+        foreach ($personBalances as $personData) {
+            if ($personData['totalBalance'] > 0.01) {
+                // Positive balance = current user owes money to this person
+                $iOwe[] = $personData['name'] . ': ' . number_format($personData['totalBalance'], 2);
+            } elseif ($personData['totalBalance'] < -0.01) {
+                // Negative balance = this person owes money to current user  
+                $owedToMe[] = $personData['name'] . ': ' . number_format(abs($personData['totalBalance']), 2);
+            }
+        }
+        
+        return [
+            'owedToMe' => $owedToMe,
+            'iOwe' => $iOwe
+        ];
+    }
 }

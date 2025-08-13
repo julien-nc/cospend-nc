@@ -1545,6 +1545,35 @@ class LocalProjectService implements IProjectService {
 	 * @param int|null $maxTimestamp
 	 * @return array
 	 */
+	/**
+	 * Get balance for all members in a project (public method for cross-project calculations)
+	/**
+	 * Get project balance data for cross-project balance calculations
+	 * 
+	 * This public wrapper method exposes the existing private getBalance() functionality
+	 * for use by the cross-project balance feature (GitHub issue #281). It maintains
+	 * the same calculation logic as used by settlement views to ensure consistency.
+	 * 
+	 * The balance data returned represents what each member owes (negative) or is owed
+	 * (positive) within the specific project based on bill payments and shares.
+	 * 
+	 * @param string $projectId Project identifier
+	 * @param int|null $maxTimestamp Optional timestamp limit for balance calculation
+	 * @return array Member balance data [memberId => balance]
+	 * 
+	 * @since 1.6.0 Added public access for cross-project balance aggregation feature
+	 */
+	public function getProjectBalance(string $projectId, ?int $maxTimestamp = null): array {
+		return $this->getBalance($projectId, $maxTimestamp);
+	}
+
+	/**
+	 * Get balance of members of a project, optionally until a given timestamp
+	 *
+	 * @param string $projectId
+	 * @param int|null $maxTimestamp
+	 * @return array
+	 */
 	private function getBalance(string $projectId, ?int $maxTimestamp = null): array {
 		$membersWeight = [];
 		$membersBalance = [];

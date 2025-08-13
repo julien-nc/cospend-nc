@@ -449,6 +449,11 @@ export default {
 			this.onFilterChange()
 		},
 		onFilterChange() {
+			// Prevent filter changes when in cross-project balances mode
+			if (this.mode === 'cross-project-balances') {
+				return
+			}
+
 			// deselect current bill
 			this.currentBill = null
 			// we load bills from scratch to make sure we get the correct total number of bills
@@ -456,6 +461,19 @@ export default {
 			this.getBills(cospend.currentProjectId, null, null, null, this.trashbinEnabled)
 		},
 		onNavMemberClick({ projectId, memberId }) {
+			// If in cross-project balances mode, close it and switch to the project with member selected
+			if (this.mode === 'cross-project-balances') {
+				// Close cross-project view and switch to normal mode
+				this.mode = 'edition'
+				this.currentBill = null
+				// Select the project and member
+				this.cospend.currentProjectId = projectId
+				this.selectedMemberId = memberId
+				// Load bills for the selected project with member filter
+				this.getBills(projectId, null, null, null, this.trashbinEnabled)
+				return
+			}
+
 			if (this.selectedMemberId === memberId) {
 				this.selectedMemberId = null
 			} else if (this.currentProjectId === projectId) {

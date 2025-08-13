@@ -1547,8 +1547,6 @@ class LocalProjectService implements IProjectService {
 	 */
 	/**
 	 * Get balance for all members in a project (public method for cross-project calculations)
-	/**
-	 * Get project balance data for cross-project balance calculations
 	 * 
 	 * This public wrapper method exposes the existing private getBalance() functionality
 	 * for use by the cross-project balance feature (GitHub issue #281). It maintains

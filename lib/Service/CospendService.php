@@ -1067,7 +1067,7 @@ class CospendService {
 		return [];
 	}
 
-    /**
+	/**
      * Get cross-project balances aggregated by person across all projects
      * 
      * This method implements GitHub issue #281 - Cross-project balances feature.

@@ -612,3 +612,15 @@ export function rejectInvitation(invitationId) {
 export function getRemoteAvatarUrl(cloudId) {
 	return generateOcsUrl('/apps/cospend/api/v1/remote/avatar/64?cloudId={cloudId}', { cloudId })
 }
+
+/**
+ * Get cross-project balance data for the current user
+ *
+ * This function implements the client-side API call for the Cross-project balances feature (GitHub issue #281).
+ * It fetches aggregated balance information showing what the current user owes to and is owed by other users across
+ * all projects they participate in.
+ */
+export function getCrossProjectBalances() {
+	const url = generateOcsUrl('/apps/cospend/api/v1/cross-project-balances')
+	return axios.get(url)
+}

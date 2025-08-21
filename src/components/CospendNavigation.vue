@@ -67,8 +67,12 @@
 					<PendingInvitationsModal v-if="!pageIsPublic && showPendingInvitations"
 						:invitations="pendingInvitations"
 						@close="showPendingInvitations = false" />
+					<!-- Cross-project balance navigation item (GitHub issue #281) -->
+					<!-- Clickable item showing user's cumulative balance across all projects -->
+					<!-- When clicked, triggers the cross-project balance view -->
 					<NcAppNavigationItem v-if="!pageIsPublic && showMyBalance && myBalance !== null"
-						:name="t('cospend', 'My cumulated balance')">
+						:name="t('cospend', 'My cumulated balance')"
+						@click="showCrossProjectBalanceView">
 						<template #icon>
 							<ColoredAvatar :user="currentUserId" />
 						</template>
@@ -309,9 +313,23 @@ export default {
 				this.importMenuOpen = false
 			}
 		},
+		/**
+		 * Show cross-project balance view
+		 *
+		 * Emits event to trigger display of cross-project balance aggregation view.
+		 * This is called when user clicks on their cumulative balance in the navigation.
+		 *
+		 * Implementation for the Cross-project balances feature (GitHub issue #281).
+		 *
+		 * @since 1.6.0
+		 */
+		showCrossProjectBalanceView() {
+			emit('show-cross-project-balances') // Trigger App.vue to switch to cross-project mode
+		},
 	},
 }
 </script>
+
 <style scoped lang="scss">
 // nothing
 </style>

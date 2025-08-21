@@ -50,6 +50,14 @@ function getOptionValuesSuccess(response) {
 				cospend.useTime = optionsValues[k] !== '0'
 			} else if (k === 'showMyBalance') {
 				cospend.showMyBalance = optionsValues[k] !== '0'
+			} else if (k === 'showSummaryFirst') {
+				// Cross-project balance settings: Convert server string ('1'/'0') to boolean
+				// This ensures proper boolean type for reactive Vue components and prevents persistence issues
+				cospend.showSummaryFirst = optionsValues[k] !== '0'
+			} else if (k === 'hideProjectsByDefault') {
+				// Cross-project balance settings: Convert server string ('1'/'0') to boolean
+				// Critical fix for settings persistence - ensures boolean type consistency across login/logout
+				cospend.hideProjectsByDefault = optionsValues[k] !== '0'
 			} else {
 				cospend[k] = optionsValues[k]
 			}

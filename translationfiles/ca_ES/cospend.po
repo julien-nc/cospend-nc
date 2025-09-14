@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-10-27 17:48+0100\n"
-"PO-Revision-Date: 2025-09-13 12:10\n"
+"PO-Revision-Date: 2025-09-14 12:12\n"
 "Last-Translator: \n"
 "Language-Team: Catalan\n"
 "Language: ca_ES\n"
@@ -692,13 +692,13 @@ msgstr "Compartir el projecte"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:314
 msgid "Close the trash bin"
-msgstr ""
+msgstr "Tanca la paperera"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:136
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:315
 msgid "Show the trash bin"
-msgstr ""
+msgstr "Mostra la paperera"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8
 msgid "Show project statistics"
@@ -715,15 +715,15 @@ msgstr "Seleccioni un projecte"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:12
 msgid "Nothing to repeat"
-msgstr ""
+msgstr "No hi ha res per repetir"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:13
 msgid "Bill deleted"
-msgstr ""
+msgstr "S'ha esborrat la factura"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:14
 msgid "Failed to delete bill"
-msgstr ""
+msgstr "No s'ha pogut esborrar la factura"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:15
 msgid "Bill restored"
@@ -731,7 +731,7 @@ msgstr "Factura recuperada"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:16
 msgid "Failed to restore bill"
-msgstr ""
+msgstr "No s'ha pogut recuperar la factura"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:17
 msgid "Bills restored"
@@ -740,11 +740,11 @@ msgstr "Factures recuperades"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:18
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:180
 msgid "Failed to delete bills"
-msgstr ""
+msgstr "No s'han pogut esborrar les factures"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:19
 msgid "Trashbin has been cleared"
-msgstr ""
+msgstr "S'ha buidat la paperera"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:20
 msgid "Member {name} already exists"

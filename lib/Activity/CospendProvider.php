@@ -240,7 +240,9 @@ class CospendProvider implements IProvider {
 			$params[$paramName] = [
 				'type' => 'highlight',
 				'id' => (string)$subjectParams[$paramName]['id'],
-				'name' => $subjectParams[$paramName]['name'] . ' (' . $subjectParams[$paramName]['amount'] . ')',
+				'name' => isset($subjectParams['project']['currency_name'])
+					? $subjectParams[$paramName]['name'] . ' (' . $subjectParams[$paramName]['amount'] . ' ' . $subjectParams['project']['currency_name'] . ')'
+					: $subjectParams[$paramName]['name'] . ' (' . $subjectParams[$paramName]['amount'] . ')',
 				'link' => $this->urlGenerator->linkToRouteAbsolute('cospend.page.indexBill', [
 					'projectId' => $subjectParams['project']['id'],
 					'billId' => $subjectParams[$paramName]['id'],

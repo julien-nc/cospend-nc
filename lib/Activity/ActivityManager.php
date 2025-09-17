@@ -249,7 +249,8 @@ class ActivityManager {
 		];
 		$project = [
 			'id' => $project->getId(),
-			'name' => $project->getName()
+			'name' => $project->getName(),
+			'currency_name' => $project->getCurrencyName(),
 		];
 		return [
 			'bill' => $bill,
@@ -265,7 +266,8 @@ class ActivityManager {
 		$project = $this->projectMapper->find($projectId);
 		$project = [
 			'id' => $project->getId(),
-			'name' => $project->getName()
+			'name' => $project->getName(),
+			'currency_name' => $project->getCurrencyName(),
 		];
 		return [
 			'project' => $project

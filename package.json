@@ -65,7 +65,7 @@
 		"@nextcloud/eslint-config": "^8.1.2",
 		"@nextcloud/stylelint-config": "^3.0.1",
 		"@nextcloud/vite-config": "^2.3.5",
-		"@vue/tsconfig": "^0.8.1",
+		"@vue/tsconfig": "0.5.1",
 		"vite-plugin-eslint": "^1.8.1",
 		"vite-plugin-stylelint": "^6.0.0"
 	}

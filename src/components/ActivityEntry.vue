@@ -117,10 +117,13 @@ export default {
 		subjectParameters() {
 			const params = {}
 			if (['bill_update', 'bill_create', 'bill_delete', 'project_share', 'project_unshare'].includes(this.activity.link)) {
+				const userId = this.activity.subject_rich[1]?.user?.id === '0'
+					? undefined
+					: this.activity.subject_rich[1]?.user?.id
 				params.user = {
 					component: NcUserBubble,
 					props: {
-						user: this.activity.subject_rich[1]?.user?.id || undefined,
+						user: userId,
 						displayName: this.userIsMe(this.activity.subject_rich[1]?.user?.id)
 							? t('cospend', 'You')
 							: this.activity.subject_rich[1]?.user?.name,

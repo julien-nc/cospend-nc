@@ -23,6 +23,7 @@
 		<template #icon>
 			<MemberAvatar
 				:member="billItemPayer"
+				:hide-status="true"
 				:size="40" />
 		</template>
 		<template #actions>

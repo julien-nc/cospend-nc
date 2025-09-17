@@ -4,14 +4,7 @@
 		:undo="true"
 		@undo="cancelDeletion">
 		<template #counter>
-			<vac :end-time="new Date().getTime() + (7000)">
-				<template #process="{ timeObj }">
-					<span>{{ `${timeObj.s}` }}</span>
-				</template>
-				<!--template v-slot:finish>
-					<span>Done!</span>
-				</template-->
-			</vac>
+			<Countdown :duration="7" />
 		</template>
 	</NcAppNavigationItem>
 	<NcAppNavigationItem v-else
@@ -149,7 +142,7 @@
 				:project-id="project.id"
 				:in-navigation="true"
 				:precision="precision"
-				@click="onMemberClick(member.id)" />
+				@safe-click="onMemberClick(member.id)" />
 		</template>
 	</NcAppNavigationItem>
 </template>
@@ -173,12 +166,12 @@ import ArchiveOutlineIcon from 'vue-material-design-icons/ArchiveOutline.vue'
 import ReimburseIcon from './icons/ReimburseIcon.vue'
 
 import AppNavigationMemberItem from './AppNavigationMemberItem.vue'
+import Countdown from './Countdown.vue'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 
 import { emit } from '@nextcloud/event-bus'
-import cospend from '../state.js'
 import * as constants from '../constants.js'
 import { Timer, getSortedMembers } from '../utils.js'
 import * as network from '../network.js'
@@ -186,6 +179,7 @@ import * as network from '../network.js'
 export default {
 	name: 'AppNavigationProjectItem',
 	components: {
+		Countdown,
 		ReimburseIcon,
 		AppNavigationMemberItem,
 		NcAppNavigationItem,
@@ -233,6 +227,7 @@ export default {
 	},
 	data() {
 		return {
+			cospend: OCA.Cospend.state,
 			deleting: false,
 			deletionTimer: null,
 			menuOpen: false,
@@ -240,7 +235,7 @@ export default {
 	},
 	computed: {
 		pageIsPublic() {
-			return cospend.pageIsPublic
+			return this.cospend.pageIsPublic
 		},
 		maintenerAccess() {
 			return this.project.myaccesslevel >= constants.ACCESS.MAINTENER
@@ -339,7 +334,7 @@ export default {
 	padding-left: 20px !important;
 }
 
-::v-deep .detailButton {
+:deep(.detailButton) {
 	border-radius: 50%;
 	&:hover {
 		background-color: var(--color-background-darker);

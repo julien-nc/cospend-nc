@@ -1,6 +1,8 @@
 <template>
 	<div class="activity-entry">
-		<element :is="icon.component"
+		<component
+			:is="icon.component"
+			v-if="icon"
 			class="activity-entry-icon"
 			:style="icon.color ? 'color: ' + icon.color + ';' : ''"
 			:size="16" />
@@ -29,8 +31,8 @@ import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 
-import NcUserBubble from '@nextcloud/vue/dist/Components/NcUserBubble.js'
-import { NcRichText } from '@nextcloud/vue/dist/Components/NcRichText.js'
+import NcUserBubble from '@nextcloud/vue/components/NcUserBubble'
+import { NcRichText } from '@nextcloud/vue/components/NcRichText'
 
 import moment from '@nextcloud/moment'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -115,10 +117,13 @@ export default {
 		subjectParameters() {
 			const params = {}
 			if (['bill_update', 'bill_create', 'bill_delete', 'project_share', 'project_unshare'].includes(this.activity.link)) {
+				const userId = this.activity.subject_rich[1]?.user?.id === '0'
+					? undefined
+					: this.activity.subject_rich[1]?.user?.id
 				params.user = {
 					component: NcUserBubble,
 					props: {
-						user: this.activity.subject_rich[1]?.user?.id || undefined,
+						user: userId,
 						displayName: this.userIsMe(this.activity.subject_rich[1]?.user?.id)
 							? t('cospend', 'You')
 							: this.activity.subject_rich[1]?.user?.name,
@@ -180,7 +185,7 @@ export default {
 	}
 }
 
-::v-deep .user-bubble__wrapper {
+:deep(.user-bubble__wrapper) {
 	margin-bottom: -2px;
 }
 </style>

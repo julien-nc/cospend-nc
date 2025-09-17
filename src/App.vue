@@ -154,7 +154,7 @@
 </template>
 
 <script>
-import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
+import isMobile from './mixins/isMobile.js'
 
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -166,8 +166,8 @@ import {
 	showWarning,
 	showInfo,
 } from '@nextcloud/dialogs'
+import { defineAsyncComponent } from 'vue'
 
-import cospend from './state.js'
 import * as network from './network.js'
 import * as constants from './constants.js'
 import { rgbObjToHex, slugify } from './utils.js'
@@ -181,47 +181,24 @@ import CogIcon from 'vue-material-design-icons/Cog.vue'
 import ReimburseIcon from './components/icons/ReimburseIcon.vue'
 import CospendIcon from './components/icons/CospendIcon.vue'
 
-import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
-import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
-
-import Statistics from './components/statistics/Statistics.vue'
-import Settlement from './Settlement.vue'
-import CospendNavigation from './components/CospendNavigation.vue'
-import CospendSettingsDialog from './components/CospendSettingsDialog.vue'
-import BillForm from './BillForm.vue'
-import BillList from './BillList.vue'
-import Sidebar from './components/Sidebar.vue'
-import MoveToProjectList from './components/MoveToProjectList.vue'
-// const Statistics = () => import('./components/statistics/Statistics.vue')
-// const Settlement = () => import('./Settlement.vue')
-// const CospendNavigation = () => import('./components/CospendNavigation.vue')
-// const CospendSettingsDialog = () => import('./components/CospendSettingsDialog.vue')
-// const BillForm = () => import('./BillForm.vue')
-// const BillList = () => import('./BillList.vue')
-// const Sidebar = () => import('./components/Sidebar.vue')
-// const MoveToProjectList = () => import('./components/MoveToProjectList.vue')
-
 export default {
 	name: 'App',
 	components: {
+		CospendNavigation: defineAsyncComponent(() => import('./components/CospendNavigation.vue')),
+		CospendSettingsDialog: defineAsyncComponent(() => import('./components/CospendSettingsDialog.vue')),
+		BillList: defineAsyncComponent(() => import('./BillList.vue')),
+		BillForm: defineAsyncComponent(() => import('./BillForm.vue')),
+		Statistics: defineAsyncComponent(() => import('./components/statistics/Statistics.vue')),
+		Settlement: defineAsyncComponent(() => import('./Settlement.vue')),
+		Sidebar: defineAsyncComponent(() => import('./components/Sidebar.vue')),
+		MoveToProjectList: defineAsyncComponent(() => import('./components/MoveToProjectList.vue')),
+		NcContent: defineAsyncComponent(() => import('@nextcloud/vue/components/NcContent')),
+		NcAppContent: defineAsyncComponent(() => import('@nextcloud/vue/components/NcAppContent')),
+		NcEmptyContent: defineAsyncComponent(() => import('@nextcloud/vue/components/NcEmptyContent')),
+		NcButton: defineAsyncComponent(() => import('@nextcloud/vue/components/NcButton')),
+		NcModal: defineAsyncComponent(() => import('@nextcloud/vue/components/NcModal')),
 		ReimburseIcon,
 		CospendIcon,
-		CospendNavigation,
-		CospendSettingsDialog,
-		BillList,
-		BillForm,
-		Statistics,
-		Settlement,
-		Sidebar,
-		NcContent,
-		NcAppContent,
-		NcEmptyContent,
-		NcButton,
-		MoveToProjectList,
-		NcModal,
 		PlusIcon,
 		CogIcon,
 		ShareVariantIcon,
@@ -238,7 +215,7 @@ export default {
 		return {
 			mode: 'normal',
 			trashbinEnabled: false,
-			cospend,
+			cospend: OCA.Cospend.state,
 			projects: {},
 			bills: {},
 			billLists: {},
@@ -271,7 +248,7 @@ export default {
 			return this.cospend.currentProjectId
 		},
 		currentProject() {
-			return this.projects[this.currentProjectId]
+			return this.projects[this.cospend.currentProjectId]
 		},
 		isCurrentProjectFederated() {
 			return this.currentProject?.federated === true
@@ -325,7 +302,7 @@ export default {
 						break
 					}
 				}
-				if (!cospend.pageIsPublic) {
+				if (!this.cospend.pageIsPublic) {
 					let member
 					for (const mid in members) {
 						member = members[mid]
@@ -442,7 +419,7 @@ export default {
 			this.currentBill = null
 			// we load bills from scratch to make sure we get the correct total number of bills
 			// and infinite scroll works fine
-			this.getBills(cospend.currentProjectId, null, null, null, this.trashbinEnabled)
+			this.getBills(this.cospend.currentProjectId, null, null, null, this.trashbinEnabled)
 		},
 		onNavMemberClick({ projectId, memberId }) {
 			if (this.selectedMemberId === memberId) {
@@ -454,7 +431,8 @@ export default {
 			this.currentBill = null
 			// we load bills from scratch to make sure we get the correct total number of bills
 			// and infinite scroll works fine
-			this.getBills(cospend.currentProjectId, null, null, null, this.trashbinEnabled)
+			this.getBills(this.cospend.currentProjectId, null, null, null, this.trashbinEnabled)
+			console.debug('[cospend] click on nav member', memberId, 'new selected member', this.selectedMemberId)
 		},
 		onActiveSidebarTabChanged(newActive) {
 			this.activeSidebarTab = newActive
@@ -464,8 +442,8 @@ export default {
 			this.activeSidebarTab = 'project-settings'
 		},
 		onDetailClicked(projectid) {
-			const sameProj = cospend.currentProjectId === projectid
-			if (cospend.currentProjectId !== projectid) {
+			const sameProj = this.cospend.currentProjectId === projectid
+			if (this.cospend.currentProjectId !== projectid) {
 				this.selectProject(projectid, true, true)
 			}
 			const sameTab = this.activeSidebarTab === 'project-settings'
@@ -473,8 +451,8 @@ export default {
 			this.activeSidebarTab = 'project-settings'
 		},
 		onShareClicked(projectid) {
-			const sameProj = cospend.currentProjectId === projectid
-			if (cospend.currentProjectId !== projectid) {
+			const sameProj = this.cospend.currentProjectId === projectid
+			if (this.cospend.currentProjectId !== projectid) {
 				this.selectProject(projectid, true, true)
 			}
 			const sameTab = this.activeSidebarTab === 'sharing'
@@ -508,21 +486,21 @@ export default {
 			}
 		},
 		cleanupBills() {
-			const i0 = this.billLists[cospend.currentProjectId].findIndex((bill) => { return bill.id === 0 })
+			const i0 = this.billLists[this.cospend.currentProjectId].findIndex((bill) => { return bill.id === 0 })
 			if (i0 !== -1) {
-				this.billLists[cospend.currentProjectId].splice(i0, 1)
+				this.billLists[this.cospend.currentProjectId].splice(i0, 1)
 			}
 		},
 		onBillCreated(bill, select, mode) {
-			this.bills[cospend.currentProjectId][bill.id] = bill
-			this.billLists[cospend.currentProjectId].unshift(bill)
+			this.bills[this.cospend.currentProjectId][bill.id] = bill
+			this.billLists[this.cospend.currentProjectId].unshift(bill)
 			this.currentProject.nb_bills++
 			this.cleanupBills()
 			if (select) {
 				this.currentBill = bill
 			}
 			if (mode === 'normal') {
-				this.updateProjectInfo(cospend.currentProjectId)
+				this.updateProjectInfo(this.cospend.currentProjectId)
 				if (!select) {
 					this.currentBill = null
 				}
@@ -531,19 +509,19 @@ export default {
 		onMultiBillEdit(billIds, categoryid, paymentmodeid) {
 			if (categoryid !== null) {
 				billIds.forEach(id => {
-					this.bills[cospend.currentProjectId][id].categoryid = categoryid
+					this.bills[this.cospend.currentProjectId][id].categoryid = categoryid
 				})
 			}
 			if (paymentmodeid !== null) {
 				billIds.forEach(id => {
-					this.bills[cospend.currentProjectId][id].paymentmodeid = paymentmodeid
+					this.bills[this.cospend.currentProjectId][id].paymentmodeid = paymentmodeid
 				})
 			}
 		},
 		onRepeatBillNow(billId) {
-			network.repeatBill(cospend.currentProjectId, billId).then((response) => {
+			network.repeatBill(this.cospend.currentProjectId, billId).then((response) => {
 				if (response.data.ocs.data.length > 0) {
-					this.getBills(cospend.currentProjectId, billId)
+					this.getBills(this.cospend.currentProjectId, billId)
 					showSuccess(n('cospend', '{nb} bill was created', '{nb} bills were created', response.data.ocs.data.length, { nb: response.data.ocs.data.length }))
 					// this.currentBill = null
 				} else {
@@ -561,16 +539,16 @@ export default {
 			// this avoids having both bill object sharing the same owerIds array (pseudo deep copy)
 			bill.owerIds = [...changedBill.owerIds]
 			if (updateProjectInfo) {
-				this.updateProjectInfo(cospend.currentProjectId)
+				this.updateProjectInfo(this.cospend.currentProjectId)
 			}
 		},
 		onCustomBillsCreated() {
 			this.currentBill = null
-			this.updateProjectInfo(cospend.currentProjectId)
+			this.updateProjectInfo(this.cospend.currentProjectId)
 		},
 		onPersoBillsCreated() {
 			this.currentBill = null
-			this.updateProjectInfo(cospend.currentProjectId)
+			this.updateProjectInfo(this.cospend.currentProjectId)
 		},
 		onResetSelection() {
 			this.currentBill = null
@@ -579,7 +557,7 @@ export default {
 			if (bill.id === 0) {
 				this.onBillDeleted(bill)
 			} else {
-				network.deleteBill(cospend.currentProjectId, bill).then((response) => {
+				network.deleteBill(this.cospend.currentProjectId, bill).then((response) => {
 					this.onBillDeleted(bill)
 					showSuccess(t('cospend', 'Bill deleted'))
 				}).catch((error) => {
@@ -591,15 +569,15 @@ export default {
 			}
 		},
 		onBillsDeleted(billIds) {
-			const billList = this.billLists[cospend.currentProjectId]
+			const billList = this.billLists[this.cospend.currentProjectId]
 			billIds.forEach(id => {
 				const index = billList.findIndex(bill => bill.id === id)
 				billList.splice(index, 1)
 			})
-			this.updateProjectInfo(cospend.currentProjectId)
+			this.updateProjectInfo(this.cospend.currentProjectId)
 		},
 		onBillDeleted(bill) {
-			const billList = this.billLists[cospend.currentProjectId]
+			const billList = this.billLists[this.cospend.currentProjectId]
 			const billIndex = billList.findIndex(b => bill.id === b.id)
 			if (billIndex !== -1) {
 				billList.splice(billIndex, 1)
@@ -607,17 +585,17 @@ export default {
 			if (bill.id === this.selectedBillId) {
 				this.currentBill = null
 			}
-			this.updateProjectInfo(cospend.currentProjectId)
+			this.updateProjectInfo(this.cospend.currentProjectId)
 		},
 		onRestoreBill(bill) {
-			network.restoreBill(cospend.currentProjectId, bill).then((response) => {
+			network.restoreBill(this.cospend.currentProjectId, bill).then((response) => {
 				showSuccess(t('cospend', 'Bill restored'))
-				const billList = this.billLists[cospend.currentProjectId]
+				const billList = this.billLists[this.cospend.currentProjectId]
 				billList.splice(billList.indexOf(bill), 1)
 				if (bill.id === this.selectedBillId) {
 					this.currentBill = null
 				}
-				this.updateProjectInfo(cospend.currentProjectId)
+				this.updateProjectInfo(this.cospend.currentProjectId)
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to restore bill')
@@ -626,14 +604,14 @@ export default {
 			})
 		},
 		onRestoreBills(billIds) {
-			network.restoreBills(cospend.currentProjectId, billIds).then((response) => {
+			network.restoreBills(this.cospend.currentProjectId, billIds).then((response) => {
 				showSuccess(t('cospend', 'Bills restored'))
-				const billList = this.billLists[cospend.currentProjectId]
+				const billList = this.billLists[this.cospend.currentProjectId]
 				billIds.forEach(id => {
 					const index = billList.findIndex(bill => bill.id === id)
 					billList.splice(index, 1)
 				})
-				this.updateProjectInfo(cospend.currentProjectId)
+				this.updateProjectInfo(this.cospend.currentProjectId)
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to delete bills')
@@ -642,7 +620,7 @@ export default {
 			})
 		},
 		onProjectClicked(projectId) {
-			if (cospend.currentProjectId !== projectId) {
+			if (this.cospend.currentProjectId !== projectId) {
 				this.trashbinEnabled = false
 				this.selectProject(projectId, true, true)
 			} else if (this.selectedMemberId !== null) {
@@ -652,7 +630,7 @@ export default {
 				this.currentBill = null
 				// we load bills from scratch to make sure we get the correct total number of bills
 				// and infinite scroll works fine
-				this.getBills(cospend.currentProjectId)
+				this.getBills(this.cospend.currentProjectId)
 			}
 		},
 		onDeleteProject(projectId) {
@@ -666,21 +644,21 @@ export default {
 			network.exportProject(filename, projectId, projectName)
 		},
 		onStatsClicked(projectId) {
-			if (cospend.currentProjectId !== projectId) {
+			if (this.cospend.currentProjectId !== projectId) {
 				this.selectProject(projectId, true, true)
 			}
 			this.currentBill = null
 			this.mode = 'stats'
 		},
 		onSettleClicked(projectId) {
-			if (cospend.currentProjectId !== projectId) {
+			if (this.cospend.currentProjectId !== projectId) {
 				this.selectProject(projectId, true, true)
 			}
 			this.currentBill = null
 			this.mode = 'settle'
 		},
 		onTrashbinClicked(projectId) {
-			if (cospend.currentProjectId === projectId && this.trashbinEnabled) {
+			if (this.cospend.currentProjectId === projectId && this.trashbinEnabled) {
 				this.trashbinEnabled = false
 			} else {
 				this.trashbinEnabled = true
@@ -703,7 +681,7 @@ export default {
 			this.onCloseTrashbinClicked(projectId)
 		},
 		onNewMemberClicked(projectId) {
-			if (cospend.currentProjectId !== projectId) {
+			if (this.cospend.currentProjectId !== projectId) {
 				this.selectProject(projectId, true, true)
 			}
 			this.currentBill = null
@@ -740,26 +718,26 @@ export default {
 			this.selectedCategoryFilter = null
 			this.selectedPaymentModeFilter = null
 			if (restoreSelectedBill) {
-				this.getBills(projectId, cospend.restoredCurrentBillId, null, false, this.trashbinEnabled)
+				this.getBills(projectId, this.cospend.restoredCurrentBillId, null, false, this.trashbinEnabled)
 			} else {
 				this.getBills(projectId, null, null, false, this.trashbinEnabled)
 			}
 			if (save) {
 				network.saveOptionValues({ selectedProject: projectId })
 			}
-			cospend.currentProjectId = projectId
+			this.cospend.currentProjectId = projectId
 			if (pushState) {
 				window.history.pushState(
 					null,
 					null,
-					generateUrl('/apps/cospend/p/{projectId}', { projectId: cospend.currentProjectId }),
+					generateUrl('/apps/cospend/p/{projectId}', { projectId: this.cospend.currentProjectId }),
 				)
 			}
 		},
 		deselectProject() {
 			this.mode = 'normal'
 			this.currentBill = null
-			cospend.currentProjectId = null
+			this.cospend.currentProjectId = null
 		},
 		onAutoSettled(projectId) {
 			this.getBills(projectId)
@@ -805,10 +783,10 @@ export default {
 				this.selectedCategoryFilter = null
 				this.selectedPaymentModeFilter = null
 				this.$refs.billList?.toggleFilterMode(false, false)
-				this.getBills(cospend.currentProjectId, null, () => { this.onNewBillClicked(bill) })
+				this.getBills(this.cospend.currentProjectId, null, () => { this.onNewBillClicked(bill) })
 			} else {
 				// find potentially existing new bill
-				const billList = this.billLists[cospend.currentProjectId]
+				const billList = this.billLists[this.cospend.currentProjectId]
 				const found = billList.findIndex((bill) => {
 					return bill.id === 0
 				})
@@ -846,7 +824,7 @@ export default {
 							comment: '',
 						}
 					}
-					this.billLists[cospend.currentProjectId].unshift(this.currentBill)
+					this.billLists[this.cospend.currentProjectId].unshift(this.currentBill)
 					this.currentProject.nb_bills++
 				} else {
 					this.currentBill = billList[found]
@@ -863,27 +841,27 @@ export default {
 				window.history.pushState(
 					null,
 					null,
-					generateUrl('/apps/cospend/p/{projectId}/b/0', { projectId: cospend.currentProjectId }),
+					generateUrl('/apps/cospend/p/{projectId}/b/0', { projectId: this.cospend.currentProjectId }),
 				)
 			}
 		},
 		onBillClicked(billId) {
-			const billList = this.billLists[cospend.currentProjectId]
+			const billList = this.billLists[this.cospend.currentProjectId]
 			if (billId === 0) {
 				const found = billList.findIndex((bill) => { return bill.id === 0 })
 				if (found !== -1) {
 					this.currentBill = billList[found]
 				}
 			} else {
-				this.currentBill = this.bills[cospend.currentProjectId][billId]
+				this.currentBill = this.bills[this.cospend.currentProjectId][billId]
 			}
 			this.mode = 'edition'
-			if (!cospend.pageIsPublic) {
+			if (!this.cospend.pageIsPublic) {
 				window.history.pushState(
 					null,
 					null,
 					generateUrl('/apps/cospend/p/{projectId}/b/{billId}', {
-						projectId: cospend.currentProjectId,
+						projectId: this.cospend.currentProjectId,
 						billId,
 					}),
 				)
@@ -893,7 +871,7 @@ export default {
 			// close the modal
 			this.showMoveModal = false
 			// set the selected bill id
-			cospend.restoredCurrentBillId = newBillId
+			this.cospend.restoredCurrentBillId = newBillId
 			// select the project
 			this.selectProject(newProjectId, false, true, true)
 		},
@@ -901,10 +879,10 @@ export default {
 			this.projectsLoading = true
 			network.getLocalProjects().then((response) => {
 				const responseData = response.data.ocs.data
-				if (!cospend.pageIsPublic) {
+				if (!this.cospend.pageIsPublic) {
 					responseData.forEach(project => { this.addProject(project) })
-					if (cospend.restoredCurrentProjectId !== null && cospend.restoredCurrentProjectId in this.projects) {
-						this.selectProject(cospend.restoredCurrentProjectId, false, false, true)
+					if (this.cospend.restoredCurrentProjectId !== null && this.cospend.restoredCurrentProjectId in this.projects) {
+						this.selectProject(this.cospend.restoredCurrentProjectId, false, false, true)
 					}
 				} else {
 					this.addProject(responseData)
@@ -916,7 +894,7 @@ export default {
 				showError(t('cospend', 'Failed to get projects'))
 			})
 
-			if (!cospend.pageIsPublic) {
+			if (!this.cospend.pageIsPublic) {
 				this.initFederationData()
 			}
 		},
@@ -929,8 +907,8 @@ export default {
 						console.debug('---------- FEDERATED PROJECT', response.data.ocs.data)
 						const project = response.data.ocs.data
 						this.addProject(project)
-						if (cospend.restoredCurrentProjectId !== null && cospend.restoredCurrentProjectId === project.id) {
-							this.selectProject(cospend.restoredCurrentProjectId, false, false, true)
+						if (this.cospend.restoredCurrentProjectId !== null && this.cospend.restoredCurrentProjectId === project.id) {
+							this.selectProject(this.cospend.restoredCurrentProjectId, false, false, true)
 						}
 					}).catch((error) => {
 						console.error(error)
@@ -967,7 +945,7 @@ export default {
 					}
 				})
 				this.bills[projectId] = {}
-				this.$set(this.billLists, projectId, responseData.bills)
+				this.billLists[projectId] = responseData.bills
 				responseData.bills.forEach((bill) => {
 					this.bills[projectId][bill.id] = bill
 				})
@@ -979,7 +957,7 @@ export default {
 							null,
 							null,
 							generateUrl('/apps/cospend/p/{projectId}/b/{billId}', {
-								projectId: cospend.currentProjectId,
+								projectId: this.cospend.currentProjectId,
 								billId: selectBillId,
 							}),
 						)
@@ -1016,7 +994,7 @@ export default {
 				if (!responseData.bills || responseData.bills.length === 0) {
 					state.complete()
 				} else {
-					this.$set(this.billLists, projectId, this.billLists[projectId].concat(responseData.bills))
+					this.billLists[projectId] = this.billLists[projectId].concat(responseData.bills)
 					responseData.bills.forEach((bill) => {
 						this.bills[projectId][bill.id] = bill
 					})
@@ -1031,23 +1009,23 @@ export default {
 			})
 		},
 		addProject(proj) {
-			cospend.members[proj.id] = {}
-			this.$set(this.members, proj.id, cospend.members[proj.id])
+			this.cospend.members[proj.id] = {}
+			this.members[proj.id] = this.cospend.members[proj.id]
 			proj.members.forEach((member) => {
-				cospend.members[proj.id][member.id] = member
-				this.$set(this.members[proj.id], member.id, member)
-				this.$set(this.members[proj.id][member.id], 'balance', proj.balance[member.id])
-				this.$set(this.members[proj.id][member.id], 'color', rgbObjToHex(member.color).replace('#', ''))
+				this.cospend.members[proj.id][member.id] = member
+				this.members[proj.id][member.id] = member
+				this.members[proj.id][member.id].balance = proj.balance[member.id]
+				this.members[proj.id][member.id].color = rgbObjToHex(member.color).replace('#', '')
 			})
 
-			cospend.bills[proj.id] = {}
-			this.$set(this.bills, proj.id, cospend.bills[proj.id])
+			this.cospend.bills[proj.id] = {}
+			this.bills[proj.id] = this.cospend.bills[proj.id]
 
-			cospend.billLists[proj.id] = []
-			this.$set(this.billLists, proj.id, cospend.billLists[proj.id])
+			this.cospend.billLists[proj.id] = []
+			this.billLists[proj.id] = this.cospend.billLists[proj.id]
 
-			cospend.projects[proj.id] = proj
-			this.$set(this.projects, proj.id, proj)
+			this.cospend.projects[proj.id] = proj
+			this.projects[proj.id] = proj
 		},
 		onProjectImported(project) {
 			this.addProject(project)
@@ -1076,10 +1054,10 @@ export default {
 		},
 		removeProject(projectId) {
 			this.currentBill = null
-			this.$delete(this.projects, projectId)
-			this.$delete(this.bills, projectId)
-			this.$delete(this.billLists, projectId)
-			this.$delete(this.members, projectId)
+			delete this.projects[projectId]
+			delete this.bills[projectId]
+			delete this.billLists[projectId]
+			delete this.members[projectId]
 			if (this.currentProjectId === projectId) {
 				this.deselectProject()
 			}
@@ -1087,12 +1065,12 @@ export default {
 		deleteProject(projectId) {
 			network.deleteProject(projectId).then((response) => {
 				this.currentBill = null
-				this.$delete(this.projects, projectId)
-				this.$delete(this.bills, projectId)
-				this.$delete(this.billLists, projectId)
-				this.$delete(this.members, projectId)
+				delete this.projects[projectId]
+				delete this.bills[projectId]
+				delete this.billLists[projectId]
+				delete this.members[projectId]
 
-				if (cospend.pageIsPublic) {
+				if (this.cospend.pageIsPublic) {
 					const redirectUrl = generateUrl('/apps/cospend/login')
 					window.location.replace(redirectUrl)
 				}
@@ -1108,7 +1086,7 @@ export default {
 			})
 		},
 		archiveProject(projectId) {
-			this.$set(this.projects[projectId], 'archived_ts', this.projects[projectId].archived_ts ? constants.PROJECT_ARCHIVED_TS_UNSET : constants.PROJECT_ARCHIVED_TS_NOW)
+			this.projects[projectId].archived_ts = this.projects[projectId].archived_ts ? constants.PROJECT_ARCHIVED_TS_UNSET : constants.PROJECT_ARCHIVED_TS_NOW
 			this.editProject(projectId, null, true)
 		},
 		updateProjectInfo(projectId) {
@@ -1118,7 +1096,7 @@ export default {
 				let balance
 				for (const memberid in responseData.balance) {
 					balance = responseData.balance[memberid]
-					this.$set(this.members[projectId][memberid], 'balance', balance)
+					this.members[projectId][memberid].balance = balance
 				}
 				this.updateProjectPrecision(projectId)
 
@@ -1147,8 +1125,8 @@ export default {
 			do {
 				precision++
 				sum = balanceArray.reduce((a, b) => parseFloat(a.toFixed(precision)) + parseFloat(b.toFixed(precision)), 0)
-			} while (sum !== 0.0 && precision < cospend.maxPrecision)
-			this.$set(this.projects[projectId], 'precision', precision)
+			} while (sum !== 0.0 && precision < this.cospend.maxPrecision)
+			this.projects[projectId].precision = precision
 		},
 		createMember(projectId, name, userid = null) {
 			const isProjectFederated = this.projects[projectId].federated === true
@@ -1158,7 +1136,7 @@ export default {
 				const responseData = response.data.ocs.data
 				responseData.balance = 0
 				responseData.color = rgbObjToHex(responseData.color).replace('#', '')
-				this.$set(this.members[projectId], responseData.id, responseData)
+				this.members[projectId][responseData.id] = responseData
 				this.projects[projectId].members.unshift(responseData)
 				showSuccess(t('cospend', 'Created member {name}', { name }))
 				// add access to this user if it's not there already
@@ -1202,7 +1180,7 @@ export default {
 			}
 		},
 		deleteNewBill() {
-			const billList = this.billLists[cospend.currentProjectId]
+			const billList = this.billLists[this.cospend.currentProjectId]
 			const newBill = billList.find((bill) => {
 				return bill.id === 0
 			})
@@ -1226,7 +1204,7 @@ export default {
 		editMemberSuccess(projectId, memberid, member) {
 			if (!member) {
 				// delete member
-				this.$delete(this.members[projectId], memberid)
+				delete this.members[projectId][memberid]
 				const i = this.projects[projectId].members.findIndex((m) => m.id === memberid)
 				if (i !== -1) {
 					this.projects[projectId].members.splice(i, 1)
@@ -1234,7 +1212,7 @@ export default {
 				showSuccess(t('cospend', 'Member deleted'))
 			} else {
 				showSuccess(t('cospend', 'Member saved'))
-				this.updateProjectInfo(cospend.currentProjectId)
+				this.updateProjectInfo(this.cospend.currentProjectId)
 				// add access to this user if it's not there already
 				if (member.userid) {
 					this.addParticipantAccess(projectId, memberid, member.userid)
@@ -1244,8 +1222,8 @@ export default {
 		editProject(projectId, password = null, deselectProject = false) {
 			const project = this.projects[projectId]
 			network.editProject(project, password).then((response) => {
-				if (password && cospend.pageIsPublic) {
-					cospend.password = password
+				if (password && this.cospend.pageIsPublic) {
+					this.cospend.password = password
 				}
 				this.updateProjectInfo(projectId).then(() => {
 					showSuccess(t('cospend', 'Project saved'))
@@ -1295,7 +1273,7 @@ export default {
 	display: flex;
 }
 
-::v-deep .central-empty-content {
+:deep(.central-empty-content) {
 	margin: 24px auto 24px auto;
 }
 

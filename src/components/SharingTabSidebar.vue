@@ -12,24 +12,24 @@
 			:append-to-body="false"
 			label="displayName"
 			@search="asyncFind"
-			@input="clickShareeItem">
+			@update:model-value="clickShareeItem">
 			<template #option="option">
 				<div class="shareSelectOption">
 					<NcAvatar v-if="option.type === constants.SHARE_TYPE.USER"
 						class="avatar-option"
 						:user="option.user"
-						:show-user-status="false" />
+						:hide-status="true" />
 					<NcAvatar v-else-if="[constants.SHARE_TYPE.GROUP, constants.SHARE_TYPE.CIRCLE].includes(option.type)"
 						class="avatar-option"
 						:display-name="option.name"
 						:is-no-user="true"
-						:show-user-status="false" />
+						:hide-status="true" />
 					<div v-else-if="option.type === constants.SHARE_TYPE.FEDERATED"
 						class="federated-avatar-wrapper">
 						<NcAvatar
 							:url="getRemoteAvatarUrl(option.user)"
 							:is-no-user="true"
-							:show-user-status="false"
+							:hide-status="true"
 							:disable-menu="true"
 							:disable-tooltip="true" />
 						<span
@@ -112,7 +112,7 @@
 						:display-name="access.userCloudId"
 						:url="getRemoteAvatarUrl(access.userCloudId)"
 						:is-no-user="true"
-						:show-user-status="false"
+						:hide-status="true"
 						:disable-menu="true"
 						:disable-tooltip="true" />
 					<span
@@ -139,7 +139,7 @@
 					placement="bottom">
 					<NcActionInput
 						type="text"
-						:value="access.label ?? ''"
+						:model-value="access.label ?? ''"
 						:disabled="!editionAccess || myAccessLevel < access.accesslevel"
 						@submit="submitLabel(access, $event)">
 						<template #icon>
@@ -150,25 +150,29 @@
 					<NcActionSeparator />
 					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.VIEWER, access)"
-						:checked="access.accesslevel === constants.ACCESS.VIEWER"
+						:model-value="access.accesslevel"
+						:value="constants.ACCESS.VIEWER"
 						@change="clickAccessLevel(access, constants.ACCESS.VIEWER)">
 						{{ t('cospend', 'Viewer') }}
 					</NcActionRadio>
 					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.PARTICIPANT, access)"
-						:checked="access.accesslevel === constants.ACCESS.PARTICIPANT"
+						:model-value="access.accesslevel"
+						:value="constants.ACCESS.PARTICIPANT"
 						@change="clickAccessLevel(access, constants.ACCESS.PARTICIPANT)">
 						{{ t('cospend', 'Participant') }}
 					</NcActionRadio>
 					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.MAINTENER, access)"
-						:checked="access.accesslevel === constants.ACCESS.MAINTENER"
+						:model-value="access.accesslevel"
+						:value="constants.ACCESS.MAINTENER"
 						@change="clickAccessLevel(access, constants.ACCESS.MAINTENER)">
 						{{ t('cospend', 'Maintainer') }}
 					</NcActionRadio>
 					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.ADMIN, access)"
-						:checked="access.accesslevel === constants.ACCESS.ADMIN"
+						:model-value="access.accesslevel"
+						:value="constants.ACCESS.ADMIN"
 						@change="clickAccessLevel(access, constants.ACCESS.ADMIN)">
 						{{ t('cospend', 'Admin') }}
 					</NcActionRadio>
@@ -201,7 +205,7 @@
 							<ClipboardCheckOutlineIcon v-if="linkCopied[access.id]"
 								class="success"
 								:size="20" />
-							<ClippyIcon v-else
+							<ContentCopyIcon v-else
 								:size="16" />
 						</template>
 					</NcActionLink>
@@ -224,7 +228,7 @@
 					placement="bottom">
 					<NcActionInput
 						type="text"
-						:value="access.label ?? ''"
+						:model-value="access.label ?? ''"
 						:disabled="!editionAccess || myAccessLevel < access.accesslevel"
 						@submit="submitLabel(access, $event)">
 						<template #icon>
@@ -233,7 +237,7 @@
 						{{ t('cospend', 'Label') }}
 					</NcActionInput>
 					<NcActionCheckbox
-						:checked="access.password !== null"
+						:model-value="access.password !== null"
 						:disabled="!editionAccess || myAccessLevel < access.accesslevel"
 						@check="onPasswordCheck(access, $event)"
 						@uncheck="onPasswordUncheck(access, $event)">
@@ -242,7 +246,7 @@
 					<NcActionInput
 						v-if="access.password !== null"
 						type="password"
-						:value="access.password"
+						:model-value="access.password"
 						:disabled="!editionAccess || myAccessLevel < access.accesslevel"
 						@submit="submitPassword(access, $event)">
 						<template #icon>
@@ -253,25 +257,29 @@
 					<NcActionSeparator />
 					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.VIEWER, access)"
-						:checked="access.accesslevel === constants.ACCESS.VIEWER"
+						:model-value="access.accesslevel"
+						:value="constants.ACCESS.VIEWER"
 						@change="clickAccessLevel(access, constants.ACCESS.VIEWER)">
 						{{ t('cospend', 'Viewer') }}
 					</NcActionRadio>
 					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.PARTICIPANT, access)"
-						:checked="access.accesslevel === constants.ACCESS.PARTICIPANT"
+						:model-value="access.accesslevel"
+						:value="constants.ACCESS.PARTICIPANT"
 						@change="clickAccessLevel(access, constants.ACCESS.PARTICIPANT)">
 						{{ t('cospend', 'Participant') }}
 					</NcActionRadio>
 					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.MAINTENER, access)"
-						:checked="access.accesslevel === constants.ACCESS.MAINTENER"
+						:model-value="access.accesslevel"
+						:value="constants.ACCESS.MAINTENER"
 						@change="clickAccessLevel(access, constants.ACCESS.MAINTENER)">
 						{{ t('cospend', 'Maintainer') }}
 					</NcActionRadio>
 					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.ADMIN, access)"
-						:checked="access.accesslevel === constants.ACCESS.ADMIN"
+						:model-value="access.accesslevel"
+						:value="constants.ACCESS.ADMIN"
 						@change="clickAccessLevel(access, constants.ACCESS.ADMIN)">
 						{{ t('cospend', 'Admin') }}
 					</NcActionRadio>
@@ -325,25 +333,29 @@
 					placement="bottom">
 					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.VIEWER, access)"
-						:checked="access.accesslevel === constants.ACCESS.VIEWER"
+						:model-value="access.accesslevel"
+						:value="constants.ACCESS.VIEWER"
 						@change="clickAccessLevel(access, constants.ACCESS.VIEWER)">
 						{{ t('cospend', 'Viewer') }}
 					</NcActionRadio>
 					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.PARTICIPANT, access)"
-						:checked="access.accesslevel === constants.ACCESS.PARTICIPANT"
+						:model-value="access.accesslevel"
+						:value="constants.ACCESS.PARTICIPANT"
 						@change="clickAccessLevel(access, constants.ACCESS.PARTICIPANT)">
 						{{ t('cospend', 'Participant') }}
 					</NcActionRadio>
 					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.MAINTENER, access)"
-						:checked="access.accesslevel === constants.ACCESS.MAINTENER"
+						:model-value="access.accesslevel"
+						:value="constants.ACCESS.MAINTENER"
 						@change="clickAccessLevel(access, constants.ACCESS.MAINTENER)">
 						{{ t('cospend', 'Maintainer') }}
 					</NcActionRadio>
 					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.ADMIN, access)"
-						:checked="access.accesslevel === constants.ACCESS.ADMIN"
+						:model-value="access.accesslevel"
+						:value="constants.ACCESS.ADMIN"
 						@change="clickAccessLevel(access, constants.ACCESS.ADMIN)">
 						{{ t('cospend', 'Admin') }}
 					</NcActionRadio>
@@ -374,20 +386,19 @@ import TextBoxIcon from 'vue-material-design-icons/TextBox.vue'
 import LinkVariantIcon from 'vue-material-design-icons/LinkVariant.vue'
 import QrcodeIcon from 'vue-material-design-icons/Qrcode.vue'
 import WebIcon from 'vue-material-design-icons/Web.vue'
+import ContentCopyIcon from 'vue-material-design-icons/ContentCopy.vue'
 
-import ClippyIcon from './icons/ClippyIcon.vue'
-
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActionRadio from '@nextcloud/vue/dist/Components/NcActionRadio.js'
-import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
-import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
-import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
-import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActionRadio from '@nextcloud/vue/components/NcActionRadio'
+import NcActionInput from '@nextcloud/vue/components/NcActionInput'
+import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
+import NcActionLink from '@nextcloud/vue/components/NcActionLink'
+import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
+import NcModal from '@nextcloud/vue/components/NcModal'
 
 import QRCode from './QRCode.vue'
 
@@ -397,7 +408,6 @@ import {
 	showSuccess,
 	showError,
 } from '@nextcloud/dialogs'
-import cospend from '../state.js'
 import * as constants from '../constants.js'
 import * as network from '../network.js'
 import axios from '@nextcloud/axios'
@@ -408,7 +418,6 @@ export default {
 	name: 'SharingTabSidebar',
 
 	components: {
-		ClippyIcon,
 		NcAvatar,
 		NcActions,
 		NcActionButton,
@@ -434,6 +443,7 @@ export default {
 		GoogleCirclesCommunitiesIcon,
 		CheckNetworkOutlineIcon,
 		HelpNetworkOutlineIcon,
+		ContentCopyIcon,
 	},
 
 	props: {
@@ -445,15 +455,19 @@ export default {
 
 	data() {
 		return {
+			cospend: OCA.Cospend.state,
 			constants,
 			selectedSharee: null,
 			sharees: [],
 			linkCopied: {},
 			addingPublicLink: false,
 			shareLinkQrcodeUrl: null,
-			qrcodeColor: cospend.themeColorDark,
+			qrcodeColor: OCA.Cospend.state.themeColorDark,
 			// the svg api is dead, glory to the svg api
-			qrcodeImageUrl: generateUrl('/apps/cospend/svg/cospend_square_bg?color=' + hexToDarkerHex(getComplementaryColor(cospend.themeColorDark)).replace('#', '')),
+			qrcodeImageUrl: generateUrl(
+				'/apps/cospend/svg/cospend_square_bg?color='
+					+ hexToDarkerHex(getComplementaryColor(OCA.Cospend.state.themeColorDark)).replace('#', ''),
+			),
 			federatedUserStatus: {
 				status: null,
 				message: null,
@@ -611,7 +625,7 @@ export default {
 						newShAccess.circleid = sh.user
 					}
 				}
-				cospend.projects[this.projectId].shares.push(newShAccess)
+				this.cospend.projects[this.projectId].shares.push(newShAccess)
 				this.selectedSharee = null
 			}).catch((error) => {
 				showError(t('cospend', 'Failed to add shared access'))
@@ -629,7 +643,7 @@ export default {
 			})
 		},
 		onPasswordCheck(access) {
-			this.$set(access, 'password', '')
+			access.password = ''
 		},
 		onPasswordUncheck(access) {
 			this.savePassword(access, '')
@@ -641,9 +655,9 @@ export default {
 		savePassword(access, password) {
 			network.editSharedAccess(this.projectId, access, null, password).then((response) => {
 				if (password === '') {
-					this.$set(access, 'password', null)
+					access.password = null
 				} else {
-					this.$set(access, 'password', password)
+					access.password = password
 				}
 				showSuccess(t('cospend', 'Share link saved'))
 			}).catch((error) => {
@@ -657,7 +671,7 @@ export default {
 		submitLabel(access, e) {
 			const label = e.target[0].value
 			network.editSharedAccess(this.projectId, access, label, null).then((response) => {
-				this.$set(access, 'label', label)
+				access.label = label
 				showSuccess(
 					access.type === constants.SHARE_TYPE.FEDERATED
 						? t('cospend', 'Federated share saved')
@@ -669,7 +683,7 @@ export default {
 			})
 		},
 		clickDeleteAccess(access) {
-			this.$set(access, 'loading', true)
+			access.loading = true
 			// to make sure the menu disappears
 			this.$refs.shareWithList.click()
 			network.deleteSharedAccess(this.projectId, access).then((response) => {
@@ -678,7 +692,7 @@ export default {
 			}).catch((error) => {
 				showError(t('cospend', 'Failed to delete shared access'))
 				console.error(error)
-				this.$set(access, 'loading', false)
+				access.loading = false
 			})
 		},
 		generatePublicLink(access) {
@@ -688,10 +702,10 @@ export default {
 			const publicLink = this.generatePublicLink(access)
 			try {
 				await navigator.clipboard.writeText(publicLink)
-				this.$set(this.linkCopied, access.id, true)
+				this.linkCopied[access.id] = true
 				// eslint-disable-next-line
 				new Timer(() => {
-					this.$set(this.linkCopied, access.id, false)
+					this.linkCopied[access.id] = false
 				}, 5000)
 			} catch (error) {
 				console.error(error)

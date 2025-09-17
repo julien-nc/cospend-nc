@@ -11,36 +11,31 @@
 		@update:menuOpen="onUpdateMenuOpen"
 		@update:name="onRename"
 		@click="onClick">
-		<div v-if="maintenerAccess"
-			slot="icon">
-			<NcColorPicker
+		<template #icon>
+			<NcColorPicker v-if="maintenerAccess"
 				class="app-navigation-entry-bullet-wrapper memberColorPicker"
-				:value="`#${member.color}`"
-				@input="updateColor">
+				:model-value="`#${member.color}`"
+				@submit="updateColor">
 				<template #default="{ attrs }">
 					<MemberAvatar
 						v-bind="attrs"
 						ref="avatar"
 						:member="member"
 						:size="24"
-						:force-is-no-user="project.federated"
-						:show-user-status="true" />
+						:force-is-no-user="project.federated" />
 				</template>
 			</NcColorPicker>
-		</div>
-		<div v-else
-			slot="icon">
-			<MemberAvatar
+			<MemberAvatar v-else
 				:member="member"
 				:size="24"
-				:force-is-no-user="project.federated"
-				:show-user-status="true" />
-		</div>
+				:force-is-no-user="project.federated" />
+		</template>
 		<template v-if="inNavigation"
 			#counter>
-			<NcCounterBubble class="balance">
-				<span :class="balanceClass">{{ balanceCounter }}</span>
-			</NcCounterBubble>
+			<NcCounterBubble :class="balanceClass"
+				:count="balanceCounter"
+				:title="balanceCounter"
+				:raw="true" />
 		</template>
 		<template v-if="maintenerAccess"
 			#actions>
@@ -55,7 +50,7 @@
 				ref="weightInput"
 				type="number"
 				step="0.01"
-				:value="''"
+				:model-value="''"
 				:disabled="false"
 				@submit="onWeightSubmit">
 				<template #icon>
@@ -80,7 +75,7 @@
 				v-if="showShareEdition"
 				name="accessLevel"
 				:disabled="!canSetAccessLevel(constants.ACCESS.NO_ACCESS, access)"
-				:checked="!access"
+				:model-value="!access"
 				@change="clickAccessLevel(constants.ACCESS.NO_ACCESS)">
 				{{ t('cospend', 'No access') }}
 			</NcActionRadio>
@@ -88,7 +83,7 @@
 				v-if="showShareEdition"
 				name="accessLevel"
 				:disabled="!canSetAccessLevel(constants.ACCESS.VIEWER, access)"
-				:checked="access && access.accesslevel === constants.ACCESS.VIEWER"
+				:model-value="access && access.accesslevel === constants.ACCESS.VIEWER"
 				@change="clickAccessLevel(constants.ACCESS.VIEWER)">
 				{{ t('cospend', 'Viewer') }}
 			</NcActionRadio>
@@ -96,7 +91,7 @@
 				v-if="showShareEdition"
 				name="accessLevel"
 				:disabled="!canSetAccessLevel(constants.ACCESS.PARTICIPANT, access)"
-				:checked="access && access.accesslevel === constants.ACCESS.PARTICIPANT"
+				:model-value="access && access.accesslevel === constants.ACCESS.PARTICIPANT"
 				@change="clickAccessLevel(constants.ACCESS.PARTICIPANT)">
 				{{ t('cospend', 'Participant') }}
 			</NcActionRadio>
@@ -104,7 +99,7 @@
 				v-if="showShareEdition"
 				name="accessLevel"
 				:disabled="!canSetAccessLevel(constants.ACCESS.MAINTENER, access)"
-				:checked="access && access.accesslevel === constants.ACCESS.MAINTENER"
+				:model-value="access && access.accesslevel === constants.ACCESS.MAINTENER"
 				@change="clickAccessLevel(constants.ACCESS.MAINTENER)">
 				{{ t('cospend', 'Maintainer') }}
 			</NcActionRadio>
@@ -112,7 +107,7 @@
 				v-if="showShareEdition"
 				name="accessLevel"
 				:disabled="!canSetAccessLevel(constants.ACCESS.ADMIN, access)"
-				:checked="access && access.accesslevel === constants.ACCESS.ADMIN"
+				:model-value="access && access.accesslevel === constants.ACCESS.ADMIN"
 				@change="clickAccessLevel(constants.ACCESS.ADMIN)">
 				{{ t('cospend', 'Admin') }}
 			</NcActionRadio>
@@ -126,22 +121,21 @@ import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import UndoIcon from 'vue-material-design-icons/Undo.vue'
 import WeightIcon from 'vue-material-design-icons/Weight.vue'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
-import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
-import NcActionRadio from '@nextcloud/vue/dist/Components/NcActionRadio.js'
-import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
-import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
-import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
+import NcActionInput from '@nextcloud/vue/components/NcActionInput'
+import NcActionRadio from '@nextcloud/vue/components/NcActionRadio'
+import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
+import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
+import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
 
 import MemberAvatar from './avatar/MemberAvatar.vue'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { emit } from '@nextcloud/event-bus'
-import cospend from '../state.js'
 import * as constants from '../constants.js'
 import * as network from '../network.js'
-import { getSmartMemberName, delay } from '../utils.js'
+import { getSmartMemberName } from '../utils.js'
 import { showError } from '@nextcloud/dialogs'
 
 export default {
@@ -184,25 +178,26 @@ export default {
 	},
 	data() {
 		return {
+			cospend: OCA.Cospend.state,
 			constants,
 			menuOpen: false,
 		}
 	},
 	computed: {
 		project() {
-			return cospend.projects[this.projectId]
+			return this.cospend.projects[this.projectId]
 		},
 		cMember() {
-			return cospend.members[this.projectId][this.member.id]
+			return this.cospend.members[this.projectId][this.member.id]
 		},
 		myAccessLevel() {
 			return this.project.myaccesslevel
 		},
 		maintenerAccess() {
-			return this.projectId && cospend.projects[this.projectId].myaccesslevel >= constants.ACCESS.MAINTENER
+			return this.projectId && this.cospend.projects[this.projectId].myaccesslevel >= constants.ACCESS.MAINTENER
 		},
 		editionAccess() {
-			return this.projectId && cospend.projects[this.projectId].myaccesslevel >= constants.ACCESS.PARTICIPANT
+			return this.projectId && this.cospend.projects[this.projectId].myaccesslevel >= constants.ACCESS.PARTICIPANT
 		},
 		isCurrentUser() {
 			return (uid) => uid === getCurrentUser().uid
@@ -241,6 +236,7 @@ export default {
 		},
 		balanceClass() {
 			return {
+				balance: true,
 				balancePositive: this.member.balance >= 0.01,
 				balanceNegative: this.member.balance <= -0.01,
 			}
@@ -254,7 +250,7 @@ export default {
 	methods: {
 		onClick(e) {
 			if (e.target.tagName !== 'DIV') {
-				this.$emit('click')
+				this.$emit('safe-click')
 			}
 		},
 		getDeletionText() {
@@ -280,7 +276,7 @@ export default {
 		},
 		onRename(newName) {
 			// check if name already exists
-			const members = cospend.projects[this.projectId].members
+			const members = this.cospend.projects[this.projectId].members
 			for (const mid in members) {
 				if (members[mid].name === newName && parseInt(mid) !== this.member.id) {
 					showError(t('cospend', 'A member is already named like that'))
@@ -302,9 +298,7 @@ export default {
 			emit('member-edited', { projectId: this.projectId, memberId: this.member.id })
 		},
 		updateColor(color) {
-			delay(() => {
-				this.applyUpdateColor(color)
-			}, 2000)()
+			this.applyUpdateColor(color)
 		},
 		applyUpdateColor(color) {
 			this.cMember.color = color.replace('#', '')
@@ -390,6 +384,6 @@ export default {
 }
 
 .balance {
-	max-width: 64px !important;
+	max-width: 80px !important;
 }
 </style>

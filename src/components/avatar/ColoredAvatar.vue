@@ -4,7 +4,7 @@
 		:is-no-user="isNoUser"
 		:disable-menu="disableMenu"
 		:disable-tooltip="disableTooltip"
-		:show-user-status="showUserStatus"
+		:hide-status="hideStatus"
 		:display-name="displayName"
 		:style="cssVars"
 		v-bind="$attrs">
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import { getColorBrightness, hexToRgb } from '../../utils.js'
 
 export default {
@@ -45,7 +45,7 @@ export default {
 			type: Boolean,
 			default: true,
 		},
-		showUserStatus: {
+		hideStatus: {
 			type: Boolean,
 			default: false,
 		},
@@ -96,7 +96,7 @@ export default {
 		isNoUser(val) {
 			// trick to re-render the avatar in case isNoUser changes
 			// re-render only if we show the user status (which is what's not rendered correctly)
-			if (this.showUserStatus) {
+			if (!this.hideStatus) {
 				this.showMe = false
 				this.$nextTick(() => {
 					this.showMe = true

@@ -3,7 +3,7 @@
 		<div class="settings-project">
 			<div v-if="adminAccess" class="renameProject">
 				<NcTextField
-					:value.sync="newProjectName"
+					v-model="newProjectName"
 					:label="t('cospend', 'Rename project {n}', { n: project.name }, undefined, { escape: false })"
 					placeholder="..."
 					trailing-button-icon="arrowRight"
@@ -14,8 +14,8 @@
 			<div v-if="adminAccess" class="deletion-disabled-line">
 				<NcCheckboxRadioSwitch
 					id="deletion-disabled"
-					:checked="project.deletiondisabled"
-					@update:checked="onDisableDeletionChange">
+					:model-value="project.deletiondisabled"
+					@update:model-value="onDisableDeletionChange">
 					{{ t('cospend', 'Disable bill deletion') }}
 				</NcCheckboxRadioSwitch>
 			</div>
@@ -68,7 +68,7 @@
 						<InformationOutlineIcon />
 					</template>
 				</NcButton>
-				<NcDialog :open.sync="showInfoAdd"
+				<NcDialog v-model:open="showInfoAdd"
 					:name="t('cospend', 'Info')"
 					:message="t('cospend', 'You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab.')" />
 			</h3>
@@ -90,16 +90,16 @@
 				:placeholder="newMemberPlaceholder"
 				:options="formatedUsers"
 				@search="asyncFind"
-				@input="clickAddUserItem">
+				@update:model-value="clickAddUserItem">
 				<template #option="option">
 					<div class="addUserSelectOption">
 						<NcAvatar v-if="option.type === 's'"
 							:is-no-user="true"
-							:show-user-status="false"
+							:hide-status="true"
 							:user="option.name" />
 						<NcAvatar v-else
 							:is-no-user="false"
-							:show-user-status="false"
+							:hide-status="true"
 							:user="option.user" />
 						<span class="select-display-name">{{ option.displayName }}</span>
 						<div v-if="option.type === 'u'" class="select-icon">
@@ -135,7 +135,7 @@
 							<InformationOutlineIcon />
 						</template>
 					</NcButton>
-					<NcDialog :open.sync="showInfoAssociate"
+					<NcDialog v-model:open="showInfoAssociate"
 						:name="t('cospend', 'Info')"
 						:message="t('cospend', 'Choose a project member, then a Nextcloud user to associate with.') + ' ' + t('cospend', 'You can cut the link with a Nextcloud user by renaming the member.')" />
 				</h3>
@@ -159,12 +159,12 @@
 						:placeholder="t('cospend', 'Choose a Nextcloud user')"
 						:options="formatedUsersAffect"
 						@search="asyncFind"
-						@input="clickAffectUserItem">
+						@update:model-value="clickAffectUserItem">
 						<template #option="option">
 							<div class="affectUserSelectOption">
 								<NcAvatar
 									:is-no-user="false"
-									:show-user-status="false"
+									:hide-status="true"
 									:user="option.user" />
 								<span class="select-display-name">{{ option.displayName }}</span>
 								<span :class="option.icon + ' select-icon'" />
@@ -191,13 +191,13 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import ContentSaveIcon from 'vue-material-design-icons/ContentSave.vue'
 import CalendarMonthIcon from 'vue-material-design-icons/CalendarMonth.vue'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 import AppNavigationMemberItem from './AppNavigationMemberItem.vue'
 import MemberMultiSelect from './MemberMultiSelect.vue'
@@ -207,7 +207,6 @@ import { generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
-import cospend from '../state.js'
 import * as constants from '../constants.js'
 import { getSortedMembers } from '../utils.js'
 
@@ -238,6 +237,7 @@ export default {
 	},
 	data() {
 		return {
+			cospend: OCA.Cospend.state,
 			constants,
 			selectedAddUser: null,
 			selectedAffectUser: null,
@@ -264,13 +264,13 @@ export default {
 			return this.project.myaccesslevel
 		},
 		members() {
-			return cospend.members[this.projectId]
+			return this.cospend.members[this.projectId]
 		},
 		memberList() {
 			return this.project.members
 		},
 		sortedMembers() {
-			return getSortedMembers(this.memberList, cospend.memberOrder)
+			return getSortedMembers(this.memberList, this.cospend.memberOrder)
 		},
 		activeMembers() {
 			return this.memberList.filter((member) => { return member.activated })
@@ -288,7 +288,7 @@ export default {
 			return (uid) => uid === getCurrentUser().uid
 		},
 		pageIsPublic() {
-			return cospend.pageIsPublic
+			return this.cospend.pageIsPublic
 		},
 		newMemberPlaceholder() {
 			return this.pageIsPublic
@@ -412,7 +412,7 @@ export default {
 
 	methods: {
 		onAutoExportSet(e) {
-			cospend.projects[this.projectId].autoexport = e.target.value
+			this.cospend.projects[this.projectId].autoexport = e.target.value
 			this.$emit('project-edited', this.projectId)
 		},
 		affectMemberSelected(selectedMember) {
@@ -465,21 +465,21 @@ export default {
 		},
 		clickAffectUserItem() {
 			const member = this.members[this.selectedMemberId]
-			this.$set(member, 'userid', this.selectedAffectUser.user)
-			this.$set(member, 'name', this.selectedAffectUser.name)
+			member.userid = this.selectedAffectUser.user
+			member.name = this.selectedAffectUser.name
 			emit('member-edited', { projectId: this.projectId, memberId: this.selectedMemberId })
 			this.selectedAffectUser = null
 			this.selectedMemberId = null
 		},
 		onRenameProject() {
 			if (this.newProjectName) {
-				cospend.projects[this.projectId].name = this.newProjectName
+				this.cospend.projects[this.projectId].name = this.newProjectName
 				this.$emit('project-edited', this.projectId)
 				this.newProjectName = ''
 			}
 		},
 		onDisableDeletionChange(checked) {
-			cospend.projects[this.projectId].deletiondisabled = checked
+			this.cospend.projects[this.projectId].deletiondisabled = checked
 			this.$emit('project-edited', this.projectId)
 		},
 		onMultiselectEnterPressed(elem) {

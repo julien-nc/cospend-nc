@@ -4,20 +4,21 @@
 		<div class="list-header">
 			<div class="list-header-header">
 				<NcButton v-if="trashbinEnabled"
-					type="tertiary"
+					variant="tertiary"
 					:aria-label="t('cospend', 'Trash bin')">
 					<template #icon>
 						<DeleteVariantIcon class="header-trashbin-icon" />
 					</template>
 				</NcButton>
 				<NcTextField
-					:value.sync="billFilterQuery"
+					v-model="billFilterQuery"
 					:placeholder="t('cospend', 'Search bills')"
-					:disabled="bills.length === 0"
 					:show-trailing-button="!['', null].includes(billFilterQuery)"
-					@trailing-button-click="onUpdateBillFilterQuery(''); billFilterQuery = ''"
-					@update:value="onUpdateBillFilterQuery">
-					<MagnifyIcon :size="20" />
+					@trailing-button-click="updateBillFilterQuery(''); billFilterQuery = ''"
+					@input="onUpdateBillFilterQueryInput">
+					<template #icon>
+						<MagnifyIcon :size="20" />
+					</template>
 				</NcTextField>
 				<NcActions :inline="1">
 					<NcActionButton v-if="!trashbinEnabled && editionAccess && oneActiveMember"
@@ -72,7 +73,7 @@
 					</NcActionButton>
 				</NcActions>
 			</div>
-			<transition name="fade">
+			<Transition name="fade">
 				<div v-if="filterMode"
 					class="filterOptions">
 					<div class="header">
@@ -102,8 +103,8 @@
 							@input="onFilterPaymentModeChange" />
 					</div>
 				</div>
-			</transition>
-			<transition name="fade">
+			</Transition>
+			<Transition name="fade">
 				<div v-if="selectMode"
 					class="selectionOptions">
 					<div>
@@ -164,7 +165,7 @@
 						</div>
 					</div>
 				</div>
-			</transition>
+			</Transition>
 		</div>
 		<NcEmptyContent v-if="!oneActiveMember"
 			:name="t('cospend', 'No member')"
@@ -196,21 +197,20 @@
 			</template>
 		</NcEmptyContent>
 		<NcLoadingIcon v-if="loading" :size="24" />
-		<transition-group v-else name="list">
-			<BillListItem
-				v-for="(bill, index) in bills"
-				:key="bill.id"
-				:bill="bill"
-				:project-id="projectId"
-				:index="nbBills - index"
-				:nb-bills="nbBills"
-				:selected="isBillSelected(bill)"
-				:edition-access="editionAccess"
-				:select-mode="selectMode"
-				@clicked="onItemClicked"
-				@move="onItemMove(bill)"
-				@duplicate-bill="$emit('duplicate-bill', $event)" />
-		</transition-group>
+		<BillListItem
+			v-for="(bill, index) in bills"
+			v-else
+			:key="bill.id"
+			:bill="bill"
+			:project-id="projectId"
+			:index="nbBills - index"
+			:nb-bills="nbBills"
+			:selected="isBillSelected(bill)"
+			:edition-access="editionAccess"
+			:select-mode="selectMode"
+			@clicked="onItemClicked"
+			@move="onItemMove(bill)"
+			@duplicate-bill="$emit('duplicate-bill', $event)" />
 		<InfiniteLoading v-if="!loading && bills.length > 30"
 			:identifier="projectId"
 			@infinite="infiniteHandler">
@@ -221,7 +221,7 @@
 				{{ t('cospend', 'No more bills') }}
 			</template>
 		</InfiniteLoading>
-		<NcDialog :open.sync="showDeletionConfirmation"
+		<NcDialog v-model:open="showDeletionConfirmation"
 			:name="t('cospend', 'Confirm deletion')"
 			:message="deletionConfirmationMessage">
 			<template #actions>
@@ -230,7 +230,7 @@
 					{{ t('cospend', 'Cancel') }}
 				</NcButton>
 				<NcButton
-					type="warning"
+					variant="warning"
 					@click="confirmedDeleteSelection">
 					<template #icon>
 						<DeleteIcon />
@@ -239,7 +239,7 @@
 				</NcButton>
 			</template>
 		</NcDialog>
-		<NcDialog :open.sync="showRestorationConfirmation"
+		<NcDialog v-model:open="showRestorationConfirmation"
 			:name="t('cospend', 'Confirm restoration')"
 			:message="restorationConfirmationMessage">
 			<template #actions>
@@ -248,7 +248,7 @@
 					{{ t('cospend', 'Cancel') }}
 				</NcButton>
 				<NcButton
-					type="warning"
+					variant="warning"
 					@click="confirmedRestoreSelection">
 					<template #icon>
 						<RestoreIcon />
@@ -257,7 +257,7 @@
 				</NcButton>
 			</template>
 		</NcDialog>
-		<NcDialog :open.sync="showClearTrashBinConfirmation"
+		<NcDialog v-model:open="showClearTrashBinConfirmation"
 			:name="t('cospend', 'Confirm clear trash bin')"
 			:message="clearTrashBinConfirmationMessage">
 			<template #actions>
@@ -266,7 +266,7 @@
 					{{ t('cospend', 'Cancel') }}
 				</NcButton>
 				<NcButton
-					type="error"
+					variant="error"
 					@click="clearTrashBin">
 					<template #icon>
 						<DeleteIcon />
@@ -294,23 +294,23 @@ import AccountIcon from 'vue-material-design-icons/Account.vue'
 
 import CospendIcon from './components/icons/CospendIcon.vue'
 
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import NcAppContentList from '@nextcloud/vue/dist/Components/NcAppContentList.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcAppContentList from '@nextcloud/vue/components/NcAppContentList'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 import PaymentModeMultiSelect from './components/PaymentModeMultiSelect.vue'
 import CategoryMultiSelect from './components/CategoryMultiSelect.vue'
 import BillListItem from './components/BillListItem.vue'
 
-import InfiniteLoading from 'vue-infinite-loading'
+import InfiniteLoading from '@codog/vue3-infinite-loading'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import cospend from './state.js'
+import debounce from 'debounce'
 import * as network from './network.js'
 import * as constants from './constants.js'
 import { strcmp } from './utils.js'
@@ -387,7 +387,7 @@ export default {
 
 	data() {
 		return {
-			cospend,
+			cospend: OCA.Cospend.state,
 			selectMode: false,
 			selectedCategoryMultiAction: null,
 			selectedPaymentModeMultiAction: null,
@@ -402,7 +402,7 @@ export default {
 
 	computed: {
 		project() {
-			return cospend.projects[this.projectId]
+			return this.cospend.projects[this.projectId]
 		},
 		nbBills() {
 			return this.totalBillNumber
@@ -421,10 +421,10 @@ export default {
 			return (c >= 1)
 		},
 		categories() {
-			return cospend.projects[this.projectId].categories
+			return this.cospend.projects[this.projectId].categories
 		},
 		sortedPaymentModes() {
-			const allPaymentModes = Object.values(cospend.projects[this.projectId].paymentmodes)
+			const allPaymentModes = Object.values(this.cospend.projects[this.projectId].paymentmodes)
 			// TODO use specific sort order for pm instead of category one
 			return [
 				constants.SORT_ORDER.MANUAL,
@@ -477,7 +477,7 @@ export default {
 			]
 		},
 		sortedCategories() {
-			const allCategories = Object.values(cospend.projects[this.projectId].categories)
+			const allCategories = Object.values(this.cospend.projects[this.projectId].categories)
 			return [
 				constants.SORT_ORDER.MANUAL,
 				constants.SORT_ORDER.MOST_USED,
@@ -531,7 +531,7 @@ export default {
 			]
 		},
 		hardCodedCategories() {
-			return cospend.hardCodedCategories
+			return this.cospend.hardCodedCategories
 		},
 		multiToggleText() {
 			return this.selectMode
@@ -544,7 +544,7 @@ export default {
 				: t('cospend', 'Open filters')
 		},
 		deletionEnabled() {
-			return !cospend.projects[this.projectId].deletiondisabled
+			return !this.cospend.projects[this.projectId].deletiondisabled
 		},
 		multiDeleteLabel() {
 			return this.trashbinEnabled
@@ -604,7 +604,10 @@ export default {
 				return bill.id === this.selectedBillId
 			}
 		},
-		onUpdateBillFilterQuery(query) {
+		onUpdateBillFilterQueryInput: debounce(function(e) {
+			this.updateBillFilterQuery(e.target.value)
+		}, 2000),
+		updateBillFilterQuery(query) {
 			emit('bill-search', { query })
 		},
 		onCloseTrashbinClicked() {
@@ -820,13 +823,13 @@ export default {
 	padding: 10px 0 0 10px;
 }
 
-.list-enter-active,
-.list-leave-active {
+.fade-enter-active,
+.fade-leave-active {
 	transition: all var(--animation-slow);
 }
 
-.list-enter,
-.list-leave-to {
+.fade-enter-from,
+.fade-leave-to {
 	opacity: 0;
 	height: 0px;
 	transform: scaleY(0);

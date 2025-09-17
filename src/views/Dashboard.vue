@@ -30,9 +30,9 @@ import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import moment from '@nextcloud/moment'
 
-import NcDashboardWidget from '@nextcloud/vue/dist/Components/NcDashboardWidget.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcDashboardWidget from '@nextcloud/vue/components/NcDashboardWidget'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcButton from '@nextcloud/vue/components/NcButton'
 
 export default {
 	name: 'Dashboard',
@@ -69,11 +69,12 @@ export default {
 				return {
 					id: a.activity_id,
 					targetUrl: this.getTarget(a),
-					// avatarUrl: this.getSimpleAvatarUrl(n),
+					// avatarUrl: this.getAvatarUrl(a),
 					avatarUsername: this.getUserId(a),
+					avatarIsNoUser: !a.user,
+					// overlayIconUrl: a.icon,
 					mainText: this.getMainText(a),
 					subText: this.getSubline(a),
-					// overlayIconUrl: a.icon,
 				}
 			})
 		},

@@ -38,18 +38,24 @@ body {
 	margin-top: 10px !important;
 }
 .balancePositive {
-	color: green;
+	color: green !important;
 }
 .balanceNegative {
-	color: red;
+	color: red !important;
 }
 .memberItem {
 	.balance.counter-bubble__counter {
-		overflow: visible !important;
+		//overflow: visible !important;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	.app-navigation-entry__counter-wrapper {
 		margin-right: 0 !important;
+	}
+
+	.app-navigation-entry {
+		padding-inline-start: 0 !important;
 	}
 }
 

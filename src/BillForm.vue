@@ -20,7 +20,7 @@
 			<NcButton
 				v-if="isNewBill"
 				:title="t('cospend', 'Press Shift+Enter to validate')"
-				type="primary"
+				variant="primary"
 				@click="onCreateClick">
 				<template #icon>
 					<CheckIcon :size="20" />
@@ -39,7 +39,7 @@
 			<NcButton
 				v-if="!isNewBill && !project.deletiondisabled"
 				:title="deleteBillLabel"
-				type="secondary"
+				variant="secondary"
 				@click="onDeleteClick">
 				<template #icon>
 					<DeleteIcon />
@@ -54,14 +54,14 @@
 						:size="20" />
 					<NcTextField
 						ref="what"
-						:value.sync="myBill.what"
+						v-model="myBill.what"
 						:label="t('cospend', 'What?')"
 						:placeholder="t('cospend', 'What is the bill about?')"
-						:show-trailing-button="!!myBill.what && myBill.what.trim() !== ''"
+						:show-trailing-button="editionAccess && !!myBill.what && myBill.what.trim() !== ''"
 						maxlength="300"
 						:readonly="!editionAccess"
 						@trailing-button-click="myBill.what = ''; onBillEdited(null, false)"
-						@update:value="onBillEdited"
+						@update:model-value="onBillEdited"
 						@keyup.enter="onBillEdited(null, false)"
 						@focus="$refs.what.select()" />
 				</div>
@@ -82,14 +82,14 @@
 						:size="20" />
 					<div class="field-with-info">
 						<NcTextField
-							:value.sync="uiAmount"
+							v-model="uiAmount"
 							:label="t('cospend', 'How much?') + (project.currencyname ? (' (' + project.currencyname + ')') : '')"
 							placeholder="..."
 							:disabled="isNewBill && newBillMode === 'custom'"
 							:readonly="!editionAccess"
-							:show-trailing-button="!!uiAmount && uiAmount !== 0"
+							:show-trailing-button="editionAccess && !!uiAmount && uiAmount !== 0"
 							@trailing-button-click="uiAmount = '0'; onBillEdited(null, false)"
-							@update:value="onAmountChanged"
+							@update:model-value="onAmountChanged"
 							@keyup.enter="onAmountEnterPressed"
 							@focus="$event.target.select()" />
 						<NcButton
@@ -101,7 +101,7 @@
 								<InformationOutlineIcon />
 							</template>
 						</NcButton>
-						<NcDialog :open.sync="showAmountInfo"
+						<NcDialog v-model:open="showAmountInfo"
 							:name="t('cospend', 'Info')"
 							:message="t('cospend', 'You can type simple math operations and validate by pressing Enter key.')" />
 					</div>
@@ -134,7 +134,7 @@
 									<InformationOutlineIcon />
 								</template>
 							</NcButton>
-							<NcDialog :open.sync="showConvertInfo"
+							<NcDialog v-model:open="showConvertInfo"
 								:name="t('cospend', 'Info')"
 								:message="convertInfoText" />
 						</div>
@@ -162,17 +162,13 @@
 						<label for="dateInput">
 							{{ t('cospend', 'When?') }}
 						</label>
-						<NcDateTimePicker v-if="showDatePicker"
+						<NcDateTimePickerNative v-if="showDatePicker"
 							id="dateInput"
 							v-model="billDatetime"
 							class="datetime-picker"
-							:type="useTime ? 'datetime' : 'date'"
-							:placeholder="t('cospend', 'When?')"
-							:minute-step="1"
-							:show-second="false"
-							:formatter="formatWhen"
-							:disabled="!editionAccess"
-							:confirm="true" />
+							:type="useTime ? 'datetime-local' : 'date'"
+							:hide-label="true"
+							:disabled="!editionAccess" />
 					</div>
 				</div>
 				<div class="bill-field bill-payment-mode">
@@ -180,7 +176,7 @@
 						class="icon"
 						:size="20" />
 					<NcSelect
-						:value="selectedPaymentModeItem"
+						:model-value="selectedPaymentModeItem"
 						class="select"
 						:placeholder="t('cospend', 'Choose a payment mode')"
 						:input-label="t('cospend', 'Payment mode')"
@@ -190,14 +186,14 @@
 						:disabled="!editionAccess"
 						:clearable="false"
 						@search="pmQueryChanged"
-						@input="paymentModeSelected" />
+						@update:model-value="paymentModeSelected" />
 				</div>
 				<div class="bill-field bill-category">
 					<ShapeIcon
 						class="icon"
 						:size="20" />
 					<NcSelect
-						:value="selectedCategoryItem"
+						:model-value="selectedCategoryItem"
 						class="select"
 						:placeholder="t('cospend', 'Choose or add a category')"
 						:input-label="t('cospend', 'Category')"
@@ -207,7 +203,7 @@
 						:disabled="!editionAccess"
 						:clearable="false"
 						@search="categoryQueryChanged"
-						@input="categorySelected" />
+						@update:model-value="categorySelected" />
 				</div>
 				<div class="bill-field bill-comment">
 					<CommentTextIcon
@@ -218,13 +214,13 @@
 							{{ t('cospend', 'Comment') }}
 						</label>
 						<NcRichContenteditable
-							:value.sync="myBill.comment"
+							v-model="myBill.comment"
 							class="input-bill-comment"
 							:maxlength="300"
 							:multiline="true"
 							:contenteditable="editionAccess"
 							:placeholder="t('cospend', 'More details about the bill') + '\n' + t('cospend', '({n} characters max)', { n: 300 })"
-							@update:value="onBillEdited" />
+							@update:model-value="onBillEdited" />
 					</div>
 				</div>
 				<div class="bill-field bill-repeat">
@@ -271,7 +267,7 @@
 									<InformationOutlineIcon />
 								</template>
 							</NcButton>
-							<NcDialog :open.sync="showRepeatInfo"
+							<NcDialog v-model:open="showRepeatInfo"
 								:name="t('cospend', 'Info')"
 								:message="repeatInfoText" />
 						</div>
@@ -304,10 +300,10 @@
 					</div>
 					<div class="bill-repeat-include">
 						<NcCheckboxRadioSwitch
-							:checked="myBill.repeatallactive === 1"
+							:model-value="myBill.repeatallactive === 1"
 							:disabled="!editionAccess"
 							class="nc-checkbox"
-							@update:checked="onRepeatAllActiveChanged">
+							@update:model-value="onRepeatAllActiveChanged">
 							{{ t('cospend', 'Include all active members on repeat') }}
 						</NcCheckboxRadioSwitch>
 					</div>
@@ -318,17 +314,15 @@
 						<div class="input">
 							<label>
 								{{ t('cospend', 'Repeat until') }}
+								{{ billStringRepeatUntil ? '' : ' (' + t('cospend', 'No limit') + ')' }}
 							</label>
-							<NcDateTimePicker v-if="showDatePicker"
+							<NcDateTimePickerNative v-if="showDatePicker"
 								v-model="billStringRepeatUntil"
 								class="datetime-picker"
 								type="date"
-								:clearable="true"
-								:disabled-date="isRepeatUntilDateDisabled"
-								:placeholder="t('cospend', 'No limit')"
-								:formatter="formatRepeatUntil"
-								:readonly="!editionAccess"
-								:confirm="true" />
+								:min="billDateObject"
+								:hide-label="true"
+								:readonly="!editionAccess" />
 						</div>
 					</div>
 					<div v-if="editionAccess && !isNewBill"
@@ -386,9 +380,9 @@
 					</div>
 					<div v-if="isNewBill && newBillMode === 'customShare'" class="checkbox-line">
 						<NcCheckboxRadioSwitch
-							:checked.sync="ignoreWeights"
+							v-model="ignoreWeights"
 							class="nc-checkbox"
-							@update:checked="onIgnoreWeightsChange">
+							@update:model-value="onIgnoreWeightsChange">
 							{{ t('cospend', 'Ignore member weights') }}
 						</NcCheckboxRadioSwitch>
 					</div>
@@ -423,10 +417,10 @@
 					<div v-if="!['custom', 'customShare'].includes(newBillMode)"
 						class="owerAllNoneDiv">
 						<NcCheckboxRadioSwitch
-							:checked.sync="selectAllNoneOwers"
+							v-model="selectAllNoneOwers"
 							:disabled="!editionAccess"
 							class="nc-checkbox"
-							@update:checked="onBillEdited(null, false)">
+							@update:model-value="onBillEdited(null, false)">
 							{{ t('cospend', 'All/None') }}
 						</NcCheckboxRadioSwitch>
 					</div>
@@ -435,14 +429,15 @@
 							:key="ower.id"
 							class="owerEntry">
 							<NcCheckboxRadioSwitch
-								:checked="myBill.owerIds.includes(ower.id)"
+								:model-value="myBill.owerIds.includes(ower.id)"
 								:disabled="!editionAccess || !members[ower.id].activated"
 								class="nc-checkbox"
-								@update:checked="onOwerChecked2($event, ower.id)">
+								@update:model-value="onOwerChecked2($event, ower.id)">
 								<div class="nc-checkbox-content">
 									<MemberAvatar
 										:member="members[ower.id]"
-										:size="24" />
+										:size="24"
+										:hide-status="true" />
 									<span>{{ ower.name }}</span>
 									<span v-if="myBill.owerIds.includes(ower.id)"
 										class="spentlabel">
@@ -457,9 +452,9 @@
 							:key="ower.id"
 							class="owerEntry">
 							<NcCheckboxRadioSwitch
-								:checked="myBill.owerIds.includes(ower.id)"
+								:model-value="myBill.owerIds.includes(ower.id)"
 								class="nc-checkbox"
-								@update:checked="onOwerChecked2($event, ower.id)">
+								@update:model-value="onOwerChecked2($event, ower.id)">
 								<div class="nc-checkbox-content">
 									<MemberAvatar
 										:member="members[ower.id]"
@@ -534,7 +529,7 @@
 				<NcButton
 					v-if="isNewBill"
 					:title="t('cospend', 'Press Shift+Enter to validate')"
-					type="primary"
+					variant="primary"
 					@click="onCreateClick">
 					<template #icon>
 						<CheckIcon :size="20" />
@@ -568,15 +563,15 @@ import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline
 import CospendIcon from './components/icons/CospendIcon.vue'
 import CurrencyIcon from './components/icons/CurrencyIcon.vue'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcDateTimePicker from '@nextcloud/vue/dist/Components/NcDateTimePicker.js'
-import NcAppContentDetails from '@nextcloud/vue/dist/Components/NcAppContentDetails.js'
-import NcRichContenteditable from '@nextcloud/vue/dist/Components/NcRichContenteditable.js'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
+import NcAppContentDetails from '@nextcloud/vue/components/NcAppContentDetails'
+import NcRichContenteditable from '@nextcloud/vue/components/NcRichContenteditable'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 
 import MemberAvatar from './components/avatar/MemberAvatar.vue'
 import MemberMultiSelect from './components/MemberMultiSelect.vue'
@@ -595,7 +590,6 @@ import moment from '@nextcloud/moment'
 import {
 	delay, getCategory, getPaymentMode, strcmp, evalAlgebricFormula,
 } from './utils.js'
-import cospend from './state.js'
 import * as network from './network.js'
 import * as constants from './constants.js'
 
@@ -606,7 +600,7 @@ export default {
 		MemberAvatar,
 		CurrencyIcon,
 		CospendIcon,
-		NcDateTimePicker,
+		NcDateTimePickerNative,
 		NcAppContentDetails,
 		NcSelect,
 		NcCheckboxRadioSwitch,
@@ -653,7 +647,8 @@ export default {
 	data() {
 		return {
 			constants,
-			projectId: cospend.currentProjectId,
+			cospend: OCA.Cospend.state,
+			projectId: OCA.Cospend.state.currentProjectId,
 			currentUser: getCurrentUser(),
 			newBillMode: 'normal',
 			billLoading: false,
@@ -779,7 +774,7 @@ export default {
 			return categoryItems
 		},
 		useTime() {
-			return cospend.useTime
+			return this.cospend.useTime
 		},
 		// amount field proxy to safely manipulate bill.amount
 		uiAmount: {
@@ -847,7 +842,7 @@ export default {
 			return result
 		},
 		pageIsPublic() {
-			return cospend.pageIsPublic
+			return this.cospend.pageIsPublic
 		},
 		isNewBill() {
 			return (this.myBill.id === 0)
@@ -856,7 +851,7 @@ export default {
 			return (this.myBill && this.myBill.id === -1)
 		},
 		project() {
-			return cospend.projects[this.projectId]
+			return this.cospend.projects[this.projectId]
 		},
 		payer() {
 			return this.members[this.myBill.payer_id]
@@ -972,7 +967,7 @@ export default {
 			return this.sortedMembers.filter(m => (this.members[m.id].activated || this.myBill.owerIds.includes(m.id)))
 		},
 		sortedPaymentModes() {
-			const allPaymentModes = Object.values(cospend.projects[this.projectId].paymentmodes)
+			const allPaymentModes = Object.values(this.cospend.projects[this.projectId].paymentmodes)
 			return [
 				constants.SORT_ORDER.MANUAL,
 				constants.SORT_ORDER.MOST_USED,
@@ -994,7 +989,7 @@ export default {
 					: allPaymentModes
 		},
 		sortedCategories() {
-			const allCategories = Object.values(cospend.projects[this.projectId].categories)
+			const allCategories = Object.values(this.cospend.projects[this.projectId].categories)
 			return [
 				constants.SORT_ORDER.MANUAL,
 				constants.SORT_ORDER.MOST_USED,
@@ -1016,10 +1011,10 @@ export default {
 					: allCategories
 		},
 		hardCodedCategories() {
-			return cospend.hardCodedCategories
+			return this.cospend.hardCodedCategories
 		},
 		currencies() {
-			return cospend.projects[this.projectId].currencies
+			return this.cospend.projects[this.projectId].currencies
 		},
 		createBillButtonText() {
 			return this.newBillMode === 'normal' ? t('cospend', 'Create the bill') : t('cospend', 'Create the bills')
@@ -1091,12 +1086,12 @@ export default {
 				const order = this.sortedPaymentModes.length
 				network.createPaymentMode(this.project.id, name, icon, color, order).then((response) => {
 					const newPmId = response.data.ocs.data
-					this.$set(cospend.projects[this.projectId].paymentmodes, newPmId, {
+					this.cospend.projects[this.projectId].paymentmodes[newPmId] = {
 						name,
 						icon,
 						color,
 						id: newPmId,
-					})
+					}
 					this.myBill.paymentmodeid = newPmId
 					this.onBillEdited(null, false)
 				}).catch((error) => {
@@ -1127,12 +1122,12 @@ export default {
 				const order = this.sortedCategories.length
 				network.createCategory(this.project.id, name, icon, color, order).then((response) => {
 					const newCategoryId = response.data.ocs.data
-					this.$set(cospend.projects[this.projectId].categories, newCategoryId, {
+					this.cospend.projects[this.projectId].categories[newCategoryId] = {
 						name,
 						icon,
 						color,
 						id: newCategoryId,
-					})
+					}
 					this.myBill.categoryid = newCategoryId
 					this.onBillEdited(null, false)
 				}).catch((error) => {
@@ -1659,11 +1654,22 @@ export default {
 				// .addMimeTypeFilter('text/csv')
 				// .allowDirectories()
 				// .startAt(this.outputDir)
+				.addButton({
+					label: t('cospend', 'Choose'),
+					variant: 'primary',
+					callback: (nodes) => {
+						const node = nodes[0]
+						const path = node.path
+						this.generatePublicLinkToFile(path)
+					},
+				})
 				.build()
 			picker.pick()
+			/*
 				.then(async (path) => {
 					this.generatePublicLinkToFile(path)
 				})
+			*/
 		},
 		generatePublicLinkToFile(targetPath) {
 			network.generatePublicLinkToFile(targetPath).then((response) => {

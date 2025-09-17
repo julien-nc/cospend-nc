@@ -22,10 +22,10 @@
 <template>
 	<div id="settings-container">
 		<NcAppSettingsDialog
+			v-model:open="showSettings"
 			class="cospend-settings-dialog"
 			:name="t('cospend', 'Cospend settings')"
 			:title="t('cospend', 'Cospend settings')"
-			:open.sync="showSettings"
 			:show-navigation="true"
 			container="#settings-container">
 			<NcAppSettingsSection
@@ -181,13 +181,13 @@
 					{{ t('cospend', 'Do you want to see and choose time in bill dates?') }}
 				</h3>
 				<NcCheckboxRadioSwitch
-					:checked.sync="useTime"
-					@update:checked="onCheckboxChange($event, 'useTime')">
+					v-model="useTime"
+					@update:model-value="onCheckboxChange($event, 'useTime')">
 					{{ t('cospend', 'Use time in dates') }}
 				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch
-					:checked.sync="showMyBalance"
-					@update:checked="onCheckboxChange($event, 'showMyBalance')">
+					v-model="showMyBalance"
+					@update:model-value="onCheckboxChange($event, 'showMyBalance')">
 					{{ t('cospend', 'Show my cumulated balance') }}
 				</NcCheckboxRadioSwitch>
 			</NcAppSettingsSection>
@@ -199,15 +199,14 @@
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 import FileImportIcon from 'vue-material-design-icons/FileImport.vue'
 
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import NcAppSettingsDialog from '@nextcloud/vue/dist/Components/NcAppSettingsDialog.js'
-import NcAppSettingsSection from '@nextcloud/vue/dist/Components/NcAppSettingsSection.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcAppSettingsDialog from '@nextcloud/vue/components/NcAppSettingsDialog'
+import NcAppSettingsSection from '@nextcloud/vue/components/NcAppSettingsSection'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
 import { subscribe, unsubscribe, emit } from '@nextcloud/event-bus'
 import { getFilePickerBuilder, FilePickerType, showSuccess } from '@nextcloud/dialogs'
-import cospend from '../state.js'
 import { importCospendProject, importSWProject } from '../utils.js'
 
 export default {
@@ -226,13 +225,14 @@ export default {
 	data() {
 		return {
 			showSettings: false,
-			outputDir: cospend.outputDirectory || '/',
-			pageIsPublic: cospend.pageIsPublic,
-			sortOrder: cospend.sortOrder || 'name',
-			memberOrder: cospend.memberOrder || 'name',
-			maxPrecision: cospend.maxPrecision || 2,
-			useTime: cospend.useTime ?? true,
-			showMyBalance: cospend.showMyBalance ?? false,
+			cospend: OCA.Cospend.state,
+			outputDir: OCA.Cospend.state.outputDirectory || '/',
+			pageIsPublic: OCA.Cospend.state.pageIsPublic,
+			sortOrder: OCA.Cospend.state.sortOrder || 'name',
+			memberOrder: OCA.Cospend.state.memberOrder || 'name',
+			maxPrecision: OCA.Cospend.state.maxPrecision || 2,
+			useTime: OCA.Cospend.state.useTime ?? true,
+			showMyBalance: OCA.Cospend.state.showMyBalance ?? false,
 			importingProject: false,
 			importingSWProject: false,
 			cospendVersion: OC.getCapabilities()?.cospend?.version || '??',
@@ -262,33 +262,50 @@ export default {
 				.addMimeTypeFilter('httpd/unix-directory')
 				.allowDirectories()
 				.startAt(this.outputDir)
+				.addButton({
+					label: t('cospend', 'Pick current directory'),
+					variant: 'primary',
+					callback: (nodes) => {
+						const node = nodes[0]
+						let path = node.path
+						if (path === '') {
+							path = '/'
+						}
+						path = path.replace(/^\/+/, '/')
+						this.outputDir = path
+						emit('save-option', { key: 'outputDirectory', value: path })
+					},
+				})
 				.build()
 			picker.pick()
-				.then(async (path) => {
-					if (path === '') {
-						path = '/'
-					}
-					path = path.replace(/^\/+/, '/')
-					this.outputDir = path
-					emit('save-option', { key: 'outputDirectory', value: path })
-				})
+			/*
+			.then(async (path) => {
+				console.debug('aaaaaaaaaaaaa', path)
+				if (path === '') {
+					path = '/'
+				}
+				path = path.replace(/^\/+/, '/')
+				this.outputDir = path
+				emit('save-option', { key: 'outputDirectory', value: path })
+			})
+			*/
 		},
 		onSortOrderChange() {
 			emit('save-option', { key: 'sortOrder', value: this.sortOrder })
-			cospend.sortOrder = this.sortOrder
+			this.cospend.sortOrder = this.sortOrder
 		},
 		onMemberOrderChange() {
 			emit('save-option', { key: 'memberOrder', value: this.memberOrder })
-			cospend.memberOrder = this.memberOrder
+			this.cospend.memberOrder = this.memberOrder
 		},
 		onMaxPrecisionChange() {
 			emit('save-option', { key: 'maxPrecision', value: this.maxPrecision })
-			cospend.maxPrecision = this.maxPrecision
+			this.cospend.maxPrecision = this.maxPrecision
 			this.$emit('update-max-precision')
 		},
 		onCheckboxChange(checked, key) {
 			emit('save-option', { key, value: checked ? '1' : '0' })
-			cospend[key] = checked
+			this.cospend[key] = checked
 		},
 		onImportClick() {
 			importCospendProject(() => {
@@ -371,7 +388,7 @@ a.external {
 	}
 }
 
-::v-deep .cospend-settings-dialog .modal-container {
+:deep(.cospend-settings-dialog .modal-container) {
 	display: flex !important;
 }
 </style>

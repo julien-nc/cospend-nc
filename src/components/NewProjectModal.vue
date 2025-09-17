@@ -6,7 +6,7 @@
 			<h2>{{ t('cospend', 'Create empty project') }}</h2>
 			<NcTextField
 				ref="input"
-				:value.sync="newProjectName"
+				v-model="newProjectName"
 				:label="t('cospend', 'Project name')"
 				:placeholder="t('cospend', 'My new project')"
 				@keyup.enter="createProject" />
@@ -24,9 +24,9 @@
 <script>
 import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcModal from '@nextcloud/vue/components/NcModal'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 import { emit } from '@nextcloud/event-bus'
 

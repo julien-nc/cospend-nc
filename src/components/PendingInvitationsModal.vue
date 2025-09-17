@@ -15,7 +15,7 @@
 				<NcAvatar
 					:url="getRemoteAvatarUrl(invite.inviterCloudId)"
 					:is-no-user="true"
-					:show-user-status="false"
+					:hide-status="true"
 					:disable-menu="true"
 					:disable-tooltip="true" />
 				<div class="spacer" />
@@ -42,9 +42,9 @@
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcModal from '@nextcloud/vue/components/NcModal'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 
 import { emit } from '@nextcloud/event-bus'
 

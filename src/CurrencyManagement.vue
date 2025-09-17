@@ -40,7 +40,7 @@
 				<NcButton
 					:title="t('cospend', 'Save')"
 					:aria-label="t('cospend', 'Save currency')"
-					type="primary"
+					variant="primary"
 					@click="onEditMainOkClick">
 					<template #icon>
 						<CheckIcon :size="20" />
@@ -60,12 +60,12 @@
 				</h3>
 				<div id="add-currency">
 					<NcTextField
-						:value.sync="newCurrencyName"
+						v-model="newCurrencyName"
 						:label="t('cospend', 'Currency name')"
 						placeholder="..."
 						@keyup.enter="onAddCurrency" />
 					<NcInputField
-						:value.sync="newCurrencyRate"
+						v-model="newCurrencyRate"
 						type="number"
 						:label="t('cospend', 'Exchange rate to main currency')"
 						placeholder="..." />
@@ -77,7 +77,7 @@
 					<NcButton
 						:title="t('cospend', 'Add this currency')"
 						:aria-label="t('cospend', 'Add this currency')"
-						type="primary"
+						variant="primary"
 						@click="onAddCurrency">
 						<template #icon>
 							<CheckIcon :size="22" />
@@ -116,9 +116,9 @@ import CurrencyUsdIcon from 'vue-material-design-icons/CurrencyUsd.vue'
 
 import CurrencyIcon from './components/icons/CurrencyIcon.vue'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcInputField from '@nextcloud/vue/components/NcInputField'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 import Currency from './components/Currency.vue'
 
@@ -127,7 +127,6 @@ import {
 	showError,
 } from '@nextcloud/dialogs'
 
-import cospend from './state.js'
 import * as constants from './constants.js'
 import * as network from './network.js'
 
@@ -155,6 +154,7 @@ export default {
 	},
 	data() {
 		return {
+			cospend: OCA.Cospend.state,
 			constants,
 			editMode: false,
 			newCurrencyName: '',
@@ -164,10 +164,10 @@ export default {
 
 	computed: {
 		currencies() {
-			return cospend.projects[cospend.currentProjectId].currencies
+			return this.cospend.projects[this.cospend.currentProjectId].currencies
 		},
 		project() {
-			return cospend.projects[cospend.currentProjectId]
+			return this.cospend.projects[this.cospend.currentProjectId]
 		},
 	},
 

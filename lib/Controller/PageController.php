@@ -73,10 +73,22 @@ class PageController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	public function index(?string $projectId = null, ?int $billId = null): TemplateResponse {
+		$state = $this->getOptionsValues();
 		$activityEnabled = $this->appManager->isEnabledForUser('activity');
-		$this->initialStateService->provideInitialState('activity_enabled', $activityEnabled ? '1' : '0');
-		$this->initialStateService->provideInitialState('pathProjectId', $projectId ?? '');
-		$this->initialStateService->provideInitialState('pathBillId', $billId ?? 0);
+		$state['activity_enabled'] = $activityEnabled;
+		if ($state['selectedProject']) {
+			$state['restoredCurrentProjectId'] = $state['selectedProject'];
+		}
+		if ($projectId !== null) {
+			$state['restoredCurrentProjectId'] = $projectId;
+		}
+		if ($billId !== null) {
+			$state['restoredCurrentBillId'] = $billId;
+		}
+		$state['useTime'] = $state['useTime'] !== '0';
+		$state['showMyBalance'] = $state['showMyBalance'] !== '0';
+
+		$this->initialStateService->provideInitialState('cospend-state', $state);
 		$this->eventDispatcher->dispatchTyped(new RenderReferenceEvent());
 		$response = new TemplateResponse('cospend', 'main');
 		return $response;
@@ -307,24 +319,13 @@ class PageController extends Controller {
 		return new DataResponse('');
 	}
 
-	/**
-	 * Get setting values
-	 *
-	 * Get setting values from the database for the current user
-	 *
-	 * @return DataResponse<Http::STATUS_OK, array{values: array<string, string>}, array{}>
-	 *
-	 * 200: Values are returned
-	 */
-	#[NoAdminRequired]
-	public function getOptionsValues(): DataResponse {
-		$ov = [];
+	private function getOptionsValues(): array {
+		$settings = [];
 		$keys = $this->config->getUserKeys($this->userId, Application::APP_ID);
 		foreach ($keys as $key) {
 			$value = $this->config->getUserValue($this->userId, Application::APP_ID, $key);
-			$ov[$key] = $value;
+			$settings[$key] = $value;
 		}
-
-		return new DataResponse(['values' => $ov]);
+		return $settings;
 	}
 }

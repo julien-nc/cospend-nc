@@ -23,6 +23,7 @@
 		<template #icon>
 			<MemberAvatar
 				:member="billItemPayer"
+				:hide-status="true"
 				:size="40" />
 		</template>
 		<template #actions>
@@ -86,10 +87,9 @@ import ContentDuplicateIcon from 'vue-material-design-icons/ContentDuplicate.vue
 
 import MemberAvatar from './avatar/MemberAvatar.vue'
 
-import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcListItem from '@nextcloud/vue/components/NcListItem'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 
-import cospend from '../state.js'
 import { generateUrl } from '@nextcloud/router'
 import moment from '@nextcloud/moment'
 import { emit } from '@nextcloud/event-bus'
@@ -144,6 +144,7 @@ export default {
 	},
 	data() {
 		return {
+			cospend: OCA.Cospend.state,
 			deleteCounter: 0,
 			timer: null,
 		}
@@ -157,7 +158,7 @@ export default {
 			return generateUrl('/apps/cospend/p/{projectId}/b/{billId}', { projectId: this.projectId, billId: this.bill.id })
 		},
 		members() {
-			return cospend.members[this.projectId]
+			return this.cospend.members[this.projectId]
 		},
 		payer() {
 			return this.members[this.bill.payer_id]
@@ -174,16 +175,16 @@ export default {
 			return this.bill.id !== 0 && !this.members[this.bill.payer_id].activated
 		},
 		pageIsPublic() {
-			return cospend.pageIsPublic
+			return this.cospend.pageIsPublic
 		},
 		deletionEnabled() {
-			return !cospend.projects[this.projectId].deletiondisabled
+			return !this.cospend.projects[this.projectId].deletiondisabled
 		},
 		currencyName() {
-			return cospend.projects[this.projectId].currencyname
+			return this.cospend.projects[this.projectId].currencyname
 		},
 		isFederatedProject() {
-			return cospend.projects[this.projectId].federated
+			return this.cospend.projects[this.projectId].federated
 		},
 		billFormattedTitle() {
 			const links = this.bill.what.match(/https?:\/\/[^\s]+/gi) || []
@@ -337,7 +338,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-::v-deep .newBillAvatar * {
+:deep(.newBillAvatar *) {
 	color: var(--color-main-text) !important;
 }
 

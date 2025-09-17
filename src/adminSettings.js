@@ -9,9 +9,9 @@
  * @copyright Julien Veyssier 2024
  */
 
-import Vue from 'vue'
+import { createApp } from 'vue'
 import AdminSettings from './views/AdminSettings.vue'
-Vue.mixin({ methods: { t, n } })
 
-const View = Vue.extend(AdminSettings)
-new View().$mount('#cospend_prefs')
+const app = createApp(AdminSettings, {})
+app.mixin({ methods: { t, n } })
+app.mount('#cospend_prefs')

@@ -1,6 +1,6 @@
 import * as constants from './constants.js'
 
-const cospend = {
+export const defaultState = {
 	restoredCurrentProjectId: null,
 	restoredCurrentBillId: null,
 	currentProjectId: null,
@@ -24,5 +24,3 @@ const cospend = {
 	activity_enabled: false,
 	showMyBalance: false,
 }
-
-export default cospend

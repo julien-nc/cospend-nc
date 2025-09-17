@@ -112,9 +112,9 @@
 			<div />
 			<div />
 			<NcCheckboxRadioSwitch
-				:checked.sync="showDisabled"
+				v-model="showDisabled"
 				class="checkFilter"
-				@update:checked="getStats">
+				@update:model-value="getStats">
 				{{ t('cospend', 'Show disabled members') }}
 			</NcCheckboxRadioSwitch>
 			<label for="prefChartType">
@@ -152,7 +152,7 @@
 			id="statsTable"
 			class="coloredTable"
 			:data="stats.stats">
-			<thead slot="head">
+			<template #head>
 				<v-th sort-key="member.name">
 					{{ t('cospend', 'Member name') }}
 				</v-th>
@@ -170,42 +170,42 @@
 					:title="t('cospend', 'This balance is computed from the complete bill list')">
 					{{ t('cospend', 'Global Balance') }}
 				</v-th>
-			</thead>
-			<tbody slot="body" slot-scope="{displayData}">
-				<tr v-for="value in displayData"
-					:key="value.member.id">
-					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
+			</template>
+			<template #body="{ rows }">
+				<tr v-for="row in rows"
+					:key="row.member.id">
+					<td :style="'border: 2px solid #' + myGetMemberColor(row.member.id) + ';'">
 						<div class="left-aligned-cell-content">
 							<MemberAvatar
-								:member="members[value.member.id]"
+								:member="members[row.member.id]"
 								:size="24" />
 							<span>
-								{{ myGetSmartMemberName(value.member.id) }}
+								{{ myGetSmartMemberName(row.member.id) }}
 							</span>
 						</div>
 					</td>
-					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
-						{{ value.paid.toFixed(2) }}
+					<td :style="'border: 2px solid #' + myGetMemberColor(row.member.id) + ';'">
+						{{ row.paid.toFixed(2) }}
 						{{ selectedCurrencyName }}
 					</td>
-					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) +';'">
-						{{ value.spent.toFixed(2) }}
+					<td :style="'border: 2px solid #' + myGetMemberColor(row.member.id) +';'">
+						{{ row.spent.toFixed(2) }}
 						{{ selectedCurrencyName }}
 					</td>
 					<td v-if="isFiltered"
-						:class="getBalanceClass(value.filtered_balance)"
-						:style="'border: 2px solid #' + myGetMemberColor(value.member.id) +';'">
-						{{ value.filtered_balance.toFixed(2) }}
+						:class="getBalanceClass(row.filtered_balance)"
+						:style="'border: 2px solid #' + myGetMemberColor(row.member.id) +';'">
+						{{ row.filtered_balance.toFixed(2) }}
 						{{ selectedCurrencyName }}
 					</td>
-					<td :class="getBalanceClass(value.balance)"
-						:style="'border: 2px solid #' + myGetMemberColor(value.member.id) +';'"
+					<td :class="getBalanceClass(row.balance)"
+						:style="'border: 2px solid #' + myGetMemberColor(row.member.id) +';'"
 						:title="t('cospend', 'This balance is computed from the complete bill list')">
-						{{ value.balance.toFixed(2) }}
+						{{ row.balance.toFixed(2) }}
 						{{ selectedCurrencyName }}
 					</td>
 				</tr>
-			</tbody>
+			</template>
 			<tfoot />
 		</v-table>
 		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
@@ -342,7 +342,7 @@
 			id="paidForTable"
 			class="coloredTable"
 			:data="membersPaidForData">
-			<thead slot="head">
+			<template #head>
 				<v-th sort-key="name">
 					↓ {{ t('cospend', 'paid for') }} →
 				</v-th>
@@ -361,40 +361,40 @@
 				<v-th sort-key="total">
 					{{ t('cospend', 'Total paid') }}
 				</v-th>
-			</thead>
-			<tbody slot="body" slot-scope="{displayData}">
-				<tr v-for="value in displayData"
-					:key="value.memberid">
-					<td v-if="value.memberid !== 0"
+			</template>
+			<template #body="{ rows }">
+				<tr v-for="row in rows"
+					:key="row.memberid">
+					<td v-if="row.memberid !== 0"
 						class="centered-cell"
-						:style="'border: 2px solid #' + myGetMemberColor(value.memberid) + ';'">
+						:style="'border: 2px solid #' + myGetMemberColor(row.memberid) + ';'">
 						<div class="left-aligned-cell-content">
 							<MemberAvatar
-								:member="members[value.memberid]"
+								:member="members[row.memberid]"
 								:size="24" />
-							<span>{{ myGetSmartMemberName(value.memberid) }}</span>
+							<span>{{ myGetSmartMemberName(row.memberid) }}</span>
 						</div>
 					</td>
 					<td v-else style="padding-left: 5px; border: 2px solid lightgrey;">
 						{{ t('cospend', 'Total owed') }}
 					</td>
 					<td v-for="mid in stats.allMemberIds"
-						:key="value.memberid + '-' + mid"
-						:title="value.memberid === 0
+						:key="row.memberid + '-' + mid"
+						:title="row.memberid === 0
 							? t('cospend', 'Total owed by {name}', { name: myGetSmartMemberName(mid) })
-							: myGetSmartMemberName(value.memberid) + ' → ' + myGetSmartMemberName(mid)"
-						:style="'border: 2px solid ' + (value.memberid === 0 ? 'lightgrey' : '#' + myGetMemberColor(value.memberid)) + ';'">
-						{{ value[mid].toFixed(2) }}
+							: myGetSmartMemberName(row.memberid) + ' → ' + myGetSmartMemberName(mid)"
+						:style="'border: 2px solid ' + (row.memberid === 0 ? 'lightgrey' : '#' + myGetMemberColor(row.memberid)) + ';'">
+						{{ row[mid].toFixed(2) }}
 						{{ selectedCurrencyName }}
 					</td>
-					<td v-if="value.memberid !== 0"
-						:title="t('cospend', 'Total paid by {name}', { name: myGetSmartMemberName(value.memberid) })"
+					<td v-if="row.memberid !== 0"
+						:title="t('cospend', 'Total paid by {name}', { name: myGetSmartMemberName(row.memberid) })"
 						style="border: 2px solid lightgrey;">
-						{{ value.total.toFixed(2) }}
+						{{ row.total.toFixed(2) }}
 						{{ selectedCurrencyName }}
 					</td>
 				</tr>
-			</tbody>
+			</template>
 		</v-table>
 		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 	</NcAppContentDetails>
@@ -413,10 +413,10 @@ import CurrencyUsdIcon from 'vue-material-design-icons/CurrencyUsd.vue'
 
 import CurrencyIcon from '../icons/CurrencyIcon.vue'
 
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcAppContentDetails from '@nextcloud/vue/dist/Components/NcAppContentDetails.js'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcAppContentDetails from '@nextcloud/vue/components/NcAppContentDetails'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
 import MemberAvatar from '../avatar/MemberAvatar.vue'
 import MemberMultiSelect from '../MemberMultiSelect.vue'
@@ -429,7 +429,6 @@ import BarChartJs from '../BarChartJs.vue'
 
 import moment from '@nextcloud/moment'
 import { getCategory, getPaymentMode, getSmartMemberName, strcmp } from '../../utils.js'
-import cospend from '../../state.js'
 import * as network from '../../network.js'
 import * as constants from '../../constants.js'
 
@@ -489,7 +488,7 @@ export default {
 			selectedMemberId: -1,
 			selectedCurrencyId: 0,
 			isFiltered: true,
-			cospend,
+			cospend: OCA.Cospend.state,
 			exporting: false,
 			loadingStats: false,
 			preferredChartType: 'pie',
@@ -499,10 +498,10 @@ export default {
 
 	computed: {
 		project() {
-			return cospend.projects[this.projectId]
+			return this.cospend.projects[this.projectId]
 		},
 		members() {
-			return cospend.members[this.projectId]
+			return this.cospend.members[this.projectId]
 		},
 		membersArray() {
 			return Object.values(this.members)
@@ -579,11 +578,11 @@ export default {
 			if (this.selectedCategoryId === -1) {
 				return null
 			}
-			return cospend.projects[this.projectId].categories[this.selectedCategoryId]
+			return this.cospend.projects[this.projectId].categories[this.selectedCategoryId]
 				?? this.hardCodedCategories[this.selectedCategoryId]
 		},
 		paymentmodes() {
-			return cospend.projects[this.projectId].paymentmodes
+			return this.cospend.projects[this.projectId].paymentmodes
 		},
 		sortedPaymentModes() {
 			if ([
@@ -608,7 +607,7 @@ export default {
 			return []
 		},
 		categories() {
-			return cospend.projects[this.projectId].categories
+			return this.cospend.projects[this.projectId].categories
 		},
 		sortedCategories() {
 			if ([
@@ -633,10 +632,10 @@ export default {
 			return []
 		},
 		hardCodedCategories() {
-			return cospend.hardCodedCategories
+			return this.cospend.hardCodedCategories
 		},
 		currencies() {
-			return cospend.projects[this.projectId].currencies
+			return this.cospend.projects[this.projectId].currencies
 		},
 		membersPaidForData() {
 			const rows = []
@@ -1350,7 +1349,7 @@ export default {
 	margin: 0px 20px 0px 20px;
 }
 
-::v-deep .coloredTable svg {
+:deep(.coloredTable svg) {
 	margin-bottom: -3px;
 }
 
@@ -1387,7 +1386,7 @@ table td span {
 	vertical-align: middle;
 }
 
-::v-deep #memberPerCategoryMultiSelect input {
+:deep(#memberPerCategoryMultiSelect input) {
 	padding: 0 0 0 5px !important;
 }
 

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-10-27 17:48+0100\n"
-"PO-Revision-Date: 2024-10-27 16:51\n"
+"PO-Revision-Date: 2025-05-14 18:50\n"
 "Last-Translator: \n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -890,11 +890,11 @@ msgstr "Informacje"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:53
 msgid "You can type simple math operations and validate by pressing Enter key."
-msgstr "Możesz wpisać proste operacje matematyczne i potwierdzić, naciskając klawisz Enter."
+msgstr "Możesz wpisać proste operacje arytmetyczne i potwierdzić, naciskając klawisz Enter."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:54
 msgid "Convert to"
-msgstr "Przewalutowano na"
+msgstr "Waluta rachunku"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:56
 msgid "More information on currency conversion"
@@ -1040,7 +1040,7 @@ msgstr "Ignoruj wagi członków"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:93
 msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
-msgstr "Tryb klasyczny: Wybierz zleceniodawcę, wprowadź kwotę rachunku i wybierz kto jest zainteresowany całym wydatkiem, rachunek jest następnie rozdzielany sprawiedliwie pomiędzy wybranych członków. Przykład rzeczywistego życia: jedna osoba płaci cały rachunek restauracyjny i wszyscy zgadzają się na równomierny podział kosztów."
+msgstr "Tryb klasyczny: Wybierz płatnika, wprowadź kwotę rachunku i wybierz kto jest zainteresowany całym wydatkiem, rachunek jest następnie rozdzielany sprawiedliwie pomiędzy wybranych członków. Przykład rzeczywistego życia: jedna osoba płaci cały rachunek restauracyjny i wszyscy zgadzają się na równomierny podział kosztów."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:94
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually paid. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
@@ -1052,7 +1052,7 @@ msgstr "Tryb niestandardowy, nierównomierny podział: Wybierz płatnika, zignor
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:96
 msgid "Custom share mode, uneven split: Choose a payer, set the bill amount and enter a custom share number for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: Someone pays an electricity bill for the month but one member was only there during half the month. This member should then pay half a share (0.5) while the others pay a full share (1)."
-msgstr "Niestandardowy tryb współdzielenia, nierównomierny podział: Wybierz płatnika, ustaw kwotę rachunku i wprowadź niestandardowy numer udziału dla każdego zainteresowanego użytkownika. Następnie naciśnij \"Utwórz rachunki\". Zostanie utworzone kilka rachunków. Przykład z rzeczywistego życia: Ktoś płaci rachunek za energię elektryczną za miesiąc, ale jeden członek był tam tylko przez pół miesiąca. Członek ten powinien zapłacić połowę akcji (0,5), podczas gdy inni płacą pełną część (1)."
+msgstr "Niestandardowy tryb współdzielenia, nierównomierny podział: Wybierz płatnika, ustaw kwotę rachunku i wprowadź niestandardowy wartość udziału dla każdego zainteresowanego użytkownika. Następnie naciśnij \"Utwórz rachunki\". Zostanie utworzonych kilka rachunków. Przykład z rzeczywistego życia: Ktoś płaci rachunek za energię elektryczną za miesiąc, ale jeden członek był tam tylko przez pół miesiąca. Członek ten powinien zapłacić połowę udziału (0,5), podczas gdy inni płacą pełną część (1)."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:97
 msgid "For whom?"
@@ -1552,7 +1552,7 @@ msgstr "Kurs wymiany na główną walutę"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:220
 msgid "(1 of this currency = X of main currency)"
-msgstr "(1 z tej waluty = X głównej waluty)"
+msgstr "(np. x3.8182031306975) waluty głównej"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:221
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:222
@@ -1595,7 +1595,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:232
 msgid "Center settlement on"
-msgstr "Rozliczenie główne w dniu"
+msgstr "Rozliczenie nakierowane na"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:233
 msgid "Nobody (optimal)"

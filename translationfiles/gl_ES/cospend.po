@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-10-27 17:48+0100\n"
-"PO-Revision-Date: 2024-11-27 13:13\n"
+"PO-Revision-Date: 2025-02-23 11:43\n"
 "Last-Translator: \n"
 "Language-Team: Galician\n"
 "Language: gl_ES\n"
@@ -85,7 +85,7 @@ msgstr "Cambios na <strong>aplicación Cospend</strong>"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:578
 msgid "You are not allowed to access the target project"
-msgstr ""
+msgstr "Non ten permiso para acceder ao proxecto de destino"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:848
 msgid "You are not allowed to give such shared access level"
@@ -314,16 +314,16 @@ msgstr "{user} deixou de compartir o proxecto %s con Vde."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:134
 msgid "Cospend federated project shared"
-msgstr ""
+msgstr "Proxecto federado Cospend de gasto compartido"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:135
 #, php-format
 msgid "%s (%s) shared Cospend project \"%s\" (%s) with you."
-msgstr ""
+msgstr "O usuario %s (%s) compartiu o proxecto de gasto de Cospend «%s» (%s) con Vde."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchBillProvider.php:65
 msgid "Cospend bills"
-msgstr ""
+msgstr "Facturas de Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchBillProvider.php:179
 #, php-format
@@ -332,12 +332,12 @@ msgstr "en %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProjectProvider.php:62
 msgid "Cospend projects"
-msgstr ""
+msgstr "Proxectos de Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProjectProvider.php:139
 #, php-format
 msgid "Owned by %1$s"
-msgstr ""
+msgstr "Propiedade de %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:192
 #, php-format
@@ -632,7 +632,7 @@ msgstr "Non existe esta compartición"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3234
 msgid "Invalid values"
-msgstr ""
+msgstr "Valores non válidos"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3378
 msgid "No such group"
@@ -760,11 +760,11 @@ msgstr "Produciuse un fallo ao obter os proxectos"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:23
 msgid "Failed to get federated project"
-msgstr ""
+msgstr "Produciuse un fallo ao obter un proxecto federado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:24
 msgid "Failed to get pending remote invitations"
-msgstr ""
+msgstr "Produciuse un fallo ao obter os convites remotos pendentes"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:25
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:26
@@ -1182,7 +1182,7 @@ msgstr "Lixo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:133
 msgid "Search bills"
-msgstr ""
+msgstr "Buscar facturas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:135
 msgid "Close trashbin"
@@ -1238,11 +1238,11 @@ msgstr "Restaurar as facturas seleccionadas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:148
 msgid "No member"
-msgstr ""
+msgstr "Non hai ningún membro"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:149
 msgid "Add at least one member to start creating bills"
-msgstr ""
+msgstr "Engada polo menos un membro para comezar a crear facturas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:150
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:313
@@ -1634,7 +1634,7 @@ msgstr "Saldos o {date}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:251
 msgid "Global balances"
-msgstr ""
+msgstr "Saldos globais"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:254
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:255
@@ -1863,11 +1863,11 @@ msgstr "Desarquivar"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:312
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:316
 msgid "Leave share"
-msgstr ""
+msgstr "Deixa a compartición"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:317
 msgid "Project {projectId} ({projectName}) shared by {cloudId} ({displayName})"
-msgstr ""
+msgstr "Proxecto {projectId} ({projectName}) compartido por {cloudId} ({displayName})"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:320
 msgid "Everyone"
@@ -1913,7 +1913,7 @@ msgstr "Nome"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:343
 msgid "Search projects"
-msgstr ""
+msgstr "Buscar Proxectos"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:344
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:411
@@ -1938,11 +1938,11 @@ msgstr "Aínda non hai proxectos"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:349
 msgid "My cumulated balance"
-msgstr ""
+msgstr "O meu saldo acumulado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:350
 msgid "Pending share invitations"
-msgstr ""
+msgstr "Convites de compartición pendentes"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:351
 msgid "Show active projects"
@@ -2060,7 +2060,7 @@ msgstr "Usar a hora nas datas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:389
 msgid "Show my cumulated balance"
-msgstr ""
+msgstr "Amosar o meu saldo acumulado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:390
 msgid "Choose where to write output files (stats, settlement, export)"
@@ -2111,19 +2111,19 @@ msgstr "Selector de métodos de pagamento"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:417
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:418
 msgid "Pending invitations for federated shares"
-msgstr ""
+msgstr "Convites pendentes de comparticións federadas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:419
 msgid "Reject"
-msgstr ""
+msgstr "Rexeitar"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:420
 msgid "Accept"
-msgstr ""
+msgstr "Aceptar"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:421
 msgid "Project {projectName} shared by {inviterName} ({inviterCloudId})"
-msgstr ""
+msgstr "Proxecto {projectName} Compartido por {inviterName} ({inviterCloudId})"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:422
 msgid "Rename project {n}"
@@ -2202,7 +2202,7 @@ msgstr "Compartir o proxecto cun usuario, grupo ou círculo"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:451
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:457
 msgid "Federated user"
-msgstr ""
+msgstr "Usuario federado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:452
 msgid "Start typing to search"
@@ -2222,11 +2222,11 @@ msgstr "Crear unha nova ligazón para compartir"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:458
 msgid "Pending share"
-msgstr ""
+msgstr "Compartición pendente"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:458
 msgid "Accepted share"
-msgstr ""
+msgstr "Compartición aceptada"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:459
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:468
@@ -2235,7 +2235,7 @@ msgstr "Etiqueta"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:464
 msgid "Delete federated share"
-msgstr ""
+msgstr "Eliminar a compartición federada"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:466
 msgid "Link copied"
@@ -2285,7 +2285,7 @@ msgstr "Produciuse un fallo ao editar a ligazón para compartir"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:487
 msgid "Federated share saved"
-msgstr ""
+msgstr "Comparticións federadas gardadas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:491
 msgid "Link could not be copied to clipboard"
@@ -2293,7 +2293,7 @@ msgstr "Non foi posíbel copiar a ligazón ao portapapeis"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:492
 msgid "Rename"
-msgstr ""
+msgstr "Cambiar o nome"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:493
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:494
@@ -2402,11 +2402,11 @@ msgstr "Saldo filtrado"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:536
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:538
 msgid "This balance is computed from the complete bill list"
-msgstr ""
+msgstr "Este saldo calcúlase a partir da lista de facturas completa"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:537
 msgid "Global Balance"
-msgstr ""
+msgstr "Saldo global"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:539
 msgid "Monthly paid per member"
@@ -2517,7 +2517,7 @@ msgstr "Canto se pagou por método de pagamento?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:576
 msgid "Enable Federation in Cospend"
-msgstr ""
+msgstr "Activar a federación en Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:577
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:578

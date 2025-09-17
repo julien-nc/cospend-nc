@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-10-27 17:48+0100\n"
-"PO-Revision-Date: 2024-10-27 16:51\n"
+"PO-Revision-Date: 2025-03-08 07:55\n"
 "Last-Translator: \n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
@@ -77,7 +77,7 @@ msgstr "круг %1$s"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialAppInfoFakeDummyForL10nScript.php:2
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:575
 msgid "Cospend"
-msgstr ""
+msgstr "Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/Setting.php:49
 msgid "Changes in the <strong>Cospend app</strong>"
@@ -85,7 +85,7 @@ msgstr "Изменения в приложении <strong>Cospend</strong>"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:578
 msgid "You are not allowed to access the target project"
-msgstr ""
+msgstr "У вас нет доступа к этому проекту"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:848
 msgid "You are not allowed to give such shared access level"
@@ -180,7 +180,7 @@ msgstr "Доступ к общей ссылке Cospend"
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:203
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:261
 msgid "No such Cospend share link"
-msgstr ""
+msgstr "Нет опубликованной ссылки Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Dashboard/CospendWidget.php:52
 msgid "Cospend activity"
@@ -282,7 +282,7 @@ msgstr "Перевод"
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:109
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:178
 msgid "Online service"
-msgstr "Онлайн сервис"
+msgstr "Онлайн-сервис"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:79
 msgid "Cospend project shared"
@@ -314,16 +314,16 @@ msgstr "{user} поделился с вами проектом %s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:134
 msgid "Cospend federated project shared"
-msgstr ""
+msgstr "Cospend проект опубликован федеративно"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:135
 #, php-format
 msgid "%s (%s) shared Cospend project \"%s\" (%s) with you."
-msgstr ""
+msgstr "Пользователь %s (%s) поделился с вами проектом Cospend \"%s\" (%s)."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchBillProvider.php:65
 msgid "Cospend bills"
-msgstr ""
+msgstr "Cospend счета"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchBillProvider.php:179
 #, php-format
@@ -332,12 +332,12 @@ msgstr "в %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProjectProvider.php:62
 msgid "Cospend projects"
-msgstr ""
+msgstr "Cospend проекты"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProjectProvider.php:139
 #, php-format
 msgid "Owned by %1$s"
-msgstr ""
+msgstr "Владелец %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:192
 #, php-format
@@ -421,7 +421,7 @@ msgstr "Некорректный CSV, нет плательщика в стро�
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:579
 msgid "Malformed CSV, impossible to find the column names. Make sure your Splitwise account language is set to English first, then export the project again."
-msgstr ""
+msgstr "Неверный формат CSV, невозможно найти имена столбцов. Сначала убедитесь, что ваш язык аккаунта Splitwise установлен на английский язык, а затем снова экспортируйте проект."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:677
 msgid "daily"
@@ -632,7 +632,7 @@ msgstr "Нет такой ссылки общего доступа"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3234
 msgid "Invalid values"
-msgstr ""
+msgstr "Недопустимые значения"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3378
 msgid "No such group"
@@ -648,7 +648,7 @@ msgstr "Приложение кругов не активно"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3458
 msgid "Impossible to get the circle manager"
-msgstr ""
+msgstr "Невозможно получить менеджера круга"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3466
 msgid "No such circle"
@@ -752,7 +752,7 @@ msgstr "Участник {name} уже существует"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:21
 msgid "Impossible to move bill. No candidate project found."
-msgstr ""
+msgstr "Невозможно переместить счет. Проект не найден."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:22
 msgid "Failed to get projects"
@@ -760,11 +760,11 @@ msgstr "Не удалось получить проекты"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:23
 msgid "Failed to get federated project"
-msgstr ""
+msgstr "Не удалось получить внешний проект"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:24
 msgid "Failed to get pending remote invitations"
-msgstr ""
+msgstr "Не удалось получить ожидающие удалённые приглашения"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:25
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:26
@@ -876,7 +876,7 @@ msgstr "Подробнее"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:51
 msgid "More information on amount input field"
-msgstr ""
+msgstr "Дополнительная информация о поля ввода количества"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:52
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:57
@@ -890,7 +890,7 @@ msgstr "Информация"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:53
 msgid "You can type simple math operations and validate by pressing Enter key."
-msgstr ""
+msgstr "Можно ввести простые математические операции и проверить по нажатию клавиши Enter."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:54
 msgid "Convert to"
@@ -898,7 +898,7 @@ msgstr "Преобразовать"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:56
 msgid "More information on currency conversion"
-msgstr ""
+msgstr "Дополнительная информация о конвертации валюты"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:58
 msgid "Who paid?"
@@ -1184,7 +1184,7 @@ msgstr "Корзина"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:133
 msgid "Search bills"
-msgstr ""
+msgstr "Поиск счетов"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:135
 msgid "Close trashbin"
@@ -1220,51 +1220,51 @@ msgstr "Действия с множественным выбором"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:143
 msgid "Leave multiple select mode"
-msgstr ""
+msgstr "Покинуть режим множественного выбора"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:144
 msgid "Assign a category"
-msgstr ""
+msgstr "Выберите категорию"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:145
 msgid "Assign a payment mode"
-msgstr ""
+msgstr "Выберите способ оплаты"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:146
 msgid "Select bills to make grouped actions"
-msgstr ""
+msgstr "Выберите счета для группировки действий"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:147
 msgid "Restore selected bills"
-msgstr ""
+msgstr "Восстановить выбранные счета"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:148
 msgid "No member"
-msgstr ""
+msgstr "Нет участника"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:149
 msgid "Add at least one member to start creating bills"
-msgstr ""
+msgstr "Добавьте хотя бы одного участника для создания счетов"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:150
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:313
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:434
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:435
 msgid "Add a member"
-msgstr ""
+msgstr "Добавить участника"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:151
 msgid "No bills to show"
-msgstr ""
+msgstr "Нет счетов для отображения"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:153
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:154
 msgid "No more bills"
-msgstr ""
+msgstr "Больше счетов нет"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:155
 msgid "Confirm deletion"
-msgstr ""
+msgstr "Подтвердить удаление"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:156
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:159
@@ -1276,7 +1276,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:398
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:399
 msgid "Cancel"
-msgstr ""
+msgstr "Отмена"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:157
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:297
@@ -1291,35 +1291,35 @@ msgstr "Удалить"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:158
 msgid "Confirm restoration"
-msgstr ""
+msgstr "Подтвердить восстановление"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:160
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:318
 msgid "Restore"
-msgstr ""
+msgstr "Восстановить"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:161
 msgid "Confirm clear trash bin"
-msgstr ""
+msgstr "Подтвердить очистку корзины"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:163
 msgid "Clear"
-msgstr ""
+msgstr "Очистить"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:164
 msgid "All payment modes"
-msgstr ""
+msgstr "Все способы оплаты"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:165
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:166
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:567
 #: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:114
 msgid "No payment mode"
-msgstr ""
+msgstr "Нет способов оплаты"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:167
 msgid "All categories"
-msgstr ""
+msgstr "Все категории"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:168
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:169
@@ -1330,19 +1330,19 @@ msgstr "Без категории"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:170
 msgid "Leave multiple selection mode"
-msgstr ""
+msgstr "Покинуть режим множественного выбора"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:171
 msgid "Enter multiple selection mode"
-msgstr ""
+msgstr "Войти в режим множественного выбора"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:173
 msgid "Open filters"
-msgstr ""
+msgstr "Открытые фильтры"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:174
 msgid "Move selected bills to trash"
-msgstr ""
+msgstr "Переместить выбранные счета в корзину"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:175
 msgid "Delete selected bills"
@@ -1364,34 +1364,34 @@ msgstr "Счет удален"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:181
 msgid "Are you sure you want to delete {nb} bill?"
 msgid_plural "Are you sure you want to delete {nb} bills?"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Вы действительно хотите удалить {nb} счет?"
+msgstr[1] "Вы действительно хотите удалить {nb} счета?"
+msgstr[2] "Вы действительно хотите удалить {nb} счетов?"
+msgstr[3] "Вы действительно хотите удалить {nb} счетов?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:182
 msgid "Are you sure you want to move {nb} bill to the trash bin?"
 msgid_plural "Are you sure you want to move {nb} bills to the trash bin?"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Вы действительно хотите отправить {nb} счет в корзину?"
+msgstr[1] "Вы действительно хотите отправить {nb} счета в корзину?"
+msgstr[2] "Вы действительно хотите отправить {nb} счетов в корзину?"
+msgstr[3] "Вы действительно хотите отправить {nb} счетов в корзину?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:183
 msgid "Are you sure you want to restore {nb} bill?"
 msgid_plural "Are you sure you want to restore {nb} bills?"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Вы действительно хотите восстановить {nb} счет?"
+msgstr[1] "Вы действительно хотите восстановить {nb} счета?"
+msgstr[2] "Вы действительно хотите восстановить {nb} счетов?"
+msgstr[3] "Вы действительно хотите восстановить {nb} счетов?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:184
 msgid "Are you sure you want to clear the trash bin? ({nb} bill)"
 msgid_plural "Are you sure you want to clear the trash bin? ({nb} bills)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Вы уверены, что хотите очистить корзину? ({nb} счёт)"
+msgstr[1] "Вы уверены, что хотите очистить корзину? ({nb} счёта)"
+msgstr[2] "Вы уверены, что хотите очистить корзину? ({nb} счётов)"
+msgstr[3] "Вы уверены, что хотите очистить корзину? ({nb} счётов)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:185
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:186
@@ -1409,11 +1409,11 @@ msgstr "Значок"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:189
 msgid "Alphabetical"
-msgstr ""
+msgstr "В алфавитном порядке"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:190
 msgid "Manual"
-msgstr ""
+msgstr "Вручную"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:191
 msgid "Most used"
@@ -1425,11 +1425,11 @@ msgstr "Добавленные недавно"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:193
 msgid "Category sort method"
-msgstr ""
+msgstr "Метод сортировки категорий"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:193
 msgid "Payment mode sort method"
-msgstr ""
+msgstr "Способ сортировки способов оплаты"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:194
 msgid "Add category"
@@ -1441,7 +1441,7 @@ msgstr "Добавление способа оплаты: \"\""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:195
 msgid "Category name"
-msgstr ""
+msgstr "Название категории"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:195
 msgid "Payment mode name"

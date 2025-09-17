@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-10-27 17:48+0100\n"
-"PO-Revision-Date: 2024-10-27 16:51\n"
+"PO-Revision-Date: 2025-09-14 12:12\n"
 "Last-Translator: \n"
 "Language-Team: Catalan\n"
 "Language: ca_ES\n"
@@ -85,7 +85,7 @@ msgstr "Canvis a <strong>l'aplicació Cospend </strong>"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:578
 msgid "You are not allowed to access the target project"
-msgstr ""
+msgstr "No teniu permís per accedir al projecte"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:848
 msgid "You are not allowed to give such shared access level"
@@ -319,7 +319,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:135
 #, php-format
 msgid "%s (%s) shared Cospend project \"%s\" (%s) with you."
-msgstr ""
+msgstr "%s (%s) ha compartit el projecte de Cospend \"%s\" (%s) amb vós."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchBillProvider.php:65
 msgid "Cospend bills"
@@ -332,7 +332,7 @@ msgstr "a %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProjectProvider.php:62
 msgid "Cospend projects"
-msgstr ""
+msgstr "Projecte Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProjectProvider.php:139
 #, php-format
@@ -397,13 +397,13 @@ msgstr "CSV amb format incorrecte, propietaris no vàlids a la línia %1$s"
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:596
 #, php-format
 msgid "Error in project creation, %1$s"
-msgstr ""
+msgstr "S'ha produït un error en crear el projecte: %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:437
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:642
 #, php-format
 msgid "Error when adding bill %1$s"
-msgstr ""
+msgstr "Error en afegir factura %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:497
 msgid "Malformed CSV, cannot have an empty ower"
@@ -603,7 +603,7 @@ msgstr "No trobat"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2959
 msgid "This project have no such currency"
-msgstr ""
+msgstr "Aquest projecte no té aquesta divisa"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3076
 msgid "No such user"
@@ -619,7 +619,7 @@ msgstr "Ja compartit amb aquest usuari"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3093
 msgid "You are not authorized to give such access level"
-msgstr ""
+msgstr "No teniu permís per donar aquest nivell d'accés"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3217
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3247
@@ -632,7 +632,7 @@ msgstr "No es pot compartir"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3234
 msgid "Invalid values"
-msgstr ""
+msgstr "Valors no vàlids"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3378
 msgid "No such group"
@@ -669,7 +669,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:1
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "What do you want to do?"
-msgstr ""
+msgstr "Què voleu fer?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:3
 msgid "These actions are also available in the sidebar project context menu."
@@ -692,13 +692,13 @@ msgstr "Compartir el projecte"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:314
 msgid "Close the trash bin"
-msgstr ""
+msgstr "Tanca la paperera"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:136
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:315
 msgid "Show the trash bin"
-msgstr ""
+msgstr "Mostra la paperera"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8
 msgid "Show project statistics"
@@ -715,36 +715,36 @@ msgstr "Seleccioni un projecte"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:12
 msgid "Nothing to repeat"
-msgstr ""
+msgstr "No hi ha res per repetir"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:13
 msgid "Bill deleted"
-msgstr ""
+msgstr "S'ha esborrat la factura"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:14
 msgid "Failed to delete bill"
-msgstr ""
+msgstr "No s'ha pogut esborrar la factura"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:15
 msgid "Bill restored"
-msgstr ""
+msgstr "Factura recuperada"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:16
 msgid "Failed to restore bill"
-msgstr ""
+msgstr "No s'ha pogut recuperar la factura"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:17
 msgid "Bills restored"
-msgstr ""
+msgstr "Factures recuperades"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:18
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:180
 msgid "Failed to delete bills"
-msgstr ""
+msgstr "No s'han pogut esborrar les factures"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:19
 msgid "Trashbin has been cleared"
-msgstr ""
+msgstr "S'ha buidat la paperera"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:20
 msgid "Member {name} already exists"
@@ -850,7 +850,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:44
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:319
 msgid "Duplicate bill"
-msgstr ""
+msgstr "Factura duplicada"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:45
 msgid "What?"
@@ -1102,11 +1102,11 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:112
 msgid "Create the bill"
-msgstr ""
+msgstr "Crear la factura"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:112
 msgid "Create the bills"
-msgstr ""
+msgstr "Crear les factures"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:113
 msgid "This is just a currency converter. Bill amount can be entered in another currency and then converted to \"{maincur}\". Value is always stored in \"{maincur}\"."
@@ -1126,11 +1126,11 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:117
 msgid "Failed to add category"
-msgstr ""
+msgstr "No s'ha pogut crear la categoria"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:118
 msgid "Impossible to save bill, invalid values"
-msgstr ""
+msgstr "No s'ha pogut desar la factura, valors invàlids"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:119
 msgid "Bill saved"
@@ -1166,7 +1166,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:129
 msgid "Bill created"
-msgstr ""
+msgstr "Factura creada"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:130
 msgid "Choose file"
@@ -2341,7 +2341,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:511
 msgid "Statistics of project {name}"
-msgstr ""
+msgstr "Estadístiques del projecte {name}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:513
 msgid "Minimum date"
@@ -2578,15 +2578,15 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:448
 msgid "Failed to get statistics"
-msgstr ""
+msgstr "No s'han pogut carregar les estadístiques"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:465
 msgid "Project statistics exported in {path}"
-msgstr ""
+msgstr "S'han exportat les estadístiques del projecte a {path}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:469
 msgid "Failed to export project statistics"
-msgstr ""
+msgstr "No s'han pogut exportar les estadístiques del projecte"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:511
 msgid "Failed to add project settlement bills"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2024-10-27 17:48+0100\n"
-"PO-Revision-Date: 2024-10-27 16:51\n"
+"PO-Revision-Date: 2025-03-05 08:37\n"
 "Last-Translator: \n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -85,7 +85,7 @@ msgstr "Wijzigingen in de <strong>Cospend-app</strong>"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:578
 msgid "You are not allowed to access the target project"
-msgstr ""
+msgstr "U hebt geen toegang tot het project"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:848
 msgid "You are not allowed to give such shared access level"
@@ -169,7 +169,7 @@ msgstr "Voeg een wachtwoord in voor project %s"
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:236
 #, php-format
 msgid "Project %s"
-msgstr ""
+msgstr "Project %s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:200
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:235
@@ -180,11 +180,11 @@ msgstr "Cospend gedeelde link toegang"
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:203
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:261
 msgid "No such Cospend share link"
-msgstr ""
+msgstr "Deze Samen betalen deellink bestaat niet"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Dashboard/CospendWidget.php:52
 msgid "Cospend activity"
-msgstr ""
+msgstr "Samen betalen activiteit"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Db/ProjectMapper.php:97
 msgid "Invalid project id"
@@ -192,12 +192,12 @@ msgstr "Ongeldige project id"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Middleware/PublicAuthMiddleware.php:59
 msgid "Project password is invalid"
-msgstr ""
+msgstr "Projectwachtwoord is ongeldig"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Middleware/PublicAuthMiddleware.php:70
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Middleware/UserPermissionMiddleware.php:54
 msgid "Insufficient access level"
-msgstr ""
+msgstr "Ontoereikend toegangsniveau"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:98
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:96
@@ -237,7 +237,7 @@ msgstr "Winkelen"
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:106
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:131
 msgid "Restaurant"
-msgstr ""
+msgstr "Restaurant"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:107
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:136
@@ -252,7 +252,7 @@ msgstr "Vervoer"
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version000406Date20200426154317.php:109
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:146
 msgid "Sport"
-msgstr ""
+msgstr "Sport"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:73
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:81
@@ -282,11 +282,11 @@ msgstr "Overboeking"
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Migration/Version010314Date20210828143421.php:109
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:178
 msgid "Online service"
-msgstr ""
+msgstr "Online service"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:79
 msgid "Cospend project shared"
-msgstr ""
+msgstr "Samen betalen project gedeeld"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:80
 #, php-format
@@ -296,11 +296,11 @@ msgstr "De gebruiker '%s' heeft het Cospend-project '%s' met je gedeeld."
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:90
 #, php-format
 msgid "{user} shared project %s with you"
-msgstr ""
+msgstr "{user} heeft project %s met u gedeeld"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:108
 msgid "Cospend project share removed"
-msgstr ""
+msgstr "Samen betalen project verwijderd"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:109
 #, php-format
@@ -310,7 +310,7 @@ msgstr "De gebruiker '%s' heeft het delen van het Cospend-project '%s' stopgezet
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:121
 #, php-format
 msgid "{user} stopped sharing project %s with you"
-msgstr ""
+msgstr "{user} is gestopt met het delen van project %s met u"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:134
 msgid "Cospend federated project shared"
@@ -319,68 +319,68 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:135
 #, php-format
 msgid "%s (%s) shared Cospend project \"%s\" (%s) with you."
-msgstr ""
+msgstr "%s (%s) heeft het Samen betalen-project \"%s\" (%s) met je gedeeld."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchBillProvider.php:65
 msgid "Cospend bills"
-msgstr ""
+msgstr "Samen betalen rekeningen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchBillProvider.php:179
 #, php-format
 msgid "in %1$s"
-msgstr ""
+msgstr "in %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProjectProvider.php:62
 msgid "Cospend projects"
-msgstr ""
+msgstr "Samen betalen projecten"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProjectProvider.php:139
 #, php-format
 msgid "Owned by %1$s"
-msgstr ""
+msgstr "Eigendom van %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:192
 #, php-format
 msgid "Malformed CSV, bad column names at line %1$s"
-msgstr ""
+msgstr "Ongeldige CSV, foutieve kolomnamen op regel %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:207
 #, php-format
 msgid "Error when adding category %1$s"
-msgstr ""
+msgstr "Fout bij het toevoegen van categorie %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:225
 #, php-format
 msgid "Error when adding payment mode %1$s"
-msgstr ""
+msgstr "Fout bij het toevoegen van betalingsmodus %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:239
 #, php-format
 msgid "Error when adding currency %1$s"
-msgstr ""
+msgstr "Fout bij het toevoegen van valuta %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:254
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:403
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:616
 #, php-format
 msgid "Error when adding member %1$s"
-msgstr ""
+msgstr "Fout bij het toevoegen van lid %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:269
 #, php-format
 msgid "Malformed CSV, invalid member on line %1$s"
-msgstr ""
+msgstr "Ongeldig CSV, ongeldig lid op regel %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:275
 #, php-format
 msgid "Malformed CSV, invalid amount on line %1$s"
-msgstr ""
+msgstr "Ongeldig CSV, ongeldig bedrag op regel %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:291
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:520
 #, php-format
 msgid "Malformed CSV, missing or invalid date/timestamp on line %1$s"
-msgstr ""
+msgstr "Misvormde CSV, ontbrekende of ongeldige datum/tijd op regel %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:318
 #, php-format
@@ -397,31 +397,31 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:596
 #, php-format
 msgid "Error in project creation, %1$s"
-msgstr ""
+msgstr "Fout bij aanmaken van project, %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:437
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:642
 #, php-format
 msgid "Error when adding bill %1$s"
-msgstr ""
+msgstr "Fout bij het toevoegen van rekening %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:497
 msgid "Malformed CSV, cannot have an empty ower"
-msgstr ""
+msgstr "Ongeldige CSV, kan geen lege eigenaar hebben"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:541
 #, php-format
 msgid "Malformed CSV, bad amount on line %1$s"
-msgstr ""
+msgstr "Ongeldig CSV, onjuist bedrag op regel %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:558
 #, php-format
 msgid "Malformed CSV, no payer on line %1$s"
-msgstr ""
+msgstr "Ongeldig CSV, geen betaler op regel %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:579
 msgid "Malformed CSV, impossible to find the column names. Make sure your Splitwise account language is set to English first, then export the project again."
-msgstr ""
+msgstr "Misvormde CSV, onmogelijk om de kolomnamen te vinden. Zorg ervoor dat uw Splitwise accounttaal eerst naar Engels is ingesteld en exporteer het project daarna opnieuw."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:677
 msgid "daily"
@@ -438,17 +438,17 @@ msgstr "maandelijks"
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:784
 #, php-format
 msgid "%1$s is not a folder"
-msgstr ""
+msgstr "%1$s is geen map"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:786
 #, php-format
 msgid "%1$s is not writeable"
-msgstr ""
+msgstr "%1$s is niet schrijfbaar"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:791
 #, php-format
 msgid "Impossible to create %1$s"
-msgstr ""
+msgstr "Onmogelijk om %1$s te maken"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:832
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:246
@@ -505,20 +505,20 @@ msgstr "Gemiddelde per maand"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1112
 msgid "Error when getting project settlement transactions"
-msgstr ""
+msgstr "Fout bij het ophalen van project afwikkeling transacties"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1142
 msgid "Error when adding a bill"
-msgstr ""
+msgstr "Fout bij het toevoegen van een rekening"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1332
 msgid "This project have no such member"
-msgstr ""
+msgstr "Dit project heeft geen dergelijke deelnemer"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1346
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1475
 msgid "Invalid member name"
-msgstr ""
+msgstr "Ongeldige deelnemersnaam"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1351
 msgid "Name already exists"
@@ -538,20 +538,20 @@ msgstr "Ongeldige decimale waarde"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1406
 msgid "There is no such project"
-msgstr ""
+msgstr "Dit project bestaat niet"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1409
 msgid "Name can't be empty"
-msgstr ""
+msgstr "Naam mag niet leeg zijn"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1412
 msgid "Invalid frequency"
-msgstr ""
+msgstr "Ongeldige frequentie"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1415
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1418
 msgid "Invalid sort order"
-msgstr ""
+msgstr "Ongeldige sorteervolgorde"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1472
 msgid "Name field is required"
@@ -559,19 +559,19 @@ msgstr "Naamveld is verplicht"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1478
 msgid "Weight is not a valid decimal value"
-msgstr ""
+msgstr "Gewicht is geen geldige decimale waarde"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1481
 msgid "Invalid color value"
-msgstr ""
+msgstr "Ongeldige kleurwaarde"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1484
 msgid "This project already has this member"
-msgstr ""
+msgstr "Dit project heeft deze deelnemer al"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:1487
 msgid "This project already has this member (user)"
-msgstr ""
+msgstr "Dit project heeft deze deelnemer (gebruiker) al"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:2130
 msgid "There is no such bill"
@@ -884,29 +884,29 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:432
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:439
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:53
 msgid "You can type simple math operations and validate by pressing Enter key."
-msgstr ""
+msgstr "Je kunt eenvoudige wiskundige bewerkingen typen en valideren door op Enter toets te drukken."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:54
 msgid "Convert to"
-msgstr ""
+msgstr "Omzetten naar"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:56
 msgid "More information on currency conversion"
-msgstr ""
+msgstr "Meer informatie over valuta-conversie"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:58
 msgid "Who paid?"
-msgstr ""
+msgstr "Wie heeft er betaald?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:59
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:441
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:524
 msgid "Choose a member"
-msgstr ""
+msgstr "Kies een deelnemer"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:60
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:61
@@ -916,7 +916,7 @@ msgstr "Wanneer?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:62
 msgid "Choose a payment mode"
-msgstr ""
+msgstr "Kies een betalingswijze"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:63
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:515
@@ -925,7 +925,7 @@ msgstr "Betaalwijze"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:64
 msgid "Choose or add a category"
-msgstr ""
+msgstr "Kies of voeg een categorie toe"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:65
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:517
@@ -934,19 +934,19 @@ msgstr "Categorie"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:66
 msgid "Comment"
-msgstr ""
+msgstr "Opmerking"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:67
 msgid "More details about the bill"
-msgstr ""
+msgstr "Meer details over de rekening"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:67
 msgid "({n} characters max)"
-msgstr ""
+msgstr "({n} tekens max)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:68
 msgid "Repeat"
-msgstr ""
+msgstr "Herhalen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:69
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:425
@@ -965,11 +965,11 @@ msgstr "Wekelijks"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:72
 msgid "Bi-weekly (every 2 weeks)"
-msgstr ""
+msgstr "Tweewekelijks (elke 2 weken)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:73
 msgid "Semi-monthly (twice a month)"
-msgstr ""
+msgstr "Half-maandelijks (twee keer per maand)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:74
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:428
@@ -978,23 +978,23 @@ msgstr "Maandelijks"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:75
 msgid "Yearly"
-msgstr ""
+msgstr "Jaarlijks"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:77
 msgid "More information on bill repetition"
-msgstr ""
+msgstr "Meer informatie over herhaling van rekening"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:79
 msgid "Frequency"
-msgstr ""
+msgstr "Frequentie"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:80
 msgid "Leave empty for maximum frequency"
-msgstr ""
+msgstr "Laat leeg voor maximale frequentie"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:81
 msgid "Include all active members on repeat"
-msgstr ""
+msgstr "Inclusief alle actieve deelnemers bij herhaling"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:82
 msgid "Repeat until"
@@ -1002,11 +1002,11 @@ msgstr "Herhaal tot"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:83
 msgid "No limit"
-msgstr ""
+msgstr "Geen limiet"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:84
 msgid "Repeat now"
-msgstr ""
+msgstr "Nu herhalen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:85
 msgid "Bill type"
@@ -1026,15 +1026,15 @@ msgstr "Aangepast verschuldigde bedrag per deelnemer"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:89
 msgid "Custom share per member"
-msgstr ""
+msgstr "Aangepast bedrag per deelnemer"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:91
 msgid "More information on bill mode"
-msgstr ""
+msgstr "Meer informatie over rekeningmodus"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:92
 msgid "Ignore member weights"
-msgstr ""
+msgstr "Negeer weging deelnemers"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:93
 msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
@@ -1042,7 +1042,7 @@ msgstr "Klassieke modus: Kies een betaler, voer een rekeningbedrag in en selecte
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:94
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually paid. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
-msgstr ""
+msgstr "Klassies+persoonlijk modus: Deze modus is vergelijkbaar met de klassieke. Kies een betaler en voer een rekening-bedrag in dat overeenkomt met wat er daadwerkelijk is betaald. Selecteer vervolgens de deelnemers waaronder het bedrag verdeeld dient te worden en stel eventueel een bedrag in gerelateerd aan persoonlijke delen voor sommige deelnemers. Meerdere rekeningen zullen worden gemaakt: één voor de gedeelde uitgaven en één voor elk persoonlijk deel. Bijvoorbeeld: We gaan winkelen; Een deel van wat werd gekocht heeft betrekking op de groep, maar iemand heeft ook iets persoonlijk toegevoegd (zoals een shirt) dat de anderen niet collectief willen betalen."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:95
 msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
@@ -1050,7 +1050,7 @@ msgstr "Aangepaste modus, ongelijke splitsing: Kies een betaler, negeer het reke
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:96
 msgid "Custom share mode, uneven split: Choose a payer, set the bill amount and enter a custom share number for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: Someone pays an electricity bill for the month but one member was only there during half the month. This member should then pay half a share (0.5) while the others pay a full share (1)."
-msgstr ""
+msgstr "Aangepaste deelmodus, ongelijke verdeling: Kies een betaler, stel het rekeningbedrag in en voer een aangepast deelbedrag in voor elke deelnemer die betrokken is. Druk vervolgens op \"Rekeningen maken\". Meerdere rekeningen worden gemaakt. Reëel voorbeeld: iemand betaalt een elektriciteitsrekening voor de hele maand, maar één deelnemer was er slechts gedurende de helft van de maand. Deze deelnemer moet dan een half aandeel (0,5) betalen, terwijl de anderen een volledig deel betalen (1)."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:97
 msgid "For whom?"
@@ -1058,27 +1058,27 @@ msgstr "Aan wie?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:98
 msgid "All/None"
-msgstr ""
+msgstr "Alles/Geen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:99
 msgid "Personal amount"
-msgstr ""
+msgstr "Persoonlijk bedrag"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:100
 msgid "Custom amount"
-msgstr ""
+msgstr "Aangepast bedrag"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:101
 msgid "Custom share number"
-msgstr ""
+msgstr "Aangepast bedrag per deelnemer"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:103
 msgid "Delete this bill"
-msgstr ""
+msgstr "Verwijder deze rekening"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:104
 msgid "Move this bill to the trashbin"
-msgstr ""
+msgstr "Verplaats deze rekening naar de prullenbak"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:105
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:106
@@ -1090,11 +1090,11 @@ msgstr "Geen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:107
 msgid "Add payment mode \"{name}\""
-msgstr ""
+msgstr "Voeg betaalmethode \"{name}\" toe"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:110
 msgid "Add category \"{name}\""
-msgstr ""
+msgstr "Voeg categorie \"{name}\" toe"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:111
 msgid "Bill : {what}"
@@ -1110,31 +1110,31 @@ msgstr "Maak de rekeningen aan"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:113
 msgid "This is just a currency converter. Bill amount can be entered in another currency and then converted to \"{maincur}\". Value is always stored in \"{maincur}\"."
-msgstr ""
+msgstr "Dit is slechts een valuta converter. Rekeningbedrag kan worden ingevoerd in een andere valuta en vervolgens worden omgezet in \"{maincur}\". Waarde wordt altijd opgeslagen in \"{maincur}\"."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:114
 msgid "Bill repetition process runs once a day as a background job. If your bills are not automatically repeated, ask your Nextcloud administrator to check if \"Cron\" method is selected in admin settings."
-msgstr ""
+msgstr "Rekeningherhalingsproces draait eens per dag als achtergrondtaak. Als je rekeningen niet automatisch worden herhaald, vraag dan aan de Nextcloud beheerder om te controleren of de \"Cron\" methode is geselecteerd in de beheerderinstellingen."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:115
 msgid "You can also manually repeat the current bill with the \"Repeat now\" button."
-msgstr ""
+msgstr "Je kunt ook handmatig de huidige rekening herhalen met de \"Herhaal nu\" knop."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:116
 msgid "Failed to add payment mode"
-msgstr ""
+msgstr "Betalingsmethode toevoegen mislukt"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:117
 msgid "Failed to add category"
-msgstr ""
+msgstr "Categorie toevoegen mislukt"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:118
 msgid "Impossible to save bill, invalid values"
-msgstr ""
+msgstr "Kan rekening niet opslaan, ongeldige waarden"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:119
 msgid "Bill saved"
-msgstr ""
+msgstr "Rekening opgeslagen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:120
 msgid "Failed to save bill"
@@ -1145,19 +1145,19 @@ msgstr "Kan rekening niet opslaan"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:125
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:127
 msgid "Bill values are not valid"
-msgstr ""
+msgstr "Rekeningwaarden zijn ongeldig"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:122
 msgid "Personal parts are bigger than the paid amount"
-msgstr ""
+msgstr "Persoonlijke delen zijn groter dan het betaalde bedrag"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:124
 msgid "There is no custom amount"
-msgstr ""
+msgstr "Er is geen aangepast bedrag"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:126
 msgid "There is no custom share number"
-msgstr ""
+msgstr "Er is geen aangepaste deelhoeveelheid"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:128
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:274
@@ -1166,23 +1166,23 @@ msgstr "Kan rekening niet creëren"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:129
 msgid "Bill created"
-msgstr ""
+msgstr "Rekening gemaakt"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:130
 msgid "Choose file"
-msgstr ""
+msgstr "Kies bestand"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:131
 msgid "Failed to generate share link to file"
-msgstr ""
+msgstr "Kan geen link genereren naar bestand"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:132
 msgid "Trash bin"
-msgstr ""
+msgstr "Prullenbak"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:133
 msgid "Search bills"
-msgstr ""
+msgstr "Rekeningen zoeken"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:135
 msgid "Close trashbin"
@@ -1439,81 +1439,81 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:196
 msgid "Add this category"
-msgstr ""
+msgstr "Voeg deze categorie toe"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:196
 msgid "Add this payment mode"
-msgstr ""
+msgstr "Voeg deze betaalmethode toe"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:197
 msgid "Category list"
-msgstr ""
+msgstr "Categorieënlijst"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:197
 msgid "Payment mode list"
-msgstr ""
+msgstr "Betaalmethodenlijst"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:198
 msgid "Drag categories to set manual order"
-msgstr ""
+msgstr "Sleep categorieën om handmatige volgorde in te stellen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:198
 msgid "Drag payment modes to set manual order"
-msgstr ""
+msgstr "Sleep betaalmethoden om handmatige volgorde in te stellen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:199
 msgid "No categories"
-msgstr ""
+msgstr "Geen categorieën"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:199
 msgid "No payment modes"
-msgstr ""
+msgstr "Geen betaalmethoden"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:200
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:205
 msgid "Name should not be empty"
-msgstr ""
+msgstr "Naam mag niet leeg zijn"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:201
 msgid "Failed to add {name}"
-msgstr ""
+msgstr "Toevoegen van {name} is mislukt"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:202
 msgid "{name} was added"
-msgstr ""
+msgstr "{name} is toegevoegd"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:203
 msgid "Failed to delete category"
-msgstr ""
+msgstr "Categorie verwijderen mislukt"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:204
 msgid "Failed to delete payment mode"
-msgstr ""
+msgstr "Betaalmethode verwijderen mislukt"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:206
 msgid "Failed to edit category"
-msgstr ""
+msgstr "Categorie aanpassen mislukt"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:207
 msgid "Order saved"
-msgstr ""
+msgstr "Volgorde opgeslagen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:208
 msgid "Main currency"
-msgstr ""
+msgstr "Hoofdvaluta"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:210
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:211
 msgid "Set main currency name"
-msgstr ""
+msgstr "Naam van hoofdvaluta instellen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:212
 msgid "Main currency name"
-msgstr ""
+msgstr "Naam van hoofdvaluta"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:214
 msgid "Cancel currency edition"
-msgstr ""
+msgstr "Valuta bewerken annuleren"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:215
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:341
@@ -1521,54 +1521,54 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:400
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:401
 msgid "Save"
-msgstr ""
+msgstr "Opslaan"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:216
 msgid "Save currency"
-msgstr ""
+msgstr "Valuta opslaan"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:217
 msgid "Add currency"
-msgstr ""
+msgstr "Valuta toevoegen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:218
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:397
 msgid "Currency name"
-msgstr ""
+msgstr "Valutanaam"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:219
 msgid "Exchange rate to main currency"
-msgstr ""
+msgstr "Wisselkoers naar de hoofdvaluta"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:220
 msgid "(1 of this currency = X of main currency)"
-msgstr ""
+msgstr "(1 van deze valuta = X van de hoofdvaluta)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:221
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:222
 msgid "Add this currency"
-msgstr ""
+msgstr "Deze valuta toevoegen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:223
 msgid "Currency list"
-msgstr ""
+msgstr "Valutalijst"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:224
 msgid "No currencies to display"
-msgstr ""
+msgstr "Geen valuta om weer te geven"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:225
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:228
 msgid "Currency name should not be empty"
-msgstr ""
+msgstr "Valutanaam mag niet leeg zijn"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:226
 msgid "Exchange rate should be a number"
-msgstr ""
+msgstr "Wisselkoers moet een getal zijn"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:227
 msgid "Currency {n} added"
-msgstr ""
+msgstr "Valuta {n} toegevoegd"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:229
 msgid "Settlement of project {name}"
@@ -1581,87 +1581,87 @@ msgstr "Exporteren"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:231
 msgid "Add these payments to the project"
-msgstr ""
+msgstr "Voeg deze betalingen toe aan het project"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:232
 msgid "Center settlement on"
-msgstr ""
+msgstr "Centreer verrekening op"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:233
 msgid "Nobody (optimal)"
-msgstr ""
+msgstr "Niemand (optimaal)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:234
 msgid "Settlement date"
-msgstr ""
+msgstr "Verrekeningsdatum"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:235
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:236
 msgid "Information on settlement date"
-msgstr ""
+msgstr "Informatie over verrekeningsdatum"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:239
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:240
 msgid "Set to beginning of this day"
-msgstr ""
+msgstr "Instellen op begin van deze dag"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:241
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:242
 msgid "Set to beginning of this week"
-msgstr ""
+msgstr "Instellen op begin van deze week"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:243
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:244
 msgid "Set to beginning of this month"
-msgstr ""
+msgstr "Instellen op begin van deze maand"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:245
 msgid "Settlement plan on {date}"
-msgstr ""
+msgstr "Verrekeningsplan voor {date}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:245
 msgid "Settlement plan"
-msgstr ""
+msgstr "Verrekeningsplan"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:249
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:250
 msgid "No transactions found"
-msgstr ""
+msgstr "Geen transacties gevonden"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:251
 msgid "Balances on {date}"
-msgstr ""
+msgstr "Saldo op {date}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:251
 msgid "Global balances"
-msgstr ""
+msgstr "Globale saldi"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:254
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:255
 msgid "No balances found"
-msgstr ""
+msgstr "Geen saldi gevonden"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:256
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:257
 msgid "Information on individual reimbursement"
-msgstr ""
+msgstr "Informatie over individuele terugbetaling"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:258
 msgid "Individual reimbursement"
-msgstr ""
+msgstr "Individuele terugbetaling"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:260
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:523
 msgid "Payer"
-msgstr ""
+msgstr "Betaler"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:261
 msgid "Receiver"
-msgstr ""
+msgstr "Ontvanger"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:262
 msgid "Create bill ({amount} {currencyName})"
-msgstr ""
+msgstr "Rekening aanmaken ({amount} {currencyName})"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:263
 msgid "Create bill ({amount})"
@@ -1924,143 +1924,143 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:345
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:368
 msgid "Import csv project"
-msgstr ""
+msgstr "Importeer csv project"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:346
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:369
 msgid "Import SplitWise project"
-msgstr ""
+msgstr "Importeer SplitWise project"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:347
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:348
 msgid "No projects yet"
-msgstr ""
+msgstr "Nog geen projecten"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:349
 msgid "My cumulated balance"
-msgstr ""
+msgstr "Mijn berekende saldo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:350
 msgid "Pending share invitations"
-msgstr ""
+msgstr "Openstaande deel-uitnodigingen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:351
 msgid "Show active projects"
-msgstr ""
+msgstr "Actieve projecten weergeven"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:351
 msgid "Show archived projects"
-msgstr ""
+msgstr "Gearchiveerde projecten weergeven"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:352
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:355
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:356
 msgid "Cospend settings"
-msgstr ""
+msgstr "Samen betalen instellingen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:353
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:354
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:391
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:392
 msgid "Project imported"
-msgstr ""
+msgstr "Project geïmporteerd"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:357
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:358
 msgid "About Cospend"
-msgstr ""
+msgstr "Over Samen betalen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:359
 msgid "Thanks for using Cospend"
-msgstr ""
+msgstr "Bedankt voor het gebruiken van Samen betalen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:360
 msgid "App version: {version}"
-msgstr ""
+msgstr "App-versie: {version}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:361
 msgid "Bug/issue tracker"
-msgstr ""
+msgstr "Bug/issue tracker"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:362
 msgid "Translation"
-msgstr ""
+msgstr "Vertaling"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:363
 msgid "User documentation"
-msgstr ""
+msgstr "Gebruikersdocumentatie"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:364
 msgid "Admin documentation"
-msgstr ""
+msgstr "Beheerderdocumentatie"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:365
 msgid "Developer documentation"
-msgstr ""
+msgstr "Documentatie voor ontwikkelaars"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:366
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:367
 msgid "Import projects"
-msgstr ""
+msgstr "Projecten importeren"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:370
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:371
 msgid "Export location"
-msgstr ""
+msgstr "Exportlocatie"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:372
 msgid "Select export directory"
-msgstr ""
+msgstr "Selecteer exportmap"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:373
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:374
 msgid "Sort criterias"
-msgstr ""
+msgstr "Sorteer criteria"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:375
 msgid "How projects are sorted in navigation sidebar"
-msgstr ""
+msgstr "Hoe projecten in de zijbalk worden gesorteerd"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:376
 msgid "Projects order"
-msgstr ""
+msgstr "Projectvolgorde"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:378
 msgid "Last activity"
-msgstr ""
+msgstr "Laatste activiteit"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:379
 msgid "How members are sorted"
-msgstr ""
+msgstr "Hoe deelnemers worden gesorteerd"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:380
 msgid "Members order"
-msgstr ""
+msgstr "Deelnemersvolgorde"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:383
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:384
 msgid "Misc"
-msgstr ""
+msgstr "Overige"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:385
 msgid "Maximum decimal precision to show in balances"
-msgstr ""
+msgstr "Maximale decimale precisie om te laten zien in saldi"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:386
 msgid "Maximum precision"
-msgstr ""
+msgstr "Maximale precisie"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:387
 msgid "Do you want to see and choose time in bill dates?"
-msgstr ""
+msgstr "Wil je tijd zien en kiezen in rekeningdatums?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:388
 msgid "Use time in dates"
-msgstr ""
+msgstr "Gebruik tijd in datums"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:389
 msgid "Show my cumulated balance"
-msgstr ""
+msgstr "Toon mijn berekende saldo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:390
 msgid "Choose where to write output files (stats, settlement, export)"
@@ -2068,45 +2068,45 @@ msgstr "Kies waar je de uitvoerbestanden wilt schrijven (statistieken, afrekenin
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:402
 msgid "Member select"
-msgstr ""
+msgstr "Deelnemersselectie"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:404
 msgid "Move bill \"{bill}\" to a different project:"
-msgstr ""
+msgstr "Verplaats rekening \"{bill}\" naar een ander project:"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:405
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:406
 msgid "Only one project available, in which this bill already exists"
-msgstr ""
+msgstr "Slechts één project beschikbaar waar deze rekening al bestaat"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:407
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:408
 msgid "No projects found"
-msgstr ""
+msgstr "Geen projecten gevonden"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:409
 msgid "Bill moved to \"{project}\" successfully"
-msgstr ""
+msgstr "Rekening met succes verplaatst naar \"{project}\""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:410
 msgid "Failed to move bill"
-msgstr ""
+msgstr "Rekening verplaatsen mislukt"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:413
 msgid "Project name"
-msgstr ""
+msgstr "Projectnaam"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:414
 msgid "My new project"
-msgstr ""
+msgstr "Mijn nieuwe project"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:415
 msgid "Create"
-msgstr ""
+msgstr "Maak"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:416
 msgid "Payment mode selector"
-msgstr ""
+msgstr "Betaalmethodekiezer"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:417
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:418
@@ -2115,31 +2115,31 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:419
 msgid "Reject"
-msgstr ""
+msgstr "Weigeren"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:420
 msgid "Accept"
-msgstr ""
+msgstr "Accepteer"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:421
 msgid "Project {projectName} shared by {inviterName} ({inviterCloudId})"
-msgstr ""
+msgstr "Project {projectName} gedeeld door {inviterName} ({inviterCloudId})"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:422
 msgid "Rename project {n}"
-msgstr ""
+msgstr "Project {n} hernoemen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:423
 msgid "Disable bill deletion"
-msgstr ""
+msgstr "Rekeningverwijdering uitschakelen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:424
 msgid "Automatic export"
-msgstr ""
+msgstr "Automatische export"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:429
 msgid "Export project"
-msgstr ""
+msgstr "Project exporteren"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:430
 msgid "Members"
@@ -2385,11 +2385,11 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:529
 msgid "Total paid by all the members: {t} {currencyName}"
-msgstr ""
+msgstr "Totaal betaald door alle deelnemers: {t} {currencyName}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:530
 msgid "Total paid by all the members: {t}"
-msgstr ""
+msgstr "Totaal betaald door alle deelnemers: {t}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:531
 msgid "Global stats"
@@ -2397,92 +2397,92 @@ msgstr "Globale statistieken"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:535
 msgid "Filtered balance"
-msgstr ""
+msgstr "Gefilterd saldo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:536
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:538
 msgid "This balance is computed from the complete bill list"
-msgstr ""
+msgstr "Dit saldo is berekend op basis van de volledige rekeningenlijst"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:537
 msgid "Global Balance"
-msgstr ""
+msgstr "Overkoepelend saldo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:539
 msgid "Monthly paid per member"
-msgstr ""
+msgstr "Maandelijks betaald per deelnemer"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:540
 msgid "Payments per member per month"
-msgstr ""
+msgstr "Betalingen per deelnemer per maand"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:541
 msgid "Monthly spent per member"
-msgstr ""
+msgstr "Maandelijks uitgegeven per deelnemer"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:542
 msgid "Spendings per member per month"
-msgstr ""
+msgstr "Uitgaven per deelnemer per maand"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:543
 msgid "Monthly paid per category"
-msgstr ""
+msgstr "Maandelijks betaald per categorie"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:544
 msgid "Payments per category per month"
-msgstr ""
+msgstr "Betalingen per categorie per maand"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:545
 msgid "Category/Month"
-msgstr ""
+msgstr "Categorie/maand"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:546
 msgid "Monthly paid per payment mode"
-msgstr ""
+msgstr "Maandelijks betaald per betaalmethode"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:547
 msgid "Payments per payment mode per month"
-msgstr ""
+msgstr "Betalingen per betaalmethode per maand"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:548
 msgid "Payment mode/Month"
-msgstr ""
+msgstr "Betaalmethode/maand"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:549
 msgid "Who paid for this category?"
-msgstr ""
+msgstr "Wie heeft betaald voor deze categorie?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:551
 msgid "What did they pay for?"
-msgstr ""
+msgstr "Waar hebben ze voor betaald?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:552
 msgid "Select a member"
-msgstr ""
+msgstr "Selecteer een deelnemer"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:553
 msgid "Who paid for whom?"
-msgstr ""
+msgstr "Wie heeft voor wie betaald?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:554
 msgid "paid for"
-msgstr ""
+msgstr "betaald voor"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:555
 msgid "Total paid"
-msgstr ""
+msgstr "Totaal betaald"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:556
 msgid "Total owed"
-msgstr ""
+msgstr "Totaal verschuldigd"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:557
 msgid "Total owed by {name}"
-msgstr ""
+msgstr "Totaal verschuldigd door {name}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:558
 msgid "Total paid by {name}"
-msgstr ""
+msgstr "Totaal betaald door {name}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:559
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:565
@@ -2497,7 +2497,7 @@ msgstr "Alles"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:568
 msgid "Payed"
-msgstr ""
+msgstr "Betaald"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:570
 msgid "Who paid (outside circle) and spent (inside pie)?"
@@ -2505,15 +2505,15 @@ msgstr "Wie heeft betaald (buitencirkel) en uitgegeven (binnencirkel)?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:571
 msgid "Who paid and spent?"
-msgstr ""
+msgstr "Wie heeft betaald en uitgegeven?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:572
 msgid "How much was paid per category?"
-msgstr ""
+msgstr "Hoeveel werd per categorie betaald?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:573
 msgid "How much was paid per payment mode?"
-msgstr ""
+msgstr "Hoeveel is betaald per betaalmethode?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:576
 msgid "Enable Federation in Cospend"
@@ -2522,43 +2522,43 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:577
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:578
 msgid "No recent activity"
-msgstr ""
+msgstr "Geen recente activiteit"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:579
 msgid "Go to Cospend"
-msgstr ""
+msgstr "Ga naar Samen betalen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:580
 msgid "{user} shared {project} with {who}"
-msgstr ""
+msgstr "{user} deelde {project} met {who}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:581
 msgid "{user} unshared {project} with {who}"
-msgstr ""
+msgstr "{user} stopte delen van {project} met {who}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:582
 msgid "{user} created {bill}"
-msgstr ""
+msgstr "{user} heeft {bill} aangemaakt"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:583
 msgid "{user} deleted {bill}"
-msgstr ""
+msgstr "{user} heeft {bill} verwijderd"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:584
 msgid "{user} edited {bill}"
-msgstr ""
+msgstr "{user} heeft {bill} aangepast"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/main.js:34
 msgid "Failed to restore options values"
-msgstr ""
+msgstr "Opties konden niet hersteld worden"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:27
 msgid "Failed to save option values"
-msgstr ""
+msgstr "Opties konden niet opgeslagen worden"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:43
 msgid "Project {name} exported in {path}"
-msgstr ""
+msgstr "Project {name} geëxporteerd naar {path}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:46
 msgid "Failed to export project"
@@ -2566,19 +2566,19 @@ msgstr "Kan project niet exporteren"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:393
 msgid "Failed to add currency"
-msgstr ""
+msgstr "Toevoegen valuta mislukt"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:409
 msgid "Failed to delete currency"
-msgstr ""
+msgstr "Verwijderen valuta mislukt"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:429
 msgid "Failed to edit currency"
-msgstr ""
+msgstr "Valuta bewerken mislukt"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:448
 msgid "Failed to get statistics"
-msgstr ""
+msgstr "Statistieken ophalen mislukt"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/network.js:465
 msgid "Project statistics exported in {path}"
@@ -2606,7 +2606,7 @@ msgstr "Kies SplitWise projectbestand"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:50
 msgid "Failed to import project file"
-msgstr ""
+msgstr "Importeren projectbestand mislukt"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/templates/sharepassword.php:10
 msgid "Authentication"
@@ -2614,9 +2614,9 @@ msgstr "Authenticatie"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/templates/sharepassword.php:15
 msgid "Wrong link password"
-msgstr ""
+msgstr "Wachtwoord onjuist"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/templates/sharepassword.php:27
 msgid "Share link password"
-msgstr ""
+msgstr "Deel wachtwoord van link"
 

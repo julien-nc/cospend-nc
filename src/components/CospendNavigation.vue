@@ -220,7 +220,7 @@ export default {
 			return this.cospend.showMyBalance
 		},
 		myBalance() {
-			return Object.values(this.projects)
+			const cumulativeBalance = Object.values(this.projects)
 				.filter(p => p.archived_ts === null)
 				.map(p => {
 					const me = p.members.find(m => m.userid === this.currentUserId)
@@ -228,6 +228,7 @@ export default {
 				})
 				.filter(b => b !== null)
 				.reduce((acc, balance) => acc + balance, 0)
+			return cumulativeBalance.toFixed(this.cospend.maxPrecision || 2)
 		},
 		balanceClass() {
 			return {

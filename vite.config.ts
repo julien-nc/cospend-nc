@@ -28,8 +28,7 @@ export default createAppConfig({
 		plugins: [eslint(), stylelint()],
 		build: {
 			cssCodeSplit: true,
-			// causes issues with NcAvatar ()
-			/*
+			// causes issues with NcAvatar (TypeError: can't access property "needReadable", this._readableState is undefined)
 			rollupOptions: {
 				treeshake: {
 					// Remove unused module exports
@@ -40,7 +39,6 @@ export default createAppConfig({
 					tryCatchDeoptimization: false
 				}
 			},
-			*/
 		},
 	},
 	inlineCSS: { relativeCSSInjection: true },

@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.1.0 – 2025-09-17
+
+### Changed
+
+- Migrate to Vue 3 and @nextcloud/vue 9 @julien-nc [#357](https://github.com/julien-nc/cospend-nc/issues/357)
+- Add support for Nextcloud 33
+
+### Fixed
+
+- Unmap deleted users @provokateurin [#338](https://github.com/julien-nc/cospend-nc/issues/338)
+- Fix notifications + activity entries @julien-nc [#340](https://github.com/julien-nc/cospend-nc/issues/340)
+- Add post-migration repair step to fix missing users in members @julien-nc [#339](https://github.com/julien-nc/cospend-nc/issues/339)
+- Provider: placeholder user id must be a string @SomeoneSerge [#352](https://github.com/julien-nc/cospend-nc/issues/352)
+
 ## 3.0.11 – 2025-01-28
 
 ### Fixed

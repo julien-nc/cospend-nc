@@ -69,11 +69,12 @@ export default {
 				return {
 					id: a.activity_id,
 					targetUrl: this.getTarget(a),
-					// avatarUrl: this.getSimpleAvatarUrl(n),
+					// avatarUrl: this.getAvatarUrl(a),
 					avatarUsername: this.getUserId(a),
+					avatarIsNoUser: !a.user,
+					// overlayIconUrl: a.icon,
 					mainText: this.getMainText(a),
 					subText: this.getSubline(a),
-					// overlayIconUrl: a.icon,
 				}
 			})
 		},

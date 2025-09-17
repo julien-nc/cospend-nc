@@ -28,6 +28,8 @@ export default createAppConfig({
 		plugins: [eslint(), stylelint()],
 		build: {
 			cssCodeSplit: true,
+			// causes issues with NcAvatar ()
+			/*
 			rollupOptions: {
 				treeshake: {
 					// Remove unused module exports
@@ -38,6 +40,7 @@ export default createAppConfig({
 					tryCatchDeoptimization: false
 				}
 			},
+			*/
 		},
 	},
 	inlineCSS: { relativeCSSInjection: true },

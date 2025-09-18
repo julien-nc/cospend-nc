@@ -129,7 +129,7 @@
 						fill-color="var(--color-warning)" />
 					<CheckNetworkOutlineIcon v-else
 						:size="18"
-						fill-color="var(--color-success)" />
+						fill-color="var(--color-text-success)" />
 				</div>
 				<span class="username">
 					<span>{{ access.userCloudId + ( access.label ? ' ( ' + access.label + ' )' : '') }}</span>
@@ -735,7 +735,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .success {
-	color: var(--color-success);
+	color: var(--color-text-success);
 }
 
 .add-public-link-line * {

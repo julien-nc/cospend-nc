@@ -196,7 +196,7 @@ export default {
 
 :deep(.deleteCurrencyButton:hover) {
 	.delete-icon {
-		color: var(--color-error);
+		color: var(--color-text-error);
 	}
 }
 </style>

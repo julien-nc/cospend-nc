@@ -749,7 +749,7 @@ export default {
 		padding-left: calc(var(--default-clickable-area) + 12px);
 
 		.header-trashbin-icon {
-			color: var(--color-error);
+			color: var(--color-text-error);
 		}
 	}
 
@@ -764,12 +764,12 @@ export default {
 		}
 		:deep(.multiDelete) {
 			&:hover {
-				color: var(--color-error);
+				color: var(--color-text-error);
 			}
 		}
 		:deep(.multiRestore) {
 			&:hover {
-				color: var(--color-success);
+				color: var(--color-text-success);
 			}
 		}
 		.multiSelectFooter {

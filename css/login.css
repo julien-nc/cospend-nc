@@ -12,6 +12,6 @@
     width: 100%;
 }
 #wrongcredentials {
-    color: var(--color-error);
+    color: var(--color-text-error);
     font-weight: bold;
 }

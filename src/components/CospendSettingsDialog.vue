@@ -332,10 +332,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.success {
-	color: var(--color-success);
-}
-
 .wrapper {
 	overflow-y: scroll;
 	padding: 20px;

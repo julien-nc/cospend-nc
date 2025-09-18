@@ -250,7 +250,7 @@ $clickable-area: 44px;
 
 :deep(.deleteItemButton:hover) {
 	.delete-icon {
-		color: var(--color-error);
+		color: var(--color-text-error);
 	}
 }
 

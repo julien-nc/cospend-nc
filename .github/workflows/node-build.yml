@@ -1,0 +1,55 @@
+name: Node Build
+
+on:
+  pull_request:
+    paths:
+      - src/**
+      - .eslintrc.js
+      - stylelint.config.js
+      - webpack.js
+      - vite.config.js
+  push:
+    branches:
+      - main
+    paths:
+      - src/**
+      - .eslintrc.js
+      - stylelint.config.js
+      - webpack.js
+      - vite.config.js
+
+env:
+  APP_NAME: cospend
+
+jobs:
+  build:
+    name: node-build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+        with:
+          path: ${{ env.APP_NAME }}
+
+      - name: Read package.json node and npm engines version
+        uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1 # v2.2
+        id: versions
+        with:
+          path: ${{ env.APP_NAME }}
+          fallbackNode: "^20"
+          fallbackNpm: "^10"
+
+      - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v3
+        with:
+          node-version: ${{ steps.versions.outputs.nodeVersion }}
+
+      - name: Set up npm ${{ steps.versions.outputs.npmVersion }}
+        run: npm i -g npm@"${{ steps.versions.outputs.npmVersion }}"
+
+      - name: Build ${{ env.APP_NAME }}
+        run: |
+          cd ${{ env.APP_NAME }}
+          npm ci
+          npm run build

@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.1.4 – 2025-10-11
+
+### Changed
+
+- Show currency name in activity entries
+- Update npm pkgs
+- Update translations
+
+### Fixed
+
+- Use max precision for cumulated balance
+
 ## 3.1.3 – 2025-09-17
 
 ### Changed

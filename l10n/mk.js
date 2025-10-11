@@ -38,8 +38,6 @@ OC.L10N.register(
     "Check" : "Чек",
     "Transfer" : "Трансфер",
     "Online service" : "Онлајн услуги",
-    "User \"%s\" shared Cospend project \"%s\" with you." : "Корисникот \"%s\" сподели Cospend проект \"%s\" со вас.",
-    "User \"%s\" stopped sharing Cospend project \"%s\" with you." : "Корисникот \"%s\" не го споделува повеќе Cospend проектот \"%s\" со вас.",
     "Malformed CSV, bad column names at line %1$s" : "Неправилна форма на CSV, неправило име на колона на линија %1$s",
     "Error when adding category %1$s" : "Грешка при додавање на категорија %1$s",
     "Error when adding currency %1$s" : "Грешка при додавање на валута %1$s",

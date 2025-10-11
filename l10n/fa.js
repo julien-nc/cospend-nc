@@ -37,8 +37,6 @@ OC.L10N.register(
     "Check" : "بررسی",
     "Transfer" : "انتقال",
     "Online service" : "سرویس آنلاین",
-    "User \"%s\" shared Cospend project \"%s\" with you." : "کاربر \"%s\" پروژه \"%s\" را با شما به اشتراک گذاشت.",
-    "User \"%s\" stopped sharing Cospend project \"%s\" with you." : "کاربر \"%s\" هم‌رسانی پروژه \"%s\" با شما را متوقف کرد.",
     "Error when adding category %1$s" : "خطا هنگام افزودن دسته‌بندی %1$s",
     "Error when adding currency %1$s" : "خطا هنگام افزودن واحد پولی %1$s",
     "Error when adding member %1$s" : "خطا هنگام افزودن عضو %1$s",

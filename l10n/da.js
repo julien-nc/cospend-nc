@@ -30,8 +30,6 @@ OC.L10N.register(
     "Cash" : "Kontant",
     "Transfer" : "Overførsel",
     "Online service" : "Online-tjeneste",
-    "User \"%s\" shared Cospend project \"%s\" with you." : "Brugeren \"%s\" delte Cospend projektet \"%s\" med dig.",
-    "User \"%s\" stopped sharing Cospend project \"%s\" with you." : "Brugeren \"%s\" stoppede med at dele Cospend projektet \"%s\" med dig.",
     "Malformed CSV, bad column names at line %1$s" : "Fejlagtig CSV, dårlige kolonnenavne på linje %1$s",
     "Error when adding category %1$s" : "Fejl ved tilføjelse af kategorien %1$s",
     "Error when adding currency %1$s" : "Fejl ved tilføjelse af valutaen %1$s",

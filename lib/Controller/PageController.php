@@ -76,7 +76,7 @@ class PageController extends Controller {
 		$state = $this->getOptionsValues();
 		$activityEnabled = $this->appManager->isEnabledForUser('activity');
 		$state['activity_enabled'] = $activityEnabled;
-		if ($state['selectedProject']) {
+		if (isset($state['selectedProject'])) {
 			$state['restoredCurrentProjectId'] = $state['selectedProject'];
 		}
 		if ($projectId !== null) {
@@ -85,13 +85,12 @@ class PageController extends Controller {
 		if ($billId !== null) {
 			$state['restoredCurrentBillId'] = $billId;
 		}
-		$state['useTime'] = $state['useTime'] !== '0';
-		$state['showMyBalance'] = $state['showMyBalance'] !== '0';
+		$state['useTime'] = ($state['useTime'] ?? '0') !== '0';
+		$state['showMyBalance'] = ($state['showMyBalance'] ?? '0') !== '0';
 
 		$this->initialStateService->provideInitialState('cospend-state', $state);
 		$this->eventDispatcher->dispatchTyped(new RenderReferenceEvent());
-		$response = new TemplateResponse('cospend', 'main');
-		return $response;
+		return new TemplateResponse('cospend', 'main');
 	}
 
 	/**

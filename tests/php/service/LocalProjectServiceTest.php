@@ -38,6 +38,10 @@ use PHPUnit\Framework\TestCase;
 class LocalProjectServiceTest extends TestCase {
 
 	private LocalProjectService $localProjectService;
+	private BillMapper $billMapper;
+	private MemberMapper $memberMapper;
+	private ApiController $apiController;
+	private ApiController $apiController2;
 
 	public static function setUpBeforeClass(): void {
 		$app = new Application();

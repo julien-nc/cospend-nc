@@ -23,7 +23,6 @@ use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Controller\ApiController;
 use OCA\Cospend\Controller\PublicApiController;
 use OCA\Cospend\Db\BillMapper;
-use OCA\Cospend\Db\MemberMapper;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Db\ShareMapper;
 use OCA\Cospend\Exception\CospendPublicAuthNotValidException;
@@ -57,6 +56,8 @@ class MiddlewaresTest extends TestCase {
 	private BillMapper $billMapper;
 	private LocalProjectService $projectService;
 	private PublicApiController $publicApiController;
+	private CospendService $cospendService;
+	private ShareMapper $shareMapper;
 
 	public static function setUpBeforeClass(): void {
 		$app = new Application();
@@ -93,7 +94,6 @@ class MiddlewaresTest extends TestCase {
 		$sc = $c->get(IServerContainer::class);
 		$l10n = $c->get(IL10N::class);
 		$this->billMapper = $c->get(BillMapper::class);
-		$this->memberMapper = $c->get(MemberMapper::class);
 		$this->projectMapper = $c->get(ProjectMapper::class);
 
 		$activityManager = new ActivityManager(

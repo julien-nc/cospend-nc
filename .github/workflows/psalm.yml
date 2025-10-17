@@ -57,7 +57,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install dependencies
-        run: composer i
+        run: |
+          composer remove --dev phpunit/phpunit
+          composer i
 
       - name: Install dependencies
         run: composer require --dev nextcloud/ocp:${{ matrix.ocp-version }} --ignore-platform-reqs --with-dependencies

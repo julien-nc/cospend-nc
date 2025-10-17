@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="./bootstrap.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 bootstrap="./bootstrap.php"
+		 displayDetailsOnTestsThatTriggerDeprecations="true"
+		 displayDetailsOnPhpunitDeprecations="true"
+		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
+>
   <testsuite name="unit">
     <directory suffix=".php">php</directory>
   </testsuite>

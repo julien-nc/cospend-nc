@@ -51,7 +51,7 @@ class UserPermissionMiddleware extends Middleware {
 				$cospendAuthAttr = $attribute->newInstance();
 				$minLevel = $cospendAuthAttr->getMinimumLevel();
 				if ($userAccessLevel < $minLevel) {
-					throw new CospendUserPermissionsException($this->l->t('Insufficient access level'));
+					throw new CospendUserPermissionsException($this->l->t('Insufficient access level') . ' - ' . $userId . '@' . $paramProjectId . ' | ' . $methodName . ' : ' . $userAccessLevel . ' < ' . $minLevel);
 				}
 			}
 		}

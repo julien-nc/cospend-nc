@@ -27,9 +27,9 @@
 	},
 	"require-dev": {
 		"nextcloud/coding-standard": "^1.1",
-		"psalm/phar": "^6.1.0",
+		"psalm/phar": "^6",
 		"nextcloud/ocp": "dev-master",
-		"phpunit/phpunit": "^9.5",
+		"phpunit/phpunit": "^12",
 		"nextcloud/openapi-extractor": "dev-main"
 	}
 }

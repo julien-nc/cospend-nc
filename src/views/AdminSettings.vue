@@ -83,6 +83,7 @@ export default {
 
 	h2 {
 		display: flex;
+		justify-content: start;
 		align-items: center;
 		.icon {
 			margin-right: 8px;

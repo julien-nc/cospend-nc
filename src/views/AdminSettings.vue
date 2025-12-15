@@ -58,7 +58,7 @@ export default {
 			OCP.AppConfig.setValue('cospend', 'federation_enabled', value ? '1' : '0', {
 				success: () => {
 					this.loading = false
-					this.state.isFederationEnabled = value
+					this.state.federation_enabled = value
 				},
 			})
 		},

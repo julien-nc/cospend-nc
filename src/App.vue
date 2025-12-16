@@ -154,6 +154,19 @@
 </template>
 
 <script>
+import DeleteVariantIcon from 'vue-material-design-icons/DeleteVariant.vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
+import ChartLineIcon from 'vue-material-design-icons/ChartLine.vue'
+import CogIcon from 'vue-material-design-icons/Cog.vue'
+
+import ReimburseIcon from './components/icons/ReimburseIcon.vue'
+import CospendIcon from './components/icons/CospendIcon.vue'
+
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcModal from '@nextcloud/vue/components/NcModal'
+
 import isMobile from './mixins/isMobile.js'
 
 import { generateUrl } from '@nextcloud/router'
@@ -172,15 +185,6 @@ import * as network from './network.js'
 import * as constants from './constants.js'
 import { rgbObjToHex, slugify } from './utils.js'
 
-import DeleteVariantIcon from 'vue-material-design-icons/DeleteVariant.vue'
-import PlusIcon from 'vue-material-design-icons/Plus.vue'
-import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
-import ChartLineIcon from 'vue-material-design-icons/ChartLine.vue'
-import CogIcon from 'vue-material-design-icons/Cog.vue'
-
-import ReimburseIcon from './components/icons/ReimburseIcon.vue'
-import CospendIcon from './components/icons/CospendIcon.vue'
-
 export default {
 	name: 'App',
 	components: {
@@ -194,9 +198,9 @@ export default {
 		MoveToProjectList: defineAsyncComponent(() => import('./components/MoveToProjectList.vue')),
 		NcContent: defineAsyncComponent(() => import('@nextcloud/vue/components/NcContent')),
 		NcAppContent: defineAsyncComponent(() => import('@nextcloud/vue/components/NcAppContent')),
-		NcEmptyContent: defineAsyncComponent(() => import('@nextcloud/vue/components/NcEmptyContent')),
-		NcButton: defineAsyncComponent(() => import('@nextcloud/vue/components/NcButton')),
-		NcModal: defineAsyncComponent(() => import('@nextcloud/vue/components/NcModal')),
+		NcEmptyContent,
+		NcButton,
+		NcModal,
 		ReimburseIcon,
 		CospendIcon,
 		PlusIcon,

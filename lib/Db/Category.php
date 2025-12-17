@@ -9,18 +9,19 @@ declare(strict_types=1);
 namespace OCA\Cospend\Db;
 
 use OCP\AppFramework\Db\Entity;
+use OCP\DB\Types;
 
 /**
- * @method void setProjectId(string $projectId)
- * @method string getProjectId()
- * @method void setName(string|null $name)
- * @method string|null getName()
- * @method void setColor(string|null $color)
- * @method string|null getColor()
- * @method void setEncodedIcon(string|null $encodedIcon)
- * @method string|null getEncodedIcon()
- * @method void setOrder(int $order)
- * @method int getOrder()
+ * @method \void setProjectId(string $projectId)
+ * @method \string getProjectId()
+ * @method \void setName(string|null $name)
+ * @method \string|\null getName()
+ * @method \void setColor(string|null $color)
+ * @method \string|\null getColor()
+ * @method \void setEncodedIcon(string|null $encodedIcon)
+ * @method \string|\null getEncodedIcon()
+ * @method \void setOrder(int $order)
+ * @method \int getOrder()
  */
 class Category extends Entity implements \JsonSerializable {
 
@@ -31,11 +32,11 @@ class Category extends Entity implements \JsonSerializable {
 	protected $order;
 
 	public function __construct() {
-		$this->addType('project_id', 'string');
-		$this->addType('name', 'string');
-		$this->addType('color', 'string');
-		$this->addType('encoded_icon', 'string');
-		$this->addType('order', 'integer');
+		$this->addType('projectId', Types::STRING);
+		$this->addType('name', Types::STRING);
+		$this->addType('color', Types::STRING);
+		$this->addType('encodedIcon', Types::STRING);
+		$this->addType('order', Types::INTEGER);
 	}
 
 	public function jsonSerialize(): array {

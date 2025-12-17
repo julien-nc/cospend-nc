@@ -15,27 +15,28 @@ namespace OCA\Cospend\Db;
 use OCA\Cospend\ResponseDefinitions;
 use OCA\Cospend\Utils;
 use OCP\AppFramework\Db\Entity;
+use OCP\DB\Types;
 use OCP\IAvatarManager;
 
 /**
  * @psalm-import-type CospendMember from ResponseDefinitions
  *
- * @method int getId()
- * @method void setId(int $id)
- * @method string getProjectId()
- * @method void setProjectId(string $projectId)
- * @method string getName()
- * @method void setName(string $name)
- * @method float getWeight()
- * @method void setWeight(float $weight)
- * @method int getActivated()
- * @method void setActivated(int $activated)
- * @method int getLastChanged()
- * @method void setLastChanged(int $lastChanged)
- * @method string|null getColor()
- * @method void setColor(string|null $color)
- * @method string|null getUserId()
- * @method void setUserId(string|null $userId)
+ * @method \int getId()
+ * @method \void setId(int $id)
+ * @method \string getProjectId()
+ * @method \void setProjectId(string $projectId)
+ * @method \string getName()
+ * @method \void setName(string $name)
+ * @method \float getWeight()
+ * @method \void setWeight(float $weight)
+ * @method \int getActivated()
+ * @method \void setActivated(int $activated)
+ * @method \int getLastChanged()
+ * @method \void setLastChanged(int $lastChanged)
+ * @method \string|\null getColor()
+ * @method \void setColor(string|null $color)
+ * @method \string|\null getUserId()
+ * @method \void setUserId(string|null $userId)
  */
 class Member extends Entity implements \JsonSerializable {
 
@@ -50,14 +51,14 @@ class Member extends Entity implements \JsonSerializable {
 	private $avatarManager;
 
 	public function __construct() {
-		$this->addType('id', 'integer');
-		$this->addType('project_id', 'string');
-		$this->addType('name', 'string');
-		$this->addType('weight', 'float');
-		$this->addType('activated', 'integer');
-		$this->addType('last_changed', 'integer');
-		$this->addType('color', 'string');
-		$this->addType('user_id', 'string');
+		$this->addType('id', Types::INTEGER);
+		$this->addType('projectId', Types::STRING);
+		$this->addType('name', Types::STRING);
+		$this->addType('weight', Types::FLOAT);
+		$this->addType('activated', Types::INTEGER);
+		$this->addType('lastChanged', Types::INTEGER);
+		$this->addType('color', Types::STRING);
+		$this->addType('userId', Types::STRING);
 		$this->avatarManager = \OC::$server->get(IAvatarManager::class);
 	}
 

@@ -9,14 +9,15 @@ declare(strict_types=1);
 namespace OCA\Cospend\Db;
 
 use OCP\AppFramework\Db\Entity;
+use OCP\DB\Types;
 
 /**
- * @method void setProjectId(string $projectId)
- * @method string getProjectId()
- * @method void setName(string $name)
- * @method string getName()
- * @method void setExchangeRate(float $exchangeRate)
- * @method float getExchangeRate()
+ * @method \void setProjectId(string $projectId)
+ * @method \string getProjectId()
+ * @method \void setName(string $name)
+ * @method \string getName()
+ * @method \void setExchangeRate(float $exchangeRate)
+ * @method \float getExchangeRate()
  */
 class Currency extends Entity implements \JsonSerializable {
 
@@ -25,9 +26,9 @@ class Currency extends Entity implements \JsonSerializable {
 	protected $exchangeRate;
 
 	public function __construct() {
-		$this->addType('project_id', 'string');
-		$this->addType('name', 'string');
-		$this->addType('exchange_rate', 'float');
+		$this->addType('projectId', Types::STRING);
+		$this->addType('name', Types::STRING);
+		$this->addType('exchangeRate', Types::FLOAT);
 	}
 
 	public function jsonSerialize(): array {

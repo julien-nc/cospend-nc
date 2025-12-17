@@ -13,6 +13,7 @@
 namespace OCA\Cospend\Db;
 
 use OCP\AppFramework\Db\Entity;
+use OCP\DB\Types;
 
 /**
  * @method \string getId()
@@ -49,16 +50,16 @@ class Project extends Entity implements \JsonSerializable {
 	protected $archivedTs;
 
 	public function __construct() {
-		$this->addType('id', 'string');
-		$this->addType('user_id', 'string');
-		$this->addType('name', 'string');
-		$this->addType('auto_export', 'string');
-		$this->addType('last_changed', 'integer');
-		$this->addType('deletion_disabled', 'integer');
-		$this->addType('category_sort', 'string');
-		$this->addType('payment_mode_sort', 'string');
-		$this->addType('currency_name', 'string');
-		$this->addType('archived_ts', 'integer');
+		$this->addType('id', Types::STRING);
+		$this->addType('userId', Types::STRING);
+		$this->addType('name', Types::STRING);
+		$this->addType('autoExport', Types::STRING);
+		$this->addType('lastChanged', Types::INTEGER);
+		$this->addType('deletionDisabled', Types::INTEGER);
+		$this->addType('categorySort', Types::STRING);
+		$this->addType('paymentModeSort', Types::STRING);
+		$this->addType('currencyName', Types::STRING);
+		$this->addType('archivedTs', Types::INTEGER);
 	}
 
 	#[\ReturnTypeWillChange]

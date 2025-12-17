@@ -9,26 +9,27 @@ declare(strict_types=1);
 namespace OCA\Cospend\Db;
 
 use OCP\AppFramework\Db\Entity;
+use OCP\DB\Types;
 
 /**
- * @method void setProjectId(string $projectId)
- * @method string getProjectId()
- * @method void setUserId(string|null $userId)
- * @method string|null getUserId()
- * @method void setType(string $type)
- * @method string getType()
- * @method void setAccessLevel(int $accessLevel)
- * @method int getAccessLevel()
- * @method void setManuallyAdded(int $manuallyAdded)
- * @method int getManuallyAdded()
- * @method void setLabel(string|null $label)
- * @method string|null getLabel()
- * @method void setPassword(string|null $password)
- * @method string|null getPassword()
- * @method void setUserCloudId(string|null $userCloudId)
- * @method string|null getUserCloudId()
- * @method void setState(int|null $state)
- * @method int|null getState()
+ * @method \void setProjectId(string $projectId)
+ * @method \string getProjectId()
+ * @method \void setUserId(string|null $userId)
+ * @method \string|null getUserId()
+ * @method \void setType(string $type)
+ * @method \string getType()
+ * @method \void setAccessLevel(int $accessLevel)
+ * @method \int getAccessLevel()
+ * @method \void setManuallyAdded(int $manuallyAdded)
+ * @method \int getManuallyAdded()
+ * @method \void setLabel(string|null $label)
+ * @method \string|\null getLabel()
+ * @method \void setPassword(string|null $password)
+ * @method \string|\null getPassword()
+ * @method \void setUserCloudId(string|null $userCloudId)
+ * @method \string|\null getUserCloudId()
+ * @method \void setState(int|null $state)
+ * @method \int|\null getState()
  */
 class Share extends Entity implements \JsonSerializable {
 
@@ -49,15 +50,15 @@ class Share extends Entity implements \JsonSerializable {
 	protected $state;
 
 	public function __construct() {
-		$this->addType('project_id', 'string');
-		$this->addType('user_id', 'string');
-		$this->addType('type', 'string');
-		$this->addType('access_level', 'integer');
-		$this->addType('manually_added', 'integer');
-		$this->addType('label', 'string');
-		$this->addType('password', 'string');
-		$this->addType('user_cloud_id', 'string');
-		$this->addType('state', 'integer');
+		$this->addType('projectId', Types::STRING);
+		$this->addType('userId', Types::STRING);
+		$this->addType('type', Types::STRING);
+		$this->addType('accessLevel', Types::INTEGER);
+		$this->addType('manuallyAdded', Types::INTEGER);
+		$this->addType('label', Types::STRING);
+		$this->addType('password', Types::STRING);
+		$this->addType('userCloudId', Types::STRING);
+		$this->addType('state', Types::INTEGER);
 	}
 
 	public function jsonSerialize(): array {

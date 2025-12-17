@@ -9,24 +9,25 @@ declare(strict_types=1);
 namespace OCA\Cospend\Db;
 
 use OCP\AppFramework\Db\Entity;
+use OCP\DB\Types;
 
 /**
- * @method void setUserId(string $userId)
- * @method string getUserId()
- * @method void setState(int $state)
- * @method int getState()
- * @method void setAccessToken(string $accessToken)
- * @method string getAccessToken()
- * @method void setRemoteProjectId(string $remoteProjectId)
- * @method string getRemoteProjectId()
- * @method void setRemoteProjectName(string $remoteProjectName)
- * @method string getRemoteProjectName()
- * @method void setRemoteServerUrl(string $remoteServerUrl)
- * @method string getRemoteServerUrl()
- * @method void setInviterCloudId(string $inviterCloudId)
- * @method string getInviterCloudId()
- * @method void setInviterDisplayName(string $inviterDisplayName)
- * @method string getInviterDisplayName()
+ * @method \void setUserId(string $userId)
+ * @method \string getUserId()
+ * @method \void setState(int $state)
+ * @method \int getState()
+ * @method \void setAccessToken(string $accessToken)
+ * @method \string getAccessToken()
+ * @method \void setRemoteProjectId(string $remoteProjectId)
+ * @method \string getRemoteProjectId()
+ * @method \void setRemoteProjectName(string $remoteProjectName)
+ * @method \string getRemoteProjectName()
+ * @method \void setRemoteServerUrl(string $remoteServerUrl)
+ * @method \string getRemoteServerUrl()
+ * @method \void setInviterCloudId(string $inviterCloudId)
+ * @method \string getInviterCloudId()
+ * @method \void setInviterDisplayName(string $inviterDisplayName)
+ * @method \string getInviterDisplayName()
  */
 class Invitation extends Entity implements \JsonSerializable {
 
@@ -43,14 +44,14 @@ class Invitation extends Entity implements \JsonSerializable {
 	protected $inviterDisplayName;
 
 	public function __construct() {
-		$this->addType('userId', 'string');
-		$this->addType('state', 'integer');
-		$this->addType('accessToken', 'string');
-		$this->addType('remoteProjectId', 'string');
-		$this->addType('remoteProjectName', 'string');
-		$this->addType('remoteServerUrl', 'string');
-		$this->addType('inviterCloudId', 'string');
-		$this->addType('inviterDisplayName', 'string');
+		$this->addType('userId', Types::STRING);
+		$this->addType('state', Types::INTEGER);
+		$this->addType('accessToken', Types::STRING);
+		$this->addType('remoteProjectId', Types::STRING);
+		$this->addType('remoteProjectName', Types::STRING);
+		$this->addType('remoteServerUrl', Types::STRING);
+		$this->addType('inviterCloudId', Types::STRING);
+		$this->addType('inviterDisplayName', Types::STRING);
 	}
 
 	/**

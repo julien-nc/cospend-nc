@@ -14,38 +14,39 @@ namespace OCA\Cospend\Db;
 
 use DateTime;
 use OCP\AppFramework\Db\Entity;
+use OCP\DB\Types;
 
 /**
- * @method string getWhat()
- * @method void setWhat(string $what)
- * @method string|null getComment()
- * @method void setComment(string|null $comment)
- * @method int getPayerId()
- * @method void setPayerId(int $payerId)
- * @method float getAmount()
- * @method void setAmount(float $amount)
- * @method int getTimestamp()
- * @method void setTimestamp(int $timestamp)
- * @method string getRepeat()
- * @method void setRepeat(string $repeat)
- * @method int getRepeatAllActive()
- * @method void setRepeatAllActive(int $repeatAllActive)
- * @method string|null getRepeatUntil()
- * @method void setRepeatUntil(string|null $repeatUntil)
- * @method int getRepeatFrequency()
- * @method void setRepeatFrequency(int $repeatFrequency)
- * @method string getProjectId()
- * @method void setProjectId(string $projectId)
- * @method int|null getCategoryId()
- * @method void setCategoryId(int|null $categoryId)
- * @method string|null getPaymentMode()
- * @method void setPaymentMode(string|null $paymentMode)
- * @method int|null getPaymentModeId()
- * @method void setPaymentModeId(int|null $paymentModeId)
- * @method int getLastChanged()
- * @method void setLastChanged(int $lastChanged)
- * @method int getDeleted()
- * @method void setDeleted(int $deleted) */
+ * @method \string getWhat()
+ * @method \void setWhat(string $what)
+ * @method \string|\null getComment()
+ * @method \void setComment(string|null $comment)
+ * @method \int getPayerId()
+ * @method \void setPayerId(int $payerId)
+ * @method \float getAmount()
+ * @method \void setAmount(float $amount)
+ * @method \int getTimestamp()
+ * @method \void setTimestamp(int $timestamp)
+ * @method \string getRepeat()
+ * @method \void setRepeat(string $repeat)
+ * @method \int getRepeatAllActive()
+ * @method \void setRepeatAllActive(int $repeatAllActive)
+ * @method \string|\null getRepeatUntil()
+ * @method \void setRepeatUntil(string|null $repeatUntil)
+ * @method \int getRepeatFrequency()
+ * @method \void setRepeatFrequency(int $repeatFrequency)
+ * @method \string getProjectId()
+ * @method \void setProjectId(string $projectId)
+ * @method \int|\null getCategoryId()
+ * @method \void setCategoryId(int|null $categoryId)
+ * @method \string|\null getPaymentMode()
+ * @method \void setPaymentMode(string|null $paymentMode)
+ * @method \int|\null getPaymentModeId()
+ * @method \void setPaymentModeId(int|null $paymentModeId)
+ * @method \int getLastChanged()
+ * @method \void setLastChanged(int $lastChanged)
+ * @method \int getDeleted()
+ * @method \void setDeleted(int $deleted) */
 class Bill extends Entity implements \JsonSerializable {
 
 	protected $what;
@@ -65,22 +66,22 @@ class Bill extends Entity implements \JsonSerializable {
 	protected $deleted;
 
 	public function __construct() {
-		$this->addType('id', 'integer');
-		$this->addType('what', 'string');
-		$this->addType('comment', 'string');
-		$this->addType('payer_id', 'integer');
-		$this->addType('timestamp', 'integer');
-		$this->addType('amount', 'float');
-		$this->addType('repeat', 'string');
-		$this->addType('repeat_all_active', 'integer');
-		$this->addType('repeat_until', 'string');
-		$this->addType('repeat_frequency', 'integer');
-		$this->addType('project_id', 'string');
-		$this->addType('category_id', 'integer');
-		$this->addType('payment_mode', 'string');
-		$this->addType('payment_mode_id', 'integer');
-		$this->addType('last_changed', 'integer');
-		$this->addType('deleted', 'integer');
+		$this->addType('id', Types::INTEGER);
+		$this->addType('what', Types::STRING);
+		$this->addType('comment', Types::STRING);
+		$this->addType('payerId', Types::INTEGER);
+		$this->addType('timestamp', Types::INTEGER);
+		$this->addType('amount', Types::FLOAT);
+		$this->addType('repeat', Types::STRING);
+		$this->addType('repeatAllActive', Types::INTEGER);
+		$this->addType('repeatUntil', Types::STRING);
+		$this->addType('repeatFrequency', Types::INTEGER);
+		$this->addType('projectId', Types::STRING);
+		$this->addType('categoryId', Types::INTEGER);
+		$this->addType('paymentMode', Types::STRING);
+		$this->addType('paymentModeId', Types::INTEGER);
+		$this->addType('lastChanged', Types::INTEGER);
+		$this->addType('deleted', Types::INTEGER);
 	}
 
 	#[\ReturnTypeWillChange]

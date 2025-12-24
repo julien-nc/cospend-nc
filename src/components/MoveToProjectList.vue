@@ -20,8 +20,10 @@
 </template>
 <script>
 import NcListItem from '@nextcloud/vue/components/NcListItem'
+
 import * as network from '../network.js'
 import { showError, showSuccess } from '@nextcloud/dialogs'
+import { emit } from '@nextcloud/event-bus'
 
 export default {
 	name: 'MoveToProjectList',
@@ -68,11 +70,11 @@ export default {
 		onProjectClicked(project) {
 			network.moveBill(this.projectId, this.bill.id, project.id).then(res => {
 				showSuccess(t('cospend', 'Bill moved to "{project}" successfully', { project: project.name }))
-				this.$emit('item-moved', res.data.ocs.data, project.id)
+				emit('bill-moved', { newBillId: res.data.ocs.data, newProjectId: project.id })
 			}).catch(error => {
 				console.error(error)
 				showError(
-					t('cospend', 'Failed to move bill')
+					t('cospend', 'Failed to move bill from {name1} to {name2}', { name1: this.cospend.projects[this.projectId].name, name2: project.name })
 					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
 			})

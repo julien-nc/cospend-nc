@@ -8,6 +8,9 @@
 		:details="billDetails"
 		:counter-number="deleteCounter"
 		:force-display-actions="true"
+		:draggable="true"
+		@dragstart="onDragStart"
+		@dragend="onDragEnd"
 		@click="onItemClick">
 		<template #subname>
 			<div class="subname">
@@ -18,6 +21,17 @@
 				<CalendarSyncIcon v-if="bill.repeat !== 'n'"
 					:size="16" />
 				({{ smartPayerName }} → {{ smartOwerNames }})
+			</div>
+		</template>
+		<template #indicator>
+			<CursorMoveIcon v-if="isDragged" :size="20" class="icon-move" />
+		</template>
+		<template #extra>
+			<div v-if="editionAccess && selectMode"
+				class="icon-selector"
+				@click="onItemClick">
+				<CheckboxMarkedIcon v-if="selected" class="selected" :size="20" />
+				<CheckboxBlankOutlineIcon v-else :size="20" />
 			</div>
 		</template>
 		<template #icon>
@@ -64,14 +78,6 @@
 				{{ moveIconTitle }}
 			</NcActionButton>
 		</template>
-		<template #extra>
-			<div v-if="editionAccess && selectMode"
-				class="icon-selector"
-				@click="onItemClick">
-				<CheckboxMarkedIcon v-if="selected" class="selected" :size="20" />
-				<CheckboxBlankOutlineIcon v-else :size="20" />
-			</div>
-		</template>
 	</NcListItem>
 </template>
 
@@ -84,6 +90,7 @@ import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import UndoIcon from 'vue-material-design-icons/Undo.vue'
 import SwapHorizontalIcon from 'vue-material-design-icons/SwapHorizontal.vue'
 import ContentDuplicateIcon from 'vue-material-design-icons/ContentDuplicate.vue'
+import CursorMoveIcon from 'vue-material-design-icons/CursorMove.vue'
 
 import MemberAvatar from './avatar/MemberAvatar.vue'
 
@@ -110,6 +117,7 @@ export default {
 		SwapHorizontalIcon,
 		ContentDuplicateIcon,
 		RestoreIcon,
+		CursorMoveIcon,
 	},
 
 	props: {
@@ -147,6 +155,7 @@ export default {
 			cospend: OCA.Cospend.state,
 			deleteCounter: 0,
 			timer: null,
+			isDragged: false,
 		}
 	},
 
@@ -333,6 +342,17 @@ export default {
 			}
 			this.$emit('duplicate-bill', billWithoutDisabledOwers)
 		},
+		onDragStart(e) {
+			e.dataTransfer.setData('projectId', this.projectId)
+			e.dataTransfer.setData('billId', this.bill.id)
+			e.dataTransfer.setData('payerId', this.bill.payer_id)
+			const payerName = this.members[this.bill.payer_id].name
+			e.dataTransfer.setData('payerName', payerName)
+			this.isDragged = true
+		},
+		onDragEnd(e) {
+			this.isDragged = false
+		},
 	},
 }
 </script>
@@ -359,5 +379,9 @@ export default {
 .subname {
 	display: flex;
 	gap: 4px;
+}
+
+.icon-move {
+	color: var(--color-element-success);
 }
 </style>

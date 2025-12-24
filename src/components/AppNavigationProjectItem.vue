@@ -13,11 +13,19 @@
 		:allow-collapse="true"
 		:open="selected"
 		:active="selected"
+		:class="{
+			draggedOver: isDraggedOver,
+			dropImpossible: !isDropPossible,
+		}"
 		:force-display-actions="true"
 		:force-menu="false"
 		:menu-open="menuOpen"
 		@contextmenu.native.stop.prevent="menuOpen = true"
 		@update:menuOpen="onUpdateMenuOpen"
+		@dragover.stop.prevent="onDragOver"
+		@dragenter.stop.prevent="onDragEnter"
+		@dragleave.stop.prevent="onDragLeave"
+		@drop="onDrop"
 		@click="onProjectClick">
 		<template #icon>
 			<FolderNetworkIcon v-if="project.federated && selected && !project.archived_ts"
@@ -175,6 +183,7 @@ import { emit } from '@nextcloud/event-bus'
 import * as constants from '../constants.js'
 import { Timer, getSortedMembers } from '../utils.js'
 import * as network from '../network.js'
+import { showSuccess, showError } from '@nextcloud/dialogs'
 
 export default {
 	name: 'AppNavigationProjectItem',
@@ -231,6 +240,8 @@ export default {
 			deleting: false,
 			deletionTimer: null,
 			menuOpen: false,
+			isDraggedOver: false,
+			isDropPossible: true,
 		}
 	},
 	computed: {
@@ -325,6 +336,57 @@ export default {
 		onUpdateMenuOpen(isOpen) {
 			this.menuOpen = isOpen
 		},
+		hasMemberNamed(name) {
+			const foundMember = Object.values(this.members).find(m => {
+				return m.name === name
+			})
+			return !!foundMember
+		},
+		onDragOver(e) {
+			const billId = e.dataTransfer.getData('billId')
+			const projectId = e.dataTransfer.getData('projectId')
+			if (projectId && billId && projectId !== this.project.id) {
+				this.isDraggedOver = true
+				const payerName = e.dataTransfer.getData('payerName')
+				this.isDropPossible = this.hasMemberNamed(payerName)
+			}
+		},
+		onDragEnter(e) {
+			const billId = e.dataTransfer.getData('billId')
+			const projectId = e.dataTransfer.getData('projectId')
+			if (projectId && billId && projectId !== this.project.id) {
+				this.isDraggedOver = true
+				const payerName = e.dataTransfer.getData('payerName')
+				this.isDropPossible = this.hasMemberNamed(payerName)
+			}
+		},
+		onDragLeave(e) {
+			const billId = e.dataTransfer.getData('billId')
+			const projectId = e.dataTransfer.getData('projectId')
+			if (projectId && billId && projectId !== this.project.id) {
+				this.isDraggedOver = false
+			}
+		},
+		onDrop(e) {
+			const billId = e.dataTransfer.getData('billId')
+			const projectId = e.dataTransfer.getData('projectId')
+			if (projectId && billId && projectId !== this.project.id) {
+				this.isDraggedOver = false
+				const payerName = e.dataTransfer.getData('payerName')
+				if (this.hasMemberNamed(payerName)) {
+					network.moveBill(projectId, parseInt(billId), this.project.id).then(res => {
+						showSuccess(t('cospend', 'Bill moved to "{projectName}" successfully', { projectName: this.project.name }))
+						emit('bill-moved', { newBillId: res.data.ocs.data, newProjectId: this.project.id })
+					}).catch(error => {
+						console.error(error)
+						showError(
+							t('cospend', 'Failed to move bill from {name1} to {name2}', { name1: this.cospend.projects[projectId].name, name2: this.project.name })
+							+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
+						)
+					})
+				}
+			}
+		},
 	},
 }
 </script>
@@ -342,6 +404,14 @@ export default {
 	button {
 		padding-right: 0 !important;
 		border-radius: 50%;
+	}
+}
+
+.draggedOver {
+	border: solid 2px var(--color-border-success);
+	border-radius: var(--border-radius-large);
+	&.dropImpossible {
+		border: solid 2px var(--color-border-error);
 	}
 }
 </style>

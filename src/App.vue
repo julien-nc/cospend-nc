@@ -56,8 +56,7 @@
 					@close="showMoveModal = false">
 					<MoveToProjectList
 						:bill="billToMove"
-						:project-id="currentProjectId"
-						@item-moved="onBillMoved" />
+						:project-id="currentProjectId" />
 				</NcModal>
 				<Statistics
 					v-else-if="mode === 'stats'"
@@ -350,6 +349,7 @@ export default {
 		subscribe('restore-bill', this.onRestoreBill)
 		subscribe('restore-bills', this.onRestoreBills)
 		subscribe('delete-bill', this.onDeleteBill)
+		subscribe('bill-moved', this.onBillMoved)
 
 		subscribe('trashbin-clicked', this.onTrashbinClicked)
 		subscribe('close-trashbin', this.onCloseTrashbinClicked)
@@ -382,6 +382,7 @@ export default {
 		unsubscribe('restore-bill', this.onRestoreBill)
 		unsubscribe('restore-bills', this.onRestoreBills)
 		unsubscribe('delete-bill', this.onDeleteBill)
+		unsubscribe('bill-moved', this.onBillMoved)
 
 		unsubscribe('trashbin-clicked', this.onTrashbinClicked)
 		unsubscribe('close-trashbin', this.onCloseTrashbinClicked)
@@ -871,7 +872,7 @@ export default {
 				)
 			}
 		},
-		onBillMoved(newBillId, newProjectId) {
+		onBillMoved({ newBillId, newProjectId }) {
 			// close the modal
 			this.showMoveModal = false
 			// set the selected bill id

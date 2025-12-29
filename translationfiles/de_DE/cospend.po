@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2025-09-17 13:58+0200\n"
-"PO-Revision-Date: 2025-09-17 16:23\n"
+"PO-Revision-Date: 2025-12-29 15:52\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -290,7 +290,7 @@ msgstr "Cospend Projekt geteilt"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:99
 msgid "{user} shared project {project} with you"
-msgstr ""
+msgstr "{user} hat das Projekt {project} mit dir geteilt"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:126
 msgid "Cospend project share removed"
@@ -298,7 +298,7 @@ msgstr "Cospend Projektfreigabe entfernt"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:137
 msgid "{user} stopped sharing project {project} with you"
-msgstr ""
+msgstr "{user} hat die Freigabe des Projektes {project} gestoppt"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:151
 msgid "Cospend federated project shared"
@@ -1162,7 +1162,7 @@ msgstr "Datei auswählen"
 #: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:19
 #: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:44
 msgid "Choose"
-msgstr ""
+msgstr "Auswählen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:131
 msgid "Failed to generate share link to file"
@@ -1860,7 +1860,7 @@ msgstr "Freigabe verlassen"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:315
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:317
 msgid "Project {projectName} ({projectId}) shared by {displayName} ({cloudId})"
-msgstr ""
+msgstr "Projekt {projectName} ({projectId}) geteilt von {displayName} ({cloudId})"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:320
 msgid "Everyone"
@@ -1910,7 +1910,7 @@ msgstr "Projekte suchen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:344
 msgid "Create a project"
-msgstr ""
+msgstr "Ein Projekt erstellen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:345
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:413
@@ -2065,7 +2065,7 @@ msgstr "Wähle, wo die Ausgabedateien gespeichert werden sollen (Statistiken, Ab
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:392
 msgid "Pick current directory"
-msgstr ""
+msgstr "Aktuelles Verzeichnis auswählen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:404
 msgid "Member select"
@@ -2522,7 +2522,7 @@ msgstr "Externe Freigaben in Cospend aktivieren"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:579
 msgid "Only consider past bills to compute balances"
-msgstr ""
+msgstr "Nutze nur vergangen Rechnungen um den Saldo zu berechnen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:580
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:581

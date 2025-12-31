@@ -40,6 +40,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 
 use OCP\IServerContainer;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Share\IManager as IShareManager;
 use PHPUnit\Framework\TestCase;
@@ -107,6 +108,7 @@ class MiddlewaresTest extends TestCase {
 			$this->billMapper,
 			$sc->getL10N($c->get('AppName')),
 			$c->get(LoggerInterface::class),
+			$c->get(IURLGenerator::class),
 			'test'
 		);
 
@@ -121,6 +123,7 @@ class MiddlewaresTest extends TestCase {
 			$this->billMapper,
 			$sc->getL10N($c->get('AppName')),
 			$c->get(LoggerInterface::class),
+			$c->get(IURLGenerator::class),
 			'test2'
 		);
 

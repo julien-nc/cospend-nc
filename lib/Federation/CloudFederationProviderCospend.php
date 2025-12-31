@@ -150,7 +150,7 @@ class CloudFederationProviderCospend implements ICloudFederationProvider {
 	/**
 	 * @inheritDoc
 	 */
-	public function notificationReceived($notificationType, $providerId, array $notification): array {
+	public function notificationReceived(string $notificationType, string $providerId, array $notification): array {
 		/*
 		if (!is_numeric($providerId)) {
 			throw new BadRequestException(['providerId']);
@@ -158,11 +158,11 @@ class CloudFederationProviderCospend implements ICloudFederationProvider {
 		*/
 		switch ($notificationType) {
 			case FederationManager::NOTIFICATION_SHARE_ACCEPTED:
-				return $this->shareAccepted((string)$providerId, $notification);
+				return $this->shareAccepted($providerId, $notification);
 			case FederationManager::NOTIFICATION_SHARE_DECLINED:
-				return $this->shareDeclined((string)$providerId, $notification);
+				return $this->shareDeclined($providerId, $notification);
 			case FederationManager::NOTIFICATION_SHARE_UNSHARED:
-				return $this->shareUnshared((string)$providerId, $notification);
+				return $this->shareUnshared($providerId, $notification);
 		}
 
 		throw new BadRequestException([$notificationType]);

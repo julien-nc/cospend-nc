@@ -1,17 +1,15 @@
 <template>
 	<div class="activity-entry">
-		<component
-			:is="icon.component"
-			v-if="icon"
+		<img v-if="activity.icon"
+			:src="activity.icon"
 			class="activity-entry-icon"
-			:style="icon.color ? 'color: ' + icon.color + ';' : ''"
-			:size="16" />
+			:class="{ bw: !hasColoredIcon }">
 		<span
-			v-if="subjectRich"
+			v-if="activity.subject_rich[0]"
 			class="subject">
 			<NcRichText
-				:text="subjectRich"
-				:arguments="subjectParameters" />
+				:text="message.subject"
+				:arguments="message.parameters" />
 		</span>
 		<span v-else>
 			{{ activity.subject }}
@@ -25,47 +23,18 @@
 </template>
 
 <script>
-
-import PencilIcon from 'vue-material-design-icons/Pencil.vue'
-import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
-import PlusIcon from 'vue-material-design-icons/Plus.vue'
-import DeleteIcon from 'vue-material-design-icons/Delete.vue'
-
 import NcUserBubble from '@nextcloud/vue/components/NcUserBubble'
 import { NcRichText } from '@nextcloud/vue/components/NcRichText'
 
-import moment from '@nextcloud/moment'
-import { getCurrentUser } from '@nextcloud/auth'
+import ActivityHighlight from './ActivityHighlight.vue'
 
-const icons = {
-	bill_update: {
-		component: PencilIcon,
-	},
-	bill_delete: {
-		component: DeleteIcon,
-		color: '#E9322D',
-	},
-	bill_create: {
-		component: PlusIcon,
-		color: '#46BA61',
-	},
-	project_share: {
-		component: ShareVariantIcon,
-	},
-	project_unshare: {
-		component: ShareVariantIcon,
-	},
-}
+import moment from '@nextcloud/moment'
 
 export default {
 	name: 'ActivityEntry',
 
 	components: {
 		NcRichText,
-		ShareVariantIcon,
-		PencilIcon,
-		PlusIcon,
-		DeleteIcon,
 	},
 
 	props: {
@@ -80,8 +49,12 @@ export default {
 	},
 
 	computed: {
-		icon() {
-			return icons[this.activity.link]
+		hasColoredIcon() {
+			const icon = this.activity.icon
+			if (icon) {
+				return icon.endsWith('-color.svg')
+			}
+			return false
 		},
 		relativeTime() {
 			return moment(this.activity.datetime).fromNow()
@@ -89,59 +62,44 @@ export default {
 		formattedTime() {
 			return moment(this.activity.datetime).format('LLL')
 		},
-		subjectRich() {
-			const actionUserIsMe = this.userIsMe(this.activity.subject_rich[1]?.user?.id)
-			if (this.activity.link === 'bill_update') {
-				return actionUserIsMe
-					? t('cospend', '{user} have updated the bill {billName}', { billName: this.activity.subject_rich[1]?.bill?.name })
-					: t('cospend', '{user} has updated the bill {billName}', { billName: this.activity.subject_rich[1]?.bill?.name })
-			} else if (this.activity.link === 'bill_create') {
-				return actionUserIsMe
-					? t('cospend', '{user} have created a new bill {billName}', { billName: this.activity.subject_rich[1]?.bill?.name })
-					: t('cospend', '{user} has created a new bill {billName}', { billName: this.activity.subject_rich[1]?.bill?.name })
-			} else if (this.activity.link === 'bill_delete') {
-				return actionUserIsMe
-					? t('cospend', '{user} have deleted the bill {billName}', { billName: this.activity.subject_rich[1]?.bill?.name })
-					: t('cospend', '{user} has deleted the bill {billName}', { billName: this.activity.subject_rich[1]?.bill?.name })
-			} else if (this.activity.link === 'project_share') {
-				return actionUserIsMe
-					? t('cospend', '{user} have shared the project with {who}')
-					: t('cospend', '{user} has shared the project with {who}')
-			} else if (this.activity.link === 'project_unshare') {
-				return actionUserIsMe
-					? t('cospend', '{user} have removed {who} from the project')
-					: t('cospend', '{user} has removed {who} from the project')
+		message() {
+			const subject = this.activity.subject_rich[0]
+			const parameters = JSON.parse(JSON.stringify(this.activity.subject_rich[1]))
+			if (parameters.after && typeof parameters.after.id === 'string' && parameters.after.id.startsWith('dt:')) {
+				const dateTime = parameters.after.id.slice(3)
+				parameters.after.name = moment(dateTime).format('L LTS')
 			}
-			return null
-		},
-		subjectParameters() {
-			const params = {}
-			if (['bill_update', 'bill_create', 'bill_delete', 'project_share', 'project_unshare'].includes(this.activity.link)) {
-				const userId = this.activity.subject_rich[1]?.user?.id === '0'
-					? undefined
-					: this.activity.subject_rich[1]?.user?.id
-				params.user = {
-					component: NcUserBubble,
-					props: {
-						user: userId,
-						displayName: this.userIsMe(this.activity.subject_rich[1]?.user?.id)
-							? t('cospend', 'You')
-							: this.activity.subject_rich[1]?.user?.name,
-					},
+
+			Object.keys(parameters).forEach((key, index) => {
+				const { type } = parameters[key]
+				switch (type) {
+				case 'highlight':
+					parameters[key] = {
+						component: ActivityHighlight,
+						props: {
+							href: parameters[key].link,
+							name: parameters[key].name,
+						},
+					}
+					break
+				case 'user':
+					parameters[key] = {
+						component: NcUserBubble,
+						props: {
+							user: parameters[key].id,
+							displayName: parameters[key].name,
+						},
+					}
+					break
+				default:
+					parameters[key] = `{${key}}`
 				}
+
+			})
+
+			return {
+				subject, parameters,
 			}
-			if (['project_share', 'project_unshare'].includes(this.activity.link)) {
-				params.who = {
-					component: NcUserBubble,
-					props: {
-						user: this.activity.subject_rich[1]?.who?.id || undefined,
-						displayName: this.userIsMe(this.activity.subject_rich[1]?.who?.id)
-							? t('cospend', 'you')
-							: this.activity.subject_rich[1]?.who?.name,
-					},
-				}
-			}
-			return params
 		},
 	},
 
@@ -149,9 +107,6 @@ export default {
 	},
 
 	methods: {
-		userIsMe(userId) {
-			return getCurrentUser().uid === userId
-		},
 	},
 }
 </script>
@@ -171,6 +126,9 @@ export default {
 		min-height: 16px;
 		opacity: 0.5;
 		margin-right: 10px;
+		&.bw {
+			filter: var(--background-invert-if-dark);
+		}
 	}
 	.subject {
 		flex-grow: 1;

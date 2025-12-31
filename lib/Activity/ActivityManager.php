@@ -38,6 +38,7 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use Psr\Log\LoggerInterface;
 use function get_class;
 
@@ -60,6 +61,7 @@ class ActivityManager {
 		private BillMapper $billMapper,
 		private IL10N $l10n,
 		private LoggerInterface $logger,
+		private IURLGenerator $url,
 		private ?string $userId,
 	) {
 	}
@@ -170,6 +172,7 @@ class ActivityManager {
 			->setAuthor($author === null ? $this->userId ?? '' : $author)
 			->setObject($objectType, (int)$object->getId(), (string)$objectName)
 			->setSubject($subject, array_merge($subjectParams, $additionalParams))
+			->setLink($this->url->linkToRouteAbsolute('cospend.page.index'))
 			->setTimestamp(time());
 
 		/*

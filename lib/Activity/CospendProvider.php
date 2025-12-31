@@ -149,9 +149,6 @@ class CospendProvider implements IProvider {
 		$params = $this->parseParamForBill('bill', $subjectParams, $params);
 		$params = $this->parseParamForWho($subjectParams, $params);
 
-		// hack to get the activity type in the frontend
-		$event->setLink($subjectIdentifier);
-
 		try {
 			$subject = $this->activityManager->getActivityFormat($subjectIdentifier, $subjectParams, $ownActivity);
 			$this->setSubjects($event, $subject, $params);

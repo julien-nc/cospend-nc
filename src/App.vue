@@ -731,7 +731,7 @@ export default {
 				network.saveOptionValues({ selectedProject: projectId })
 			}
 			this.cospend.currentProjectId = projectId
-			if (pushState) {
+			if (pushState && !this.cospend.pageIsPublic) {
 				window.history.pushState(
 					null,
 					null,

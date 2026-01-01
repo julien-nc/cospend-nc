@@ -57,6 +57,7 @@ use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Security\ISecureRandom;
 
@@ -94,6 +95,7 @@ class LocalProjectService implements IProjectService {
 		private INotificationManager $notificationManager,
 		private IDBConnection $db,
 		private ISecureRandom $secureRandom,
+		private IUserSession $userSession,
 	) {
 		$this->defaultCategories = [
 			[
@@ -896,8 +898,11 @@ class LocalProjectService implements IProjectService {
 	 * @param int|null $repeatFreq
 	 * @param int $deleted
 	 * @param bool $produceActivity
+	 * @param string|null $activityAuthorParam
 	 * @return int
 	 * @throws CospendBasicException
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function createBill(
@@ -1021,6 +1026,7 @@ class LocalProjectService implements IProjectService {
 				ActivityManager::COSPEND_OBJECT_BILL,
 				$createdBill,
 				ActivityManager::SUBJECT_BILL_CREATE,
+				['author' => $this->userSession->getUser()?->getUID()],
 			);
 		}
 
@@ -1064,9 +1070,10 @@ class LocalProjectService implements IProjectService {
 
 			if ($produceActivity) {
 				$this->activityManager->triggerEvent(
-					ActivityManager::COSPEND_OBJECT_BILL, $billToDelete,
+					ActivityManager::COSPEND_OBJECT_BILL,
+					$billToDelete,
 					ActivityManager::SUBJECT_BILL_DELETE,
-					[]
+					['author' => $this->userSession->getUser()?->getUID()],
 				);
 			}
 		} else {
@@ -1095,9 +1102,10 @@ class LocalProjectService implements IProjectService {
 			$billObj = $this->billMapper->find($billId);
 			$this->deleteBill($projectId, $billId, false, $moveToTrash);
 			$this->activityManager->triggerEvent(
-				ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+				ActivityManager::COSPEND_OBJECT_BILL,
+				$billObj,
 				ActivityManager::SUBJECT_BILL_DELETE,
-				[]
+				['author' => $this->userSession->getUser()?->getUID()],
 			);
 		}
 	}
@@ -2270,9 +2278,10 @@ class LocalProjectService implements IProjectService {
 
 		if ($produceActivity) {
 			$this->activityManager->triggerEvent(
-				ActivityManager::COSPEND_OBJECT_BILL, $dbBill,
+				ActivityManager::COSPEND_OBJECT_BILL,
+				$dbBill,
 				ActivityManager::SUBJECT_BILL_UPDATE,
-				[]
+				['author' => $this->userSession->getUser()?->getUID()],
 			);
 		}
 	}
@@ -2610,7 +2619,7 @@ class LocalProjectService implements IProjectService {
 			ActivityManager::COSPEND_OBJECT_BILL,
 			$billObj,
 			ActivityManager::SUBJECT_BILL_CREATE,
-			author: $pInfo['userid'],
+			['author' => 'Cospend'],
 		);
 
 		// now we can remove the repeat flag on the original bill
@@ -3114,9 +3123,14 @@ class LocalProjectService implements IProjectService {
 		// activity
 		$projectObj = $this->projectMapper->find($projectId);
 		$this->activityManager->triggerEvent(
-			ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
+			ActivityManager::COSPEND_OBJECT_PROJECT,
+			$projectObj,
 			ActivityManager::SUBJECT_PROJECT_SHARE,
-			['who' => $userId, 'type' => Application::SHARE_TYPE_USER]
+			[
+				'author' => $fromUserId,
+				'who' => $userId,
+				'type' => Application::SHARE_TYPE_USER,
+			],
 		);
 
 		// SEND NOTIFICATION
@@ -3285,9 +3299,14 @@ class LocalProjectService implements IProjectService {
 		// activity
 		$projectObj = $this->projectMapper->find($projectId);
 		$this->activityManager->triggerEvent(
-			ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
+			ActivityManager::COSPEND_OBJECT_PROJECT,
+			$projectObj,
 			ActivityManager::SUBJECT_PROJECT_UNSHARE,
-			['who' => $dbUserId, 'type' => Application::SHARE_TYPE_USER]
+			[
+				'author' => $this->userSession->getUser()?->getUID(),
+				'who' => $dbUserId,
+				'type' => Application::SHARE_TYPE_USER,
+			],
 		);
 
 		// SEND NOTIFICATION
@@ -3380,14 +3399,14 @@ class LocalProjectService implements IProjectService {
 	 *
 	 * @param string $projectId
 	 * @param string $groupId
-	 * @param string|null $fromUserId
+	 * @param string $fromUserId
 	 * @param int $accessLevel
 	 * @return array
 	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function createGroupShare(
-		string $projectId, string $groupId, ?string $fromUserId = null, int $accessLevel = Application::ACCESS_LEVEL_PARTICIPANT,
+		string $projectId, string $groupId, string $fromUserId, int $accessLevel = Application::ACCESS_LEVEL_PARTICIPANT,
 	): array {
 		if (!$this->groupManager->groupExists($groupId)) {
 			return ['message' => $this->l10n->t('No such group')];
@@ -3409,9 +3428,14 @@ class LocalProjectService implements IProjectService {
 		// activity
 		$projectObj = $this->projectMapper->find($projectId);
 		$this->activityManager->triggerEvent(
-			ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
+			ActivityManager::COSPEND_OBJECT_PROJECT,
+			$projectObj,
 			ActivityManager::SUBJECT_PROJECT_SHARE,
-			['who' => $groupId, 'type' => Application::SHARE_TYPE_GROUP]
+			[
+				'author' => $fromUserId,
+				'who' => $groupId,
+				'type' => Application::SHARE_TYPE_GROUP,
+			],
 		);
 
 		return $insertedShare->jsonSerialize();
@@ -3438,9 +3462,14 @@ class LocalProjectService implements IProjectService {
 		// activity
 		$projectObj = $this->projectMapper->find($projectId);
 		$this->activityManager->triggerEvent(
-			ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
+			ActivityManager::COSPEND_OBJECT_PROJECT,
+			$projectObj,
 			ActivityManager::SUBJECT_PROJECT_UNSHARE,
-			['who' => $dbGroupId, 'type' => Application::SHARE_TYPE_GROUP]
+			[
+				'author' => $this->userSession->getUser()?->getUID(),
+				'who' => $dbGroupId,
+				'type' => Application::SHARE_TYPE_GROUP,
+			],
 		);
 
 		return ['success' => true];
@@ -3451,14 +3480,14 @@ class LocalProjectService implements IProjectService {
 	 *
 	 * @param string $projectId
 	 * @param string $circleId
-	 * @param string|null $fromUserId
+	 * @param string $fromUserId
 	 * @param int $accesslevel
 	 * @return array
 	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function createCircleShare(
-		string $projectId, string $circleId, ?string $fromUserId = null, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT,
+		string $projectId, string $circleId, string $fromUserId, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT,
 	): array {
 		// check if circleId exists
 		$circlesEnabled = $this->appManager->isEnabledForUser('circles');
@@ -3498,9 +3527,14 @@ class LocalProjectService implements IProjectService {
 		// activity
 		$projectObj = $this->projectMapper->find($projectId);
 		$this->activityManager->triggerEvent(
-			ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
+			ActivityManager::COSPEND_OBJECT_PROJECT,
+			$projectObj,
 			ActivityManager::SUBJECT_PROJECT_SHARE,
-			['who' => $circleId, 'type' => Application::SHARE_TYPE_CIRCLE]
+			[
+				'author' => $fromUserId,
+				'who' => $circleId,
+				'type' => Application::SHARE_TYPE_CIRCLE,
+			],
 		);
 
 		$circlesManager->stopSession();
@@ -3528,9 +3562,14 @@ class LocalProjectService implements IProjectService {
 			// activity
 			$projectObj = $this->projectMapper->find($projectId);
 			$this->activityManager->triggerEvent(
-				ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
+				ActivityManager::COSPEND_OBJECT_PROJECT,
+				$projectObj,
 				ActivityManager::SUBJECT_PROJECT_UNSHARE,
-				['who' => $dbCircleId, 'type' => Application::SHARE_TYPE_CIRCLE]
+				[
+					'author' => $this->userSession->getUser()?->getUID(),
+					'who' => $dbCircleId,
+					'type' => Application::SHARE_TYPE_CIRCLE,
+				],
 			);
 
 			return ['success' => true];

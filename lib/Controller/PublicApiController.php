@@ -132,16 +132,10 @@ class PublicApiController extends OCSController {
 		try {
 			$this->localProjectService->deleteBill($this->projectId, $billId, false, $moveToTrash);
 			if (!is_null($billObj)) {
-				if ($share->getLabel()) {
-					$authorName = $share->getLabel();
-					$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
-				} else {
-					$authorFullText = $this->trans->t('Share link');
-				}
 				$this->activityManager->triggerEvent(
 					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
 					ActivityManager::SUBJECT_BILL_DELETE,
-					['author' => $authorFullText]
+					['share_label' => $share->getLabel()],
 				);
 			}
 			return new DataResponse('');
@@ -172,12 +166,6 @@ class PublicApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Bills'])]
 	public function publicDeleteBills(string $token, array $billIds, bool $moveToTrash = true): DataResponse {
 		$share = $this->shareMapper->getLinkOrFederatedShareByToken($token);
-		if ($share->getLabel()) {
-			$authorName = $share->getLabel();
-			$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
-		} else {
-			$authorFullText = $this->trans->t('Share link');
-		}
 		foreach ($billIds as $billId) {
 			if ($this->billMapper->getBill($this->projectId, $billId) === null) {
 				return new DataResponse([], Http::STATUS_NOT_FOUND);
@@ -191,7 +179,7 @@ class PublicApiController extends OCSController {
 				$this->activityManager->triggerEvent(
 					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
 					ActivityManager::SUBJECT_BILL_DELETE,
-					['author' => $authorFullText]
+					['share_label' => $share->getLabel()],
 				);
 			} catch (CospendBasicException $e) {
 				if ($e->getCode() === Http::STATUS_NOT_FOUND) {
@@ -366,16 +354,10 @@ class PublicApiController extends OCSController {
 				$repeatAllActive, $repeatUntil, $timestamp, $comment, $repeatFreq, $deleted
 			);
 			$billObj = $this->billMapper->find($billId);
-			if ($share->getLabel()) {
-				$authorName = $share->getLabel();
-				$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
-			} else {
-				$authorFullText = $this->trans->t('Share link');
-			}
 			$this->activityManager->triggerEvent(
 				ActivityManager::COSPEND_OBJECT_BILL, $billObj,
 				ActivityManager::SUBJECT_BILL_UPDATE,
-				['author' => $authorFullText]
+				['share_label' => $share->getLabel()],
 			);
 
 			return new DataResponse($billId);
@@ -425,12 +407,6 @@ class PublicApiController extends OCSController {
 		?string $comment = null, ?int $repeatFreq = null, ?int $deleted = null,
 	): DataResponse {
 		$share = $this->shareMapper->getLinkOrFederatedShareByToken($token);
-		if ($share->getLabel()) {
-			$authorName = $share->getLabel();
-			$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
-		} else {
-			$authorFullText = $this->trans->t('Share link');
-		}
 		foreach ($billIds as $billId) {
 			try {
 				$this->localProjectService->editBill(
@@ -442,7 +418,7 @@ class PublicApiController extends OCSController {
 				$this->activityManager->triggerEvent(
 					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
 					ActivityManager::SUBJECT_BILL_UPDATE,
-					['author' => $authorFullText]
+					['share_label' => $share->getLabel()],
 				);
 			} catch (CospendBasicException $e) {
 				return new DataResponse($e->data, Http::STATUS_BAD_REQUEST);

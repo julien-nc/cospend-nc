@@ -47,7 +47,7 @@ class OldApiController extends ApiController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		private IL10N $trans,
+		private IL10N $l,
 		private BillMapper $billMapper,
 		private ProjectMapper $projectMapper,
 		private LocalProjectService $localProjectService,
@@ -140,7 +140,7 @@ class OldApiController extends ApiController {
 			return new DataResponse($projectInfo);
 		}
 		return new DataResponse(
-			['message' => $this->trans->t('Project not found')],
+			['message' => $this->l->t('Project not found')],
 			Http::STATUS_NOT_FOUND
 		);
 	}
@@ -157,7 +157,7 @@ class OldApiController extends ApiController {
 			return new DataResponse($projectInfo);
 		}
 		return new DataResponse(
-			['message' => $this->trans->t('Project not found')],
+			['message' => $this->l->t('Project not found')],
 			Http::STATUS_NOT_FOUND
 		);
 	}
@@ -382,19 +382,12 @@ class OldApiController extends ApiController {
 				$repeatuntil, $timestamp, $comment, $repeatfreq
 			);
 			$billObj = $this->billMapper->find($insertedId);
-			if (is_null($publicShareInfo)) {
-				$authorFullText = $this->trans->t('Guest access');
-			} elseif ($publicShareInfo['label']) {
-				$authorName = $publicShareInfo['label'];
-				$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
-			} else {
-				$authorFullText = $this->trans->t('Share link');
-			}
+			$shareLabel = $this->getShareLabel($publicShareInfo);
 			$this->activityManager->triggerEvent(
 				ActivityManager::COSPEND_OBJECT_BILL,
 				$billObj,
 				ActivityManager::SUBJECT_BILL_CREATE,
-				['author' => $authorFullText],
+				['share_label' => $shareLabel],
 			);
 			return new DataResponse($insertedId);
 		} catch (\Throwable $e) {
@@ -420,6 +413,7 @@ class OldApiController extends ApiController {
 				ActivityManager::COSPEND_OBJECT_BILL,
 				$billObj,
 				ActivityManager::SUBJECT_BILL_CREATE,
+				['author' => $this->userId],
 			);
 			return new DataResponse($insertedId);
 		} catch (\Throwable $e) {
@@ -465,18 +459,12 @@ class OldApiController extends ApiController {
 				$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq, $deleted
 			);
 			$billObj = $this->billMapper->find($billid);
-			if (is_null($publicShareInfo)) {
-				$authorFullText = $this->trans->t('Guest access');
-			} elseif ($publicShareInfo['label']) {
-				$authorName = $publicShareInfo['label'];
-				$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
-			} else {
-				$authorFullText = $this->trans->t('Share link');
-			}
+			$shareLabel = $this->getShareLabel($publicShareInfo);
 			$this->activityManager->triggerEvent(
-				ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+				ActivityManager::COSPEND_OBJECT_BILL,
+				$billObj,
 				ActivityManager::SUBJECT_BILL_UPDATE,
-				['author' => $authorFullText]
+				['share_label' => $shareLabel],
 			);
 
 			return new DataResponse($billid);
@@ -502,14 +490,7 @@ class OldApiController extends ApiController {
 		?int $repeatfreq = null, ?int $deleted = null,
 	): DataResponse {
 		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
-		if (is_null($publicShareInfo)) {
-			$authorFullText = $this->trans->t('Guest access');
-		} elseif ($publicShareInfo['label']) {
-			$authorName = $publicShareInfo['label'];
-			$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
-		} else {
-			$authorFullText = $this->trans->t('Share link');
-		}
+		$shareLabel = $this->getShareLabel($publicShareInfo);
 		foreach ($billIds as $billid) {
 			try {
 				$this->localProjectService->editBill(
@@ -519,9 +500,10 @@ class OldApiController extends ApiController {
 				);
 				$billObj = $this->billMapper->find($billid);
 				$this->activityManager->triggerEvent(
-					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+					ActivityManager::COSPEND_OBJECT_BILL,
+					$billObj,
 					ActivityManager::SUBJECT_BILL_UPDATE,
-					['author' => $authorFullText]
+					['share_label' => $shareLabel],
 				);
 			} catch (CospendBasicException $e) {
 				return new DataResponse($e->data, $e->getCode());
@@ -552,9 +534,10 @@ class OldApiController extends ApiController {
 			);
 			$billObj = $this->billMapper->find($billid);
 			$this->activityManager->triggerEvent(
-				ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+				ActivityManager::COSPEND_OBJECT_BILL,
+				$billObj,
 				ActivityManager::SUBJECT_BILL_UPDATE,
-				[]
+				['author' => $this->userId],
 			);
 
 			return new DataResponse($billid);
@@ -597,18 +580,12 @@ class OldApiController extends ApiController {
 		try {
 			$this->localProjectService->deleteBill($publicShareInfo['projectid'], $billid, false, $moveToTrash, true);
 			if (!is_null($billObj)) {
-				if (is_null($publicShareInfo)) {
-					$authorFullText = $this->trans->t('Guest access');
-				} elseif ($publicShareInfo['label']) {
-					$authorName = $publicShareInfo['label'];
-					$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
-				} else {
-					$authorFullText = $this->trans->t('Share link');
-				}
+				$shareLabel = $this->getShareLabel($publicShareInfo);
 				$this->activityManager->triggerEvent(
-					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+					ActivityManager::COSPEND_OBJECT_BILL,
+					$billObj,
 					ActivityManager::SUBJECT_BILL_DELETE,
-					['author' => $authorFullText]
+					['share_label' => $shareLabel],
 				);
 			}
 			return new DataResponse('OK');
@@ -625,14 +602,7 @@ class OldApiController extends ApiController {
 	#[BruteForceProtection(action: 'CospendPublicDeleteBills')]
 	public function apiDeleteBills(string $token, array $billIds, bool $moveToTrash = true): DataResponse {
 		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
-		if (is_null($publicShareInfo)) {
-			$authorFullText = $this->trans->t('Guest access');
-		} elseif ($publicShareInfo['label']) {
-			$authorName = $publicShareInfo['label'];
-			$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
-		} else {
-			$authorFullText = $this->trans->t('Share link');
-		}
+		$shareLabel = $this->getShareLabel($publicShareInfo);
 		foreach ($billIds as $billId) {
 			$billObj = null;
 			if ($this->billMapper->getBill($publicShareInfo['projectid'], $billId) !== null) {
@@ -643,9 +613,10 @@ class OldApiController extends ApiController {
 				$this->localProjectService->deleteBill($publicShareInfo['projectid'], $billId, false, $moveToTrash);
 				if (!is_null($billObj)) {
 					$this->activityManager->triggerEvent(
-						ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+						ActivityManager::COSPEND_OBJECT_BILL,
+						$billObj,
 						ActivityManager::SUBJECT_BILL_DELETE,
-						['author' => $authorFullText]
+						['share_label' => $shareLabel],
 					);
 				}
 			} catch (\Throwable $e) {
@@ -1197,6 +1168,13 @@ class OldApiController extends ApiController {
 		} catch (\Throwable $e) {
 			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
+	}
+
+	private function getShareLabel(?array $publicShareInfo): string {
+		if ($publicShareInfo === null) {
+			return $this->l->t('Guest access');
+		}
+		return $publicShareInfo['label'] ?? '';
 	}
 
 	/**

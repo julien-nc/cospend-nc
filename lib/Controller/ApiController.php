@@ -70,7 +70,7 @@ class ApiController extends OCSController {
 		string $appName,
 		IRequest $request,
 		private IManager $shareManager,
-		private IL10N $trans,
+		private IL10N $l,
 		private BillMapper $billMapper,
 		private ProjectMapper $projectMapper,
 		private LocalProjectService $localProjectService,
@@ -576,7 +576,7 @@ class ApiController extends OCSController {
 	public function moveBill(string $projectId, int $billId, string $toProjectId): DataResponse {
 		$userAccessLevel = $this->localProjectService->getUserMaxAccessLevel($this->userId, $toProjectId);
 		if ($userAccessLevel < Application::ACCESS_LEVEL_PARTICIPANT) {
-			return new DataResponse(['message' => $this->trans->t('You are not allowed to access the target project')], Http::STATUS_UNAUTHORIZED);
+			return new DataResponse(['message' => $this->l->t('You are not allowed to access the target project')], Http::STATUS_UNAUTHORIZED);
 		}
 
 		// get current bill from mapper for the activity manager
@@ -596,6 +596,7 @@ class ApiController extends OCSController {
 			ActivityManager::COSPEND_OBJECT_BILL,
 			$oldBillObj,
 			ActivityManager::SUBJECT_BILL_DELETE,
+			['author' => $this->userId],
 		);
 
 		// add create activity record
@@ -603,6 +604,7 @@ class ApiController extends OCSController {
 			ActivityManager::COSPEND_OBJECT_BILL,
 			$newBillObj,
 			ActivityManager::SUBJECT_BILL_CREATE,
+			['author' => $this->userId],
 		);
 
 		return new DataResponse($result['inserted_id']);
@@ -848,7 +850,7 @@ class ApiController extends OCSController {
 			}
 		} else {
 			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to give such shared access level')],
+				['message' => $this->l->t('You are not allowed to give such shared access level')],
 				Http::STATUS_UNAUTHORIZED
 			);
 		}
@@ -885,7 +887,7 @@ class ApiController extends OCSController {
 			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		} else {
 			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to edit this shared access')],
+				['message' => $this->l->t('You are not allowed to edit this shared access')],
 				Http::STATUS_UNAUTHORIZED
 			);
 		}
@@ -1248,7 +1250,7 @@ class ApiController extends OCSController {
 		$shareAccessLevel = $this->localProjectService->getShareAccessLevel($projectId, $shId);
 		if ($userAccessLevel < $shareAccessLevel) {
 			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to remove this shared access')],
+				['message' => $this->l->t('You are not allowed to remove this shared access')],
 				Http::STATUS_UNAUTHORIZED
 			);
 		}
@@ -1319,7 +1321,7 @@ class ApiController extends OCSController {
 			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		} else {
 			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to remove this shared access')],
+				['message' => $this->l->t('You are not allowed to remove this shared access')],
 				Http::STATUS_UNAUTHORIZED
 			);
 		}
@@ -1375,7 +1377,7 @@ class ApiController extends OCSController {
 			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		} else {
 			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to remove this shared access')],
+				['message' => $this->l->t('You are not allowed to remove this shared access')],
 				Http::STATUS_UNAUTHORIZED
 			);
 		}
@@ -1433,7 +1435,7 @@ class ApiController extends OCSController {
 			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		} else {
 			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to remove this shared access')],
+				['message' => $this->l->t('You are not allowed to remove this shared access')],
 				Http::STATUS_UNAUTHORIZED
 			);
 		}
@@ -1491,7 +1493,7 @@ class ApiController extends OCSController {
 			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		} else {
 			return new DataResponse(
-				['message' => $this->trans->t('You are not allowed to remove this shared access')],
+				['message' => $this->l->t('You are not allowed to remove this shared access')],
 				Http::STATUS_UNAUTHORIZED
 			);
 		}
@@ -1515,14 +1517,14 @@ class ApiController extends OCSController {
 		$cleanPath = str_replace(['../', '..\\'], '', $path);
 		$userFolder = $this->root->getUserFolder($this->userId);
 		if (!$userFolder->nodeExists($cleanPath)) {
-			return new DataResponse(['message' => $this->trans->t('Access denied')], Http::STATUS_UNAUTHORIZED);
+			return new DataResponse(['message' => $this->l->t('Access denied')], Http::STATUS_UNAUTHORIZED);
 		}
 		$file = $userFolder->get($cleanPath);
 		if (!($file instanceof File)) {
-			return new DataResponse(['message' => $this->trans->t('Access denied')], Http::STATUS_UNAUTHORIZED);
+			return new DataResponse(['message' => $this->l->t('Access denied')], Http::STATUS_UNAUTHORIZED);
 		}
 		if (!$file->isShareable()) {
-			return new DataResponse(['message' => $this->trans->t('Access denied')], Http::STATUS_UNAUTHORIZED);
+			return new DataResponse(['message' => $this->l->t('Access denied')], Http::STATUS_UNAUTHORIZED);
 		}
 		$shares = $this->shareManager->getSharesBy($this->userId,
 			IShare::TYPE_LINK, $file, false, 1, 0);

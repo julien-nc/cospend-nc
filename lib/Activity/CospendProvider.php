@@ -58,6 +58,67 @@ class CospendProvider implements IProvider {
 		}
 	}
 
+	private function getUserParam(IEvent $event): array {
+		$author = $event->getAuthor();
+		if ($author !== '') {
+			// there is an author, the user might not exist anymore
+			$user = $this->userManager->get($author);
+			if ($user !== null) {
+				return [
+					'type' => 'user',
+					'id' => $author,
+					'name' => $user->getDisplayName()
+				];
+			} else {
+				return [
+					'type' => 'user',
+					'id' => '0',
+					'name' => $this->l->t('Deleted user (%s)', [$author]),
+				];
+			}
+		} else {
+			// if there is no activity entry author, look for the author in the subject parameters
+			$subjectParams = $event->getSubjectParameters();
+
+			if (isset($subjectParams['author'])) {
+				$user = $this->userManager->get($subjectParams['author']);
+				// for the activity emails (taken from oc_activity_mq in which there is no entry author...)
+				// we need to get the author from the subject params
+				// (that's why we pass an author param when triggering the event even if the entry author is set)
+				if ($user !== null) {
+					return [
+						'type' => 'user',
+						'id' => $subjectParams['author'],
+						'name' => $user->getDisplayName()
+					];
+				} else {
+					// if the author is not found as a user, it is a name
+					return [
+						'type' => 'user',
+						'id' => '0',
+						'name' => $subjectParams['author'] ?: $this->l->t('Unknown author'),
+					];
+				}
+			} elseif (isset($subjectParams['share_label'])) {
+				// new way: we get the share label
+				return [
+					'type' => 'user',
+					'id' => '0',
+					'name' => $subjectParams['share_label']
+						? $this->l->t('Shared access (%s)', [$subjectParams['share_label']])
+						: $this->l->t('Shared access'),
+				];
+			} else {
+				// fallback, this should never happen
+				return [
+					'type' => 'user',
+					'id' => '0',
+					'name' => $this->l->t('No author'),
+				];
+			}
+		}
+	}
+
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null): IEvent {
 		if ($event->getApp() !== 'cospend') {
 			throw new UnknownActivityException();
@@ -72,53 +133,10 @@ class CospendProvider implements IProvider {
 		/**
 		 * Map stored parameter objects to rich string types
 		 */
-		$params = [];
+		$params = [
+			'user' => $this->getUserParam($event),
+		];
 
-		$author = $event->getAuthor();
-		if ($author !== '') {
-			// there is an author, the user might not exist anymore
-			$user = $this->userManager->get($author);
-			if ($user !== null) {
-				$params['user'] = [
-					'type' => 'user',
-					'id' => $author,
-					'name' => $user->getDisplayName()
-				];
-			} else {
-				$params['user'] = [
-					'type' => 'user',
-					'id' => '0',
-					'name' => $this->l->t('Deleted user (%s)', [$author]),
-				];
-			}
-		} else {
-			// if there is no activity entry author, look for the author in the subject parameters
-
-			// old way to pass the public author in the subject parameters, we get the full name in the 'author' param
-			if (isset($subjectParams['author'])) {
-				$params['user'] = [
-					'type' => 'user',
-					'id' => '0',
-					'name' => $subjectParams['author'] ?: $this->l->t('Unknown author'),
-				];
-			} elseif (isset($subjectParams['share_label'])) {
-				// new way: we get the share label
-				$params['user'] = [
-					'type' => 'user',
-					'id' => '0',
-					'name' => $subjectParams['share_label']
-						? $this->l->t('Shared access (%s)', [$subjectParams['share_label']])
-						: $this->l->t('Shared access'),
-				];
-			} else {
-				// fallback, this should never happen (but happens when NC sends the activity email, no event author)
-				$params['user'] = [
-					'type' => 'user',
-					'id' => '0',
-					'name' => $this->l->t('No author'),
-				];
-			}
-		}
 		if ($event->getObjectType() === ActivityManager::COSPEND_OBJECT_PROJECT) {
 			if (isset($subjectParams['project']) && $event->getObjectName() === '') {
 				$event->setObject($event->getObjectType(), $event->getObjectId(), $subjectParams['project']['name']);

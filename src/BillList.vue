@@ -33,7 +33,7 @@
 						:close-after-click="true"
 						@click="onCloseTrashbinClicked">
 						<template #icon>
-							<CloseIcon />
+							<ArrowLeftIcon />
 						</template>
 						{{ t('cospend', 'Close trashbin') }}
 					</NcActionButton>
@@ -44,6 +44,14 @@
 							<DeleteVariantIcon />
 						</template>
 						{{ t('cospend', 'Show the trash bin') }}
+					</NcActionButton>
+					<NcActionButton v-if="oneActiveMember && trashbinEnabled"
+						:close-after-click="true"
+						@click="onCloseTrashbinClicked">
+						<template #icon>
+							<ArrowLeftIcon />
+						</template>
+						{{ t('cospend', 'Close trashbin') }}
 					</NcActionButton>
 					<NcActionButton v-if="trashbinEnabled && editionAccess && bills.length > 0"
 						:close-after-click="true"
@@ -291,6 +299,7 @@ import NotePlusIcon from 'vue-material-design-icons/NotePlus.vue'
 import MagnifyIcon from 'vue-material-design-icons/Magnify.vue'
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import AccountIcon from 'vue-material-design-icons/Account.vue'
+import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
 
 import CospendIcon from './components/icons/CospendIcon.vue'
 
@@ -344,6 +353,7 @@ export default {
 		MagnifyIcon,
 		AccountPlusIcon,
 		AccountIcon,
+		ArrowLeftIcon,
 	},
 
 	props: {

@@ -15,7 +15,8 @@
 		:active="selected"
 		:class="{
 			draggedOver: isDraggedOver,
-			dropImpossible: !isDropPossible,
+			dropError: isDropError,
+			dropWarning: isDropWarning,
 		}"
 		:force-display-actions="true"
 		:force-menu="false"
@@ -241,7 +242,8 @@ export default {
 			deletionTimer: null,
 			menuOpen: false,
 			isDraggedOver: false,
-			isDropPossible: true,
+			isDropError: false,
+			isDropWarning: false,
 		}
 	},
 	computed: {
@@ -345,33 +347,39 @@ export default {
 		onDragOver(e) {
 			const billId = e.dataTransfer.getData('billId')
 			const projectId = e.dataTransfer.getData('projectId')
-			if (projectId && billId && projectId !== this.project.id) {
+			if (projectId && billId) {
 				this.isDraggedOver = true
 				const payerName = e.dataTransfer.getData('payerName')
-				this.isDropPossible = this.hasMemberNamed(payerName)
+				this.isDropWarning = !this.hasMemberNamed(payerName)
+				this.isDropError = projectId === this.project.id
 			}
 		},
 		onDragEnter(e) {
 			const billId = e.dataTransfer.getData('billId')
 			const projectId = e.dataTransfer.getData('projectId')
-			if (projectId && billId && projectId !== this.project.id) {
+			if (projectId && billId) {
 				this.isDraggedOver = true
 				const payerName = e.dataTransfer.getData('payerName')
-				this.isDropPossible = this.hasMemberNamed(payerName)
+				this.isDropWarning = !this.hasMemberNamed(payerName)
+				this.isDropError = projectId === this.project.id
 			}
 		},
 		onDragLeave(e) {
 			const billId = e.dataTransfer.getData('billId')
 			const projectId = e.dataTransfer.getData('projectId')
-			if (projectId && billId && projectId !== this.project.id) {
+			if (projectId && billId) {
 				this.isDraggedOver = false
+				this.isDropError = false
+				this.isDropWarning = false
 			}
 		},
 		onDrop(e) {
 			const billId = e.dataTransfer.getData('billId')
 			const projectId = e.dataTransfer.getData('projectId')
-			if (projectId && billId && projectId !== this.project.id) {
+			if (projectId && billId) {
 				this.isDraggedOver = false
+				this.isDropError = false
+				this.isDropWarning = false
 				const payerName = e.dataTransfer.getData('payerName')
 				if (this.hasMemberNamed(payerName)) {
 					network.moveBill(projectId, parseInt(billId), this.project.id).then(res => {
@@ -410,8 +418,11 @@ export default {
 .draggedOver {
 	border: solid 2px var(--color-border-success);
 	border-radius: var(--border-radius-large);
-	&.dropImpossible {
+	&.dropError {
 		border: solid 2px var(--color-border-error);
+	}
+	&.dropWarning {
+		border: solid 2px var(--color-element-warning);
 	}
 }
 </style>

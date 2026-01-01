@@ -1,6 +1,6 @@
 <template>
 	<NcListItem
-		:class="{ billItem: true, newBill: bill.id === 0}"
+		:class="{ billItem: true, newBill: bill.id === 0 }"
 		:title="billFormattedTitle"
 		:name="billFormattedTitle"
 		:active="selected"

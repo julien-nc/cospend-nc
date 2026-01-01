@@ -56,7 +56,6 @@ use OCP\IDateTimeZone;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Security\ISecureRandom;
@@ -95,7 +94,6 @@ class LocalProjectService implements IProjectService {
 		private INotificationManager $notificationManager,
 		private IDBConnection $db,
 		private ISecureRandom $secureRandom,
-		private IUrlGenerator $urlGenerator,
 	) {
 		$this->defaultCategories = [
 			[
@@ -1020,9 +1018,9 @@ class LocalProjectService implements IProjectService {
 
 		if ($produceActivity) {
 			$this->activityManager->triggerEvent(
-				ActivityManager::COSPEND_OBJECT_BILL, $createdBill,
+				ActivityManager::COSPEND_OBJECT_BILL,
+				$createdBill,
 				ActivityManager::SUBJECT_BILL_CREATE,
-				[]
 			);
 		}
 
@@ -2557,10 +2555,10 @@ class LocalProjectService implements IProjectService {
 	 */
 	private function repeatLocalBill(string $projectId, int $billId, DateTimeImmutable $targetDatetime): ?int {
 		$bill = $this->billMapper->getBill($projectId, $billId);
+		$pInfo = $this->getProjectInfo($projectId);
 
 		$owerIds = [];
 		if (((int)$bill['repeatallactive']) === 1) {
-			$pInfo = $this->getProjectInfo($projectId);
 			foreach ($pInfo['active_members'] as $am) {
 				$owerIds[] = $am['id'];
 			}
@@ -2609,9 +2607,10 @@ class LocalProjectService implements IProjectService {
 
 		$billObj = $this->billMapper->find($newBillId);
 		$this->activityManager->triggerEvent(
-			ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+			ActivityManager::COSPEND_OBJECT_BILL,
+			$billObj,
 			ActivityManager::SUBJECT_BILL_CREATE,
-			[]
+			author: $pInfo['userid'],
 		);
 
 		// now we can remove the repeat flag on the original bill

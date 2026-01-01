@@ -48,7 +48,7 @@ class CospendProvider implements IProvider {
 		private IUserManager $userManager,
 		private IGroupManager $groupManager,
 		private IAppManager $appManager,
-		private IL10N $l10n,
+		private IL10N $l,
 		private LocalProjectService $projectService,
 		private ?string $userId,
 	) {
@@ -75,28 +75,49 @@ class CospendProvider implements IProvider {
 		$params = [];
 
 		$author = $event->getAuthor();
-		// get author if
-		if ($author === '' && array_key_exists('author', $subjectParams)) {
-			$author = $subjectParams['author'];
-			$params = [
-				'user' => [
-					'type' => 'user',
-					'id' => '0',
-					'name' => $subjectParams['author']
-				],
-			];
-			unset($subjectParams['author']);
-		}
-		$user = $this->userManager->get($author);
-		if ($user !== null) {
-			$params = [
-				'user' => [
+		if ($author !== '') {
+			// there is an author, the user might not exist anymore
+			$user = $this->userManager->get($author);
+			if ($user !== null) {
+				$params['user'] = [
 					'type' => 'user',
 					'id' => $author,
 					'name' => $user->getDisplayName()
-				],
-			];
-			$event->setAuthor($author);
+				];
+			} else {
+				$params['user'] = [
+					'type' => 'user',
+					'id' => '0',
+					'name' => $this->l->t('Deleted user (%s)', [$author]),
+				];
+			}
+		} else {
+			// if there is no activity entry author, look for the author in the subject parameters
+
+			// old way to pass the public author in the subject parameters, we get the full name in the 'author' param
+			if (isset($subjectParams['author'])) {
+				$params['user'] = [
+					'type' => 'user',
+					'id' => '0',
+					'name' => $subjectParams['author'] ?: $this->l->t('Unknown author'),
+				];
+			} elseif (isset($subjectParams['share_label'])) {
+				// new way: we get the share label
+				$params['user'] = [
+					'type' => 'user',
+					'id' => '0',
+					'name' => $subjectParams['share_label']
+						? $this->l->t('Shared access (%s)', [$subjectParams['share_label']])
+						: $this->l->t('Shared access'),
+				];
+			} else {
+				// fallback, this should never happen (but happens when NC sends the activity email, no event author)
+				$params['user'] = [
+					'type' => 'user',
+					'id' => '0',
+					'name' => $this->l->t('No author'),
+				];
+			}
 		}
 		if ($event->getObjectType() === ActivityManager::COSPEND_OBJECT_PROJECT) {
 			if (isset($subjectParams['project']) && $event->getObjectName() === '') {
@@ -263,7 +284,7 @@ class CospendProvider implements IProvider {
 					'name' => $group->getDisplayName(),
 				];
 			} elseif ($subjectParams['type'] === Application::SHARE_TYPE_CIRCLE) {
-				$displayName = $this->l10n->t('circle %1$s', [$subjectParams['who']]);
+				$displayName = $this->l->t('circle %1$s', [$subjectParams['who']]);
 				$circlesEnabled = $this->appManager->isEnabledForUser('circles');
 				if ($circlesEnabled) {
 					$circlesManager = \OC::$server->get(\OCA\Circles\CirclesManager::class);
@@ -271,7 +292,7 @@ class CospendProvider implements IProvider {
 					try {
 						$circle = $circlesManager->getCircle($subjectParams['who']);
 						$circleName = $circle->getDisplayName();
-						$displayName = $this->l10n->t('circle %1$s', [$circleName]);
+						$displayName = $this->l->t('circle %1$s', [$circleName]);
 					} catch (\OCA\Circles\Exceptions\CircleNotFoundException $e) {
 						throw new InvalidArgumentException();
 					}

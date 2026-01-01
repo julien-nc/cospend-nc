@@ -593,14 +593,16 @@ class ApiController extends OCSController {
 
 		// add delete activity record
 		$this->activityManager->triggerEvent(
-			ActivityManager::COSPEND_OBJECT_BILL, $oldBillObj,
-			ActivityManager::SUBJECT_BILL_DELETE, []
+			ActivityManager::COSPEND_OBJECT_BILL,
+			$oldBillObj,
+			ActivityManager::SUBJECT_BILL_DELETE,
 		);
 
 		// add create activity record
 		$this->activityManager->triggerEvent(
-			ActivityManager::COSPEND_OBJECT_BILL, $newBillObj,
-			ActivityManager::SUBJECT_BILL_CREATE, []
+			ActivityManager::COSPEND_OBJECT_BILL,
+			$newBillObj,
+			ActivityManager::SUBJECT_BILL_CREATE,
 		);
 
 		return new DataResponse($result['inserted_id']);

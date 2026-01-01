@@ -552,16 +552,11 @@ class PublicApiController extends OCSController {
 				$repeatUntil, $timestamp, $comment, $repeatFreq
 			);
 			$billObj = $this->billMapper->find($insertedId);
-			if ($share->getLabel()) {
-				$authorName = $share->getLabel();
-				$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
-			} else {
-				$authorFullText = $this->trans->t('Share link');
-			}
 			$this->activityManager->triggerEvent(
-				ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+				ActivityManager::COSPEND_OBJECT_BILL,
+				$billObj,
 				ActivityManager::SUBJECT_BILL_CREATE,
-				['author' => $authorFullText]
+				['share_label' => $share->getLabel()],
 			);
 			return new DataResponse($insertedId);
 		} catch (\Throwable $e) {

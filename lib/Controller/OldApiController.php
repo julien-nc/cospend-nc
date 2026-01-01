@@ -391,9 +391,10 @@ class OldApiController extends ApiController {
 				$authorFullText = $this->trans->t('Share link');
 			}
 			$this->activityManager->triggerEvent(
-				ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+				ActivityManager::COSPEND_OBJECT_BILL,
+				$billObj,
 				ActivityManager::SUBJECT_BILL_CREATE,
-				['author' => $authorFullText]
+				['author' => $authorFullText],
 			);
 			return new DataResponse($insertedId);
 		} catch (\Throwable $e) {
@@ -416,9 +417,9 @@ class OldApiController extends ApiController {
 				$repeatuntil, $timestamp, $comment, $repeatfreq);
 			$billObj = $this->billMapper->find($insertedId);
 			$this->activityManager->triggerEvent(
-				ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+				ActivityManager::COSPEND_OBJECT_BILL,
+				$billObj,
 				ActivityManager::SUBJECT_BILL_CREATE,
-				[]
 			);
 			return new DataResponse($insertedId);
 		} catch (\Throwable $e) {

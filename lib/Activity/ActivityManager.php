@@ -164,12 +164,11 @@ class ActivityManager {
 			default:
 				throw new Exception('Unknown subject for activity.');
 		}
-		$subjectParams['author'] = $this->l10n->t('A guest user');
 
 		$event = $this->manager->generateEvent();
 		$event->setApp('cospend')
 			->setType($eventType)
-			->setAuthor($author === null ? $this->userId ?? '' : $author)
+			->setAuthor($author ?? $this->userId ?? '')
 			->setObject($objectType, (int)$object->getId(), (string)$objectName)
 			->setSubject($subject, array_merge($subjectParams, $additionalParams))
 			->setLink($this->url->linkToRouteAbsolute('cospend.page.index'))

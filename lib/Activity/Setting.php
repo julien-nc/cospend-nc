@@ -25,10 +25,10 @@
 namespace OCA\Cospend\Activity;
 
 use OCA\Cospend\AppInfo\Application;
-use OCP\Activity\ISetting;
+use OCP\Activity\ActivitySettings;
 use OCP\IL10N;
 
-class Setting implements ISetting {
+class Setting extends ActivitySettings {
 
 	public function __construct(
 		protected IL10N $l,
@@ -41,6 +41,22 @@ class Setting implements ISetting {
 
 	public function getName(): string {
 		return $this->l->t('A Cospend <strong>project</strong> has been shared or unshared');
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	#[\Override]
+	public function getGroupIdentifier(): string {
+		return Application::APP_ID;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	#[\Override]
+	public function getGroupName(): string {
+		return $this->l->t('Cospend');
 	}
 
 	public function getPriority(): int {

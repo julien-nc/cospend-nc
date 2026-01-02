@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2026-01-02 12:29+0100\n"
-"PO-Revision-Date: 2026-01-02 11:32\n"
+"POT-Creation-Date: 2026-01-02 14:55+0100\n"
+"PO-Revision-Date: 2026-01-02 13:57\n"
 "Last-Translator: \n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
@@ -17,49 +17,57 @@ msgstr ""
 "X-Crowdin-File: /main/translationfiles/templates/cospend.pot\n"
 "X-Crowdin-File-ID: 195\n"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:79
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:80
 msgid "You have created {bill} in {project}"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:79
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:80
 msgid "{user} has created {bill} in {project}"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:82
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:83
 msgid "You have deleted {bill} in {project}"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:82
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:83
 msgid "{user} has deleted {bill} in {project}"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:85
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:86
 msgid "You have shared {project} with {who}"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:85
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:86
 msgid "{user} has shared {project} with {who}"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:88
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:89
 msgid "You stopped sharing {project} with {who}"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:88
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:89
 msgid "{user} stopped sharing {project} with {who}"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:91
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:92
 msgid "You have updated {bill} in {project}"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:91
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:92
 msgid "{user} has updated {bill} in {project}"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/BillSetting.php:42
-msgid "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted"
-msgstr "<strong>Счёт</strong> внутри приложения Cospend был изменен/создан/удален"
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/BillCreatedSetting.php:36
+msgid "A Cospend <strong>bill</strong> has been created"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/BillDeletedSetting.php:36
+msgid "A Cospend <strong>bill</strong> has been deleted"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/BillUpdatedSetting.php:36
+msgid "A Cospend <strong>bill</strong> has been updated"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:76
 #, php-format
@@ -89,17 +97,18 @@ msgstr ""
 msgid "circle %1$s"
 msgstr "круг %1$s"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/Filter.php:52
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:48
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/Filter.php:53
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/Setting.php:59
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:39
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/UserMigration/UserMigrator.php:165
 #: /home/julien/html/dev/server/apps-extra/cospend/specialAppInfoFakeDummyForL10nScript.php:2
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:565
 msgid "Cospend"
 msgstr "Cospend"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/Setting.php:50
-msgid "Changes in the <strong>Cospend app</strong>"
-msgstr "Изменения в приложении <strong>Cospend</strong>"
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/Setting.php:43
+msgid "A Cospend <strong>project</strong> has been shared or unshared"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:579
 msgid "You are not allowed to access the target project"
@@ -124,12 +133,12 @@ msgstr "Вы не можете удалить этот общий доступ"
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:1520
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:1524
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:1527
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:116
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:119
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:122
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:647
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:650
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:653
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:117
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:120
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:123
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:648
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:651
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:654
 msgid "Access denied"
 msgstr "Доступ запрещен"
 
@@ -171,7 +180,7 @@ msgstr "Нет опубликованной ссылки Cospend"
 msgid "Cospend activity"
 msgstr "Активность в заказе"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Db/ProjectMapper.php:97
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Db/ProjectMapper.php:114
 msgid "Invalid project id"
 msgstr "Неверный ID проекта"
 
@@ -269,27 +278,27 @@ msgstr "Перевод"
 msgid "Online service"
 msgstr "Онлайн-сервис"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:88
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:72
 msgid "Cospend project shared"
 msgstr "Совместный проект Cospend"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:99
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:83
 msgid "{user} shared project {project} with you"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:126
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:110
 msgid "Cospend project share removed"
 msgstr "Совместный проект Cospend"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:137
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:121
 msgid "{user} stopped sharing project {project} with you"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:151
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:135
 msgid "Cospend federated project shared"
 msgstr "Cospend проект опубликован федеративно"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:152
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:136
 #, php-format
 msgid "%s (%s) shared Cospend project \"%s\" (%s) with you."
 msgstr "Пользователь %s (%s) поделился с вами проектом Cospend \"%s\" (%s)."
@@ -312,151 +321,151 @@ msgstr "Cospend проекты"
 msgid "Owned by %1$s"
 msgstr "Владелец %1$s"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:192
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:193
 #, php-format
 msgid "Malformed CSV, bad column names at line %1$s"
 msgstr "Невалидный CSV, некоррректные название колонки в строке %1$s"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:207
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:208
 #, php-format
 msgid "Error when adding category %1$s"
 msgstr "Ошибка при добавлении категории %1$s"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:225
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:226
 #, php-format
 msgid "Error when adding payment mode %1$s"
 msgstr "Ошибка при добавлении режима оплаты %1$s"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:239
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:240
 #, php-format
 msgid "Error when adding currency %1$s"
 msgstr "Ошибка при добавлении валюты %1$s"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:254
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:403
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:616
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:255
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:404
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:617
 #, php-format
 msgid "Error when adding member %1$s"
 msgstr "Ошибка при добавлении участника %1$s"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:269
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:270
 #, php-format
 msgid "Malformed CSV, invalid member on line %1$s"
 msgstr "Неправильный формат CSV, неверный член в строке %1$s"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:275
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:276
 #, php-format
 msgid "Malformed CSV, invalid amount on line %1$s"
 msgstr "Неправильный CSV, неверная сумма в строке %1$s"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:291
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:520
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:292
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:521
 #, php-format
 msgid "Malformed CSV, missing or invalid date/timestamp on line %1$s"
 msgstr "Неправильный формат CSV, отсутствует или недопустимая дата/отметка времени в строке %1$s"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:318
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:319
 #, php-format
 msgid "Malformed CSV, invalid payer weight on line %1$s"
 msgstr "Неправильный CSV, неверный вес плательщика в строке %1$s"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:323
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:331
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:324
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:332
 #, php-format
 msgid "Malformed CSV, invalid owers on line %1$s"
 msgstr "Неправильный CSV, недопустимые владельцы в строке %1$s"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:375
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:596
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:376
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:597
 #, php-format
 msgid "Error in project creation, %1$s"
 msgstr "Ошибка при создании проекта, %1$s"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:437
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:642
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:438
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:643
 #, php-format
 msgid "Error when adding bill %1$s"
 msgstr "Ошибка при добавлении счета %1$s"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:497
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:498
 msgid "Malformed CSV, cannot have an empty ower"
 msgstr "Некорректный CSV, владелец не может быть незаполнен"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:541
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:542
 #, php-format
 msgid "Malformed CSV, bad amount on line %1$s"
 msgstr "Невалидный CSV, некоррректные значения в строке %1$s"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:558
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:559
 #, php-format
 msgid "Malformed CSV, no payer on line %1$s"
 msgstr "Некорректный CSV, нет плательщика в строке %1$s"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:579
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:580
 msgid "Malformed CSV, impossible to find the column names. Make sure your Splitwise account language is set to English first, then export the project again."
 msgstr "Неверный формат CSV, невозможно найти имена столбцов. Сначала убедитесь, что ваш язык аккаунта Splitwise установлен на английский язык, а затем снова экспортируйте проект."
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:677
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:678
 msgid "daily"
 msgstr "ежедневно"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:692
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:693
 msgid "weekly"
 msgstr "еженедельно"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:713
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:714
 msgid "monthly"
 msgstr "ежемесячно"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:784
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:777
 #, php-format
 msgid "%1$s is not a folder"
 msgstr "%1$s не является папкой"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:786
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:779
 #, php-format
 msgid "%1$s is not writeable"
 msgstr "%1$s не доступен для записи"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:791
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:784
 #, php-format
 msgid "Impossible to create %1$s"
 msgstr "Невозможно создать %1$s"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:832
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:825
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:246
 msgid "Who pays?"
 msgstr "Кто платит?"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:833
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:826
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:247
 msgid "To whom?"
 msgstr "За кого?"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:834
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:827
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:49
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:248
 msgid "How much?"
 msgstr "Сколько?"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:896
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:889
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:252
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:522
 msgid "Member name"
 msgstr "Имя участника"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:897
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:890
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:523
 msgid "Paid"
 msgstr "Заплачено"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:898
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:891
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:524
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:559
 msgid "Spent"
 msgstr "Потрачено"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:899
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:892
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:253
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:378
 msgid "Balance"
@@ -597,9 +606,9 @@ msgstr "У вас нет прав для предоставления таког
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3244
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3274
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3294
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3357
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3458
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3577
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3358
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3459
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3581
 msgid "No such share"
 msgstr "Нет такой ссылки общего доступа"
 
@@ -607,27 +616,27 @@ msgstr "Нет такой ссылки общего доступа"
 msgid "Invalid values"
 msgstr "Недопустимые значения"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3412
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3413
 msgid "No such group"
 msgstr "Нет такой группы"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3417
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3418
 msgid "Already shared with this group"
 msgstr "Уже поделились с этой группой"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3495
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3498
 msgid "Circles app is not enabled"
 msgstr "Приложение кругов не активно"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3502
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3505
 msgid "Impossible to get the circle manager"
 msgstr "Невозможно получить менеджера круга"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3510
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3513
 msgid "No such circle"
 msgstr "Нет такого круга"
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3516
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3519
 msgid "Already shared with this circle"
 msgstr "Уже поделились с этим кругом"
 

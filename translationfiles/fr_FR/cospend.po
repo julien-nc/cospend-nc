@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2026-01-02 12:29+0100\n"
-"PO-Revision-Date: 2026-01-02 11:31\n"
+"PO-Revision-Date: 2026-01-02 11:37\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -19,43 +19,43 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:79
 msgid "You have created {bill} in {project}"
-msgstr ""
+msgstr "Vous avez créé {bill} dans {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:79
 msgid "{user} has created {bill} in {project}"
-msgstr ""
+msgstr "{user} a créé {bill} dans {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:82
 msgid "You have deleted {bill} in {project}"
-msgstr ""
+msgstr "Vous avez supprimé {bill} dans {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:82
 msgid "{user} has deleted {bill} in {project}"
-msgstr ""
+msgstr "{user} a supprimé {bill} dans {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:85
 msgid "You have shared {project} with {who}"
-msgstr ""
+msgstr "Vous avez partagé {project} avec {who}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:85
 msgid "{user} has shared {project} with {who}"
-msgstr ""
+msgstr "{user} a partagé {project} avec {who}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:88
 msgid "You stopped sharing {project} with {who}"
-msgstr ""
+msgstr "Vous avez cessé de partager {project} avec {who}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:88
 msgid "{user} stopped sharing {project} with {who}"
-msgstr ""
+msgstr "{user} a cessé de partager {project} avec {who}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:91
 msgid "You have updated {bill} in {project}"
-msgstr ""
+msgstr "Vous avez modifié {bill} dans {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:91
 msgid "{user} has updated {bill} in {project}"
-msgstr ""
+msgstr "{user} a modifié {bill} dans {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/BillSetting.php:42
 msgid "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted"
@@ -64,24 +64,24 @@ msgstr "Une <strong>facture</strong> a été mise à jour/créée/supprimée dan
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:76
 #, php-format
 msgid "Deleted user (%s)"
-msgstr ""
+msgstr "Utilisateur supprimé (%s)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:99
 msgid "Unknown author"
-msgstr ""
+msgstr "Auteur inconnu"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:108
 #, php-format
 msgid "Shared access (%s)"
-msgstr ""
+msgstr "Accès partagé (%s)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:109
 msgid "Shared access"
-msgstr ""
+msgstr "Accès partagé"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:116
 msgid "No author"
-msgstr ""
+msgstr "Aucun auteur"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:305
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:313
@@ -1798,12 +1798,12 @@ msgstr "Projet {projectName} ({projectId}) partagé par {displayName} ({cloudId}
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:305
 msgid "Bill moved to \"{projectName}\" successfully"
-msgstr ""
+msgstr "Facture déplacée vers \"{projectName}\" avec succès"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:306
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:400
 msgid "Failed to move bill from {name1} to {name2}"
-msgstr ""
+msgstr "Impossible de déplacer la facture de {name1} vers {name2}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:311
 msgid "Everyone"
@@ -1950,7 +1950,7 @@ msgstr "Emplacement d'exportation"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:364
 msgid "Export directory"
-msgstr ""
+msgstr "Répertoire d'exportation"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:365
 msgid "Select export directory"

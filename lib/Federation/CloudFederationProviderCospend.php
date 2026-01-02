@@ -27,6 +27,7 @@ use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
 use OCP\HintException;
+use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -47,6 +48,7 @@ class CloudFederationProviderCospend implements ICloudFederationProvider {
 		private FederationManager $federationManager,
 		private ShareMapper $shareMapper,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 		private INotificationManager $notificationManager,
 		private InvitationMapper $invitationMapper,
 		private LoggerInterface $logger,
@@ -67,7 +69,7 @@ class CloudFederationProviderCospend implements ICloudFederationProvider {
 	 * @throws DBException
 	 */
 	public function shareReceived(ICloudFederationShare $share): string {
-		$federationEnabled = $this->config->getAppValue('cospend', 'federation_enabled', '0') === '1';
+		$federationEnabled = $this->appConfig->getValueString(Application::APP_ID, 'federation_enabled', '0') === '1';
 		if (!$federationEnabled) {
 			$this->logger->debug('Received a federation invite but federation is disabled');
 			throw new ProviderCouldNotAddShareException('Server does not support Cospend federation', '', Http::STATUS_SERVICE_UNAVAILABLE);
@@ -217,7 +219,7 @@ class CloudFederationProviderCospend implements ICloudFederationProvider {
 		string $projectId,
 		string $userCloudId,
 	): Share {
-		$federationEnabled = $this->config->getAppValue('cospend', 'federation_enabled', '0') === '1';
+		$federationEnabled = $this->appConfig->getValueString(Application::APP_ID, 'federation_enabled', '0') === '1';
 		if (!$federationEnabled) {
 			throw new ActionNotSupportedException('Server does not support Cospend federation');
 		}
@@ -246,7 +248,7 @@ class CloudFederationProviderCospend implements ICloudFederationProvider {
 		#[SensitiveParameter]
 		string $sharedSecret,
 	): Invitation {
-		$federationEnabled = $this->config->getAppValue('cospend', 'federation_enabled', '0') === '1';
+		$federationEnabled = $this->appConfig->getValueString(Application::APP_ID, 'federation_enabled', '0') === '1';
 		if (!$federationEnabled) {
 			throw new ActionNotSupportedException('Server does not support Cospend federation');
 		}

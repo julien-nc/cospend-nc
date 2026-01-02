@@ -24,6 +24,7 @@
 
 namespace OCA\Cospend\Activity;
 
+use OCA\Cospend\AppInfo\Application;
 use OCP\Activity\IFilter;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -31,7 +32,7 @@ use OCP\IURLGenerator;
 class Filter implements IFilter {
 
 	public function __construct(
-		private IL10N $l10n,
+		private IL10N $l,
 		private IURLGenerator $urlGenerator,
 	) {
 	}
@@ -41,7 +42,7 @@ class Filter implements IFilter {
 	 * @since 11.0.0
 	 */
 	public function getIdentifier(): string {
-		return 'cospend';
+		return Application::APP_ID;
 	}
 
 	/**
@@ -49,7 +50,7 @@ class Filter implements IFilter {
 	 * @since 11.0.0
 	 */
 	public function getName(): string {
-		return $this->l10n->t('Cospend');
+		return $this->l->t('Cospend');
 	}
 
 	/**
@@ -67,7 +68,7 @@ class Filter implements IFilter {
 	 * @since 11.0.0
 	 */
 	public function getIcon(): string {
-		return $this->urlGenerator->imagePath('cospend', 'app_black.svg');
+		return $this->urlGenerator->imagePath(Application::APP_ID, 'app_black.svg');
 	}
 
 	/**
@@ -84,6 +85,6 @@ class Filter implements IFilter {
 	 * @since 11.0.0
 	 */
 	public function allowedApps(): array {
-		return ['cospend'];
+		return [Application::APP_ID];
 	}
 }

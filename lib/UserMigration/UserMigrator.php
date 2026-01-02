@@ -153,7 +153,7 @@ class UserMigrator implements IMigrator, ISizeEstimationMigrator {
 	 * @since 24.0.0
 	 */
 	public function getId(): string {
-		return 'cospend';
+		return Application::APP_ID;
 	}
 
 	/**

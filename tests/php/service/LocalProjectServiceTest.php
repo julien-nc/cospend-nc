@@ -75,7 +75,7 @@ class LocalProjectServiceTest extends TestCase {
 	}
 
 	protected function setUp(): void {
-		$appName = 'cospend';
+		$appName = Application::APP_ID;
 		$request = $this->getMockBuilder('\OCP\IRequest')
 			->disableOriginalConstructor()
 			->getMock();

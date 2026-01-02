@@ -347,7 +347,7 @@ class LocalProjectService implements IProjectService {
 			}
 		}
 		// compute balances for past bills only
-		$balancePastBillsOnly = $this->appConfig->getValueString('cospend', 'balance_past_bills_only', '0') === '1';
+		$balancePastBillsOnly = $this->appConfig->getValueString(Application::APP_ID, 'balance_past_bills_only', '0') === '1';
 		$balance = $this->getBalance($dbProjectId, $balancePastBillsOnly ? time() : null);
 		$currencies = $this->getCurrencies($dbProjectId);
 		$categories = $this->getCategoriesOrPaymentModes($dbProjectId);
@@ -3147,7 +3147,7 @@ class LocalProjectService implements IProjectService {
 			->setLink($this->urlGenerator->linkToRouteAbsolute('cospend.page.index'), 'GET');
 		*/
 
-		$notification->setApp('cospend')
+		$notification->setApp(Application::APP_ID)
 			->setUser($userId)
 			->setDateTime(new DateTime())
 			->setObject('addusershare', $projectId)
@@ -3326,7 +3326,7 @@ class LocalProjectService implements IProjectService {
 				->setLink($this->urlGenerator->linkToRouteAbsolute('cospend.page.index'), 'GET');
 			*/
 
-			$notification->setApp('cospend')
+			$notification->setApp(Application::APP_ID)
 				->setUser($dbUserId)
 				->setDateTime(new DateTime())
 				->setObject('deleteusershare', $projectId)

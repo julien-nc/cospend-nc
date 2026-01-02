@@ -45,7 +45,7 @@ class Notifier implements INotifier {
 			throw new UnknownNotificationException();
 		}
 
-		$l = $this->factory->get('cospend', $languageCode);
+		$l = $this->factory->get(Application::APP_ID, $languageCode);
 
 		switch ($notification->getSubject()) {
 			case 'add_user_share':

@@ -26,6 +26,7 @@ namespace OCA\Cospend\Activity;
 
 use Exception;
 use InvalidArgumentException;
+use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\Bill;
 use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Db\Project;
@@ -166,7 +167,7 @@ class ActivityManager {
 		}
 
 		$event = $this->manager->generateEvent();
-		$event->setApp('cospend')
+		$event->setApp(Application::APP_ID)
 			->setType($eventType)
 			->setAuthor($author ?? $this->userId ?? '')
 			->setObject($objectType, (int)$object->getId(), (string)$objectName)

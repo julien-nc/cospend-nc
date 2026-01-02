@@ -24,6 +24,7 @@
 
 namespace OCA\Cospend\Activity;
 
+use OCA\Cospend\AppInfo\Application;
 use OCP\Activity\ISetting;
 use OCP\IL10N;
 
@@ -39,7 +40,7 @@ class Setting implements ISetting {
 	 * @since 11.0.0
 	 */
 	public function getIdentifier(): string {
-		return 'cospend';
+		return Application::APP_ID;
 	}
 
 	/**

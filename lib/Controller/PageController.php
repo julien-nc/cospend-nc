@@ -90,7 +90,7 @@ class PageController extends Controller {
 
 		$this->initialStateService->provideInitialState('cospend-state', $state);
 		$this->eventDispatcher->dispatchTyped(new RenderReferenceEvent());
-		return new TemplateResponse('cospend', 'main');
+		return new TemplateResponse(Application::APP_ID, 'main');
 	}
 
 	/**
@@ -200,14 +200,14 @@ class PageController extends Controller {
 					'token' => $token,
 					'wrong' => false,
 				];
-				$response = new PublicTemplateResponse('cospend', 'sharepassword', $params);
+				$response = new PublicTemplateResponse(Application::APP_ID, 'sharepassword', $params);
 				$response->setHeaderDetails($this->trans->t('Enter link password of project %s', [$publicShareInfo['projectid']]));
 				$response->setFooterVisible(false);
 			} else {
 				$this->initialStateService->provideInitialState('projectid', $token);
 				$this->initialStateService->provideInitialState('password', 'nopass');
 
-				$response = new PublicTemplateResponse('cospend', 'main', []);
+				$response = new PublicTemplateResponse(Application::APP_ID, 'main', []);
 				$csp = new ContentSecurityPolicy();
 				$csp->allowEvalScript();
 				$response->setContentSecurityPolicy($csp);
@@ -247,7 +247,7 @@ class PageController extends Controller {
 				$this->initialStateService->provideInitialState('projectid', $token);
 				$this->initialStateService->provideInitialState('password', $password);
 
-				$response = new PublicTemplateResponse('cospend', 'main', []);
+				$response = new PublicTemplateResponse(Application::APP_ID, 'main', []);
 				$response->setHeaderTitle($this->trans->t('Cospend shared link access'));
 				$response->setHeaderDetails($this->trans->t('Project %s', [$info['projectid']]));
 				$response->setFooterVisible(false);
@@ -261,7 +261,7 @@ class PageController extends Controller {
 					'token' => $token,
 					'wrong' => true,
 				];
-				$response = new PublicTemplateResponse('cospend', 'sharepassword', $params);
+				$response = new PublicTemplateResponse(Application::APP_ID, 'sharepassword', $params);
 				$response->setHeaderTitle($this->trans->t('Cospend shared link access'));
 				$response->setHeaderDetails($this->trans->t('Enter link password of project %s', [$info['projectid']]));
 				$response->setFooterVisible(false);

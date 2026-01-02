@@ -87,7 +87,7 @@ class MiddlewaresTest extends TestCase {
 	}
 
 	protected function setUp(): void {
-		$appName = 'cospend';
+		$appName = Application::APP_ID;
 		$this->request = $this->createMock(IRequest::class);
 
 		$app = new Application();

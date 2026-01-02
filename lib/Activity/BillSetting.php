@@ -41,5 +41,4 @@ class BillSetting extends Setting {
 	public function getName(): string {
 		return $this->l->t('A <strong>bill</strong> inside the Cospend app has been updated/created/deleted');
 	}
-
 }

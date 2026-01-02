@@ -34,6 +34,7 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationProviderManager;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\Security\CSP\AddContentSecurityPolicyEvent;
 use OCP\Server;
@@ -136,10 +137,10 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function registerCloudFederationProviderManager(
-		IConfig $config,
+		IAppConfig $appConfig,
 		ICloudFederationProviderManager $manager,
 	): void {
-		$federationEnabled = $config->getAppValue('cospend', 'federation_enabled', '0') === '1';
+		$federationEnabled = $appConfig->getValueString(self::APP_ID, 'federation_enabled', '0') === '1';
 		if (!$federationEnabled) {
 			return;
 		}

@@ -120,7 +120,7 @@ class CospendProvider implements IProvider {
 	}
 
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null): IEvent {
-		if ($event->getApp() !== 'cospend') {
+		if ($event->getApp() !== Application::APP_ID) {
 			throw new UnknownActivityException();
 		}
 
@@ -212,7 +212,7 @@ class CospendProvider implements IProvider {
 	private function getIcon(IEvent $event): IEvent {
 		$event->setIcon(
 			$this->urlGenerator->getAbsoluteURL(
-				$this->urlGenerator->imagePath('cospend', 'app_black.svg')
+				$this->urlGenerator->imagePath(Application::APP_ID, 'app_black.svg')
 			)
 		);
 		if (strpos($event->getSubject(), '_update') !== false) {

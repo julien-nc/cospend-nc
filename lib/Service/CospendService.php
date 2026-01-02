@@ -726,7 +726,7 @@ class CospendService {
 
 		foreach ($this->userManager->search('') as $u) {
 			$uid = $u->getUID();
-			$outPath = $this->config->getUserValue($uid, 'cospend', 'outputDirectory', '/Cospend');
+			$outPath = $this->config->getUserValue($uid, Application::APP_ID, 'outputDirectory', '/Cospend');
 
 			$qb->select('id', 'name', 'auto_export')
 				->from('cospend_projects')
@@ -810,7 +810,7 @@ class CospendService {
 	 */
 	public function exportCsvSettlement(string $projectId, string $userId, array $settlement, array $members): array {
 		// create export directory if needed
-		$outPath = $this->config->getUserValue($userId, 'cospend', 'outputDirectory', '/Cospend');
+		$outPath = $this->config->getUserValue($userId, Application::APP_ID, 'outputDirectory', '/Cospend');
 		$userFolder = $this->root->getUserFolder($userId);
 		$msg = $this->createAndCheckExportDirectory($userFolder, $outPath);
 		if ($msg !== '') {
@@ -874,7 +874,7 @@ class CospendService {
 		string $projectId, string $userId, array $statistics,
 	): array {
 		// create export directory if needed
-		$outPath = $this->config->getUserValue($userId, 'cospend', 'outputDirectory', '/Cospend');
+		$outPath = $this->config->getUserValue($userId, Application::APP_ID, 'outputDirectory', '/Cospend');
 		$userFolder = $this->root->getUserFolder($userId);
 		$msg = $this->createAndCheckExportDirectory($userFolder, $outPath);
 		if ($msg !== '') {
@@ -934,7 +934,7 @@ class CospendService {
 	 */
 	public function exportCsvProject(string $projectId, string $userId, array $projectInfo, array $bills, ?string $name = null): array {
 		// create export directory if needed
-		$outPath = $this->config->getUserValue($userId, 'cospend', 'outputDirectory', '/Cospend');
+		$outPath = $this->config->getUserValue($userId, Application::APP_ID, 'outputDirectory', '/Cospend');
 		$userFolder = $this->root->getUserFolder($userId);
 		$msg = $this->createAndCheckExportDirectory($userFolder, $outPath);
 		if ($msg !== '') {

@@ -4,6 +4,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.2.0 – 2026-01-02
+
+### Added
+
+- Ability to move a bill to another project with drag'n'drop
+
+### Changed
+
+- Clarify activity author
+- Use project owner as activity owner when a bill is automatically repeated
+- Improve activity subject params for shared access
+- Improve trashbin navigation design
+- Improve settings dialog style and design, change components
+- Improve performance of cronAutoExport, do not iterate over all users
+- Improve activity settings, split into more settings, group them
+
+### Fixed
+
+- Fix toogle federation admin setting
+- Fix activity generation, remove the hack (using the link to get the activity type in the frontend): not needed as we now properly render the activity in the frontend
+- Throw the proper exception when an activity or a notification is not known by our provider (removes some warning logs)
+- Fix missing author in activity emails: weird logic in the activity_mq processing (no author in the entry) so we duplicate the author in the entry params
+- Do not push history state in public pages (prevents the URL to change)
+- Make activity subject strings shorter to reduce the chances the activity notifications are rejected (max 64 chars subject...)
+- Produce 'unshare' activities before deleting the share to make sure the users who lose access are 'affected' by the activity
+
 ## 3.1.6 – 2025-10-13
 
 ### Fixed

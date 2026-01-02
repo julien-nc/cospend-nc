@@ -25,41 +25,14 @@
 namespace OCA\Cospend\Activity;
 
 use OCA\Cospend\AppInfo\Application;
-use OCP\Activity\ISetting;
-use OCP\IL10N;
 
-class Setting implements ISetting {
-
-	public function __construct(
-		protected IL10N $l,
-	) {
-	}
+class BillCreatedSetting extends Setting {
 
 	public function getIdentifier(): string {
-		return Application::APP_ID;
+		return Application::ACTIVITY_BILL_CREATED_EVENT;
 	}
 
 	public function getName(): string {
-		return $this->l->t('A Cospend <strong>project</strong> has been shared or unshared');
-	}
-
-	public function getPriority(): int {
-		return 99;
-	}
-
-	public function canChangeStream(): bool {
-		return true;
-	}
-
-	public function isDefaultEnabledStream(): bool {
-		return true;
-	}
-
-	public function canChangeMail(): bool {
-		return true;
-	}
-
-	public function isDefaultEnabledMail(): bool {
-		return false;
+		return $this->l->t('A Cospend <strong>bill</strong> has been created');
 	}
 }

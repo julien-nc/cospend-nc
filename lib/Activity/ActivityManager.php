@@ -143,7 +143,6 @@ class ActivityManager {
 		 * Automatically fetch related details for subject parameters
 		 * depending on the subject
 		 */
-		$eventType = 'cospend';
 		$subjectParams = [];
 		$message = null;
 		$objectName = null;
@@ -155,12 +154,29 @@ class ActivityManager {
 				$subjectParams = $this->findDetailsForBill($object);
 				/** @var Bill $object */
 				$objectName = $object->getWhat();
-				$eventType = 'cospend_bill_event';
 				break;
 			case self::SUBJECT_PROJECT_SHARE:
 			case self::SUBJECT_PROJECT_UNSHARE:
 				$subjectParams = $this->findDetailsForProject((string)$entity->getId());
 				$objectName = $object->getId();
+				break;
+			default:
+				throw new Exception('Unknown subject for activity.');
+		}
+
+		$eventType = 'cospend';
+		switch ($subject) {
+			case self::SUBJECT_BILL_CREATE:
+				$eventType = Application::ACTIVITY_BILL_CREATED_EVENT;
+				break;
+			case self::SUBJECT_BILL_UPDATE:
+				$eventType = Application::ACTIVITY_BILL_UPDATED_EVENT;
+				break;
+			case self::SUBJECT_BILL_DELETE:
+				$eventType = Application::ACTIVITY_BILL_DELETED_EVENT;
+				break;
+			case self::SUBJECT_PROJECT_SHARE:
+			case self::SUBJECT_PROJECT_UNSHARE:
 				break;
 			default:
 				throw new Exception('Unknown subject for activity.');

@@ -43,7 +43,9 @@
 	<activity>
 		<settings>
 			<setting>OCA\Cospend\Activity\Setting</setting>
-			<setting>OCA\Cospend\Activity\BillSetting</setting>
+			<setting>OCA\Cospend\Activity\BillCreatedSetting</setting>
+			<setting>OCA\Cospend\Activity\BillUpdatedSetting</setting>
+			<setting>OCA\Cospend\Activity\BillDeletedSetting</setting>
 		</settings>
 		<filters>
 			<filter>OCA\Cospend\Activity\Filter</filter>

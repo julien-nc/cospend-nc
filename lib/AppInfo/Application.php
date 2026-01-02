@@ -44,6 +44,10 @@ class Application extends App implements IBootstrap {
 
 	public const APP_ID = 'cospend';
 
+	public const ACTIVITY_BILL_CREATED_EVENT = 'cospend_bill_event';
+	public const ACTIVITY_BILL_UPDATED_EVENT = 'cospend_bill_updated_event';
+	public const ACTIVITY_BILL_DELETED_EVENT = 'cospend_bill_deleted_event';
+
 	public const CATEGORY_REIMBURSEMENT = -11;
 
 	public const SORT_ORDER_ALPHA = 'a';

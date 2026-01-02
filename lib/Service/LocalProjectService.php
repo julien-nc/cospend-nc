@@ -3294,9 +3294,8 @@ class LocalProjectService implements IProjectService {
 			return ['message' => $this->l10n->t('No such share')];
 		}
 		$dbUserId = $share->getUserId();
-		$this->shareMapper->delete($share);
 
-		// activity
+		// produce the activity before deleting the share to make sure the user who loses access is affected
 		$projectObj = $this->projectMapper->find($projectId);
 		$this->activityManager->triggerEvent(
 			ActivityManager::COSPEND_OBJECT_PROJECT,
@@ -3308,6 +3307,8 @@ class LocalProjectService implements IProjectService {
 				'type' => Application::SHARE_TYPE_USER,
 			],
 		);
+
+		$this->shareMapper->delete($share);
 
 		// SEND NOTIFICATION
 		if (!is_null($fromUserId)) {
@@ -3458,7 +3459,7 @@ class LocalProjectService implements IProjectService {
 			return ['message' => $this->l10n->t('No such share')];
 		}
 		$dbGroupId = $share->getUserId();
-		$this->shareMapper->delete($share);
+
 		// activity
 		$projectObj = $this->projectMapper->find($projectId);
 		$this->activityManager->triggerEvent(
@@ -3471,6 +3472,8 @@ class LocalProjectService implements IProjectService {
 				'type' => Application::SHARE_TYPE_GROUP,
 			],
 		);
+
+		$this->shareMapper->delete($share);
 
 		return ['success' => true];
 	}
@@ -3557,7 +3560,6 @@ class LocalProjectService implements IProjectService {
 		try {
 			$share = $this->shareMapper->getProjectShareById($projectId, $shId, Share::TYPE_CIRCLE);
 			$dbCircleId = $share->getUserId();
-			$this->shareMapper->delete($share);
 
 			// activity
 			$projectObj = $this->projectMapper->find($projectId);
@@ -3571,6 +3573,8 @@ class LocalProjectService implements IProjectService {
 					'type' => Application::SHARE_TYPE_CIRCLE,
 				],
 			);
+
+			$this->shareMapper->delete($share);
 
 			return ['success' => true];
 		} catch (DoesNotExistException $e) {

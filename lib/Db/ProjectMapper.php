@@ -13,6 +13,7 @@
 namespace OCA\Cospend\Db;
 
 use DateTime;
+use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Exception\CospendBasicException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
@@ -73,6 +74,22 @@ class ProjectMapper extends QBMapper {
 		} catch (DoesNotExistException|MultipleObjectsReturnedException|Exception $e) {
 			return null;
 		}
+	}
+
+	public function getUserIdsWithAutoExportProjects(): array {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('user_id')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->neq('auto_export', $qb->createNamedParameter(Application::FREQUENCY_NO, IQueryBuilder::PARAM_STR))
+			)
+			->groupBy('user_id');
+
+
+		$res = $qb->executeQuery();
+		$all = $res->fetchAll();
+		return array_column($all, 'user_id');
 	}
 
 	/**
@@ -144,6 +161,26 @@ class ProjectMapper extends QBMapper {
 			->from($this->getTableName())
 			->where(
 				$qb->expr()->eq('user_id', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
+			);
+
+		return $this->findEntities($qb);
+	}
+
+	/**
+	 * @param string $userId
+	 * @return Project[]
+	 * @throws Exception
+	 */
+	public function getUserProjectsWithAutoExport(string $userId): array {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('user_id', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
+			)
+			->andWhere(
+				$qb->expr()->neq('auto_export', $qb->createNamedParameter(Application::FREQUENCY_NO, IQueryBuilder::PARAM_STR))
 			);
 
 		return $this->findEntities($qb);

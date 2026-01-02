@@ -35,7 +35,6 @@ use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\IAppConfig;
-use OCP\IConfig;
 use OCP\Security\CSP\AddContentSecurityPolicyEvent;
 use OCP\Server;
 use OCP\User\Events\UserChangedEvent;

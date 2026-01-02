@@ -18,10 +18,10 @@ use OC\User\NoUserException;
 use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\Invitation;
 use OCA\Cospend\Db\InvitationMapper;
+use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Utils;
 
 use OCP\DB\Exception;
-use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\InvalidPathException;
@@ -40,6 +40,7 @@ class CospendService {
 	public function __construct(
 		private LocalProjectService $localProjectService,
 		private InvitationMapper $invitationMapper,
+		private ProjectMapper $projectMapper,
 		private IRootFolder $root,
 		private IL10N $l10n,
 		private IUserManager $userManager,
@@ -722,26 +723,21 @@ class CospendService {
 		// $monthFilterArray['tsmin'] = $minMonthTimestamp;
 		// $monthFilterArray['tsmax'] = $maxMonthTimestamp;
 
-		$qb = $this->db->getQueryBuilder();
+		$userIds = $this->projectMapper->getUserIdsWithAutoExportProjects();
 
-		foreach ($this->userManager->search('') as $u) {
-			$uid = $u->getUID();
+		foreach ($userIds as $uid) {
 			$outPath = $this->config->getUserValue($uid, Application::APP_ID, 'outputDirectory', '/Cospend');
 
-			$qb->select('id', 'name', 'auto_export')
-				->from('cospend_projects')
-				->where(
-					$qb->expr()->eq('user_id', $qb->createNamedParameter($uid, IQueryBuilder::PARAM_STR))
-				)
-				->andWhere(
-					$qb->expr()->neq('auto_export', $qb->createNamedParameter(Application::FREQUENCY_NO, IQueryBuilder::PARAM_STR))
-				);
-			$req = $qb->executeQuery();
+			$projects = $this->projectMapper->getUserProjectsWithAutoExport($uid);
+			if (empty($projects)) {
+				continue;
+			}
 
-			$dbProjectId = null;
-			while ($row = $req->fetch()) {
-				$dbProjectId = $row['id'];
-				$autoExport = $row['auto_export'];
+			$userFolder = $this->root->getUserFolder($uid);
+			foreach ($projects as $project) {
+				/** @var string $dbProjectId */
+				$dbProjectId = $project->getId();
+				$autoExport = $project->getAutoExport();
 
 				$suffix = $dailySuffix;
 				// TODO add suffix for all frequencies
@@ -753,15 +749,12 @@ class CospendService {
 				// check if file already exists
 				$exportName = $dbProjectId . $suffix . '.csv';
 
-				$userFolder = $this->root->getUserFolder($uid);
 				if (!$userFolder->nodeExists($outPath . '/' . $exportName)) {
 					$projectInfo = $this->localProjectService->getProjectInfoWithAccessLevel($dbProjectId, $uid);
 					$bills = $this->localProjectService->getBills($dbProjectId);
 					$this->exportCsvProject($dbProjectId, $uid, $projectInfo, $bills['bills'] ?? [], $exportName);
 				}
 			}
-			$req->closeCursor();
-			$qb = $this->db->getQueryBuilder();
 		}
 	}
 

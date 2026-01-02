@@ -59,7 +59,7 @@ class ActivityManager {
 		private UserService $userService,
 		private ProjectMapper $projectMapper,
 		private BillMapper $billMapper,
-		private IL10N $l10n,
+		private IL10N $l,
 		private LoggerInterface $logger,
 		private IURLGenerator $url,
 		private ?string $userId,
@@ -76,19 +76,19 @@ class ActivityManager {
 		$subject = '';
 		switch ($subjectIdentifier) {
 			case self::SUBJECT_BILL_CREATE:
-				$subject = $ownActivity ? $this->l10n->t('You have created a new bill {bill} in project {project}'): $this->l10n->t('{user} has created a new bill {bill} in project {project}');
+				$subject = $ownActivity ? $this->l->t('You have created {bill} in {project}'): $this->l->t('{user} has created {bill} in {project}');
 				break;
 			case self::SUBJECT_BILL_DELETE:
-				$subject = $ownActivity ? $this->l10n->t('You have deleted the bill {bill} of project {project}') : $this->l10n->t('{user} has deleted the bill {bill} of project {project}');
+				$subject = $ownActivity ? $this->l->t('You have deleted {bill} in {project}') : $this->l->t('{user} has deleted {bill} in {project}');
 				break;
 			case self::SUBJECT_PROJECT_SHARE:
-				$subject = $ownActivity ? $this->l10n->t('You have shared the project {project} with {who}') : $this->l10n->t('{user} has shared the project {project} with {who}');
+				$subject = $ownActivity ? $this->l->t('You have shared {project} with {who}') : $this->l->t('{user} has shared {project} with {who}');
 				break;
 			case self::SUBJECT_PROJECT_UNSHARE:
-				$subject = $ownActivity ? $this->l10n->t('You have removed {who} from the project {project}') : $this->l10n->t('{user} has removed {who} from the project {project}');
+				$subject = $ownActivity ? $this->l->t('You stopped sharing {project} with {who}') : $this->l->t('{user} stopped sharing {project} with {who}');
 				break;
 			case self::SUBJECT_BILL_UPDATE:
-				$subject = $ownActivity ? $this->l10n->t('You have updated the bill {bill} of project {project}') : $this->l10n->t('{user} has updated the bill {bill} of project {project}');
+				$subject = $ownActivity ? $this->l->t('You have updated {bill} in {project}') : $this->l->t('{user} has updated {bill} in {project}');
 				break;
 			default:
 				break;

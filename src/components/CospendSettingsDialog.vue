@@ -33,95 +33,101 @@
 				:name="t('cospend', 'About Cospend')"
 				:title="t('cospend', 'About Cospend')"
 				class="app-settings-section">
-				<h3 class="app-settings-section__hint">
-					{{ t('cospend', 'Thanks for using Cospend') + ' ♥' }}
-				</h3>
-				<h3 class="app-settings-section__hint">
-					{{ t('cospend', 'App version: {version}', { version: cospendVersion }) }}
-				</h3>
-				<h3 class="app-settings-section__hint">
-					{{ t('cospend', 'Bug/issue tracker') + ': ' }}
-				</h3>
-				<a href="https://github.com/julien-nc/cospend-nc/issues"
-					target="_blank"
-					class="external">
-					https://github.com/julien-nc/cospend-nc/issues
-					<OpenInNewIcon :size="16" />
-				</a>
-				<h3 class="app-settings-section__hint">
-					{{ t('cospend', 'Translation') + ': ' }}
-				</h3>
-				<a href="https://crowdin.com/project/moneybuster"
-					target="_blank"
-					class="external">
-					https://crowdin.com/project/moneybuster
-					<OpenInNewIcon :size="16" />
-				</a>
-				<h3 class="app-settings-section__hint">
-					{{ t('cospend', 'User documentation') + ': ' }}
-				</h3>
-				<a href="https://github.com/julien-nc/cospend-nc/blob/master/docs/user.md"
-					target="_blank"
-					class="external">
-					https://github.com/julien-nc/cospend-nc/blob/master/docs/user.md
-					<OpenInNewIcon :size="16" />
-				</a>
-				<h3 class="app-settings-section__hint">
-					{{ t('cospend', 'Admin documentation') + ': ' }}
-				</h3>
-				<a href="https://github.com/julien-nc/cospend-nc/blob/master/docs/admin.md"
-					target="_blank"
-					class="external">
-					https://github.com/julien-nc/cospend-nc/blob/master/docs/admin.md
-					<OpenInNewIcon :size="16" />
-				</a>
-				<h3 class="app-settings-section__hint">
-					{{ t('cospend', 'Developer documentation') + ': ' }}
-				</h3>
-				<a href="https://github.com/julien-nc/cospend-nc/blob/master/docs/dev.md"
-					target="_blank"
-					class="external">
-					https://github.com/julien-nc/cospend-nc/blob/master/docs/dev.md
-					<OpenInNewIcon :size="16" />
-				</a>
+				<div class="infos">
+					<h5 class="app-settings-section__hint">
+						{{ t('cospend', 'Thanks for using Cospend') + ' ♥' }}
+					</h5>
+					<label class="app-settings-section__hint">
+						{{ t('cospend', 'App version: {version}', { version: cospendVersion }) }}
+					</label>
+					<label class="app-settings-section__hint">
+						{{ t('cospend', 'Bug/issue tracker') + ': ' }}
+					</label>
+					<a href="https://github.com/julien-nc/cospend-nc/issues"
+						target="_blank"
+						class="external">
+						https://github.com/julien-nc/cospend-nc/issues
+						<OpenInNewIcon :size="16" />
+					</a>
+					<label class="app-settings-section__hint">
+						{{ t('cospend', 'Translation') + ': ' }}
+					</label>
+					<a href="https://crowdin.com/project/moneybuster"
+						target="_blank"
+						class="external">
+						https://crowdin.com/project/moneybuster
+						<OpenInNewIcon :size="16" />
+					</a>
+					<label class="app-settings-section__hint">
+						{{ t('cospend', 'User documentation') + ': ' }}
+					</label>
+					<a href="https://github.com/julien-nc/cospend-nc/blob/master/docs/user.md"
+						target="_blank"
+						class="external">
+						https://github.com/julien-nc/cospend-nc/blob/master/docs/user.md
+						<OpenInNewIcon :size="16" />
+					</a>
+					<label class="app-settings-section__hint">
+						{{ t('cospend', 'Admin documentation') + ': ' }}
+					</label>
+					<a href="https://github.com/julien-nc/cospend-nc/blob/master/docs/admin.md"
+						target="_blank"
+						class="external">
+						https://github.com/julien-nc/cospend-nc/blob/master/docs/admin.md
+						<OpenInNewIcon :size="16" />
+					</a>
+					<label class="app-settings-section__hint">
+						{{ t('cospend', 'Developer documentation') + ': ' }}
+					</label>
+					<a href="https://github.com/julien-nc/cospend-nc/blob/master/docs/dev.md"
+						target="_blank"
+						class="external">
+						https://github.com/julien-nc/cospend-nc/blob/master/docs/dev.md
+						<OpenInNewIcon :size="16" />
+					</a>
+				</div>
 			</NcAppSettingsSection>
 			<NcAppSettingsSection v-if="!pageIsPublic"
 				id="import"
 				:name="t('cospend', 'Import projects')"
 				:title="t('cospend', 'Import projects')"
 				class="app-settings-section">
-				<div class="oneLine">
-					<NcButton @click="onImportClick">
-						<template #icon>
-							<NcLoadingIcon v-if="importingProject" />
-							<FileImportIcon v-else :size="20" />
-						</template>
-						{{ t('cospend', 'Import csv project') }}
-					</NcButton>
-					<NcButton @click="onImportSWClick">
-						<template #icon>
-							<NcLoadingIcon v-if="importingSWProject" />
-							<FileImportIcon v-else :size="20" />
-						</template>
-						{{ t('cospend', 'Import SplitWise project') }}
-					</NcButton>
-				</div>
+				<NcButton @click="onImportClick">
+					<template #icon>
+						<NcLoadingIcon v-if="importingProject" />
+						<FileImportIcon v-else :size="20" />
+					</template>
+					{{ t('cospend', 'Import csv project') }}
+				</NcButton>
+				<NcButton @click="onImportSWClick">
+					<template #icon>
+						<NcLoadingIcon v-if="importingSWProject" />
+						<FileImportIcon v-else :size="20" />
+					</template>
+					{{ t('cospend', 'Import SplitWise project') }}
+				</NcButton>
 			</NcAppSettingsSection>
 			<NcAppSettingsSection v-if="!pageIsPublic"
 				id="export"
 				:name="t('cospend', 'Export location')"
 				:title="t('cospend', 'Export location')"
 				class="app-settings-section">
-				<h3 class="app-settings-section__hint">
-					{{ t('cospend', 'Select export directory') }}
-				</h3>
-				<input
-					type="text"
-					class="app-settings-section__input"
-					:value="outputDir"
-					:disabled="false"
-					:readonly="true"
+				<NcTextField
+					:model-value="outputDir"
+					:label="t('cospend', 'Export directory')"
+					:show-trailing-button="!!outputDir"
+					@trailing-button-click="resetOutputDir"
 					@click="onOutputDirClick">
+					<template #icon>
+						<FolderOutlineIcon :size="20" />
+					</template>
+				</NcTextField>
+				<NcButton @click="onOutputDirClick">
+					<template #icon>
+						<FileImportIcon :size="20" />
+					</template>
+					{{ t('cospend', 'Select export directory') }}
+				</NcButton>
 			</NcAppSettingsSection>
 			<NcAppSettingsSection
 				id="sort"
@@ -129,67 +135,47 @@
 				:title="t('cospend', 'Sort criterias')"
 				class="app-settings-section">
 				<div v-if="!pageIsPublic">
-					<h3 class="app-settings-section__hint">
-						{{ t('cospend', 'How projects are sorted in navigation sidebar') }}
-					</h3>
-					<label for="sort-select">
-						{{ t('cospend', 'Projects order') }}
-					</label>
-					<select id="sort-select" v-model="sortOrder" @change="onSortOrderChange">
-						<option value="name">
-							{{ t('cospend', 'Name') }}
-						</option>
-						<option value="change">
-							{{ t('cospend', 'Last activity') }}
-						</option>
-					</select>
+					<NcSelect
+						:model-value="selectedSortOrder"
+						:input-label="t('cospend', 'Projects order')"
+						:options="Object.values(sortOrderOptions)"
+						:no-wrap="true"
+						:clearable="false"
+						@update:model-value="sortOrder = $event.value ?? 'name'; onSortOrderChange()" />
 				</div>
-				<h3 class="app-settings-section__hint">
-					{{ t('cospend', 'How members are sorted') }}
-				</h3>
-				<label for="sort-member-select">
-					{{ t('cospend', 'Members order') }}
-				</label>
-				<select id="sort-member-select" v-model="memberOrder" @change="onMemberOrderChange">
-					<option value="name">
-						{{ t('cospend', 'Name') }}
-					</option>
-					<option value="balance">
-						{{ t('cospend', 'Balance') }}
-					</option>
-				</select>
+				<NcSelect
+					:model-value="selectedMemberOrder"
+					:input-label="t('cospend', 'Members order')"
+					:options="Object.values(memberOrderOptions)"
+					:no-wrap="true"
+					:clearable="false"
+					@update:model-value="memberOrder = $event.value ?? 'name'; onMemberOrderChange()" />
 			</NcAppSettingsSection>
 			<NcAppSettingsSection
 				id="misc"
 				:name="t('cospend', 'Misc')"
 				:title="t('cospend', 'Misc')"
 				class="app-settings-section">
-				<h3 class="app-settings-section__hint">
-					{{ t('cospend', 'Maximum decimal precision to show in balances') }}
-				</h3>
-				<label for="precision">
-					{{ t('cospend', 'Maximum precision') }}
-				</label>
-				<input id="precision"
+				<NcInputField
 					v-model.number="maxPrecision"
 					type="number"
 					min="2"
 					max="10"
 					step="1"
-					@input="onMaxPrecisionChange">
-				<h3 class="app-settings-section__hint">
-					{{ t('cospend', 'Do you want to see and choose time in bill dates?') }}
-				</h3>
-				<NcCheckboxRadioSwitch
-					v-model="useTime"
-					@update:model-value="onCheckboxChange($event, 'useTime')">
-					{{ t('cospend', 'Use time in dates') }}
-				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch
-					v-model="showMyBalance"
-					@update:model-value="onCheckboxChange($event, 'showMyBalance')">
-					{{ t('cospend', 'Show my cumulated balance') }}
-				</NcCheckboxRadioSwitch>
+					:label="t('cospend', 'Maximum decimal precision to show in balances')"
+					@update:model-value="onMaxPrecisionChange" />
+				<NcFormBox>
+					<NcFormBoxSwitch
+						v-model="useTime"
+						@update:model-value="onCheckboxChange($event, 'useTime')">
+						{{ t('cospend', 'Use time in dates') }}
+					</NcFormBoxSwitch>
+					<NcFormBoxSwitch
+						v-model="showMyBalance"
+						@update:model-value="onCheckboxChange($event, 'showMyBalance')">
+						{{ t('cospend', 'Show my cumulated balance') }}
+					</NcFormBoxSwitch>
+				</NcFormBox>
 			</NcAppSettingsSection>
 		</NcAppSettingsDialog>
 	</div>
@@ -198,12 +184,17 @@
 <script>
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 import FileImportIcon from 'vue-material-design-icons/FileImport.vue'
+import FolderOutlineIcon from 'vue-material-design-icons/FolderOutline.vue'
 
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcAppSettingsDialog from '@nextcloud/vue/components/NcAppSettingsDialog'
 import NcAppSettingsSection from '@nextcloud/vue/components/NcAppSettingsSection'
 import NcButton from '@nextcloud/vue/components/NcButton'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcInputField from '@nextcloud/vue/components/NcInputField'
+import NcFormBox from '@nextcloud/vue/components/NcFormBox'
+import NcFormBoxSwitch from '@nextcloud/vue/components/NcFormBoxSwitch'
 
 import { subscribe, unsubscribe, emit } from '@nextcloud/event-bus'
 import { getFilePickerBuilder, FilePickerType, showSuccess } from '@nextcloud/dialogs'
@@ -216,10 +207,15 @@ export default {
 		NcAppSettingsDialog,
 		NcAppSettingsSection,
 		NcButton,
-		NcCheckboxRadioSwitch,
+		NcTextField,
 		NcLoadingIcon,
+		NcSelect,
+		NcInputField,
+		NcFormBox,
+		NcFormBoxSwitch,
 		FileImportIcon,
 		OpenInNewIcon,
+		FolderOutlineIcon,
 	},
 
 	data() {
@@ -236,10 +232,36 @@ export default {
 			importingProject: false,
 			importingSWProject: false,
 			cospendVersion: OC.getCapabilities()?.cospend?.version || '??',
+			sortOrderOptions: {
+				name: {
+					value: 'name',
+					label: t('cospend', 'Name'),
+				},
+				change: {
+					value: 'change',
+					label: t('cospend', 'Last activity'),
+				},
+			},
+			memberOrderOptions: {
+				name: {
+					value: 'name',
+					label: t('cospend', 'Name'),
+				},
+				balance: {
+					value: 'balance',
+					label: t('cospend', 'Balance'),
+				},
+			},
 		}
 	},
 
 	computed: {
+		selectedSortOrder() {
+			return this.sortOrderOptions[this.sortOrder]
+		},
+		selectedMemberOrder() {
+			return this.memberOrderOptions[this.memberOrder]
+		},
 	},
 
 	mounted() {
@@ -289,6 +311,10 @@ export default {
 				emit('save-option', { key: 'outputDirectory', value: path })
 			})
 			*/
+		},
+		resetOutputDir() {
+			this.outputDir = '/'
+			emit('save-option', { key: 'outputDirectory', value: '/' })
 		},
 		onSortOrderChange() {
 			emit('save-option', { key: 'sortOrder', value: this.sortOrder })
@@ -375,12 +401,10 @@ a.external {
 		width: calc(100% - 160px);
 	}
 
-	.oneLine {
+	.infos {
 		display: flex;
-		align-items: center;
-		> * {
-			margin: 0 4px 0 4px;
-		}
+		flex-direction: column;
+		gap: 2px;
 	}
 }
 

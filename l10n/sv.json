@@ -1,15 +1,4 @@
 { "translations": {
-    "You have created a new bill {bill} in project {project}" : "Du har skapat en ny räkning {bill} i projektet {project}",
-    "{user} has created a new bill {bill} in project {project}" : "{user} har skapat en ny räkning {bill} i projektet {project}",
-    "You have deleted the bill {bill} of project {project}" : "Du har kasserat räkningen {bill} från projektet {project}",
-    "{user} has deleted the bill {bill} of project {project}" : "{user} har kasserat räkningen {bill} från projektet {project}",
-    "You have shared the project {project} with {who}" : "Du har delat projektet {project} med {who}",
-    "{user} has shared the project {project} with {who}" : "{user} har delat projektet {project} med {who}",
-    "You have removed {who} from the project {project}" : "Du har avlägsnat {who} från projektet {project}",
-    "{user} has removed {who} from the project {project}" : "{user} har avlägsnat {who} från projektet {project}",
-    "You have updated the bill {bill} of project {project}" : "Du har uppdaterat räkningen {bill} i projektet {project}",
-    "{user} has updated the bill {bill} of project {project}" : "{user} har uppdaterat räkningen {bill} i projektet {project}",
-    "A guest user" : "En gästanvändare",
     "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted" : "En <strong>räkning</strong> i Cospend-appen har uppdaterats/skapats/raderats",
     "circle %1$s" : "cirkel %1$s",
     "Cospend" : "Cospend",
@@ -20,8 +9,6 @@
     "Access denied" : "Åtkomst nekad",
     "Project not found" : "Projektet hittades inte",
     "Guest access" : "Gäståtkomst",
-    "Share link (%s)" : "Dela länk (%s)",
-    "Share link" : "Dela länk",
     "Enter link password of project %s" : "Ange lösenord för länken till projektet %s",
     "Project %s" : "Projekt %s",
     "Cospend shared link access" : "Cospend delningslänk-åtkomst",
@@ -134,6 +121,7 @@
     "Failed to delete bills" : "Det gick inte att ta bort räkningarna",
     "Trashbin has been cleared" : "Papperskorgen har rensats",
     "Member {name} already exists" : "Medlemmen {name} finns redan",
-    "Trash bin" : "Papperskorg"
+    "Trash bin" : "Papperskorg",
+    "Share link" : "Dela länk"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

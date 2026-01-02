@@ -1,17 +1,6 @@
 OC.L10N.register(
     "cospend",
     {
-    "You have created a new bill {bill} in project {project}" : "Ви створили новий рахунок {bill} в проєкті {project}",
-    "{user} has created a new bill {bill} in project {project}" : "{user} створив новий рахунок {bill} в проєкті {project}",
-    "You have deleted the bill {bill} of project {project}" : "Ви видалили рахунок {bill} проєкту {project}",
-    "{user} has deleted the bill {bill} of project {project}" : "{user} видалив рахунок {bill} проєкту {project}",
-    "You have shared the project {project} with {who}" : "Ви поділилися проєктом {project} з {who}",
-    "{user} has shared the project {project} with {who}" : "{user} поділився проєктом {project} з {who}",
-    "You have removed {who} from the project {project}" : "Ви видалили {who} з проєкту {project}",
-    "{user} has removed {who} from the project {project}" : "{user} видалив {who} з проєкту {project}",
-    "You have updated the bill {bill} of project {project}" : "Ви оновили рахунок {bill} проєкту {project}",
-    "{user} has updated the bill {bill} of project {project}" : "{user} оновив рахунок {bill} проєкту {project}",
-    "A guest user" : "Гість",
     "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted" : "<strong>Рахунок</strong> всередині програми Cospend був змінений/створений/видалений",
     "circle %1$s" : "коло %1$s",
     "Cospend" : "Cospend",
@@ -22,13 +11,12 @@ OC.L10N.register(
     "Access denied" : "Доступ заборонено",
     "Project not found" : "Проєкт не знайдено",
     "Guest access" : "Гостьовий доступ",
-    "Share link (%s)" : "Поділитися посиланням (%s)",
-    "Share link" : "Поділитися посиланням",
     "Enter link password of project %s" : "Введіть пароль посилання для проєкта %s",
     "Project %s" : "Проєкт %s",
     "Cospend shared link access" : "Доступ до спільного посилання Cospend",
     "No such Cospend share link" : "На Cospend немає такого посилання, яким можна поділитися",
     "Cospend activity" : "Діяльність в Cospend",
-    "Invalid project id" : "Невірний ID проєкту"
+    "Invalid project id" : "Невірний ID проєкту",
+    "Share link" : "Поділитися посиланням"
 },
 "nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));");

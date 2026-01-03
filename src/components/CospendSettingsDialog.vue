@@ -33,6 +33,9 @@
 				:name="t('cospend', 'About Cospend')"
 				:title="t('cospend', 'About Cospend')"
 				class="app-settings-section">
+				<template #icon>
+					<InformationOutlineIcon :size="20" />
+				</template>
 				<div class="infos">
 					<h5 class="app-settings-section__hint">
 						{{ t('cospend', 'Thanks for using Cospend') + ' ♥' }}
@@ -92,6 +95,9 @@
 				:name="t('cospend', 'Import projects')"
 				:title="t('cospend', 'Import projects')"
 				class="app-settings-section">
+				<template #icon>
+					<FileImportIcon :size="20" />
+				</template>
 				<NcButton @click="onImportClick">
 					<template #icon>
 						<NcLoadingIcon v-if="importingProject" />
@@ -112,6 +118,9 @@
 				:name="t('cospend', 'Export location')"
 				:title="t('cospend', 'Export location')"
 				class="app-settings-section">
+				<template #icon>
+					<FolderOutlineIcon :size="20" />
+				</template>
 				<NcTextField
 					:model-value="outputDir"
 					:label="t('cospend', 'Export directory')"
@@ -134,6 +143,9 @@
 				:name="t('cospend', 'Sort criterias')"
 				:title="t('cospend', 'Sort criterias')"
 				class="app-settings-section">
+				<template #icon>
+					<SortIcon :size="20" />
+				</template>
 				<div v-if="!pageIsPublic">
 					<NcSelect
 						:model-value="selectedSortOrder"
@@ -156,6 +168,9 @@
 				:name="t('cospend', 'Misc')"
 				:title="t('cospend', 'Misc')"
 				class="app-settings-section">
+				<template #icon>
+					<CogIcon :size="20" />
+				</template>
 				<NcInputField
 					v-model.number="maxPrecision"
 					type="number"
@@ -185,6 +200,9 @@
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 import FileImportIcon from 'vue-material-design-icons/FileImport.vue'
 import FolderOutlineIcon from 'vue-material-design-icons/FolderOutline.vue'
+import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
+import SortIcon from 'vue-material-design-icons/Sort.vue'
+import CogIcon from 'vue-material-design-icons/Cog.vue'
 
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcAppSettingsDialog from '@nextcloud/vue/components/NcAppSettingsDialog'
@@ -216,6 +234,9 @@ export default {
 		FileImportIcon,
 		OpenInNewIcon,
 		FolderOutlineIcon,
+		InformationOutlineIcon,
+		SortIcon,
+		CogIcon,
 	},
 
 	data() {

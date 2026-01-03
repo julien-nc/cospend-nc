@@ -191,11 +191,6 @@ class ActivityManager {
 			->setLink($this->url->linkToRouteAbsolute('cospend.page.index'))
 			->setTimestamp(time());
 
-		/*
-		if ($message !== null) {
-			$event->setMessage($message);
-		}
-		*/
 		return $event;
 	}
 

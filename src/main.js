@@ -26,9 +26,11 @@ if (!OCA.Cospend) {
 document.addEventListener('DOMContentLoaded', (event) => {
 	const pageIsPublic = (document.URL.includes('/cospend/project') || document.URL.includes('/cospend/s/'))
 	if (!pageIsPublic) {
+		const initialState = loadState('cospend', 'cospend-state', {})
+		console.debug('[cospend] initial state', initialState)
 		OCA.Cospend.state = reactive({
 			...defaultState,
-			...loadState('cospend', 'cospend-state', {}),
+			...initialState,
 		})
 	} else {
 		OCA.Cospend.state = reactive({

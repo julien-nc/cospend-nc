@@ -80,10 +80,17 @@ class PageController extends Controller {
 			$state['restoredCurrentProjectId'] = $state['selectedProject'];
 		}
 		if ($projectId !== null) {
-			$state['restoredCurrentProjectId'] = $projectId;
+			$projectIds = array_keys($this->projectService->getProjectNames($this->userId));
+			if (in_array($projectId, $projectIds)) {
+				$state['restoredCurrentProjectId'] = $projectId;
+			}
 		}
-		if ($billId !== null) {
-			$state['restoredCurrentBillId'] = $billId;
+		if ($billId !== null && $state['restoredCurrentProjectId']) {
+			try {
+				$bill = $this->projectService->getBill($state['restoredCurrentProjectId'], $billId);
+				$state['restoredCurrentBillId'] = $billId;
+			} catch (\Exception|\Throwable $e) {
+			}
 		}
 		$state['useTime'] = ($state['useTime'] ?? '0') !== '0';
 		$state['showMyBalance'] = ($state['showMyBalance'] ?? '0') !== '0';

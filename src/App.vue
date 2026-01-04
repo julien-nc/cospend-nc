@@ -425,7 +425,7 @@ export default {
 			this.currentBill = null
 			// we load bills from scratch to make sure we get the correct total number of bills
 			// and infinite scroll works fine
-			this.getBills(this.cospend.currentProjectId, null, null, null, this.trashbinEnabled)
+			this.getBills(this.cospend.currentProjectId, null, null, this.trashbinEnabled)
 		},
 		onNavMemberClick({ projectId, memberId }) {
 			if (this.selectedMemberId === memberId) {
@@ -437,7 +437,7 @@ export default {
 			this.currentBill = null
 			// we load bills from scratch to make sure we get the correct total number of bills
 			// and infinite scroll works fine
-			this.getBills(this.cospend.currentProjectId, null, null, null, this.trashbinEnabled)
+			this.getBills(this.cospend.currentProjectId, null, null, this.trashbinEnabled)
 			console.debug('[cospend] click on nav member', memberId, 'new selected member', this.selectedMemberId)
 		},
 		onActiveSidebarTabChanged(newActive) {
@@ -724,9 +724,9 @@ export default {
 			this.selectedCategoryFilter = null
 			this.selectedPaymentModeFilter = null
 			if (restoreSelectedBill) {
-				this.getBills(projectId, this.cospend.restoredCurrentBillId, null, false, this.trashbinEnabled)
+				this.getBills(projectId, this.cospend.restoredCurrentBillId, false, this.trashbinEnabled)
 			} else {
-				this.getBills(projectId, null, null, false, this.trashbinEnabled)
+				this.getBills(projectId, null, false, this.trashbinEnabled)
 			}
 			if (save) {
 				network.saveOptionValues({ selectedProject: projectId })
@@ -789,7 +789,8 @@ export default {
 				this.selectedCategoryFilter = null
 				this.selectedPaymentModeFilter = null
 				this.$refs.billList?.toggleFilterMode(false, false)
-				this.getBills(this.cospend.currentProjectId, null, () => { this.onNewBillClicked(bill) })
+				this.getBills(this.cospend.currentProjectId, null)
+					.then(() => { this.onNewBillClicked(bill) })
 			} else {
 				// find potentially existing new bill
 				const billList = this.billLists[this.cospend.currentProjectId]
@@ -851,7 +852,7 @@ export default {
 				)
 			}
 		},
-		onBillClicked({ projectId, billId }) {
+		async onBillClicked({ projectId, billId }) {
 			if (projectId !== this.cospend.currentProjectId) {
 				console.debug('[cospend] click on a bill from another project')
 				return
@@ -869,20 +870,31 @@ export default {
 				if (this.bills[this.cospend.currentProjectId][billId]) {
 					this.currentBill = this.bills[this.cospend.currentProjectId][billId]
 				} else {
-					console.error('[cospend] click on a bill that was not found')
-					return
+					console.error('[cospend] click on a bill that was not found', billId, 'loading more bills')
+					await this.getBills(projectId, billId, false, false)
 				}
 			}
 			this.mode = 'edition'
 			if (!this.cospend.pageIsPublic) {
-				window.history.pushState(
-					null,
-					null,
-					generateUrl('/apps/cospend/p/{projectId}/b/{billId}', {
-						projectId: this.cospend.currentProjectId,
-						billId,
-					}),
-				)
+				if (this.bills[this.cospend.currentProjectId][billId]) {
+					window.history.pushState(
+						null,
+						null,
+						generateUrl('/apps/cospend/p/{projectId}/b/{billId}', {
+							projectId: this.cospend.currentProjectId,
+							billId,
+						}),
+					)
+				} else {
+					this.currentBill = null
+					window.history.pushState(
+						null,
+						null,
+						generateUrl('/apps/cospend/p/{projectId}', {
+							projectId: this.cospend.currentProjectId,
+						}),
+					)
+				}
 			}
 		},
 		onBillMoved({ newBillId, newProjectId }) {
@@ -944,12 +956,12 @@ export default {
 				showError(t('cospend', 'Failed to get pending remote invitations'))
 			})
 		},
-		getBills(projectId, selectBillId = null, callback = null, pushState = true, deleted = false) {
+		getBills(projectId, selectBillId = null, pushState = true, deleted = false) {
 			this.billsLoading = true
 			const catFilter = this.selectedCategoryFilter
 			const pmFilter = this.selectedPaymentModeFilter
 			const searchTerm = this.filterQuery
-			network.getBills(
+			return network.getBills(
 				projectId, 0, 50, this.selectedMemberId,
 				catFilter, pmFilter, selectBillId, searchTerm, deleted,
 			).then((response) => {
@@ -980,9 +992,6 @@ export default {
 							}),
 						)
 					}
-				}
-				if (callback) {
-					callback()
 				}
 			}).catch((error) => {
 				showError(

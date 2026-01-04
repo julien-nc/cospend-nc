@@ -1782,13 +1782,13 @@ class LocalProjectService implements IProjectService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function getLocalProjects(string $userId): array {
-		$projectids = array_keys($this->getProjectNames($userId));
+		$projectIds = array_keys($this->getProjectNames($userId));
 
 		// get the projects
 		$projects = [];
-		foreach ($projectids as $projectid) {
-			$project = $this->getProjectInfo($projectid);
-			$project['myaccesslevel'] = $this->getUserMaxAccessLevel($userId, $projectid);
+		foreach ($projectIds as $projectId) {
+			$project = $this->getProjectInfo($projectId);
+			$project['myaccesslevel'] = $this->getUserMaxAccessLevel($userId, $projectId);
 			$projects[] = $project;
 		}
 

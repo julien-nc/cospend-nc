@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2026-01-02 14:55+0100\n"
-"PO-Revision-Date: 2026-01-02 13:57\n"
+"POT-Creation-Date: 2026-01-04 23:49+0100\n"
+"PO-Revision-Date: 2026-01-04 22:49\n"
 "Last-Translator: \n"
 "Language-Team: Lithuanian\n"
 "Language: lt_LT\n"
@@ -102,7 +102,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:39
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/UserMigration/UserMigrator.php:165
 #: /home/julien/html/dev/server/apps-extra/cospend/specialAppInfoFakeDummyForL10nScript.php:2
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:565
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:566
 msgid "Cospend"
 msgstr ""
 
@@ -153,26 +153,26 @@ msgstr ""
 msgid "Guest access"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:204
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:266
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:211
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:273
 #, php-format
 msgid "Enter link password of project %s"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:214
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:252
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:221
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:259
 #, php-format
 msgid "Project %s"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:216
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:251
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:265
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:223
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:258
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:272
 msgid "Cospend shared link access"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:219
-#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:277
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:226
+#: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/PageController.php:284
 msgid "No such Cospend share link"
 msgstr ""
 
@@ -450,18 +450,18 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:889
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:252
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:522
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:523
 msgid "Member name"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:890
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:523
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:524
 msgid "Paid"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:891
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:524
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:559
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:525
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:560
 msgid "Spent"
 msgstr ""
 
@@ -778,13 +778,13 @@ msgid "Created member {name}"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:33
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:438
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:439
 msgid "Failed to add member"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:34
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:288
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:473
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:474
 msgid "Failed to add shared access"
 msgstr ""
 
@@ -865,8 +865,8 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:77
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:238
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:259
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:422
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:429
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:419
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:426
 msgid "Info"
 msgstr ""
 
@@ -887,8 +887,8 @@ msgid "Who paid?"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:59
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:431
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:514
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:428
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:515
 msgid "Choose a member"
 msgstr ""
 
@@ -901,7 +901,7 @@ msgid "Choose a payment mode"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:62
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:505
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:506
 msgid "Payment mode"
 msgstr ""
 
@@ -910,7 +910,7 @@ msgid "Choose or add a category"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:64
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:507
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:508
 msgid "Category"
 msgstr ""
 
@@ -931,17 +931,17 @@ msgid "Repeat"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:68
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:415
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:432
 msgid "No"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:69
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:416
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:433
 msgid "Daily"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:70
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:417
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:434
 msgid "Weekly"
 msgstr ""
 
@@ -954,7 +954,7 @@ msgid "Semi-monthly (twice a month)"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:73
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:418
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:435
 msgid "Monthly"
 msgstr ""
 
@@ -1191,13 +1191,13 @@ msgid "Close filters"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:141
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:508
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:540
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:509
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:541
 msgid "Select a category"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:142
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:506
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:507
 msgid "Select a payment mode"
 msgstr ""
 
@@ -1235,8 +1235,8 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:151
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:301
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:424
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:425
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:421
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:422
 msgid "Add a member"
 msgstr ""
 
@@ -1299,7 +1299,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:166
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:167
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:557
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:558
 #: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:135
 msgid "No payment mode"
 msgstr ""
@@ -1310,7 +1310,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:169
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:170
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:554
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:555
 #: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:115
 msgid "No category"
 msgstr ""
@@ -1572,7 +1572,7 @@ msgid "Settlement of project {name}"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:231
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:502
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:503
 msgid "Export"
 msgstr ""
 
@@ -1648,7 +1648,7 @@ msgid "Individual reimbursement"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:260
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:513
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:514
 msgid "Payer"
 msgstr ""
 
@@ -1722,30 +1722,30 @@ msgid "No access"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:281
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:450
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:461
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:468
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:451
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:462
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:469
 msgid "Viewer"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:282
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:451
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:462
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:469
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:452
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:463
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:470
 msgid "Participant"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:283
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:452
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:463
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:470
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:453
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:464
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:471
 msgid "Maintainer"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:284
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:453
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:464
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:471
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:454
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:465
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:472
 msgid "Admin"
 msgstr ""
 
@@ -1762,12 +1762,12 @@ msgid "A member is already named like that"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:289
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:474
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:475
 msgid "Failed to edit shared access level"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:290
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:480
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:481
 msgid "Failed to delete shared access"
 msgstr ""
 
@@ -1776,8 +1776,8 @@ msgid "Are you sure?"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:292
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:485
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:486
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:487
 msgid "Settings"
 msgstr ""
 
@@ -2022,8 +2022,8 @@ msgid "Member select"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:393
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:500
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:564
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:501
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:565
 #: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:87
 msgid "You"
 msgstr ""
@@ -2084,430 +2084,434 @@ msgid "Rename project {n}"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:413
-msgid "Disable bill deletion"
+msgid "Rename project"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:414
+msgid "Allow bill deletion"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:415
 msgid "Automatic export"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:419
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:416
 msgid "Export project"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:420
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:417
 msgid "Members"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:421
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:418
 msgid "More information on adding members"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:423
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:420
 msgid "You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab."
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:426
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:423
 msgid "Enter a member name"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:427
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:424
 msgid "Associate a project member with a Nextcloud user"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:428
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:425
 msgid "More information on adding Nextcloud users as members"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:430
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:427
 msgid "Choose a project member, then a Nextcloud user to associate with."
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:430
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:427
 msgid "You can cut the link with a Nextcloud user by renaming the member."
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:432
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:433
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:429
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:430
 msgid "Choose a Nextcloud user"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:434
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:431
 msgid "Type to search users"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:435
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:436
 msgid "New member name"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:436
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:437
 msgid "New member (or Nextcloud user) name"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:437
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:438
 msgid "Create simple member"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:439
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:440
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:441
 msgid "Share project with a user, group or circle"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:441
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:447
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:442
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:448
 msgid "Federated user"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:442
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:443
 msgid "Start typing to search"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:443
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:444
 msgid "Scan this QRCode with your mobile device to add project \"{name}\" in MoneyBuster or PayForMe"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:444
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:445
 msgid "QRCode content: "
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:445
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:455
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:446
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:456
 msgid "Share link"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:446
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:447
 msgid "Create a new share link"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:448
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:449
 msgid "Pending share"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:448
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:449
 msgid "Accepted share"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:449
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:458
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:450
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:459
 msgid "Label"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:454
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:455
 msgid "Delete federated share"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:456
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:457
 msgid "Link copied"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:456
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:457
 msgid "Copy to clipboard"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:457
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:458
 msgid "Show QRCode for mobile clients"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:459
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:460
 msgid "Password protect"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:460
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:461
 msgid "Set link password"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:465
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:466
 msgid "Delete link"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:466
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:467
 msgid "Add another link"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:467
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:468
 msgid "Project owner"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:472
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:473
 msgid "Delete access"
-msgstr ""
-
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:475
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:478
-msgid "Share link saved"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:476
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:479
-msgid "Failed to edit share link"
+msgid "Share link saved"
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:477
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:480
+msgid "Failed to edit share link"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:478
 msgid "Federated share saved"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:481
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:482
 msgid "Link could not be copied to clipboard"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:482
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:483
 msgid "Rename"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:483
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:484
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:485
 msgid "Sharing"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:487
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:488
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:489
 msgid "Activity"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:489
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:490
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:491
 msgid "Categories"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:491
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:492
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:493
 msgid "Payment modes"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:493
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:494
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:495
 msgid "Currencies"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:495
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:496
 msgid "{nb} bills, {nbMembers} active members, {spentAmount} {currency} spent"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:496
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:497
 msgid "{nb} bills, {nbMembers} active members, {spentAmount} spent"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:497
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:498
 msgid "Member/Month"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:498
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:499
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:551
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:500
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:552
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:553
 msgid "All members"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:501
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:502
 msgid "Statistics of project {name}"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:503
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:504
 msgid "Minimum date"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:504
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:505
 msgid "Maximum date"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:509
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:510
 msgid "Minimum amount"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:510
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:511
 msgid "Maximum amount"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:511
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:512
 msgid "Convert in currency"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:512
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:513
 msgid "Main project's currency"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:515
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:516
 msgid "Show disabled members"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:516
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:517
 msgid "Chart type"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:517
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:518
 msgid "Pie"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:518
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:519
 msgid "Bar"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:519
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:520
 msgid "Total paid by all the members: {t} {currencyName}"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:520
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:521
 msgid "Total paid by all the members: {t}"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:521
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:522
 msgid "Global stats"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:525
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:526
 msgid "Filtered balance"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:526
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:528
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:527
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:529
 msgid "This balance is computed from the complete bill list"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:527
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:528
 msgid "Global Balance"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:529
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:530
 msgid "Monthly paid per member"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:530
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:531
 msgid "Payments per member per month"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:531
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:532
 msgid "Monthly spent per member"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:532
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:533
 msgid "Spendings per member per month"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:533
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:534
 msgid "Monthly paid per category"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:534
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:535
 msgid "Payments per category per month"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:535
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:536
 msgid "Category/Month"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:536
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:537
 msgid "Monthly paid per payment mode"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:537
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:538
 msgid "Payments per payment mode per month"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:538
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:539
 msgid "Payment mode/Month"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:539
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:540
 msgid "Who paid for this category?"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:541
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:542
 msgid "What did they pay for?"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:542
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:543
 msgid "Select a member"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:543
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:544
 msgid "Who paid for whom?"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:544
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:545
 msgid "paid for"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:545
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:546
 msgid "Total paid"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:546
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:547
 msgid "Total owed"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:547
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:548
 msgid "Total owed by {name}"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:548
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:549
 msgid "Total paid by {name}"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:549
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:555
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:550
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:556
 msgid "All except reimbursement"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:550
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:553
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:556
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:551
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:554
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:557
 msgid "All"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:558
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:559
 msgid "Payed"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:560
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:561
 msgid "Who paid (outside circle) and spent (inside pie)?"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:561
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:562
 msgid "Who paid and spent?"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:562
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:563
 msgid "How much was paid per category?"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:563
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:564
 msgid "How much was paid per payment mode?"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:566
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:567
 msgid "Enable Federation in Cospend"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:567
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:568
 msgid "Only consider past bills to compute balances"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:568
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:569
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:570
 msgid "No recent activity"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:570
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:571
 msgid "Go to Cospend"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:571
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:572
 msgid "{user} shared {project} with {who}"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:572
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:573
 msgid "{user} unshared {project} with {who}"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:573
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:574
 msgid "{user} created {bill}"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:574
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:575
 msgid "{user} deleted {bill}"
 msgstr ""
 
-#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:575
+#: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:576
 msgid "{user} edited {bill}"
 msgstr ""
 

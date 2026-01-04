@@ -6,53 +6,40 @@
 					v-model="newProjectName"
 					:label="t('cospend', 'Rename project {n}', { n: project.name }, undefined, { escape: false })"
 					placeholder="..."
-					trailing-button-icon="arrowRight"
+					trailing-button-icon="arrowEnd"
+					:trailing-button-label="t('cospend', 'Rename project')"
 					:show-trailing-button="newProjectName !== ''"
 					@trailing-button-click="onRenameProject"
-					@keyup.enter="onRenameProject" />
+					@keyup.enter="onRenameProject">
+					<template #icon>
+						<FolderOutlineIcon :size="20" />
+					</template>
+				</NcTextField>
 			</div>
 			<div v-if="adminAccess" class="deletion-disabled-line">
-				<NcCheckboxRadioSwitch
+				<NcFormBoxSwitch
 					id="deletion-disabled"
-					:model-value="project.deletiondisabled"
+					:model-value="!project.deletiondisabled"
 					@update:model-value="onDisableDeletionChange">
-					{{ t('cospend', 'Disable bill deletion') }}
-				</NcCheckboxRadioSwitch>
+					{{ t('cospend', 'Allow bill deletion') }}
+				</NcFormBoxSwitch>
 			</div>
-			<div id="autoExport">
-				<label for="autoExportSelect">
-					<CalendarMonthIcon
-						class="material-icon"
-						:size="20" />
-					<span>{{ t('cospend', 'Automatic export') }}</span>
-				</label>
-				<select id="autoExportSelect"
-					:disabled="!adminAccess"
-					:value="project.autoexport"
-					@input="onAutoExportSet">
-					<option :value="constants.FREQUENCY.NO">
-						{{ t('cospend', 'No') }}
-					</option>
-					<option :value="constants.FREQUENCY.DAILY">
-						{{ t('cospend', 'Daily') }}
-					</option>
-					<option :value="constants.FREQUENCY.WEEKLY">
-						{{ t('cospend', 'Weekly') }}
-					</option>
-					<option :value="constants.FREQUENCY.MONTHLY">
-						{{ t('cospend', 'Monthly') }}
-					</option>
-				</select>
-			</div>
-			<NcAppNavigationItem v-if="!pageIsPublic"
-				class="exportItem"
-				:name="t('cospend', 'Export project')"
+			<NcSelect
+				:model-value="selectedAutoExportOption"
+				:input-label="t('cospend', 'Automatic export')"
+				:options="Object.values(autoExportOptions)"
+				:disabled="!adminAccess"
+				:no-wrap="true"
+				label="label"
+				:clearable="false"
+				@update:model-value="onUpdateAutoExport($event.value)" />
+			<NcButton v-if="!pageIsPublic"
 				@click="onExportClick">
 				<template #icon>
-					<ContentSaveIcon
-						:size="20" />
+					<ContentSaveIcon :size="20" />
 				</template>
-			</NcAppNavigationItem>
+				{{ t('cospend', 'Export project') }}
+			</NcButton>
 		</div>
 		<div>
 			<br><hr>
@@ -189,13 +176,12 @@ import AccountIcon from 'vue-material-design-icons/Account.vue'
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import ContentSaveIcon from 'vue-material-design-icons/ContentSave.vue'
-import CalendarMonthIcon from 'vue-material-design-icons/CalendarMonth.vue'
+import FolderOutlineIcon from 'vue-material-design-icons/FolderOutline.vue'
 
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
-import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcFormBoxSwitch from '@nextcloud/vue/components/NcFormBoxSwitch'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 
@@ -214,20 +200,19 @@ export default {
 	name: 'SettingsTabSidebar',
 	components: {
 		NcSelect,
-		NcAppNavigationItem,
 		AppNavigationMemberItem,
 		NcAvatar,
-		NcCheckboxRadioSwitch,
+		NcFormBoxSwitch,
 		NcDialog,
 		NcTextField,
 		MemberMultiSelect,
-		CalendarMonthIcon,
 		ContentSaveIcon,
 		NcButton,
 		AccountIcon,
 		AccountPlusIcon,
 		PlusIcon,
 		InformationOutlineIcon,
+		FolderOutlineIcon,
 	},
 	props: {
 		project: {
@@ -248,6 +233,24 @@ export default {
 			currentUser: getCurrentUser(),
 			showInfoAdd: false,
 			showInfoAssociate: false,
+			autoExportOptions: {
+				[constants.FREQUENCY.NO]: {
+					label: t('cospend', 'No'),
+					value: constants.FREQUENCY.NO,
+				},
+				[constants.FREQUENCY.DAILY]: {
+					label: t('cospend', 'Daily'),
+					value: constants.FREQUENCY.DAILY,
+				},
+				[constants.FREQUENCY.WEEKLY]: {
+					label: t('cospend', 'Weekly'),
+					value: constants.FREQUENCY.WEEKLY,
+				},
+				[constants.FREQUENCY.MONTHLY]: {
+					label: t('cospend', 'Monthly'),
+					value: constants.FREQUENCY.MONTHLY,
+				},
+			},
 		}
 	},
 	computed: {
@@ -289,6 +292,9 @@ export default {
 		},
 		pageIsPublic() {
 			return this.cospend.pageIsPublic
+		},
+		selectedAutoExportOption() {
+			return this.autoExportOptions[this.project.autoexport] ?? this.autoExportOptions[constants.FREQUENCY.NO]
 		},
 		newMemberPlaceholder() {
 			return this.pageIsPublic
@@ -415,6 +421,10 @@ export default {
 			this.cospend.projects[this.projectId].autoexport = e.target.value
 			this.$emit('project-edited', this.projectId)
 		},
+		onUpdateAutoExport(newValue) {
+			this.cospend.projects[this.projectId].autoexport = newValue
+			this.$emit('project-edited', this.projectId)
+		},
 		affectMemberSelected(selectedMember) {
 			if (selectedMember !== null) {
 				this.selectedMemberId = selectedMember.id
@@ -479,7 +489,7 @@ export default {
 			}
 		},
 		onDisableDeletionChange(checked) {
-			this.cospend.projects[this.projectId].deletiondisabled = checked
+			this.cospend.projects[this.projectId].deletiondisabled = !checked
 			this.$emit('project-edited', this.projectId)
 		},
 		onMultiselectEnterPressed(elem) {
@@ -507,32 +517,6 @@ export default {
 		display: flex;
 		flex-direction: column;
 		gap: 8px;
-	}
-}
-
-#autoExport {
-	width: 100%;
-	display: inline-flex;
-	align-items: center;
-
-	span.icon {
-		display: inline-block;
-		min-width: 30px !important;
-		min-height: 18px !important;
-		width: 41px;
-		height: 18px;
-		vertical-align: sub;
-	}
-
-	label,
-	select {
-		display: inline-flex;
-		width: 49%;
-		margin: 0;
-
-		.material-icon {
-			margin: 0 8px 0 6px;
-		}
 	}
 }
 
@@ -567,10 +551,6 @@ export default {
 	input[type='text'] {
 		flex-grow: 1;
 	}
-}
-
-.exportItem {
-	z-index: 0;
 }
 
 h3, h4 {

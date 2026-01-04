@@ -31,7 +31,6 @@
 					@set-category-filter="onSetCategoryFilter"
 					@set-paymentmode-filter="onSetPaymentModeFilter"
 					@load-more-bills="loadMoreBills"
-					@item-clicked="onBillClicked"
 					@items-deleted="onBillsDeleted"
 					@multi-bill-edit="onMultiBillEdit"
 					@reset-selection="onResetSelection"
@@ -350,6 +349,7 @@ export default {
 		subscribe('restore-bills', this.onRestoreBills)
 		subscribe('delete-bill', this.onDeleteBill)
 		subscribe('bill-moved', this.onBillMoved)
+		subscribe('bill-clicked', this.onBillClicked)
 
 		subscribe('trashbin-clicked', this.onTrashbinClicked)
 		subscribe('close-trashbin', this.onCloseTrashbinClicked)
@@ -383,6 +383,7 @@ export default {
 		unsubscribe('restore-bills', this.onRestoreBills)
 		unsubscribe('delete-bill', this.onDeleteBill)
 		unsubscribe('bill-moved', this.onBillMoved)
+		unsubscribe('bill-clicked', this.onBillClicked)
 
 		unsubscribe('trashbin-clicked', this.onTrashbinClicked)
 		unsubscribe('close-trashbin', this.onCloseTrashbinClicked)
@@ -850,15 +851,27 @@ export default {
 				)
 			}
 		},
-		onBillClicked(billId) {
+		onBillClicked({ projectId, billId }) {
+			if (projectId !== this.cospend.currentProjectId) {
+				console.debug('[cospend] click on a bill from another project')
+				return
+			}
 			const billList = this.billLists[this.cospend.currentProjectId]
 			if (billId === 0) {
 				const found = billList.findIndex((bill) => { return bill.id === 0 })
 				if (found !== -1) {
 					this.currentBill = billList[found]
+				} else {
+					console.error('[cospend] click on a bill that was not found')
+					return
 				}
 			} else {
-				this.currentBill = this.bills[this.cospend.currentProjectId][billId]
+				if (this.bills[this.cospend.currentProjectId][billId]) {
+					this.currentBill = this.bills[this.cospend.currentProjectId][billId]
+				} else {
+					console.error('[cospend] click on a bill that was not found')
+					return
+				}
 			}
 			this.mode = 'edition'
 			if (!this.cospend.pageIsPublic) {

@@ -643,7 +643,7 @@ export default {
 					this.selectedBillIds.push(bill.id)
 				}
 			} else {
-				this.$emit('item-clicked', bill.id)
+				emit('bill-clicked', { projectId: this.projectId, billId: bill.id })
 			}
 		},
 		onItemMove(bill) {

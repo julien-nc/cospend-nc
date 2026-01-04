@@ -9,7 +9,8 @@
 			class="subject">
 			<NcRichText
 				:text="message.subject"
-				:arguments="message.parameters" />
+				:arguments="message.parameters"
+				@click="onClick" />
 		</span>
 		<span v-else>
 			{{ activity.subject }}
@@ -29,6 +30,14 @@ import { NcRichText } from '@nextcloud/vue/components/NcRichText'
 import ActivityHighlight from './ActivityHighlight.vue'
 
 import moment from '@nextcloud/moment'
+import { emit } from '@nextcloud/event-bus'
+import { generateUrl } from '@nextcloud/router'
+
+const start = window.location.protocol + '//' + window.location.host
+	+ (window.location.port
+		? ':' + window.location.port
+		: '')
+	+ generateUrl('/apps/cospend/p/')
 
 export default {
 	name: 'ActivityEntry',
@@ -107,6 +116,47 @@ export default {
 	},
 
 	methods: {
+		onClick(e) {
+			if (e.target.tagName === 'A') {
+				const billInfo = this.parseBillLink(e.target.href)
+				if (billInfo) {
+					emit('bill-clicked', billInfo)
+					e.preventDefault()
+					e.stopPropagation()
+				}
+				const projectInfo = this.parseProjectLink(e.target.href)
+				if (projectInfo) {
+					// ignore project links, the project is already selected
+					e.preventDefault()
+					e.stopPropagation()
+				}
+			}
+		},
+		parseProjectLink(href) {
+			if (!href.startsWith(start)) {
+				return null
+			}
+			const matches = href.match(/\/apps\/cospend\/p\/([a-zA-Z()0-9-_]+)$/)
+			if (matches === null || matches.length !== 2) {
+				return null
+			}
+			return {
+				projectId: matches[1],
+			}
+		},
+		parseBillLink(href) {
+			if (!href.startsWith(start)) {
+				return null
+			}
+			const matches = href.match(/\/apps\/cospend\/p\/([a-zA-Z()0-9-_]+)\/b\/(\d+)$/)
+			if (matches === null || matches.length !== 3) {
+				return null
+			}
+			return {
+				projectId: matches[1],
+				billId: parseInt(matches[2]),
+			}
+		},
 	},
 }
 </script>

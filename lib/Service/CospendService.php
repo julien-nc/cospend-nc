@@ -998,22 +998,23 @@ class CospendService {
 			$payer_active = $memberIdToActive[$payer_id];
 			$dateTime = DateTime::createFromFormat('U', $bill['timestamp']);
 			$oldDateStr = $dateTime->format('Y-m-d');
-			yield '"' . $bill['what'] . '",'
+			// escaping double quotes by doubling them: https://stackoverflow.com/a/17808731
+			yield '"' . str_replace('"', '""', $bill['what']) . '",'
 				. strval((float)$bill['amount']) . ','
 				. $oldDateStr . ','
-				. $bill['timestamp'] . ',"'
-				. $payer_name . '",'
+				. $bill['timestamp'] . ','
+				. '"' . str_replace('"', '""', $payer_name) . '",'
 				. strval((float)$payer_weight) . ','
-				. $payer_active . ',"'
-				. $owersTxt . '",'
+				. $payer_active . ','
+				. '"' . str_replace('"', '""', $owersTxt) . '",'
 				. $bill['repeat'] . ','
 				. $bill['repeatfreq'] . ','
 				. $bill['repeatallactive'] . ','
 				. $bill['repeatuntil'] . ','
 				. $bill['categoryid'] . ','
 				. $bill['paymentmode'] . ','
-				. $bill['paymentmodeid'] . ',"'
-				. urlencode($bill['comment']) . '",'
+				. $bill['paymentmodeid'] . ','
+				. '"' . str_replace('"', '""', urlencode($bill['comment'])) . '",'
 				. $bill['deleted']
 				. "\n";
 		}

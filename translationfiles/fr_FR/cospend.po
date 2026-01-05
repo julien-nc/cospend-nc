@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2026-01-04 23:49+0100\n"
-"PO-Revision-Date: 2026-01-04 22:49\n"
+"PO-Revision-Date: 2026-01-05 00:16\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -2075,11 +2075,11 @@ msgstr "Renommer le projet {n}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:413
 msgid "Rename project"
-msgstr ""
+msgstr "Renommer le projet"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:414
 msgid "Allow bill deletion"
-msgstr ""
+msgstr "Autoriser la suppression de facture"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:415
 msgid "Automatic export"

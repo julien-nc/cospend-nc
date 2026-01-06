@@ -30,7 +30,7 @@ use OCP\AppFramework\Http;
 use OCP\Files\IRootFolder;
 use OCP\IGroupManager;
 
-use OCP\IServerContainer;
+use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 use PHPUnit\Framework\TestCase;
@@ -82,7 +82,6 @@ class LocalProjectServiceTest extends TestCase {
 
 		$app = new Application();
 		$c = $app->getContainer();
-		$sc = $c->get(IServerContainer::class);
 		$this->billMapper = $c->get(BillMapper::class);
 		$this->memberMapper = $c->get(MemberMapper::class);
 		$this->localProjectService = $c->get(LocalProjectService::class);
@@ -90,7 +89,7 @@ class LocalProjectServiceTest extends TestCase {
 			$appName,
 			$request,
 			$c->get(IManager::class),
-			$sc->getL10N($c->get('AppName')),
+			$c->get(IL10N::class),
 			$this->billMapper,
 			$c->get(ProjectMapper::class),
 			$this->localProjectService,
@@ -104,7 +103,7 @@ class LocalProjectServiceTest extends TestCase {
 			$appName,
 			$request,
 			$c->get(IManager::class),
-			$sc->getL10N($c->get('AppName')),
+			$c->get(IL10N::class),
 			$this->billMapper,
 			$c->get(ProjectMapper::class),
 			$this->localProjectService,

@@ -1,10 +1,8 @@
 OC.L10N.register(
     "cospend",
     {
-    "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted" : "Cospend アプリ内の <strong>請求書</strong> が更新/作成/削除されました",
     "circle %1$s" : "サークル %1$s",
     "Cospend" : "Cospend",
-    "Changes in the <strong>Cospend app</strong>" : "<strong>Cospend アプリ</strong> の変更点",
     "You are not allowed to give such shared access level" : "その共有アクセスレベルを与える権限がありません",
     "You are not allowed to edit this shared access" : "この共有アクセスを編集する権限がありません",
     "You are not allowed to remove this shared access" : "この共有アクセスを削除する権限がありません",
@@ -374,7 +372,6 @@ OC.L10N.register(
     "Project name" : "プロジェクト名",
     "Create" : "作成",
     "Rename project {n}" : "プロジェクト {n} の名前を変更",
-    "Disable bill deletion" : "請求書の削除を無効にする",
     "Automatic export" : "自動エクスポート",
     "Export project" : "プロジェクトのエクスポート",
     "Members" : "メンバー",

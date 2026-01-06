@@ -1,10 +1,8 @@
 OC.L10N.register(
     "cospend",
     {
-    "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted" : "<strong>Счёт</strong> внутри приложения Cospend был изменен/создан/удален",
     "circle %1$s" : "круг %1$s",
     "Cospend" : "Cospend",
-    "Changes in the <strong>Cospend app</strong>" : "Изменения в приложении <strong>Cospend</strong>",
     "You are not allowed to access the target project" : "У вас нет доступа к этому проекту",
     "You are not allowed to give such shared access level" : "Вам не разрешено давать такой уровень общего доступа",
     "You are not allowed to edit this shared access" : "Вы не можете редактировать этот общий доступ",
@@ -365,7 +363,6 @@ OC.L10N.register(
     "Bill moved to \"{project}\" successfully" : "Счет успешно перемещен в \"{project}\"",
     "Payment mode selector" : "Выбор режима оплаты",
     "Rename project {n}" : "Переименовать проект",
-    "Disable bill deletion" : "Отключить удаление счетов",
     "Automatic export" : "Автоматический экспорт",
     "Export project" : "Экспорт проекта",
     "Members" : "Участники",

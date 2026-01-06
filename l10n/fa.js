@@ -1,9 +1,7 @@
 OC.L10N.register(
     "cospend",
     {
-    "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted" : "یک <strong>رسید</strong> درون برنامه Cospend به‎روز/ساخته/حذف شد",
     "circle %1$s" : "حلقه %1$s",
-    "Changes in the <strong>Cospend app</strong>" : "تغییرات در <strong>Cospend app</strong>",
     "You are not allowed to give such shared access level" : "شما مجاز به دادن چنین سطح دسترسی اشتراکی نیستید",
     "You are not allowed to remove this shared access" : "شما مجاز به حذف این دسترسی مشترک نیستید",
     "Access denied" : "دسترسی رد شد",

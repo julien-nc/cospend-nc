@@ -1,8 +1,6 @@
 { "translations": {
-    "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted" : "Una <strong>factura</strong> s'ha actualitzat/creat/eliminat des de l'app de Cospend",
     "circle %1$s" : "cercle %1$s",
     "Cospend" : "Cospend",
-    "Changes in the <strong>Cospend app</strong>" : "Canvis a <strong>l'aplicació Cospend </strong>",
     "You are not allowed to access the target project" : "No teniu permís per accedir al projecte",
     "You are not allowed to give such shared access level" : "No teniu permís per donar aquest nivell d'accés compartit",
     "You are not allowed to edit this shared access" : "No teniu permís per editar aquest accés compartit",

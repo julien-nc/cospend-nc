@@ -1,10 +1,8 @@
 OC.L10N.register(
     "cospend",
     {
-    "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted" : "<strong>Rachunek</strong> w aplikacji Cospend został zaktualizowany / utworzony / usunięty",
     "circle %1$s" : "krąg %1$s",
     "Cospend" : "Cospend",
-    "Changes in the <strong>Cospend app</strong>" : "Zmiany w <strong>aplikacji Cospend</strong>",
     "You are not allowed to give such shared access level" : "Nie masz uprawnień, aby dać taki poziom wspólnego dostępu",
     "You are not allowed to edit this shared access" : "Nie masz uprawnień, aby edytować ten współdzielony dostęp",
     "You are not allowed to remove this shared access" : "Nie masz uprawnień, aby usunąć ten współdzielony dostęp",
@@ -281,7 +279,6 @@ OC.L10N.register(
     "Choose where to write output files (stats, settlement, export)" : "Wybierz, gdzie zapisywać pliki wyjściowe (statystyki, podsumowania, eksport)",
     "You" : "Ty",
     "Rename project {n}" : "Zmień nazwę projektu {n}",
-    "Disable bill deletion" : "Wyłącz usuwanie rachunków",
     "Automatic export" : "Automatyczny eksport",
     "Export project" : "Eksportuj projekt",
     "You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab." : "Możesz dodać do projektu zwykłego członka lub użytkownika Nextcloud. Możesz przyznać użytkownikom Nextcloud dostęp do projektu w menu kontekstowym. Możesz również przyznać dostęp użytkownikom Nextcloud, którzy nie są członkami na karcie \"Udostępnianie\".",

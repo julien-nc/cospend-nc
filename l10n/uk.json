@@ -1,8 +1,6 @@
 { "translations": {
-    "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted" : "<strong>Рахунок</strong> всередині програми Cospend був змінений/створений/видалений",
     "circle %1$s" : "коло %1$s",
     "Cospend" : "Cospend",
-    "Changes in the <strong>Cospend app</strong>" : "Зміни <strong>в додатку Cospend</strong>",
     "You are not allowed to give such shared access level" : "Вам не дозволено давати такий рівень спільного доступу",
     "You are not allowed to edit this shared access" : "Ви не можете редагувати цей спільний доступ",
     "You are not allowed to remove this shared access" : "Ви не можете видалити цей спільний доступ",

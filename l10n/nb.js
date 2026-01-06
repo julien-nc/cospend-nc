@@ -1,9 +1,7 @@
 OC.L10N.register(
     "cospend",
     {
-    "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted" : "En <strong>faktura</strong> i Cospendprogrammet har blitt oppdatert/slettet",
     "circle %1$s" : "sirkel %1$s",
-    "Changes in the <strong>Cospend app</strong>" : "Endringer i <strong>Cospend appen</strong>",
     "You are not allowed to give such shared access level" : "Du har ikke lov til å gi et slikt delt tilgangsnivå",
     "You are not allowed to edit this shared access" : "Du har ikke rettigheter til å redigere denne delte tilgangen",
     "You are not allowed to remove this shared access" : "Du har ikke tillatelse til å fjerne denne delte tilgangen",
@@ -332,7 +330,6 @@ OC.L10N.register(
     "No projects found" : "Ingen prosjekter funnet",
     "Bill moved to \"{project}\" successfully" : "Faktura flyttet til \"{project}\"",
     "Rename project {n}" : "Endre prosjektnavn {n}",
-    "Disable bill deletion" : "Deaktiver sletting av regning",
     "Automatic export" : "Automatisk eksport",
     "Export project" : "Eksporter prosjekt",
     "Members" : "Medlemmer",

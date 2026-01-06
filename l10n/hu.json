@@ -1,8 +1,6 @@
 { "translations": {
-    "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted" : "Egy <strong>számla</strong> a Cospend applikációban frissítve/létrehozva/törölve lett",
     "circle %1$s" : "kör %1$s",
     "Cospend" : "Cospend",
-    "Changes in the <strong>Cospend app</strong>" : "Változások a <strong>Cospend alkalmazásban</strong>",
     "You are not allowed to give such shared access level" : "Nem vagy jogosult, hogy ilyen megosztási szintet adj",
     "You are not allowed to edit this shared access" : "Nem vagy jogosult, hogy szerkeszd ezt a megosztási hozzáférést",
     "You are not allowed to remove this shared access" : "Nem vagy jogosult, hogy eltávolítsd ezt megosztási hozzáférést",
@@ -351,7 +349,6 @@
     "No projects found" : "Nem található projekt",
     "Bill moved to \"{project}\" successfully" : "A számlát a \"{project}\" projektbe sikeresen átmozgattuk",
     "Rename project {n}" : "{n} projekt átnevezése",
-    "Disable bill deletion" : "Számlatörlés tiltása",
     "Automatic export" : "Automatikus exportálás",
     "Export project" : "Projekt exportálása",
     "Members" : "Tagok",

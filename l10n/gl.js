@@ -1,10 +1,8 @@
 OC.L10N.register(
     "cospend",
     {
-    "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted" : "Actualizouse/creouse/eliminouse unha <strong>factura</strong> dentro da aplicación Cospend",
     "circle %1$s" : "círculo %1$s",
     "Cospend" : "Cospend",
-    "Changes in the <strong>Cospend app</strong>" : "Cambios na <strong>aplicación Cospend</strong>",
     "You are not allowed to access the target project" : "Non ten permiso para acceder ao proxecto de destino",
     "You are not allowed to give such shared access level" : "Non ten permiso para conceder ese nivel de acceso compartido",
     "You are not allowed to edit this shared access" : "Non ten permiso para editar este acceso compartido",
@@ -428,7 +426,6 @@ OC.L10N.register(
     "Accept" : "Aceptar",
     "Project {projectName} shared by {inviterName} ({inviterCloudId})" : "Proxecto {projectName} Compartido por {inviterName} ({inviterCloudId})",
     "Rename project {n}" : "Cambiar o nome do proxecto {n}",
-    "Disable bill deletion" : "Desactivar a eliminación de facturas",
     "Automatic export" : "Exportación automática",
     "Export project" : "Exportar proxecto",
     "Members" : "Membros",

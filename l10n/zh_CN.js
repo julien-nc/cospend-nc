@@ -1,10 +1,8 @@
 OC.L10N.register(
     "cospend",
     {
-    "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted" : "Cospend app中的一个 <strong>账单</strong> 已被更新/创建/删除",
     "circle %1$s" : "圈%1$s",
     "Cospend" : "账单",
-    "Changes in the <strong>Cospend app</strong>" : "<strong>Cospend app</strong>中的变更",
     "You are not allowed to give such shared access level" : "您无权给这种共享访问级别",
     "You are not allowed to edit this shared access" : "您无权编辑此共享访问权限",
     "You are not allowed to remove this shared access" : "您无权删除此共享访问权限",
@@ -364,7 +362,6 @@ OC.L10N.register(
     "No projects found" : "未找到项目",
     "Bill moved to \"{project}\" successfully" : "帐单已成功移动到\"{project}\"",
     "Rename project {n}" : "重命名项目 {n}",
-    "Disable bill deletion" : "禁用账单删除",
     "Automatic export" : "自动导出",
     "Export project" : "导出项目",
     "Members" : "成员",

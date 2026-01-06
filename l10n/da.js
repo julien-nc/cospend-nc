@@ -1,8 +1,6 @@
 OC.L10N.register(
     "cospend",
     {
-    "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted" : "En <strong>regning</strong> I Cospend appen er blevet opdateret/oprettet/slettet",
-    "Changes in the <strong>Cospend app</strong>" : "Ændringer i <strong>Cospend appen</strong>",
     "You are not allowed to remove this shared access" : "Du har ikke tilladelse til at fjerne denne delte adgang",
     "Access denied" : "Adgang nægtet",
     "Project not found" : "Projektet kunne ikke findes",

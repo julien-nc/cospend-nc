@@ -1,9 +1,7 @@
 OC.L10N.register(
     "cospend",
     {
-    "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted" : "Ένας <strong>λογαριασμός</strong> στην εφαρμογή Cospend έχει ανανεώθηκε/δημιουργήθηκε/διαγράφηκε",
     "circle %1$s" : "κύκλος %1$s",
-    "Changes in the <strong>Cospend app</strong>" : "Αλλαγές στην <strong>εφαρμογή Cospend</strong>",
     "You are not allowed to give such shared access level" : "Δεν επιτρέπεται να δώσετε τέτοιο επίπεδο κοινής πρόσβασης",
     "You are not allowed to edit this shared access" : "Δεν επιτρέπεται να επεξεργαστείτε αυτήν την κοινόχρηστη πρόσβαση",
     "You are not allowed to remove this shared access" : "Δεν επιτρέπεται να καταργήσετε αυτήν την κοινόχρηστη πρόσβαση",
@@ -341,7 +339,6 @@ OC.L10N.register(
     "No projects found" : "Δε βρέθηκαν έργα",
     "Bill moved to \"{project}\" successfully" : "Ο λογαριασμός μετακινήθηκε στο έργο \"{project}\" με επιτυχία",
     "Rename project {n}" : "Μετονομασία έργου {n}",
-    "Disable bill deletion" : "Απενεργοποίηση διαγραφής λογαριασμού",
     "Automatic export" : "Αυτόματη εξαγωγή",
     "Export project" : "Εξαγωγή έργου",
     "Members" : "Μέλη",

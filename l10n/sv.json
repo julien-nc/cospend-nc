@@ -1,8 +1,6 @@
 { "translations": {
-    "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted" : "En <strong>räkning</strong> i Cospend-appen har uppdaterats/skapats/raderats",
     "circle %1$s" : "cirkel %1$s",
     "Cospend" : "Cospend",
-    "Changes in the <strong>Cospend app</strong>" : "Ändringar i <strong>Cospend-appen</strong>",
     "You are not allowed to give such shared access level" : "Du har inte behörighet att ge sådan åtkomstnivå",
     "You are not allowed to edit this shared access" : "Du har inte behörighet att ändra denna delning",
     "You are not allowed to remove this shared access" : "Du har inte behörighet att ta bort denna delning",

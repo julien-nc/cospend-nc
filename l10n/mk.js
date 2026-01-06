@@ -1,9 +1,7 @@
 OC.L10N.register(
     "cospend",
     {
-    "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted" : "<strong>Сметка</strong> во Cospend апликацијата е ажурирана/креирана/избришана",
     "circle %1$s" : "круг %1$s",
-    "Changes in the <strong>Cospend app</strong>" : "Промени во <strong>Cospend апликацијата</strong>",
     "You are not allowed to give such shared access level" : "Не ви е дозволено да додавате ниво на споделен пристап",
     "You are not allowed to remove this shared access" : "Не ви е дозволено да го отстраните нивото на споделен пристап",
     "Access denied" : "Пристапот е одбиен",
@@ -228,7 +226,6 @@ OC.L10N.register(
     "Choose where to write output files (stats, settlement, export)" : "Избери каде да се запишува излезот (статистики, порамнувања, извоз)",
     "You" : "Вие",
     "Rename project {n}" : "Преименувај проект {n}",
-    "Disable bill deletion" : "Оневозможи бришење на сметки",
     "Automatic export" : "Автоматски извоз",
     "Export project" : "Извези проект",
     "You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab." : "Можете да додадете едноставен член или корисник на Nextcloud. Можете да им дадете пристап на корисниците на Nextcloud до проектот во менито. Може да им дадете пристап и на корисниците на Nextcloud кои не се членови во јазичето Споделување.",

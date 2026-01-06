@@ -1,10 +1,8 @@
 OC.L10N.register(
     "cospend",
     {
-    "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted" : "<strong>Účet</strong> v rámci aplikace Cospend byl aktualizován/vytvořen/smazán",
     "circle %1$s" : "okruh %1$s",
     "Cospend" : "Cospend",
-    "Changes in the <strong>Cospend app</strong>" : "Změny v <strong>aplikaci Cospend</strong>",
     "You are not allowed to give such shared access level" : "Nemáte oprávnění k poskytnutí takové úrovně sdíleného přístupu",
     "You are not allowed to edit this shared access" : "Nemáte oprávnění pro upravení tohoto sdíleného přístupu",
     "You are not allowed to remove this shared access" : "Nemáte oprávnění pro odebrání tohoto sdíleného přístupu",
@@ -369,7 +367,6 @@ OC.L10N.register(
     "My new project" : "Můj nový projekt",
     "Create" : "Vytvořit",
     "Rename project {n}" : "Přejmenovat projekt {n}",
-    "Disable bill deletion" : "Zakázat odstranění účtu",
     "Automatic export" : "Automatický export",
     "Export project" : "Exportovat projekt",
     "Members" : "Členové",

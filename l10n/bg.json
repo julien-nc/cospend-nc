@@ -1,7 +1,5 @@
 { "translations": {
-    "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted" : "<strong>Сметка</strong> в приложението Cospend е актуализирана/създадена/изтрита",
     "circle %1$s" : "кръг %1$s",
-    "Changes in the <strong>Cospend app</strong>" : "Промени в <strong>приложението Cospend</strong>",
     "You are not allowed to give such shared access level" : "Не Ви е разрешено да давате споделен достъп на това ниво",
     "You are not allowed to edit this shared access" : "Редактирането на този споделен достъп не Ви е разрешено",
     "You are not allowed to remove this shared access" : "Не Ви е разрешено да премахвате този споделен достъп",
@@ -397,7 +395,6 @@
     "Create" : "Създаване",
     "Payment mode selector" : "Избор на начин на плащане",
     "Rename project {n}" : "Преименуване на проекта {n}",
-    "Disable bill deletion" : "Дезактивирано изтриване на сметки",
     "Automatic export" : "Автоматично изнасяне",
     "Export project" : "Изнасяне на проекта",
     "Members" : "Членове",

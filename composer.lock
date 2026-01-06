@@ -243,12 +243,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nextcloud-deps/ocp.git",
-                "reference": "324ff20c92129ebcae21a73f4b32479c515fe2de"
+                "reference": "2f3e07f61634b2d9bb6d8572e39614971798681a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nextcloud-deps/ocp/zipball/324ff20c92129ebcae21a73f4b32479c515fe2de",
-                "reference": "324ff20c92129ebcae21a73f4b32479c515fe2de",
+                "url": "https://api.github.com/repos/nextcloud-deps/ocp/zipball/2f3e07f61634b2d9bb6d8572e39614971798681a",
+                "reference": "2f3e07f61634b2d9bb6d8572e39614971798681a",
                 "shasum": ""
             },
             "require": {
@@ -284,7 +284,7 @@
                 "issues": "https://github.com/nextcloud-deps/ocp/issues",
                 "source": "https://github.com/nextcloud-deps/ocp/tree/master"
             },
-            "time": "2025-12-30T19:45:19+00:00"
+            "time": "2026-01-01T01:02:28+00:00"
         },
         {
             "name": "nextcloud/openapi-extractor",
@@ -292,12 +292,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nextcloud/openapi-extractor.git",
-                "reference": "fe60cfe5fc519841fc42999fa6da30ee4bc76ec3"
+                "reference": "3ea267111305c600e3f268061766cd67586e2d65"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nextcloud/openapi-extractor/zipball/fe60cfe5fc519841fc42999fa6da30ee4bc76ec3",
-                "reference": "fe60cfe5fc519841fc42999fa6da30ee4bc76ec3",
+                "url": "https://api.github.com/repos/nextcloud/openapi-extractor/zipball/3ea267111305c600e3f268061766cd67586e2d65",
+                "reference": "3ea267111305c600e3f268061766cd67586e2d65",
                 "shasum": ""
             },
             "require": {
@@ -348,7 +348,7 @@
                 "source": "https://github.com/nextcloud/openapi-extractor/tree/main",
                 "issues": "https://github.com/nextcloud/openapi-extractor/issues"
             },
-            "time": "2025-12-28T03:30:13+00:00"
+            "time": "2026-01-04T03:31:00+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -528,16 +528,16 @@
         },
         {
             "name": "php-cs-fixer/shim",
-            "version": "v3.92.3",
+            "version": "v3.92.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/shim.git",
-                "reference": "85907503d29473dfbb2f5950c84f5c00cb1b7297"
+                "reference": "42511441af95955f9d40312f83da870018f0fb10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/shim/zipball/85907503d29473dfbb2f5950c84f5c00cb1b7297",
-                "reference": "85907503d29473dfbb2f5950c84f5c00cb1b7297",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/shim/zipball/42511441af95955f9d40312f83da870018f0fb10",
+                "reference": "42511441af95955f9d40312f83da870018f0fb10",
                 "shasum": ""
             },
             "require": {
@@ -574,9 +574,9 @@
             "description": "A tool to automatically fix PHP code style",
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/shim/issues",
-                "source": "https://github.com/PHP-CS-Fixer/shim/tree/v3.92.3"
+                "source": "https://github.com/PHP-CS-Fixer/shim/tree/v3.92.4"
             },
-            "time": "2025-12-18T10:45:25+00:00"
+            "time": "2026-01-04T00:39:15+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",

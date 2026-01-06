@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Ability to move a bill to another project with drag'n'drop
+- Icons in settings dialog
 
 ### Changed
 
@@ -29,6 +30,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Do not push history state in public pages (prevents the URL to change)
 - Make activity subject strings shorter to reduce the chances the activity notifications are rejected (max 64 chars subject...)
 - Produce 'unshare' activities before deleting the share to make sure the users who lose access are 'affected' by the activity
+- Properly escape double quotes in exported CSV files
 
 ## 3.1.6 – 2025-10-13
 

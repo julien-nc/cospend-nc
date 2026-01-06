@@ -69,7 +69,7 @@ class CloudFederationProviderCospend implements ICloudFederationProvider {
 	 * @throws DBException
 	 */
 	public function shareReceived(ICloudFederationShare $share): string {
-		$federationEnabled = $this->appConfig->getValueString(Application::APP_ID, 'federation_enabled', '0') === '1';
+		$federationEnabled = $this->appConfig->getValueString(Application::APP_ID, 'federation_enabled', '0', lazy: true) === '1';
 		if (!$federationEnabled) {
 			$this->logger->debug('Received a federation invite but federation is disabled');
 			throw new ProviderCouldNotAddShareException('Server does not support Cospend federation', '', Http::STATUS_SERVICE_UNAVAILABLE);
@@ -219,7 +219,7 @@ class CloudFederationProviderCospend implements ICloudFederationProvider {
 		string $projectId,
 		string $userCloudId,
 	): Share {
-		$federationEnabled = $this->appConfig->getValueString(Application::APP_ID, 'federation_enabled', '0') === '1';
+		$federationEnabled = $this->appConfig->getValueString(Application::APP_ID, 'federation_enabled', '0', lazy: true) === '1';
 		if (!$federationEnabled) {
 			throw new ActionNotSupportedException('Server does not support Cospend federation');
 		}
@@ -248,7 +248,7 @@ class CloudFederationProviderCospend implements ICloudFederationProvider {
 		#[SensitiveParameter]
 		string $sharedSecret,
 	): Invitation {
-		$federationEnabled = $this->appConfig->getValueString(Application::APP_ID, 'federation_enabled', '0') === '1';
+		$federationEnabled = $this->appConfig->getValueString(Application::APP_ID, 'federation_enabled', '0', lazy: true) === '1';
 		if (!$federationEnabled) {
 			throw new ActionNotSupportedException('Server does not support Cospend federation');
 		}

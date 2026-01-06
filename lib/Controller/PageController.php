@@ -34,8 +34,10 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 
 use OCP\Collaboration\Reference\RenderReferenceEvent;
+use OCP\Config\IUserConfig;
 use OCP\DB\Exception;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
 use OCP\IConfig;
 
 use OCP\IL10N;
@@ -54,6 +56,8 @@ class PageController extends Controller {
 		private IAppManager $appManager,
 		private IEventDispatcher $eventDispatcher,
 		private IConfig $config,
+		private IUserConfig $userConfig,
+		private IAppConfig $appConfig,
 		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
@@ -299,9 +303,17 @@ class PageController extends Controller {
 	 */
 	#[NoAdminRequired]
 	public function deleteOptionsValues(): DataResponse {
-		$keys = $this->config->getUserKeys($this->userId, Application::APP_ID);
+		$keys = $this->userConfig->getKeys($this->userId, Application::APP_ID);
 		foreach ($keys as $key) {
-			$this->config->deleteUserValue($this->userId, Application::APP_ID, $key);
+			$this->userConfig->deleteUserConfig($this->userId, Application::APP_ID, $key);
+		}
+
+		return new DataResponse('');
+	}
+
+	public function saveAdminOptionValues(array $options): DataResponse {
+		foreach ($options as $key => $value) {
+			$this->appConfig->setValueString(Application::APP_ID, $key, $value, lazy: true);
 		}
 
 		return new DataResponse('');
@@ -319,7 +331,7 @@ class PageController extends Controller {
 	#[NoAdminRequired]
 	public function saveOptionValues(array $options): DataResponse {
 		foreach ($options as $key => $value) {
-			$this->config->setUserValue($this->userId, Application::APP_ID, $key, $value);
+			$this->userConfig->setValueString($this->userId, Application::APP_ID, $key, $value, lazy: true);
 		}
 
 		return new DataResponse('');
@@ -327,9 +339,9 @@ class PageController extends Controller {
 
 	private function getOptionsValues(): array {
 		$settings = [];
-		$keys = $this->config->getUserKeys($this->userId, Application::APP_ID);
+		$keys = $this->userConfig->getKeys($this->userId, Application::APP_ID);
 		foreach ($keys as $key) {
-			$value = $this->config->getUserValue($this->userId, Application::APP_ID, $key);
+			$value = $this->userConfig->getValueString($this->userId, Application::APP_ID, $key, lazy: true);
 			$settings[$key] = $value;
 		}
 		return $settings;

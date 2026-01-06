@@ -143,7 +143,7 @@ class Application extends App implements IBootstrap {
 		IAppConfig $appConfig,
 		ICloudFederationProviderManager $manager,
 	): void {
-		$federationEnabled = $appConfig->getValueString(self::APP_ID, 'federation_enabled', '0') === '1';
+		$federationEnabled = $appConfig->getValueString(self::APP_ID, 'federation_enabled', '0', lazy: true) === '1';
 		if (!$federationEnabled) {
 			return;
 		}

@@ -44,6 +44,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;
+use OCP\Config\IUserConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
 use OCP\Exceptions\AppConfigTypeConflictException;
@@ -76,6 +77,7 @@ class LocalProjectService implements IProjectService {
 	public function __construct(
 		private IL10N $l10n,
 		private IConfig $config,
+		private IUserConfig $userConfig,
 		private IAppConfig $appConfig,
 		private ProjectMapper $projectMapper,
 		private BillMapper $billMapper,
@@ -347,7 +349,7 @@ class LocalProjectService implements IProjectService {
 			}
 		}
 		// compute balances for past bills only
-		$balancePastBillsOnly = $this->appConfig->getValueString(Application::APP_ID, 'balance_past_bills_only', '0') === '1';
+		$balancePastBillsOnly = $this->appConfig->getValueString(Application::APP_ID, 'balance_past_bills_only', '0', lazy: true) === '1';
 		$balance = $this->getBalance($dbProjectId, $balancePastBillsOnly ? time() : null);
 		$currencies = $this->getCurrencies($dbProjectId);
 		$categories = $this->getCategoriesOrPaymentModes($dbProjectId);
@@ -2420,10 +2422,10 @@ class LocalProjectService implements IProjectService {
 	private function getProjectTimeZone(string $projectId): DateTimeZone {
 		$projectInfo = $this->getProjectInfo($projectId);
 		$userId = $projectInfo['userid'];
-		$timeZone = $this->config->getUserValue($userId, 'core', 'timezone', null);
+		$timeZone = $this->userConfig->getValueString($userId, 'core', 'timezone');
 		$serverTimeZone = date_default_timezone_get() ?: 'UTC';
 
-		if ($timeZone === null) {
+		if ($timeZone === '') {
 			$timeZone = $serverTimeZone;
 		}
 

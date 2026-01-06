@@ -9,8 +9,8 @@ use OCA\Cospend\Db\Project;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Service\CospendService;
 use OCA\Cospend\Service\LocalProjectService;
+use OCP\Config\IUserConfig;
 use OCP\DB\Exception;
-use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUser;
 use OCP\PreConditionNotMetException;
@@ -34,7 +34,7 @@ class UserMigrator implements IMigrator, ISizeEstimationMigrator {
 		private LocalProjectService $localProjectService,
 		private ProjectMapper $projectMapper,
 		private CospendService $cospendService,
-		private IConfig $config,
+		private IUserConfig $userConfig,
 		private IL10N $l10n,
 	) {
 	}
@@ -83,9 +83,9 @@ class UserMigrator implements IMigrator, ISizeEstimationMigrator {
 
 		// settings
 		$userSettings = [];
-		foreach ($this->config->getUserKeys($userId, Application::APP_ID) as $key) {
-			$value = $this->config->getUserValue($userId, Application::APP_ID, $key, null);
-			if ($value !== null) {
+		foreach ($this->userConfig->getKeys($userId, Application::APP_ID) as $key) {
+			$value = $this->userConfig->getValueString($userId, Application::APP_ID, $key, lazy: true);
+			if ($value !== '') {
 				$userSettings[$key] = $value;
 			}
 		}
@@ -141,7 +141,7 @@ class UserMigrator implements IMigrator, ISizeEstimationMigrator {
 			$settings = json_decode($settingsFileContent, true);
 			if ($settings !== false && is_array($settings)) {
 				foreach ($settings as $key => $value) {
-					$this->config->setUserValue($userId, Application::APP_ID, $key, (string)$value);
+					$this->userConfig->setValueString($userId, Application::APP_ID, $key, (string)$value, lazy: true);
 				}
 			}
 		}

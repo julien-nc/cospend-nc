@@ -6,12 +6,6 @@ import {
 	showError,
 } from '@nextcloud/dialogs'
 
-export function getOptionValues() {
-	const url = generateUrl('/apps/cospend/option-values')
-	const req = {}
-	return axios.get(url, req)
-}
-
 export function saveOptionValues(optionValues) {
 	if (!OCA.Cospend.state.pageIsPublic) {
 		const req = {

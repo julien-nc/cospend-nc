@@ -5,18 +5,18 @@
 			{{ t('cospend', 'Cospend') }}
 		</h2>
 		<div id="cospend-content">
-			<NcCheckboxRadioSwitch :model-value="state.federation_enabled"
-				:disabled="loading"
-				type="switch"
-				@update:model-value="saveFederationEnabled">
-				{{ t('cospend', 'Enable Federation in Cospend') }}
-			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch :model-value="state.balance_past_bills_only"
-				:disabled="loading"
-				type="switch"
-				@update:model-value="saveBalancePastBillsOnly">
-				{{ t('cospend', 'Only consider past bills to compute balances') }}
-			</NcCheckboxRadioSwitch>
+			<NcFormBox>
+				<NcFormBoxSwitch :model-value="state.federation_enabled"
+					:disabled="loading"
+					@update:model-value="saveFederationEnabled">
+					{{ t('cospend', 'Enable Federation in Cospend') }}
+				</NcFormBoxSwitch>
+				<NcFormBoxSwitch :model-value="state.balance_past_bills_only"
+					:disabled="loading"
+					@update:model-value="saveBalancePastBillsOnly">
+					{{ t('cospend', 'Only consider past bills to compute balances') }}
+				</NcFormBoxSwitch>
+			</NcFormBox>
 		</div>
 	</div>
 </template>
@@ -24,16 +24,21 @@
 <script>
 import CospendIcon from '../components/icons/CospendIcon.vue'
 
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcFormBoxSwitch from '@nextcloud/vue/components/NcFormBoxSwitch'
+import NcFormBox from '@nextcloud/vue/components/NcFormBox'
 
 import { loadState } from '@nextcloud/initial-state'
+import { generateUrl } from '@nextcloud/router'
+import axios from '@nextcloud/axios'
+import { showError } from '@nextcloud/dialogs'
 
 export default {
 	name: 'AdminSettings',
 
 	components: {
 		CospendIcon,
-		NcCheckboxRadioSwitch,
+		NcFormBox,
+		NcFormBoxSwitch,
 	},
 
 	data() {
@@ -53,23 +58,30 @@ export default {
 	},
 
 	methods: {
-		saveFederationEnabled(value) {
+		saveOptions(values) {
 			this.loading = true
-			OCP.AppConfig.setValue('cospend', 'federation_enabled', value ? '1' : '0', {
-				success: () => {
+			const req = {
+				options: values,
+			}
+			const url = generateUrl('/apps/cospend/admin-option-values')
+			axios.put(url, req)
+				.then((response) => {
+				})
+				.catch((error) => {
+					showError(t('cospend', 'Failed to save option values'))
+					console.error(error)
+				})
+				.then(() => {
 					this.loading = false
-					this.state.federation_enabled = value
-				},
-			})
+				})
+		},
+		saveFederationEnabled(value) {
+			this.state.federation_enabled = value
+			this.saveOptions({ federation_enabled: value ? '1' : '0' })
 		},
 		saveBalancePastBillsOnly(value) {
-			this.loading = true
-			OCP.AppConfig.setValue('cospend', 'balance_past_bills_only', value ? '1' : '0', {
-				success: () => {
-					this.loading = false
-					this.state.balance_past_bills_only = value
-				},
-			})
+			this.state.balance_past_bills_only = value
+			this.saveOptions({ balance_past_bills_only: value ? '1' : '0' })
 		},
 	},
 }
@@ -79,6 +91,7 @@ export default {
 #cospend_prefs {
 	#cospend-content {
 		margin-left: 40px;
+		max-width: 800px;
 	}
 
 	h2 {

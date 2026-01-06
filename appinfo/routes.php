@@ -30,6 +30,7 @@ return [
 
 		['name' => 'page#getOptionsValues', 'url' => '/option-values', 'verb' => 'GET'],
 		['name' => 'page#saveOptionValues', 'url' => '/option-values', 'verb' => 'PUT'],
+		['name' => 'page#saveAdminOptionValues', 'url' => '/admin-option-values', 'verb' => 'PUT'],
 
 		// OLD API for client using guest access (projectId + password) or public link (token + optional password)
 		['name' => 'oldApi#preflighted_cors', 'url' => '/api/{path}', 'verb' => 'OPTIONS', 'requirements' => ['path' => '.+']],

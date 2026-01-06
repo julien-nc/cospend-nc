@@ -19,8 +19,8 @@ class Admin implements ISettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm(): TemplateResponse {
-		$federationEnabled = $this->appConfig->getValueString(Application::APP_ID, 'federation_enabled', '0') === '1';
-		$balancePastBillsOnly = $this->appConfig->getValueString(Application::APP_ID, 'balance_past_bills_only', '0') === '1';
+		$federationEnabled = $this->appConfig->getValueString(Application::APP_ID, 'federation_enabled', '0', lazy: true) === '1';
+		$balancePastBillsOnly = $this->appConfig->getValueString(Application::APP_ID, 'balance_past_bills_only', '0', lazy: true) === '1';
 
 		$values = [
 			'federation_enabled' => $federationEnabled,

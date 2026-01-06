@@ -21,6 +21,7 @@ use OCA\Cospend\Db\InvitationMapper;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Utils;
 
+use OCP\Config\IUserConfig;
 use OCP\DB\Exception;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -28,7 +29,6 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
-use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IUserManager;
@@ -45,7 +45,7 @@ class CospendService {
 		private IL10N $l10n,
 		private IUserManager $userManager,
 		private IDbConnection $db,
-		private IConfig $config,
+		private IUserConfig $userConfig,
 	) {
 	}
 
@@ -726,7 +726,7 @@ class CospendService {
 		$userIds = $this->projectMapper->getUserIdsWithAutoExportProjects();
 
 		foreach ($userIds as $uid) {
-			$outPath = $this->config->getUserValue($uid, Application::APP_ID, 'outputDirectory', '/Cospend');
+			$outPath = $this->userConfig->getValueString($uid, Application::APP_ID, 'outputDirectory', '/Cospend', lazy: true);
 
 			$projects = $this->projectMapper->getUserProjectsWithAutoExport($uid);
 			if (empty($projects)) {
@@ -803,7 +803,7 @@ class CospendService {
 	 */
 	public function exportCsvSettlement(string $projectId, string $userId, array $settlement, array $members): array {
 		// create export directory if needed
-		$outPath = $this->config->getUserValue($userId, Application::APP_ID, 'outputDirectory', '/Cospend');
+		$outPath = $this->userConfig->getValueString($userId, Application::APP_ID, 'outputDirectory', '/Cospend', lazy: true);
 		$userFolder = $this->root->getUserFolder($userId);
 		$msg = $this->createAndCheckExportDirectory($userFolder, $outPath);
 		if ($msg !== '') {
@@ -867,7 +867,7 @@ class CospendService {
 		string $projectId, string $userId, array $statistics,
 	): array {
 		// create export directory if needed
-		$outPath = $this->config->getUserValue($userId, Application::APP_ID, 'outputDirectory', '/Cospend');
+		$outPath = $this->userConfig->getValueString($userId, Application::APP_ID, 'outputDirectory', '/Cospend', lazy: true);
 		$userFolder = $this->root->getUserFolder($userId);
 		$msg = $this->createAndCheckExportDirectory($userFolder, $outPath);
 		if ($msg !== '') {
@@ -927,7 +927,7 @@ class CospendService {
 	 */
 	public function exportCsvProject(string $projectId, string $userId, array $projectInfo, array $bills, ?string $name = null): array {
 		// create export directory if needed
-		$outPath = $this->config->getUserValue($userId, Application::APP_ID, 'outputDirectory', '/Cospend');
+		$outPath = $this->userConfig->getValueString($userId, Application::APP_ID, 'outputDirectory', '/Cospend', lazy: true);
 		$userFolder = $this->root->getUserFolder($userId);
 		$msg = $this->createAndCheckExportDirectory($userFolder, $outPath);
 		if ($msg !== '') {

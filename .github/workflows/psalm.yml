@@ -38,7 +38,7 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        ocp-version: ['30', 'dev-stable31', 'dev-master']
+        ocp-version: ['dev-master']
         php-version: ['8.2', '8.3', '8.4']
 
 

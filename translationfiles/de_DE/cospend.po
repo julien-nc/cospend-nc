@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2026-01-04 23:49+0100\n"
-"PO-Revision-Date: 2026-01-08 20:05\n"
+"PO-Revision-Date: 2026-01-09 20:25\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -59,37 +59,37 @@ msgstr "{user} hat {bill} in {project} aktualisiert"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/BillCreatedSetting.php:36
 msgid "A Cospend <strong>bill</strong> has been created"
-msgstr ""
+msgstr "Eine Cospend <strong>Rechnung</strong> wurde erstellt"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/BillDeletedSetting.php:36
 msgid "A Cospend <strong>bill</strong> has been deleted"
-msgstr ""
+msgstr "Eine Cospend <strong>Rechnung</strong> wurde gelöscht"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/BillUpdatedSetting.php:36
 msgid "A Cospend <strong>bill</strong> has been updated"
-msgstr ""
+msgstr "Eine Cospend <strong>Rechnung</strong> wurde aktualisiert"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:76
 #, php-format
 msgid "Deleted user (%s)"
-msgstr ""
+msgstr "Benutzer (%s) gelöscht"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:99
 msgid "Unknown author"
-msgstr ""
+msgstr "Unbekannter Autor"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:108
 #, php-format
 msgid "Shared access (%s)"
-msgstr ""
+msgstr "Geteilter Zugriff (%s)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:109
 msgid "Shared access"
-msgstr ""
+msgstr "Geteilter Zugriff"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:116
 msgid "No author"
-msgstr ""
+msgstr "Kein Autor"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:305
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:313
@@ -108,7 +108,7 @@ msgstr "Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/Setting.php:43
 msgid "A Cospend <strong>project</strong> has been shared or unshared"
-msgstr ""
+msgstr "Ein Cospend <strong>Projekt</strong> wurde geteilt oder nicht mehr geteilt"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:579
 msgid "You are not allowed to access the target project"
@@ -1807,12 +1807,12 @@ msgstr "Projekt {projectName} ({projectId}) geteilt von {displayName} ({cloudId}
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:305
 msgid "Bill moved to \"{projectName}\" successfully"
-msgstr ""
+msgstr "Rechnung erfolgreich nach \"{projectName}\" verschoben"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:306
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:400
 msgid "Failed to move bill from {name1} to {name2}"
-msgstr ""
+msgstr "Fehler beim Verschieben der Rechnung von {name1} nach {name2}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:311
 msgid "Everyone"
@@ -1959,7 +1959,7 @@ msgstr "Speicherort von Exporten"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:364
 msgid "Export directory"
-msgstr ""
+msgstr "Verzeichnis exportieren"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:365
 msgid "Select export directory"
@@ -2075,11 +2075,11 @@ msgstr "Projekt {n} umbenennen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:413
 msgid "Rename project"
-msgstr ""
+msgstr "Projekt umbenennen"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:414
 msgid "Allow bill deletion"
-msgstr ""
+msgstr "Löschen von Rechnungen erlauben"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:415
 msgid "Automatic export"

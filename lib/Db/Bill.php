@@ -66,7 +66,6 @@ class Bill extends Entity implements \JsonSerializable {
 	protected $deleted;
 
 	public function __construct() {
-		$this->addType('id', Types::INTEGER);
 		$this->addType('what', Types::STRING);
 		$this->addType('comment', Types::STRING);
 		$this->addType('payerId', Types::INTEGER);

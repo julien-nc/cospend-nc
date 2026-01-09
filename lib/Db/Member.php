@@ -51,7 +51,6 @@ class Member extends Entity implements \JsonSerializable {
 	private $avatarManager;
 
 	public function __construct() {
-		$this->addType('id', Types::INTEGER);
 		$this->addType('projectId', Types::STRING);
 		$this->addType('name', Types::STRING);
 		$this->addType('weight', Types::FLOAT);

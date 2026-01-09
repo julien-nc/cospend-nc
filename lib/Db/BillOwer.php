@@ -27,7 +27,6 @@ class BillOwer extends Entity implements \JsonSerializable {
 	protected $memberId;
 
 	public function __construct() {
-		$this->addType('id', Types::INTEGER);
 		$this->addType('billId', Types::INTEGER);
 		$this->addType('memberId', Types::INTEGER);
 	}

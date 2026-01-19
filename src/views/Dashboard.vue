@@ -168,46 +168,30 @@ export default {
 		},
 		getTarget(a) {
 			const projectId = a.subject_rich[1].project.id
-			return generateUrl('/apps/cospend?project=' + projectId)
+			return generateUrl('/apps/cospend?project={projectId}', { projectId })
 		},
 		getSubline(a) {
 			const projectName = a.subject_rich[1].project.name
-			let char
-			if (a.link === 'project_share') {
-				char = '🔗'
-			} else if (a.link === 'project_unshare') {
+			let char = ''
+			if (a.icon.endsWith('unshare.svg')) {
 				char = '🛇'
-			} else if (a.link === 'bill_create') {
+			} else if (a.icon.endsWith('share.svg')) {
+				char = '🔗'
+			} else if (a.icon.endsWith('add-color.svg')) {
 				char = '➕'
-			} else if (a.link === 'bill_delete') {
+			} else if (a.icon.endsWith('delete-color.svg')) {
 				char = '🗑️'
-			} else if (a.link === 'bill_update') {
+			} else if (a.icon.endsWith('rename.svg')) {
 				char = '️✏️'
 			}
 			return char + ' ' + projectName
 		},
 		getMainText(a) {
-			if (a.link === 'project_share') {
-				const projectName = a.subject_rich[1].project.name
-				const userName = a.subject_rich[1].user.name
-				const whoName = a.subject_rich[1].who.name
-				return t('cospend', '{user} shared {project} with {who}', { user: userName, project: projectName, who: whoName })
-			} else if (a.link === 'project_unshare') {
-				const projectName = a.subject_rich[1].project.name
-				const userName = a.subject_rich[1].user.name
-				const whoName = a.subject_rich[1].who.name
-				return t('cospend', '{user} unshared {project} with {who}', { user: userName, project: projectName, who: whoName })
-			} else if (['bill_create', 'bill_delete', 'bill_update'].includes(a.link)) {
-				const userName = a.subject_rich[1].user.name
-				const billName = a.subject_rich[1].bill.name
-				if (a.link === 'bill_create') {
-					return t('cospend', '{user} created {bill}', { user: userName, bill: billName })
-				} else if (a.link === 'bill_delete') {
-					return t('cospend', '{user} deleted {bill}', { user: userName, bill: billName })
-				} else if (a.link === 'bill_update') {
-					return t('cospend', '{user} edited {bill}', { user: userName, bill: billName })
-				}
-			}
+			return a.subject_rich[0]
+				.replace('{bill}', a.subject_rich[1].bill?.name)
+				.replace('{user}', a.subject_rich[1].user?.name)
+				.replace('{who}', a.subject_rich[1].who?.name)
+				.replace('{project}', a.subject_rich[1].project?.name)
 		},
 	},
 }

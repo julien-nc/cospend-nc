@@ -4,7 +4,7 @@
  */
 import { createAppConfig } from '@nextcloud/vite-config'
 import eslint from 'vite-plugin-eslint'
-import stylelint from 'vite-plugin-stylelint'
+// import stylelint from 'vite-plugin-stylelint'
 
 const isProduction = process.env.NODE_ENV === 'production'
 
@@ -25,7 +25,10 @@ export default createAppConfig({
 				},
 			},
 		},
-		plugins: [eslint(), stylelint()],
+		plugins: [
+			eslint(),
+			// stylelint(),
+		],
 		build: {
 			cssCodeSplit: true,
 			// caused issues with NcAvatar (TypeError: can't access property "needReadable", this._readableState is undefined)

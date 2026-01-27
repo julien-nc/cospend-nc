@@ -184,7 +184,7 @@ import { emit } from '@nextcloud/event-bus'
 import * as constants from '../constants.js'
 import { Timer, getSortedMembers } from '../utils.js'
 import * as network from '../network.js'
-import { showSuccess, showError } from '@nextcloud/dialogs'
+import { showSuccess, showError, showWarning } from '@nextcloud/dialogs'
 
 export default {
 	name: 'AppNavigationProjectItem',
@@ -381,18 +381,23 @@ export default {
 				this.isDropError = false
 				this.isDropWarning = false
 				const payerName = e.dataTransfer.getData('payerName')
-				if (this.hasMemberNamed(payerName)) {
-					network.moveBill(projectId, parseInt(billId), this.project.id).then(res => {
-						showSuccess(t('cospend', 'Bill moved to "{projectName}" successfully', { projectName: this.project.name }))
-						emit('bill-moved', { newBillId: res.data.ocs.data, newProjectId: this.project.id })
-					}).catch(error => {
-						console.error(error)
-						showError(
-							t('cospend', 'Failed to move bill from {name1} to {name2}', { name1: this.cospend.projects[projectId].name, name2: this.project.name })
-							+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
-						)
-					})
+				if (!this.hasMemberNamed(payerName)) {
+					showWarning(t('cospend', 'Impossible to move the bill to "{projectName}". The payer was not found in the target project.', { projectName: this.project.name }))
+					return
 				}
+				if (this.project.id === projectId) {
+					return
+				}
+				network.moveBill(projectId, parseInt(billId), this.project.id).then(res => {
+					showSuccess(t('cospend', 'Bill moved to "{projectName}" successfully', { projectName: this.project.name }))
+					emit('bill-moved', { newBillId: res.data.ocs.data, newProjectId: this.project.id })
+				}).catch(error => {
+					console.error(error)
+					showError(
+						t('cospend', 'Failed to move bill from {name1} to {name2}', { name1: this.cospend.projects[projectId].name, name2: this.project.name })
+						+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
+					)
+				})
 			}
 		},
 	},

@@ -15,138 +15,160 @@
 				{{ t('cospend', 'Export') }}
 			</NcButton>
 		</h2>
-		<div id="stats-filters">
-			<label for="date-min-stats">
-				<CalendarStartIcon
-					class="icon"
-					:size="20" />
-				{{ t('cospend', 'Minimum date') }}
-			</label>
-			<input id="date-min-stats"
-				ref="dateMinFilter"
-				type="date"
-				@change="getStats">
-			<label for="date-max-stats">
-				<CalendarEndIcon
-					class="icon"
-					:size="20" />
-				{{ t('cospend', 'Maximum date') }}
-			</label>
-			<input id="date-max-stats"
-				ref="dateMaxFilter"
-				type="date"
-				@change="getStats">
-			<label for="payment-mode-stats">
-				<TagIcon
-					class="icon"
-					:size="20" />
-				{{ t('cospend', 'Payment mode') }}
-			</label>
-			<PaymentModeMultiSelect
-				id="payment-mode-stats"
-				:value="selectedFilterPm"
-				:payment-modes="sortedFilterPms"
-				:placeholder="t('cospend', 'Select a payment mode')"
-				@input="paymentModeFilterSelected" />
-			<label for="category-stats">
-				<ShapeIcon
-					class="icon"
-					:size="20" />
-				{{ t('cospend', 'Category') }}
-			</label>
-			<CategoryMultiSelect
-				id="category-stats"
-				:value="selectedFilterCategory"
-				:categories="sortedFilterCategories"
-				:placeholder="t('cospend', 'Select a category')"
-				@input="categoryFilterSelected" />
-			<label for="amount-min-stats">
-				<CurrencyUsdIcon
-					class="icon"
-					:size="20" />
-				{{ t('cospend', 'Minimum amount') }}
-			</label>
-			<input id="amount-min-stats"
-				ref="amountMinFilter"
-				type="number"
-				@change="getStats">
-			<label for="amount-max-stats">
-				<CurrencyUsdIcon
-					class="icon"
-					:size="20" />
-				{{ t('cospend', 'Maximum amount') }}
-			</label>
-			<input id="amount-max-stats"
-				ref="amountMaxFilter"
-				type="number"
-				@change="getStats">
-			<label for="currency-stats">
-				<CurrencyIcon class="icon" :size="20" />
-				{{ t('cospend', 'Convert in currency') }}
-			</label>
-			<select id="currency-stats"
-				ref="currencySelect"
-				v-model="selectedCurrencyId"
-				@change="getStats">
-				<option :value="0">
-					{{ project.currencyname || t('cospend', 'Main project\'s currency') }}
-				</option>
-				<option v-for="currency in currencies"
-					:key="currency.id"
-					:value="currency.id">
-					{{ currency.name }}
-				</option>
-			</select>
-			<label for="payer-stats">
-				<AccountIcon
-					class="icon"
-					:size="20" />
-				{{ t('cospend', 'Payer') }}
-			</label>
-			<MemberMultiSelect
-				:project-id="project.id"
-				:value="selectedFilterPayer"
-				:placeholder="t('cospend', 'Choose a member')"
-				:members="filterMembers"
-				@input="payerFilterSelected" />
-			<div />
-			<div />
-			<NcCheckboxRadioSwitch
-				v-model="showDisabled"
-				class="checkFilter"
-				@update:model-value="getStats">
-				{{ t('cospend', 'Show disabled members') }}
-			</NcCheckboxRadioSwitch>
-			<label for="prefChartType">
-				<ChartBarIcon
-					class="icon"
-					:size="20" />
-				{{ t('cospend', 'Chart type') }}
-			</label>
-			<select
-				id="prefChartType"
-				v-model="preferredChartType">
-				<option value="pie">
-					{{ t('cospend', 'Pie') }}
-				</option>
-				<option value="bar">
-					{{ t('cospend', 'Bar') }}
-				</option>
-			</select>
+		<div class="header">
+			<div class="stats-filters">
+				<div class="block">
+					<div class="line">
+						<label for="date-min-stats">
+							<CalendarStartIcon
+								class="icon"
+								:size="20" />
+							{{ t('cospend', 'Minimum date') }}
+						</label>
+						<input id="date-min-stats"
+							ref="dateMinFilter"
+							type="date"
+							@change="getStats">
+					</div>
+					<div class="line">
+						<label for="date-max-stats">
+							<CalendarEndIcon
+								class="icon"
+								:size="20" />
+							{{ t('cospend', 'Maximum date') }}
+						</label>
+						<input id="date-max-stats"
+							ref="dateMaxFilter"
+							type="date"
+							@change="getStats">
+					</div>
+					<div class="line">
+						<label for="currency-stats">
+							<CurrencyIcon class="icon" :size="20" />
+							{{ t('cospend', 'Convert in currency') }}
+						</label>
+						<select id="currency-stats"
+							ref="currencySelect"
+							v-model="selectedCurrencyId"
+							@change="getStats">
+							<option :value="0">
+								{{ project.currencyname || t('cospend', 'Main project\'s currency') }}
+							</option>
+							<option v-for="currency in currencies"
+								:key="currency.id"
+								:value="currency.id">
+								{{ currency.name }}
+							</option>
+						</select>
+					</div>
+					<div class="line">
+						<label for="payer-stats">
+							<AccountIcon
+								class="icon"
+								:size="20" />
+							{{ t('cospend', 'Payer') }}
+						</label>
+						<MemberMultiSelect
+							:project-id="project.id"
+							:value="selectedFilterPayer"
+							:placeholder="t('cospend', 'Choose a member')"
+							:members="filterMembers"
+							@input="payerFilterSelected" />
+					</div>
+					<div class="line">
+						<label for="prefChartType">
+							<ChartBarIcon
+								class="icon"
+								:size="20" />
+							{{ t('cospend', 'Chart type') }}
+						</label>
+						<select
+							id="prefChartType"
+							v-model="preferredChartType">
+							<option value="pie">
+								{{ t('cospend', 'Pie') }}
+							</option>
+							<option value="bar">
+								{{ t('cospend', 'Bar') }}
+							</option>
+						</select>
+					</div>
+				</div>
+				<div class="block">
+					<div class="line">
+						<label for="payment-mode-stats">
+							<TagIcon
+								class="icon"
+								:size="20" />
+							{{ t('cospend', 'Payment mode') }}
+						</label>
+						<PaymentModeMultiSelect
+							id="payment-mode-stats"
+							:value="selectedFilterPm"
+							:payment-modes="sortedFilterPms"
+							:placeholder="t('cospend', 'Select a payment mode')"
+							@input="paymentModeFilterSelected" />
+					</div>
+					<div class="line">
+						<label for="category-stats">
+							<ShapeIcon
+								class="icon"
+								:size="20" />
+							{{ t('cospend', 'Category') }}
+						</label>
+						<CategoryMultiSelect
+							id="category-stats"
+							:value="selectedFilterCategory"
+							:categories="sortedFilterCategories"
+							:placeholder="t('cospend', 'Select a category')"
+							@input="categoryFilterSelected" />
+					</div>
+					<div class="line">
+						<label for="amount-min-stats">
+							<CurrencyUsdIcon
+								class="icon"
+								:size="20" />
+							{{ t('cospend', 'Minimum amount') }}
+						</label>
+						<input id="amount-min-stats"
+							ref="amountMinFilter"
+							type="number"
+							@change="getStats">
+					</div>
+					<div class="line">
+						<label for="amount-max-stats">
+							<CurrencyUsdIcon
+								class="icon"
+								:size="20" />
+							{{ t('cospend', 'Maximum amount') }}
+						</label>
+						<input id="amount-max-stats"
+							ref="amountMaxFilter"
+							type="number"
+							@change="getStats">
+					</div>
+					<NcCheckboxRadioSwitch
+						v-model="showDisabled"
+						class="checkFilter"
+						@update:model-value="getStats">
+						{{ t('cospend', 'Show disabled members') }}
+					</NcCheckboxRadioSwitch>
+				</div>
+			</div>
+			<br>
+			<p v-if="stats"
+				class="totalPayedText">
+				<span v-if="selectedCurrencyName">
+					{{ t('cospend', 'Total paid by all the members: {t} {currencyName}', { t: totalPayed.toFixed(2), currencyName: selectedCurrencyName }) }}
+				</span>
+				<span v-else>
+					{{ t('cospend', 'Total paid by all the members: {t}', { t: totalPayed.toFixed(2) }) }}
+				</span>
+			</p>
+			<NcNoteCard type="info">
+				{{ t('cospend', 'You can zoom on the line charts by holding the SHIFT key and using the mouse wheel. You can then pan the chart by dragging it with the mouse.') }}
+			</NcNoteCard>
 		</div>
-		<br>
-		<p v-if="stats"
-			class="totalPayedText">
-			<span v-if="selectedCurrencyName">
-				{{ t('cospend', 'Total paid by all the members: {t} {currencyName}', { t: totalPayed.toFixed(2), currencyName: selectedCurrencyName }) }}
-			</span>
-			<span v-else>
-				{{ t('cospend', 'Total paid by all the members: {t}', { t: totalPayed.toFixed(2) }) }}
-			</span>
-		</p>
-		<NcNoteCard type="info">
-			{{ t('cospend', 'You can zoom on the line charts by holding the SHIFT key and using the mouse wheel. You can then pan the chart by dragging it with the mouse.') }}
-		</NcNoteCard>
 		<br><hr>
 		<h2 class="statTableTitle">
 			{{ t('cospend', 'Global stats') }}
@@ -1262,32 +1284,35 @@ export default {
 	}
 }
 
-#stats-filters {
-	max-width: 900px;
+.header {
 	margin-left: 20px;
-	display: grid;
-	grid-template: 1fr / 1fr 1fr 1fr 1fr;
-
-	select,
-	#amount-min-stats,
-	#amount-max-stats,
-	#currency-stats,
-	#date-min-stats,
-	#date-max-stats {
-		width: 200px;
-	}
-
-	.checkFilter {
-		grid-column: 3/5;
-		margin: 8px 0 0 10px;
-	}
 }
 
-#stats-filters label {
-	line-height: 40px;
+.stats-filters {
 	display: flex;
-	.icon {
-		margin: 0 10px 0 10px;
+	flex-wrap: wrap;
+	gap: 12px;
+	align-items: center;
+	.block {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		align-items: start;
+		.line {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			width: 100%;
+			label {
+				width: 160px;
+				display: flex;
+				align-items: center;
+				gap: 4px;
+			}
+			> *:not(label) {
+				flex-grow: 1;
+			}
+		}
 	}
 }
 
@@ -1327,7 +1352,7 @@ export default {
 	}
 
 	.totalPayedText {
-		text-align: center;
+		text-align: start;
 	}
 }
 
@@ -1364,10 +1389,6 @@ export default {
 	td:first-child {
 		padding: 4px 5px 4px 5px;
 	}
-}
-
-.totalPayedText {
-	margin: 0px 20px 0px 20px;
 }
 
 :deep(.coloredTable svg) {

@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import LineChartJs from '../LineChartJs.vue'
+import LineChartJs from '../chart.js/LineChartJs.vue'
 
 export default {
 	name: 'Monthly',

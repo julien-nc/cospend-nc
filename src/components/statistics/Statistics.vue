@@ -144,6 +144,9 @@
 				{{ t('cospend', 'Total paid by all the members: {t}', { t: totalPayed.toFixed(2) }) }}
 			</span>
 		</p>
+		<NcNoteCard type="info">
+			{{ t('cospend', 'You can zoom on the line charts by holding the SHIFT key and using the mouse wheel. You can then pan the chart by dragging it with the mouse.') }}
+		</NcNoteCard>
 		<br><hr>
 		<h2 class="statTableTitle">
 			{{ t('cospend', 'Global stats') }}
@@ -417,6 +420,7 @@ import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcAppContentDetails from '@nextcloud/vue/components/NcAppContentDetails'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 
 import MemberAvatar from '../avatar/MemberAvatar.vue'
 import MemberMultiSelect from '../MemberMultiSelect.vue'
@@ -424,8 +428,8 @@ import CategoryMultiSelect from '../CategoryMultiSelect.vue'
 import PaymentModeMultiSelect from '../PaymentModeMultiSelect.vue'
 import MemberMonthly from './MemberMonthly.vue'
 import Monthly from './Monthly.vue'
-import PieChartJs from '../PieChartJs.vue'
-import BarChartJs from '../BarChartJs.vue'
+import PieChartJs from '../chart.js/PieChartJs.vue'
+import BarChartJs from '../chart.js/BarChartJs.vue'
 
 import moment from '@nextcloud/moment'
 import { getCategory, getPaymentMode, getSmartMemberName, strcmp } from '../../utils.js'
@@ -447,6 +451,7 @@ export default {
 		NcButton,
 		NcCheckboxRadioSwitch,
 		NcLoadingIcon,
+		NcNoteCard,
 		CategoryMultiSelect,
 		PaymentModeMultiSelect,
 		CalendarStartIcon,
@@ -734,6 +739,22 @@ export default {
 					tooltip: {
 						intersect: false,
 						mode: 'index',
+					},
+					zoom: {
+						pan: {
+							enabled: true,
+							mode: 'x',
+						},
+						zoom: {
+							wheel: {
+								enabled: true,
+								modifierKey: 'shift',
+							},
+							pinch: {
+								enabled: true,
+							},
+							mode: 'x',
+						},
 					},
 				},
 				responsive: true,

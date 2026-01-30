@@ -57,7 +57,7 @@
 import MemberAvatar from '../avatar/MemberAvatar.vue'
 
 import { getSmartMemberName } from '../../utils.js'
-import LineChartJs from '../LineChartJs.vue'
+import LineChartJs from '../chart.js/LineChartJs.vue'
 
 export default {
 	name: 'MemberMonthly',

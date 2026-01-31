@@ -1278,7 +1278,8 @@ export default {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-top: 12px;
+	padding: 12px 0;
+	margin-top: 0 !important;
 	> * {
 		margin: 0 8px 0 8px;
 	}

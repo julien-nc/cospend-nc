@@ -28,73 +28,9 @@
 			:title="t('cospend', 'Cospend settings')"
 			:show-navigation="true"
 			container="#settings-container">
-			<NcAppSettingsSection
-				id="about"
-				:name="t('cospend', 'About Cospend')"
-				:title="t('cospend', 'About Cospend')"
-				class="app-settings-section">
-				<template #icon>
-					<InformationOutlineIcon :size="20" />
-				</template>
-				<div class="infos">
-					<h5 class="app-settings-section__hint">
-						{{ t('cospend', 'Thanks for using Cospend') + ' ♥' }}
-					</h5>
-					<label class="app-settings-section__hint">
-						{{ t('cospend', 'App version: {version}', { version: cospendVersion }) }}
-					</label>
-					<label class="app-settings-section__hint">
-						{{ t('cospend', 'Bug/issue tracker') + ': ' }}
-					</label>
-					<a href="https://github.com/julien-nc/cospend-nc/issues"
-						target="_blank"
-						class="external">
-						https://github.com/julien-nc/cospend-nc/issues
-						<OpenInNewIcon :size="16" />
-					</a>
-					<label class="app-settings-section__hint">
-						{{ t('cospend', 'Translation') + ': ' }}
-					</label>
-					<a href="https://crowdin.com/project/moneybuster"
-						target="_blank"
-						class="external">
-						https://crowdin.com/project/moneybuster
-						<OpenInNewIcon :size="16" />
-					</a>
-					<label class="app-settings-section__hint">
-						{{ t('cospend', 'User documentation') + ': ' }}
-					</label>
-					<a href="https://github.com/julien-nc/cospend-nc/blob/master/docs/user.md"
-						target="_blank"
-						class="external">
-						https://github.com/julien-nc/cospend-nc/blob/master/docs/user.md
-						<OpenInNewIcon :size="16" />
-					</a>
-					<label class="app-settings-section__hint">
-						{{ t('cospend', 'Admin documentation') + ': ' }}
-					</label>
-					<a href="https://github.com/julien-nc/cospend-nc/blob/master/docs/admin.md"
-						target="_blank"
-						class="external">
-						https://github.com/julien-nc/cospend-nc/blob/master/docs/admin.md
-						<OpenInNewIcon :size="16" />
-					</a>
-					<label class="app-settings-section__hint">
-						{{ t('cospend', 'Developer documentation') + ': ' }}
-					</label>
-					<a href="https://github.com/julien-nc/cospend-nc/blob/master/docs/dev.md"
-						target="_blank"
-						class="external">
-						https://github.com/julien-nc/cospend-nc/blob/master/docs/dev.md
-						<OpenInNewIcon :size="16" />
-					</a>
-				</div>
-			</NcAppSettingsSection>
 			<NcAppSettingsSection v-if="!pageIsPublic"
 				id="import"
-				:name="t('cospend', 'Import projects')"
-				:title="t('cospend', 'Import projects')"
-				class="app-settings-section">
+				:name="t('cospend', 'Import projects')">
 				<template #icon>
 					<FileImportIcon :size="20" />
 				</template>
@@ -115,9 +51,7 @@
 			</NcAppSettingsSection>
 			<NcAppSettingsSection v-if="!pageIsPublic"
 				id="export"
-				:name="t('cospend', 'Export location')"
-				:title="t('cospend', 'Export location')"
-				class="app-settings-section">
+				:name="t('cospend', 'Export location')">
 				<template #icon>
 					<FolderOutlineIcon :size="20" />
 				</template>
@@ -140,9 +74,7 @@
 			</NcAppSettingsSection>
 			<NcAppSettingsSection
 				id="sort"
-				:name="t('cospend', 'Sort criterias')"
-				:title="t('cospend', 'Sort criterias')"
-				class="app-settings-section">
+				:name="t('cospend', 'Sort criterias')">
 				<template #icon>
 					<SortIcon :size="20" />
 				</template>
@@ -165,9 +97,7 @@
 			</NcAppSettingsSection>
 			<NcAppSettingsSection
 				id="misc"
-				:name="t('cospend', 'Misc')"
-				:title="t('cospend', 'Misc')"
-				class="app-settings-section">
+				:name="t('cospend', 'Misc')">
 				<template #icon>
 					<CogIcon :size="20" />
 				</template>
@@ -192,12 +122,50 @@
 					</NcFormBoxSwitch>
 				</NcFormBox>
 			</NcAppSettingsSection>
+			<NcAppSettingsSection
+				id="about"
+				:name="t('cospend', 'About Cospend')">
+				<template #icon>
+					<InformationOutlineIcon :size="20" />
+				</template>
+				<div class="about">
+					<label>
+						{{ '♥ ' + t('cospend', 'Thanks for using Cospend') + ' ♥ (v' + cospendVersion + ')' }}
+					</label>
+					<NcFormBox>
+						<NcFormBoxButton
+							:label="t('cospend', 'Bug/issue tracker')"
+							description="https://github.com/julien-nc/cospend-nc/issues"
+							href="https://github.com/julien-nc/cospend-nc/issues"
+							target="_blank" />
+						<NcFormBoxButton
+							:label="t('cospend', 'Translation')"
+							description="https://crowdin.com/project/moneybuster"
+							href="https://crowdin.com/project/moneybuster"
+							target="_blank" />
+						<NcFormBoxButton
+							:label="t('cospend', 'User documentation')"
+							description="https://github.com/julien-nc/cospend-nc/blob/master/docs/user.md"
+							href="https://github.com/julien-nc/cospend-nc/blob/master/docs/user.md"
+							target="_blank" />
+						<NcFormBoxButton
+							:label="t('cospend', 'Admin documentation')"
+							description="https://github.com/julien-nc/cospend-nc/blob/master/docs/admin.md"
+							href="https://github.com/julien-nc/cospend-nc/blob/master/docs/admin.md"
+							target="_blank" />
+						<NcFormBoxButton
+							:label="t('cospend', 'Developer documentation')"
+							description="https://github.com/julien-nc/cospend-nc/blob/master/docs/dev.md"
+							href="https://github.com/julien-nc/cospend-nc/blob/master/docs/dev.md"
+							target="_blank" />
+					</NcFormBox>
+				</div>
+			</NcAppSettingsSection>
 		</NcAppSettingsDialog>
 	</div>
 </template>
 
 <script>
-import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 import FileImportIcon from 'vue-material-design-icons/FileImport.vue'
 import FolderOutlineIcon from 'vue-material-design-icons/FolderOutline.vue'
 import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
@@ -213,6 +181,7 @@ import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcFormBox from '@nextcloud/vue/components/NcFormBox'
 import NcFormBoxSwitch from '@nextcloud/vue/components/NcFormBoxSwitch'
+import NcFormBoxButton from '@nextcloud/vue/components/NcFormBoxButton'
 
 import { subscribe, unsubscribe, emit } from '@nextcloud/event-bus'
 import { getFilePickerBuilder, FilePickerType, showSuccess } from '@nextcloud/dialogs'
@@ -231,8 +200,8 @@ export default {
 		NcInputField,
 		NcFormBox,
 		NcFormBoxSwitch,
+		NcFormBoxButton,
 		FileImportIcon,
-		OpenInNewIcon,
 		FolderOutlineIcon,
 		InformationOutlineIcon,
 		SortIcon,
@@ -401,7 +370,6 @@ a.external {
 }
 
 .app-settings-section {
-	margin-bottom: 80px;
 	&.last {
 		margin-bottom: 0;
 	}
@@ -426,6 +394,11 @@ a.external {
 		display: flex;
 		flex-direction: column;
 		gap: 2px;
+	}
+	.about {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
 	}
 }
 

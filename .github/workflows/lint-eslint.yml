@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   changes:
-    runs-on: ubuntu-latest-low
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: read

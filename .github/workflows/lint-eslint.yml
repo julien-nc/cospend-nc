@@ -8,7 +8,11 @@
 
 name: Lint eslint
 
-on: pull_request
+on:
+  push:
+    branches: [ main, test ]
+  pull_request:
+    branches: [ main ]
 
 permissions:
   contents: read

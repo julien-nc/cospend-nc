@@ -3,7 +3,8 @@ module.exports = {
 		appVersion: true
 	},
 	parserOptions: {
-		requireConfigFile: false
+		requireConfigFile: false,
+		parser: '@typescript-eslint/parser'
 	},
 	extends: [
 		'@nextcloud'

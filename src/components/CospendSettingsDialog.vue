@@ -165,7 +165,7 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts">
 import FileImportIcon from 'vue-material-design-icons/FileImport.vue'
 import FolderOutlineIcon from 'vue-material-design-icons/FolderOutline.vue'
 import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
@@ -246,11 +246,11 @@ export default {
 	},
 
 	computed: {
-		selectedSortOrder() {
-			return this.sortOrderOptions[this.sortOrder]
+		selectedSortOrder(): Object {
+			return this.sortOrderOptions[this.sortOrder] ?? this.sortOrderOptions.name
 		},
-		selectedMemberOrder() {
-			return this.memberOrderOptions[this.memberOrder]
+		selectedMemberOrder(): Object {
+			return this.memberOrderOptions[this.memberOrder] ?? this.memberOrderOptions.name
 		},
 	},
 
@@ -263,11 +263,11 @@ export default {
 	},
 
 	methods: {
-		handleShowSettings() {
+		handleShowSettings(): void {
 			this.showSettings = true
 		},
 
-		onOutputDirClick() {
+		onOutputDirClick(): void {
 			const picker = getFilePickerBuilder(t('cospend', 'Choose where to write output files (stats, settlement, export)'))
 				.setMultiSelect(false)
 				.setType(FilePickerType.Choose)
@@ -302,28 +302,28 @@ export default {
 			})
 			*/
 		},
-		resetOutputDir() {
+		resetOutputDir(): void {
 			this.outputDir = '/'
 			emit('save-option', { key: 'outputDirectory', value: '/' })
 		},
-		onSortOrderChange() {
+		onSortOrderChange(): void {
 			emit('save-option', { key: 'sortOrder', value: this.sortOrder })
 			this.cospend.sortOrder = this.sortOrder
 		},
-		onMemberOrderChange() {
+		onMemberOrderChange(): void {
 			emit('save-option', { key: 'memberOrder', value: this.memberOrder })
 			this.cospend.memberOrder = this.memberOrder
 		},
-		onMaxPrecisionChange() {
+		onMaxPrecisionChange(): void {
 			emit('save-option', { key: 'maxPrecision', value: this.maxPrecision })
 			this.cospend.maxPrecision = this.maxPrecision
 			this.$emit('update-max-precision')
 		},
-		onCheckboxChange(checked, key) {
+		onCheckboxChange(checked: boolean, key: string): void {
 			emit('save-option', { key, value: checked ? '1' : '0' })
 			this.cospend[key] = checked
 		},
-		onImportClick() {
+		onImportClick(): void {
 			importCospendProject(() => {
 				this.importingProject = true
 			}, (data) => {
@@ -333,7 +333,7 @@ export default {
 				this.importingProject = false
 			})
 		},
-		onImportSWClick() {
+		onImportSWClick(): void {
 			importSWProject(() => {
 				this.importingSWProject = true
 			}, (data) => {

@@ -18,7 +18,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: lint-eslint-CC-${{ github.head_ref || github.run_id }}
+  group: lint-eslint-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 jobs:
@@ -89,7 +89,7 @@ jobs:
   summary:
     permissions:
       contents: none
-    runs-on: ubuntu-latest-low
+    runs-on: ubuntu-latest
     needs: [changes, lint]
 
     if: always()

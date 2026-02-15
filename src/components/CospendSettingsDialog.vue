@@ -212,13 +212,13 @@ export default {
 		return {
 			showSettings: false,
 			cospend: OCA.Cospend.state,
-			outputDir: OCA.Cospend.state.outputDirectory || '/',
+			outputDir: OCA.Cospend.state.outputDirectory as string || '/',
 			pageIsPublic: OCA.Cospend.state.pageIsPublic,
 			sortOrder: OCA.Cospend.state.sortOrder || 'name',
 			memberOrder: OCA.Cospend.state.memberOrder || 'name',
-			maxPrecision: OCA.Cospend.state.maxPrecision || 2,
-			useTime: OCA.Cospend.state.useTime ?? true,
-			showMyBalance: OCA.Cospend.state.showMyBalance ?? false,
+			maxPrecision: OCA.Cospend.state.maxPrecision as number || 2,
+			useTime: OCA.Cospend.state.useTime as boolean ?? true,
+			showMyBalance: OCA.Cospend.state.showMyBalance as boolean ?? false,
 			importingProject: false,
 			importingSWProject: false,
 			cospendVersion: OC.getCapabilities()?.cospend?.version || '??',
@@ -247,10 +247,10 @@ export default {
 
 	computed: {
 		selectedSortOrder(): Object {
-			return this.sortOrderOptions[this.sortOrder] ?? this.sortOrderOptions.name
+			return this.sortOrderOptions[this.sortOrder as keyof typeof this.sortOrderOptions] ?? this.sortOrderOptions.name
 		},
 		selectedMemberOrder(): Object {
-			return this.memberOrderOptions[this.memberOrder] ?? this.memberOrderOptions.name
+			return this.memberOrderOptions[this.memberOrder as keyof typeof this.memberOrderOptions] ?? this.memberOrderOptions.name
 		},
 	},
 
@@ -326,7 +326,7 @@ export default {
 		onImportClick(): void {
 			importCospendProject(() => {
 				this.importingProject = true
-			}, (data) => {
+			}, (data: any) => {
 				emit('project-imported', data)
 				showSuccess(t('cospend', 'Project imported'))
 			}, () => {
@@ -336,7 +336,7 @@ export default {
 		onImportSWClick(): void {
 			importSWProject(() => {
 				this.importingSWProject = true
-			}, (data) => {
+			}, (data: any) => {
 				emit('project-imported', data)
 				showSuccess(t('cospend', 'Project imported'))
 			}, () => {

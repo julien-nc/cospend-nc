@@ -13,6 +13,7 @@
 		"watch": "NODE_ENV=development vite --mode development build --watch",
 		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint --ext .ts,.js,.vue src",
 		"lint:fix": "ESLINT_USE_FLAT_CONFIG=false eslint --ext .ts,.js,.vue src --fix",
+		"check-types": "vue-tsc --noEmit",
 		"stylelint": "stylelint src/*.vue src/**/*.vue src/**/*.scss src/**/*.css",
 		"stylelint:fix": "stylelint src/*.vue src/**/*.vue src/**/*.scss src/**/*.css --fix"
 	},
@@ -69,6 +70,7 @@
 		"@vue/tsconfig": "^0.8.1",
 		"typescript": "~5.5.0",
 		"vite-plugin-eslint": "^1.8.1",
-		"vite-plugin-stylelint": "^6.0.4"
+		"vite-plugin-stylelint": "^6.0.4",
+		"vue-tsc": "^3.2.4"
 	}
 }

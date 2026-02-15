@@ -19,11 +19,13 @@ export default createAppConfig({
 			modules: {
 				localsConvention: 'camelCase',
 			},
+			/*
 			preprocessorOptions: {
 				scss: {
 					api: 'modern-compiler',
 				},
 			},
+			*/
 		},
 		plugins: [
 			eslint(),
@@ -46,5 +48,5 @@ export default createAppConfig({
 	},
 	inlineCSS: { relativeCSSInjection: true },
 	minify: isProduction,
-	target: 'esnext',
+	// target: 'esnext',
 })

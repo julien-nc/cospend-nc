@@ -1,24 +1,34 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 {
-  "extends": "@vue/tsconfig/tsconfig.json",
-  "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "declaration": true,
-    "esModuleInterop": true,
-    "lib": ["DOM", "ESNext"],
-    "noEmit": false,
-    "outDir": "./js",
-    "plugins": [
-      { "name": "typescript-plugin-css-modules" }
-    ],
-    "sourceMap": true
-  },
-  "exclude": [
-    "js",
-    "lib",
-    "node_modules",
-    "vendor"
-  ],
-  "vueCompilerOptions": {
-    "target": 2.7
-  }
+	//"extends": "@vue/tsconfig/tsconfig.json",
+	"compilerOptions": {
+		"target": "ES2022",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"lib": ["ES2022", "DOM", "DOM.Iterable"],
+		"types": ["node"],
+		"allowJs": true,
+		"checkJs": false,
+		"noEmit": true,
+		"strict": true,
+		"skipLibCheck": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"forceConsistentCasingInFileNames": true,
+		"paths": {
+			"vite-plugin-eslint": ["./node_modules/vite-plugin-eslint/dist/index.d.ts"]
+		}
+	},
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.vue",
+		"src/**/*.d.ts",
+		"vite.config.ts",
+	],
+	"exclude": ["node_modules"]
 }

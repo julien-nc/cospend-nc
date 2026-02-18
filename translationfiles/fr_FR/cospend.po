@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2026-02-19 00:32+0100\n"
-"PO-Revision-Date: 2026-02-18 23:33\n"
+"PO-Revision-Date: 2026-02-18 23:57\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -1947,7 +1947,7 @@ msgstr "Projet {projectName} ({projectId}) partagé par {displayName} ({cloudId}
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4552
 msgid "Impossible to move the bill to \"{projectName}\". The payer was not found in the target project."
-msgstr ""
+msgstr "Impossible de déplacer la facture vers \"{projectName}\". Le payeur n'a pas été trouvé dans le projet cible."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4559
 msgid "Bill moved to \"{projectName}\" successfully"
@@ -2664,7 +2664,7 @@ msgstr "Total payé par tous les membres : {t}"
 #. TRANSLATORS src/components/statistics/Statistics.vue:169
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8760
 msgid "You can zoom on the line charts by holding the SHIFT key and using the mouse wheel. You can then pan the chart by dragging it with the mouse."
-msgstr ""
+msgstr "Vous pouvez zoomer sur les graphiques en maintenant la touche SHIFT enfoncée et en utilisant la molette de la souris. Vous pouvez ensuite vous déplacer en les faisant glisser avec la souris."
 
 #. TRANSLATORS src/components/statistics/Statistics.vue:174
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8762

@@ -25,8 +25,8 @@
 			v-model:open="showSettings"
 			class="cospend-settings-dialog"
 			:name="t('cospend', 'Cospend settings')"
-			:title="t('cospend', 'Cospend settings')"
 			:show-navigation="true"
+			:no-version="true"
 			container="#settings-container">
 			<NcAppSettingsSection v-if="!pageIsPublic"
 				id="import"

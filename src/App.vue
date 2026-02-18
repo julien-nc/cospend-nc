@@ -1075,7 +1075,7 @@ export default {
 				console.error(error)
 				showError(
 					t('cospend', 'Failed to create project')
-					+ ': ' + error.response?.data?.ocs?.data,
+					+ ': ' + (error.response?.data?.ocs?.data?.error || error.response?.data?.ocs?.data),
 				)
 			})
 		},

@@ -269,6 +269,20 @@ class LocalProjectService implements IProjectService {
 	}
 
 	/**
+	 * @param string $id
+	 * @return string
+	 */
+	public function findAvailableProjectId(string $id): string {
+		$projectId = $id;
+		$i = 1;
+		while ($this->projectMapper->find($projectId) !== null) {
+			$projectId = $id . '-' . $i;
+			$i++;
+		}
+		return $projectId;
+	}
+
+	/**
 	 * Create a project
 	 *
 	 * @param string $name

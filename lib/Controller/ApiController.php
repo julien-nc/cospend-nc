@@ -36,6 +36,7 @@ use OCP\Constants;
 
 use OCP\DB\Exception;
 
+use OCP\Exceptions\AppConfigTypeConflictException;
 use OCP\Files\File;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
@@ -115,8 +116,8 @@ class ApiController extends OCSController {
 	 * @param string $name
 	 * @return DataResponse<Http::STATUS_OK, CospendFullProjectInfo, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 * @throws DoesNotExistException
-	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
+	 * @throws AppConfigTypeConflictException
 	 *
 	 * 200: Project successfully created
 	 * 400: Failed to create project
@@ -124,11 +125,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	public function createProject(string $id, string $name): DataResponse {
-		try {
-			$this->projectMapper->getById($id);
-			return new DataResponse(['error' => 'project already exists'], Http::STATUS_BAD_REQUEST);
-		} catch (DoesNotExistException $e) {
-		}
+		$id = $this->localProjectService->findAvailableProjectId($id);
 		try {
 			$jsonProject = $this->localProjectService->createProject($name, $id, null, $this->userId);
 			$projInfo = $this->localProjectService->getProjectInfo($jsonProject['id']);

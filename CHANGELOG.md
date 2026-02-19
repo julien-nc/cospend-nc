@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.0.0 – 2026-02-19
+
+### Changed
+
+- Make app config and user config values lazy
+- Improve admin settings design
+- Support NC 33 and 34 only
+- Add ability to zoom on stats line charts
+- Improve stats header style
+- Use NcFormBoxButton in the about section of the settings
+- Use typescript in some components
+
+### Fixed
+
+- Fix dashboard activity entry parsing
+- Prevent bill drop in more cases
+- Avoid project id collision on project creation by finding an available id with a suffix @julien-nc [#386](https://github.com/julien-nc/cospend-nc/issues/386)
+
 ## 3.2.0 – 2026-01-02
 
 ### Added

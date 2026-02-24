@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2026-02-19 00:32+0100\n"
-"PO-Revision-Date: 2026-02-18 23:33\n"
+"PO-Revision-Date: 2026-02-24 20:42\n"
 "Last-Translator: \n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -19,31 +19,31 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:80
 msgid "You have created {bill} in {project}"
-msgstr ""
+msgstr "Je hebt {bill} aangemaakt in {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:80
 msgid "{user} has created {bill} in {project}"
-msgstr ""
+msgstr "{user} heeft {bill} verwijderd in {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:83
 msgid "You have deleted {bill} in {project}"
-msgstr ""
+msgstr "Je hebt {bill} aangemaakt in {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:83
 msgid "{user} has deleted {bill} in {project}"
-msgstr ""
+msgstr "{user} heeft {bill} verwijderd in {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:86
 msgid "You have shared {project} with {who}"
-msgstr ""
+msgstr "U heeft het project {project} gedeeld met {who}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:86
 msgid "{user} has shared {project} with {who}"
-msgstr ""
+msgstr "{user} heeft het project {project} gedeeld met {who}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:89
 msgid "You stopped sharing {project} with {who}"
-msgstr ""
+msgstr "Je bent het delen van het project {project} met {who} gestopt"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:89
 msgid "{user} stopped sharing {project} with {who}"

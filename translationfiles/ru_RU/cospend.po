@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2026-02-19 00:32+0100\n"
-"PO-Revision-Date: 2026-02-18 23:33\n"
+"PO-Revision-Date: 2026-03-06 09:19\n"
 "Last-Translator: \n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
@@ -19,43 +19,43 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:80
 msgid "You have created {bill} in {project}"
-msgstr ""
+msgstr "Вы создали {bill} в {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:80
 msgid "{user} has created {bill} in {project}"
-msgstr ""
+msgstr "{user} создал(а) {bill} в {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:83
 msgid "You have deleted {bill} in {project}"
-msgstr ""
+msgstr "Вы удалили {bill} в {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:83
 msgid "{user} has deleted {bill} in {project}"
-msgstr ""
+msgstr "{user} удалил(а) {bill} в {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:86
 msgid "You have shared {project} with {who}"
-msgstr ""
+msgstr "Вы поделились проектом {project} с {who}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:86
 msgid "{user} has shared {project} with {who}"
-msgstr ""
+msgstr "{user} поделился проектом {project} с {who}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:89
 msgid "You stopped sharing {project} with {who}"
-msgstr ""
+msgstr "Вы перестали делиться проектом {project} с {who}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:89
 msgid "{user} stopped sharing {project} with {who}"
-msgstr ""
+msgstr "{user} перестал делиться проектом {project} с {who}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:92
 msgid "You have updated {bill} in {project}"
-msgstr ""
+msgstr "Вы обновили {bill} в {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:92
 msgid "{user} has updated {bill} in {project}"
-msgstr ""
+msgstr "{user} обновил(а) {bill} в {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/BillCreatedSetting.php:36
 msgid "A Cospend <strong>bill</strong> has been created"

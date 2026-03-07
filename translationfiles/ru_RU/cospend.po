@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2026-02-19 00:32+0100\n"
-"PO-Revision-Date: 2026-03-06 09:19\n"
+"PO-Revision-Date: 2026-03-07 09:15\n"
 "Last-Translator: \n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
@@ -59,37 +59,37 @@ msgstr "{user} обновил(а) {bill} в {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/BillCreatedSetting.php:36
 msgid "A Cospend <strong>bill</strong> has been created"
-msgstr ""
+msgstr "Был создан <strong>счёт</strong> в Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/BillDeletedSetting.php:36
 msgid "A Cospend <strong>bill</strong> has been deleted"
-msgstr ""
+msgstr "Был удалён <strong>счёт</strong> в Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/BillUpdatedSetting.php:36
 msgid "A Cospend <strong>bill</strong> has been updated"
-msgstr ""
+msgstr "Был обновлён <strong>счёт</strong> в Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:76
 #, php-format
 msgid "Deleted user (%s)"
-msgstr ""
+msgstr "Удалённый пользователь (%s)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:99
 msgid "Unknown author"
-msgstr ""
+msgstr "Неизвестный автор"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:108
 #, php-format
 msgid "Shared access (%s)"
-msgstr ""
+msgstr "Общий доступ (%s)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:109
 msgid "Shared access"
-msgstr ""
+msgstr "Общий доступ"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:116
 msgid "No author"
-msgstr ""
+msgstr "Нет автора"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:305
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:313
@@ -109,7 +109,7 @@ msgstr "Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/Setting.php:43
 msgid "A Cospend <strong>project</strong> has been shared or unshared"
-msgstr ""
+msgstr "Был открыт или закрыт общий доступ к <strong>проекту</strong> в Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:576
 msgid "You are not allowed to access the target project"
@@ -285,7 +285,7 @@ msgstr "Совместный проект Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:83
 msgid "{user} shared project {project} with you"
-msgstr ""
+msgstr "{user} поделился(-ась) проектом {project} с вами"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:110
 msgid "Cospend project share removed"
@@ -293,7 +293,7 @@ msgstr "Совместный проект Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:121
 msgid "{user} stopped sharing project {project} with you"
-msgstr ""
+msgstr "{user} перестал(а) делиться проектом {project} с вами"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:135
 msgid "Cospend federated project shared"
@@ -942,7 +942,7 @@ msgstr "Выберите файл"
 #: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:19
 #: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:44
 msgid "Choose"
-msgstr ""
+msgstr "Выбрать"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:2300
 msgid "Failed to generate share link to file"
@@ -1522,11 +1522,11 @@ msgstr "Название категории"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:3040
 msgid "Payment mode name"
-msgstr ""
+msgstr "Способ оплаты"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:3043
 msgid "Add this category"
-msgstr ""
+msgstr "Добавить эту категорию"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:3043
 msgid "Add this payment mode"
@@ -1825,7 +1825,7 @@ msgstr "Баланс на {date}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:3746
 msgid "Global balances"
-msgstr ""
+msgstr "Глобальные балансы"
 
 #. TRANSLATORS src/Settlement.vue:188
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:3752
@@ -1870,7 +1870,7 @@ msgstr "Создать счет ({amount})"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4045
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4047
 msgid "No more activity"
-msgstr ""
+msgstr "Больше нет активности"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4190
 msgid "Deactivate"
@@ -1882,22 +1882,22 @@ msgstr "Активировать снова"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4212
 msgid "A member is already named like that"
-msgstr ""
+msgstr "Уже есть участник с таким именем"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4279
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6845
 msgid "Failed to edit shared access level"
-msgstr ""
+msgstr "Не удалось изменить уровень общего доступа"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4292
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6897
 msgid "Failed to delete shared access"
-msgstr ""
+msgstr "Не удалось удалить общий доступ"
 
 #. TRANSLATORS src/components/AppNavigationMemberItem.vue:7
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4311
 msgid "Rename member"
-msgstr ""
+msgstr "Переименовать участника"
 
 #. TRANSLATORS src/components/AppNavigationMemberItem.vue:47
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4313
@@ -1907,12 +1907,12 @@ msgstr "Изменить цвет"
 #. TRANSLATORS src/components/AppNavigationMemberItem.vue:61
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4315
 msgid "Weight"
-msgstr ""
+msgstr "Вес"
 
 #. TRANSLATORS src/components/AppNavigationMemberItem.vue:80
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4317
 msgid "No access"
-msgstr ""
+msgstr "Нет доступа"
 
 #. TRANSLATORS src/components/AppNavigationMemberItem.vue:88
 #. TRANSLATORS src/components/SharingTabSidebar.vue:156
@@ -1921,7 +1921,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6985
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6999
 msgid "Viewer"
-msgstr ""
+msgstr "Только чтение"
 
 #. TRANSLATORS src/components/AppNavigationMemberItem.vue:96
 #. TRANSLATORS src/components/SharingTabSidebar.vue:163
@@ -1930,7 +1930,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6987
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7001
 msgid "Participant"
-msgstr ""
+msgstr "Участник"
 
 #. TRANSLATORS src/components/AppNavigationMemberItem.vue:104
 #. TRANSLATORS src/components/SharingTabSidebar.vue:170
@@ -1939,7 +1939,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6989
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7003
 msgid "Maintainer"
-msgstr ""
+msgstr "Менеджер"
 
 #. TRANSLATORS src/components/AppNavigationMemberItem.vue:112
 #. TRANSLATORS src/components/SharingTabSidebar.vue:177
@@ -1948,30 +1948,30 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6991
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7005
 msgid "Admin"
-msgstr ""
+msgstr "Админ"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4440
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4629
 msgid "Project {projectName} ({projectId}) shared by {displayName} ({cloudId})"
-msgstr ""
+msgstr "Проект {projectName} ({projectId}) у {displayName} ({cloudId})"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4552
 msgid "Impossible to move the bill to \"{projectName}\". The payer was not found in the target project."
-msgstr ""
+msgstr "Невозможно перенести этот счет в \"{projectName}\". Плательщик не найден в проекте."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4559
 msgid "Bill moved to \"{projectName}\" successfully"
-msgstr ""
+msgstr "Счет успешно перенесён в \"{projectName}\""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4564
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5844
 msgid "Failed to move bill from {name1} to {name2}"
-msgstr ""
+msgstr "Не удалось перенести счёт из {name1} в {name2}"
 
 #. TRANSLATORS src/components/AppNavigationProjectItem.vue:3
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4574
 msgid "Are you sure?"
-msgstr ""
+msgstr "Вы уверены?"
 
 #. TRANSLATORS src/components/AppNavigationProjectItem.vue:61
 #. TRANSLATORS src/components/Sidebar.vue:41
@@ -1984,7 +1984,7 @@ msgstr "Настройки"
 #. TRANSLATORS src/components/AppNavigationProjectItem.vue:70
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4578
 msgid "Share"
-msgstr ""
+msgstr "Поделиться"
 
 #. TRANSLATORS src/components/AppNavigationProjectItem.vue:77
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4580
@@ -1994,42 +1994,42 @@ msgstr "Добавить участника"
 #. TRANSLATORS src/components/AppNavigationProjectItem.vue:95
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4582
 msgid "Statistics"
-msgstr ""
+msgstr "Статистика"
 
 #. TRANSLATORS src/components/AppNavigationProjectItem.vue:103
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4584
 msgid "Project settlement"
-msgstr ""
+msgstr "Окончательный расчёт по проекту"
 
 #. TRANSLATORS src/components/AppNavigationProjectItem.vue:111
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4586
 msgid "Archive"
-msgstr ""
+msgstr "В архив"
 
 #. TRANSLATORS src/components/AppNavigationProjectItem.vue:119
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4588
 msgid "Unarchive"
-msgstr ""
+msgstr "Вернуть из архива"
 
 #. TRANSLATORS src/components/AppNavigationProjectItem.vue:135
 #. TRANSLATORS src/components/AppNavigationUnreachableProjectItem.vue:24
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4592
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4662
 msgid "Leave share"
-msgstr ""
+msgstr "Выйти из общего доступа"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4808
 msgid "Everyone"
-msgstr ""
+msgstr "Все"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4811
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4816
 msgid "Everyone except {member}"
-msgstr ""
+msgstr "Все, кроме {member}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4815
 msgid "{member1} and {member2}"
-msgstr ""
+msgstr "{member1} и {member2}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4823
 msgid "Member list is not up to date. Reloading in 5 sec."
@@ -2037,16 +2037,16 @@ msgstr "Список участников устарел. Перезагрузк
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4849
 msgid "Move to trash"
-msgstr ""
+msgstr "В корзину"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4852
 msgid "Move to other project"
-msgstr ""
+msgstr "Переместить в другой проект"
 
 #. TRANSLATORS src/components/CategoryMultiSelect.vue:5
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5002
 msgid "Category selector"
-msgstr ""
+msgstr "Выбор категорий"
 
 #. TRANSLATORS src/components/CategoryOrPm.vue:13
 #. TRANSLATORS src/components/Currency.vue:8
@@ -2055,7 +2055,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5687
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5689
 msgid "Edit"
-msgstr ""
+msgstr "Изменить"
 
 #. TRANSLATORS src/components/CategoryOrPm.vue:64
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5119
@@ -2069,17 +2069,17 @@ msgstr "Название"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5509
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5519
 msgid "Project imported"
-msgstr ""
+msgstr "Проект импортирован"
 
 #. TRANSLATORS src/components/CospendNavigation.vue:6
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5325
 msgid "Search projects"
-msgstr ""
+msgstr "Поиск проектов"
 
 #. TRANSLATORS src/components/CospendNavigation.vue:10
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5327
 msgid "Create a project"
-msgstr ""
+msgstr "Создать проект"
 
 #. TRANSLATORS src/components/CospendNavigation.vue:18
 #. TRANSLATORS src/components/NewProjectModal.vue:3
@@ -2088,53 +2088,53 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5903
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5905
 msgid "Create empty project"
-msgstr ""
+msgstr "Создать пустой проект"
 
 #. TRANSLATORS src/components/CospendNavigation.vue:26
 #. TRANSLATORS src/components/CospendSettingsDialog.vue:42
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5331
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5532
 msgid "Import csv project"
-msgstr ""
+msgstr "Импорт проекта из csv"
 
 #. TRANSLATORS src/components/CospendNavigation.vue:34
 #. TRANSLATORS src/components/CospendSettingsDialog.vue:49
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5333
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5534
 msgid "Import SplitWise project"
-msgstr ""
+msgstr "Импорт проекта из SplitWise"
 
 #. TRANSLATORS src/components/CospendNavigation.vue:45
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5335
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5337
 msgid "No projects yet"
-msgstr ""
+msgstr "Пока нет проектов"
 
 #. TRANSLATORS src/components/CospendNavigation.vue:71
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5339
 msgid "My cumulated balance"
-msgstr ""
+msgstr "Мой общий баланс"
 
 #. TRANSLATORS src/components/CospendNavigation.vue:83
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5341
 msgid "Pending share invitations"
-msgstr ""
+msgstr "Приглашения"
 
 #. TRANSLATORS src/components/CospendNavigation.vue:93
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5343
 msgid "Show active projects"
-msgstr ""
+msgstr "Показать активные проекты"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5343
 msgid "Show archived projects"
-msgstr ""
+msgstr "Показать архивные проекты"
 
 #. TRANSLATORS src/components/CospendNavigation.vue:104
 #. TRANSLATORS src/components/CospendSettingsDialog.vue:27
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5345
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5528
 msgid "Cospend settings"
-msgstr ""
+msgstr "Настройки Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5410
 msgid "Last activity"
@@ -2146,22 +2146,22 @@ msgstr "Выберите, куда сохранить выходные файл�
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5456
 msgid "Pick current directory"
-msgstr ""
+msgstr "Выбрать эту папку"
 
 #. TRANSLATORS src/components/CospendSettingsDialog.vue:33
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5530
 msgid "Import projects"
-msgstr ""
+msgstr "Импорт проектов"
 
 #. TRANSLATORS src/components/CospendSettingsDialog.vue:54
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5536
 msgid "Export location"
-msgstr ""
+msgstr "Расположение для экспорта"
 
 #. TRANSLATORS src/components/CospendSettingsDialog.vue:60
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5538
 msgid "Export directory"
-msgstr ""
+msgstr "Папка для экспорта"
 
 #. TRANSLATORS src/components/CospendSettingsDialog.vue:72
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5540
@@ -2201,42 +2201,42 @@ msgstr "Использовать время в датах"
 #. TRANSLATORS src/components/CospendSettingsDialog.vue:121
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5554
 msgid "Show my cumulated balance"
-msgstr ""
+msgstr "Показывать мой общий баланс"
 
 #. TRANSLATORS src/components/CospendSettingsDialog.vue:127
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5556
 msgid "About Cospend"
-msgstr ""
+msgstr "Информация о Cospend"
 
 #. TRANSLATORS src/components/CospendSettingsDialog.vue:133
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5558
 msgid "Thanks for using Cospend"
-msgstr ""
+msgstr "Спасибо за использование Cospend"
 
 #. TRANSLATORS src/components/CospendSettingsDialog.vue:137
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5560
 msgid "Bug/issue tracker"
-msgstr ""
+msgstr "Трекер багов и проблем"
 
 #. TRANSLATORS src/components/CospendSettingsDialog.vue:142
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5562
 msgid "Translation"
-msgstr ""
+msgstr "Перевод"
 
 #. TRANSLATORS src/components/CospendSettingsDialog.vue:147
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5564
 msgid "User documentation"
-msgstr ""
+msgstr "Руководство пользователя"
 
 #. TRANSLATORS src/components/CospendSettingsDialog.vue:152
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5566
 msgid "Admin documentation"
-msgstr ""
+msgstr "Руководство для администраторов"
 
 #. TRANSLATORS src/components/CospendSettingsDialog.vue:157
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5568
 msgid "Developer documentation"
-msgstr ""
+msgstr "Документация для разработчиков"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5778
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7742
@@ -2274,17 +2274,17 @@ msgstr "Проекты не найдены"
 #. TRANSLATORS src/components/NewProjectModal.vue:10
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5907
 msgid "Project name"
-msgstr ""
+msgstr "Название проекта"
 
 #. TRANSLATORS src/components/NewProjectModal.vue:11
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5909
 msgid "My new project"
-msgstr ""
+msgstr "Мой новый проект"
 
 #. TRANSLATORS src/components/NewProjectModal.vue:18
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5911
 msgid "Create"
-msgstr ""
+msgstr "Создать"
 
 #. TRANSLATORS src/components/PaymentModeMultiSelect.vue:5
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5972
@@ -2293,24 +2293,24 @@ msgstr "Выбор режима оплаты"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6016
 msgid "Project {projectName} shared by {inviterName} ({inviterCloudId})"
-msgstr ""
+msgstr "Проект {projectName} у {inviterName} ({inviterCloudId})"
 
 #. TRANSLATORS src/components/PendingInvitationsModal.vue:3
 #. TRANSLATORS src/components/PendingInvitationsModal.vue:7
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6047
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6049
 msgid "Pending invitations for federated shares"
-msgstr ""
+msgstr "Приглашения на федеративный общий доступ"
 
 #. TRANSLATORS src/components/PendingInvitationsModal.vue:27
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6051
 msgid "Reject"
-msgstr ""
+msgstr "Отклонить"
 
 #. TRANSLATORS src/components/PendingInvitationsModal.vue:34
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6053
 msgid "Accept"
-msgstr ""
+msgstr "Принять"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6329
 msgid "New member name"
@@ -2332,12 +2332,12 @@ msgstr "Переименовать проект"
 #. TRANSLATORS src/components/SettingsTabSidebar.vue:10
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6542
 msgid "Rename project"
-msgstr ""
+msgstr "Переименовать проект"
 
 #. TRANSLATORS src/components/SettingsTabSidebar.vue:24
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6544
 msgid "Allow bill deletion"
-msgstr ""
+msgstr "Разрешить удаление счетов"
 
 #. TRANSLATORS src/components/SettingsTabSidebar.vue:29
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6546
@@ -2402,20 +2402,20 @@ msgstr "Начните ввод для поиска пользователей"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6866
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6882
 msgid "Share link saved"
-msgstr ""
+msgstr "Ссылка общего доступа сохранена"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6869
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6885
 msgid "Failed to edit share link"
-msgstr ""
+msgstr "Не удалось изменить ссылку общего доступа"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6881
 msgid "Federated share saved"
-msgstr ""
+msgstr "Федеративный общий доступ сохранён"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6916
 msgid "Link could not be copied to clipboard"
-msgstr ""
+msgstr "Не удалось скопировать ссылку в буфер обмена"
 
 #. TRANSLATORS src/components/SharingTabSidebar.vue:7
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6941
@@ -2427,7 +2427,7 @@ msgstr "Поделиться проектом с пользователем, г�
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6945
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6957
 msgid "Federated user"
-msgstr ""
+msgstr "Федеративный пользователь"
 
 #. TRANSLATORS src/components/SharingTabSidebar.vue:61
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6947
@@ -2459,11 +2459,11 @@ msgstr "Создать новую ссылку общего доступа"
 #. TRANSLATORS src/components/SharingTabSidebar.vue:126
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6959
 msgid "Pending share"
-msgstr ""
+msgstr "Ожидающий общий доступ"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6959
 msgid "Accepted share"
-msgstr ""
+msgstr "Принятый общий доступ"
 
 #. TRANSLATORS src/components/SharingTabSidebar.vue:148
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6961
@@ -2474,7 +2474,7 @@ msgstr "Метка"
 #. TRANSLATORS src/components/SharingTabSidebar.vue:186
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6971
 msgid "Delete federated share"
-msgstr ""
+msgstr "Удалить федеративный общий доступ"
 
 #. TRANSLATORS src/components/SharingTabSidebar.vue:203
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6975
@@ -2513,55 +2513,55 @@ msgstr "Добавить другую ссылку"
 #. TRANSLATORS src/components/SharingTabSidebar.vue:309
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6997
 msgid "Project owner"
-msgstr ""
+msgstr "Владелец проекта"
 
 #. TRANSLATORS src/components/SharingTabSidebar.vue:367
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7007
 msgid "Delete access"
-msgstr ""
+msgstr "Убрать доступ"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7100
 msgid "{nb} bills, {nbMembers} active members, {spentAmount} {currency} spent"
-msgstr ""
+msgstr "{nb} счетов, {nbMembers} активных участников, {spentAmount} {currency} потрачено"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7107
 msgid "{nb} bills, {nbMembers} active members, {spentAmount} spent"
-msgstr ""
+msgstr "{nb} счетов, {nbMembers} активных участников, {spentAmount} потрачено"
 
 #. TRANSLATORS src/components/Sidebar.vue:23
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7158
 msgid "Rename"
-msgstr ""
+msgstr "Переименовать"
 
 #. TRANSLATORS src/components/Sidebar.vue:28
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7160
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7162
 msgid "Sharing"
-msgstr ""
+msgstr "Общий доступ"
 
 #. TRANSLATORS src/components/Sidebar.vue:58
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7168
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7170
 msgid "Activity"
-msgstr ""
+msgstr "Активность"
 
 #. TRANSLATORS src/components/Sidebar.vue:70
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7172
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7174
 msgid "Categories"
-msgstr ""
+msgstr "Категории"
 
 #. TRANSLATORS src/components/Sidebar.vue:85
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7176
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7178
 msgid "Payment modes"
-msgstr ""
+msgstr "Способы оплаты"
 
 #. TRANSLATORS src/components/Sidebar.vue:100
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7180
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7182
 msgid "Currencies"
-msgstr ""
+msgstr "Валюты"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7627
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7641
@@ -2588,7 +2588,7 @@ msgstr "Все"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8322
 msgid "Payed"
-msgstr ""
+msgstr "Заплачено"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8341
 msgid "Who paid (outside circle) and spent (inside pie)?"
@@ -2596,15 +2596,15 @@ msgstr "Кто платил (внешний круг) и траты (внутр�
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8355
 msgid "Who paid and spent?"
-msgstr ""
+msgstr "Кто платил и тратил?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8405
 msgid "How much was paid per category?"
-msgstr ""
+msgstr "Сколько было оплачено по категориям?"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8455
 msgid "How much was paid per payment mode?"
-msgstr ""
+msgstr "Сколько было оплачено по способам оплаты?"
 
 #. TRANSLATORS src/components/statistics/Statistics.vue:6
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8720
@@ -2624,7 +2624,7 @@ msgstr "Максимальная дата"
 #. TRANSLATORS src/components/statistics/Statistics.vue:48
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8728
 msgid "Convert in currency"
-msgstr ""
+msgstr "Конвертировать в валюту"
 
 #. TRANSLATORS src/components/statistics/Statistics.vue:55
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8730
@@ -2634,17 +2634,17 @@ msgstr "Основная валюта проекта"
 #. TRANSLATORS src/components/statistics/Statistics.vue:83
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8736
 msgid "Chart type"
-msgstr ""
+msgstr "Тип диаграммы"
 
 #. TRANSLATORS src/components/statistics/Statistics.vue:89
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8738
 msgid "Pie"
-msgstr ""
+msgstr "Круговая"
 
 #. TRANSLATORS src/components/statistics/Statistics.vue:92
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8740
 msgid "Bar"
-msgstr ""
+msgstr "Столбчатая"
 
 #. TRANSLATORS src/components/statistics/Statistics.vue:131
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8750
@@ -2664,17 +2664,17 @@ msgstr "Показать неактивных участников"
 #. TRANSLATORS src/components/statistics/Statistics.vue:162
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8756
 msgid "Total paid by all the members: {t} {currencyName}"
-msgstr ""
+msgstr "Всего оплачено всеми участниками: {t} {currencyName}"
 
 #. TRANSLATORS src/components/statistics/Statistics.vue:165
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8758
 msgid "Total paid by all the members: {t}"
-msgstr ""
+msgstr "Всего оплачено всеми участниками: {t}"
 
 #. TRANSLATORS src/components/statistics/Statistics.vue:169
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8760
 msgid "You can zoom on the line charts by holding the SHIFT key and using the mouse wheel. You can then pan the chart by dragging it with the mouse."
-msgstr ""
+msgstr "Вы можете приблизить график, зажав Shift и прокрутив колесо мыши. Затем вы можете переместить график, перетаскивая его мышкой."
 
 #. TRANSLATORS src/components/statistics/Statistics.vue:174
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8762

@@ -32,6 +32,7 @@ use OCA\Cospend\Middleware\UserPermissionMiddleware;
 use OCA\Cospend\Service\CospendService;
 use OCA\Cospend\Service\LocalProjectService;
 use OCA\Cospend\Service\UserService;
+use OCP\Activity\IManager;
 use OCP\AppFramework\Http;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
@@ -42,6 +43,7 @@ use OCP\IRequest;
 use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\Server;
 use OCP\Share\IManager as IShareManager;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -98,7 +100,7 @@ class MiddlewaresTest extends TestCase {
 		$this->projectMapper = $c->get(ProjectMapper::class);
 
 		$activityManager = new ActivityManager(
-			$sc->getActivityManager(),
+			Server::get(IManager::class),
 			new UserService(
 				$this->projectMapper,
 				$c->get(IGroupManager::class),
@@ -113,7 +115,7 @@ class MiddlewaresTest extends TestCase {
 		);
 
 		$activityManager2 = new ActivityManager(
-			$sc->getActivityManager(),
+			Server::get(IManager::class),
 			new UserService(
 				$this->projectMapper,
 				$c->get(IGroupManager::class),

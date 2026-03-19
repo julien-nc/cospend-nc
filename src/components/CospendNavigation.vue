@@ -2,7 +2,7 @@
 	<NcAppNavigation>
 		<template v-if="!pageIsPublic && !loading" #search>
 			<NcAppNavigationSearch v-model="projectFilterQuery"
-				label="plop"
+				:label="t('cospend', 'Search projects')"
 				:placeholder="t('cospend', 'Search projects')">
 				<template #actions>
 					<NcActions>

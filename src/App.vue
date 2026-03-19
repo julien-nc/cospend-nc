@@ -930,11 +930,9 @@ export default {
 		},
 		initFederationData() {
 			network.getFederatedProjectIds().then(response => {
-				console.debug('[cospend] federated projects', response.data.ocs.data)
 				response.data.ocs.data.forEach(invite => {
 					const federatedProjectId = invite.remoteProjectId + '@' + invite.remoteServerUrl
 					network.getProjectInfo(federatedProjectId).then(response => {
-						console.debug('---------- FEDERATED PROJECT', response.data.ocs.data)
 						const project = response.data.ocs.data
 						this.addProject(project)
 						if (this.cospend.restoredCurrentProjectId !== null && this.cospend.restoredCurrentProjectId === project.id) {
@@ -949,7 +947,6 @@ export default {
 			})
 
 			network.getPendingInvitations().then(response => {
-				console.debug('[cospend] pending shares', response.data.ocs.data)
 				this.pendingInvitations = response.data.ocs.data
 			}).catch((error) => {
 				console.error(error)

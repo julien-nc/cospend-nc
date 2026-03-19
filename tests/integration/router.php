@@ -32,4 +32,7 @@ foreach ($parts as $part) {
 }
 
 // Virtual paths (/.well-known/ocm, /ocm-provider, etc.) -> index.php
+// Set SCRIPT_NAME so Nextcloud's getRawPathInfo() can compute the path correctly
+$_SERVER['SCRIPT_NAME'] = '/index.php';
+$_SERVER['SCRIPT_FILENAME'] = $docRoot . '/index.php';
 include $docRoot . '/index.php';

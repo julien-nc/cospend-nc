@@ -9,8 +9,11 @@ declare(strict_types=1);
 namespace OCA\Cospend\Federation;
 
 use OCA\Cospend\Db\Project;
+use OCA\Cospend\Db\RetryNotification;
+use OCA\Cospend\Db\RetryNotificationMapper;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationNotification;
 use OCP\Federation\ICloudFederationProviderManager;
@@ -33,6 +36,8 @@ class BackendNotifier {
 		private IURLGenerator $url,
 		private ICloudIdManager $cloudIdManager,
 		private RestrictionValidator $restrictionValidator,
+		private RetryNotificationMapper $retryNotificationMapper,
+		private ITimeFactory $timeFactory,
 	) {
 	}
 
@@ -203,7 +208,7 @@ class BackendNotifier {
 		$this->sendUpdateToRemote($remote, $notification);
 	}
 
-	protected function sendUpdateToRemote(string $remote, ICloudFederationNotification $notification): ?bool {
+	protected function sendUpdateToRemote(string $remote, ICloudFederationNotification $notification, int $try = 0, bool $retry = true): ?bool {
 		try {
 			$response = $this->federationProviderManager->sendCloudNotification($remote, $notification);
 			if ($response->getStatusCode() === Http::STATUS_CREATED) {
@@ -227,7 +232,87 @@ class BackendNotifier {
 			$this->logger->error("Failed to send notification for share from $remote, received OCMProviderException", ['exception' => $e]);
 		}
 
+		if ($retry && $try === 0) {
+			$now = $this->timeFactory->getTime();
+			$now += $this->getRetryDelay(1);
+
+			$data = $notification->getMessage();
+
+			$retryNotification = new RetryNotification();
+			$retryNotification->setRemoteServer($remote);
+			$retryNotification->setNumAttempts(1);
+			$retryNotification->setNextRetry($this->timeFactory->getDateTime('@' . $now));
+			$retryNotification->setNotificationType($data['notificationType']);
+			$retryNotification->setResourceType($data['resourceType']);
+			$retryNotification->setProviderId($data['providerId']);
+			$retryNotification->setNotification(json_encode($data['notification']));
+
+			$this->retryNotificationMapper->insert($retryNotification);
+		}
+
 		return false;
+	}
+
+	public function retrySendingFailedNotifications(\DateTimeInterface $dueDateTime): void {
+		$retryNotifications = $this->retryNotificationMapper->getAllDue($dueDateTime);
+
+		foreach ($retryNotifications as $retryNotification) {
+			$this->retrySendingFailedNotification($retryNotification);
+		}
+	}
+
+	protected function retrySendingFailedNotification(RetryNotification $retryNotification): void {
+		$data = json_decode($retryNotification->getNotification(), true, flags: JSON_THROW_ON_ERROR);
+
+		$notification = $this->cloudFederationFactory->getCloudFederationNotification();
+		$notification->setMessage(
+			$retryNotification->getNotificationType(),
+			$retryNotification->getResourceType(),
+			$retryNotification->getProviderId(),
+			$data,
+		);
+
+		$success = $this->sendUpdateToRemote(
+			$retryNotification->getRemoteServer(),
+			$notification,
+			$retryNotification->getNumAttempts(),
+		);
+
+		if ($success) {
+			$this->retryNotificationMapper->delete($retryNotification);
+		} elseif ($success === null) {
+			$this->logger->error('Server signaled the OCM notification is not accepted at ' . $retryNotification->getRemoteServer() . ', giving up!');
+			$this->retryNotificationMapper->delete($retryNotification);
+		} elseif ($retryNotification->getNumAttempts() >= RetryNotification::MAX_NUM_ATTEMPTS) {
+			$this->logger->error('Failed to send OCM notification to ' . $retryNotification->getRemoteServer() . ' ' . RetryNotification::MAX_NUM_ATTEMPTS . ' times, giving up!');
+			$this->retryNotificationMapper->delete($retryNotification);
+		} else {
+			$retryNotification->setNumAttempts($retryNotification->getNumAttempts() + 1);
+
+			$now = $this->timeFactory->getTime();
+			$now += $this->getRetryDelay($retryNotification->getNumAttempts());
+
+			$retryNotification->setNextRetry($this->timeFactory->getDateTime('@' . $now));
+			$this->retryNotificationMapper->update($retryNotification);
+		}
+	}
+
+	/**
+	 * Delay schedule:
+	 * - Attempts 1-4:  5 minutes (fast retry)
+	 * - Attempts 5-10: attempt * 5 minutes (progressive backoff)
+	 * - Attempts 11-20: 8 hours (covers weekend downtime ~84 h total)
+	 */
+	protected function getRetryDelay(int $attempt): int {
+		if ($attempt < 5) {
+			return 5 * 60;
+		}
+
+		if ($attempt > 10) {
+			return 8 * 3600;
+		}
+
+		return $attempt * 5 * 60;
 	}
 
 	protected function prepareRemoteUrl(string $remote): string {

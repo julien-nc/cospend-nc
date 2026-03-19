@@ -26,6 +26,7 @@
 	<background-jobs>
 		<job>OCA\Cospend\Cron\RepeatBills</job>
 		<job>OCA\Cospend\Cron\AutoExport</job>
+		<job>OCA\Cospend\Cron\RetryNotificationsJob</job>
 	</background-jobs>
     <repair-steps>
         <post-migration>

@@ -23,7 +23,9 @@ use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Controller\ApiController;
 use OCA\Cospend\Controller\PublicApiController;
 use OCA\Cospend\Db\BillMapper;
+use OCA\Cospend\Db\Invitation;
 use OCA\Cospend\Db\ProjectMapper;
+use OCA\Cospend\Db\Share;
 use OCA\Cospend\Db\ShareMapper;
 use OCA\Cospend\Exception\CospendPublicAuthNotValidException;
 use OCA\Cospend\Exception\CospendUserPermissionsException;
@@ -207,6 +209,7 @@ class MiddlewaresTest extends TestCase {
 		$this->apiController->deleteProject('projtodel');
 		$this->apiController->deleteProject('original');
 		$this->apiController->deleteProject('newproject');
+		$this->apiController->deleteProject('fed-test-proj');
 	}
 
 	public function testUserPermission() {
@@ -350,5 +353,47 @@ class MiddlewaresTest extends TestCase {
 		} catch (\Exception $e) {
 			$this->assertInstanceOf(CospendPublicAuthNotValidException::class, $e);
 		}
+	}
+
+	public function testPublicAuthFederatedShare(): void {
+		$projectId = 'fed-test-proj';
+		$resp = $this->apiController->createProject($projectId, 'FedTest');
+		$this->assertEquals(Http::STATUS_OK, $resp->getStatus());
+
+		// Insert a federation share directly in PENDING state
+		$shareToken = str_repeat('a', 64);
+		$share = new Share();
+		$share->setProjectId($projectId);
+		$share->setUserId($shareToken);
+		$share->setType(Share::TYPE_FEDERATION);
+		$share->setAccessLevel(Application::ACCESS_LEVEL_PARTICIPANT);
+		$share->setUserCloudId('remoteuser@remote.example.com');
+		$share->setState(Invitation::STATE_PENDING);
+		$insertedShare = $this->shareMapper->insert($share);
+
+		$requestResponse = ['token' => $shareToken, 'password' => ''];
+		$this->request
+			->expects($this->any())
+			->method('getParam')
+			->willReturnCallback(static function ($key) use (&$requestResponse) {
+				return $key === 'token' ? $requestResponse['token'] : $requestResponse['password'];
+			});
+
+		// Pending federation share must NOT grant access
+		try {
+			$this->publicAuthMiddleware->beforeController($this->publicApiController, 'publicGetProjectInfo');
+			$this->assertTrue(false, 'Pending federation share should be rejected');
+		} catch (\Exception $e) {
+			$this->assertInstanceOf(CospendPublicAuthNotValidException::class, $e);
+		}
+
+		// Accept the share and verify access is now granted
+		$insertedShare->setState(Invitation::STATE_ACCEPTED);
+		$this->shareMapper->update($insertedShare);
+		$this->publicAuthMiddleware->beforeController($this->publicApiController, 'publicGetProjectInfo');
+
+		// Cleanup
+		$this->shareMapper->delete($insertedShare);
+		$this->apiController->deleteProject($projectId);
 	}
 }

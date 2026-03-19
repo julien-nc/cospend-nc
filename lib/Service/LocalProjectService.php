@@ -3077,6 +3077,10 @@ class LocalProjectService implements IProjectService {
 			throw new CospendBasicException('Wrong projectId in the share to delete', Http::STATUS_BAD_REQUEST);
 		}
 
+		if ($share->getType() !== Share::TYPE_FEDERATION) {
+			throw new CospendBasicException('Not a federated share', Http::STATUS_BAD_REQUEST);
+		}
+
 		$cloudId = $this->cloudIdManager->resolveCloudId($share->getUserCloudId());
 
 		$this->backendNotifier->sendRemoteUnShare(

@@ -83,7 +83,7 @@ class FederationManager {
 		$invitation->setAccessToken($sharedSecret);
 		$invitation->setRemoteProjectId($remoteProjectId);
 		$invitation->setRemoteProjectName($remoteProjectName);
-		$invitation->setRemoteServerUrl(preg_replace('/^https:\/\//i', '', $remoteServerUrl));
+		$invitation->setRemoteServerUrl(preg_replace('/^https?:\/\//i', '', $remoteServerUrl));
 		$invitation->setInviterCloudId($inviterCloudId);
 		$invitation->setInviterDisplayName($inviterDisplayName);
 		$this->invitationMapper->insert($invitation);

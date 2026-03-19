@@ -74,12 +74,10 @@ class CloudFederationProviderCospend implements ICloudFederationProvider {
 			$this->logger->debug('Received a federation invite but federation is disabled');
 			throw new ProviderCouldNotAddShareException('Server does not support Cospend federation', '', Http::STATUS_SERVICE_UNAVAILABLE);
 		}
-		/*
-		if (!$this->appConfig->getAppValueBool('federation_incoming_enabled', true)) {
+		if ($this->appConfig->getValueString(Application::APP_ID, 'federation_incoming_enabled', '1', lazy: true) !== '1') {
 			$this->logger->warning('Received a federation invite but incoming federation is disabled');
-			throw new ProviderCouldNotAddShareException('Server does not support talk federation', '', Http::STATUS_SERVICE_UNAVAILABLE);
+			throw new ProviderCouldNotAddShareException('Server does not support Cospend federation', '', Http::STATUS_SERVICE_UNAVAILABLE);
 		}
-		*/
 		if (!in_array($share->getShareType(), $this->getSupportedShareTypes(), true)) {
 			$this->logger->debug('Received a federation invite for invalid share type');
 			throw new ProviderCouldNotAddShareException('Support for sharing with non-users not implemented yet', '', Http::STATUS_NOT_IMPLEMENTED);

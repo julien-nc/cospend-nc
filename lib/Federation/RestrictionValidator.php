@@ -40,17 +40,10 @@ class RestrictionValidator {
 			throw new \InvalidArgumentException('cloudId');
 		}
 
-		/*
 		if (!$this->appConfig->getAppValueBool('federation_outgoing_enabled', true)) {
-			$this->logger->debug('Could not share conversation as outgoing federation is disabled');
+			$this->logger->debug('Could not share project as outgoing federation is disabled');
 			throw new \InvalidArgumentException('outgoing');
 		}
-
-		if (!$this->config->isFederationEnabledForUserId($user)) {
-			$this->logger->debug('Cospend federation not allowed for user ' . $user->getUID());
-			throw new \InvalidArgumentException('federation');
-		}
-		*/
 
 		if ($this->appConfig->getAppValueBool('federation_only_trusted_servers', false)) {
 			if (!$this->appManager->isEnabledForUser('federation')) {

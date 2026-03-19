@@ -11,6 +11,18 @@
 					@update:model-value="saveFederationEnabled">
 					{{ t('cospend', 'Enable Federation in Cospend') }}
 				</NcFormBoxSwitch>
+				<div v-if="state.federation_enabled" class="federation-sub-settings">
+					<NcFormBoxSwitch :model-value="state.federation_incoming_enabled"
+						:disabled="loading"
+						@update:model-value="saveFederationIncomingEnabled">
+						{{ t('cospend', 'Allow incoming federated project shares') }}
+					</NcFormBoxSwitch>
+					<NcFormBoxSwitch :model-value="state.federation_outgoing_enabled"
+						:disabled="loading"
+						@update:model-value="saveFederationOutgoingEnabled">
+						{{ t('cospend', 'Allow outgoing federated project shares') }}
+					</NcFormBoxSwitch>
+				</div>
 				<NcFormBoxSwitch :model-value="state.balance_past_bills_only"
 					:disabled="loading"
 					@update:model-value="saveBalancePastBillsOnly">
@@ -79,6 +91,14 @@ export default {
 			this.state.federation_enabled = value
 			this.saveOptions({ federation_enabled: value ? '1' : '0' })
 		},
+		saveFederationIncomingEnabled(value) {
+			this.state.federation_incoming_enabled = value
+			this.saveOptions({ federation_incoming_enabled: value ? '1' : '0' })
+		},
+		saveFederationOutgoingEnabled(value) {
+			this.state.federation_outgoing_enabled = value
+			this.saveOptions({ federation_outgoing_enabled: value ? '1' : '0' })
+		},
 		saveBalancePastBillsOnly(value) {
 			this.state.balance_past_bills_only = value
 			this.saveOptions({ balance_past_bills_only: value ? '1' : '0' })
@@ -92,6 +112,12 @@ export default {
 	#cospend-content {
 		margin-left: 40px;
 		max-width: 800px;
+	}
+
+	.federation-sub-settings {
+		margin-left: 32px;
+		border-left: 2px solid var(--color-border);
+		padding-left: 16px;
 	}
 
 	h2 {

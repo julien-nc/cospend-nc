@@ -98,6 +98,7 @@ class PageController extends Controller {
 		}
 		$state['useTime'] = ($state['useTime'] ?? '0') !== '0';
 		$state['showMyBalance'] = ($state['showMyBalance'] ?? '0') !== '0';
+		$state['federation_enabled'] = $this->appConfig->getValueString(Application::APP_ID, 'federation_enabled', '0', lazy: true) === '1';
 
 		$this->initialStateService->provideInitialState('cospend-state', $state);
 		$this->eventDispatcher->dispatchTyped(new RenderReferenceEvent());

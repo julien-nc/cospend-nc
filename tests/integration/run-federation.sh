@@ -96,6 +96,7 @@ php "$OCC" config:app:set cospend federation_outgoing_enabled --value=1
 php "$OCC" config:app:set files_sharing outgoing_server2server_share_enabled --value=yes
 php "$OCC" config:app:set files_sharing incoming_server2server_share_enabled --value=yes
 php "$OCC" config:system:set trusted_domains 0 --value="localhost:${LOCAL_PORT}"
+php "$OCC" config:system:set overwrite.cli.url --value="http://localhost:${LOCAL_PORT}/"
 
 # ---- Configure REMOTE instance ----
 
@@ -109,15 +110,18 @@ eval $REMOTE_OCC config:app:set cospend federation_outgoing_enabled --value=1
 eval $REMOTE_OCC config:app:set files_sharing outgoing_server2server_share_enabled --value=yes
 eval $REMOTE_OCC config:app:set files_sharing incoming_server2server_share_enabled --value=yes
 eval $REMOTE_OCC config:system:set trusted_domains 0 --value="localhost:${REMOTE_PORT}"
+eval $REMOTE_OCC config:system:set overwrite.cli.url --value="http://localhost:${REMOTE_PORT}/"
 
 # ---- Start PHP built-in servers ----
 
+ROUTER_SCRIPT="${APP_DIR}/tests/integration/router.php"
+
 echo "Starting LOCAL server on localhost:${LOCAL_PORT}"
-PHP_CLI_SERVER_WORKERS=3 php -S "localhost:${LOCAL_PORT}" -t "${ROOT_DIR}" &
+PHP_CLI_SERVER_WORKERS=3 php -S "localhost:${LOCAL_PORT}" -t "${ROOT_DIR}" "${ROUTER_SCRIPT}" &
 LOCAL_PID=$!
 
 echo "Starting REMOTE server on localhost:${REMOTE_PORT}"
-NEXTCLOUD_CONFIG_DIR="${REMOTE_ROOT_DIR}/config" PHP_CLI_SERVER_WORKERS=3 php -S "localhost:${REMOTE_PORT}" -t "${ROOT_DIR}" &
+NEXTCLOUD_CONFIG_DIR="${REMOTE_ROOT_DIR}/config" PHP_CLI_SERVER_WORKERS=3 php -S "localhost:${REMOTE_PORT}" -t "${ROOT_DIR}" "${ROUTER_SCRIPT}" &
 REMOTE_PID=$!
 
 sleep 2

@@ -36,6 +36,7 @@ use OCP\Activity\IManager;
 use OCP\AppFramework\Http;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -104,7 +105,7 @@ class MiddlewaresTest extends TestCase {
 			new UserService(
 				$this->projectMapper,
 				$c->get(IGroupManager::class),
-				$sc->getDatabaseConnection()
+				Server::get(IDBConnection::class),
 			),
 			$this->projectMapper,
 			$this->billMapper,
@@ -119,7 +120,7 @@ class MiddlewaresTest extends TestCase {
 			new UserService(
 				$this->projectMapper,
 				$c->get(IGroupManager::class),
-				$sc->getDatabaseConnection()
+				Server::get(IDBConnection::class),
 			),
 			$this->projectMapper,
 			$this->billMapper,

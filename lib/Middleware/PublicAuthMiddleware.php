@@ -8,6 +8,7 @@ use Exception;
 use OCA\Cospend\Attribute\CospendPublicAuth;
 use OCA\Cospend\Controller\OldApiController;
 use OCA\Cospend\Controller\PublicApiController;
+use OCA\Cospend\Db\Invitation;
 use OCA\Cospend\Db\Share;
 use OCA\Cospend\Db\ShareMapper;
 use OCA\Cospend\Exception\CospendPublicAuthNotValidException;
@@ -52,6 +53,12 @@ class PublicAuthMiddleware extends Middleware {
 				throw new CospendPublicAuthNotValidException(
 					$this->l->t('Project not found'), Http::STATUS_UNAUTHORIZED,
 					$paramToken, $paramPassword, 'invalid token'
+				);
+			}
+			if ($share->getType() === Share::TYPE_FEDERATION && $share->getState() !== Invitation::STATE_ACCEPTED) {
+				throw new CospendPublicAuthNotValidException(
+					$this->l->t('Federated share not accepted yet'), Http::STATUS_UNAUTHORIZED,
+					$paramToken, $paramPassword, 'federation share not accepted'
 				);
 			}
 			if ($share->getType() === Share::TYPE_PUBLIC_LINK && $share->getPassword() !== null && $paramPassword !== $share->getPassword()) {

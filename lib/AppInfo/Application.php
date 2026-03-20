@@ -150,7 +150,7 @@ class Application extends App implements IBootstrap {
 
 		$manager->addCloudFederationProvider(
 			'cospend-project',
-			'Talk Federation',
+			'Cospend Federation',
 			static fn (): ICloudFederationProvider => Server::get(CloudFederationProviderCospend::class)
 		);
 	}

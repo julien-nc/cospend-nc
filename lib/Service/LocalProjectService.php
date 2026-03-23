@@ -3047,7 +3047,12 @@ class LocalProjectService implements IProjectService {
 
 		$sharedBy = $this->userManager->get($fromUserId);
 		$project = $this->projectMapper->getById($projectId);
-		$response = $this->backendNotifier->sendRemoteShare($projectId, $shareToken, $userCloudId, $sharedBy, 'user', $project);
+		try {
+			$response = $this->backendNotifier->sendRemoteShare($projectId, $shareToken, $userCloudId, $sharedBy, 'user', $project);
+		} catch (CospendBasicException $e) {
+			$this->shareMapper->delete($insertedShare);
+			throw $e;
+		}
 		if (!$response) {
 			$this->shareMapper->delete($insertedShare);
 			throw new CospendBasicException('Cannot reach remote server', Http::STATUS_BAD_REQUEST);

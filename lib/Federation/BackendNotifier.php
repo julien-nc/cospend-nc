@@ -9,12 +9,14 @@ declare(strict_types=1);
 namespace OCA\Cospend\Federation;
 
 use OCA\Cospend\Db\Project;
+use OCA\Cospend\Exception\CospendBasicException;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCP\AppFramework\Http;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationNotification;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
+use OCP\Http\Client\IClientService;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -33,7 +35,55 @@ class BackendNotifier {
 		private IURLGenerator $url,
 		private ICloudIdManager $cloudIdManager,
 		private RestrictionValidator $restrictionValidator,
+		private IClientService $clientService,
 	) {
+	}
+
+	/**
+	 * Fetch the capabilities of a remote Nextcloud instance.
+	 * Returns an empty array when the remote cannot be reached, so the caller
+	 * can fall through to the normal OCM send and let that produce the error.
+	 */
+	private function fetchRemoteCapabilities(string $remote): array {
+		$url = rtrim($remote, '/') . '/ocs/v2.php/cloud/capabilities?format=json';
+		try {
+			$response = $this->clientService->newClient()->get($url, [
+				'headers' => ['OCS-apirequest' => 'true'],
+				'timeout' => 5,
+				'connect_timeout' => 5,
+			]);
+			$body = json_decode((string)$response->getBody(), true);
+			return $body['ocs']['data']['capabilities'] ?? [];
+		} catch (\Throwable $e) {
+			$this->logger->debug('Could not fetch remote capabilities from {remote}: {message}', [
+				'remote' => $remote,
+				'message' => $e->getMessage(),
+			]);
+			return [];
+		}
+	}
+
+	/**
+	 * Check whether the remote server has Cospend federation enabled.
+	 * Throws CospendBasicException when the capabilities are reachable and
+	 * explicitly show federation as disabled — silently passes when the remote
+	 * does not expose the capability at all (older version, non-Cospend server).
+	 *
+	 * @throws CospendBasicException
+	 */
+	private function checkRemoteCospendFederationCapabilities(string $remote): void {
+		$capabilities = $this->fetchRemoteCapabilities($remote);
+		if (isset($capabilities['cospend']['federation']['enabled'])
+			&& $capabilities['cospend']['federation']['enabled'] === false) {
+			$this->logger->warning(
+				'Remote server {remote} has Cospend federation disabled',
+				['remote' => $remote]
+			);
+			throw new CospendBasicException(
+				'Remote server does not support Cospend federation',
+				Http::STATUS_BAD_REQUEST
+			);
+		}
 	}
 
 	/**
@@ -64,6 +114,10 @@ class BackendNotifier {
 		$projectOwner = $this->userManager->get($project->getUserId());
 
 		$remote = $this->prepareRemoteUrl($invitedCloudId->getRemote());
+
+		// Pre-flight: verify the remote server has Cospend federation enabled
+		// before attempting to send the OCM invite.
+		$this->checkRemoteCospendFederationCapabilities($remote);
 
 		$shareWithCloudId = $invitedCloudId->getUser() . '@' . $remote;
 		$share = $this->cloudFederationFactory->getCloudFederationShare(

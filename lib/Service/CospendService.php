@@ -20,7 +20,7 @@ use OCA\Cospend\Db\Invitation;
 use OCA\Cospend\Db\InvitationMapper;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Utils;
-
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Config\IUserConfig;
 use OCP\DB\Exception;
 use OCP\Files\File;
@@ -365,11 +365,15 @@ class CospendService {
 		// add project
 		$user = $this->userManager->get($userId);
 		$userEmail = $user->getEMailAddress();
-		$projectid = Utils::slugify($projectName);
+		$projectId = Utils::slugify($projectName);
+		if ($projectId === '') {
+			$projectId = 'empty';
+		}
+		$projectId = $this->findUniqueProjectId($projectId);
 		$createDefaultCategories = (count($categories) === 0);
 		$createDefaultPaymentModes = (count($paymentModes) === 0);
 		$projResult = $this->localProjectService->createProject(
-			$projectName, $projectid, $userEmail, $userId,
+			$projectName, $projectId, $userEmail, $userId,
 			$createDefaultCategories, $createDefaultPaymentModes
 		);
 		if (!isset($projResult['id'])) {
@@ -377,30 +381,30 @@ class CospendService {
 		}
 		// set project main currency
 		if ($mainCurrencyName !== null) {
-			$this->localProjectService->editProject($projectid, $projectName, null, null, $mainCurrencyName);
+			$this->localProjectService->editProject($projectId, $projectName, null, null, $mainCurrencyName);
 		}
 		// add payment modes
 		foreach ($paymentModes as $pm) {
-			$insertedPmId = $this->localProjectService->createPaymentMode($projectid, $pm['name'], $pm['icon'], $pm['color']);
+			$insertedPmId = $this->localProjectService->createPaymentMode($projectId, $pm['name'], $pm['icon'], $pm['color']);
 			$paymentModeIdConv[$pm['id']] = $insertedPmId;
 		}
 		// add categories
 		foreach ($categories as $cat) {
-			$insertedCatId = $this->localProjectService->createCategory($projectid, $cat['name'], $cat['icon'], $cat['color']);
+			$insertedCatId = $this->localProjectService->createCategory($projectId, $cat['name'], $cat['icon'], $cat['color']);
 			$categoryIdConv[$cat['id']] = $insertedCatId;
 		}
 		// add currencies
 		foreach ($currencies as $cur) {
-			$insertedCurId = $this->localProjectService->createCurrency($projectid, $cur['name'], $cur['exchange_rate']);
+			$insertedCurId = $this->localProjectService->createCurrency($projectId, $cur['name'], $cur['exchange_rate']);
 		}
 		// add members
 		foreach ($membersByName as $memberName => $member) {
 			try {
 				$insertedMember = $this->localProjectService->createMember(
-					$projectid, $memberName, $member['weight'], $member['active'], $member['color'] ?? null
+					$projectId, $memberName, $member['weight'], $member['active'], $member['color'] ?? null
 				);
 			} catch (\Throwable $e) {
-				$this->localProjectService->deleteProject($projectid);
+				$this->localProjectService->deleteProject($projectId);
 				return ['message' => $this->l10n->t('Error when adding member %1$s', [$memberName])];
 			}
 			$memberNameToId[$memberName] = $insertedMember['id'];
@@ -426,7 +430,7 @@ class CospendService {
 			$owerIdsStr = implode(',', $owerIds);
 			try {
 				$this->localProjectService->createBill(
-					$projectid, null, $bill['what'], $payerId,
+					$projectId, null, $bill['what'], $payerId,
 					$owerIdsStr, $bill['amount'], $bill['repeat'],
 					$bill['paymentmode'], $pmId,
 					$catId, $bill['repeatallactive'],
@@ -434,11 +438,32 @@ class CospendService {
 					$bill['deleted'] ?? 0
 				);
 			} catch (\Throwable $e) {
-				$this->localProjectService->deleteProject($projectid);
+				$this->localProjectService->deleteProject($projectId);
 				return ['message' => $this->l10n->t('Error when adding bill %1$s', [$bill['what']])];
 			}
 		}
-		return ['project_id' => $projectid];
+		return ['project_id' => $projectId];
+	}
+
+	private function findUniqueProjectId(string $projectId): string {
+		try {
+			$this->projectMapper->getById($projectId);
+		} catch (DoesNotExistException) {
+			// this projectId is free
+			return $projectId;
+		}
+		$suffix = 1;
+		while ($suffix < 50) {
+			$suffixedProjectId = $projectId . '-' . $suffix;
+			try {
+				$this->projectMapper->getById($suffixedProjectId);
+			} catch (DoesNotExistException) {
+				// this projectId is free
+				return $suffixedProjectId;
+			}
+			$suffix++;
+		}
+		return $projectId . '-' . $suffix;
 	}
 
 	/**
@@ -586,11 +611,15 @@ class CospendService {
 					$user = $this->userManager->get($userId);
 					$userEmail = $user->getEMailAddress();
 					$projectName = preg_replace('/\.csv$/', '', $file->getName());
-					$projectid = Utils::slugify($projectName);
+					$projectId = Utils::slugify($projectName);
+					if ($projectId === '') {
+						$projectId = 'empty';
+					}
+					$projectId = $this->findUniqueProjectId($projectId);
 					// create default categories only if none are found in the CSV
 					$createDefaultCategories = (count($categoryNames) === 0);
 					$projResult = $this->localProjectService->createProject(
-						$projectName, $projectid, $userEmail,
+						$projectName, $projectId, $userEmail,
 						$userId, $createDefaultCategories
 					);
 					if (!isset($projResult['id'])) {
@@ -599,7 +628,7 @@ class CospendService {
 					// add categories
 					$catNameToId = [];
 					foreach ($categoryNames as $categoryName) {
-						$insertedCatId = $this->localProjectService->createCategory($projectid, $categoryName, null, '#000000');
+						$insertedCatId = $this->localProjectService->createCategory($projectId, $categoryName, null, '#000000');
 						/*
 						if (!is_numeric($insertedCatId)) {
 							$this->deleteProject($projectid);
@@ -611,9 +640,9 @@ class CospendService {
 					// add members
 					foreach ($membersWeight as $memberName => $weight) {
 						try {
-							$insertedMember = $this->localProjectService->createMember($projectid, $memberName, $weight);
+							$insertedMember = $this->localProjectService->createMember($projectId, $memberName, $weight);
 						} catch (\Throwable $e) {
-							$this->localProjectService->deleteProject($projectid);
+							$this->localProjectService->deleteProject($projectId);
 							return ['message' => $this->l10n->t('Error when adding member %1$s', [$memberName])];
 						}
 						$memberNameToId[$memberName] = $insertedMember['id'];
@@ -634,16 +663,16 @@ class CospendService {
 						}
 						try {
 							$this->localProjectService->createBill(
-								$projectid, null, $bill['what'], $payerId, $owerIdsStr,
+								$projectId, null, $bill['what'], $payerId, $owerIdsStr,
 								$bill['amount'], Application::FREQUENCY_NO, null, 0, $catId,
 								0, null, $bill['timestamp'], null, null
 							);
 						} catch (\Throwable $e) {
-							$this->localProjectService->deleteProject($projectid);
+							$this->localProjectService->deleteProject($projectId);
 							return ['message' => $this->l10n->t('Error when adding bill %1$s', [$bill['what']])];
 						}
 					}
-					return ['project_id' => $projectid];
+					return ['project_id' => $projectId];
 				} else {
 					return ['message' => $this->l10n->t('Access denied')];
 				}

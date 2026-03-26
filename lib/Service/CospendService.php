@@ -144,7 +144,7 @@ class CospendService {
 		$previousLineEmpty = false;
 		$currentSection = null;
 		$row = 0;
-		while (($data = fgetcsv($handle, 0, ',')) !== false) {
+		while (($data = fgetcsv($handle, 0, ',', '"', '\\')) !== false) {
 			$uni = array_unique($data);
 			if ($data === [null] || (count($uni) === 1 && $uni[0] === '')) {
 				$previousLineEmpty = true;

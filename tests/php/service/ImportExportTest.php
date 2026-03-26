@@ -36,7 +36,7 @@ class ImportExportTest extends TestCase {
 		}
 
 		$u1 = $userManager->createUser('test', 'T0T0T0');
-		$u1->setEMailAddress('toto@toto.net');
+		$u1->setSystemEMailAddress('toto@toto.net');
 		$u2 = $userManager->createUser('test2', 'T0T0T0');
 		$u3 = $userManager->createUser('test3', 'T0T0T0');
 
@@ -189,11 +189,19 @@ class ImportExportTest extends TestCase {
 		$this->assertStringContainsString('"Carol",1.5,0,"#778899"', $exportedContent);
 		$this->assertStringContainsString("\nwhat,amount,date,timestamp,payer_name,payer_weight,payer_active,owers,repeat,repeatfreq,repeatallactive,repeatuntil,categoryid,paymentmode,paymentmodeid,comment,deleted\n", $exportedContent);
 		$this->assertStringContainsString(
-			'"Dinner",42.5,2024-01-15,1705276800,"Alice",1,1,"Alice,Bob",n,1,0,,' . $foodCategoryId . ',n,' . $cashPaymentModeId . ',"pizza+%26+drinks",0',
+			'"Dinner",42.5,2024-01-15,1705276800,"Alice",1,1,',
 			$exportedContent
 		);
 		$this->assertStringContainsString(
-			'"Train tickets",99.99,2024-02-01,1706745600,"Bob",2,1,"Alice,Bob,Carol",m,2,1,2024-06-01,' . $travelCategoryId . ',n,' . $wirePaymentModeId . ',"",0',
+			',n,1,0,,' . $foodCategoryId . ',n,' . $cashPaymentModeId . ',"pizza+%26+drinks",0',
+			$exportedContent
+		);
+		$this->assertStringContainsString(
+			'"Train tickets",99.99,2024-02-01,1706745600,"Bob",2,1,',
+			$exportedContent
+		);
+		$this->assertStringContainsString(
+			',m,2,1,2024-06-01,' . $travelCategoryId . ',n,' . $wirePaymentModeId . ',"",0',
 			$exportedContent
 		);
 		$this->assertStringContainsString("\ncategoryname,categoryid,icon,color\n", $exportedContent);

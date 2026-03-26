@@ -43,7 +43,6 @@ use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
 
-use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Server;
@@ -66,11 +65,8 @@ class MiddlewaresTest extends TestCase {
 	private ShareMapper $shareMapper;
 
 	public static function setUpBeforeClass(): void {
-		$app = new Application();
-		$c = $app->getContainer();
-
 		// clear test users
-		$userManager = $c->get(IUserManager::class);
+		$userManager = Server::get(IUserManager::class);
 		$user = $userManager->get('test');
 		if ($user !== null) {
 			$user->delete();
@@ -82,9 +78,9 @@ class MiddlewaresTest extends TestCase {
 
 		// CREATE DUMMY USERS
 		$u1 = $userManager->createUser('test', 'T0T0T0');
-		$u1->setEMailAddress('toto@toto.net');
+		$u1->setSystemEMailAddress('toto@toto.net');
 		$u2 = $userManager->createUser('test2', 'T0T0T0');
-		$groupManager = $c->get(IGroupManager::class);
+		$groupManager = Server::get(IGroupManager::class);
 		$groupManager->createGroup('group1test');
 		$groupManager->get('group1test')->addUser($u1);
 		$groupManager->createGroup('group2test');
@@ -97,23 +93,23 @@ class MiddlewaresTest extends TestCase {
 
 		$app = new Application();
 		$c = $app->getContainer();
-		$sc = $c->get(IServerContainer::class);
+
 		$l10n = $c->get(IL10N::class);
-		$this->billMapper = $c->get(BillMapper::class);
-		$this->projectMapper = $c->get(ProjectMapper::class);
+		$this->billMapper = Server::get(BillMapper::class);
+		$this->projectMapper = Server::get(ProjectMapper::class);
 
 		$activityManager = new ActivityManager(
 			Server::get(IManager::class),
 			new UserService(
 				$this->projectMapper,
-				$c->get(IGroupManager::class),
+				Server::get(IGroupManager::class),
 				Server::get(IDBConnection::class),
 			),
 			$this->projectMapper,
 			$this->billMapper,
-			$sc->getL10N($c->get('AppName')),
-			$c->get(LoggerInterface::class),
-			$c->get(IURLGenerator::class),
+			$l10n,
+			Server::get(LoggerInterface::class),
+			Server::get(IURLGenerator::class),
 			'test'
 		);
 
@@ -121,46 +117,46 @@ class MiddlewaresTest extends TestCase {
 			Server::get(IManager::class),
 			new UserService(
 				$this->projectMapper,
-				$c->get(IGroupManager::class),
+				Server::get(IGroupManager::class),
 				Server::get(IDBConnection::class),
 			),
 			$this->projectMapper,
 			$this->billMapper,
-			$sc->getL10N($c->get('AppName')),
-			$c->get(LoggerInterface::class),
-			$c->get(IURLGenerator::class),
+			$l10n,
+			Server::get(LoggerInterface::class),
+			Server::get(IURLGenerator::class),
 			'test2'
 		);
 
-		$this->projectService = $c->get(LocalProjectService::class);
-		$this->cospendService = $c->get(CospendService::class);
-		$this->shareMapper = $c->get(ShareMapper::class);
+		$this->projectService = Server::get(LocalProjectService::class);
+		$this->cospendService = Server::get(CospendService::class);
+		$this->shareMapper = Server::get(ShareMapper::class);
 
 		$this->apiController = new ApiController(
 			$appName,
 			$this->request,
-			$c->get(IShareManager::class),
-			$sc->getL10N($c->get('AppName')),
+			Server::get(IShareManager::class),
+			$l10n,
 			$this->billMapper,
 			$this->projectMapper,
 			$this->projectService,
 			$this->cospendService,
 			$activityManager,
-			$c->get(IRootFolder::class),
+			Server::get(IRootFolder::class),
 			'test'
 		);
 
 		$this->apiController2 = new ApiController(
 			$appName,
 			$this->request,
-			$c->get(IShareManager::class),
-			$sc->getL10N($c->get('AppName')),
+			Server::get(IShareManager::class),
+			$l10n,
 			$this->billMapper,
 			$this->projectMapper,
 			$this->projectService,
 			$this->cospendService,
 			$activityManager2,
-			$c->get(IRootFolder::class),
+			Server::get(IRootFolder::class),
 			'test2'
 		);
 
@@ -177,28 +173,28 @@ class MiddlewaresTest extends TestCase {
 		$this->userPermissionMiddleware = new UserPermissionMiddleware(
 			$this->projectService,
 			$this->request,
-			$c->get(IL10N::class),
-			$c->get(LoggerInterface::class),
+			$l10n,
+			Server::get(LoggerInterface::class),
 		);
 
 		$this->publicAuthMiddleware = new PublicAuthMiddleware(
-			$c->get(ShareMapper::class),
+			Server::get(ShareMapper::class),
 			$this->request,
-			$c->get(IL10N::class),
-			$c->get(LoggerInterface::class),
-			$c->get(IConfig::class),
+			$l10n,
+			Server::get(LoggerInterface::class),
+			Server::get(IConfig::class),
 		);
 	}
 
 	public static function tearDownAfterClass(): void {
 		$app = new Application();
 		$c = $app->getContainer();
-		$userManager = $c->get(IUserManager::class);
+		$userManager = Server::get(IUserManager::class);
 		$user = $userManager->get('test');
 		$user->delete();
 		$user = $userManager->get('test2');
 		$user->delete();
-		$groupManager = $c->get(IGroupManager::class);
+		$groupManager = Server::get(IGroupManager::class);
 		$groupManager->get('group1test')->delete();
 		$groupManager->get('group2test')->delete();
 	}

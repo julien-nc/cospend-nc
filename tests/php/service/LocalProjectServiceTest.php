@@ -64,7 +64,7 @@ class LocalProjectServiceTest extends TestCase {
 
 		// CREATE DUMMY USERS
 		$u1 = $userManager->createUser('test', 'T0T0T0');
-		$u1->setEMailAddress('toto@toto.net');
+		$u1->setSystemEMailAddress('toto@toto.net');
 		$u2 = $userManager->createUser('test2', 'T0T0T0');
 		$u3 = $userManager->createUser('test3', 'T0T0T0');
 		$groupManager = $c->get(IGroupManager::class);

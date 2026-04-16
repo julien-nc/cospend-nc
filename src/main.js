@@ -14,6 +14,7 @@ import { reactive } from '@vue/reactivity'
 import App from './App.vue'
 import '@nextcloud/dialogs/style.css'
 import { loadState } from '@nextcloud/initial-state'
+import { getCapabilities } from '@nextcloud/capabilities'
 import SmartTable from 'vuejs-smart-table'
 import { hexToDarkerHex } from './utils.js'
 import { defaultState } from './state.js'
@@ -42,8 +43,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 		})
 	}
 	OCA.Cospend.state.pageIsPublic = pageIsPublic
-	if (OCA.Theming) {
-		const c = OCA.Theming.color
+	if (getCapabilities()?.theming?.primaryColor) {
+		const c = getCapabilities().theming.primaryColor
 		// invalid color
 		if (!c || (c.length !== 4 && c.length !== 7)) {
 			OCA.Cospend.state.themeColor = '#0082C9'

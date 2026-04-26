@@ -4,6 +4,7 @@ vendor/
 .code-workspace
 .DS_Store
 .idea/
+.zed/
 .vscode/
 .vscode-upload.json
 .*.sw*

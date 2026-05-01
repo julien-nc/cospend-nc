@@ -20,16 +20,20 @@
 					:disable-tooltip="true" />
 				<div class="spacer" />
 				<NcButton type="error"
+					:disabled="!!loadingId"
 					@click="reject(invite)">
 					<template #icon>
-						<CloseIcon />
+						<NcLoadingIcon v-if="loadingId === 'reject-' + invite.id" />
+						<CloseIcon v-else />
 					</template>
 					{{ t('cospend', 'Reject') }}
 				</NcButton>
 				<NcButton type="success"
+					:disabled="!!loadingId"
 					@click="accept(invite)">
 					<template #icon>
-						<CheckIcon />
+						<NcLoadingIcon v-if="loadingId === 'accept-' + invite.id" />
+						<CheckIcon v-else />
 					</template>
 					{{ t('cospend', 'Accept') }}
 				</NcButton>
@@ -43,10 +47,12 @@ import CheckIcon from 'vue-material-design-icons/Check.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 
 import NcButton from '@nextcloud/vue/components/NcButton'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcModal from '@nextcloud/vue/components/NcModal'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 
 import { emit } from '@nextcloud/event-bus'
+import { showError } from '@nextcloud/dialogs'
 
 import * as network from '../network.js'
 
@@ -54,6 +60,7 @@ export default {
 	name: 'PendingInvitationsModal',
 	components: {
 		NcButton,
+		NcLoadingIcon,
 		NcModal,
 		NcAvatar,
 		CheckIcon,
@@ -67,6 +74,7 @@ export default {
 	},
 	data() {
 		return {
+			loadingId: null,
 		}
 	},
 	computed: {
@@ -80,7 +88,6 @@ export default {
 			return network.getRemoteAvatarUrl(cloudId)
 		},
 		getLabel(invite) {
-			console.debug('[cospend] get invite label', invite)
 			return t('cospend', 'Project {projectName} shared by {inviterName} ({inviterCloudId})', {
 				projectName: invite.remoteProjectName,
 				inviterName: invite.inviterDisplayName,
@@ -91,6 +98,7 @@ export default {
 			return invite.remoteProjectId + '@' + invite.remoteServerUrl
 		},
 		accept(invite) {
+			this.loadingId = 'accept-' + invite.id
 			network.acceptPendingInvitation(invite.id).then(response => {
 				emit('add-project', response.data.ocs.data)
 				this.$emit('close')
@@ -98,14 +106,23 @@ export default {
 					emit('remove-pending-invitation', invite.id)
 					emit('project-clicked', response.data.ocs.data.id)
 				})
+			}).catch(() => {
+				showError(t('cospend', 'Failed to accept federated share invitation'))
+			}).then(() => {
+				this.loadingId = null
 			})
 		},
 		reject(invite) {
-			network.rejectInvitation(invite.id).then(response => {
+			this.loadingId = 'reject-' + invite.id
+			network.rejectInvitation(invite.id).then(() => {
 				this.$emit('close')
 				this.$nextTick(() => {
 					emit('remove-pending-invitation', invite.id)
 				})
+			}).catch(() => {
+				showError(t('cospend', 'Failed to reject federated share invitation'))
+			}).then(() => {
+				this.loadingId = null
 			})
 		},
 	},

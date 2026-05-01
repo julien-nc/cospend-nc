@@ -502,7 +502,7 @@ export default {
 			return (uid) => uid === getCurrentUser().uid
 		},
 		formatedSharees() {
-			const formatedSharees = this.unallocatedSharees.map(item => {
+			return this.unallocatedSharees.map(item => {
 				return {
 					user: item.id,
 					manually_added: true,
@@ -513,12 +513,13 @@ export default {
 					id: item.type + ':' + item.id,
 				}
 			})
-			console.debug('[cospend] formatedSharees', formatedSharees)
-			return formatedSharees
 		},
 		// those with which the project is not shared yet
 		unallocatedSharees() {
 			return this.sharees.filter(sharee => {
+				if (sharee.type === constants.SHARE_TYPE.FEDERATED && !this.cospend.federation_enabled) {
+					return false
+				}
 				let foundIndex
 				if (sharee.type === constants.SHARE_TYPE.USER) {
 					foundIndex = this.shares.findIndex((access) => {

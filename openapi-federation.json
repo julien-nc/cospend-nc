@@ -418,11 +418,23 @@
                     "cospend": {
                         "type": "object",
                         "required": [
-                            "version"
+                            "version",
+                            "federation"
                         ],
                         "properties": {
                             "version": {
                                 "type": "string"
+                            },
+                            "federation": {
+                                "type": "object",
+                                "required": [
+                                    "enabled"
+                                ],
+                                "properties": {
+                                    "enabled": {
+                                        "type": "boolean"
+                                    }
+                                }
                             }
                         }
                     }

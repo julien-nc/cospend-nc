@@ -207,6 +207,11 @@ class LocalProjectService implements IProjectService {
 			if ($dbProject->getUserId() === $userId) {
 				return Application::ACCESS_LEVEL_ADMIN;
 			} else {
+				$user = $this->userManager->get($userId);
+				if ($user === null) {
+					return Application::ACCESS_LEVEL_NONE;
+				}
+
 				// is the project shared with the user ?
 				try {
 					$userShare = $this->shareMapper->getShareByProjectAndUser($projectId, $userId, Share::TYPE_USER);
@@ -217,8 +222,6 @@ class LocalProjectService implements IProjectService {
 				}
 
 				// is the project shared with a group containing the user?
-				$user = $this->userManager->get($userId);
-
 				$groupShares = $this->shareMapper->getSharesOfProject($projectId, Share::TYPE_GROUP);
 				foreach ($groupShares as $groupShare) {
 					$groupId = $groupShare->getUserId();

@@ -210,4 +210,13 @@ class ShareMapper extends QBMapper {
 
 		return $this->findEntities($qb);
 	}
+
+	public function deleteSharesToUser(string $userId): void {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete($this->getTableName())
+			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR)))
+			->andWhere($qb->expr()->eq('type', $qb->createNamedParameter(Share::TYPE_USER, IQueryBuilder::PARAM_STR)));
+
+		$qb->executeStatement();
+	}
 }

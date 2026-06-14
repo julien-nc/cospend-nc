@@ -33,9 +33,7 @@ use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\Constants;
-
 use OCP\DB\Exception;
-
 use OCP\Exceptions\AppConfigTypeConflictException;
 use OCP\Files\File;
 use OCP\Files\InvalidPathException;
@@ -43,7 +41,6 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IL10N;
-
 use OCP\IRequest;
 use OCP\Lock\LockedException;
 use OCP\Share\IManager;
@@ -1059,7 +1056,6 @@ class ApiController extends OCSController {
 			return new DataResponse($e->data, Http::STATUS_BAD_REQUEST);
 		}
 	}
-
 
 	/**
 	 * Save categories order

@@ -360,7 +360,6 @@ class FederatedProjectService implements IProjectService {
 		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/paymentmode', $params, 'POST');
 	}
 
-
 	public function editPaymentMode(string $projectId, int $pmId, ?string $name = null, ?string $icon = null, ?string $color = null): array {
 		$params = [
 			'name' => $name,

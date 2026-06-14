@@ -15,7 +15,6 @@ namespace OCA\Cospend\Service;
 use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\ProjectMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 

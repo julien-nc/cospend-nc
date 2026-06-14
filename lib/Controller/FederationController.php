@@ -24,11 +24,9 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\OCSController;
-
 use OCP\DB\Exception;
 use OCP\Federation\ICloudIdManager;
 use OCP\IAvatarManager;
-
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;

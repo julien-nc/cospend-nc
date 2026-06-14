@@ -89,7 +89,6 @@ class Notifier implements INotifier {
 						->setIcon($iconUrl);
 				}
 				return $notification;
-
 			case 'delete_user_share':
 				$p = $notification->getSubjectParameters();
 				$fromUserId = $p[0];
@@ -127,7 +126,6 @@ class Notifier implements INotifier {
 						->setIcon($iconUrl);
 				}
 				return $notification;
-
 			case 'remote_cospend_share':
 				// $inviteId = (int)$notification->getObjectId();
 				$p = $notification->getSubjectParameters();
@@ -149,7 +147,6 @@ class Notifier implements INotifier {
 					->setLink($this->url->linkToRouteAbsolute('cospend.page.index'))
 					->setIcon($iconUrl);
 				return $notification;
-
 			default:
 				// Unknown subject => Unknown notification => throw
 				throw new InvalidArgumentException();

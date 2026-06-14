@@ -32,7 +32,6 @@ use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Db\Project;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Service\UserService;
-
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Db\DoesNotExistException;

@@ -16,6 +16,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Cospend\Service;
 
 use OCA\Cospend\Activity\ActivityManager;
@@ -29,7 +30,6 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\Files\IRootFolder;
 use OCP\IGroupManager;
-
 use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\Share\IManager;

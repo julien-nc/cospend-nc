@@ -16,6 +16,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Cospend;
 
 use OCA\Cospend\Activity\ActivityManager;
@@ -42,7 +43,6 @@ use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
-
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Server;

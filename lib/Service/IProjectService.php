@@ -94,7 +94,6 @@ interface IProjectService {
 		?float $weight = null, ?bool $activated = null, ?string $color = null,
 	): ?array;
 
-
 	/**
 	 * Edit a project
 	 *

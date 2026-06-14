@@ -26,7 +26,6 @@ namespace OCA\Cospend\Activity;
 
 use Exception;
 use InvalidArgumentException;
-
 use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Service\LocalProjectService;
 use OCP\Activity\Exceptions\UnknownActivityException;

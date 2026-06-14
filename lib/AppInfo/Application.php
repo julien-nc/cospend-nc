@@ -27,7 +27,6 @@ use OCA\Cospend\Search\CospendSearchBillProvider;
 use OCA\Cospend\Search\CospendSearchProjectProvider;
 use OCA\Cospend\UserMigration\UserMigrator;
 use OCP\AppFramework\App;
-
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;

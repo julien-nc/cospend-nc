@@ -21,7 +21,6 @@ use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\Bill;
 use OCA\Cospend\Db\BillMapper;
-
 use OCA\Cospend\Db\BillOwer;
 use OCA\Cospend\Db\BillOwerMapper;
 use OCA\Cospend\Db\Category;
@@ -46,14 +45,11 @@ use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;
 use OCP\Config\IUserConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-
 use OCP\Exceptions\AppConfigTypeConflictException;
 use OCP\Federation\ICloudIdManager;
-
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
-
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;

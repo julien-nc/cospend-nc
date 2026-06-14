@@ -86,7 +86,6 @@ class ProjectMapper extends QBMapper {
 			)
 			->groupBy('user_id');
 
-
 		$res = $qb->executeQuery();
 		$all = $res->fetchAll();
 		return array_column($all, 'user_id');

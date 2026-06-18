@@ -15,6 +15,12 @@
 			:show-details="shouldShowDetails"
 			@update:showDetails="showList">
 			<template #list>
+				<CrossProjectBalanceView
+					v-if="mode === 'cross-project-balances'"
+					ref="crossProjectBalanceView"
+					@balances-loaded="onBalancesLoaded"
+					@close-balances="onCloseCrossProjectBalances"
+					@settlement-person-selected="onSettlementPersonSelected" />
 				<BillList
 					v-if="currentProjectId"
 					ref="billList"
@@ -39,6 +45,20 @@
 					@move-bill-clicked="onMoveBillClicked" />
 			</template>
 			<div class="content-details-wrapper">
+				<CrossProjectSettlement
+					v-if="mode === 'cross-project-balances' && currentSettlementPerson"
+					:current-settlement-person="currentSettlementPerson"
+					@cancel-settlement="onCancelSettlement"
+					@settlement-created="onSettlementCreated" />
+				<NcEmptyContent v-else-if="mode === 'cross-project-balances'"
+					class="central-empty-content"
+					:name="t('cospend', 'Select a person to settle')"
+					:title="t('cospend', 'Select a person to settle')"
+					:description="t('cospend', 'Use the Settle button in the balances list to start a cross-project settlement.')">
+					<template #icon>
+						<ReimburseIcon />
+					</template>
+				</NcEmptyContent>
 				<BillForm
 					v-if="currentBill !== null && mode === 'edition'"
 					:bill="currentBill"
@@ -188,6 +208,8 @@ export default {
 	components: {
 		CospendNavigation: defineAsyncComponent(() => import('./components/CospendNavigation.vue')),
 		CospendSettingsDialog: defineAsyncComponent(() => import('./components/CospendSettingsDialog.vue')),
+		CrossProjectBalanceView: defineAsyncComponent(() => import('./components/CrossProjectBalanceView.vue')),
+		CrossProjectSettlement: defineAsyncComponent(() => import('./components/CrossProjectSettlement.vue')),
 		BillList: defineAsyncComponent(() => import('./BillList.vue')),
 		BillForm: defineAsyncComponent(() => import('./BillForm.vue')),
 		Statistics: defineAsyncComponent(() => import('./components/statistics/Statistics.vue')),
@@ -235,10 +257,16 @@ export default {
 			billToMove: null,
 			pendingInvitations: [],
 			unreachableFederatedProject: [],
+			currentSettlementPerson: null,
+			pendingSettlementPersonKey: null,
+			pendingSettlementPushState: false,
 		}
 	},
 	computed: {
 		shouldShowDetails() {
+			if (this.mode === 'cross-project-balances') {
+				return true
+			}
 			return (this.currentBill && this.currentBill !== null) || !['edition', 'normal'].includes(this.mode)
 		},
 		showProjectEmptyContent() {
@@ -327,6 +355,8 @@ export default {
 		this.getProjects()
 	},
 	mounted() {
+		window.addEventListener('popstate', this.onPopState)
+
 		subscribe('nextcloud:unified-search:search', this.filter)
 		subscribe('bill-search', this.filter)
 		subscribe('nextcloud:unified-search:reset', this.cleanSearch)
@@ -359,8 +389,12 @@ export default {
 		subscribe('remove-pending-invitation', this.removePendingInvitation)
 		subscribe('remove-project', this.removeProject)
 		subscribe('remove-unreachable-project', this.removeUnreachableProject)
+		subscribe('show-cross-project-balances', this.onShowCrossProjectBalances)
+		subscribe('cross-project-settlement-person-selected', this.onSettlementPersonSelected)
 	},
 	beforeDestroy() {
+		window.removeEventListener('popstate', this.onPopState)
+
 		unsubscribe('nextcloud:unified-search:search', this.filter)
 		unsubscribe('bill-search', this.filter)
 		unsubscribe('nextcloud:unified-search:reset', this.cleanSearch)
@@ -393,8 +427,187 @@ export default {
 		unsubscribe('remove-pending-invitation', this.removePendingInvitation)
 		unsubscribe('remove-project', this.removeProject)
 		unsubscribe('remove-unreachable-project', this.removeUnreachableProject)
+		unsubscribe('show-cross-project-balances', this.onShowCrossProjectBalances)
+		unsubscribe('cross-project-settlement-person-selected', this.onSettlementPersonSelected)
 	},
 	methods: {
+		getAppRootUrl() {
+			return generateUrl('/apps/cospend/')
+		},
+		getCrossProjectBalancesUrl() {
+			return generateUrl('/apps/cospend/cross-project')
+		},
+		getCrossProjectSettlementUrl(personKey) {
+			return generateUrl('/apps/cospend/cross-project/settle') + '/' + personKey
+		},
+		pushUrl(url) {
+			if (this.cospend.pageIsPublic || window.location.pathname === url) {
+				return
+			}
+			window.history.pushState(null, null, url)
+		},
+		getCrossProjectPersonKey(person) {
+			if (person?.personKey) {
+				return person.personKey
+			}
+			if (person?.member?.userid) {
+				return `user=${person.member.userid}`
+			}
+			return `name=${(person?.member?.name || '').trim().toLowerCase().replace(/\s+/g, '-')}`
+		},
+		findCrossProjectPersonByKey(personKey) {
+			const personBalances = this.$refs.crossProjectBalanceView?.balanceData?.personBalances || []
+			return personBalances.find((person) => this.getCrossProjectPersonKey(person) === personKey) || null
+		},
+		parseCurrentRoute(pathname = window.location.pathname) {
+			const cospendMatch = pathname.match(/\/apps\/cospend(?<suffix>\/.*)?$/)
+			if (!cospendMatch) {
+				return null
+			}
+
+			const suffix = cospendMatch.groups?.suffix || '/'
+			if (suffix === '/' || suffix === '') {
+				return { type: 'root' }
+			}
+
+			const crossProjectMatch = suffix.match(/^\/cross-project(?:\/settle\/(.+))?$/)
+			if (crossProjectMatch) {
+				if (crossProjectMatch[1]) {
+					return {
+						type: 'cross-project-settlement',
+						personKey: decodeURIComponent(crossProjectMatch[1]),
+					}
+				}
+				return { type: 'cross-project-balances' }
+			}
+
+			const projectMatch = suffix.match(/^\/p\/([^/]+)(?:\/b\/(\d+))?$/)
+			if (projectMatch) {
+				return {
+					type: projectMatch[2] !== undefined ? 'bill' : 'project',
+					projectId: decodeURIComponent(projectMatch[1]),
+					billId: projectMatch[2] !== undefined ? Number(projectMatch[2]) : null,
+				}
+			}
+
+			return { type: 'root' }
+		},
+		async openCrossProjectBalances(pushState = false, settlementPersonKey = null) {
+			this.currentBill = null
+			this.currentSettlementPerson = null
+			this.selectedMemberId = null
+			this.cospend.currentProjectId = null
+			this.pendingSettlementPersonKey = settlementPersonKey
+			this.pendingSettlementPushState = pushState
+			this.mode = 'cross-project-balances'
+			if (pushState && !settlementPersonKey) {
+				this.pushUrl(this.getCrossProjectBalancesUrl())
+				this.pendingSettlementPushState = false
+			}
+			await this.$nextTick()
+			if (this.$refs.crossProjectBalanceView) {
+				await this.$refs.crossProjectBalanceView.loadBalances()
+			}
+		},
+		onBalancesLoaded() {
+			if (this.pendingSettlementPersonKey) {
+				const personKey = this.pendingSettlementPersonKey
+				const pushState = this.pendingSettlementPushState
+				this.pendingSettlementPersonKey = null
+				this.pendingSettlementPushState = false
+				const person = this.findCrossProjectPersonByKey(personKey)
+				if (person) {
+					this.onSettlementPersonSelected(person, pushState)
+				}
+			}
+		},
+		async onShowCrossProjectBalances() {
+			await this.openCrossProjectBalances(true)
+		},
+		onCloseCrossProjectBalances(pushState = true) {
+			this.currentSettlementPerson = null
+			this.mode = 'normal'
+			if (pushState) {
+				this.pushUrl(this.getAppRootUrl())
+			}
+		},
+		onSettlementPersonSelected(payload, pushState = true) {
+			this.currentSettlementPerson = payload
+			if (pushState) {
+				this.pushUrl(this.getCrossProjectSettlementUrl(this.getCrossProjectPersonKey(payload)))
+			}
+		},
+		onCancelSettlement(pushState = true) {
+			this.currentSettlementPerson = null
+			if (pushState) {
+				this.pushUrl(this.getCrossProjectBalancesUrl())
+			}
+		},
+		onSettlementCreated(affectedProjectIds = []) {
+			this.currentSettlementPerson = null
+			this.$refs.crossProjectBalanceView?.loadBalances()
+			const projectIdsToRefresh = Array.isArray(affectedProjectIds) && affectedProjectIds.length > 0
+				? affectedProjectIds
+				: Object.keys(this.projects)
+			projectIdsToRefresh
+				.filter((projectId) => this.projects[projectId] && this.members[projectId])
+				.forEach((projectId) => {
+					this.updateProjectInfo(projectId)
+				})
+		},
+		async onPopState() {
+			if (this.cospend.pageIsPublic) {
+				return
+			}
+
+			const route = this.parseCurrentRoute()
+			if (!route) {
+				return
+			}
+
+			switch (route.type) {
+			case 'cross-project-balances':
+				await this.openCrossProjectBalances(false)
+				break
+			case 'cross-project-settlement':
+				await this.openCrossProjectBalances(false, route.personKey)
+				break
+			case 'project':
+				if (route.projectId in this.projects) {
+					this.selectProject(route.projectId, false, false)
+				}
+				break
+			case 'bill':
+				if (route.projectId in this.projects) {
+					this.cospend.restoredCurrentBillId = route.billId
+					this.selectProject(route.projectId, false, false, true)
+				}
+				break
+			case 'root':
+			default:
+				this.currentSettlementPerson = null
+				this.currentBill = null
+				this.mode = 'normal'
+				this.cospend.currentProjectId = null
+			}
+		},
+		async restoreInitialRouteState() {
+			if (this.cospend.pageIsPublic) {
+				return false
+			}
+
+			if (this.cospend.restoredCrossProjectMode === 'settlement' && this.cospend.restoredCrossProjectPersonKey) {
+				await this.openCrossProjectBalances(false, this.cospend.restoredCrossProjectPersonKey)
+				return true
+			}
+
+			if (this.cospend.restoredCrossProjectMode === 'balances') {
+				await this.openCrossProjectBalances(false)
+				return true
+			}
+
+			return false
+		},
 		removeUnreachableProject(invitationId) {
 			const index = this.unreachableFederatedProject.findIndex(i => i.id === invitationId)
 			if (index !== -1) {
@@ -720,6 +933,7 @@ export default {
 		selectProject(projectId, save = true, pushState = false, restoreSelectedBill = false, getBills = true) {
 			this.mode = 'normal'
 			this.currentBill = null
+			this.currentSettlementPerson = null
 			this.selectedMemberId = null
 			this.selectedCategoryFilter = null
 			this.selectedPaymentModeFilter = null
@@ -743,6 +957,7 @@ export default {
 		deselectProject() {
 			this.mode = 'normal'
 			this.currentBill = null
+			this.currentSettlementPerson = null
 			this.cospend.currentProjectId = null
 		},
 		onAutoSettled(projectId) {
@@ -911,10 +1126,14 @@ export default {
 		},
 		getProjects() {
 			this.projectsLoading = true
-			network.getLocalProjects().then((response) => {
+			network.getLocalProjects().then(async (response) => {
 				const responseData = response.data.ocs.data
 				if (!this.cospend.pageIsPublic) {
 					responseData.forEach(project => { this.addProject(project) })
+					if (await this.restoreInitialRouteState()) {
+						this.projectsLoading = false
+						return
+					}
 					if (this.cospend.restoredCurrentProjectId !== null && this.cospend.restoredCurrentProjectId in this.projects) {
 						this.selectProject(this.cospend.restoredCurrentProjectId, false, false, true)
 					}
@@ -941,6 +1160,9 @@ export default {
 						console.debug('---------- FEDERATED PROJECT', response.data.ocs.data)
 						const project = response.data.ocs.data
 						this.addProject(project)
+						if (this.cospend.restoredCrossProjectMode !== null) {
+							return
+						}
 						if (this.cospend.restoredCurrentProjectId !== null && this.cospend.restoredCurrentProjectId === project.id) {
 							this.selectProject(this.cospend.restoredCurrentProjectId, false, false, true)
 						}
@@ -1285,7 +1507,15 @@ export default {
 				}
 			}
 		},
-		showList() {
+		showList(showDetails) {
+			if (this.mode === 'cross-project-balances') {
+				return
+			}
+
+			if (showDetails === true) {
+				return
+			}
+
 			this.currentBill = null
 			this.mode = 'edition'
 		},

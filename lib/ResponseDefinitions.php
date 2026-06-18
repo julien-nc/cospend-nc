@@ -182,6 +182,25 @@ namespace OCA\Cospend;
  *     inviterCloudId: string,
  *     inviterDisplayName: string,
  * }
+ *
+ * @psalm-type CospendCrossProjectPersonBalance = array{
+ *     personKey: string,
+ *     name: string,
+ *     userId: ?string,
+ *     currencyBalances: array<string, float>,
+ *     projectDetails: list<array{projectId: string, projectName: string, currency: string, balance: float}>,
+ * }
+ *
+ * @psalm-type CospendCrossProjectBalances = array{
+ *     personBalances: list<CospendCrossProjectPersonBalance>,
+ *     currencyTotals: array<string, float>,
+ * }
+ *
+ * @psalm-type CospendCrossProjectSettlementResult = array{
+ *     createdBills: list<array{projectId: string, billId: int, amount: float}>,
+ *     totalAmount: float,
+ *     currency: string,
+ * }
  */
 class ResponseDefinitions {
 }

@@ -116,9 +116,9 @@
 						{{ t('cospend', 'Use time in dates') }}
 					</NcFormBoxSwitch>
 					<NcFormBoxSwitch
-						v-model="showMyBalance"
-						@update:model-value="onCheckboxChange($event, 'showMyBalance')">
-						{{ t('cospend', 'Show my cumulated balance') }}
+						v-model="hideOwnBalance"
+						@update:model-value="onCheckboxChange($event, 'hideOwnBalance')">
+						{{ t('cospend', 'Hide my balance') }}
 					</NcFormBoxSwitch>
 				</NcFormBox>
 			</NcAppSettingsSection>
@@ -218,7 +218,7 @@ export default {
 			memberOrder: OCA.Cospend.state.memberOrder || 'name',
 			maxPrecision: OCA.Cospend.state.maxPrecision as number || 2,
 			useTime: OCA.Cospend.state.useTime as boolean ?? true,
-			showMyBalance: OCA.Cospend.state.showMyBalance as boolean ?? false,
+			hideOwnBalance: OCA.Cospend.state.hideOwnBalance as boolean ?? false,
 			importingProject: false,
 			importingSWProject: false,
 			cospendVersion: OC.getCapabilities()?.cospend?.version || '??',

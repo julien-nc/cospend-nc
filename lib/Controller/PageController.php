@@ -96,6 +96,7 @@ class PageController extends Controller {
 		}
 		$state['useTime'] = ($state['useTime'] ?? '0') !== '0';
 		$state['showMyBalance'] = ($state['showMyBalance'] ?? '0') !== '0';
+		$state['hideOwnBalance'] = ($state['hideOwnBalance'] ?? '0') !== '0';
 
 		$this->initialStateService->provideInitialState('cospend-state', $state);
 		$this->eventDispatcher->dispatchTyped(new RenderReferenceEvent());

@@ -1256,7 +1256,6 @@ export default {
 	--cp-warning-bg: rgba(var(--color-warning-rgb, 252, 176, 64), 0.14);
 	--cp-warning-border: var(--color-warning, var(--color-primary-element));
 	--cp-warning-text: var(--color-main-text);
-
 	height: 100%;
 	padding: 16px;
 
@@ -2357,7 +2356,7 @@ height: 1px;
 padding: 0;
 margin: -1px;
 overflow: hidden;
-clip: rect(0, 0, 0, 0);
+clip-path: inset(50%);
 white-space: nowrap;
 border: 0;
 }

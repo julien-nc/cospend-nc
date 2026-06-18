@@ -60,7 +60,6 @@ use OCP\Share\IShare;
  * @psalm-import-type CospendGroupShare from ResponseDefinitions
  * @psalm-import-type CospendCircleShare from ResponseDefinitions
  * @psalm-import-type CospendCrossProjectBalances from ResponseDefinitions
- * @psalm-import-type CospendCrossProjectSettlementResult from ResponseDefinitions
  */
 class ApiController extends OCSController {
 

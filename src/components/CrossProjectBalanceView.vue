@@ -1141,7 +1141,6 @@ export default {
 	--cp-warning-bg: rgba(var(--color-warning-rgb, 252, 176, 64), 0.14);
 	--cp-warning-border: var(--color-warning, var(--color-primary-element));
 	--cp-warning-text: var(--color-main-text);
-
 	padding: 16px;
 	max-width: 1200px;
 	margin: 0 auto;

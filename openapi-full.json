@@ -211,6 +211,252 @@
                     }
                 ]
             },
+            "CrossProjectBalances": {
+                "type": "object",
+                "required": [
+                    "personBalances",
+                    "currencyTotals",
+                    "summary"
+                ],
+                "properties": {
+                    "personBalances": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CrossProjectPersonBalance"
+                        }
+                    },
+                    "currencyTotals": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CrossProjectCurrencyTotal"
+                        }
+                    },
+                    "summary": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/CrossProjectSummaryEntry"
+                        }
+                    }
+                }
+            },
+            "CrossProjectCurrencyTotal": {
+                "type": "object",
+                "required": [
+                    "currency",
+                    "totalOwed",
+                    "totalOwedTo",
+                    "netBalance"
+                ],
+                "properties": {
+                    "currency": {
+                        "type": "string"
+                    },
+                    "totalOwed": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "totalOwedTo": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "netBalance": {
+                        "type": "number",
+                        "format": "double"
+                    }
+                }
+            },
+            "CrossProjectPersonBalance": {
+                "type": "object",
+                "required": [
+                    "personKey",
+                    "member",
+                    "currencyBalances",
+                    "projects"
+                ],
+                "properties": {
+                    "personKey": {
+                        "type": "string"
+                    },
+                    "member": {
+                        "type": "object",
+                        "required": [
+                            "name",
+                            "userid",
+                            "id"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "userid": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "id": {
+                                "type": "integer",
+                                "format": "int64"
+                            }
+                        }
+                    },
+                    "currencyBalances": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "object",
+                            "required": [
+                                "currency",
+                                "totalBalance",
+                                "projects"
+                            ],
+                            "properties": {
+                                "currency": {
+                                    "type": "string"
+                                },
+                                "totalBalance": {
+                                    "type": "number",
+                                    "format": "double"
+                                },
+                                "projects": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "required": [
+                                            "projectId",
+                                            "projectName",
+                                            "balance"
+                                        ],
+                                        "properties": {
+                                            "projectId": {
+                                                "type": "string"
+                                            },
+                                            "projectName": {
+                                                "type": "string"
+                                            },
+                                            "balance": {
+                                                "type": "number",
+                                                "format": "double"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "projects": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "required": [
+                                "projectId",
+                                "projectName",
+                                "currency",
+                                "balance"
+                            ],
+                            "properties": {
+                                "projectId": {
+                                    "type": "string"
+                                },
+                                "projectName": {
+                                    "type": "string"
+                                },
+                                "currency": {
+                                    "type": "string"
+                                },
+                                "balance": {
+                                    "type": "number",
+                                    "format": "double"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "CrossProjectSummaryEntry": {
+                "type": "object",
+                "required": [
+                    "currency",
+                    "owed",
+                    "owedTo"
+                ],
+                "properties": {
+                    "currency": {
+                        "type": "string"
+                    },
+                    "owed": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "required": [
+                                "amount",
+                                "member"
+                            ],
+                            "properties": {
+                                "amount": {
+                                    "type": "number",
+                                    "format": "double"
+                                },
+                                "member": {
+                                    "type": "object",
+                                    "required": [
+                                        "name",
+                                        "userid",
+                                        "id"
+                                    ],
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "userid": {
+                                            "type": "string",
+                                            "nullable": true
+                                        },
+                                        "id": {
+                                            "type": "integer",
+                                            "format": "int64"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "owedTo": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "required": [
+                                "amount",
+                                "member"
+                            ],
+                            "properties": {
+                                "amount": {
+                                    "type": "number",
+                                    "format": "double"
+                                },
+                                "member": {
+                                    "type": "object",
+                                    "required": [
+                                        "name",
+                                        "userid",
+                                        "id"
+                                    ],
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "userid": {
+                                            "type": "string",
+                                            "nullable": true
+                                        },
+                                        "id": {
+                                            "type": "integer",
+                                            "format": "int64"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "Currency": {
                 "type": "object",
                 "required": [
@@ -1376,6 +1622,317 @@
                             "text/plain": {
                                 "schema": {
                                     "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/cospend/api/{apiVersion}/cross-project-balances": {
+            "get": {
+                "operationId": "api-get-cross-project-balances",
+                "summary": "Get cross-project balances for the current user",
+                "tags": [
+                    "Projects"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "apiVersion",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "v1"
+                            ],
+                            "default": "v1"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "$ref": "#/components/schemas/CrossProjectBalances"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/cospend/api/{apiVersion}/cross-project-settlement": {
+            "post": {
+                "operationId": "api-create-cross-project-settlement",
+                "summary": "Create cross-project settlement bills",
+                "tags": [
+                    "Projects"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "targetUserId",
+                                    "targetUserName",
+                                    "currency",
+                                    "totalAmount",
+                                    "isPayment",
+                                    "projectBreakdown"
+                                ],
+                                "properties": {
+                                    "targetUserId": {
+                                        "type": "string"
+                                    },
+                                    "targetUserName": {
+                                        "type": "string"
+                                    },
+                                    "currency": {
+                                        "type": "string"
+                                    },
+                                    "totalAmount": {
+                                        "type": "number",
+                                        "format": "double"
+                                    },
+                                    "isPayment": {
+                                        "type": "boolean"
+                                    },
+                                    "projectBreakdown": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "required": [
+                                                "projectId",
+                                                "billAmount"
+                                            ],
+                                            "properties": {
+                                                "projectId": {
+                                                    "type": "string"
+                                                },
+                                                "billAmount": {
+                                                    "type": "number",
+                                                    "format": "double"
+                                                },
+                                                "timestamp": {
+                                                    "type": "integer",
+                                                    "format": "int64"
+                                                },
+                                                "paymentModeId": {
+                                                    "type": "integer",
+                                                    "format": "int64"
+                                                },
+                                                "comment": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "apiVersion",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "v1"
+                            ],
+                            "default": "v1"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }

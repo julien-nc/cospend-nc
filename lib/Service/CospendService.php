@@ -19,8 +19,10 @@ use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\Invitation;
 use OCA\Cospend\Db\InvitationMapper;
 use OCA\Cospend\Db\ProjectMapper;
+use OCA\Cospend\Exception\CospendBasicException;
 use OCA\Cospend\Utils;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Http;
 use OCP\Config\IUserConfig;
 use OCP\DB\Exception;
 use OCP\Files\File;
@@ -33,8 +35,6 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\Lock\LockedException;
-use OCA\Cospend\Exception\CospendBasicException;
-use OCP\AppFramework\Http;
 use Throwable;
 
 class CospendService {

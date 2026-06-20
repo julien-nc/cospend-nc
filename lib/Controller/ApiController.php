@@ -574,7 +574,10 @@ class ApiController extends OCSController {
 		}
 
 		// get current bill from mapper for the activity manager
-		$oldBillObj = $this->billMapper->find($billId);
+		$oldBillObj = $this->billMapper->getBillEntity($projectId, $billId);
+		if ($oldBillObj === null) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
 
 		// update the bill information
 		$result = $this->localProjectService->moveBill($projectId, $billId, $toProjectId);

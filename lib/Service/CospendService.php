@@ -105,7 +105,10 @@ class CospendService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function importCsvProject(string $path, string $userId): array {
-		$cleanPath = str_replace(['../', '..\\'], '', $path);
+		if (str_contains($path, '..')) {
+			return ['message' => $this->l10n->t('Access denied')];
+		}
+		$cleanPath = $path;
 		$userFolder = $this->root->getUserFolder($userId);
 		if ($userFolder->nodeExists($cleanPath)) {
 			$file = $userFolder->get($cleanPath);
@@ -478,7 +481,10 @@ class CospendService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function importSWProject(string $path, string $userId): array {
-		$cleanPath = str_replace(['../', '..\\'], '', $path);
+		if (str_contains($path, '..')) {
+			return ['message' => $this->l10n->t('Access denied')];
+		}
+		$cleanPath = $path;
 		$userFolder = $this->root->getUserFolder($userId);
 		if ($userFolder->nodeExists($cleanPath)) {
 			$file = $userFolder->get($cleanPath);

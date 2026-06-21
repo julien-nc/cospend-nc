@@ -1027,7 +1027,7 @@ class CospendService {
 			$payer_name = $memberIdToName[$payer_id];
 			$payer_weight = $memberIdToWeight[$payer_id];
 			$payer_active = $memberIdToActive[$payer_id];
-			$dateTime = DateTime::createFromFormat('U', $bill['timestamp']);
+			$dateTime = DateTime::createFromFormat('U', (string)$bill['timestamp']);
 			$oldDateStr = $dateTime->format('Y-m-d');
 			// escaping double quotes by doubling them: https://stackoverflow.com/a/17808731
 			yield '"' . str_replace('"', '""', $bill['what']) . '",'

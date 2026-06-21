@@ -155,7 +155,7 @@ class Utils {
 
 		foreach ($swaps as $swap => $chars) {
 			foreach ($chars as $char) {
-				$str = preg_replace('/' . $char . '/', $swap, $str);
+				$str = preg_replace('/' . $char . '/', (string)$swap, $str);
 			}
 		}
 

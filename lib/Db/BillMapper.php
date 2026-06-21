@@ -622,7 +622,7 @@ class BillMapper extends QBMapper {
 		$dbWhat = $row['what'];
 		$dbComment = $row['comment'];
 		$dbTimestamp = (int)$row['timestamp'];
-		$dbDate = DateTime::createFromFormat('U', $row['timestamp']);
+		$dbDate = DateTime::createFromFormat('U', (string)$row['timestamp']);
 		$dbRepeat = $row['repeat'];
 		$dbPayerId = (int)$row['payer_id'];
 		$dbPaymentMode = $row['payment_mode'];

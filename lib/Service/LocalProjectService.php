@@ -1,13 +1,9 @@
 <?php
 
+declare(strict_types=1);
 /**
- * Nextcloud - cospend
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
- *
- * @author Julien Veyssier
- * @copyright Julien Veyssier 2019
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Cospend\Service;
@@ -967,8 +963,11 @@ class LocalProjectService implements IProjectService {
 			throw new CospendBasicException('payer is not valid', Http::STATUS_BAD_REQUEST);
 		}
 		// check owers
+		if ($payedFor === null || $payedFor === '') {
+			throw new CospendBasicException('payed_for is not valid (' . $payedFor . ')', Http::STATUS_BAD_REQUEST);
+		}
 		$owerIds = explode(',', $payedFor);
-		if ($payedFor === null || $payedFor === '' || empty($owerIds)) {
+		if (empty($owerIds)) {
 			throw new CospendBasicException('payed_for is not valid (' . $payedFor . ')', Http::STATUS_BAD_REQUEST);
 		}
 		foreach ($owerIds as $owerId) {

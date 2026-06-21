@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 // this comes from https://stackoverflow.com/questions/2276021/evaluating-a-string-as-a-mathematical-expression-in-javascript/75355272#75355272
 // WTF!
 // parseFloat('-0') => -0 vs parseFloat(-0) => 0
@@ -77,16 +81,6 @@ const functionsKeys = Object.keys(functions)
 
 const top = (stack: string[]): string | undefined => stack[stack.length - 1]
 
-/**
- * Shunting yard algorithm: converts infix expression to postfix expression (reverse Polish notation)
- *
- * Example: ['1', '+', '2'] => ['1', '2', '+']
- *
- * https://en.wikipedia.org/wiki/Shunting_yard_algorithm
- * https://github.com/poteat/shunting-yard-typescript
- * https://blog.kallisti.net.nz/2008/02/extension-to-the-shunting-yard-algorithm-to-allow-variable-numbers-of-arguments-to-functions/
- * @param tokens the list of string tokens
- */
 function shuntingYard(tokens: string[]) {
 	const output = new Array<string>()
 	const operatorStack = new Array<string>()

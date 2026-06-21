@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<NcAppContentDetails class="bill-form-content">
 		<h2 class="bill-title">
@@ -1309,9 +1313,6 @@ export default {
 				this.onBillEdited(null, false)
 			}
 		},
-		/**
-		 * @return {boolean} true if a formula has really been computed
-		 */
 		computeAmountFormula() {
 			// try to evaluate the current algebric formula
 			if (isNaN(this.currentFormula)) {

@@ -1,0 +1,102 @@
+# SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+version = 1
+SPDX-PackageName = "cospend"
+SPDX-PackageSupplier = "Nextcloud <info@nextcloud.com>"
+SPDX-PackageDownloadLocation = "https://github.com/nextcloud/cospend"
+
+[[annotations]]
+path = ["l10n/**.js", "l10n/**.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019-2024 Nextcloud translators"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["translationfiles/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019-2024 Nextcloud translators"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = [".tx/config", "composer.json", "composer.lock", "package.json", "package-lock.json", "crowdin.yml", "psalm.xml", "tsconfig.json", "stylelint.config.cjs", ".eslintrc.cjs", ".editorconfig", ".l10nignore", ".gitignore", "makefile", "webpack.js", "vite.config.ts", ".php-cs-fixer.dist.php"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019-2024 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["openapi.json", "openapi-full.json", "openapi-federation.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["img/activity.svg", "img/activity-dark.svg", "img/app.svg", "img/app_black.svg", "img/color_picker.svg", "img/cospend_square_bg.svg", "img/currency.svg", "img/icon-user-dollar.svg", "img/move.svg", "img/palette.svg", "img/qrcode.svg", "img/reimburse.svg", "img/save.svg", "img/schedule.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2018-2024 Google LLC"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["img/screenshots/**", "img/cospend.png"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019-2024 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["js/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019-2024 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["css/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019-2024 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["docs/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019-2024 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["AUTHORS.md", "CHANGELOG.md", "CONTRIBUTING.md", "README.md"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019-2024 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = [".github/FUNDING.yml", ".github/workflows/lint-php-cs.yml", ".github/workflows/node-build.yml", ".github/workflows/openapi.yml", ".github/workflows/phpunit-mysql.yml", ".github/workflows/phpunit-pgsql.yml", ".github/workflows/phpunit-sqlite.yml", ".github/workflows/psalm.yml", ".github/workflows/release.yml"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["appinfo/info.xml"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019-2024 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["l10n/descriptions/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019-2024 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["l10n/read.sh", "l10n/update.sh", "l10n/write.sh", "l10n/descriptions/gen_info.xml.sh"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019-2024 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["tests/phpunit.xml", "tests/psalm-baseline.xml"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019-2024 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["vendor-bin/psalm/composer.json", "vendor-bin/psalm/composer.lock"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"

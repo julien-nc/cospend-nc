@@ -1,4 +1,8 @@
 <!--
+  - SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<!--
   - @copyright Copyright (c) 2021 Julien Veyssier <julien-nc@posteo.net>
   -
   - @author Julien Veyssier <julien-nc@posteo.net>

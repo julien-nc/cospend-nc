@@ -1,14 +1,7 @@
 /**
- * Nextcloud - cospend
- *
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
- *
- * @author Julien Veyssier <julien-nc@posteo.net>
- * @copyright Julien Veyssier 2019
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
 import { createApp } from 'vue'
 import { reactive } from '@vue/reactivity'
 import App from './App.vue'

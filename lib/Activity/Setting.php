@@ -26,12 +26,16 @@ namespace OCA\Cospend\Activity;
 
 use OCA\Cospend\AppInfo\Application;
 use OCP\Activity\ActivitySettings;
+use OCP\App\IAppManager;
 use OCP\IL10N;
+use OCP\IUserSession;
 
 class Setting extends ActivitySettings {
 
 	public function __construct(
 		protected IL10N $l,
+		protected IAppManager $appManager,
+		protected IUserSession $userSession,
 	) {
 	}
 
@@ -71,7 +75,19 @@ class Setting extends ActivitySettings {
 		return true;
 	}
 
+	public function canChangeNotification(): bool {
+		$user = $this->userSession->getUser();
+		if ($user !== null && !$this->appManager->isEnabledForUser(Application::APP_ID, $user)) {
+			return false;
+		}
+		return true;
+	}
+
 	public function canChangeMail(): bool {
+		$user = $this->userSession->getUser();
+		if ($user !== null && !$this->appManager->isEnabledForUser(Application::APP_ID, $user)) {
+			return false;
+		}
 		return true;
 	}
 

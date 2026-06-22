@@ -55,6 +55,7 @@ use OCP\Share\IShare;
  * @psalm-import-type CospendPublicShare from ResponseDefinitions
  * @psalm-import-type CospendGroupShare from ResponseDefinitions
  * @psalm-import-type CospendCircleShare from ResponseDefinitions
+ * @psalm-import-type CospendCrossProjectBalances from ResponseDefinitions
  */
 class ApiController extends OCSController {
 
@@ -157,6 +158,58 @@ class ApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
 	public function getFederatedProjects(): DataResponse {
 		return new DataResponse($this->cospendService->getFederatedProjects($this->userId));
+	}
+
+	/**
+	 * Get cross-project balances for the current user
+	 *
+	 * @return DataResponse<Http::STATUS_OK, CospendCrossProjectBalances, array{}>
+	 * @throws Exception
+	 */
+	#[NoAdminRequired]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
+	public function getCrossProjectBalances(): DataResponse {
+		$balances = $this->cospendService->getCrossProjectBalances($this->userId);
+		return new DataResponse($balances);
+	}
+
+	/**
+	 * Create cross-project settlement bills
+	 *
+	 * @param string $targetUserId
+	 * @param string $targetUserName
+	 * @param string $currency
+	 * @param float $totalAmount
+	 * @param bool $isPayment
+	 * @param list<array{projectId: string, billAmount: float, timestamp?: int, paymentModeId?: int, comment?: string}> $projectBreakdown
+	 * @return DataResponse<Http::STATUS_OK, string, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
+	 */
+	#[NoAdminRequired]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Projects'])]
+	public function createCrossProjectSettlement(
+		string $targetUserId,
+		string $targetUserName,
+		string $currency,
+		float $totalAmount,
+		bool $isPayment,
+		array $projectBreakdown,
+	): DataResponse {
+		try {
+			$this->cospendService->createCrossProjectSettlement(
+				$this->userId,
+				$targetUserId,
+				$targetUserName,
+				$currency,
+				$totalAmount,
+				$isPayment,
+				$projectBreakdown,
+			);
+			return new DataResponse('');
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, Http::STATUS_BAD_REQUEST);
+		} catch (\Exception $e) {
+			return new DataResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		}
 	}
 
 	/**

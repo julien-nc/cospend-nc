@@ -15,8 +15,10 @@ use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\Invitation;
 use OCA\Cospend\Db\InvitationMapper;
 use OCA\Cospend\Db\ProjectMapper;
+use OCA\Cospend\Exception\CospendBasicException;
 use OCA\Cospend\Utils;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Http;
 use OCP\Config\IUserConfig;
 use OCP\DB\Exception;
 use OCP\Files\File;
@@ -1090,5 +1092,312 @@ class CospendService {
 		}
 
 		return [];
+	}
+
+	/**
+	 * Aggregate user balances with other members across all non-archived projects.
+	 *
+	 * @param string $userId
+	 * @return array{currencyTotals: list<array{currency: string, totalOwed: float, totalOwedTo: float, netBalance: float}>, personBalances: list<array{personKey: string, member: array{name: string, userid: ?string, id: int}, currencyBalances: array<string, array{currency: string, totalBalance: float, projects: list<array{projectId: string, projectName: string, balance: float}>}>, projects: list<array{projectId: string, projectName: string, currency: string, balance: float}>}>, summary: array<string, array{currency: string, owed: list<array{member: array{name: string, userid: ?string, id: int}, amount: float}>, owedTo: list<array{member: array{name: string, userid: ?string, id: int}, amount: float}>}>}
+	 *
+	 * @psalm-suppress MoreSpecificReturnType
+	 */
+	public function getCrossProjectBalances(string $userId): array {
+		$projects = $this->localProjectService->getLocalProjects($userId);
+		$currencyTotals = [];
+		$personBalances = [];
+
+		if (empty($projects)) {
+			return [
+				'currencyTotals' => [],
+				'personBalances' => [],
+				'summary' => [],
+			];
+		}
+
+		foreach ($projects as $project) {
+			if (($project['archived_ts'] ?? null) !== null) {
+				continue;
+			}
+
+			$projectId = $project['id'];
+			$projectName = $project['name'];
+			$projectCurrency = $project['currencyname'] ?? '';
+			if ($projectCurrency === '') {
+				$projectCurrency = $this->l10n->t('No currency');
+			}
+
+			if (!isset($currencyTotals[$projectCurrency])) {
+				$currencyTotals[$projectCurrency] = [
+					'currency' => $projectCurrency,
+					'totalOwed' => 0.0,
+					'totalOwedTo' => 0.0,
+					'netBalance' => 0.0,
+				];
+			}
+
+			$balances = $project['balance'] ?? [];
+			$members = $project['members'] ?? [];
+
+			$currentUserMemberId = null;
+			foreach ($members as $member) {
+				if (($member['userid'] ?? null) === $userId) {
+					$currentUserMemberId = (int)$member['id'];
+					break;
+				}
+			}
+
+			if ($currentUserMemberId === null) {
+				continue;
+			}
+
+			$this->calculateProjectDebtsWithCurrency(
+				$projectId,
+				$currentUserMemberId,
+				$members,
+				$balances,
+				$projectName,
+				$projectCurrency,
+				$personBalances,
+				$currencyTotals,
+			);
+		}
+
+		foreach ($currencyTotals as &$totals) {
+			$totals['netBalance'] = $totals['totalOwedTo'] - $totals['totalOwed'];
+		}
+		unset($totals);
+
+		$summary = [];
+		foreach ($currencyTotals as $currency => $totals) {
+			$summary[$currency] = [
+				'currency' => $currency,
+				'owed' => [],
+				'owedTo' => [],
+			];
+		}
+
+		foreach ($personBalances as $personBalance) {
+			$member = $personBalance['member'];
+			foreach ($personBalance['currencyBalances'] as $currency => $currencyBalance) {
+				$balance = $currencyBalance['totalBalance'];
+				if ($balance > 0.01) {
+					$summary[$currency]['owed'][] = [
+						'member' => $member,
+						'amount' => $balance,
+					];
+				} elseif ($balance < -0.01) {
+					$summary[$currency]['owedTo'][] = [
+						'member' => $member,
+						'amount' => abs($balance),
+					];
+				}
+			}
+		}
+
+		/** @psalm-suppress LessSpecificReturnStatement */
+		return [
+			'currencyTotals' => array_values($currencyTotals),
+			'personBalances' => array_values($personBalances),
+			'summary' => $summary,
+		];
+	}
+
+	/**
+	 * @param string $projectId
+	 * @param int $currentUserMemberId
+	 * @param list<array<string, mixed>> $members
+	 * @param array<string, float> $balances
+	 * @param string $projectName
+	 * @param string $projectCurrency
+	 * @param array<string, array<string, mixed>> $personBalances
+	 * @param array<string, array{currency: string, totalOwed: float, totalOwedTo: float, netBalance: float}> $currencyTotals
+	 * @return void
+	 */
+	private function calculateProjectDebtsWithCurrency(
+		string $projectId,
+		int $currentUserMemberId,
+		array $members,
+		array $balances,
+		string $projectName,
+		string $projectCurrency,
+		array &$personBalances,
+		array &$currencyTotals,
+	): void {
+		foreach ($members as $member) {
+			$memberId = (int)($member['id'] ?? 0);
+			if ($memberId === $currentUserMemberId) {
+				continue;
+			}
+			if (!(bool)($member['activated'] ?? true)) {
+				continue;
+			}
+
+			$memberBalance = (float)($balances[(string)$memberId] ?? 0.0);
+			if (abs($memberBalance) <= 0.01) {
+				continue;
+			}
+
+			$personIdentifier = $this->getPersonIdentifier($member);
+			if (!isset($personBalances[$personIdentifier])) {
+				$personBalances[$personIdentifier] = [
+					'personKey' => $personIdentifier,
+					'member' => [
+						'name' => (string)($member['name'] ?? 'Unknown'),
+						'userid' => $member['userid'] ?? null,
+						'id' => $memberId,
+					],
+					'currencyBalances' => [],
+					'projects' => [],
+				];
+			}
+
+			if (!isset($personBalances[$personIdentifier]['currencyBalances'][$projectCurrency])) {
+				$personBalances[$personIdentifier]['currencyBalances'][$projectCurrency] = [
+					'currency' => $projectCurrency,
+					'totalBalance' => 0.0,
+					'projects' => [],
+				];
+			}
+
+			$personBalances[$personIdentifier]['currencyBalances'][$projectCurrency]['totalBalance'] += $memberBalance;
+			$personBalances[$personIdentifier]['currencyBalances'][$projectCurrency]['projects'][] = [
+				'projectId' => $projectId,
+				'projectName' => $projectName,
+				'balance' => $memberBalance,
+			];
+			$personBalances[$personIdentifier]['projects'][] = [
+				'projectId' => $projectId,
+				'projectName' => $projectName,
+				'currency' => $projectCurrency,
+				'balance' => $memberBalance,
+			];
+
+			if ($memberBalance > 0) {
+				$currencyTotals[$projectCurrency]['totalOwed'] += $memberBalance;
+			} else {
+				$currencyTotals[$projectCurrency]['totalOwedTo'] += abs($memberBalance);
+			}
+		}
+	}
+
+	/**
+	 * @param array<string, mixed> $member
+	 * @return string
+	 */
+	private function getPersonIdentifier(array $member): string {
+		$userId = (string)($member['userid'] ?? '');
+		if ($userId !== '') {
+			return 'user=' . $userId;
+		}
+		return 'name=' . str_replace(' ', '-', strtolower(trim((string)($member['name'] ?? ''))));
+	}
+
+	/**
+	 * @param string $currentUserId
+	 * @param string $targetUserId
+	 * @param string $targetUserName
+	 * @param string $currency
+	 * @param float $totalAmount
+	 * @param bool $isPayment
+	 * @param list<array{projectId: string, billAmount: float, timestamp?: int, paymentModeId?: int, comment?: string}> $projectBreakdown
+	 * @return void
+	 */
+	public function createCrossProjectSettlement(
+		string $currentUserId,
+		string $targetUserId,
+		string $targetUserName,
+		string $currency,
+		float $totalAmount,
+		bool $isPayment,
+		array $projectBreakdown,
+	): void {
+		if (empty($projectBreakdown)) {
+			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('No projects specified for settlement')]);
+		}
+		if ($totalAmount <= 0) {
+			throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('Settlement amount must be positive')]);
+		}
+
+		$userProjects = $this->localProjectService->getLocalProjects($currentUserId);
+		$userProjectIds = array_column($userProjects, 'id');
+
+		$currentUserName = $currentUserId;
+		$defaultTimestamp = (new DateTime())->getTimestamp();
+		foreach ($projectBreakdown as $projectInfo) {
+			$projectId = (string)$projectInfo['projectId'];
+			$billAmount = (float)$projectInfo['billAmount'];
+
+			if (!in_array($projectId, $userProjectIds, true)) {
+				throw new CospendBasicException('', Http::STATUS_FORBIDDEN, ['message' => $this->l10n->t('Access denied to project %1$s', [$projectId])]);
+			}
+			if ($billAmount < 0.01) {
+				continue;
+			}
+
+			$members = $this->localProjectService->getMembers($projectId);
+			$currentUserMember = null;
+			$targetUserMember = null;
+
+			foreach ($members as $member) {
+				if (($member['userid'] ?? null) === $currentUserId) {
+					$currentUserMember = $member;
+					$currentUserName = $member['name'];
+				}
+				if (($member['userid'] ?? null) === $targetUserId
+					|| (($member['userid'] ?? null) === null && ($member['name'] ?? '') === $targetUserName)
+				) {
+					$targetUserMember = $member;
+				}
+			}
+
+			if ($currentUserMember === null || $targetUserMember === null) {
+				continue;
+			}
+
+			if ($isPayment) {
+				$payerId = (int)$currentUserMember['id'];
+				$owerId = (int)$targetUserMember['id'];
+				$billTitle = $currentUserName . ' -> ' . $targetUserName;
+			} else {
+				$payerId = (int)$targetUserMember['id'];
+				$owerId = (int)$currentUserMember['id'];
+				$billTitle = $targetUserName . ' -> ' . $currentUserName;
+			}
+
+			$billTimestamp = isset($projectInfo['timestamp']) ? (int)$projectInfo['timestamp'] : $defaultTimestamp;
+			$paymentModeId = isset($projectInfo['paymentModeId']) ? (int)$projectInfo['paymentModeId'] : null;
+			$comment = isset($projectInfo['comment']) ? trim((string)$projectInfo['comment']) : null;
+			if ($comment !== null && strlen($comment) > 300) {
+				throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('Comment too long for project %1$s (max 300 characters)', [$projectId])]);
+			}
+
+			try {
+				$billId = $this->localProjectService->createBill(
+					$projectId,
+					null,
+					$billTitle,
+					$payerId,
+					(string)$owerId,
+					$billAmount,
+					Application::FREQUENCY_NO,
+					null,
+					$paymentModeId,
+					Application::CATEGORY_REIMBURSEMENT,
+					0,
+					null,
+					$billTimestamp,
+					$comment,
+					null,
+					0,
+					true,
+				);
+				if ($billId <= 0) {
+					throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('Failed to create bill in project %1$s', [$projectId])]);
+				}
+			} catch (\Exception $e) {
+				throw new CospendBasicException('', Http::STATUS_BAD_REQUEST, ['message' => $this->l10n->t('Failed to create bill in project %1$s: %2$s', [$projectId, $e->getMessage()])]);
+			}
+		}
 	}
 }

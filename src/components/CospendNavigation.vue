@@ -71,16 +71,21 @@
 					<PendingInvitationsModal v-if="!pageIsPublic && showPendingInvitations"
 						:invitations="pendingInvitations"
 						@close="showPendingInvitations = false" />
-					<NcAppNavigationItem v-if="!pageIsPublic && showMyBalance && myBalance !== null"
-						:name="t('cospend', 'My cumulated balance')">
+					<NcAppNavigationItem v-if="!pageIsPublic"
+						:name="showMyBalance && hasBalance ? t('cospend', 'Cumulative Balance') : t('cospend', 'Cross-project balances')"
+						@click="showCrossProjectBalanceView">
 						<template #icon>
 							<ColoredAvatar :user="currentUserId" />
 						</template>
-						<template #counter>
-							<NcCounterBubble :class="balanceClass"
-								:count="myBalance"
-								:title="myBalance"
-								:raw="true" />
+						<template v-if="showMyBalance && hasBalance" #extra>
+							<div class="balance-chips">
+								<div v-for="(amount, currency) in myBalanceByCurrency"
+									:key="currency"
+									class="balance-item">
+									<span class="currency-chip">{{ currency }}</span>
+									<span class="balance-amount" :class="getBalanceClass(amount)">{{ formatBalanceAmount(amount) }}</span>
+								</div>
+							</div>
 						</template>
 					</NcAppNavigationItem>
 					<NcAppNavigationItem v-if="!pageIsPublic && pendingInvitations.length > 0"
@@ -223,22 +228,24 @@ export default {
 		showMyBalance() {
 			return this.cospend.showMyBalance
 		},
-		myBalance() {
-			const cumulativeBalance = Object.values(this.projects)
+		myBalanceByCurrency() {
+			const byCurrency = {}
+			Object.values(this.projects)
 				.filter(p => p.archived_ts === null)
-				.map(p => {
-					const me = p.members.find(m => m.userid === this.currentUserId)
-					return me ? me.balance : null
+				.forEach(project => {
+					const me = project.members.find(m => m.userid === this.currentUserId)
+					if (me && me.balance !== null && me.balance !== undefined) {
+						const currency = project.currencyname || 'EUR'
+						if (!byCurrency[currency]) {
+							byCurrency[currency] = 0
+						}
+						byCurrency[currency] += me.balance
+					}
 				})
-				.filter(b => b !== null)
-				.reduce((acc, balance) => acc + balance, 0)
-			return cumulativeBalance.toFixed(this.cospend.maxPrecision || 2)
+			return byCurrency
 		},
-		balanceClass() {
-			return {
-				balancePositive: this.myBalance >= 0.01,
-				balanceNegative: this.myBalance <= -0.01,
-			}
+		hasBalance() {
+			return Object.keys(this.myBalanceByCurrency).length > 0
 		},
 		filteredProjectIds() {
 			const projectIds = this.showArchivedProjects ? this.archivedProjectIds : this.nonArchivedProjectIds
@@ -272,6 +279,21 @@ export default {
 	beforeMount() {
 	},
 	methods: {
+		formatBalanceAmount(amount) {
+			return new Intl.NumberFormat(navigator.language, {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: this.cospend.maxPrecision || 2,
+			}).format(Math.abs(amount))
+		},
+		getBalanceClass(amount) {
+			return {
+				balancePositive: amount >= 0.01,
+				balanceNegative: amount <= -0.01,
+			}
+		},
+		showCrossProjectBalanceView() {
+			emit('show-cross-project-balances')
+		},
 		toggleArchivedProjects() {
 			this.showArchivedProjects = !this.showArchivedProjects
 			emit('deselect-project')
@@ -314,5 +336,85 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-// nothing
+:deep(.app-navigation-entry-wrapper) {
+	display: flex !important;
+	align-items: center !important;
+}
+
+:deep(.app-navigation-entry) {
+	display: flex !important;
+	align-items: center !important;
+	width: 100% !important;
+	gap: 0 !important;
+}
+
+:deep(.app-navigation-entry__anchor) {
+	display: flex !important;
+	align-items: center !important;
+	flex: 1 !important;
+	gap: 12px !important;
+}
+
+:deep(.app-navigation-entry__name) {
+	white-space: nowrap !important;
+	overflow: hidden !important;
+	text-overflow: ellipsis !important;
+}
+
+:deep(.app-navigation-entry__utils) {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: flex-end !important;
+}
+
+.balance-chips {
+	display: grid;
+	grid-template-columns: max-content max-content;
+	column-gap: 4px;
+	row-gap: 2px;
+	justify-content: end;
+	align-items: center;
+}
+
+.balance-item {
+	display: contents;
+}
+
+.balance-amount {
+	grid-column: 2;
+	justify-self: start;
+	text-align: left;
+	white-space: nowrap;
+	font-variant-numeric: tabular-nums;
+	font-feature-settings: 'tnum' 1;
+}
+
+.currency-chip {
+	grid-column: 1;
+	justify-self: end;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 2.8em;
+	padding: 1px 4px;
+	border-radius: 3px;
+	background: var(--color-background-dark);
+	font-size: 10px;
+	font-weight: 700;
+	text-align: center;
+	text-transform: uppercase;
+	white-space: nowrap;
+	font-variant-numeric: tabular-nums;
+	font-feature-settings: 'tnum' 1;
+}
+
+.balancePositive,
+.balance-positive {
+	color: var(--color-success);
+}
+
+.balanceNegative,
+.balance-negative {
+	color: var(--color-error);
+}
 </style>

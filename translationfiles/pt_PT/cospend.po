@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2026-02-19 00:32+0100\n"
-"PO-Revision-Date: 2026-02-18 23:33\n"
+"PO-Revision-Date: 2026-07-04 11:04\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -19,77 +19,77 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:80
 msgid "You have created {bill} in {project}"
-msgstr ""
+msgstr "Você criou {bill} em {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:80
 msgid "{user} has created {bill} in {project}"
-msgstr ""
+msgstr "{user} criou {bill} em {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:83
 msgid "You have deleted {bill} in {project}"
-msgstr ""
+msgstr "Você eliminou {bill} em {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:83
 msgid "{user} has deleted {bill} in {project}"
-msgstr ""
+msgstr "{user} eliminou {bill} em {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:86
 msgid "You have shared {project} with {who}"
-msgstr ""
+msgstr "Você partilhou {project} com {who}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:86
 msgid "{user} has shared {project} with {who}"
-msgstr ""
+msgstr "{user} partilhou {project} com {who}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:89
 msgid "You stopped sharing {project} with {who}"
-msgstr ""
+msgstr "Você deixou de partilhar {project} com {who}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:89
 msgid "{user} stopped sharing {project} with {who}"
-msgstr ""
+msgstr "{user} deixou de partilhar {project} com {who}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:92
 msgid "You have updated {bill} in {project}"
-msgstr ""
+msgstr "Você modificou {bill} em {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/ActivityManager.php:92
 msgid "{user} has updated {bill} in {project}"
-msgstr ""
+msgstr "{user} modificou {bill} em {project}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/BillCreatedSetting.php:36
 msgid "A Cospend <strong>bill</strong> has been created"
-msgstr ""
+msgstr "Foi criada uma <strong>despesa</strong> do Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/BillDeletedSetting.php:36
 msgid "A Cospend <strong>bill</strong> has been deleted"
-msgstr ""
+msgstr "Foi eliminada uma <strong>despesa</strong> do Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/BillUpdatedSetting.php:36
 msgid "A Cospend <strong>bill</strong> has been updated"
-msgstr ""
+msgstr "Foi modificada uma <strong>despesa</strong> do Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:76
 #, php-format
 msgid "Deleted user (%s)"
-msgstr ""
+msgstr "Utilizador eliminado (%s)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:99
 msgid "Unknown author"
-msgstr ""
+msgstr "Autor desconhecido"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:108
 #, php-format
 msgid "Shared access (%s)"
-msgstr ""
+msgstr "Acesso partilhado (%s)"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:109
 msgid "Shared access"
-msgstr ""
+msgstr "Acesso partilhado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:116
 msgid "No author"
-msgstr ""
+msgstr "Sem autor"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:305
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/CospendProvider.php:313
@@ -109,11 +109,11 @@ msgstr "Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Activity/Setting.php:43
 msgid "A Cospend <strong>project</strong> has been shared or unshared"
-msgstr ""
+msgstr "Foi alterada a partilha de um <strong>planeamento</strong> do Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:576
 msgid "You are not allowed to access the target project"
-msgstr ""
+msgstr "Não tem autorização para aceder ao planeamento de destino"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Controller/ApiController.php:850
 msgid "You are not allowed to give such shared access level"
@@ -285,7 +285,7 @@ msgstr "Planeamento Cospend partilhado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:83
 msgid "{user} shared project {project} with you"
-msgstr ""
+msgstr "{user} partilhou o planeamento {project} consigo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:110
 msgid "Cospend project share removed"
@@ -293,20 +293,20 @@ msgstr "Partilha de planeamento removida"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:121
 msgid "{user} stopped sharing project {project} with you"
-msgstr ""
+msgstr "{user} deixou de partilhar o planeamento {project} consigo"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:135
 msgid "Cospend federated project shared"
-msgstr ""
+msgstr "Foi partilhado um planeamento federado do Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Notification/Notifier.php:136
 #, php-format
 msgid "%s (%s) shared Cospend project \"%s\" (%s) with you."
-msgstr ""
+msgstr "%s (%s) partilhou o planeamento Cospend \"%s\" (%s) consigo."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchBillProvider.php:65
 msgid "Cospend bills"
-msgstr ""
+msgstr "Despesas Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchBillProvider.php:179
 #, php-format
@@ -315,12 +315,12 @@ msgstr "em %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProjectProvider.php:62
 msgid "Cospend projects"
-msgstr ""
+msgstr "Planeamentos Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Search/CospendSearchProjectProvider.php:139
 #, php-format
 msgid "Owned by %1$s"
-msgstr ""
+msgstr "Pertencente a %1$s"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/CospendService.php:193
 #, php-format
@@ -624,7 +624,7 @@ msgstr "Essa partilha não existe"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3277
 msgid "Invalid values"
-msgstr ""
+msgstr "Valores inválidos"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Service/LocalProjectService.php:3429
 msgid "No such group"
@@ -711,7 +711,7 @@ msgstr "Falha ao obter planeamentos"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:792
 msgid "Failed to get federated project"
-msgstr ""
+msgstr "Falhou a obtenção do planeamento federado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:803
 msgid "Failed to get pending remote invitations"

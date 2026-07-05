@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+### Changed
+
+- **Breaking change** Improve the `occ cospend:export-project` command. Remove the second argument (file name). Added 2 new options to choose the storage export file name and the filesystem export file name
+
 ## 4.0.2 – 2026-06-17
 
 ### Added

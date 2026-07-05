@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2026-02-19 00:32+0100\n"
-"PO-Revision-Date: 2026-07-04 11:04\n"
+"PO-Revision-Date: 2026-07-05 11:05\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -183,7 +183,7 @@ msgstr "Atividade do Cospend"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Db/ProjectMapper.php:114
 msgid "Invalid project id"
-msgstr "O ID do projecto é inválido"
+msgstr "O ID do planeamento é inválido"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/lib/Middleware/PublicAuthMiddleware.php:59
 msgid "Project password is invalid"
@@ -715,7 +715,7 @@ msgstr "Falhou a obtenção do planeamento federado"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:803
 msgid "Failed to get pending remote invitations"
-msgstr ""
+msgstr "Falhou a obtenção dos convites remotos que estão pendentes"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:845
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:879
@@ -817,7 +817,7 @@ msgstr "Fechar o cesto do lixo"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:2906
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4436
 msgid "Show the trash bin"
-msgstr "Ainda não tem nenhum projeto. Se tiver o Cospend instalado em um servidor Nextcloud, poderá configurar sua conta Nextcloud. Alternativamente, pode adicionar projetos manualmente"
+msgstr "Mostrar o cesto do lixo"
 
 #. TRANSLATORS src/App.vue:111
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:1153
@@ -940,7 +940,7 @@ msgstr "Escolha um ficheiro"
 #: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:19
 #: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:44
 msgid "Choose"
-msgstr ""
+msgstr "Escolha"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:2300
 msgid "Failed to generate share link to file"
@@ -1337,7 +1337,7 @@ msgstr "Cesto do lixo"
 #. TRANSLATORS src/BillList.vue:15
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:2900
 msgid "Search bills"
-msgstr ""
+msgstr "Pesquisar despesas"
 
 #. TRANSLATORS src/BillList.vue:38
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:2904
@@ -1403,12 +1403,12 @@ msgstr "Recuperar as despesas escolhidas"
 #. TRANSLATORS src/BillList.vue:179
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:2932
 msgid "No member"
-msgstr ""
+msgstr "Nenhum membro"
 
 #. TRANSLATORS src/BillList.vue:180
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:2934
 msgid "Add at least one member to start creating bills"
-msgstr ""
+msgstr "Adicione pelo menos um membro para começar a criar despesas"
 
 #. TRANSLATORS src/BillList.vue:189
 #. TRANSLATORS src/components/AppNavigationProjectItem.vue:140
@@ -1815,7 +1815,7 @@ msgstr "Saldos em {date}"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:3746
 msgid "Global balances"
-msgstr ""
+msgstr "Saldos globais"
 
 #. TRANSLATORS src/Settlement.vue:188
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:3752
@@ -1849,7 +1849,7 @@ msgstr "Recebedor"
 #. TRANSLATORS src/Settlement.vue:237
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:3768
 msgid "Create bill ({amount} {currencyName})"
-msgstr ""
+msgstr "Criar despesa ({amount}{currencyName})"
 
 #. TRANSLATORS src/Settlement.vue:240
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:3770
@@ -1943,20 +1943,20 @@ msgstr "Administrador"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4440
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4629
 msgid "Project {projectName} ({projectId}) shared by {displayName} ({cloudId})"
-msgstr ""
+msgstr "Planeamento {projectName} ({projectId}) partilhado por {displayName} ({cloudId})"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4552
 msgid "Impossible to move the bill to \"{projectName}\". The payer was not found in the target project."
-msgstr ""
+msgstr "Não foi possível mover a despesa para \"{projectName}\". O pagador não foi encontrado no planeamento de destino."
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4559
 msgid "Bill moved to \"{projectName}\" successfully"
-msgstr ""
+msgstr "A despesa foi movida para \"{projectName}\" com sucesso"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4564
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5844
 msgid "Failed to move bill from {name1} to {name2}"
-msgstr ""
+msgstr "Falhou ao mover a despesa de {name1} para {name2}"
 
 #. TRANSLATORS src/components/AppNavigationProjectItem.vue:3
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4574
@@ -2006,7 +2006,7 @@ msgstr "Desarquivar"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4592
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4662
 msgid "Leave share"
-msgstr ""
+msgstr "Deixar a partilha"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:4808
 msgid "Everyone"
@@ -2064,12 +2064,12 @@ msgstr "Planeamento importado"
 #. TRANSLATORS src/components/CospendNavigation.vue:6
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5325
 msgid "Search projects"
-msgstr ""
+msgstr "Pesquisar planeamentos"
 
 #. TRANSLATORS src/components/CospendNavigation.vue:10
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5327
 msgid "Create a project"
-msgstr ""
+msgstr "Criar um planeamento"
 
 #. TRANSLATORS src/components/CospendNavigation.vue:18
 #. TRANSLATORS src/components/NewProjectModal.vue:3
@@ -2085,7 +2085,7 @@ msgstr "Criar um planeamento vazio"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5331
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5532
 msgid "Import csv project"
-msgstr "Importar projecto CSV"
+msgstr "Importar planeamento CSV"
 
 #. TRANSLATORS src/components/CospendNavigation.vue:34
 #. TRANSLATORS src/components/CospendSettingsDialog.vue:49
@@ -2103,12 +2103,12 @@ msgstr "Ainda não há planeamentos"
 #. TRANSLATORS src/components/CospendNavigation.vue:71
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5339
 msgid "My cumulated balance"
-msgstr ""
+msgstr "O meu saldo acumulado"
 
 #. TRANSLATORS src/components/CospendNavigation.vue:83
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5341
 msgid "Pending share invitations"
-msgstr ""
+msgstr "Convites de partilha que estão pendentes"
 
 #. TRANSLATORS src/components/CospendNavigation.vue:93
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5343
@@ -2136,7 +2136,7 @@ msgstr "Escolha onde escrever os ficheiros de saída (estatísticas, liquidaçã
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5456
 msgid "Pick current directory"
-msgstr ""
+msgstr "Escolha esta pasta"
 
 #. TRANSLATORS src/components/CospendSettingsDialog.vue:33
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5530
@@ -2151,7 +2151,7 @@ msgstr "Pasta para exportação"
 #. TRANSLATORS src/components/CospendSettingsDialog.vue:60
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5538
 msgid "Export directory"
-msgstr ""
+msgstr "Exportar pasta"
 
 #. TRANSLATORS src/components/CospendSettingsDialog.vue:72
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5540
@@ -2191,7 +2191,7 @@ msgstr "Usar tempo nas datas"
 #. TRANSLATORS src/components/CospendSettingsDialog.vue:121
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5554
 msgid "Show my cumulated balance"
-msgstr ""
+msgstr "Mostrar o meu saldo acumulado"
 
 #. TRANSLATORS src/components/CospendSettingsDialog.vue:127
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:5556
@@ -2283,24 +2283,24 @@ msgstr "Comutador de modo de pagamento"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6016
 msgid "Project {projectName} shared by {inviterName} ({inviterCloudId})"
-msgstr ""
+msgstr "Planeamento {projectName} partilhado por {inviterName} ({inviterCloudId})"
 
 #. TRANSLATORS src/components/PendingInvitationsModal.vue:3
 #. TRANSLATORS src/components/PendingInvitationsModal.vue:7
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6047
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6049
 msgid "Pending invitations for federated shares"
-msgstr ""
+msgstr "Convites pendentes para partilhas federadas"
 
 #. TRANSLATORS src/components/PendingInvitationsModal.vue:27
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6051
 msgid "Reject"
-msgstr ""
+msgstr "Recusar"
 
 #. TRANSLATORS src/components/PendingInvitationsModal.vue:34
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6053
 msgid "Accept"
-msgstr ""
+msgstr "Aceitar"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6329
 msgid "New member name"
@@ -2322,12 +2322,12 @@ msgstr "Renomear planeamento {n}"
 #. TRANSLATORS src/components/SettingsTabSidebar.vue:10
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6542
 msgid "Rename project"
-msgstr ""
+msgstr "Renomear planeamento"
 
 #. TRANSLATORS src/components/SettingsTabSidebar.vue:24
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6544
 msgid "Allow bill deletion"
-msgstr ""
+msgstr "Permitir a eliminação de despesas"
 
 #. TRANSLATORS src/components/SettingsTabSidebar.vue:29
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6546
@@ -2401,7 +2401,7 @@ msgstr "Falha ao editar a hiperligação de partilha"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6881
 msgid "Federated share saved"
-msgstr ""
+msgstr "A partilha federada foi guardada"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6916
 msgid "Link could not be copied to clipboard"
@@ -2417,7 +2417,7 @@ msgstr "Partilhar planeamento com um utilizador, grupo ou círculo"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6945
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6957
 msgid "Federated user"
-msgstr ""
+msgstr "Utilizador federado"
 
 #. TRANSLATORS src/components/SharingTabSidebar.vue:61
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6947
@@ -2449,11 +2449,11 @@ msgstr "Criar uma nova hiperligação de partilha"
 #. TRANSLATORS src/components/SharingTabSidebar.vue:126
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6959
 msgid "Pending share"
-msgstr ""
+msgstr "Partilha pendente"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6959
 msgid "Accepted share"
-msgstr ""
+msgstr "Partilha aceite"
 
 #. TRANSLATORS src/components/SharingTabSidebar.vue:148
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6961
@@ -2464,7 +2464,7 @@ msgstr "Rótulo"
 #. TRANSLATORS src/components/SharingTabSidebar.vue:186
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6971
 msgid "Delete federated share"
-msgstr ""
+msgstr "Eliminar partilha federada"
 
 #. TRANSLATORS src/components/SharingTabSidebar.vue:203
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:6975
@@ -2521,7 +2521,7 @@ msgstr "{nb} despesas, {nbMembers} membros habilitados, {spentAmount} gastos"
 #. TRANSLATORS src/components/Sidebar.vue:23
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7158
 msgid "Rename"
-msgstr ""
+msgstr "Renomear"
 
 #. TRANSLATORS src/components/Sidebar.vue:28
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:7160
@@ -2654,7 +2654,7 @@ msgstr "Mostrar membros desabilitados"
 #. TRANSLATORS src/components/statistics/Statistics.vue:162
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8756
 msgid "Total paid by all the members: {t} {currencyName}"
-msgstr ""
+msgstr "Total pago por todos os membros: {t} {currencyName}"
 
 #. TRANSLATORS src/components/statistics/Statistics.vue:165
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8758
@@ -2664,7 +2664,7 @@ msgstr "Total pago por todos os membros: {t}"
 #. TRANSLATORS src/components/statistics/Statistics.vue:169
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8760
 msgid "You can zoom on the line charts by holding the SHIFT key and using the mouse wheel. You can then pan the chart by dragging it with the mouse."
-msgstr ""
+msgstr "Pode ampliar os gráficos de linhas premindo a tecla SHIFT enquanto usa a roda do rato. Depois pode deslocar a visualização do gráfico arrastando-o com o rato."
 
 #. TRANSLATORS src/components/statistics/Statistics.vue:174
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8762
@@ -2680,12 +2680,12 @@ msgstr "Saldo filtrado"
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8772
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8776
 msgid "This balance is computed from the complete bill list"
-msgstr ""
+msgstr "Este saldo é calculado a partir da lista completa de despesas"
 
 #. TRANSLATORS src/components/statistics/Statistics.vue:196
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8774
 msgid "Global Balance"
-msgstr ""
+msgstr "Saldo global"
 
 #. TRANSLATORS src/components/statistics/Statistics.vue:239
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8778
@@ -2790,12 +2790,12 @@ msgstr "Falha ao guardar valores das opções"
 #. TRANSLATORS src/views/AdminSettings.vue:12
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8885
 msgid "Enable Federation in Cospend"
-msgstr ""
+msgstr "Permitir federação no Cospend"
 
 #. TRANSLATORS src/views/AdminSettings.vue:17
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8887
 msgid "Only consider past bills to compute balances"
-msgstr ""
+msgstr "Considere somente as despesas passadas ao calcular os saldos"
 
 #. TRANSLATORS src/views/Dashboard.vue:8
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:9063
@@ -2850,7 +2850,7 @@ msgstr "Falha ao exportar a liquidação do planeamento"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:12
 msgid "Choose csv project file"
-msgstr "Escolha o ficheiro de projecto CSV"
+msgstr "Escolha o ficheiro de planeamento CSV"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/src/utils.js:37
 msgid "Choose SplitWise project file"

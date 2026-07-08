@@ -39,6 +39,7 @@ import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 
 import { emit } from '@nextcloud/event-bus'
+import { showWarning } from '@nextcloud/dialogs'
 import * as network from '../network.js'
 
 export default {
@@ -77,6 +78,7 @@ export default {
 	},
 	methods: {
 		onProjectClick() {
+			showWarning(t('cospend', 'Could not reach remote server for project "{name}"', { name: this.invite.remoteProjectName }))
 		},
 		onLeaveShareClick() {
 			network.rejectInvitation(this.invite.id)

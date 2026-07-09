@@ -26,5 +26,7 @@ export const defaultState = {
 	memberOrder: 'name',
 	useTime: true,
 	activity_enabled: false,
+	restoredCrossProjectMode: null,
+	restoredCrossProjectPersonKey: null,
 	showMyBalance: false,
 }

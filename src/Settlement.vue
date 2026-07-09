@@ -271,6 +271,7 @@ import MemberAvatar from './components/avatar/MemberAvatar.vue'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
 import { getLocale } from '@nextcloud/l10n'
+import { getCurrentUser } from '@nextcloud/auth'
 import { getSmartMemberName } from './utils.js'
 import * as constants from './constants.js'
 import * as network from './network.js'
@@ -356,14 +357,17 @@ export default {
 			return this.stringify(this.maxDate)
 		},
 		balances() {
+			const currentUserId = getCurrentUser()?.uid
 			return this.balancesObject
-				? Object.keys(this.balancesObject).map((k) => {
-					return {
-						mid: k,
-						balance: this.balancesObject[k],
-						memberName: this.getMemberName(k),
-					}
-				})
+				? Object.keys(this.balancesObject)
+					.filter((k) => !(this.cospend.hideOwnBalance && this.members[k]?.userid === currentUserId))
+					.map((k) => {
+						return {
+							mid: k,
+							balance: this.balancesObject[k],
+							memberName: this.getMemberName(k),
+						}
+					})
 				: null
 		},
 		dateInfoText() {

@@ -51,6 +51,8 @@ use OCP\Share\IShare;
  * @psalm-import-type CospendPaymentMode from ResponseDefinitions
  * @psalm-import-type CospendCategory from ResponseDefinitions
  * @psalm-import-type CospendCurrency from ResponseDefinitions
+ * @psalm-import-type CospendAutoCategoryMapping from ResponseDefinitions
+ * @psalm-import-type CospendAutoCategoryMappingCopyResult from ResponseDefinitions
  * @psalm-import-type CospendUserShare from ResponseDefinitions
  * @psalm-import-type CospendPublicShare from ResponseDefinitions
  * @psalm-import-type CospendGroupShare from ResponseDefinitions
@@ -195,6 +197,7 @@ class ApiController extends OCSController {
 	 * @param string|null $categorySort
 	 * @param string|null $paymentModeSort
 	 * @param int|null $archivedTs
+	 * @param string|null $autoCategorization
 	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 *
 	 * 200: The project was successfully update
@@ -208,11 +211,13 @@ class ApiController extends OCSController {
 		string $projectId, ?string $name = null,
 		?string $autoExport = null, ?string $currencyName = null, ?bool $deletionDisabled = null,
 		?string $categorySort = null, ?string $paymentModeSort = null, ?int $archivedTs = null,
+		?string $autoCategorization = null,
 	): DataResponse {
 		try {
 			$this->projectService->editProject(
 				$projectId, $name, null, $autoExport,
-				$currencyName, $deletionDisabled, $categorySort, $paymentModeSort, $archivedTs
+				$currencyName, $deletionDisabled, $categorySort, $paymentModeSort, $archivedTs,
+				$autoCategorization
 			);
 			return new DataResponse('');
 		} catch (ClientException $e) {
@@ -465,6 +470,7 @@ class ApiController extends OCSController {
 	 * @param string|null $comment
 	 * @param int|null $repeatFreq
 	 * @param int|null $deleted
+	 * @param bool $autoCategorise
 	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 * @throws DoesNotExistException
 	 * @throws Exception
@@ -480,12 +486,13 @@ class ApiController extends OCSController {
 		?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null, ?int $repeatAllActive = null, ?string $repeatUntil = null,
 		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null, ?int $deleted = null,
+		bool $autoCategorise = true,
 	): DataResponse {
 		try {
 			$this->projectService->editBill(
 				$projectId, $billId, $date, $what, $payer, $payedFor,
 				$amount, $repeat, $paymentMode, $paymentModeId, $categoryId,
-				$repeatAllActive, $repeatUntil, $timestamp, $comment, $repeatFreq, $deleted, true
+				$repeatAllActive, $repeatUntil, $timestamp, $comment, $repeatFreq, $deleted, true, $autoCategorise
 			);
 			return new DataResponse($billId);
 		} catch (ClientException $e) {
@@ -646,6 +653,7 @@ class ApiController extends OCSController {
 	 * @param int|null $timestamp
 	 * @param string|null $comment
 	 * @param int|null $repeatFreq
+	 * @param bool $autoCategorise
 	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 * @throws Exception
 	 */
@@ -657,13 +665,13 @@ class ApiController extends OCSController {
 		string $projectId, ?string $date = null, ?string $what = null, ?int $payer = null, ?string $payedFor = null,
 		?float $amount = null, ?string $repeat = null, ?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null, int $repeatAllActive = 0, ?string $repeatUntil = null, ?int $timestamp = null,
-		?string $comment = null, ?int $repeatFreq = null,
+		?string $comment = null, ?int $repeatFreq = null, bool $autoCategorise = true,
 	): DataResponse {
 		try {
 			$newBillId = $this->projectService->createBill(
 				$projectId, $date, $what, $payer, $payedFor, $amount,
 				$repeat, $paymentMode, $paymentModeId, $categoryId, $repeatAllActive,
-				$repeatUntil, $timestamp, $comment, $repeatFreq, 0, true
+				$repeatUntil, $timestamp, $comment, $repeatFreq, 0, true, $autoCategorise
 			);
 			return new DataResponse($newBillId);
 		} catch (ClientException $e) {
@@ -1104,6 +1112,215 @@ class ApiController extends OCSController {
 		try {
 			$this->projectService->deleteCategory($projectId, $categoryId);
 			return new DataResponse('');
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		}
+	}
+
+	/**
+	 * Get auto-category mappings for a project
+	 *
+	 * Viewer level is enough: mappings are applied client-side when typing a bill title,
+	 * so every user who can see the project needs to be able to read them.
+	 *
+	 * @param string $projectId
+	 * @return DataResponse<Http::STATUS_OK, list<CospendAutoCategoryMapping>, array{}>|DataResponse<Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @throws Exception
+	 *
+	 * 200: The mappings were successfully fetched
+	 * 424: Failed to get the mappings
+	 */
+	#[NoAdminRequired]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Auto-categorisation'])]
+	public function getAutoCategoryMappings(string $projectId): DataResponse {
+		try {
+			$mappings = $this->localProjectService->getAutoCategoryMappings($projectId);
+			return new DataResponse($mappings);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		}
+	}
+
+	/**
+	 * Create an auto-category mapping
+	 *
+	 * @param string $projectId
+	 * @param string $billTitle
+	 * @param int $categoryId
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_CONFLICT|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @throws Exception
+	 *
+	 * 200: The mapping was successfully created
+	 * 409: A mapping with this title already exists
+	 * 424: Failed to create the mapping
+	 */
+	#[NoAdminRequired]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Auto-categorisation'])]
+	public function createAutoCategoryMapping(string $projectId, string $billTitle, int $categoryId): DataResponse {
+		try {
+			$insertedId = $this->localProjectService->createAutoCategoryMapping($projectId, $billTitle, $categoryId);
+			return new DataResponse($insertedId);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, Http::STATUS_CONFLICT);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		}
+	}
+
+	/**
+	 * Edit an auto-category mapping
+	 *
+	 * @param string $projectId
+	 * @param int $mappingId
+	 * @param string $billTitle
+	 * @param int $categoryId
+	 * @return DataResponse<Http::STATUS_OK, CospendAutoCategoryMapping, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_CONFLICT|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 *
+	 * 200: The mapping was successfully edited
+	 * 404: The mapping was not found
+	 * 409: A mapping with this title already exists
+	 * 424: Failed to edit the mapping
+	 */
+	#[NoAdminRequired]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Auto-categorisation'])]
+	public function editAutoCategoryMapping(string $projectId, int $mappingId, string $billTitle, int $categoryId): DataResponse {
+		try {
+			$mapping = $this->localProjectService->editAutoCategoryMapping($projectId, $mappingId, $billTitle, $categoryId);
+			return new DataResponse($mapping);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			$code = $e->getCode() === Http::STATUS_NOT_FOUND ? Http::STATUS_NOT_FOUND : Http::STATUS_CONFLICT;
+			return new DataResponse($e->data, $code);
+		}
+	}
+
+	/**
+	 * Delete an auto-category mapping
+	 *
+	 * @param string $projectId
+	 * @param int $mappingId
+	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @throws Exception
+	 *
+	 * 200: The mapping was successfully deleted
+	 * 404: The mapping was not found
+	 * 424: Failed to delete the mapping
+	 */
+	#[NoAdminRequired]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Auto-categorisation'])]
+	public function deleteAutoCategoryMapping(string $projectId, int $mappingId): DataResponse {
+		try {
+			$this->localProjectService->deleteAutoCategoryMapping($projectId, $mappingId);
+			return new DataResponse('');
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, Http::STATUS_NOT_FOUND);
+		}
+	}
+
+	/**
+	 * Trigger auto-categorisation for a project
+	 *
+	 * @param string $projectId
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @throws Exception
+	 *
+	 * 200: Auto-categorisation completed, returns number of categorised bills
+	 * 424: Failed to auto-categorise
+	 */
+	#[NoAdminRequired]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Auto-categorisation'])]
+	public function autoCategorizeProject(string $projectId): DataResponse {
+		try {
+			$count = $this->localProjectService->autoCategorizeProjectBills($projectId);
+			return new DataResponse($count);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		}
+	}
+
+	/**
+	 * Trigger auto-categorisation for all projects
+	 *
+	 * Admin-only: there is no project context for this endpoint
+	 *
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 * @throws Exception
+	 *
+	 * 200: Auto-categorisation completed, returns total number of categorised bills
+	 * 424: Failed to auto-categorise
+	 */
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Auto-categorisation'])]
+	public function autoCategorizeAll(): DataResponse {
+		try {
+			$count = $this->localProjectService->autoCategorizeAllBills();
+			return new DataResponse($count);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		}
+	}
+
+	/**
+	 * Copy auto-category mappings from the current project to another project
+	 *
+	 * @param string $projectId Source project ID
+	 * @param string $targetProjectId Destination project ID
+	 * @param int|null $mappingId Restrict the copy to this single mapping
+	 * @return DataResponse<Http::STATUS_OK, CospendAutoCategoryMappingCopyResult, array{}>|DataResponse<Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 *
+	 * 200: Mappings copied, returns {imported, skipped, errors}
+	 * 401: Current user is not allowed to edit mappings of the target project
+	 * 404: The mapping was not found
+	 * 424: Failed to copy mappings
+	 */
+	#[NoAdminRequired]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Auto-categorisation'])]
+	public function copyAutoCategoryMappings(string $projectId, string $targetProjectId, ?int $mappingId = null): DataResponse {
+		$userAccessLevel = $this->localProjectService->getUserMaxAccessLevel($this->userId, $targetProjectId);
+		if ($userAccessLevel < Application::ACCESS_LEVEL_MAINTAINER) {
+			return new DataResponse(['message' => $this->l->t('You are not allowed to edit mappings of the target project')], Http::STATUS_UNAUTHORIZED);
+		}
+		try {
+			$result = $this->localProjectService->copyAutoCategoryMappings($projectId, $targetProjectId, $mappingId);
+			return new DataResponse($result);
+		} catch (CospendBasicException $e) {
+			return new DataResponse($e->data, Http::STATUS_NOT_FOUND);
+		} catch (ClientException $e) {
+			return $this->getResponseFromClientException($e);
+		}
+	}
+
+	/**
+	 * Import auto-category mappings from another project into the current project
+	 *
+	 * @param string $projectId Destination project ID
+	 * @param string $sourceProjectId Source project ID
+	 * @return DataResponse<Http::STATUS_OK, CospendAutoCategoryMappingCopyResult, array{}>|DataResponse<Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
+	 *
+	 * 200: Mappings imported, returns {imported, skipped, errors}
+	 * 400: Invalid source project
+	 * 401: Current user is not allowed to access the source project
+	 * 424: Failed to import mappings
+	 */
+	#[NoAdminRequired]
+	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_MAINTAINER)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Auto-categorisation'])]
+	public function importAutoCategoryMappings(string $projectId, string $sourceProjectId): DataResponse {
+		$userAccessLevel = $this->localProjectService->getUserMaxAccessLevel($this->userId, $sourceProjectId);
+		if ($userAccessLevel < Application::ACCESS_LEVEL_VIEWER) {
+			return new DataResponse(['message' => $this->l->t('You are not allowed to access the source project')], Http::STATUS_UNAUTHORIZED);
+		}
+		try {
+			$result = $this->localProjectService->copyAutoCategoryMappings($sourceProjectId, $projectId);
+			return new DataResponse($result);
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);
 		}

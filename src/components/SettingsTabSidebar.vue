@@ -28,6 +28,14 @@
 					{{ t('cospend', 'Allow bill deletion') }}
 				</NcFormBoxSwitch>
 			</div>
+			<div v-if="adminAccess && cospend.auto_categorization_enabled" class="auto-categorization-line">
+				<NcFormBoxSwitch
+					id="auto-categorization"
+					:model-value="project.auto_categorization === '1'"
+					@update:model-value="onAutoCategorizationChange">
+					{{ t('cospend', 'Auto-categorise bills') }}
+				</NcFormBoxSwitch>
+			</div>
 			<NcSelect
 				:model-value="selectedAutoExportOption"
 				:input-label="t('cospend', 'Automatic export')"
@@ -494,6 +502,10 @@ export default {
 		},
 		onDisableDeletionChange(checked) {
 			this.cospend.projects[this.projectId].deletiondisabled = !checked
+			this.$emit('project-edited', this.projectId)
+		},
+		onAutoCategorizationChange(checked) {
+			this.cospend.projects[this.projectId].auto_categorization = checked ? '1' : '0'
 			this.$emit('project-edited', this.projectId)
 		},
 		onMultiselectEnterPressed(elem) {

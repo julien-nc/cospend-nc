@@ -83,6 +83,11 @@
 				type="category"
 				@project-edited="onProjectEdited"
 				@element-deleted="onCategoryDeleted" />
+			<!-- mapping management is maintainer-level (like the backend endpoints)
+				but hidden on public link pages: there is no public API for mappings -->
+			<AutoCategoryMappingsSettings
+				v-if="editionAccess && !pageIsPublic && autoCategorizationEnabled && project.auto_categorization === '1'"
+				:project="project" />
 		</NcAppSidebarTab>
 		<NcAppSidebarTab
 			id="paymentmodes"
@@ -129,6 +134,8 @@ import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcAppSidebar from '@nextcloud/vue/components/NcAppSidebar'
 import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
 
+import { defineAsyncComponent } from 'vue'
+
 import SharingTabSidebar from './SharingTabSidebar.vue'
 import SettingsTabSidebar from './SettingsTabSidebar.vue'
 import CategoryOrPmManagement from '../CategoryOrPmManagement.vue'
@@ -148,6 +155,7 @@ export default {
 		SharingTabSidebar,
 		SettingsTabSidebar,
 		CategoryOrPmManagement,
+		AutoCategoryMappingsSettings: defineAsyncComponent(() => import('./AutoCategoryMappingsSettings.vue')),
 		CurrencyManagement,
 		ActivityTabSidebar,
 		ShapeIcon,
@@ -186,6 +194,7 @@ export default {
 			tmpName: '',
 			pageIsPublic: OCA.Cospend.state.pageIsPublic,
 			activityEnabled: OCA.Cospend.state.activity_enabled,
+			autoCategorizationEnabled: OCA.Cospend.state.auto_categorization_enabled,
 		}
 	},
 	computed: {

@@ -323,6 +323,7 @@ class PublicApiController extends OCSController {
 	 * @param string|null $comment
 	 * @param int|null $repeatFreq
 	 * @param int|null $deleted
+	 * @param bool $autoCategorise
 	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 * @throws Exception
 	 */
@@ -338,14 +339,15 @@ class PublicApiController extends OCSController {
 		?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null, ?int $repeatAllActive = null,
 		?string $repeatUntil = null, ?int $timestamp = null, ?string $comment = null,
-		?int $repeatFreq = null, ?int $deleted = null,
+		?int $repeatFreq = null, ?int $deleted = null, bool $autoCategorise = true,
 	): DataResponse {
 		$share = $this->shareMapper->getLinkOrFederatedShareByToken($token);
 		try {
 			$this->localProjectService->editBill(
 				$this->projectId, $billId, $date, $what, $payer, $payedFor,
 				$amount, $repeat, $paymentMode, $paymentModeId, $categoryId,
-				$repeatAllActive, $repeatUntil, $timestamp, $comment, $repeatFreq, $deleted
+				$repeatAllActive, $repeatUntil, $timestamp, $comment, $repeatFreq, $deleted,
+				false, $autoCategorise
 			);
 			$billObj = $this->billMapper->find($billId);
 			$this->activityManager->triggerEvent(
@@ -454,6 +456,7 @@ class PublicApiController extends OCSController {
 	 * @param string|null $categorySort
 	 * @param string|null $paymentModeSort
 	 * @param int|null $archivedTs
+	 * @param string|null $autoCategorization
 	 * @return DataResponse<Http::STATUS_OK, '', array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array<string, string>, array{}>
 	 */
 	#[NoAdminRequired]
@@ -466,11 +469,13 @@ class PublicApiController extends OCSController {
 		string $token, ?string $name = null,
 		?string $autoExport = null, ?string $currencyName = null, ?bool $deletionDisabled = null,
 		?string $categorySort = null, ?string $paymentModeSort = null, ?int $archivedTs = null,
+		?string $autoCategorization = null,
 	): DataResponse {
 		try {
 			$this->localProjectService->editProject(
 				$this->projectId, $name, null, $autoExport,
-				$currencyName, $deletionDisabled, $categorySort, $paymentModeSort, $archivedTs
+				$currencyName, $deletionDisabled, $categorySort, $paymentModeSort, $archivedTs,
+				$autoCategorization
 			);
 			return new DataResponse('');
 		} catch (CospendBasicException $e) {
@@ -496,6 +501,7 @@ class PublicApiController extends OCSController {
 	 * @param int|null $timestamp
 	 * @param string|null $comment
 	 * @param int|null $repeatFreq
+	 * @param bool $autoCategorise
 	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{error: string}, array{}>
 	 * @throws DoesNotExistException
 	 * @throws Exception
@@ -512,14 +518,14 @@ class PublicApiController extends OCSController {
 		?string $payedFor = null, ?float $amount = null, string $repeat = 'n',
 		?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null, int $repeatAllActive = 0, ?string $repeatUntil = null, ?int $timestamp = null,
-		?string $comment = null, ?int $repeatFreq = null,
+		?string $comment = null, ?int $repeatFreq = null, bool $autoCategorise = true,
 	): DataResponse {
 		$share = $this->shareMapper->getLinkOrFederatedShareByToken($token);
 		try {
 			$insertedId = $this->localProjectService->createBill(
 				$this->projectId, $date, $what, $payer, $payedFor, $amount,
 				$repeat, $paymentMode, $paymentModeId, $categoryId, $repeatAllActive,
-				$repeatUntil, $timestamp, $comment, $repeatFreq
+				$repeatUntil, $timestamp, $comment, $repeatFreq, 0, false, $autoCategorise
 			);
 			$billObj = $this->billMapper->find($insertedId);
 			$this->activityManager->triggerEvent(

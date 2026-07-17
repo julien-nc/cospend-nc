@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2026-02-19 00:32+0100\n"
-"PO-Revision-Date: 2026-07-05 11:05\n"
+"PO-Revision-Date: 2026-07-17 09:13\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -2578,7 +2578,7 @@ msgstr "Todas"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8322
 msgid "Payed"
-msgstr "Pagas"
+msgstr "Pago"
 
 #: /home/julien/html/dev/server/apps-extra/cospend/specialVueFakeDummyForL10nScript.js:8341
 msgid "Who paid (outside circle) and spent (inside pie)?"

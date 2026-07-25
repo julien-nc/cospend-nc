@@ -34,8 +34,8 @@
 		"extends @nextcloud/browserslist-config"
 	],
 	"engines": {
-		"node": "^20",
-		"npm": "^10"
+		"node": "^22",
+		"npm": "^12"
 	},
 	"dependencies": {
 		"@codog/vue3-infinite-loading": "^0.0.13",

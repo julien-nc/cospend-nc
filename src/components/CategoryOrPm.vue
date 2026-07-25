@@ -40,7 +40,7 @@
 			class="one-element-edit">
 			<NcColorPicker
 				class="app-navigation-entry-bullet-wrapper"
-				:model-value="''"
+				model-value=""
 				@update:model-value="updateColor">
 				<NcButton
 					:title="t('cospend', 'Color')"

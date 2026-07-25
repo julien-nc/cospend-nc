@@ -54,8 +54,9 @@
 				ref="weightInput"
 				type="number"
 				step="0.01"
-				:model-value="''"
+				model-value=""
 				:disabled="false"
+				@update:model-value="onWeightChange"
 				@submit="onWeightSubmit">
 				<template #icon>
 					<WeightIcon
@@ -141,6 +142,7 @@ import * as constants from '../constants.js'
 import * as network from '../network.js'
 import { getSmartMemberName } from '../utils.js'
 import { showError } from '@nextcloud/dialogs'
+import debounce from 'debounce'
 
 export default {
 	name: 'AppNavigationMemberItem',
@@ -297,11 +299,19 @@ export default {
 			this.cMember.userid = null
 			emit('member-edited', { projectId: this.projectId, memberId: this.member.id })
 		},
-		onWeightSubmit() {
+		// only react if the field was cleared with the trailing button
+		onWeightSubmit(e) {
 			const newWeight = this.$refs.weightInput.$el.querySelector('input[type="number"]').value
-			this.cMember.weight = parseFloat(newWeight)
-			emit('member-edited', { projectId: this.projectId, memberId: this.member.id })
+			const newWeightFloat = parseFloat(newWeight)
+			if (isNaN(newWeightFloat)) {
+				this.cMember.weight = 1.0
+				emit('member-edited', { projectId: this.projectId, memberId: this.member.id })
+			}
 		},
+		onWeightChange: debounce(function(value) {
+			this.cMember.weight = parseFloat(value)
+			emit('member-edited', { projectId: this.projectId, memberId: this.member.id })
+		}, 2000),
 		updateColor(color) {
 			this.applyUpdateColor(color)
 		},

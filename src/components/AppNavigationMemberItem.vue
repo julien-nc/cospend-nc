@@ -4,14 +4,14 @@
 -->
 <template>
 	<NcAppNavigationItem v-show="memberVisible"
-		:class="{ memberItem: true }"
+		class="memberItem"
 		:name="nameTitle"
 		:active="selected"
 		:editable="maintenerAccess"
 		:edit-label="t('cospend', 'Rename member')"
 		:force-menu="false"
 		:menu-open="menuOpen"
-		@contextmenu.native.stop.prevent="menuOpen = true"
+		@contextmenu.stop.prevent="menuOpen = true"
 		@update:menuOpen="onUpdateMenuOpen"
 		@update:name="onRename"
 		@click="onClick">
@@ -180,6 +180,7 @@ export default {
 			default: 2,
 		},
 	},
+	emits: ['safe-click'],
 	data() {
 		return {
 			cospend: OCA.Cospend.state,

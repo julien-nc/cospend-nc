@@ -177,7 +177,7 @@
 						</div>
 					</td>
 					<td :class="getBalanceClass(row.balance)"
-						:style="'border: 2px solid #' + members[row.mid].color +';'">
+						:style="'border: 2px solid #' + members[row.mid].color + ';'">
 						{{ row.balance.toFixed(2) }}
 						<span v-if="project.currencyname">
 							{{ project.currencyname }}
@@ -276,7 +276,7 @@ import * as constants from './constants.js'
 import * as network from './network.js'
 
 export default {
-	name: 'Settlement',
+	name: 'ProjectSettlement',
 
 	components: {
 		MemberAvatar,
@@ -302,6 +302,8 @@ export default {
 			required: true,
 		},
 	},
+
+	emits: ['auto-settled'],
 
 	data() {
 		return {
@@ -358,12 +360,12 @@ export default {
 		balances() {
 			return this.balancesObject
 				? Object.keys(this.balancesObject).map((k) => {
-					return {
-						mid: k,
-						balance: this.balancesObject[k],
-						memberName: this.getMemberName(k),
-					}
-				})
+						return {
+							mid: k,
+							balance: this.balancesObject[k],
+							memberName: this.getMemberName(k),
+						}
+					})
 				: null
 		},
 		dateInfoText() {

@@ -44,6 +44,7 @@ export default {
 	},
 	props: {
 	},
+	emits: ['close'],
 	data() {
 		return {
 			newProjectName: '',
@@ -65,6 +66,7 @@ export default {
 	},
 }
 </script>
+
 <style scoped lang="scss">
 .creation-modal-content {
 	display: flex;

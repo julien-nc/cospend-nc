@@ -80,6 +80,8 @@ export default {
 		},
 	},
 
+	emits: ['input'],
+
 	data() {
 		return {}
 	},
@@ -96,9 +98,9 @@ export default {
 		selectedMemberItem() {
 			return this.value
 				? {
-					...this.value,
-					displayName: this.myGetSmartMemberName(this.value),
-				}
+						...this.value,
+						displayName: this.myGetSmartMemberName(this.value),
+					}
 				: null
 		},
 	},

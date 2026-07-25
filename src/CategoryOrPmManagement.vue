@@ -190,6 +190,8 @@ export default {
 		},
 	},
 
+	emits: ['element-deleted', 'project-edited'],
+
 	data() {
 		return {
 			cospend: OCA.Cospend.state,

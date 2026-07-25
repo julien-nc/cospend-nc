@@ -217,18 +217,18 @@
 						{{ row.paid.toFixed(2) }}
 						{{ selectedCurrencyName }}
 					</td>
-					<td :style="'border: 2px solid #' + myGetMemberColor(row.member.id) +';'">
+					<td :style="'border: 2px solid #' + myGetMemberColor(row.member.id) + ';'">
 						{{ row.spent.toFixed(2) }}
 						{{ selectedCurrencyName }}
 					</td>
 					<td v-if="isFiltered"
 						:class="getBalanceClass(row.filtered_balance)"
-						:style="'border: 2px solid #' + myGetMemberColor(row.member.id) +';'">
+						:style="'border: 2px solid #' + myGetMemberColor(row.member.id) + ';'">
 						{{ row.filtered_balance.toFixed(2) }}
 						{{ selectedCurrencyName }}
 					</td>
 					<td :class="getBalanceClass(row.balance)"
-						:style="'border: 2px solid #' + myGetMemberColor(row.member.id) +';'"
+						:style="'border: 2px solid #' + myGetMemberColor(row.member.id) + ';'"
 						:title="t('cospend', 'This balance is computed from the complete bill list')">
 						{{ row.balance.toFixed(2) }}
 						{{ selectedCurrencyName }}
@@ -268,7 +268,7 @@
 		<h2 class="statTableTitle">
 			{{ t('cospend', 'Monthly paid per category') }}
 		</h2>
-		<Monthly v-if="stats"
+		<MonthlyCatOrPm v-if="stats"
 			:table-data="monthlyCategoryStats"
 			:chart-data="monthlyCategoryChartData"
 			:distinct-months="distinctMonths"
@@ -281,7 +281,7 @@
 		<h2 class="statTableTitle">
 			{{ t('cospend', 'Monthly paid per payment mode') }}
 		</h2>
-		<Monthly v-if="stats"
+		<MonthlyCatOrPm v-if="stats"
 			:table-data="monthlyPaymentModeStats"
 			:chart-data="monthlyPaymentModeChartData"
 			:distinct-months="distinctMonths"
@@ -453,7 +453,7 @@ import MemberMultiSelect from '../MemberMultiSelect.vue'
 import CategoryMultiSelect from '../CategoryMultiSelect.vue'
 import PaymentModeMultiSelect from '../PaymentModeMultiSelect.vue'
 import MemberMonthly from './MemberMonthly.vue'
-import Monthly from './Monthly.vue'
+import MonthlyCatOrPm from './MonthlyCatOrPm.vue'
 import PieChartJs from '../chart.js/PieChartJs.vue'
 import BarChartJs from '../chart.js/BarChartJs.vue'
 
@@ -463,7 +463,7 @@ import * as network from '../../network.js'
 import * as constants from '../../constants.js'
 
 export default {
-	name: 'Statistics',
+	name: 'StatisticsContentDetails',
 
 	components: {
 		MemberAvatar,
@@ -472,7 +472,7 @@ export default {
 		PieChartJs,
 		BarChartJs,
 		MemberMonthly,
-		Monthly,
+		MonthlyCatOrPm,
 		NcAppContentDetails,
 		NcButton,
 		NcCheckboxRadioSwitch,
@@ -540,8 +540,8 @@ export default {
 		membersWithStatsArray() {
 			return this.stats
 				? this.membersArray.filter((member) => {
-					return this.stats.memberIds.includes(member.id)
-				})
+						return this.stats.memberIds.includes(member.id)
+					})
 				: this.membersArray
 		},
 		selectedCurrencyName() {
@@ -1230,7 +1230,7 @@ export default {
 				payerId,
 			}
 			const isFiltered = (
-				   (dateMin !== null && dateMin !== '')
+				(dateMin !== null && dateMin !== '')
 				|| (dateMax !== null && dateMax !== '')
 				|| (paymentModeId !== null)
 				|| (categoryId !== null)

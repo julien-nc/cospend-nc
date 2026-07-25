@@ -53,7 +53,7 @@
 import LineChartJs from '../chart.js/LineChartJs.vue'
 
 export default {
-	name: 'Monthly',
+	name: 'MonthlyCatOrPm',
 
 	components: {
 		LineChartJs,

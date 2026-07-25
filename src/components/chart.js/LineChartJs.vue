@@ -8,6 +8,7 @@
 		:options="chartOptions"
 		:data="chartData" />
 </template>
+
 <script>
 import { Line as LineChart } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, PointElement, CategoryScale, LinearScale, LineElement, Filler } from 'chart.js'

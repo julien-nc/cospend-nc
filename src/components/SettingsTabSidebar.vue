@@ -224,6 +224,7 @@ export default {
 			required: true,
 		},
 	},
+	emits: ['project-edited', 'user-added', 'new-simple-member', 'export-clicked'],
 	data() {
 		return {
 			cospend: OCA.Cospend.state,
@@ -512,6 +513,7 @@ export default {
 	},
 }
 </script>
+
 <style scoped lang="scss">
 .settings {
 	display: flex;

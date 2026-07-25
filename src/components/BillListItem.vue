@@ -4,7 +4,8 @@
 -->
 <template>
 	<NcListItem
-		:class="{ billItem: true, newBill: bill.id === 0 }"
+		class="billitem"
+		:class="{ newBill: bill.id === 0 }"
 		:title="billFormattedTitle"
 		:name="billFormattedTitle"
 		:active="selected"
@@ -154,6 +155,7 @@ export default {
 			default: true,
 		},
 	},
+	emits: ['clicked', 'duplicate-bill', 'move'],
 	data() {
 		return {
 			cospend: OCA.Cospend.state,
@@ -179,9 +181,9 @@ export default {
 		billItemPayer() {
 			return this.bill.id === 0
 				? {
-					name: '*',
-					color: '000000',
-				}
+						name: '*',
+						color: '000000',
+					}
 				: this.payer
 		},
 		payerDisabled() {

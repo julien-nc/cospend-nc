@@ -11,8 +11,8 @@
 		"build": "NODE_ENV=production vite --mode production build",
 		"dev": "NODE_ENV=development vite --mode development build",
 		"watch": "NODE_ENV=development vite --mode development build --watch",
-		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint --ext .ts,.js,.vue src",
-		"lint:fix": "ESLINT_USE_FLAT_CONFIG=false eslint --ext .ts,.js,.vue src --fix",
+		"lint": "eslint --ext .ts,.js,.vue src",
+		"lint:fix": "eslint --ext .ts,.js,.vue src --fix",
 		"check-types": "vue-tsc --noEmit",
 		"stylelint": "stylelint src/*.vue src/**/*.vue src/**/*.scss src/**/*.css",
 		"stylelint:fix": "stylelint src/*.vue src/**/*.vue src/**/*.scss src/**/*.css --fix"

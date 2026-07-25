@@ -648,6 +648,8 @@ export default {
 		},
 	},
 
+	emits: ['repeat-bill-now', 'bill-saved', 'bill-created', 'custom-bills-created', 'perso-bills-created', 'duplicate-bill'],
+
 	data() {
 		return {
 			constants,
@@ -863,9 +865,9 @@ export default {
 		billItemPayer() {
 			return this.myBill.id === 0
 				? {
-					name: '*',
-					color: '000000',
-				}
+						name: '*',
+						color: '000000',
+					}
 				: this.payer
 		},
 		payerDisabled() {
@@ -978,18 +980,18 @@ export default {
 				constants.SORT_ORDER.RECENTLY_USED,
 			].includes(this.project.paymentmodesort)
 				? allPaymentModes.sort((a, b) => {
-					return a.order === b.order
-						? strcmp(a.name, b.name)
-						: a.order > b.order
-							? 1
-							: a.order < b.order
-								? -1
-								: 0
-				})
+						return a.order === b.order
+							? strcmp(a.name, b.name)
+							: a.order > b.order
+								? 1
+								: a.order < b.order
+									? -1
+									: 0
+					})
 				: this.project.paymentmodesort === constants.SORT_ORDER.ALPHA
 					? allPaymentModes.sort((a, b) => {
-						return strcmp(a.name, b.name)
-					})
+							return strcmp(a.name, b.name)
+						})
 					: allPaymentModes
 		},
 		sortedCategories() {
@@ -1000,18 +1002,18 @@ export default {
 				constants.SORT_ORDER.RECENTLY_USED,
 			].includes(this.project.categorysort)
 				? allCategories.sort((a, b) => {
-					return a.order === b.order
-						? strcmp(a.name, b.name)
-						: a.order > b.order
-							? 1
-							: a.order < b.order
-								? -1
-								: 0
-				})
+						return a.order === b.order
+							? strcmp(a.name, b.name)
+							: a.order > b.order
+								? 1
+								: a.order < b.order
+									? -1
+									: 0
+					})
 				: this.project.categorysort === constants.SORT_ORDER.ALPHA
 					? allCategories.sort((a, b) => {
-						return strcmp(a.name, b.name)
-					})
+							return strcmp(a.name, b.name)
+						})
 					: allCategories
 		},
 		hardCodedCategories() {
@@ -1369,8 +1371,10 @@ export default {
 		createNormalBill() {
 			if (this.isBillValidForSaveOrNormal()) {
 				const myBill = this.myBill
-				this.createBill('normal', myBill.what, myBill.amount, myBill.payer_id, myBill.timestamp, myBill.owerIds, myBill.repeat,
-					myBill.paymentmodeid, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.repeatfreq, myBill.comment)
+				this.createBill(
+					'normal', myBill.what, myBill.amount, myBill.payer_id, myBill.timestamp, myBill.owerIds, myBill.repeat,
+					myBill.paymentmodeid, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.repeatfreq, myBill.comment,
+				)
 			} else {
 				showError(t('cospend', 'Bill values are not valid'))
 			}

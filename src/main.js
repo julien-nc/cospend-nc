@@ -8,7 +8,7 @@ import App from './App.vue'
 import '@nextcloud/dialogs/style.css'
 import { loadState } from '@nextcloud/initial-state'
 import { getCapabilities } from '@nextcloud/capabilities'
-import SmartTable from 'vuejs-smart-table'
+
 import { hexToDarkerHex } from './utils.js'
 import { defaultState } from './state.js'
 import '../css/cospend.scss'
@@ -56,6 +56,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
 function main() {
 	const app = createApp(App)
 	app.mixin({ methods: { t, n } })
-	app.use(SmartTable)
 	app.mount('#content')
 }

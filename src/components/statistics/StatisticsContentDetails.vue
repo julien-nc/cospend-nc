@@ -177,28 +177,28 @@
 		<h2 class="statTableTitle">
 			{{ t('cospend', 'Global stats') }}
 		</h2>
-		<v-table v-if="stats"
+		<VTable v-if="stats"
 			id="statsTable"
 			class="coloredTable"
 			:data="stats.stats">
 			<template #head>
-				<v-th sort-key="member.name">
+				<VTh sort-key="member.name">
 					{{ t('cospend', 'Member name') }}
-				</v-th>
-				<v-th sort-key="paid">
+				</VTh>
+				<VTh sort-key="paid">
 					{{ t('cospend', 'Paid') }}
-				</v-th>
-				<v-th sort-key="spent">
+				</VTh>
+				<VTh sort-key="spent">
 					{{ t('cospend', 'Spent') }}
-				</v-th>
-				<v-th v-if="isFiltered"
+				</VTh>
+				<VTh v-if="isFiltered"
 					sort-key="filtered_balance">
 					{{ t('cospend', 'Filtered balance') }}
-				</v-th>
-				<v-th sort-key="balance"
+				</VTh>
+				<VTh sort-key="balance"
 					:title="t('cospend', 'This balance is computed from the complete bill list')">
 					{{ t('cospend', 'Global Balance') }}
-				</v-th>
+				</VTh>
 			</template>
 			<template #body="{ rows }">
 				<tr v-for="row in rows"
@@ -236,7 +236,7 @@
 				</tr>
 			</template>
 			<tfoot />
-		</v-table>
+		</VTable>
 		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		<hr>
 		<h2 class="statTableTitle">
@@ -367,15 +367,15 @@
 		<h2 class="statTableTitle">
 			{{ t('cospend', 'Who paid for whom?') }}
 		</h2>
-		<v-table v-if="stats"
+		<VTable v-if="stats"
 			id="paidForTable"
 			class="coloredTable"
 			:data="membersPaidForData">
 			<template #head>
-				<v-th sort-key="name">
+				<VTh sort-key="name">
 					↓ {{ t('cospend', 'paid for') }} →
-				</v-th>
-				<v-th v-for="mid in stats.allMemberIds"
+				</VTh>
+				<VTh v-for="mid in stats.allMemberIds"
 					:key="mid"
 					:sort-key="mid.toString()"
 					class="avatared centered-cell"
@@ -386,10 +386,10 @@
 							:size="24" />
 						<span>{{ myGetSmartMemberName(mid) }}</span>
 					</div>
-				</v-th>
-				<v-th sort-key="total">
+				</VTh>
+				<VTh sort-key="total">
 					{{ t('cospend', 'Total paid') }}
-				</v-th>
+				</VTh>
 			</template>
 			<template #body="{ rows }">
 				<tr v-for="row in rows"
@@ -424,7 +424,7 @@
 					</td>
 				</tr>
 			</template>
-		</v-table>
+		</VTable>
 		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 	</NcAppContentDetails>
 </template>
@@ -461,6 +461,7 @@ import moment from '@nextcloud/moment'
 import { getCategory, getPaymentMode, getSmartMemberName, strcmp } from '../../utils.js'
 import * as network from '../../network.js'
 import * as constants from '../../constants.js'
+import { VTable, VTh } from '../../smart-table-components.js'
 
 export default {
 	name: 'StatisticsContentDetails',
@@ -489,6 +490,8 @@ export default {
 		ChartLineIcon,
 		CurrencyUsdIcon,
 		ContentSaveIcon,
+		VTable,
+		VTh,
 	},
 
 	props: {

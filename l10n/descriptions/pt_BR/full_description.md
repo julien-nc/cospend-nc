@@ -8,9 +8,11 @@ Ele permite criar projetos com membros e despesas. Cada membro tem um saldo calc
 
 Os membros do projeto são independentes dos usuários do Nextcloud. Os projetos podem ser compartilhados com outros usuários do Nextcloud ou por meio de links públicos.
 
-O cliente Android [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) está [disponível no F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) e na [Play Store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
+[<img width="30px" src="https://github.com/helcel-net/cowspent/raw/refs/heads/main/metadata/en-US/images/icon.png" />](https://github.com/helcel-net/cowspent) [Cowspent](https://github.com/helcel-net/cowspent) Android client is [available in F-Droid in the IzzyOnDroid repo](https://apt.izzysoft.de/fdroid/index/apk/net.helcel.cowspent) and as a [downloadable APK file](https://github.com/helcel-net/cowspent/releases/latest).
 
-cliente iOS [PayForMe](https://github.com/mayflower/PayForMe) está atualmente em desenvolvimento!
+[<img width="30px" src="https://gitlab.com/uploads/-/system/project/avatar/9981890/ic_launcher.png?width=48" />](https://gitlab.com/eneiluj/moneybuster) [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) (unmaintained) Android client is [available in F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) and on the [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
+
+[<img width="30px" src="https://github.com/mayflower/PayForMe/raw/refs/heads/main/PayForMe/Assets.xcassets/AppIcon.appiconset/app_icon-40x40.png" />](https://github.com/mayflower/PayForMe) cliente iOS [PayForMe](https://github.com/mayflower/PayForMe) está atualmente em desenvolvimento!
 
 As APIs privadas e públicas são documentadas usando [o extrator Nextcloud OpenAPI](https://github.com/nextcloud/openapi-extractor/). Esta documentação pode ser acessada diretamente no Nextcloud. Tudo que você precisa é instalar o Cospend (>= v1.6.0) e usar o [o aplicativo OCS API Viewer](https://apps.nextcloud.com/apps/ocs_api_viewer) para navegar pela documentação da OpenAPI.
 

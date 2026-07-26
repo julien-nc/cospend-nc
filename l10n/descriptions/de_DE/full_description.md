@@ -8,9 +8,11 @@ Du kannst Projekte erstellen sowie Mitglieder und Ausgaben hinzufügen. Anhand d
 
 Projektmitglieder sind unabhängig von Nextcloud Benutzern. Projekte können mit anderen Nextcloud-Nutzern oder mit öffentlichen Links geteilt werden.
 
-Der Android Client [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) ist [erhältlich auf F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) und im [Play Store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
+[<img width="30px" src="https://github.com/helcel-net/cowspent/raw/refs/heads/main/metadata/en-US/images/icon.png" />](https://github.com/helcel-net/cowspent) [Cowspent](https://github.com/helcel-net/cowspent) Android client is [available in F-Droid in the IzzyOnDroid repo](https://apt.izzysoft.de/fdroid/index/apk/net.helcel.cowspent) and as a [downloadable APK file](https://github.com/helcel-net/cowspent/releases/latest).
 
-Der iOS-Client [PayForMe](https://github.com/mayflower/PayForMe) wird aktuell noch entwickelt!
+[<img width="30px" src="https://gitlab.com/uploads/-/system/project/avatar/9981890/ic_launcher.png?width=48" />](https://gitlab.com/eneiluj/moneybuster) [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) (unmaintained) Android client is [available in F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) and on the [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
+
+[<img width="30px" src="https://github.com/mayflower/PayForMe/raw/refs/heads/main/PayForMe/Assets.xcassets/AppIcon.appiconset/app_icon-40x40.png" />](https://github.com/mayflower/PayForMe) Der iOS-Client [PayForMe](https://github.com/mayflower/PayForMe) wird aktuell noch entwickelt!
 
 Die privaten und öffentlichen APIs sind mit [der Nextcloud OpenAPI Extractor App](https://github.com/nextcloud/openapi-extractor/) dokumentiert. Diese Dokumentation kann direkt in Nextcloud aufgerufen werden. Installiere einfach Cospend (>= v1.6.0) und benutze die [OCS API Viewer App](https://apps.nextcloud.com/apps/ocs_api_viewer) um die OpenAPI-Dokumentation zu sehen.
 

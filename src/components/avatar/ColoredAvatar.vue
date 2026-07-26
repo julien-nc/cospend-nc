@@ -127,4 +127,8 @@ export default {
 	width: 100%;
 	height: 100%;
 }
+
+:deep(.avatardiv__user-status) {
+  --avatar-status-size-min: 10px !important;
+}
 </style>

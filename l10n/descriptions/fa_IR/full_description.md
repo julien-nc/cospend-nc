@@ -8,9 +8,11 @@ It lets you create projects with members and bills. Each member has a balance co
 
 Project members are independent from Nextcloud users. Projects can be shared with other Nextcloud users or via public links.
 
-کارخواه اندروید [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) [ در F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) و روی [ فروشگاه play](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster) در دسترس است.
+[<img width="30px" src="https://github.com/helcel-net/cowspent/raw/refs/heads/main/metadata/en-US/images/icon.png" />](https://github.com/helcel-net/cowspent) [Cowspent](https://github.com/helcel-net/cowspent) Android client is [available in F-Droid in the IzzyOnDroid repo](https://apt.izzysoft.de/fdroid/index/apk/net.helcel.cowspent) and as a [downloadable APK file](https://github.com/helcel-net/cowspent/releases/latest).
 
-[PayForMe](https://github.com/mayflower/PayForMe) iOS client is currently under developpement!
+[<img width="30px" src="https://gitlab.com/uploads/-/system/project/avatar/9981890/ic_launcher.png?width=48" />](https://gitlab.com/eneiluj/moneybuster) [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) (unmaintained) Android client is [available in F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) and on the [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
+
+[<img width="30px" src="https://github.com/mayflower/PayForMe/raw/refs/heads/main/PayForMe/Assets.xcassets/AppIcon.appiconset/app_icon-40x40.png" />](https://github.com/mayflower/PayForMe) [PayForMe](https://github.com/mayflower/PayForMe) iOS client is currently under developpement!
 
 The private and public APIs are documented using [the Nextcloud OpenAPI extractor](https://github.com/nextcloud/openapi-extractor/). This documentation can be accessed directly in Nextcloud. All you need is to install Cospend (>= v1.6.0) and use the [the OCS API Viewer app](https://apps.nextcloud.com/apps/ocs_api_viewer) to browse the OpenAPI documentation.
 

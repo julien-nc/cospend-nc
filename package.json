@@ -69,8 +69,8 @@
 		"@nextcloud/stylelint-config": "^3.0.1",
 		"@nextcloud/vite-config": "^2.3.5",
 		"@types/node": "^26.1.1",
-		"@vue/tsconfig": "^0.8.1",
-		"typescript": "~5.5.0",
+		"@vue/tsconfig": "^0.9.1",
+		"typescript": "^6.0.3",
 		"vite-plugin-eslint": "^1.8.1",
 		"vite-plugin-stylelint": "^6.0.4",
 		"vue-tsc": "^3.2.4"

@@ -209,20 +209,60 @@
 			</template>
 		</NcEmptyContent>
 		<NcLoadingIcon v-if="loading" :size="24" />
-		<BillListItem
-			v-for="(bill, index) in bills"
-			v-else
-			:key="bill.id"
-			:bill="bill"
-			:project-id="projectId"
-			:index="nbBills - index"
-			:nb-bills="nbBills"
-			:selected="isBillSelected(bill)"
-			:edition-access="editionAccess"
-			:select-mode="selectMode"
-			@clicked="onItemClicked"
-			@move="onItemMove(bill)"
-			@duplicate-bill="$emit('duplicate-bill', $event)" />
+		<template v-for="(item, idx) in displayItems" :key="item.type === 'group' ? item.id : item.bill.id">
+			<div v-if="item.type === 'group'" class="bill-group">
+				<div class="bill-group-header" @click="toggleGroup(item.id)">
+					<MemberAvatar
+						:member="getGroupPayer(item)"
+						:hide-status="true"
+						:size="40"
+						class="group-avatar" />
+					<div class="group-content">
+						<div class="group-title-row">
+							<span class="group-what">{{ item.what }}</span>
+							<span class="group-date">{{ formatDate(item.date) }}</span>
+						</div>
+						<span class="group-meta">
+							{{ parseFloat(item.total).toFixed(2) }} <span v-if="currencyName"> {{ currencyName }}</span> · {{ t('cospend', 'split via {count} bills', { count: item.bills.length }) }}
+						</span>
+					</div>
+					<NcButton variant="tertiary" class="group-toggle">
+						<template #icon>
+							<ChevronRightIcon :class="{ rotated: expandedGroups.includes(item.id) }" :size="20" />
+						</template>
+					</NcButton>
+				</div>
+				<Transition name="fade">
+					<div v-show="expandedGroups.includes(item.id)" class="bill-group-items">
+						<BillListItem
+							v-for="(bill, index) in item.bills"
+							:key="bill.id"
+							:bill="bill"
+							:project-id="projectId"
+							:index="nbBills - (item.billPosition + index)"
+							:nb-bills="nbBills"
+							:selected="isBillSelected(bill)"
+							:edition-access="editionAccess"
+							:select-mode="selectMode"
+							@clicked="onItemClicked"
+							@move="onItemMove(bill)"
+							@duplicate-bill="$emit('duplicate-bill', $event)" />
+					</div>
+				</Transition>
+			</div>
+			<BillListItem
+				v-else
+				:bill="item.bill"
+				:project-id="projectId"
+				:index="nbBills - item.billPosition"
+				:nb-bills="nbBills"
+				:selected="isBillSelected(item.bill)"
+				:edition-access="editionAccess"
+				:select-mode="selectMode"
+				@clicked="onItemClicked"
+				@move="onItemMove(item.bill)"
+				@duplicate-bill="$emit('duplicate-bill', $event)" />
+		</template>
 		<InfiniteLoading v-if="!loading && bills.length > 30"
 			:identifier="projectId"
 			@infinite="infiniteHandler">
@@ -304,6 +344,7 @@ import MagnifyIcon from 'vue-material-design-icons/Magnify.vue'
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import AccountIcon from 'vue-material-design-icons/Account.vue'
 import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
+import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 
 import CospendIcon from './components/icons/CospendIcon.vue'
 
@@ -319,6 +360,7 @@ import NcTextField from '@nextcloud/vue/components/NcTextField'
 import PaymentModeMultiSelect from './components/PaymentModeMultiSelect.vue'
 import CategoryMultiSelect from './components/CategoryMultiSelect.vue'
 import BillListItem from './components/BillListItem.vue'
+import MemberAvatar from './components/avatar/MemberAvatar.vue'
 
 import InfiniteLoading from '@codog/vue3-infinite-loading'
 import { showSuccess, showError } from '@nextcloud/dialogs'
@@ -327,12 +369,14 @@ import debounce from 'debounce'
 import * as network from './network.js'
 import * as constants from './constants.js'
 import { strcmp } from './utils.js'
+import moment from '@nextcloud/moment'
 
 export default {
 	name: 'BillList',
 
 	components: {
 		BillListItem,
+		MemberAvatar,
 		CospendIcon,
 		NcAppContentList,
 		NcActions,
@@ -358,6 +402,7 @@ export default {
 		AccountPlusIcon,
 		AccountIcon,
 		ArrowLeftIcon,
+		ChevronRightIcon,
 	},
 
 	props: {
@@ -417,6 +462,7 @@ export default {
 			showRestorationConfirmation: false,
 			showClearTrashBinConfirmation: false,
 			billFilterQuery: '',
+			expandedGroups: [],
 		}
 	},
 
@@ -429,6 +475,42 @@ export default {
 		},
 		reverseBills() {
 			return this.bills.slice().reverse()
+		},
+		currencyName() {
+			return this.cospend.projects[this.projectId].currencyname
+		},
+		displayItems() {
+			const items = []
+			const billGroups = {}
+			for (let i = 0; i < this.bills.length; i++) {
+				const bill = this.bills[i]
+				const groupKey = bill.what ? bill.what + '|' + bill.date : ''
+				if (groupKey && billGroups[groupKey]) {
+					billGroups[groupKey].bills.push(bill)
+					billGroups[groupKey].total += parseFloat(bill.amount)
+				} else if (groupKey) {
+					billGroups[groupKey] = {
+						type: 'group',
+						id: groupKey,
+						what: bill.what,
+						date: bill.date,
+						bills: [bill],
+						total: parseFloat(bill.amount),
+						billPosition: i,
+					}
+				} else {
+					items.push({ type: 'bill', bill, billPosition: i })
+				}
+			}
+			for (const groupKey in billGroups) {
+				const group = billGroups[groupKey]
+				if (group.bills.length > 1) {
+					items.push(group)
+				} else {
+					items.push({ type: 'bill', bill: group.bills[0], billPosition: group.billPosition })
+				}
+			}
+			return items
 		},
 		oneActiveMember() {
 			let c = 0
@@ -609,6 +691,7 @@ export default {
 			this.selectMode = false
 			this.filterMode = false
 			this.selectedBillIds = []
+			this.expandedGroups = []
 			this.$refs.list?.$el.scrollTo(0, 0)
 		},
 	},
@@ -616,6 +699,31 @@ export default {
 	methods: {
 		infiniteHandler($state) {
 			this.$emit('load-more-bills', this.projectId, $state, this.trashbinEnabled)
+		},
+		toggleGroup(groupId) {
+			const idx = this.expandedGroups.indexOf(groupId)
+			if (idx === -1) {
+				this.expandedGroups.push(groupId)
+			} else {
+				this.expandedGroups.splice(idx, 1)
+			}
+		},
+		getGroupPayer(item) {
+			const bill = item.bills[0]
+			if (!bill) {
+				return { name: '*', color: '000000' }
+			}
+			const members = this.cospend.members[this.projectId]
+			return members[bill.payer_id] || { name: '*', color: '000000' }
+		},
+		formatDate(dateString) {
+			if (!dateString) {
+				return ''
+			}
+			return moment(dateString, 'YYYY-MM-DD').format('L')
+		},
+		formatCurrency(amount, currencyName) {
+			return parseFloat(amount).toFixed(2) + (currencyName ? ' ' + currencyName : '')
 		},
 		isBillSelected(bill) {
 			if (this.selectMode) {
@@ -853,5 +961,61 @@ export default {
 	opacity: 0;
 	height: 0px;
 	transform: scaleY(0);
+}
+
+.bill-group {
+	.bill-group-header {
+		display: flex;
+		align-items: center;
+		padding: 8px 12px;
+		background-color: var(--color-background-hover);
+		cursor: pointer;
+		gap: 8px;
+
+		.group-toggle {
+			margin-left: auto;
+			width: 32px;
+			min-width: 32px;
+		}
+
+		.rotated {
+			transform: rotate(90deg);
+		}
+
+		.group-avatar {
+			width: 40px;
+			min-width: 40px;
+		}
+
+		.group-content {
+			display: flex;
+			flex-direction: column;
+			gap: 2px;
+			flex: 1;
+			min-width: 0;
+
+			.group-title-row {
+				display: flex;
+				justify-content: space-between;
+				align-items: baseline;
+				gap: 8px;
+			}
+
+			.group-date {
+				color: var(--color-text-maxcontrast);
+				margin-left: auto;
+			}
+
+			.group-meta {
+				color: var(--color-text-maxcontrast);
+			}
+		}
+	}
+
+	.bill-group-items {
+		> :deep(.billitem) {
+			padding-left: 48px;
+		}
+	}
 }
 </style>

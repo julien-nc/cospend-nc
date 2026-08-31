@@ -831,22 +831,13 @@ class ApiController extends OCSController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function editSharedAccessLevel(string $projectId, int $shId, int $accessLevel): DataResponse {
-		$userAccessLevel = $this->localProjectService->getUserMaxAccessLevel($this->userId, $projectId);
-		$shareAccessLevel = $this->localProjectService->getShareAccessLevel($projectId, $shId);
-		// allow edition if user is at least participant and has greater or equal access level than target
-		// user can't give higher access level than their level (do not downgrade one)
-		if ($userAccessLevel >= $accessLevel && $userAccessLevel >= $shareAccessLevel) {
-			$result = $this->localProjectService->editShareAccessLevel($projectId, $shId, $accessLevel);
-			if (isset($result['success'])) {
-				return new DataResponse('OK');
-			} else {
-				return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-			}
+		$result = $this->localProjectService->editShareAccessLevel($projectId, $shId, $this->userId, $accessLevel);
+		if (isset($result['success'])) {
+			return new DataResponse('OK');
+		} elseif (isset($result['unauthorized'])) {
+			return new DataResponse(['message' => $result['message']], Http::STATUS_UNAUTHORIZED);
 		} else {
-			return new DataResponse(
-				['message' => $this->l->t('You are not allowed to give such shared access level')],
-				Http::STATUS_UNAUTHORIZED
-			);
+			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 		}
 	}
 

@@ -3261,20 +3261,27 @@ class LocalProjectService implements IProjectService {
 	 *
 	 * @param string $projectId
 	 * @param int $shId
+	 * @param string $fromUserId
 	 * @param int $accessLevel
 	 * @return array
 	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
-	public function editShareAccessLevel(string $projectId, int $shId, int $accessLevel): array {
+	public function editShareAccessLevel(string $projectId, int $shId, string $fromUserId, int $accessLevel): array {
 		try {
 			$share = $this->shareMapper->getProjectShareById($projectId, $shId);
-			$share->setAccessLevel($accessLevel);
-			$this->shareMapper->update($share);
-			return ['success' => true];
 		} catch (DoesNotExistException $e) {
 			return ['message' => $this->l10n->t('No such share')];
 		}
+
+		if (!$this->canGrantAccessLevel($fromUserId, $projectId, $accessLevel) ||
+			!$this->canGrantAccessLevel($fromUserId, $projectId, $share->getAccessLevel())) {
+			return ['unauthorized' => true, 'message' => $this->l10n->t('You are not authorized to edit this share access level')];
+		}
+
+		$share->setAccessLevel($accessLevel);
+		$this->shareMapper->update($share);
+		return ['success' => true];
 	}
 
 	/**

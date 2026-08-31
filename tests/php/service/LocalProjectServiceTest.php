@@ -821,13 +821,13 @@ class LocalProjectServiceTest extends TestCase {
 		$res = $this->localProjectService->editShareAccess('superproj', $shareLinkId, 'lala', 'passpass');
 		$this->assertTrue(isset($res['success']));
 		$this->assertFalse(isset($res['message']));
-		$res = $this->localProjectService->editShareAccessLevel('superproj', $shareLinkId, Application::ACCESS_LEVEL_ADMIN);
+		$res = $this->localProjectService->editShareAccessLevel('superproj', $shareLinkId, 'test', Application::ACCESS_LEVEL_ADMIN);
 		$this->assertTrue(isset($res['success']));
 		$this->assertFalse(isset($res['message']));
 		$res = $this->localProjectService->editShareAccess('superproj', -1, 'lala', 'passpass');
 		$this->assertFalse(isset($res['success']));
 		$this->assertTrue(isset($res['message']));
-		$res = $this->localProjectService->editShareAccessLevel('superproj', -1, Application::ACCESS_LEVEL_ADMIN);
+		$res = $this->localProjectService->editShareAccessLevel('superproj', -1, 'test', Application::ACCESS_LEVEL_ADMIN);
 		$this->assertFalse(isset($res['success']));
 		$this->assertTrue(isset($res['message']));
 		$res = $this->localProjectService->getPublicShares('superproj');

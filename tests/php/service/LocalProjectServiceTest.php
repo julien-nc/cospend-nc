@@ -812,19 +812,19 @@ class LocalProjectServiceTest extends TestCase {
 		$this->assertTrue(isset($res['id'], $res['token']));
 		$this->assertTrue($res['id'] > 0);
 		$shareLinkId2 = $res['id'];
-		$res = $this->localProjectService->deletePublicShare('superproj', $shareLinkId2);
+		$res = $this->localProjectService->deletePublicShare('superproj', $shareLinkId2, 'test');
 		$this->assertTrue(isset($res['success']));
-		$res = $this->localProjectService->deletePublicShare('superproj', -1);
+		$res = $this->localProjectService->deletePublicShare('superproj', -1, 'test');
 		$this->assertFalse(isset($res['success']));
 		$this->assertTrue(isset($res['message']));
 
-		$res = $this->localProjectService->editShareAccess('superproj', $shareLinkId, 'lala', 'passpass');
+		$res = $this->localProjectService->editShareAccess('superproj', $shareLinkId, 'test', 'lala', 'passpass');
 		$this->assertTrue(isset($res['success']));
 		$this->assertFalse(isset($res['message']));
 		$res = $this->localProjectService->editShareAccessLevel('superproj', $shareLinkId, 'test', Application::ACCESS_LEVEL_ADMIN);
 		$this->assertTrue(isset($res['success']));
 		$this->assertFalse(isset($res['message']));
-		$res = $this->localProjectService->editShareAccess('superproj', -1, 'lala', 'passpass');
+		$res = $this->localProjectService->editShareAccess('superproj', -1, 'test', 'lala', 'passpass');
 		$this->assertFalse(isset($res['success']));
 		$this->assertTrue(isset($res['message']));
 		$res = $this->localProjectService->editShareAccessLevel('superproj', -1, 'test', Application::ACCESS_LEVEL_ADMIN);

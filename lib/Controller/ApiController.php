@@ -861,21 +861,13 @@ class ApiController extends OCSController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function editSharedAccess(string $projectId, int $shId, ?string $label = null, ?string $password = null): DataResponse {
-		$userAccessLevel = $this->localProjectService->getUserMaxAccessLevel($this->userId, $projectId);
-		$shareAccessLevel = $this->localProjectService->getShareAccessLevel($projectId, $shId);
-		// allow edition if user is at least participant and has greater or equal access level than target
-		if ($userAccessLevel >= $shareAccessLevel) {
-			$result = $this->localProjectService->editShareAccess($projectId, $shId, $label, $password);
-			if (isset($result['success'])) {
-				return new DataResponse('OK');
-			}
-			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-		} else {
-			return new DataResponse(
-				['message' => $this->l->t('You are not allowed to edit this shared access')],
-				Http::STATUS_UNAUTHORIZED
-			);
+		$result = $this->localProjectService->editShareAccess($projectId, $shId, $this->userId, $label, $password);
+		if (isset($result['success'])) {
+			return new DataResponse('OK');
+		} elseif (isset($result['unauthorized'])) {
+			return new DataResponse(['message' => $result['message']], Http::STATUS_UNAUTHORIZED);
 		}
+		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -1229,20 +1221,12 @@ class ApiController extends OCSController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function deleteFederatedShare(string $projectId, int $shId): DataResponse {
-		// allow to delete share if user perms are at least participant AND if this share perms are <= user perms
-		$userAccessLevel = $this->localProjectService->getUserMaxAccessLevel($this->userId, $projectId);
-		$shareAccessLevel = $this->localProjectService->getShareAccessLevel($projectId, $shId);
-		if ($userAccessLevel < $shareAccessLevel) {
-			return new DataResponse(
-				['message' => $this->l->t('You are not allowed to remove this shared access')],
-				Http::STATUS_UNAUTHORIZED
-			);
-		}
 		try {
-			$this->localProjectService->deleteFederatedShare($projectId, $shId);
+			$this->localProjectService->deleteFederatedShare($projectId, $shId, $this->userId);
 			return new DataResponse('');
 		} catch (CospendBasicException $e) {
-			return new DataResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+			$status = $e->getCode() === Http::STATUS_UNAUTHORIZED ? Http::STATUS_UNAUTHORIZED : Http::STATUS_BAD_REQUEST;
+			return new DataResponse(['message' => $e->getMessage()], $status);
 		}
 	}
 
@@ -1294,21 +1278,13 @@ class ApiController extends OCSController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function deleteUserShare(string $projectId, int $shId): DataResponse {
-		// allow to delete share if user perms are at least participant AND if this share perms are <= user perms
-		$userAccessLevel = $this->localProjectService->getUserMaxAccessLevel($this->userId, $projectId);
-		$shareAccessLevel = $this->localProjectService->getShareAccessLevel($projectId, $shId);
-		if ($userAccessLevel >= $shareAccessLevel) {
-			$result = $this->localProjectService->deleteUserShare($projectId, $shId, $this->userId);
-			if (isset($result['success'])) {
-				return new DataResponse('');
-			}
-			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-		} else {
-			return new DataResponse(
-				['message' => $this->l->t('You are not allowed to remove this shared access')],
-				Http::STATUS_UNAUTHORIZED
-			);
+		$result = $this->localProjectService->deleteUserShare($projectId, $shId, $this->userId);
+		if (isset($result['success'])) {
+			return new DataResponse('');
+		} elseif (isset($result['unauthorized'])) {
+			return new DataResponse(['message' => $result['message']], Http::STATUS_UNAUTHORIZED);
 		}
+		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -1353,20 +1329,13 @@ class ApiController extends OCSController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function deletePublicShare(string $projectId, int $shId): DataResponse {
-		$userAccessLevel = $this->localProjectService->getUserMaxAccessLevel($this->userId, $projectId);
-		$shareAccessLevel = $this->localProjectService->getShareAccessLevel($projectId, $shId);
-		if ($userAccessLevel >= $shareAccessLevel) {
-			$result = $this->localProjectService->deletePublicShare($projectId, $shId);
-			if (isset($result['success'])) {
-				return new DataResponse('');
-			}
-			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-		} else {
-			return new DataResponse(
-				['message' => $this->l->t('You are not allowed to remove this shared access')],
-				Http::STATUS_UNAUTHORIZED
-			);
+		$result = $this->localProjectService->deletePublicShare($projectId, $shId, $this->userId);
+		if (isset($result['success'])) {
+			return new DataResponse('');
+		} elseif (isset($result['unauthorized'])) {
+			return new DataResponse(['message' => $result['message']], Http::STATUS_UNAUTHORIZED);
 		}
+		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -1410,21 +1379,13 @@ class ApiController extends OCSController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function deleteGroupShare(string $projectId, int $shId): DataResponse {
-		// allow to delete share if user perms are at least participant AND if this share perms are <= user perms
-		$userAccessLevel = $this->localProjectService->getUserMaxAccessLevel($this->userId, $projectId);
-		$shareAccessLevel = $this->localProjectService->getShareAccessLevel($projectId, $shId);
-		if ($userAccessLevel >= $shareAccessLevel) {
-			$result = $this->localProjectService->deleteGroupShare($projectId, $shId, $this->userId);
-			if (isset($result['success'])) {
-				return new DataResponse('');
-			}
-			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-		} else {
-			return new DataResponse(
-				['message' => $this->l->t('You are not allowed to remove this shared access')],
-				Http::STATUS_UNAUTHORIZED
-			);
+		$result = $this->localProjectService->deleteGroupShare($projectId, $shId, $this->userId);
+		if (isset($result['success'])) {
+			return new DataResponse('');
+		} elseif (isset($result['unauthorized'])) {
+			return new DataResponse(['message' => $result['message']], Http::STATUS_UNAUTHORIZED);
 		}
+		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -1468,21 +1429,13 @@ class ApiController extends OCSController {
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_PARTICIPANT)]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Sharing'])]
 	public function deleteCircleShare(string $projectId, int $shId): DataResponse {
-		// allow to delete share if user perms are at least participant AND if this share perms are <= user perms
-		$userAccessLevel = $this->localProjectService->getUserMaxAccessLevel($this->userId, $projectId);
-		$shareAccessLevel = $this->localProjectService->getShareAccessLevel($projectId, $shId);
-		if ($userAccessLevel >= $shareAccessLevel) {
-			$result = $this->localProjectService->deleteCircleShare($projectId, $shId, $this->userId);
-			if (isset($result['success'])) {
-				return new DataResponse('');
-			}
-			return new DataResponse($result, Http::STATUS_BAD_REQUEST);
-		} else {
-			return new DataResponse(
-				['message' => $this->l->t('You are not allowed to remove this shared access')],
-				Http::STATUS_UNAUTHORIZED
-			);
+		$result = $this->localProjectService->deleteCircleShare($projectId, $shId, $this->userId);
+		if (isset($result['success'])) {
+			return new DataResponse('');
+		} elseif (isset($result['unauthorized'])) {
+			return new DataResponse(['message' => $result['message']], Http::STATUS_UNAUTHORIZED);
 		}
+		return new DataResponse($result, Http::STATUS_BAD_REQUEST);
 	}
 
 	/**

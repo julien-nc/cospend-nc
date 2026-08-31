@@ -3073,7 +3073,7 @@ class LocalProjectService implements IProjectService {
 	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
-	public function deleteFederatedShare(string $projectId, int $shId): void {
+	public function deleteFederatedShare(string $projectId, int $shId, string $fromUserId): void {
 		try {
 			$share = $this->shareMapper->getShareById($shId);
 		} catch (DoesNotExistException $e) {
@@ -3086,6 +3086,10 @@ class LocalProjectService implements IProjectService {
 
 		if ($share->getType() !== Share::TYPE_FEDERATION) {
 			throw new CospendBasicException('Not a federated share', Http::STATUS_BAD_REQUEST);
+		}
+
+		if (!$this->canGrantAccessLevel($fromUserId, $projectId, $share->getAccessLevel())) {
+			throw new CospendBasicException('You are not authorized to remove this shared access', Http::STATUS_UNAUTHORIZED);
 		}
 
 		$cloudId = $this->cloudIdManager->resolveCloudId($share->getUserCloudId());
@@ -3295,23 +3299,28 @@ class LocalProjectService implements IProjectService {
 	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
-	public function editShareAccess(string $projectId, int $shId, ?string $label = null, ?string $password = null): array {
+	public function editShareAccess(string $projectId, int $shId, string $fromUserId, ?string $label = null, ?string $password = null): array {
 		if (is_null($label) && is_null($password)) {
 			return ['message' => $this->l10n->t('Invalid values')];
 		}
 		try {
 			$share = $this->shareMapper->getProjectShareById($projectId, $shId);
-			if ($label !== null) {
-				$share->setLabel($label === '' ? null : $label);
-			}
-			if ($password !== null) {
-				$share->setPassword($password === '' ? null : $password);
-			}
-			$this->shareMapper->update($share);
-			return ['success' => true];
 		} catch (DoesNotExistException $e) {
 			return ['message' => $this->l10n->t('No such share')];
 		}
+
+		if (!$this->canGrantAccessLevel($fromUserId, $projectId, $share->getAccessLevel())) {
+			return ['unauthorized' => true, 'message' => $this->l10n->t('You are not authorized to edit this shared access')];
+		}
+
+		if ($label !== null) {
+			$share->setLabel($label === '' ? null : $label);
+		}
+		if ($password !== null) {
+			$share->setPassword($password === '' ? null : $password);
+		}
+		$this->shareMapper->update($share);
+		return ['success' => true];
 	}
 
 	/**
@@ -3319,19 +3328,24 @@ class LocalProjectService implements IProjectService {
 	 *
 	 * @param string $projectId
 	 * @param int $shId
-	 * @param string|null $fromUserId
+	 * @param string $fromUserId
 	 * @return array
 	 * @throws CospendBasicException
 	 * @throws DoesNotExistException
 	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
-	public function deleteUserShare(string $projectId, int $shId, ?string $fromUserId = null): array {
+	public function deleteUserShare(string $projectId, int $shId, string $fromUserId): array {
 		try {
 			$share = $this->shareMapper->getProjectShareById($projectId, $shId, Share::TYPE_USER);
 		} catch (DoesNotExistException $e) {
 			return ['message' => $this->l10n->t('No such share')];
 		}
+
+		if (!$this->canGrantAccessLevel($fromUserId, $projectId, $share->getAccessLevel())) {
+			return ['unauthorized' => true, 'message' => $this->l10n->t('You are not authorized to remove this shared access')];
+		}
+
 		$dbUserId = $share->getUserId();
 
 		// produce the activity before deleting the share to make sure the user who loses access is affected
@@ -3350,33 +3364,31 @@ class LocalProjectService implements IProjectService {
 		$this->shareMapper->delete($share);
 
 		// SEND NOTIFICATION
-		if (!is_null($fromUserId)) {
-			$projectInfo = $this->getProjectInfo($projectId);
+		$projectInfo = $this->getProjectInfo($projectId);
 
-			$manager = $this->notificationManager;
-			$notification = $manager->createNotification();
+		$manager = $this->notificationManager;
+		$notification = $manager->createNotification();
 
-			/*
-			$acceptAction = $notification->createAction();
-			$acceptAction->setLabel('accept')
-				->setLink($this->urlGenerator->linkToRouteAbsolute('cospend.page.index'), 'GET');
+		/*
+		$acceptAction = $notification->createAction();
+		$acceptAction->setLabel('accept')
+			->setLink($this->urlGenerator->linkToRouteAbsolute('cospend.page.index'), 'GET');
 
-			$declineAction = $notification->createAction();
-			$declineAction->setLabel('decline')
-				->setLink($this->urlGenerator->linkToRouteAbsolute('cospend.page.index'), 'GET');
-			*/
+		$declineAction = $notification->createAction();
+		$declineAction->setLabel('decline')
+			->setLink($this->urlGenerator->linkToRouteAbsolute('cospend.page.index'), 'GET');
+		*/
 
-			$notification->setApp(Application::APP_ID)
-				->setUser($dbUserId)
-				->setDateTime(new DateTime())
-				->setObject('deleteusershare', $projectId)
-				->setSubject('delete_user_share', [$fromUserId, $projectInfo['name']])
-				// ->addAction($acceptAction)
-				// ->addAction($declineAction)
-			;
+		$notification->setApp(Application::APP_ID)
+			->setUser($dbUserId)
+			->setDateTime(new DateTime())
+			->setObject('deleteusershare', $projectId)
+			->setSubject('delete_user_share', [$fromUserId, $projectInfo['name']])
+			// ->addAction($acceptAction)
+			// ->addAction($declineAction)
+		;
 
-			$manager->notify($notification);
-		}
+		$manager->notify($notification);
 
 		return ['success' => true];
 	}
@@ -3386,16 +3398,22 @@ class LocalProjectService implements IProjectService {
 	 *
 	 * @param string $projectId
 	 * @param int $shId
+	 * @param string $fromUserId
 	 * @return array
 	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
-	public function deletePublicShare(string $projectId, int $shId): array {
+	public function deletePublicShare(string $projectId, int $shId, string $fromUserId): array {
 		try {
 			$share = $this->shareMapper->getProjectShareById($projectId, $shId, Share::TYPE_PUBLIC_LINK);
 		} catch (DoesNotExistException $e) {
 			return ['message' => $this->l10n->t('No such share')];
 		}
+
+		if (!$this->canGrantAccessLevel($fromUserId, $projectId, $share->getAccessLevel())) {
+			return ['unauthorized' => true, 'message' => $this->l10n->t('You are not authorized to remove this shared access')];
+		}
+
 		$this->shareMapper->delete($share);
 
 		//// activity
@@ -3490,17 +3508,22 @@ class LocalProjectService implements IProjectService {
 	 *
 	 * @param string $projectId
 	 * @param int $shId
-	 * @param string|null $fromUserId
+	 * @param string $fromUserId
 	 * @return array
 	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
-	public function deleteGroupShare(string $projectId, int $shId, ?string $fromUserId = null): array {
+	public function deleteGroupShare(string $projectId, int $shId, string $fromUserId): array {
 		try {
 			$share = $this->shareMapper->getProjectShareById($projectId, $shId, Share::TYPE_GROUP);
 		} catch (DoesNotExistException $e) {
 			return ['message' => $this->l10n->t('No such share')];
 		}
+
+		if (!$this->canGrantAccessLevel($fromUserId, $projectId, $share->getAccessLevel())) {
+			return ['unauthorized' => true, 'message' => $this->l10n->t('You are not authorized to remove this shared access')];
+		}
+
 		$dbGroupId = $share->getUserId();
 
 		// activity
@@ -3599,34 +3622,39 @@ class LocalProjectService implements IProjectService {
 	 *
 	 * @param string $projectId
 	 * @param int $shId
-	 * @param string|null $fromUserId
+	 * @param string $fromUserId
 	 * @return array
 	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
-	public function deleteCircleShare(string $projectId, int $shId, ?string $fromUserId = null): array {
+	public function deleteCircleShare(string $projectId, int $shId, string $fromUserId): array {
 		try {
 			$share = $this->shareMapper->getProjectShareById($projectId, $shId, Share::TYPE_CIRCLE);
-			$dbCircleId = $share->getUserId();
-
-			// activity
-			$projectObj = $this->projectMapper->find($projectId);
-			$this->activityManager->triggerEvent(
-				ActivityManager::COSPEND_OBJECT_PROJECT,
-				$projectObj,
-				ActivityManager::SUBJECT_PROJECT_UNSHARE,
-				[
-					'author' => $this->userSession->getUser()?->getUID(),
-					'who' => $dbCircleId,
-					'type' => Application::SHARE_TYPE_CIRCLE,
-				],
-			);
-
-			$this->shareMapper->delete($share);
-
-			return ['success' => true];
 		} catch (DoesNotExistException $e) {
 			return ['message' => $this->l10n->t('No such share')];
 		}
+
+		if (!$this->canGrantAccessLevel($fromUserId, $projectId, $share->getAccessLevel())) {
+			return ['unauthorized' => true, 'message' => $this->l10n->t('You are not authorized to remove this shared access')];
+		}
+
+		$dbCircleId = $share->getUserId();
+
+		// activity
+		$projectObj = $this->projectMapper->find($projectId);
+		$this->activityManager->triggerEvent(
+			ActivityManager::COSPEND_OBJECT_PROJECT,
+			$projectObj,
+			ActivityManager::SUBJECT_PROJECT_UNSHARE,
+			[
+				'author' => $this->userSession->getUser()?->getUID(),
+				'who' => $dbCircleId,
+				'type' => Application::SHARE_TYPE_CIRCLE,
+			],
+		);
+
+		$this->shareMapper->delete($share);
+
+		return ['success' => true];
 	}
 }

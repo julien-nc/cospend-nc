@@ -1338,7 +1338,9 @@ class ApiController extends OCSController {
 	public function createPublicShare(
 		string $projectId, ?string $label = null, ?string $password = null, int $accessLevel = 2,
 	): DataResponse {
-		$result = $this->localProjectService->createPublicShare($projectId, $label, $password, $accessLevel);
+		$result = $this->localProjectService->createPublicShare(
+			$projectId, $this->userId, $label, $password, $accessLevel,
+		);
 		return new DataResponse($result);
 	}
 

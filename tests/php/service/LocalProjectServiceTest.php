@@ -803,12 +803,12 @@ class LocalProjectServiceTest extends TestCase {
 		}
 
 		// share link
-		$res = $this->localProjectService->createPublicShare('superproj');
+		$res = $this->localProjectService->createPublicShare('superproj', 'test');
 		$this->assertTrue(isset($res['token'], $res['id']));
 		$this->assertTrue($res['id'] > 0);
 		$shareLinkId = $res['id'];
 		$shareLinkToken = $res['token'];
-		$res = $this->localProjectService->createPublicShare('superproj');
+		$res = $this->localProjectService->createPublicShare('superproj', 'test');
 		$this->assertTrue(isset($res['id'], $res['token']));
 		$this->assertTrue($res['id'] > 0);
 		$shareLinkId2 = $res['id'];
@@ -1793,7 +1793,7 @@ class LocalProjectServiceTest extends TestCase {
 		$projectId = 'tsl';
 		$this->createAndPopulateProject($projectId);
 
-		$result = $this->localProjectService->createPublicShare($projectId);
+		$result = $this->localProjectService->createPublicShare($projectId, 'test');
 		$this->assertTrue(isset($result['userid']));
 		$this->assertTrue(isset($result['id']));
 		$token = $result['userid'];

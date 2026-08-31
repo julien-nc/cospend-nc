@@ -248,6 +248,10 @@ class LocalProjectService implements IProjectService {
 		return $userMaxAccessLevel;
 	}
 
+	public function canGrantAccessLevel(string $userId, string $projectId, int $accessLevel): bool {
+		return $this->getUserMaxAccessLevel($userId, $projectId) >= $accessLevel;
+	}
+
 	/**
 	 * Get access level of a shared access
 	 *
@@ -3021,8 +3025,8 @@ class LocalProjectService implements IProjectService {
 		} catch (DoesNotExistException $e) {
 		}
 
-		$userMaxAccessLevel = $this->getUserMaxAccessLevel($fromUserId, $projectId);
-		if ($userMaxAccessLevel < $accessLevel) {
+		if (!$this->canGrantAccessLevel($fromUserId, $projectId, $accessLevel)) {
+			$userMaxAccessLevel = $this->getUserMaxAccessLevel($fromUserId, $projectId);
 			throw new CospendBasicException(
 				'This user is not authorized to create a federated share with such access level. Max (' . $userMaxAccessLevel . ')',
 				Http::STATUS_BAD_REQUEST,
@@ -3131,7 +3135,7 @@ class LocalProjectService implements IProjectService {
 		} catch (DoesNotExistException $e) {
 		}
 
-		if ($this->getUserMaxAccessLevel($fromUserId, $projectId) < $accesslevel) {
+		if (!$this->canGrantAccessLevel($fromUserId, $projectId, $accesslevel)) {
 			return ['message' => $this->l10n->t('You are not authorized to give such access level')];
 		}
 
@@ -3190,15 +3194,20 @@ class LocalProjectService implements IProjectService {
 	 * Add public share access (public link with token)
 	 *
 	 * @param string $projectId
+	 * @param string $fromUserId
 	 * @param string|null $label
 	 * @param string|null $password
-	 * @param int $accesslevel
+	 * @param int $accessLevel
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
 	public function createPublicShare(
-		string $projectId, ?string $label = null, ?string $password = null, int $accesslevel = Application::ACCESS_LEVEL_PARTICIPANT,
+		string $projectId, string $fromUserId,
+		?string $label = null, ?string $password = null, int $accessLevel = Application::ACCESS_LEVEL_PARTICIPANT,
 	): array {
+		if (!$this->canGrantAccessLevel($fromUserId, $projectId, $accessLevel)) {
+			return ['message' => $this->l10n->t('You are not authorized to give such access level')];
+		}
 		$shareToken = $this->secureRandom->generate(
 			FederationManager::TOKEN_LENGTH,
 			ISecureRandom::CHAR_HUMAN_READABLE
@@ -3207,7 +3216,7 @@ class LocalProjectService implements IProjectService {
 		$share->setProjectId($projectId);
 		$share->setUserId($shareToken);
 		$share->setType(Share::TYPE_PUBLIC_LINK);
-		$share->setAccessLevel($accesslevel);
+		$share->setAccessLevel($accessLevel);
 		$share->setLabel($label);
 		$share->setPassword($password);
 		$insertedShare = $this->shareMapper->insert($share);
@@ -3442,6 +3451,10 @@ class LocalProjectService implements IProjectService {
 		} catch (DoesNotExistException $e) {
 		}
 
+		if (!$this->canGrantAccessLevel($fromUserId, $projectId, $accessLevel)) {
+			return ['message' => $this->l10n->t('You are not authorized to give such access level')];
+		}
+
 		$share = new Share();
 		$share->setProjectId($projectId);
 		$share->setUserId($groupId);
@@ -3541,6 +3554,11 @@ class LocalProjectService implements IProjectService {
 			$circlesManager->stopSession();
 			return ['message' => $this->l10n->t('Already shared with this circle')];
 		} catch (DoesNotExistException $e) {
+		}
+
+		if (!$this->canGrantAccessLevel($fromUserId, $projectId, $accesslevel)) {
+			$circlesManager->stopSession();
+			return ['message' => $this->l10n->t('You are not authorized to give such access level')];
 		}
 
 		$share = new Share();

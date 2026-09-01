@@ -3278,8 +3278,8 @@ class LocalProjectService implements IProjectService {
 			return ['message' => $this->l10n->t('No such share')];
 		}
 
-		if (!$this->canGrantAccessLevel($fromUserId, $projectId, $accessLevel) ||
-			!$this->canGrantAccessLevel($fromUserId, $projectId, $share->getAccessLevel())) {
+		if (!$this->canGrantAccessLevel($fromUserId, $projectId, $accessLevel)
+			|| !$this->canGrantAccessLevel($fromUserId, $projectId, $share->getAccessLevel())) {
 			return ['unauthorized' => true, 'message' => $this->l10n->t('You are not authorized to edit this share access level')];
 		}
 

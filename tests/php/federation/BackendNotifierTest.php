@@ -22,10 +22,12 @@ use OCP\Http\Client\IResponse;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
+#[AllowMockObjectsWithoutExpectations]
 class BackendNotifierTest extends TestCase {
 
 	private ICloudFederationFactory&MockObject $cloudFederationFactory;

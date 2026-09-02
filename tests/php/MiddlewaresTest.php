@@ -36,9 +36,11 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Server;
 use OCP\Share\IManager as IShareManager;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
+#[AllowMockObjectsWithoutExpectations]
 class MiddlewaresTest extends TestCase {
 
 	private ApiController $apiController;

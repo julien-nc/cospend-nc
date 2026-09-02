@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.1.3 – 2026-09-02
+
+### Changed
+
+- Improve PHPUnit setup to display notices and keep tests compatible with newer PHPUnit mock expectations @julien-nc
+
+### Fixed
+
+- Preserve numerical project ID strings instead of casting them to integers in project handling @julien-nc [#414](https://github.com/julien-nc/cospend-nc/issues/414)
+
 ## 4.1.2 – 2026-09-01
 
 ### Added

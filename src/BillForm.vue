@@ -67,6 +67,7 @@
 						@trailing-button-click="myBill.what = ''; onBillEdited(null, false)"
 						@update:model-value="onBillEdited"
 						@keyup.enter="onBillEdited(null, false)"
+						@blur="onWhatBlur"
 						@focus="$refs.what.select()" />
 				</div>
 				<div v-if="!pageIsPublic"
@@ -208,6 +209,14 @@
 						:clearable="false"
 						@search="categoryQueryChanged"
 						@update:model-value="categorySelected" />
+				</div>
+				<div v-if="showSaveMappingCheckbox" class="bill-field save-mapping-row">
+					<NcCheckboxRadioSwitch
+						v-model="saveMappingChecked"
+						class="save-mapping-checkbox"
+						:disabled="!saveMappingExistingMapping && myBill.categoryid === 0">
+						{{ saveMappingLabel }}
+					</NcCheckboxRadioSwitch>
 				</div>
 				<div class="bill-field bill-comment">
 					<CommentTextIcon
@@ -580,7 +589,7 @@ import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import MemberAvatar from './components/avatar/MemberAvatar.vue'
 import MemberMultiSelect from './components/MemberMultiSelect.vue'
 
-import { emit } from '@nextcloud/event-bus'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { getLocale } from '@nextcloud/l10n'
@@ -592,10 +601,13 @@ import {
 } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
 import {
-	delay, getCategory, getPaymentMode, strcmp, evalAlgebricFormula,
+	delay, getCategory, getPaymentMode, strcmp, evalAlgebricFormula, decodeHtmlEntities, getErrorMessage,
 } from './utils.js'
 import * as network from './network.js'
 import * as constants from './constants.js'
+
+let cachedMappings = null
+let cachedProjectId = null
 
 export default {
 	name: 'BillForm',
@@ -684,6 +696,9 @@ export default {
 			showConvertInfo: false,
 			showAmountInfo: false,
 			showRepeatInfo: false,
+			autoMappings: [],
+			userTouchedCategory: false,
+			saveMappingChecked: false,
 		}
 	},
 
@@ -778,6 +793,43 @@ export default {
 				})
 			}
 			return categoryItems
+		},
+		showSaveMappingCheckbox() {
+			if (!this.userTouchedCategory || this.pageIsPublic) {
+				return false
+			}
+			const title = (this.myBill.what || '').trim()
+			if (title === '' || this.myBill.categoryid === 0) {
+				return false
+			}
+			return this.maintenerAccess && this.project.auto_categorization === '1' && OCA.Cospend.state.auto_categorization_enabled
+		},
+		autoMappingsMap() {
+			const map = new Map()
+			for (const m of this.autoMappings) {
+				map.set(m.bill_title.toLowerCase(), m)
+			}
+			return map
+		},
+		saveMappingExistingMapping() {
+			const title = (this.myBill.what || '').trim().toLowerCase()
+			if (!title) {
+				return null
+			}
+			return this.autoMappingsMap.get(title) || null
+		},
+		saveMappingLabel() {
+			const title = (this.myBill.what || '').trim()
+			const cat = getCategory(this.projectId, this.myBill.categoryid)
+			const catName = (cat.icon || '') + ' ' + cat.name
+			const existing = this.saveMappingExistingMapping
+			if (existing) {
+				const existingCat = getCategory(this.projectId, existing.category_id)
+				const existingCatName = (existingCat.icon || '') + ' ' + existingCat.name
+				return decodeHtmlEntities(t('cospend', 'Update existing mapping: {title} → {category}', { title, category: existingCatName })
+					+ ' — ' + t('cospend', 'Always assign {category}', { category: catName }))
+			}
+			return decodeHtmlEntities(t('cospend', 'Always assign {category} to bills titled "{title}"', { category: catName, title }))
 		},
 		useTime() {
 			return this.cospend.useTime
@@ -1039,6 +1091,14 @@ export default {
 			// reset formula when changing bill
 			this.currentFormula = null
 			this.newBillMode = 'normal'
+			this.userTouchedCategory = false
+		},
+		'myBill.what': function() {
+			this.userTouchedCategory = false
+			this.saveMappingChecked = false
+		},
+		'myBill.categoryid': function() {
+			this.saveMappingChecked = false
 		},
 		bill() {
 			this.myBill = {
@@ -1056,6 +1116,17 @@ export default {
 
 	mounted() {
 		this.$refs.what.focus()
+		this.fetchAutoMappings()
+		// mappings edited in the project settings should be picked up here
+		this._onMappingsChanged = () => {
+			cachedMappings = null
+			this.fetchAutoMappings()
+		}
+		subscribe('auto-category-mappings-changed', this._onMappingsChanged)
+	},
+
+	beforeUnmount() {
+		unsubscribe('auto-category-mappings-changed', this._onMappingsChanged)
 	},
 
 	methods: {
@@ -1117,6 +1188,7 @@ export default {
 			this.categoryQuery = query
 		},
 		categorySelected(selected) {
+			this.userTouchedCategory = true
 			if (!selected.isNewCategory) {
 				this.myBill.categoryid = selected.id
 				this.onBillEdited(null, false)
@@ -1240,6 +1312,9 @@ export default {
 				network.editBill(this.projectId, this.myBill).then((response) => {
 					// to update balances
 					this.$emit('bill-saved', this.bill, this.myBill)
+					if (this.saveMappingChecked) {
+						this.persistSaveMapping()
+					}
 					showSuccess(t('cospend', 'Bill saved'))
 				}).catch((error) => {
 					console.debug(error)
@@ -1533,6 +1608,9 @@ export default {
 			this.billLoading = true
 			network.createBill(this.projectId, req).then((response) => {
 				this.createBillSuccess(response.data.ocs.data, billToCreate, mode)
+				if (this.saveMappingChecked) {
+					this.persistSaveMapping()
+				}
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to create bill')
@@ -1563,6 +1641,45 @@ export default {
 		},
 		createBillDone() {
 			this.billLoading = false
+		},
+		persistSaveMapping() {
+			const title = (this.myBill.what || '').trim()
+			const catId = this.myBill.categoryid
+			if (!title || !catId) {
+				return
+			}
+			const existing = this.saveMappingExistingMapping
+			if (existing) {
+				network.editAutoCategoryMapping(this.projectId, existing.id, title, catId)
+					.then(() => {
+						existing.category_id = catId
+						cachedMappings = null
+						showSuccess(t('cospend', 'Mapping updated'))
+						emit('auto-category-mappings-changed')
+					})
+					.catch((error) => {
+						console.error('Failed to update mapping', error)
+						showError(getErrorMessage(error, t('cospend', 'Failed to update mapping')))
+					})
+			} else {
+				network.createAutoCategoryMapping(this.projectId, title, catId)
+					.then((response) => {
+						this.autoMappings.push({
+							id: response.data.ocs.data,
+							project_id: this.projectId,
+							bill_title: title,
+							category_id: catId,
+						})
+						cachedMappings = null
+						showSuccess(t('cospend', 'Mapping added'))
+						emit('auto-category-mappings-changed')
+					})
+					.catch((error) => {
+						console.error('Failed to create mapping', error)
+						showError(getErrorMessage(error, t('cospend', 'Failed to add mapping')))
+					})
+			}
+			this.saveMappingChecked = false
 		},
 		getPersonalParts() {
 			const result = {}
@@ -1689,6 +1806,47 @@ export default {
 					t('cospend', 'Failed to generate share link to file')
 					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
 				)
+			})
+		},
+		onWhatBlur() {
+			if (this.project.auto_categorization !== '1') {
+				return
+			}
+			if (!OCA.Cospend.state.auto_categorization_enabled) {
+				return
+			}
+			if (this.userTouchedCategory) {
+				return
+			}
+			if (this.myBill.categoryid !== 0) {
+				return
+			}
+			const title = (this.myBill.what || '').trim().toLowerCase()
+			if (title === '') {
+				return
+			}
+			const match = this.autoMappings.find((m) => m.bill_title.toLowerCase() === title)
+			if (match && match.category_id) {
+				this.myBill.categoryid = match.category_id
+				this.onBillEdited(null, false)
+			}
+		},
+		fetchAutoMappings() {
+			// there is no public API for mappings, public link sessions
+			// still get server-side auto-categorisation on bill creation
+			if (this.pageIsPublic || !OCA.Cospend.state.auto_categorization_enabled) {
+				return
+			}
+			if (cachedProjectId === this.projectId && cachedMappings) {
+				this.autoMappings = cachedMappings
+				return
+			}
+			network.getAutoCategoryMappings(this.projectId).then((response) => {
+				this.autoMappings = response.data.ocs.data
+				cachedMappings = response.data.ocs.data
+				cachedProjectId = this.projectId
+			}).catch((error) => {
+				console.error('Failed to fetch auto-category mappings', error)
 			})
 		},
 		onDuplicate() {
@@ -1835,6 +1993,10 @@ button {
 	display: flex;
 	justify-content: end;
 	margin: 8px 0 8px 0;
+}
+
+.save-mapping-row {
+	margin-left: 28px;
 }
 
 .bill-field {

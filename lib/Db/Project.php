@@ -32,6 +32,8 @@ use OCP\DB\Types;
  * @method \void setCurrencyName(\string|\null $currencyName)
  * @method \int|\null getArchivedTs()
  * @method \void setArchivedTs(\int|\null $archivedTs)
+ * @method \string getAutoCategorization()
+ * @method \void setAutoCategorization(\string $autoCategorization)
  */
 class Project extends Entity implements \JsonSerializable {
 
@@ -44,6 +46,7 @@ class Project extends Entity implements \JsonSerializable {
 	protected $paymentModeSort;
 	protected $currencyName;
 	protected $archivedTs;
+	protected $autoCategorization;
 
 	public function __construct() {
 		$this->addType('id', Types::STRING);
@@ -56,6 +59,7 @@ class Project extends Entity implements \JsonSerializable {
 		$this->addType('paymentModeSort', Types::STRING);
 		$this->addType('currencyName', Types::STRING);
 		$this->addType('archivedTs', Types::INTEGER);
+		$this->addType('autoCategorization', Types::STRING);
 	}
 
 	#[\ReturnTypeWillChange]
@@ -72,6 +76,7 @@ class Project extends Entity implements \JsonSerializable {
 			'paymentmodesort' => $this->getPaymentModeSort(),
 			'currencyname' => $this->getCurrencyName(),
 			'archived_ts' => $this->getArchivedTs(),
+			'auto_categorization' => $this->getAutoCategorization(),
 		];
 	}
 }

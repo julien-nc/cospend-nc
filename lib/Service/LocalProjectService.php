@@ -15,6 +15,8 @@ use DateTimeZone;
 use Exception;
 use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\AppInfo\Application;
+use OCA\Cospend\Db\AutoCategoryMapping;
+use OCA\Cospend\Db\AutoCategoryMappingMapper;
 use OCA\Cospend\Db\Bill;
 use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Db\BillOwer;
@@ -79,6 +81,7 @@ class LocalProjectService implements IProjectService {
 		private PaymentModeMapper $paymentModeMapper,
 		private CategoryMapper $categoryMapper,
 		private BillOwerMapper $billOwerMapper,
+		private AutoCategoryMappingMapper $autoCategoryMappingMapper,
 		private BackendNotifier $backendNotifier,
 		private ICloudIdManager $cloudIdManager,
 		private ActivityManager $activityManager,
@@ -320,6 +323,7 @@ class LocalProjectService implements IProjectService {
 			'cospend_currencies' => 'project_id',
 			'cospend_categories' => 'project_id',
 			'cospend_paymentmodes' => 'project_id',
+			'cospend_auto_category_mappings' => 'project_id',
 		];
 
 		foreach ($associatedTableNames as $tableName => $projectIdColumn) {
@@ -925,7 +929,7 @@ class LocalProjectService implements IProjectService {
 		?float $amount, ?string $repeat, ?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null, int $repeatAllActive = 0, ?string $repeatUntil = null,
 		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null,
-		int $deleted = 0, bool $produceActivity = false,
+		int $deleted = 0, bool $produceActivity = false, bool $autoCategorise = true,
 	): int {
 		// if we don't have the payment modes, get them now
 		if ($this->paymentModes === null) {
@@ -1019,6 +1023,15 @@ class LocalProjectService implements IProjectService {
 		$newBill->setRepeatAllActive($repeatAllActive);
 		$newBill->setRepeatUntil($repeatUntil);
 		$newBill->setRepeatFrequency($repeatFreq ?? 1);
+		// auto-categorisation: if no category provided and mapping exists, assign category
+		if ($autoCategorise && ($categoryId === null || $categoryId === 0) && $what !== '') {
+			if ($this->isAutoCategorizationEnabled($projectId)) {
+				$mappedCategoryId = $this->autoCategorizeBill($projectId, $what);
+				if ($mappedCategoryId !== null) {
+					$categoryId = $mappedCategoryId;
+				}
+			}
+		}
 		$newBill->setCategoryId($categoryId ?? 0);
 		$newBill->setPaymentMode($paymentMode ?? 'n');
 		$newBill->setPaymentModeId($paymentModeId ?? 0);
@@ -1435,6 +1448,7 @@ class LocalProjectService implements IProjectService {
 		string $projectId, ?string $name = null, ?string $contact_email = null,
 		?string $autoExport = null, ?string $currencyName = null, ?bool $deletionDisabled = null,
 		?string $categorySort = null, ?string $paymentModeSort = null, ?int $archivedTs = null,
+		?string $autoCategorization = null,
 	): void {
 		$dbProject = $this->projectMapper->find($projectId);
 		if ($dbProject === null) {
@@ -1482,6 +1496,9 @@ class LocalProjectService implements IProjectService {
 		}
 		if ($currencyName !== null) {
 			$dbProject->setCurrencyName($currencyName === '' ? null : $currencyName);
+		}
+		if ($autoCategorization !== null) {
+			$dbProject->setAutoCategorization($autoCategorization);
 		}
 		$ts = (new DateTime())->getTimestamp();
 		$dbProject->setLastChanged($ts);
@@ -2152,7 +2169,7 @@ class LocalProjectService implements IProjectService {
 		?float $amount, ?string $repeat, ?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null, ?int $repeatAllActive = null, ?string $repeatUntil = null,
 		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null,
-		?int $deleted = null, bool $produceActivity = false,
+		?int $deleted = null, bool $produceActivity = false, bool $autoCategorise = true,
 	): void {
 		// if we don't have the payment modes, get them now
 		if ($this->paymentModes === null) {
@@ -2259,6 +2276,16 @@ class LocalProjectService implements IProjectService {
 		}
 		if ($categoryId !== null) {
 			$dbBill->setCategoryId($categoryId);
+		}
+		// auto-categorisation: if category not explicitly provided and bill is uncategorised
+		if ($autoCategorise && $categoryId === null && (int)$dbBill->getCategoryId() === 0) {
+			$billTitle = $what ?? $dbBill->getWhat();
+			if ($billTitle !== '' && $this->isAutoCategorizationEnabled($projectId)) {
+				$mappedCategoryId = $this->autoCategorizeBill($projectId, $billTitle);
+				if ($mappedCategoryId !== null) {
+					$dbBill->setCategoryId($mappedCategoryId);
+				}
+			}
 		}
 		// priority to timestamp (moneybuster might send both for a moment)
 		if ($timestamp !== null) {
@@ -2889,6 +2916,9 @@ class LocalProjectService implements IProjectService {
 
 		// then get rid of this category in bills
 		$this->billMapper->removeCategoryInProject($projectId, $categoryId);
+
+		// auto-categorisation: nullify category_id in affected mappings so they show as invalid
+		$this->autoCategoryMappingMapper->nullifyCategoryId($projectId, $categoryId);
 	}
 
 	/**
@@ -2935,6 +2965,319 @@ class LocalProjectService implements IProjectService {
 		$category->setEncodedIcon(($icon !== null && $icon !== '') ? urlencode($icon) : $icon);
 		$editedCategory = $this->categoryMapper->update($category);
 		return $editedCategory->jsonSerialize();
+	}
+
+	/**
+	 * Get all auto-category mappings for a project
+	 *
+	 * @param string $projectId
+	 * @return array
+	 * @throws \OCP\DB\Exception
+	 */
+	public function getAutoCategoryMappings(string $projectId): array {
+		$mappings = $this->autoCategoryMappingMapper->getMappings($projectId);
+		return array_map(function (AutoCategoryMapping $m) {
+			return $m->jsonSerialize();
+		}, $mappings);
+	}
+
+	/**
+	 * Create a new auto-category mapping
+	 *
+	 * @param string $projectId
+	 * @param string $billTitle
+	 * @param int $categoryId
+	 * @return int
+	 * @throws \OCP\DB\Exception
+	 */
+	public function createAutoCategoryMapping(string $projectId, string $billTitle, int $categoryId): int {
+		// the unique DB index is case-sensitive, check for case-insensitive duplicates here
+		if ($this->autoCategoryMappingMapper->findMapping($projectId, $billTitle) !== null) {
+			throw new CospendBasicException(
+				'A mapping with this title already exists',
+				Http::STATUS_CONFLICT,
+				['message' => 'A mapping for \'' . $billTitle . '\' already exists']
+			);
+		}
+		$mapping = new AutoCategoryMapping();
+		$ts = (new DateTime())->getTimestamp();
+		$mapping->setProjectId($projectId);
+		$mapping->setBillTitle($billTitle);
+		$mapping->setCategoryId($categoryId);
+		$mapping->setLastChanged($ts);
+		$mapping->setCreatedAt($ts);
+		try {
+			$inserted = $this->autoCategoryMappingMapper->insert($mapping);
+		} catch (\OCP\DB\Exception $e) {
+			if ($e->getReason() === \OCP\DB\Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw new CospendBasicException(
+					'A mapping with this title already exists',
+					Http::STATUS_CONFLICT,
+					['message' => 'A mapping for \'' . $billTitle . '\' already exists']
+				);
+			}
+			throw $e;
+		}
+		return (int)$inserted->getId();
+	}
+
+	/**
+	 * Edit an auto-category mapping
+	 *
+	 * @param string $projectId
+	 * @param int $mappingId
+	 * @param string $billTitle
+	 * @param int $categoryId
+	 * @return array
+	 * @throws CospendBasicException
+	 * @throws \OCP\DB\Exception
+	 */
+	public function editAutoCategoryMapping(string $projectId, int $mappingId, string $billTitle, int $categoryId): array {
+		$mapping = $this->autoCategoryMappingMapper->getById($mappingId);
+		if ($mapping === null || $mapping->getProjectId() !== $projectId) {
+			throw new CospendBasicException('', Http::STATUS_NOT_FOUND, ['message' => 'mapping not found']);
+		}
+		// the unique DB index is case-sensitive, check for case-insensitive duplicates here
+		$existing = $this->autoCategoryMappingMapper->findMapping($projectId, $billTitle);
+		if ($existing !== null && $existing->getId() !== $mapping->getId()) {
+			throw new CospendBasicException(
+				'A mapping with this title already exists',
+				Http::STATUS_CONFLICT,
+				['message' => 'A mapping for \'' . $billTitle . '\' already exists']
+			);
+		}
+		$mapping->setBillTitle($billTitle);
+		$mapping->setCategoryId($categoryId);
+		$mapping->setLastChanged((new DateTime())->getTimestamp());
+		try {
+			$updated = $this->autoCategoryMappingMapper->update($mapping);
+		} catch (\OCP\DB\Exception $e) {
+			if ($e->getReason() === \OCP\DB\Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw new CospendBasicException(
+					'A mapping with this title already exists',
+					Http::STATUS_CONFLICT,
+					['message' => 'A mapping for \'' . $billTitle . '\' already exists']
+				);
+			}
+			throw $e;
+		}
+		return $updated->jsonSerialize();
+	}
+
+	/**
+	 * Delete an auto-category mapping
+	 *
+	 * @param string $projectId
+	 * @param int $mappingId
+	 * @return void
+	 * @throws CospendBasicException
+	 * @throws \OCP\DB\Exception
+	 */
+	public function deleteAutoCategoryMapping(string $projectId, int $mappingId): void {
+		$mapping = $this->autoCategoryMappingMapper->getById($mappingId);
+		if ($mapping === null || $mapping->getProjectId() !== $projectId) {
+			throw new CospendBasicException('', Http::STATUS_NOT_FOUND, ['message' => 'mapping not found']);
+		}
+		$this->autoCategoryMappingMapper->delete($mapping);
+	}
+
+	/**
+	 * Check if auto-categorisation is enabled for a project (global + per-project)
+	 *
+	 * @param string $projectId
+	 * @return bool
+	 * @throws \OCP\DB\Exception
+	 */
+	public function isAutoCategorizationEnabled(string $projectId): bool {
+		// global toggle (app config)
+		$globallyEnabled = $this->appConfig->getValueString(
+			Application::APP_ID, 'auto_categorization_enabled', '1', lazy: true
+		) === '1';
+		if (!$globallyEnabled) {
+			return false;
+		}
+		// per-project toggle
+		$project = $this->projectMapper->find($projectId);
+		if ($project === null) {
+			return false;
+		}
+		return $project->getAutoCategorization() === '1';
+	}
+
+	/**
+	 * Auto-categorize a bill title by looking up the mappings.
+	 * Returns the category ID if a matching mapping is found, null otherwise.
+	 *
+	 * @param string $projectId
+	 * @param string $billTitle
+	 * @return int|null
+	 * @throws \OCP\DB\Exception
+	 */
+	public function autoCategorizeBill(string $projectId, string $billTitle): ?int {
+		if ($billTitle === '') {
+			return null;
+		}
+		$mapping = $this->autoCategoryMappingMapper->findMapping($projectId, $billTitle);
+		if ($mapping !== null && $mapping->getCategoryId() !== null) {
+			return $mapping->getCategoryId();
+		}
+		return null;
+	}
+
+	/**
+	 * Auto-categorize all uncategorized bills in a project.
+	 * Returns the number of bills that were categorized.
+	 *
+	 * @param string $projectId
+	 * @return int
+	 * @throws \OCP\DB\Exception
+	 */
+	public function autoCategorizeProjectBills(string $projectId): int {
+		$count = 0;
+		$mappings = $this->autoCategoryMappingMapper->getMappings($projectId);
+		if (empty($mappings)) {
+			return 0;
+		}
+
+		foreach ($mappings as $m) {
+			$categoryId = $m->getCategoryId();
+			if ($categoryId === null) {
+				continue;
+			}
+			$qb = $this->db->getQueryBuilder();
+			$qb->update('cospend_bills')
+				->set('category_id', $qb->createNamedParameter($categoryId, IQueryBuilder::PARAM_INT))
+				->where($qb->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR)))
+				->andWhere($qb->expr()->eq('category_id', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
+				->andWhere($qb->expr()->eq(
+					$qb->createFunction('LOWER(' . $qb->getColumnName('what') . ')'),
+					$qb->createNamedParameter(strtolower($m->getBillTitle()), IQueryBuilder::PARAM_STR)
+				));
+			$count += $qb->executeStatement();
+		}
+		return $count;
+	}
+
+	/**
+	 * Auto-categorize all uncategorized bills across all non-archived projects
+	 * that have auto-categorisation enabled.
+	 * Returns the total number of bills categorized.
+	 *
+	 * @return int
+	 * @throws \OCP\DB\Exception
+	 */
+	public function autoCategorizeAllBills(): int {
+		$totalCount = 0;
+		$projects = $this->projectMapper->getAll();
+		foreach ($projects as $project) {
+			if ($project->getAutoCategorization() === '1' && $project->getArchivedTs() === null) {
+				if ($this->isAutoCategorizationEnabled((string)$project->getId())) {
+					$totalCount += $this->autoCategorizeProjectBills((string)$project->getId());
+				}
+			}
+		}
+		return $totalCount;
+	}
+
+	/**
+	 * Copy auto-category mappings from source project to target project.
+	 * For each mapping, it finds a category in the target project with the same name.
+	 * Returns a summary array with counts.
+	 *
+	 * @param string $sourceProjectId
+	 * @param string $targetProjectId
+	 * @param int|null $mappingId only copy this mapping instead of all of them
+	 * @return array{imported: int, skipped: int, errors: list<string>}
+	 * @throws CospendBasicException
+	 * @throws \OCP\DB\Exception
+	 */
+	public function copyAutoCategoryMappings(string $sourceProjectId, string $targetProjectId, ?int $mappingId = null): array {
+		$sourceMappings = $this->autoCategoryMappingMapper->getMappings($sourceProjectId);
+		if ($mappingId !== null) {
+			$sourceMappings = array_values(array_filter($sourceMappings, static function (AutoCategoryMapping $m) use ($mappingId) {
+				return $m->getId() === $mappingId;
+			}));
+			if (empty($sourceMappings)) {
+				throw new CospendBasicException('', Http::STATUS_NOT_FOUND, ['message' => 'mapping not found']);
+			}
+		}
+		$targetCategories = $this->categoryMapper->getCategoriesOfProject($targetProjectId);
+		$existingMappings = $this->autoCategoryMappingMapper->getMappings($targetProjectId);
+
+		// Build target category lookup by name (case-insensitive)
+		$catLookup = [];
+		foreach ($targetCategories as $cat) {
+			$catLookup[strtolower($cat->getName())] = $cat->getId();
+		}
+
+		// Build set of existing mapping titles (case-insensitive)
+		$existingTitles = [];
+		foreach ($existingMappings as $m) {
+			$existingTitles[strtolower($m->getBillTitle())] = true;
+		}
+
+		$imported = 0;
+		$skipped = 0;
+		$errors = [];
+
+		foreach ($sourceMappings as $mapping) {
+			$title = $mapping->getBillTitle();
+			$lowerTitle = strtolower($title);
+			$sourceCategoryId = $mapping->getCategoryId();
+
+			if ($sourceCategoryId === null) {
+				$skipped++;
+				continue;
+			}
+
+			// Get source category name
+			try {
+				$sourceCategory = $this->categoryMapper->getCategoryOfProject($sourceProjectId, $sourceCategoryId);
+				$sourceCategoryName = $sourceCategory->getName();
+			} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
+				$errors[] = "Source category $sourceCategoryId not found";
+				$skipped++;
+				continue;
+			}
+
+			if ($sourceCategoryName === null || $sourceCategoryName === '') {
+				$skipped++;
+				continue;
+			}
+
+			// Check if target project has a category with the same name
+			$lowerName = strtolower($sourceCategoryName);
+			if (!isset($catLookup[$lowerName])) {
+				$errors[] = "No matching category '$sourceCategoryName' in target project";
+				$skipped++;
+				continue;
+			}
+
+			// Check for duplicate title mapping
+			if (isset($existingTitles[$lowerTitle])) {
+				$errors[] = "Mapping already exists for '$title'";
+				$skipped++;
+				continue;
+			}
+
+			// Create the mapping
+			$targetCategoryId = $catLookup[$lowerName];
+			$newMapping = new AutoCategoryMapping();
+			$ts = (new DateTime())->getTimestamp();
+			$newMapping->setProjectId($targetProjectId);
+			$newMapping->setBillTitle($title);
+			$newMapping->setCategoryId($targetCategoryId);
+			$newMapping->setLastChanged($ts);
+			$newMapping->setCreatedAt($ts);
+			$this->autoCategoryMappingMapper->insert($newMapping);
+			$imported++;
+		}
+
+		return [
+			'imported' => $imported,
+			'skipped' => $skipped,
+			'errors' => $errors,
+		];
 	}
 
 	/**

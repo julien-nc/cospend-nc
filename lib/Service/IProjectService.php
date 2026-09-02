@@ -108,6 +108,7 @@ interface IProjectService {
 		string $projectId, ?string $name = null, ?string $contact_email = null,
 		?string $autoExport = null, ?string $currencyName = null, ?bool $deletionDisabled = null,
 		?string $categorySort = null, ?string $paymentModeSort = null, ?int $archivedTs = null,
+		?string $autoCategorization = null,
 	): void;
 
 	/**
@@ -201,7 +202,7 @@ interface IProjectService {
 		?float $amount, ?string $repeat, ?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null, int $repeatAllActive = 0, ?string $repeatUntil = null,
 		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null,
-		int $deleted = 0, bool $produceActivity = false,
+		int $deleted = 0, bool $produceActivity = false, bool $autoCategorise = true,
 	): int;
 
 	/**
@@ -254,7 +255,7 @@ interface IProjectService {
 		?float $amount, ?string $repeat, ?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null, ?int $repeatAllActive = null, ?string $repeatUntil = null,
 		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null,
-		?int $deleted = null, bool $produceActivity = false,
+		?int $deleted = null, bool $produceActivity = false, bool $autoCategorise = true,
 	): void;
 
 	/**

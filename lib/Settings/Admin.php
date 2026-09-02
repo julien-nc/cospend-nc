@@ -27,10 +27,12 @@ class Admin implements ISettings {
 	public function getForm(): TemplateResponse {
 		$federationEnabled = $this->appConfig->getValueString(Application::APP_ID, 'federation_enabled', '0', lazy: true) === '1';
 		$balancePastBillsOnly = $this->appConfig->getValueString(Application::APP_ID, 'balance_past_bills_only', '0', lazy: true) === '1';
+		$autoCategorizationEnabled = $this->appConfig->getValueString(Application::APP_ID, 'auto_categorization_enabled', '1', lazy: true) === '1';
 
 		$values = [
 			'federation_enabled' => $federationEnabled,
 			'balance_past_bills_only' => $balancePastBillsOnly,
+			'auto_categorization_enabled' => $autoCategorizationEnabled,
 		];
 		$this->initialStateService->provideInitialState('admin-settings', $values);
 

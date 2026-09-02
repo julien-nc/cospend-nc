@@ -150,7 +150,7 @@ class FederatedProjectService implements IProjectService {
 		?float $amount, ?string $repeat, ?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null, int $repeatAllActive = 0, ?string $repeatUntil = null,
 		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null,
-		int $deleted = 0, bool $produceActivity = false,
+		int $deleted = 0, bool $produceActivity = false, bool $autoCategorise = true,
 	): int {
 		$params = [
 			'date' => $date,
@@ -169,6 +169,7 @@ class FederatedProjectService implements IProjectService {
 			'repeatFreq' => $repeatFreq,
 			'deleted' => $deleted,
 			'produceActivity' => $produceActivity,
+			'autoCategorise' => $autoCategorise ? '1' : '0',
 		];
 		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/bills', $params, 'POST');
 	}
@@ -193,7 +194,7 @@ class FederatedProjectService implements IProjectService {
 		?float $amount, ?string $repeat, ?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null, ?int $repeatAllActive = null, ?string $repeatUntil = null,
 		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null,
-		?int $deleted = null, bool $produceActivity = false,
+		?int $deleted = null, bool $produceActivity = false, bool $autoCategorise = true,
 	): void {
 		$params = [
 			'date' => $date,
@@ -211,6 +212,7 @@ class FederatedProjectService implements IProjectService {
 			'comment' => $comment,
 			'repeatFreq' => $repeatFreq,
 			'deleted' => $deleted,
+			'autoCategorise' => $autoCategorise ? '1' : '0',
 		];
 		$this->request($projectId, 'api/v1/public/projects/{token}/{password}/bills/' . $billId, $params, 'PUT');
 	}
@@ -293,6 +295,7 @@ class FederatedProjectService implements IProjectService {
 		string $projectId, ?string $name = null, ?string $contact_email = null,
 		?string $autoExport = null, ?string $currencyName = null, ?bool $deletionDisabled = null,
 		?string $categorySort = null, ?string $paymentModeSort = null, ?int $archivedTs = null,
+		?string $autoCategorization = null,
 	): void {
 		$params = [
 			'name' => $name,
@@ -303,6 +306,7 @@ class FederatedProjectService implements IProjectService {
 			'categorySort' => $categorySort,
 			'paymentModeSort' => $paymentModeSort,
 			'archivedTs' => $archivedTs,
+			'autoCategorization' => $autoCategorization,
 		];
 		$this->request($projectId, 'api/v1/public/projects/{token}/{password}', $params, 'PUT');
 	}

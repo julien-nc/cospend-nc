@@ -212,6 +212,8 @@ export default {
 		CogIcon,
 	},
 
+	emits: ['update-max-precision'],
+
 	data() {
 		return {
 			showSettings: false,
@@ -250,10 +252,10 @@ export default {
 	},
 
 	computed: {
-		selectedSortOrder(): Object {
+		selectedSortOrder(): object {
 			return this.sortOrderOptions[this.sortOrder as keyof typeof this.sortOrderOptions] ?? this.sortOrderOptions.name
 		},
-		selectedMemberOrder(): Object {
+		selectedMemberOrder(): object {
 			return this.memberOrderOptions[this.memberOrder as keyof typeof this.memberOrderOptions] ?? this.memberOrderOptions.name
 		},
 	},
@@ -262,7 +264,7 @@ export default {
 		subscribe('show-settings', this.handleShowSettings)
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		unsubscribe('show-settings', this.handleShowSettings)
 	},
 

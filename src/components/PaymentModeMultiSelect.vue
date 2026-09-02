@@ -44,6 +44,8 @@ export default {
 		},
 	},
 
+	emits: ['input'],
+
 	data() {
 		return {}
 	},
@@ -60,9 +62,9 @@ export default {
 		selectedPmItem() {
 			return this.value
 				? {
-					...this.value,
-					displayName: this.value.icon + ' ' + this.value.name,
-				}
+						...this.value,
+						displayName: this.value.icon + ' ' + this.value.name,
+					}
 				: null
 		},
 	},

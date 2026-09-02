@@ -6,19 +6,19 @@
 	<div>
 		<div class="tableWrapper"
 			@mouseleave="selectedMemberDataset = null ; hoveredTableMonth = null">
-			<v-table
+			<VTable
 				class="memberMonthlyTable coloredTable"
 				:data="memberMonthlyStats">
 				<template #head>
-					<v-th sort-key="member.name">
+					<VTh sort-key="member.name">
 						{{ t('cospend', 'Member/Month') }}
-					</v-th>
-					<v-th v-for="(st, month) in stats"
+					</VTh>
+					<VTh v-for="(st, month) in stats"
 						:key="month"
 						:sort-key="month"
 						:class="{ selected: selectedMemberMonthlyCol === Object.keys(stats).indexOf(month) }">
 						{{ month }}
-					</v-th>
+					</VTh>
 				</template>
 				<template #body="{ rows }">
 					<tr v-for="row in rows"
@@ -45,7 +45,7 @@
 						</td>
 					</tr>
 				</template>
-			</v-table>
+			</VTable>
 		</div>
 		<div class="memberMonthlyChart"
 			@mouseleave="selectedMemberMonthlyCol = null">
@@ -62,6 +62,7 @@ import MemberAvatar from '../avatar/MemberAvatar.vue'
 
 import { getSmartMemberName } from '../../utils.js'
 import LineChartJs from '../chart.js/LineChartJs.vue'
+import { VTable, VTh } from '../../smart-table-components.js'
 
 export default {
 	name: 'MemberMonthly',
@@ -69,6 +70,8 @@ export default {
 	components: {
 		MemberAvatar,
 		LineChartJs,
+		VTable,
+		VTh,
 	},
 
 	props: {

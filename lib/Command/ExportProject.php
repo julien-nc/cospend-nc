@@ -51,7 +51,7 @@ class ExportProject extends Base {
 			);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$projectId = $input->getArgument('project_id');
 		$internalPath = $input->getOption('internal-path');
 		$fsPath = $input->getOption('filesystem-path');

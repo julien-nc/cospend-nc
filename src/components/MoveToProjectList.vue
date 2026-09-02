@@ -22,8 +22,10 @@
 			:title="t('cospend', 'No projects found')" />
 	</div>
 </template>
+
 <script>
 import NcListItem from '@nextcloud/vue/components/NcListItem'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 
 import * as network from '../network.js'
 import { showError, showSuccess } from '@nextcloud/dialogs'
@@ -33,6 +35,7 @@ export default {
 	name: 'MoveToProjectList',
 	components: {
 		NcListItem,
+		NcEmptyContent,
 	},
 	props: {
 		bill: {

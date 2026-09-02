@@ -11,9 +11,9 @@
 document.addEventListener('DOMContentLoaded', () => {
 	OCA.Dashboard.register('cospend_activity', async (el, { widget }) => {
 		const { createApp } = await import('vue')
-		const { default: Dashboard } = await import('./views/Dashboard.vue')
+		const { default: DashboardWidget } = await import('./views/DashboardWidget.vue')
 
-		const app = createApp(Dashboard, {
+		const app = createApp(DashboardWidget, {
 			title: widget.title,
 		})
 		app.mixin({ methods: { t, n } })

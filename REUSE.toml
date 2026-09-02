@@ -18,7 +18,7 @@ SPDX-FileCopyrightText = "2019-2024 Nextcloud translators"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
-path = [".tx/config", "composer.json", "composer.lock", "package.json", "package-lock.json", "crowdin.yml", "psalm.xml", "tsconfig.json", "stylelint.config.cjs", ".eslintrc.cjs", ".editorconfig", ".l10nignore", ".gitignore", "makefile", "webpack.js", "vite.config.ts", ".php-cs-fixer.dist.php"]
+path = [".tx/config", "composer.json", "composer.lock", "package.json", "package-lock.json", "crowdin.yml", "psalm.xml", "tsconfig.json", "stylelint.config.cjs", "eslint.config.js", ".editorconfig", ".l10nignore", ".gitignore", "makefile", "webpack.js", "vite.config.ts", ".php-cs-fixer.dist.php"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2019-2024 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
@@ -36,7 +36,7 @@ SPDX-FileCopyrightText = "2018-2024 Google LLC"
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["img/screenshots/**", "img/cospend.png"]
+path = ["img/screenshots/**"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2019-2024 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"

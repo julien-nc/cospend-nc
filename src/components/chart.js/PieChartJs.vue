@@ -7,6 +7,7 @@
 		:options="chartOptions"
 		:data="chartData" />
 </template>
+
 <script>
 import { Pie } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, CategoryScale, LinearScale, ArcElement } from 'chart.js'

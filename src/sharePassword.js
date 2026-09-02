@@ -4,10 +4,7 @@
  */
 import { generateUrl } from '@nextcloud/router'
 
-// eslint-disable-next-line
-'use strict'
-
-document.addEventListener('DOMContentLoaded', function(event) {
+document.addEventListener('DOMContentLoaded', function() {
 	const pwdInput = document.getElementById('passwordInput')
 	pwdInput.value = ''
 	pwdInput.focus()

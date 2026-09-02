@@ -146,7 +146,7 @@ import { generateUrl } from '@nextcloud/router'
 import * as constants from '../constants.js'
 
 export default {
-	name: 'Sidebar',
+	name: 'CospendAppSidebar',
 	components: {
 		CurrencyIcon,
 		NcActionButton,
@@ -187,6 +187,10 @@ export default {
 			required: true,
 		},
 	},
+	emits: [
+		'close', 'update:open', 'active-changed', 'update:name', 'submit-name',
+		'project-edited', 'user-added', 'new-member', 'export-clicked', 'paymentmode-deleted', 'category-deleted',
+	],
 	data() {
 		return {
 			backgroundImageUrl: generateUrl('/apps/theming/img/core/filetypes/folder.svg?v=' + (window.OCA?.Theming?.cacheBuster || 0)),

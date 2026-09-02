@@ -13,7 +13,10 @@
 					{{ addElementLabel }}
 				</h3>
 				<div class="add-element">
-					<NcColorPicker class="app-navigation-entry-bullet-wrapper" :model-value="''" @update:model-value="updateAddColor">
+					<NcColorPicker
+						class="app-navigation-entry-bullet-wrapper"
+						model-value=""
+						@update:model-value="updateAddColor">
 						<NcButton
 							:title="t('cospend', 'Color')"
 							:aria-label="t('cospend', 'Color')"
@@ -189,6 +192,8 @@ export default {
 			required: true,
 		},
 	},
+
+	emits: ['element-deleted', 'project-edited'],
 
 	data() {
 		return {

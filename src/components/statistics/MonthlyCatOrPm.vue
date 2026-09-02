@@ -7,19 +7,19 @@
 		<!-- mouseout does not work -->
 		<div class="tableWrapper"
 			@mouseleave="selectedDataset = null ; hoveredTableMonth = null">
-			<v-table
+			<VTable
 				class="monthlyTable coloredTable"
 				:data="tableData">
 				<template #head>
-					<v-th sort-key="name">
+					<VTh sort-key="name">
 						{{ firstColumnTitle }}
-					</v-th>
-					<v-th v-for="month in distinctMonths"
+					</VTh>
+					<VTh v-for="month in distinctMonths"
 						:key="month"
 						:sort-key="month"
 						:class="{ selected: selectedMonthlyCol === distinctMonths.indexOf(month) }">
 						{{ month }}
-					</v-th>
+					</VTh>
 				</template>
 				<template #body="{ rows }">
 					<tr v-for="row in rows"
@@ -38,7 +38,7 @@
 						</td>
 					</tr>
 				</template>
-			</v-table>
+			</VTable>
 		</div>
 		<div class="categoryMonthlyChart"
 			@mouseleave="selectedMonthlyCol = null">
@@ -51,12 +51,15 @@
 
 <script>
 import LineChartJs from '../chart.js/LineChartJs.vue'
+import { VTable, VTh } from '../../smart-table-components.js'
 
 export default {
-	name: 'Monthly',
+	name: 'MonthlyCatOrPm',
 
 	components: {
 		LineChartJs,
+		VTable,
+		VTh,
 	},
 
 	props: {

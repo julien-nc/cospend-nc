@@ -8,7 +8,7 @@
 		:undo="true"
 		@undo="cancelDeletion">
 		<template #counter>
-			<Countdown :duration="7" />
+			<CountdownTimer :duration="7" />
 		</template>
 	</NcAppNavigationItem>
 	<NcAppNavigationItem v-else
@@ -25,7 +25,7 @@
 		:force-display-actions="true"
 		:force-menu="false"
 		:menu-open="menuOpen"
-		@contextmenu.native.stop.prevent="menuOpen = true"
+		@contextmenu.stop.prevent="menuOpen = true"
 		@update:menuOpen="onUpdateMenuOpen"
 		@dragover.stop.prevent="onDragOver"
 		@dragenter.stop.prevent="onDragEnter"
@@ -179,7 +179,7 @@ import ArchiveOutlineIcon from 'vue-material-design-icons/ArchiveOutline.vue'
 import ReimburseIcon from './icons/ReimburseIcon.vue'
 
 import AppNavigationMemberItem from './AppNavigationMemberItem.vue'
-import Countdown from './Countdown.vue'
+import CountdownTimer from './CountdownTimer.vue'
 
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
@@ -193,7 +193,7 @@ import { showSuccess, showError, showWarning } from '@nextcloud/dialogs'
 export default {
 	name: 'AppNavigationProjectItem',
 	components: {
-		Countdown,
+		CountdownTimer,
 		ReimburseIcon,
 		AppNavigationMemberItem,
 		NcAppNavigationItem,
@@ -275,11 +275,11 @@ export default {
 		title() {
 			return this.project.federated
 				? t('cospend', 'Project {projectName} ({projectId}) shared by {displayName} ({cloudId})', {
-					projectId: this.project.federation.remote_project_id,
-					projectName: this.project.name,
-					cloudId: this.project.federation.inviter_cloud_id,
-					displayName: this.project.federation.inviter_display_name,
-				})
+						projectId: this.project.federation.remote_project_id,
+						projectName: this.project.name,
+						cloudId: this.project.federation.inviter_cloud_id,
+						displayName: this.project.federation.inviter_display_name,
+					})
 				: this.project.name !== this.project.id
 					? this.project.name + ' (' + this.project.id + ')'
 					: this.project.name

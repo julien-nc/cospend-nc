@@ -10,7 +10,7 @@
 		:force-display-actions="true"
 		:force-menu="true"
 		:menu-open="menuOpen"
-		@contextmenu.native.stop.prevent="menuOpen = true"
+		@contextmenu.stop.prevent="menuOpen = true"
 		@update:menuOpen="onUpdateMenuOpen"
 		@click="onProjectClick">
 		<template #icon>

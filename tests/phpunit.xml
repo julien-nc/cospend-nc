@@ -3,6 +3,8 @@
 		 bootstrap="./bootstrap.php"
      displayDetailsOnTestsThatTriggerWarnings="true"
      displayDetailsOnTestsThatTriggerDeprecations="true"
+     displayDetailsOnTestsThatTriggerNotices="true"
+     displayDetailsOnPhpunitNotices="true"
      displayDetailsOnPhpunitDeprecations="true"
 		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
 >

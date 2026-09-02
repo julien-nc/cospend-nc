@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<CospendTogglableAvatar
 		v-bind="$attrs"
@@ -27,11 +31,6 @@ export default {
 			type: Object,
 			required: true,
 		},
-		/**
-		 * For the special case of member nav item that is displayed even if its project is not the selected one
-		 * So we need to avoid treating the member as a user independently of the current selected project
-		 * The alternative would be to pass the project to all MemberAvatar but it would be heavy
-		 */
 		forceIsNoUser: {
 			type: Boolean,
 			default: false,

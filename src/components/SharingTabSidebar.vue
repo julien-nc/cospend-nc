@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div>
 		<NcSelect
@@ -132,7 +136,7 @@
 						fill-color="var(--color-text-success)" />
 				</div>
 				<span class="username">
-					<span>{{ access.userCloudId + ( access.label ? ' ( ' + access.label + ' )' : '') }}</span>
+					<span>{{ access.userCloudId + (access.label ? ' ( ' + access.label + ' )' : '') }}</span>
 				</span>
 				<NcActions
 					:force-menu="true"
@@ -466,7 +470,7 @@ export default {
 			// the svg api is dead, glory to the svg api
 			qrcodeImageUrl: generateUrl(
 				'/apps/cospend/svg/cospend_square_bg?color='
-					+ hexToDarkerHex(getComplementaryColor(OCA.Cospend.state.themeColorDark)).replace('#', ''),
+				+ hexToDarkerHex(getComplementaryColor(OCA.Cospend.state.themeColorDark)).replace('#', ''),
 			),
 			federatedUserStatus: {
 				status: null,
@@ -703,7 +707,6 @@ export default {
 			try {
 				await navigator.clipboard.writeText(publicLink)
 				this.linkCopied[access.id] = true
-				// eslint-disable-next-line
 				new Timer(() => {
 					this.linkCopied[access.id] = false
 				}, 5000)
@@ -733,6 +736,7 @@ export default {
 	},
 }
 </script>
+
 <style scoped lang="scss">
 .success {
 	color: var(--color-text-success);

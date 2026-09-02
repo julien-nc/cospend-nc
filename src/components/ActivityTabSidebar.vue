@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div class="activity-tab">
 		<ActivityEntry
@@ -61,7 +65,6 @@ export default {
 
 	methods: {
 		getActivity(since = null, state = null) {
-			// eslint-disable-next-line
 			const params = new URLSearchParams()
 			params.append('format', 'json')
 			params.append('limit', 50)
@@ -69,7 +72,7 @@ export default {
 				params.append('since', since)
 			}
 			const requestProjectId = this.projectId
-			axios.get(generateOcsUrl('apps/activity/api/v2/activity') + '/cospend' + '?' + params).then((response) => {
+			axios.get(generateOcsUrl('apps/activity/api/v2/activity') + '/cospend?' + params).then((response) => {
 				if (this.projectId !== requestProjectId) {
 					console.debug('Stopping activity request processing because project ID has changed during a request')
 					return

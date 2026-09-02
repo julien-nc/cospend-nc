@@ -1,21 +1,14 @@
 /**
- * Nextcloud - cospend
- *
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
- *
- * @author Julien Veyssier <julien-nc@posteo.net>
- * @copyright Julien Veyssier 2019
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
 import { createApp } from 'vue'
 import { reactive } from '@vue/reactivity'
 import App from './App.vue'
 import '@nextcloud/dialogs/style.css'
 import { loadState } from '@nextcloud/initial-state'
 import { getCapabilities } from '@nextcloud/capabilities'
-import SmartTable from 'vuejs-smart-table'
+
 import { hexToDarkerHex } from './utils.js'
 import { defaultState } from './state.js'
 import '../css/cospend.scss'
@@ -63,6 +56,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
 function main() {
 	const app = createApp(App)
 	app.mixin({ methods: { t, n } })
-	app.use(SmartTable)
 	app.mount('#content')
 }

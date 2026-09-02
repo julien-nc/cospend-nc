@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<NcSelect
 		:model-value="selectedCategoryItem"
@@ -40,6 +44,8 @@ export default {
 		},
 	},
 
+	emits: ['input'],
+
 	data() {
 		return {}
 	},
@@ -56,9 +62,9 @@ export default {
 		selectedCategoryItem() {
 			return this.value
 				? {
-					...this.value,
-					displayName: this.value.icon + ' ' + this.value.name,
-				}
+						...this.value,
+						displayName: this.value.icon + ' ' + this.value.name,
+					}
 				: null
 		},
 	},

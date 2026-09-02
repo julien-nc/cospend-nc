@@ -1,4 +1,8 @@
 <!--
+  - SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<!--
   - @copyright Copyright (c) 2021 Julien Veyssier <julien-nc@posteo.net>
   -
   - @author Julien Veyssier <julien-nc@posteo.net>
@@ -208,6 +212,8 @@ export default {
 		CogIcon,
 	},
 
+	emits: ['update-max-precision'],
+
 	data() {
 		return {
 			showSettings: false,
@@ -246,10 +252,10 @@ export default {
 	},
 
 	computed: {
-		selectedSortOrder(): Object {
+		selectedSortOrder(): object {
 			return this.sortOrderOptions[this.sortOrder as keyof typeof this.sortOrderOptions] ?? this.sortOrderOptions.name
 		},
-		selectedMemberOrder(): Object {
+		selectedMemberOrder(): object {
 			return this.memberOrderOptions[this.memberOrder as keyof typeof this.memberOrderOptions] ?? this.memberOrderOptions.name
 		},
 	},
@@ -258,7 +264,7 @@ export default {
 		subscribe('show-settings', this.handleShowSettings)
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		unsubscribe('show-settings', this.handleShowSettings)
 	},
 

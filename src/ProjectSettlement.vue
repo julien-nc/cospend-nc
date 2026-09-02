@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<NcAppContentDetails class="settlement-content">
 		<h2 id="settlementTitle">
@@ -88,20 +92,20 @@
 			{{ maxTs ? t('cospend', 'Settlement plan on {date}', { date: formattedMaxDate }) : t('cospend', 'Settlement plan') }}
 		</h3>
 		<NcLoadingIcon v-if="loading" :size="24" />
-		<v-table v-else-if="transactions"
+		<VTable v-else-if="transactions"
 			id="settlementTable"
 			class="coloredTable"
 			:data="transactions">
 			<template #head>
-				<v-th sort-key="fromName">
+				<VTh sort-key="fromName">
 					{{ t('cospend', 'Who pays?') }}
-				</v-th>
-				<v-th sort-key="toName">
+				</VTh>
+				<VTh sort-key="toName">
 					{{ t('cospend', 'To whom?') }}
-				</v-th>
-				<v-th sort-key="amount">
+				</VTh>
+				<VTh sort-key="amount">
 					{{ t('cospend', 'How much?') }}
-				</v-th>
+				</VTh>
 			</template>
 			<template #body="{ rows }">
 				<tr v-for="row in rows" :key="row.from + ':' + row.to">
@@ -133,7 +137,7 @@
 					</td>
 				</tr>
 			</template>
-		</v-table>
+		</VTable>
 		<NcEmptyContent v-else
 			class="central-empty-content"
 			:name="t('cospend', 'No transactions found')"
@@ -147,17 +151,17 @@
 			{{ maxTs ? t('cospend', 'Balances on {date}', { date: formattedMaxDate }) : t('cospend', 'Global balances') }}
 		</h3>
 		<NcLoadingIcon v-if="loading" :size="24" />
-		<v-table v-else-if="balances"
+		<VTable v-else-if="balances"
 			id="balanceTable"
 			class="coloredTable"
 			:data="balances">
 			<template #head>
-				<v-th sort-key="memberName">
+				<VTh sort-key="memberName">
 					{{ t('cospend', 'Member name') }}
-				</v-th>
-				<v-th sort-key="balance">
+				</VTh>
+				<VTh sort-key="balance">
 					{{ t('cospend', 'Balance') }}
-				</v-th>
+				</VTh>
 			</template>
 			<template #body="{ rows }">
 				<tr v-for="row in rows"
@@ -173,7 +177,7 @@
 						</div>
 					</td>
 					<td :class="getBalanceClass(row.balance)"
-						:style="'border: 2px solid #' + members[row.mid].color +';'">
+						:style="'border: 2px solid #' + members[row.mid].color + ';'">
 						{{ row.balance.toFixed(2) }}
 						<span v-if="project.currencyname">
 							{{ project.currencyname }}
@@ -182,7 +186,7 @@
 				</tr>
 			</template>
 			<tfoot />
-		</v-table>
+		</VTable>
 		<NcEmptyContent v-else
 			class="central-empty-content"
 			:name="t('cospend', 'No balances found')"
@@ -271,9 +275,10 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { getSmartMemberName } from './utils.js'
 import * as constants from './constants.js'
 import * as network from './network.js'
+import { VTable, VTh } from './smart-table-components.js'
 
 export default {
-	name: 'Settlement',
+	name: 'ProjectSettlement',
 
 	components: {
 		MemberAvatar,
@@ -291,6 +296,8 @@ export default {
 		CalendarTodayIcon,
 		CalendarWeekIcon,
 		CalendarMonthIcon,
+		VTable,
+		VTh,
 	},
 
 	props: {
@@ -299,6 +306,8 @@ export default {
 			required: true,
 		},
 	},
+
+	emits: ['auto-settled'],
 
 	data() {
 		return {
@@ -356,14 +365,14 @@ export default {
 			const currentUserId = getCurrentUser()?.uid
 			return this.balancesObject
 				? Object.keys(this.balancesObject)
-					.filter((k) => !(this.cospend.hideOwnBalance && this.members[k]?.userid === currentUserId))
-					.map((k) => {
-						return {
-							mid: k,
-							balance: this.balancesObject[k],
-							memberName: this.getMemberName(k),
-						}
-					})
+						.filter((k) => !(this.cospend.hideOwnBalance && this.members[k]?.userid === currentUserId))
+						.map((k) => {
+							return {
+								mid: k,
+								balance: this.balancesObject[k],
+								memberName: this.getMemberName(k),
+							}
+						})
 				: null
 		},
 		dateInfoText() {

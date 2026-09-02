@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<NcDashboardWidget :items="items"
 		:show-more-url="showMoreUrl"
@@ -35,7 +39,7 @@ import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcButton from '@nextcloud/vue/components/NcButton'
 
 export default {
-	name: 'Dashboard',
+	name: 'DashboardWidget',
 
 	components: {
 		CospendIcon,
@@ -101,7 +105,7 @@ export default {
 		},
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		document.removeEventListener('visibilitychange', this.changeWindowVisibility)
 	},
 
@@ -129,13 +133,12 @@ export default {
 				// Dashboard is not visible, so don't update the activity list
 				return
 			}
-			// eslint-disable-next-line
 			const params = new URLSearchParams()
 			params.append('format', 'json')
 			params.append('limit', 50)
 
 			try {
-				const response = await axios.get(generateOcsUrl('apps/activity/api/v2/activity') + '/cospend' + '?' + params)
+				const response = await axios.get(generateOcsUrl('apps/activity/api/v2/activity') + '/cospend?' + params)
 				this.processActivities(response.data.ocs.data)
 				this.state = 'ok'
 			} catch (error) {

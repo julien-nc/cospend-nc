@@ -11,8 +11,8 @@
 		"build": "NODE_ENV=production vite --mode production build",
 		"dev": "NODE_ENV=development vite --mode development build",
 		"watch": "NODE_ENV=development vite --mode development build --watch",
-		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint --ext .ts,.js,.vue src",
-		"lint:fix": "ESLINT_USE_FLAT_CONFIG=false eslint --ext .ts,.js,.vue src --fix",
+		"lint": "eslint --ext .ts,.js,.vue src",
+		"lint:fix": "eslint --ext .ts,.js,.vue src --fix",
 		"check-types": "vue-tsc --noEmit",
 		"stylelint": "stylelint src/*.vue src/**/*.vue src/**/*.scss src/**/*.css",
 		"stylelint:fix": "stylelint src/*.vue src/**/*.vue src/**/*.scss src/**/*.css --fix"
@@ -34,8 +34,8 @@
 		"extends @nextcloud/browserslist-config"
 	],
 	"engines": {
-		"node": "^20",
-		"npm": "^10"
+		"node": "^22",
+		"npm": "^12"
 	},
 	"dependencies": {
 		"@codog/vue3-infinite-loading": "^0.0.13",
@@ -65,12 +65,12 @@
 	"devDependencies": {
 		"@nextcloud/babel-config": "^1.0.0",
 		"@nextcloud/browserslist-config": "^3.0.0",
-		"@nextcloud/eslint-config": "^8.1.2",
+		"@nextcloud/eslint-config": "^9.0.1",
 		"@nextcloud/stylelint-config": "^3.0.1",
 		"@nextcloud/vite-config": "^2.3.5",
-		"@types/node": "^25.2.3",
-		"@vue/tsconfig": "^0.8.1",
-		"typescript": "~5.5.0",
+		"@types/node": "^26.1.1",
+		"@vue/tsconfig": "^0.9.1",
+		"typescript": "^6.0.3",
 		"vite-plugin-eslint": "^1.8.1",
 		"vite-plugin-stylelint": "^6.0.4",
 		"vue-tsc": "^3.2.4"

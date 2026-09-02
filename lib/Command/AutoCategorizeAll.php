@@ -26,7 +26,7 @@ class AutoCategorizeAll extends Base {
 			->setDescription('Auto-categorise uncategorised bills in all non-archived projects with auto-categorisation enabled');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
 			$totalCount = $this->projectService->autoCategorizeAllBills();
 			$output->writeln("$totalCount bill(s) categorised across all projects");

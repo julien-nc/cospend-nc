@@ -420,18 +420,18 @@ export default {
 			const sorted = [...this.mappings]
 			const mode = this.sortModeValue
 			switch (mode) {
-			case 'alpha-asc':
-				sorted.sort((a, b) => a.bill_title.localeCompare(b.bill_title))
-				break
-			case 'alpha-desc':
-				sorted.sort((a, b) => b.bill_title.localeCompare(a.bill_title))
-				break
-			case 'date-asc':
-				sorted.sort((a, b) => (a.created_at || a.last_changed) - (b.created_at || b.last_changed))
-				break
-			case 'date-desc':
-				sorted.sort((a, b) => (b.created_at || b.last_changed) - (a.created_at || a.last_changed))
-				break
+				case 'alpha-asc':
+					sorted.sort((a, b) => a.bill_title.localeCompare(b.bill_title))
+					break
+				case 'alpha-desc':
+					sorted.sort((a, b) => b.bill_title.localeCompare(a.bill_title))
+					break
+				case 'date-asc':
+					sorted.sort((a, b) => (a.created_at || a.last_changed) - (b.created_at || b.last_changed))
+					break
+				case 'date-desc':
+					sorted.sort((a, b) => (b.created_at || b.last_changed) - (a.created_at || a.last_changed))
+					break
 			}
 			return sorted
 		},
@@ -440,8 +440,7 @@ export default {
 			if (!q) {
 				return this.sortedMappings
 			}
-			return this.sortedMappings.filter((m) =>
-				m.bill_title.toLowerCase().includes(q)
+			return this.sortedMappings.filter((m) => m.bill_title.toLowerCase().includes(q)
 				|| this.categoryDisplay(m.category_id).toLowerCase().includes(q),
 			)
 		},
@@ -517,7 +516,7 @@ export default {
 		searchQuery() {
 			this.currentPage = 1
 		},
-		'sortMode.id'() {
+		'sortMode.id': function() {
 			this.currentPage = 1
 		},
 	},
@@ -627,7 +626,7 @@ export default {
 		},
 		doDeleteMapping(mappingId) {
 			const id = mappingId ?? this.deleteTargetId
-			if (!id) return
+			if (!id) { return }
 			network.deleteAutoCategoryMapping(this.projectId, id).then(() => {
 				this.mappings = this.mappings.filter((m) => m.id !== id)
 				showSuccess(t('cospend', 'Mapping deleted'))
@@ -642,7 +641,7 @@ export default {
 		},
 		focusAddMapping() {
 			const input = this.$el.querySelector('.add-mapping input')
-			if (input) input.focus()
+			if (input) { input.focus() }
 		},
 		prevPage() {
 			if (this.currentPage > 1) {

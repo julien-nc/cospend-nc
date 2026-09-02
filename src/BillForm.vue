@@ -1093,11 +1093,11 @@ export default {
 			this.newBillMode = 'normal'
 			this.userTouchedCategory = false
 		},
-		'myBill.what'() {
+		'myBill.what': function() {
 			this.userTouchedCategory = false
 			this.saveMappingChecked = false
 		},
-		'myBill.categoryid'() {
+		'myBill.categoryid': function() {
 			this.saveMappingChecked = false
 		},
 		bill() {

@@ -56,7 +56,7 @@
 
 		<div v-if="loading" class="loading-container">
 			<NcLoadingIcon :size="64" />
-			<p>{{ t('cospend', 'Loading cumulative balances...') }}</p>
+			<p>{{ t('cospend', 'Loading cumulative balances…') }}</p>
 		</div>
 
 		<div v-else-if="error" class="error-container">
@@ -116,12 +116,12 @@
 										</div>
 									</div>
 									<div class="summary-card-compact net-balance">
-										<div :class="['card-icon-compact', currencyTotal.netBalance >= 0 ? 'positive' : 'negative']">
+										<div class="card-icon-compact" :class="[currencyTotal.netBalance >= 0 ? 'positive' : 'negative']">
 											<EqualsIcon />
 										</div>
 										<div class="card-content-compact">
 											<span class="label">{{ t('cospend', 'Net balance') }}</span>
-											<span :class="['amount', currencyTotal.netBalance >= 0 ? 'positive' : 'negative']">
+											<span class="amount" :class="[currencyTotal.netBalance >= 0 ? 'positive' : 'negative']">
 												{{ formatCurrency(currencyTotal.netBalance) }}
 											</span>
 										</div>
@@ -160,7 +160,7 @@
 											<template v-for="(currencyBalance, currency) in person.currencyBalances">
 												<div v-if="Math.abs(currencyBalance.totalBalance) > 0.01"
 													:key="currency"
-													:class="['currency-balance', currencyBalance.totalBalance < 0 ? 'positive' : 'negative']">
+													class="currency-balance" :class="[currencyBalance.totalBalance < 0 ? 'positive' : 'negative']">
 													<span v-if="currencyBalance.totalBalance < 0">
 														{{ t('cospend', 'Owes you {currency} {amount}', { amount: formatCurrency(Math.abs(currencyBalance.totalBalance)), currency: currency }) }}
 													</span>
@@ -174,7 +174,7 @@
 									<!-- Settlement button in header -->
 									<div class="person-actions">
 										<NcButton v-if="hasSettleableBalances(person)"
-											type="secondary"
+											variant="secondary"
 											@click="startSettlement(person)">
 											<template #icon>
 												<ReimburseIcon />
@@ -185,7 +185,7 @@
 								</div>
 
 								<div v-if="person.projects && person.projects.length > 1" class="project-breakdown">
-									<NcButton type="tertiary"
+									<NcButton variant="tertiary"
 										size="small"
 										:aria-expanded="isPersonExpanded(getPersonKey(person))"
 										@click="togglePersonExpansion(getPersonKey(person))">
@@ -201,7 +201,7 @@
 											class="project-item">
 											<span class="project-name">{{ project.projectName }}</span>
 											<span class="project-currency">{{ project.currency }}</span>
-											<span :class="['project-balance', project.balance >= 0 ? 'negative' : 'positive']">
+											<span class="project-balance" :class="[project.balance >= 0 ? 'negative' : 'positive']">
 												{{ formatCurrency(Math.abs(project.balance)) }}
 											</span>
 										</div>
@@ -209,7 +209,7 @@
 								</div>
 								<div v-else-if="person.projects && person.projects.length === 1" class="project-breakdown">
 									<NcButton
-										type="tertiary"
+										variant="tertiary"
 										size="small"
 										:aria-expanded="isPersonExpanded(getPersonKey(person))"
 										@click="togglePersonExpansion(getPersonKey(person))">
@@ -225,7 +225,7 @@
 											class="project-item">
 											<span class="project-name">{{ project.projectName }}</span>
 											<span class="project-currency">{{ project.currency }}</span>
-											<span :class="['project-balance', project.balance >= 0 ? 'negative' : 'positive']">
+											<span class="project-balance" :class="[project.balance >= 0 ? 'negative' : 'positive']">
 												{{ formatCurrency(Math.abs(project.balance)) }}
 											</span>
 										</div>
@@ -262,7 +262,7 @@
 											<template v-for="(currencyBalance, currency) in person.currencyBalances">
 												<div v-if="Math.abs(currencyBalance.totalBalance) > 0.01"
 													:key="currency"
-													:class="['currency-balance', currencyBalance.totalBalance < 0 ? 'positive' : 'negative']">
+													class="currency-balance" :class="[currencyBalance.totalBalance < 0 ? 'positive' : 'negative']">
 													<span v-if="currencyBalance.totalBalance < 0">
 														{{ t('cospend', 'Owes you {currency} {amount}', { amount: formatCurrency(Math.abs(currencyBalance.totalBalance)), currency: currency }) }}
 													</span>
@@ -276,7 +276,7 @@
 									<!-- Settlement Actions in header -->
 									<div class="header-actions">
 										<NcButton v-if="hasSettleableBalances(person)"
-											type="secondary"
+											variant="secondary"
 											@click="startSettlement(person)">
 											<template #icon>
 												<ReimburseIcon />
@@ -287,7 +287,7 @@
 								</div>
 								<div v-if="person.projects && person.projects.length > 1" class="project-breakdown">
 									<NcButton
-										type="tertiary"
+										variant="tertiary"
 										size="small"
 										:aria-expanded="isPersonExpanded(getPersonKey(person))"
 										@click="togglePersonExpansion(getPersonKey(person))">
@@ -303,7 +303,7 @@
 											class="project-item">
 											<span class="project-name">{{ project.projectName }}</span>
 											<span class="project-currency">{{ project.currency }}</span>
-											<span :class="['project-balance', project.balance >= 0 ? 'negative' : 'positive']">
+											<span class="project-balance" :class="[project.balance >= 0 ? 'negative' : 'positive']">
 												{{ formatCurrency(Math.abs(project.balance)) }}
 											</span>
 										</div>
@@ -311,7 +311,7 @@
 								</div>
 								<div v-else-if="person.projects && person.projects.length === 1" class="project-breakdown">
 									<NcButton
-										type="tertiary"
+										variant="tertiary"
 										size="small"
 										:aria-expanded="isPersonExpanded(getPersonKey(person))"
 										@click="togglePersonExpansion(getPersonKey(person))">
@@ -327,7 +327,7 @@
 											class="project-item">
 											<span class="project-name">{{ project.projectName }}</span>
 											<span class="project-currency">{{ project.currency }}</span>
-											<span :class="['project-balance', project.balance >= 0 ? 'negative' : 'positive']">
+											<span class="project-balance" :class="[project.balance >= 0 ? 'negative' : 'positive']">
 												{{ formatCurrency(Math.abs(project.balance)) }}
 											</span>
 										</div>
@@ -368,12 +368,12 @@
 										</div>
 									</div>
 									<div class="summary-card-compact net-balance">
-										<div :class="['card-icon-compact', currencyTotal.netBalance >= 0 ? 'positive' : 'negative']">
+										<div class="card-icon-compact" :class="[currencyTotal.netBalance >= 0 ? 'positive' : 'negative']">
 											<EqualsIcon />
 										</div>
 										<div class="card-content-compact">
 											<span class="label">{{ t('cospend', 'Net balance') }}</span>
-											<span :class="['amount', currencyTotal.netBalance >= 0 ? 'positive' : 'negative']">
+											<span class="amount" :class="[currencyTotal.netBalance >= 0 ? 'positive' : 'negative']">
 												{{ formatCurrency(currencyTotal.netBalance) }}
 											</span>
 										</div>
@@ -487,32 +487,31 @@ export default {
 			}
 
 			// Filter out people with no settleable balances
-			const peopleWithBalances = this.balanceData.personBalances.filter(person =>
-				this.hasSettleableBalances(person),
+			const peopleWithBalances = this.balanceData.personBalances.filter(person => this.hasSettleableBalances(person),
 			)
 
 			const sortedPersons = [...peopleWithBalances]
 
 			sortedPersons.sort((a, b) => {
-				let compareValue = 0
+				let compareValue
 
 				switch (this.personSortBy) {
-				case 'name':
-					compareValue = a.member.name.localeCompare(b.member.name)
-					break
-				case 'currency': {
-					const currenciesA = Object.keys(a.currencyBalances).sort().join(',')
-					const currenciesB = Object.keys(b.currencyBalances).sort().join(',')
-					compareValue = currenciesA.localeCompare(currenciesB)
-					break
-				}
-				case 'balance':
-				default: {
-					const maxBalanceA = Math.max(...Object.values(a.currencyBalances).map(cb => Math.abs(cb.totalBalance)))
-					const maxBalanceB = Math.max(...Object.values(b.currencyBalances).map(cb => Math.abs(cb.totalBalance)))
-					compareValue = maxBalanceA - maxBalanceB
-					break
-				}
+					case 'name':
+						compareValue = a.member.name.localeCompare(b.member.name)
+						break
+					case 'currency': {
+						const currenciesA = Object.keys(a.currencyBalances).sort().join(',')
+						const currenciesB = Object.keys(b.currencyBalances).sort().join(',')
+						compareValue = currenciesA.localeCompare(currenciesB)
+						break
+					}
+					case 'balance':
+					default: {
+						const maxBalanceA = Math.max(...Object.values(a.currencyBalances).map(cb => Math.abs(cb.totalBalance)))
+						const maxBalanceB = Math.max(...Object.values(b.currencyBalances).map(cb => Math.abs(cb.totalBalance)))
+						compareValue = maxBalanceA - maxBalanceB
+						break
+					}
 				}
 
 				return this.personSortOrder === 'asc' ? compareValue : -compareValue
@@ -533,19 +532,19 @@ export default {
 			const sortedTotals = [...this.balanceData.currencyTotals]
 
 			sortedTotals.sort((a, b) => {
-				let compareValue = 0
+				let compareValue
 
 				switch (this.summarySortBy) {
-				case 'currency':
-					compareValue = a.currency.localeCompare(b.currency)
-					break
-				case 'amount':
-				default: {
-					const amountA = Math.abs(a.netBalance)
-					const amountB = Math.abs(b.netBalance)
-					compareValue = amountA - amountB
-					break
-				}
+					case 'currency':
+						compareValue = a.currency.localeCompare(b.currency)
+						break
+					case 'amount':
+					default: {
+						const amountA = Math.abs(a.netBalance)
+						const amountB = Math.abs(b.netBalance)
+						compareValue = amountA - amountB
+						break
+					}
 				}
 
 				return this.summarySortOrder === 'asc' ? compareValue : -compareValue
@@ -601,7 +600,7 @@ export default {
 				return true
 			}
 			return this.partialSettlementAmount > 0
-				   && this.partialSettlementAmount <= Math.abs(this.settlementAmount)
+				&& this.partialSettlementAmount <= Math.abs(this.settlementAmount)
 		},
 
 		/**
@@ -673,7 +672,7 @@ export default {
 
 			for (const project of this.settlementProjectBreakdown) {
 				const originalProject = projects.find(p => p.projectId === project.projectId)
-				if (!originalProject) continue
+				if (!originalProject) { continue }
 
 				const actualAmount = project.customAmount !== null ? project.customAmount : project.billAmount
 				const originalBalance = Math.abs(originalProject.balance)
@@ -790,7 +789,7 @@ export default {
 		await this.loadBalances()
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		// Clean up any pending API calls or timers
 		if (this.loadBalancesRequest) {
 			this.loadBalancesRequest.abort()
@@ -1021,7 +1020,7 @@ export default {
 		 */
 		calculateProjectBreakdown(person, currency, totalAmount) {
 			const projects = person.projects.filter(p => p.currency === currency && Math.abs(p.balance) > 0.01)
-			if (projects.length === 0) return []
+			if (projects.length === 0) { return [] }
 
 			// If totalAmount equals the sum of all project balances, use exact amounts
 			const totalProjectBalance = projects.reduce((sum, p) => sum + Math.abs(p.balance), 0)
@@ -1063,14 +1062,12 @@ export default {
 			// If the difference is small, adjust the largest amount to match exactly
 			if (Math.abs(difference) < projects.length && Math.abs(difference) >= 0.01) {
 				// Find the project with the largest amount to adjust
-				const largestIndex = roundedBreakdown.reduce((maxIndex, item, index, arr) =>
-					item.billAmount > arr[maxIndex].billAmount ? index : maxIndex, 0)
+				const largestIndex = roundedBreakdown.reduce((maxIndex, item, index, arr) => item.billAmount > arr[maxIndex].billAmount ? index : maxIndex, 0)
 				roundedBreakdown[largestIndex].billAmount += difference
 			}
 
 			// If rounding works and all amounts are reasonable, use rounded amounts
-			const allAmountsReasonable = roundedBreakdown.every(item =>
-				item.billAmount > 0 && item.billAmount <= item.originalBalance * 1.5)
+			const allAmountsReasonable = roundedBreakdown.every(item => item.billAmount > 0 && item.billAmount <= item.originalBalance * 1.5)
 
 			if (allAmountsReasonable && Math.abs(roundedBreakdown.reduce((sum, item) => sum + item.billAmount, 0) - totalAmount) < 0.01) {
 				return roundedBreakdown.map(item => ({

@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div class="settings">
 		<div class="settings-project">
@@ -220,6 +224,7 @@ export default {
 			required: true,
 		},
 	},
+	emits: ['project-edited', 'user-added', 'new-simple-member', 'export-clicked'],
 	data() {
 		return {
 			cospend: OCA.Cospend.state,
@@ -508,6 +513,7 @@ export default {
 	},
 }
 </script>
+
 <style scoped lang="scss">
 .settings {
 	display: flex;

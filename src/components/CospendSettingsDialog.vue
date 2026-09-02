@@ -1,4 +1,8 @@
 <!--
+  - SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<!--
   - @copyright Copyright (c) 2021 Julien Veyssier <julien-nc@posteo.net>
   -
   - @author Julien Veyssier <julien-nc@posteo.net>
@@ -274,6 +278,8 @@ export default {
 		CogIcon,
 	},
 
+	emits: ['update-max-precision'],
+
 	data() {
 		return {
 			showSettings: false,
@@ -372,28 +378,28 @@ export default {
 	},
 
 	computed: {
-		selectedSortOrder(): Object {
+		selectedSortOrder(): object {
 			return this.sortOrderOptions[this.sortOrder as keyof typeof this.sortOrderOptions] ?? this.sortOrderOptions.name
 		},
-		selectedMemberOrder(): Object {
+		selectedMemberOrder(): object {
 			return this.memberOrderOptions[this.memberOrder as keyof typeof this.memberOrderOptions] ?? this.memberOrderOptions.name
 		},
-		selectedDisplayOrder(): Object {
+		selectedDisplayOrder(): object {
 			return this.displayOrderOptions[this.displayOrder as keyof typeof this.displayOrderOptions] ?? this.displayOrderOptions.summary
 		},
-		selectedHideProjectsVisibility(): Object {
+		selectedHideProjectsVisibility(): object {
 			return this.hideProjectsVisibilityOptions[this.hideProjectsVisibility as keyof typeof this.hideProjectsVisibilityOptions] ?? this.hideProjectsVisibilityOptions.hide
 		},
-		selectedPersonSortBy(): Object {
+		selectedPersonSortBy(): object {
 			return this.personSortByOptions[this.personSortBy as keyof typeof this.personSortByOptions] ?? this.personSortByOptions.balance
 		},
-		selectedPersonSortOrder(): Object {
+		selectedPersonSortOrder(): object {
 			return this.balanceSortOrderOptions[this.personSortOrder as keyof typeof this.balanceSortOrderOptions] ?? this.balanceSortOrderOptions.desc
 		},
-		selectedSummarySortBy(): Object {
+		selectedSummarySortBy(): object {
 			return this.summarySortByOptions[this.summarySortBy as keyof typeof this.summarySortByOptions] ?? this.summarySortByOptions.amount
 		},
-		selectedSummarySortOrder(): Object {
+		selectedSummarySortOrder(): object {
 			return this.balanceSortOrderOptions[this.summarySortOrder as keyof typeof this.balanceSortOrderOptions] ?? this.balanceSortOrderOptions.desc
 		},
 	},
@@ -402,7 +408,7 @@ export default {
 		subscribe('show-settings', this.handleShowSettings)
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		unsubscribe('show-settings', this.handleShowSettings)
 	},
 

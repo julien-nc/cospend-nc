@@ -36,7 +36,7 @@
 				</div>
 				<!-- Close button - hidden on mobile where back button is used instead -->
 				<NcButton
-					type="tertiary"
+					variant="tertiary"
 					class="desktop-only-close"
 					:aria-label="t('cospend', 'Cancel settlement')"
 					@click="cancelSettlement">
@@ -173,7 +173,7 @@
 							:placeholder="t('cospend', 'Enter amount')"
 							@input="validatePartialAmount">
 						<div v-else class="amount-display">
-							<span class="amount-value" :class="{ 'payment': settlementAmount > 0, 'receive': settlementAmount < 0 }">
+							<span class="amount-value" :class="{ payment: settlementAmount > 0, receive: settlementAmount < 0 }">
 								{{ memoizedFormatCurrency(Math.abs(settlementAmount), selectedCurrencyCode) }}
 							</span>
 						</div>
@@ -191,14 +191,14 @@
 					<div class="config-section">
 						<NcButton
 							v-if="isPartialSettlement && !partialSettlementConfirmed && canConfirmPartial"
-							type="primary"
+							variant="primary"
 							:aria-label="t('cospend', 'Confirm partial amount and proceed to project distribution')"
 							@click="confirmPartialSettlement">
 							{{ t('cospend', 'Set custom amounts') }}
 						</NcButton>
 						<NcButton
 							v-if="isPartialSettlement && partialSettlementConfirmed"
-							type="secondary"
+							variant="secondary"
 							:aria-label="t('cospend', 'Change partial settlement amount')"
 							@click="resetPartialSettlement">
 							{{ t('cospend', 'Reset') }}
@@ -226,10 +226,10 @@
 								<span :id="`debt-info-${project.id}`"
 									class="remaining-debt-header"
 									:class="{
-										'settled': remainingDebt(project) <= 0,
-										'reduced': remainingDebt(project) > 0,
+										settled: remainingDebt(project) <= 0,
+										reduced: remainingDebt(project) > 0,
 										'payment-remaining': settlementAmount > 0,
-										'receive-remaining': settlementAmount < 0
+										'receive-remaining': settlementAmount < 0,
 									}"
 									:aria-label="remainingDebt(project) <= 0 ? t('cospend', 'Debt will be settled') : t('cospend', 'Remaining debt: {amount}', { amount: memoizedFormatCurrency(remainingDebt(project), selectedCurrencyCode) })">
 									{{ remainingDebt(project) <= 0 ? t('cospend', 'Settled') : memoizedFormatCurrency(remainingDebt(project), selectedCurrencyCode) }}
@@ -270,7 +270,7 @@
 											class="overpayment-notice-inline">
 											<strong>{{ t('cospend', 'Note:') }}</strong>
 											{{ t('cospend', 'Exceeds original debt of {amount}', {
-												amount: memoizedFormatCurrency(project.originalBalance, selectedCurrencyCode)
+												amount: memoizedFormatCurrency(project.originalBalance, selectedCurrencyCode),
 											}) }}
 										</span>
 									</div>
@@ -280,7 +280,7 @@
 							<!-- Additional Details Section for this project -->
 							<div class="project-optional-fields">
 								<NcButton
-									type="tertiary"
+									variant="tertiary"
 									class="optional-fields-toggle"
 									:aria-expanded="getProjectOptionalField(project.id, 'showOptionalFields')"
 									@click="toggleProjectOptionalFields(project.id)">
@@ -302,7 +302,7 @@
 											</label>
 											<NcDateTimePicker
 												:id="`settlement-date-${project.id}`"
-												:value="getProjectOptionalField(project.id, 'datetime')"
+												:model-value="getProjectOptionalField(project.id, 'datetime')"
 												:label="t('cospend', 'Settlement date and time')"
 												type="datetime"
 												format="yyyy-MM-dd HH:mm"
@@ -317,7 +317,7 @@
 											</label>
 											<NcSelect
 												:id="`settlement-paymentmode-${project.id}`"
-												:value="getProjectOptionalField(project.id, 'paymentMode')"
+												:model-value="getProjectOptionalField(project.id, 'paymentMode')"
 												:options="getPaymentModeOptionsForProject(project.id)"
 												:placeholder="t('cospend', 'None')"
 												:clearable="true"
@@ -358,11 +358,11 @@
 							<span class="label">{{ t('cospend', 'Current total:') }}</span>
 							<span class="amount"
 								:class="{
-									'valid': hasValidCustomAmounts && totalCustomAmount > 0,
-									'zero': totalCustomAmount === 0,
-									'invalid': totalCustomAmount > 0 && !hasValidCustomAmounts,
+									valid: hasValidCustomAmounts && totalCustomAmount > 0,
+									zero: totalCustomAmount === 0,
+									invalid: totalCustomAmount > 0 && !hasValidCustomAmounts,
 									'payment-amount': settlementAmount > 0 && hasValidCustomAmounts && totalCustomAmount > 0,
-									'receive-amount': settlementAmount < 0 && hasValidCustomAmounts && totalCustomAmount > 0
+									'receive-amount': settlementAmount < 0 && hasValidCustomAmounts && totalCustomAmount > 0,
 								}">
 								{{ memoizedFormatCurrency(totalCustomAmount, selectedCurrencyCode) }}
 							</span>
@@ -376,7 +376,7 @@
 				<!-- Primary Settlement Creation Button -->
 				<NcButton
 					v-if="!showConfirmationDialog"
-					type="primary"
+					variant="primary"
 					:disabled="!canSettle"
 					:loading="isCreatingSettlement"
 					@click="performSettlement">
@@ -392,14 +392,14 @@
 				-->
 				<div v-if="showConfirmationDialog" class="simple-confirmation">
 					<NcButton
-						type="tertiary"
+						variant="tertiary"
 						:disabled="isCreatingSettlement"
 						:aria-label="t('cospend', 'Cancel settlement creation')"
 						@click="cancelConfirmation">
 						{{ t('cospend', 'Cancel') }}
 					</NcButton>
 					<NcButton
-						type="primary"
+						variant="primary"
 						:disabled="isCreatingSettlement"
 						:loading="isCreatingSettlement"
 						:aria-label="t('cospend', 'Create the settlement as shown')"
@@ -407,7 +407,7 @@
 						<template #icon>
 							<CheckIcon />
 						</template>
-						{{ isCreatingSettlement ? t('cospend', 'Creating...') : t('cospend', 'Confirm settlement') }}
+						{{ isCreatingSettlement ? t('cospend', 'Creating…') : t('cospend', 'Confirm settlement') }}
 					</NcButton>
 				</div>
 			</div>
@@ -549,14 +549,14 @@ export default {
 		// Total amount owed/owing in the selected currency
 		// Positive = user owes money, Negative = user is owed money
 		settlementAmount() {
-			if (!this.currentSettlementPerson || !this.selectedCurrencyCode) return 0
+			if (!this.currentSettlementPerson || !this.selectedCurrencyCode) { return 0 }
 			return this.currentSettlementPerson.currencyBalances[this.selectedCurrencyCode]?.totalBalance || 0
 		},
 
 		canSettle() {
-			if (!this.currentSettlementPerson || this.isCreatingSettlement) return false
+			if (!this.currentSettlementPerson || this.isCreatingSettlement) { return false }
 			const amount = this.isPartialSettlement ? this.partialAmount : Math.abs(this.settlementAmount)
-			if (amount <= 0 || !this.selectedCurrencyCode) return false
+			if (amount <= 0 || !this.selectedCurrencyCode) { return false }
 
 			// For confirmed partial settlements, require the split to match the target amount.
 			if (this.partialSettlementConfirmed) {
@@ -576,13 +576,13 @@ export default {
 		 * Returns array of project objects with calculated settlement amounts
 		 */
 		projectBreakdown() {
-			if (!this.currentSettlementPerson || !this.selectedCurrencyCode) return []
+			if (!this.currentSettlementPerson || !this.selectedCurrencyCode) { return [] }
 
 			// Get projects for this currency
 			const projects = this.currentSettlementPerson.projects
 				.filter(p => p.currency === this.selectedCurrencyCode && Math.abs(p.balance) > 0.01)
 
-			if (projects.length === 0) return []
+			if (projects.length === 0) { return [] }
 
 			const totalAmount = this.isPartialSettlement ? this.partialAmount : Math.abs(this.settlementAmount)
 			const totalProjectBalance = projects.reduce((sum, p) => sum + Math.abs(p.balance), 0)
@@ -634,7 +634,7 @@ export default {
 		 * Must be positive and not exceed total settlement amount
 		 */
 		canConfirmPartial() {
-			if (!this.isPartialSettlement || this.partialSettlementConfirmed) return false
+			if (!this.isPartialSettlement || this.partialSettlementConfirmed) { return false }
 			return this.partialAmount > 0 && this.partialAmount <= Math.abs(this.settlementAmount)
 		},
 
@@ -643,7 +643,7 @@ export default {
 		 * Used for validation and final confirmation
 		 */
 		totalCustomAmount() {
-			if (!this.partialSettlementConfirmed) return 0
+			if (!this.partialSettlementConfirmed) { return 0 }
 			return Object.values(this.projectCustomAmounts).reduce((sum, amount) => {
 				return sum + (parseFloat(amount) || 0)
 			}, 0)
@@ -654,7 +654,7 @@ export default {
 		 * Allows small tolerance for rounding differences
 		 */
 		hasValidCustomAmounts() {
-			if (!this.partialSettlementConfirmed) return true
+			if (!this.partialSettlementConfirmed) { return true }
 			const tolerance = 0.01
 			return Math.abs(this.totalCustomAmount - this.partialAmount) <= tolerance
 		},
@@ -865,7 +865,7 @@ export default {
 		 * @return {string} Formatted currency string
 		 */
 		formatCurrency(amount, currency) {
-			if (amount === undefined || amount === null) return '0'
+			if (amount === undefined || amount === null) { return '0' }
 			// Handle both direct string and option object from NcSelect
 			const currencyCode = typeof currency === 'string' ? currency : currency?.id || currency?.label || 'EUR'
 			const formatted = new Intl.NumberFormat(navigator.language, {
@@ -885,7 +885,7 @@ export default {
 		 * @return {string} Formatted currency string with payment direction
 		 */
 		formatCurrencyWithDirection(amount, currency, isPayment) {
-			if (amount === undefined || amount === null) return '0'
+			if (amount === undefined || amount === null) { return '0' }
 			const currencyCode = typeof currency === 'string' ? currency : currency?.id || currency?.label || 'EUR'
 			const formatted = new Intl.NumberFormat(navigator.language, {
 				minimumFractionDigits: 2,
@@ -923,7 +923,7 @@ export default {
 		 * @return {string} Formatted date string
 		 */
 		formatDateTime(date) {
-			if (!date) return ''
+			if (!date) { return '' }
 			const year = date.getFullYear()
 			const month = String(date.getMonth() + 1).padStart(2, '0')
 			const day = String(date.getDate()).padStart(2, '0')
@@ -1152,7 +1152,7 @@ export default {
 		 * 5. Handles errors with user-friendly messages
 		 */
 		async executeSettlement() {
-			if (!this.canSettle || this.isCreatingSettlement) return
+			if (!this.canSettle || this.isCreatingSettlement) { return }
 
 			this.isCreatingSettlement = true
 
@@ -1213,12 +1213,12 @@ export default {
 				showSuccess(
 					this.partialSettlementConfirmed
 						? t('cospend', 'Custom settlement of {amount} created successfully', {
-							amount: this.formatCurrency(actualTotalAmount, this.selectedCurrencyCode),
-						})
-						: this.isPartialSettlement
-							? t('cospend', 'Partial settlement of {amount} created successfully', {
 								amount: this.formatCurrency(actualTotalAmount, this.selectedCurrencyCode),
 							})
+						: this.isPartialSettlement
+							? t('cospend', 'Partial settlement of {amount} created successfully', {
+									amount: this.formatCurrency(actualTotalAmount, this.selectedCurrencyCode),
+								})
 							: t('cospend', 'Settlement created successfully'),
 				)
 
@@ -1231,7 +1231,6 @@ export default {
 				// Emit event to refresh balances with affected project IDs
 				this.$emit('settlement-created', affectedProjectIds)
 				this.cancelSettlement()
-
 			} catch (error) {
 				console.error('Settlement error:', error)
 				console.error('Error response:', error.response?.data)

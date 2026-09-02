@@ -7,7 +7,7 @@
 
 /// <reference types="vite/client" />
 
-import { translate } from '@nextcloud/l10n'
+import type { translate } from '@nextcloud/l10n'
 import type { TranslationOptions } from '@nextcloud/l10n'
 
 interface Capabilities {

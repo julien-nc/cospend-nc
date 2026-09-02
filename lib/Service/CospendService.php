@@ -1,13 +1,9 @@
 <?php
 
+declare(strict_types=1);
 /**
- * Nextcloud - Cospend
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
- *
- * @author Julien Veyssier
- * @copyright Julien Veyssier 2024
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Cospend\Service;
@@ -107,7 +103,10 @@ class CospendService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function importCsvProject(string $path, string $userId): array {
-		$cleanPath = str_replace(['../', '..\\'], '', $path);
+		if (str_contains($path, '..')) {
+			return ['message' => $this->l10n->t('Access denied')];
+		}
+		$cleanPath = $path;
 		$userFolder = $this->root->getUserFolder($userId);
 		if ($userFolder->nodeExists($cleanPath)) {
 			$file = $userFolder->get($cleanPath);
@@ -480,7 +479,10 @@ class CospendService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function importSWProject(string $path, string $userId): array {
-		$cleanPath = str_replace(['../', '..\\'], '', $path);
+		if (str_contains($path, '..')) {
+			return ['message' => $this->l10n->t('Access denied')];
+		}
+		$cleanPath = $path;
 		$userFolder = $this->root->getUserFolder($userId);
 		if ($userFolder->nodeExists($cleanPath)) {
 			$file = $userFolder->get($cleanPath);
@@ -948,7 +950,7 @@ class CospendService {
 	 * @param string $userId
 	 * @param array $projectInfo
 	 * @param array $bills
-	 * @param string|null $name
+	 * @param string|null $outputPath
 	 * @return array
 	 * @throws InvalidPathException
 	 * @throws LockedException
@@ -956,39 +958,55 @@ class CospendService {
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
 	 */
-	public function exportCsvProject(string $projectId, string $userId, array $projectInfo, array $bills, ?string $name = null): array {
-		// create export directory if needed
-		$outPath = $this->userConfig->getValueString($userId, Application::APP_ID, 'outputDirectory', '/Cospend', lazy: true);
-		$userFolder = $this->root->getUserFolder($userId);
-		$msg = $this->createAndCheckExportDirectory($userFolder, $outPath);
-		if ($msg !== '') {
-			return ['message' => $msg];
-		}
-		$folder = $userFolder->get($outPath);
-		if (!$folder instanceof Folder) {
-			return ['message' => $outPath . ' is not a directory'];
-		}
-
+	public function exportCsvProject(
+		string $projectId, string $userId, array $projectInfo, array $bills,
+		?string $outputPath = null, bool $fileSystem = false,
+	): array {
 		// create file
-		$filename = $projectId . '.csv';
-		if ($name !== null) {
-			$filename = $name;
-			if (!str_ends_with($filename, '.csv')) {
-				$filename .= '.csv';
+		if ($outputPath === null) {
+			$outputPath = $projectId . '.csv';
+		} else {
+			if (str_contains($outputPath, '..')) {
+				throw new \Exception('Invalid file name or path');
+			}
+			if (!str_ends_with($outputPath, '.csv')) {
+				$outputPath .= '.csv';
 			}
 		}
-		if ($folder->nodeExists($filename)) {
-			$folder->get($filename)->delete();
+		if ($fileSystem) {
+			$handler = fopen($outputPath, 'w');
+			if ($handler === false) {
+				return ['message' => 'Failed to open file "' . $outputPath . '" for writing'];
+			}
+		} else {
+			// create export directory if needed
+			$userFolder = $this->root->getUserFolder($userId);
+			$outputDirPath = $this->userConfig->getValueString($userId, Application::APP_ID, 'outputDirectory', '/Cospend', lazy: true);
+			$msg = $this->createAndCheckExportDirectory($userFolder, $outputDirPath);
+			if ($msg !== '') {
+				return ['message' => $msg];
+			}
+			$folder = $userFolder->get($outputDirPath);
+			if (!$folder instanceof Folder) {
+				return ['message' => $outputDirPath . ' is not a directory'];
+			}
+			if ($folder->nodeExists($outputPath)) {
+				$folder->get($outputPath)->delete();
+			}
+			$storageFile = $folder->newFile($outputPath);
+			$handler = $storageFile->fopen('w');
 		}
-		$file = $folder->newFile($filename);
-		$handler = $file->fopen('w');
 		foreach ($this->getJsonProject($projectInfo, $bills) as $chunk) {
 			fwrite($handler, $chunk);
 		}
 
 		fclose($handler);
-		$file->touch();
-		return ['path' => $outPath . '/' . $filename];
+		if ($fileSystem) {
+			return ['path' => $outputPath];
+		} else {
+			$storageFile->touch();
+			return ['path' => $outputDirPath . '/' . $outputPath];
+		}
 	}
 
 	/**
@@ -1027,7 +1045,7 @@ class CospendService {
 			$payer_name = $memberIdToName[$payer_id];
 			$payer_weight = $memberIdToWeight[$payer_id];
 			$payer_active = $memberIdToActive[$payer_id];
-			$dateTime = DateTime::createFromFormat('U', $bill['timestamp']);
+			$dateTime = DateTime::createFromFormat('U', (string)$bill['timestamp']);
 			$oldDateStr = $dateTime->format('Y-m-d');
 			// escaping double quotes by doubling them: https://stackoverflow.com/a/17808731
 			yield '"' . str_replace('"', '""', $bill['what']) . '",'

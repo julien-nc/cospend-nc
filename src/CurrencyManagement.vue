@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div id="manage-currencies">
 		<div id="main-currency-div">
@@ -13,7 +17,7 @@
 				<NcButton v-show="project.myaccesslevel >= constants.ACCESS.MAINTENER"
 					:title="t('cospend', 'Set main currency name')"
 					:aria-label="t('cospend', 'Set main currency name')"
-					@click="editMode=true; $nextTick(() => $refs.mainCurrencyEdit.focus());">
+					@click="editMode = true; $nextTick(() => $refs.mainCurrencyEdit.focus());">
 					<template #icon>
 						<PencilIcon :size="20" />
 					</template>
@@ -32,7 +36,7 @@
 				<NcButton
 					:title="t('cospend', 'Cancel')"
 					:aria-label="t('cospend', 'Cancel currency edition')"
-					@click="editMode=false">
+					@click="editMode = false">
 					<template #icon>
 						<UndoIcon :size="20" />
 					</template>
@@ -92,7 +96,7 @@
 			</h3>
 			<div v-if="currencies.length"
 				id="currency-list">
-				<Currency
+				<ProjectCurrency
 					v-for="currency in currencies"
 					:key="currency.id"
 					:currency="currency"
@@ -120,7 +124,7 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 
-import Currency from './components/Currency.vue'
+import ProjectCurrency from './components/ProjectCurrency.vue'
 
 import {
 	showSuccess,
@@ -135,7 +139,7 @@ export default {
 
 	components: {
 		CurrencyIcon,
-		Currency,
+		ProjectCurrency,
 		CurrencyUsdIcon,
 		PlusIcon,
 		PencilIcon,
@@ -152,6 +156,7 @@ export default {
 			required: true,
 		},
 	},
+	emits: ['project-edited'],
 	data() {
 		return {
 			cospend: OCA.Cospend.state,

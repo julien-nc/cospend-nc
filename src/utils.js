@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 import { getCurrentUser } from '@nextcloud/auth'
 import {
 	showInfo,
@@ -170,10 +174,10 @@ export function hexToRgb(hex) {
 	const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
 	return result
 		? {
-			r: parseInt(result[1], 16),
-			g: parseInt(result[2], 16),
-			b: parseInt(result[3], 16),
-		}
+				r: parseInt(result[1], 16),
+				g: parseInt(result[2], 16),
+				b: parseInt(result[3], 16),
+			}
 		: null
 }
 
@@ -225,7 +229,6 @@ export function hexToBrighterHex(hex, raiseTo = 140) {
 export function getComplementaryColor(hex) {
 	const rgb = hexToRgb(hex)
 	return rgbToHex(255 - rgb.r, 255 - rgb.g, 255 - rgb.b)
-
 }
 
 // this formula was found here : https://stackoverflow.com/a/596243/7692836
@@ -311,7 +314,6 @@ export function checkKey(e) {
 
 export function reload(msg) {
 	showInfo(msg)
-	// eslint-disable-next-line
 	new Timer(function() {
 		location.reload()
 	}, 5000)

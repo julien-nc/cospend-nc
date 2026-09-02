@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<NcModal
 		:name="t('cospend', 'Pending invitations for federated shares')"
@@ -19,14 +23,14 @@
 					:disable-menu="true"
 					:disable-tooltip="true" />
 				<div class="spacer" />
-				<NcButton type="error"
+				<NcButton variant="error"
 					@click="reject(invite)">
 					<template #icon>
 						<CloseIcon />
 					</template>
 					{{ t('cospend', 'Reject') }}
 				</NcButton>
-				<NcButton type="success"
+				<NcButton variant="success"
 					@click="accept(invite)">
 					<template #icon>
 						<CheckIcon />
@@ -65,6 +69,7 @@ export default {
 			required: true,
 		},
 	},
+	emits: ['close'],
 	data() {
 		return {
 		}
@@ -111,6 +116,7 @@ export default {
 	},
 }
 </script>
+
 <style scoped lang="scss">
 .pending-modal-content {
 	display: flex;

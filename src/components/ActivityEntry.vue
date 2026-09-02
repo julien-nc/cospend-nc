@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div class="activity-entry">
 		<img v-if="activity.icon"
@@ -82,28 +86,27 @@ export default {
 			Object.keys(parameters).forEach((key, index) => {
 				const { type } = parameters[key]
 				switch (type) {
-				case 'highlight':
-					parameters[key] = {
-						component: ActivityHighlight,
-						props: {
-							href: parameters[key].link,
-							name: parameters[key].name,
-						},
-					}
-					break
-				case 'user':
-					parameters[key] = {
-						component: NcUserBubble,
-						props: {
-							user: parameters[key].id,
-							displayName: parameters[key].name,
-						},
-					}
-					break
-				default:
-					parameters[key] = `{${key}}`
+					case 'highlight':
+						parameters[key] = {
+							component: ActivityHighlight,
+							props: {
+								href: parameters[key].link,
+								name: parameters[key].name,
+							},
+						}
+						break
+					case 'user':
+						parameters[key] = {
+							component: NcUserBubble,
+							props: {
+								user: parameters[key].id,
+								displayName: parameters[key].name,
+							},
+						}
+						break
+					default:
+						parameters[key] = `{${key}}`
 				}
-
 			})
 
 			return {

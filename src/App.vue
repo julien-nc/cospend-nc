@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<NcContent app-name="cospend">
 		<CospendNavigation
@@ -77,10 +81,10 @@
 						:bill="billToMove"
 						:project-id="currentProjectId" />
 				</NcModal>
-				<Statistics
+				<StatisticsContentDetails
 					v-else-if="mode === 'stats'"
 					:project-id="currentProjectId" />
-				<Settlement
+				<ProjectSettlement
 					v-else-if="mode === 'settle'"
 					:project-id="currentProjectId"
 					@auto-settled="onAutoSettled" />
@@ -151,7 +155,7 @@
 		</NcAppContent>
 		<CospendSettingsDialog
 			@update-max-precision="onUpdateMaxPrecision" />
-		<Sidebar
+		<CospendAppSidebar
 			v-if="currentProjectId"
 			ref="sidebar"
 			:project-id="currentProjectId"
@@ -212,9 +216,9 @@ export default {
 		CrossProjectSettlement: defineAsyncComponent(() => import('./components/CrossProjectSettlement.vue')),
 		BillList: defineAsyncComponent(() => import('./BillList.vue')),
 		BillForm: defineAsyncComponent(() => import('./BillForm.vue')),
-		Statistics: defineAsyncComponent(() => import('./components/statistics/Statistics.vue')),
-		Settlement: defineAsyncComponent(() => import('./Settlement.vue')),
-		Sidebar: defineAsyncComponent(() => import('./components/Sidebar.vue')),
+		StatisticsContentDetails: defineAsyncComponent(() => import('./components/statistics/StatisticsContentDetails.vue')),
+		ProjectSettlement: defineAsyncComponent(() => import('./ProjectSettlement.vue')),
+		CospendAppSidebar: defineAsyncComponent(() => import('./components/CospendAppSidebar.vue')),
 		MoveToProjectList: defineAsyncComponent(() => import('./components/MoveToProjectList.vue')),
 		NcContent: defineAsyncComponent(() => import('@nextcloud/vue/components/NcContent')),
 		NcAppContent: defineAsyncComponent(() => import('@nextcloud/vue/components/NcAppContent')),
@@ -392,7 +396,7 @@ export default {
 		subscribe('show-cross-project-balances', this.onShowCrossProjectBalances)
 		subscribe('cross-project-settlement-person-selected', this.onSettlementPersonSelected)
 	},
-	beforeDestroy() {
+	beforeUnmount() {
 		window.removeEventListener('popstate', this.onPopState)
 
 		unsubscribe('nextcloud:unified-search:search', this.filter)
@@ -566,29 +570,29 @@ export default {
 			}
 
 			switch (route.type) {
-			case 'cross-project-balances':
-				await this.openCrossProjectBalances(false)
-				break
-			case 'cross-project-settlement':
-				await this.openCrossProjectBalances(false, route.personKey)
-				break
-			case 'project':
-				if (route.projectId in this.projects) {
-					this.selectProject(route.projectId, false, false)
-				}
-				break
-			case 'bill':
-				if (route.projectId in this.projects) {
-					this.cospend.restoredCurrentBillId = route.billId
-					this.selectProject(route.projectId, false, false, true)
-				}
-				break
-			case 'root':
-			default:
-				this.currentSettlementPerson = null
-				this.currentBill = null
-				this.mode = 'normal'
-				this.cospend.currentProjectId = null
+				case 'cross-project-balances':
+					await this.openCrossProjectBalances(false)
+					break
+				case 'cross-project-settlement':
+					await this.openCrossProjectBalances(false, route.personKey)
+					break
+				case 'project':
+					if (route.projectId in this.projects) {
+						this.selectProject(route.projectId, false, false)
+					}
+					break
+				case 'bill':
+					if (route.projectId in this.projects) {
+						this.cospend.restoredCurrentBillId = route.billId
+						this.selectProject(route.projectId, false, false, true)
+					}
+					break
+				case 'root':
+				default:
+					this.currentSettlementPerson = null
+					this.currentBill = null
+					this.mode = 'normal'
+					this.cospend.currentProjectId = null
 			}
 		},
 		async restoreInitialRouteState() {

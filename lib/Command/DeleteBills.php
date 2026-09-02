@@ -1,13 +1,9 @@
 <?php
 
+declare(strict_types=1);
 /**
- * Nextcloud - Cospend
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
- *
- * @author Julien Veyssier <julien-nc@posteo.net>
- * @copyright Julien Veyssier 2023
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Cospend\Command;
@@ -56,7 +52,7 @@ class DeleteBills extends Base {
 			);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$projectId = $input->getArgument('project_id');
 		$what = $input->getOption('what');
 		$minTs = $input->getOption('min_timestamp');

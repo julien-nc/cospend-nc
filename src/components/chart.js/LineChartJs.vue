@@ -1,9 +1,14 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<LineChart
 		ref="chartComponent"
 		:options="chartOptions"
 		:data="chartData" />
 </template>
+
 <script>
 import { Line as LineChart } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, PointElement, CategoryScale, LinearScale, LineElement, Filler } from 'chart.js'

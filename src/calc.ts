@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 // this comes from https://stackoverflow.com/questions/2276021/evaluating-a-string-as-a-mathematical-expression-in-javascript/75355272#75355272
 // WTF!
 // parseFloat('-0') => -0 vs parseFloat(-0) => 0
@@ -5,14 +9,14 @@
 const minus0Hack = (value: number) => (Object.is(value, -0) ? '-0' : value)
 
 const operators: {
-  [operator: string]:
-    | {
-        func: (...args: string[]) => string;
-        precedence: number;
-        associativity: 'left' | 'right';
-        arity: number; // Needed by evalReversePolishNotation()
-      }
-    | undefined;
+	[operator: string]:
+		| {
+			func: (...args: string[]) => string;
+			precedence: number;
+			associativity: 'left' | 'right';
+			arity: number; // Needed by evalReversePolishNotation()
+		}
+		| undefined;
 } = {
 	'+': {
 		func: (x, y) => `${minus0Hack(Number(x) + Number(y))}`,
@@ -48,7 +52,6 @@ const operators: {
 		// Why Math.pow() instead of **?
 		// -2 ** 2 => "SyntaxError: Unary operator used immediately before exponentiation expression..."
 		// Math.pow(-2, 2) => -4
-		// eslint-disable-next-line prefer-exponentiation-operator, no-restricted-properties
 		func: (x, y) => `${minus0Hack(Math.pow(Number(x), Number(y)))}`,
 		precedence: 3,
 		associativity: 'right',
@@ -58,13 +61,13 @@ const operators: {
 const operatorsKeys = Object.keys(operators)
 
 const functions: {
-  [operator: string]:
-    | {
-        func: (...args: string[]) => string;
-        // Needed by evalReversePolishNotation()
-        arity: number;
-      }
-    | undefined;
+	[operator: string]:
+		| {
+			func: (...args: string[]) => string;
+			// Needed by evalReversePolishNotation()
+			arity: number;
+		}
+		| undefined;
 } = {
 	min: { func: (x, y) => `${minus0Hack(Math.min(Number(x), Number(y)))}`, arity: 2 },
 	max: { func: (x, y) => `${minus0Hack(Math.max(Number(x), Number(y)))}`, arity: 2 },
@@ -77,16 +80,6 @@ const functionsKeys = Object.keys(functions)
 
 const top = (stack: string[]): string | undefined => stack[stack.length - 1]
 
-/**
- * Shunting yard algorithm: converts infix expression to postfix expression (reverse Polish notation)
- *
- * Example: ['1', '+', '2'] => ['1', '2', '+']
- *
- * https://en.wikipedia.org/wiki/Shunting_yard_algorithm
- * https://github.com/poteat/shunting-yard-typescript
- * https://blog.kallisti.net.nz/2008/02/extension-to-the-shunting-yard-algorithm-to-allow-variable-numbers-of-arguments-to-functions/
- * @param tokens the list of string tokens
- */
 function shuntingYard(tokens: string[]) {
 	const output = new Array<string>()
 	const operatorStack = new Array<string>()
@@ -105,11 +98,11 @@ function shuntingYard(tokens: string[]) {
 			const o1 = token
 			while (
 				operatorStack.length > 0
-        && top(operatorStack) !== undefined
-        && top(operatorStack) !== '('
-        && (operators[top(operatorStack)!]!.precedence > operators[o1]!.precedence
-          || (operators[o1]!.precedence === operators[top(operatorStack)!]!.precedence
-            && operators[o1]!.associativity === 'left'))
+				&& top(operatorStack) !== undefined
+				&& top(operatorStack) !== '('
+				&& (operators[top(operatorStack)!]!.precedence > operators[o1]!.precedence
+					|| (operators[o1]!.precedence === operators[top(operatorStack)!]!.precedence
+						&& operators[o1]!.associativity === 'left'))
 			) {
 				output.push(operatorStack.pop()!) // o2
 			}
@@ -208,16 +201,16 @@ function tokenize(expression: string) {
 		const numberParsingStarted = currentNumber !== ''
 
 		if (
-		// 1
+			// 1
 			/\d/.test(c)
-      // Unary operator: +1 or -1
-      || ((c === '+' || c === '-')
-        && !numberParsingStarted
-        && (lastToken === undefined
-          || lastToken === ','
-          || lastToken === '('
-          || operatorsKeys.includes(lastToken))
-        && /\d/.test(nextC))
+			// Unary operator: +1 or -1
+			|| ((c === '+' || c === '-')
+				&& !numberParsingStarted
+				&& (lastToken === undefined
+					|| lastToken === ','
+					|| lastToken === '('
+					|| operatorsKeys.includes(lastToken))
+				&& /\d/.test(nextC))
 		) {
 			currentNumber += c
 		} else if (c === '.') {
@@ -239,8 +232,8 @@ function tokenize(expression: string) {
 		} else if (operatorsKeys.includes(c) || c === '(' || c === ')' || c === ',') {
 			if (
 				operatorsKeys.includes(c)
-        && !numberParsingStarted
-        && operatorsKeys.includes(lastToken!)
+				&& !numberParsingStarted
+				&& operatorsKeys.includes(lastToken!)
 			) {
 				throw new Error(`Consecutive operators: '${lastToken!}${c}'`)
 			}

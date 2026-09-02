@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<NcAppContentDetails class="statistics-content">
 		<h2 id="statsTitle">
@@ -173,28 +177,28 @@
 		<h2 class="statTableTitle">
 			{{ t('cospend', 'Global stats') }}
 		</h2>
-		<v-table v-if="stats"
+		<VTable v-if="stats"
 			id="statsTable"
 			class="coloredTable"
 			:data="stats.stats">
 			<template #head>
-				<v-th sort-key="member.name">
+				<VTh sort-key="member.name">
 					{{ t('cospend', 'Member name') }}
-				</v-th>
-				<v-th sort-key="paid">
+				</VTh>
+				<VTh sort-key="paid">
 					{{ t('cospend', 'Paid') }}
-				</v-th>
-				<v-th sort-key="spent">
+				</VTh>
+				<VTh sort-key="spent">
 					{{ t('cospend', 'Spent') }}
-				</v-th>
-				<v-th v-if="isFiltered"
+				</VTh>
+				<VTh v-if="isFiltered"
 					sort-key="filtered_balance">
 					{{ t('cospend', 'Filtered balance') }}
-				</v-th>
-				<v-th sort-key="balance"
+				</VTh>
+				<VTh sort-key="balance"
 					:title="t('cospend', 'This balance is computed from the complete bill list')">
 					{{ t('cospend', 'Global Balance') }}
-				</v-th>
+				</VTh>
 			</template>
 			<template #body="{ rows }">
 				<tr v-for="row in rows"
@@ -213,18 +217,18 @@
 						{{ row.paid.toFixed(2) }}
 						{{ selectedCurrencyName }}
 					</td>
-					<td :style="'border: 2px solid #' + myGetMemberColor(row.member.id) +';'">
+					<td :style="'border: 2px solid #' + myGetMemberColor(row.member.id) + ';'">
 						{{ row.spent.toFixed(2) }}
 						{{ selectedCurrencyName }}
 					</td>
 					<td v-if="isFiltered"
 						:class="getBalanceClass(row.filtered_balance)"
-						:style="'border: 2px solid #' + myGetMemberColor(row.member.id) +';'">
+						:style="'border: 2px solid #' + myGetMemberColor(row.member.id) + ';'">
 						{{ row.filtered_balance.toFixed(2) }}
 						{{ selectedCurrencyName }}
 					</td>
 					<td :class="getBalanceClass(row.balance)"
-						:style="'border: 2px solid #' + myGetMemberColor(row.member.id) +';'"
+						:style="'border: 2px solid #' + myGetMemberColor(row.member.id) + ';'"
 						:title="t('cospend', 'This balance is computed from the complete bill list')">
 						{{ row.balance.toFixed(2) }}
 						{{ selectedCurrencyName }}
@@ -232,7 +236,7 @@
 				</tr>
 			</template>
 			<tfoot />
-		</v-table>
+		</VTable>
 		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		<hr>
 		<h2 class="statTableTitle">
@@ -264,7 +268,7 @@
 		<h2 class="statTableTitle">
 			{{ t('cospend', 'Monthly paid per category') }}
 		</h2>
-		<Monthly v-if="stats"
+		<MonthlyCatOrPm v-if="stats"
 			:table-data="monthlyCategoryStats"
 			:chart-data="monthlyCategoryChartData"
 			:distinct-months="distinctMonths"
@@ -277,7 +281,7 @@
 		<h2 class="statTableTitle">
 			{{ t('cospend', 'Monthly paid per payment mode') }}
 		</h2>
-		<Monthly v-if="stats"
+		<MonthlyCatOrPm v-if="stats"
 			:table-data="monthlyPaymentModeStats"
 			:chart-data="monthlyPaymentModeChartData"
 			:distinct-months="distinctMonths"
@@ -363,15 +367,15 @@
 		<h2 class="statTableTitle">
 			{{ t('cospend', 'Who paid for whom?') }}
 		</h2>
-		<v-table v-if="stats"
+		<VTable v-if="stats"
 			id="paidForTable"
 			class="coloredTable"
 			:data="membersPaidForData">
 			<template #head>
-				<v-th sort-key="name">
+				<VTh sort-key="name">
 					↓ {{ t('cospend', 'paid for') }} →
-				</v-th>
-				<v-th v-for="mid in stats.allMemberIds"
+				</VTh>
+				<VTh v-for="mid in stats.allMemberIds"
 					:key="mid"
 					:sort-key="mid.toString()"
 					class="avatared centered-cell"
@@ -382,10 +386,10 @@
 							:size="24" />
 						<span>{{ myGetSmartMemberName(mid) }}</span>
 					</div>
-				</v-th>
-				<v-th sort-key="total">
+				</VTh>
+				<VTh sort-key="total">
 					{{ t('cospend', 'Total paid') }}
-				</v-th>
+				</VTh>
 			</template>
 			<template #body="{ rows }">
 				<tr v-for="row in rows"
@@ -420,7 +424,7 @@
 					</td>
 				</tr>
 			</template>
-		</v-table>
+		</VTable>
 		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 	</NcAppContentDetails>
 </template>
@@ -449,7 +453,7 @@ import MemberMultiSelect from '../MemberMultiSelect.vue'
 import CategoryMultiSelect from '../CategoryMultiSelect.vue'
 import PaymentModeMultiSelect from '../PaymentModeMultiSelect.vue'
 import MemberMonthly from './MemberMonthly.vue'
-import Monthly from './Monthly.vue'
+import MonthlyCatOrPm from './MonthlyCatOrPm.vue'
 import PieChartJs from '../chart.js/PieChartJs.vue'
 import BarChartJs from '../chart.js/BarChartJs.vue'
 
@@ -457,9 +461,10 @@ import moment from '@nextcloud/moment'
 import { getCategory, getPaymentMode, getSmartMemberName, strcmp } from '../../utils.js'
 import * as network from '../../network.js'
 import * as constants from '../../constants.js'
+import { VTable, VTh } from '../../smart-table-components.js'
 
 export default {
-	name: 'Statistics',
+	name: 'StatisticsContentDetails',
 
 	components: {
 		MemberAvatar,
@@ -468,7 +473,7 @@ export default {
 		PieChartJs,
 		BarChartJs,
 		MemberMonthly,
-		Monthly,
+		MonthlyCatOrPm,
 		NcAppContentDetails,
 		NcButton,
 		NcCheckboxRadioSwitch,
@@ -485,6 +490,8 @@ export default {
 		ChartLineIcon,
 		CurrencyUsdIcon,
 		ContentSaveIcon,
+		VTable,
+		VTh,
 	},
 
 	props: {
@@ -536,8 +543,8 @@ export default {
 		membersWithStatsArray() {
 			return this.stats
 				? this.membersArray.filter((member) => {
-					return this.stats.memberIds.includes(member.id)
-				})
+						return this.stats.memberIds.includes(member.id)
+					})
 				: this.membersArray
 		},
 		selectedCurrencyName() {
@@ -1226,7 +1233,7 @@ export default {
 				payerId,
 			}
 			const isFiltered = (
-				   (dateMin !== null && dateMin !== '')
+				(dateMin !== null && dateMin !== '')
 				|| (dateMax !== null && dateMax !== '')
 				|| (paymentModeId !== null)
 				|| (categoryId !== null)

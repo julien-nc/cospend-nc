@@ -1,13 +1,9 @@
 <?php
 
+declare(strict_types=1);
 /**
- * Nextcloud - cospend
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
- *
- * @author Julien Veyssier <julien-nc@posteo.net
- * @copyright Julien Veyssier 2019
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Cospend\Db;
@@ -626,7 +622,7 @@ class BillMapper extends QBMapper {
 		$dbWhat = $row['what'];
 		$dbComment = $row['comment'];
 		$dbTimestamp = (int)$row['timestamp'];
-		$dbDate = DateTime::createFromFormat('U', $row['timestamp']);
+		$dbDate = DateTime::createFromFormat('U', (string)$row['timestamp']);
 		$dbRepeat = $row['repeat'];
 		$dbPayerId = (int)$row['payer_id'];
 		$dbPaymentMode = $row['payment_mode'];

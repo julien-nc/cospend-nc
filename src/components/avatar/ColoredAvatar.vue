@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<NcAvatar v-if="showMe"
 		class="colored-avatar"
@@ -122,5 +126,9 @@ export default {
 	left: 0;
 	width: 100%;
 	height: 100%;
+}
+
+:deep(.avatardiv__user-status) {
+  --avatar-status-size-min: 10px !important;
 }
 </style>

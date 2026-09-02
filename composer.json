@@ -30,7 +30,7 @@
 		"nextcloud/coding-standard": "^1.1",
 		"nextcloud/ocp": "dev-master",
 		"phpunit/phpunit": "^12",
-		"nextcloud/openapi-extractor": "dev-main"
+		"nextcloud/openapi-extractor": "^1.7.0"
 	},
 	"config": {
 		"allow-plugins": {

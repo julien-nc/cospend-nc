@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div class="one-element">
 		<CursorMoveIcon v-if="draggable"
@@ -29,14 +33,14 @@
 			</NcButton>
 			<label v-if="timerOn"
 				class="one-element-label-timer">
-				<Countdown :duration="7" />
+				<CountdownTimer :duration="7" />
 			</label>
 		</div>
 		<div v-if="editMode"
 			class="one-element-edit">
 			<NcColorPicker
 				class="app-navigation-entry-bullet-wrapper"
-				:model-value="''"
+				model-value=""
 				@update:model-value="updateColor">
 				<NcButton
 					:title="t('cospend', 'Color')"
@@ -96,7 +100,7 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
 import NcEmojiPicker from '@nextcloud/vue/components/NcEmojiPicker'
 
-import Countdown from './Countdown.vue'
+import CountdownTimer from './CountdownTimer.vue'
 
 import { Timer } from '../utils.js'
 
@@ -104,7 +108,7 @@ export default {
 	name: 'CategoryOrPm',
 
 	components: {
-		Countdown,
+		CountdownTimer,
 		NcColorPicker,
 		NcEmojiPicker,
 		PaletteIcon,
@@ -130,6 +134,8 @@ export default {
 			default: false,
 		},
 	},
+
+	emits: ['edit', 'delete'],
 
 	data() {
 		return {

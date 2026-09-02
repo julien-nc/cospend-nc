@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<NcModal
 		:name="t('cospend', 'Create empty project')"
@@ -40,6 +44,7 @@ export default {
 	},
 	props: {
 	},
+	emits: ['close'],
 	data() {
 		return {
 			newProjectName: '',
@@ -61,6 +66,7 @@ export default {
 	},
 }
 </script>
+
 <style scoped lang="scss">
 .creation-modal-content {
 	display: flex;

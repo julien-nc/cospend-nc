@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div class="project-list">
 		<h2>
@@ -18,8 +22,10 @@
 			:title="t('cospend', 'No projects found')" />
 	</div>
 </template>
+
 <script>
 import NcListItem from '@nextcloud/vue/components/NcListItem'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 
 import * as network from '../network.js'
 import { showError, showSuccess } from '@nextcloud/dialogs'
@@ -29,6 +35,7 @@ export default {
 	name: 'MoveToProjectList',
 	components: {
 		NcListItem,
+		NcEmptyContent,
 	},
 	props: {
 		bill: {

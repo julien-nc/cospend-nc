@@ -1,4 +1,8 @@
 <!--
+  - SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<!--
 	Cross-Project Settlement Component
 
 	This component handles creating settlements between the current user and another person

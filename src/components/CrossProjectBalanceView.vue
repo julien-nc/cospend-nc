@@ -1,4 +1,8 @@
 <!--
+  - SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<!--
 	Cross-Project Balance View Component - Central Hub for Multi-Project Financial Overview
 
 	This component implements the Cross-project balances feature (GitHub issue #281).

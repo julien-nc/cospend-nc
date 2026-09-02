@@ -78,7 +78,7 @@ class PageController extends Controller {
 			$state['restoredCurrentProjectId'] = $state['selectedProject'];
 		}
 		if ($projectId !== null) {
-			$projectIds = array_keys($this->projectService->getProjectNames($this->userId));
+			$projectIds = array_map('strval', array_keys($this->projectService->getProjectNames($this->userId)));
 			if (in_array($projectId, $projectIds)) {
 				$state['restoredCurrentProjectId'] = $projectId;
 			}

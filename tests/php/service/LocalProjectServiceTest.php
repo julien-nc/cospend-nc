@@ -138,6 +138,8 @@ class LocalProjectServiceTest extends TestCase {
 			'tdm',
 			'testGetSettlement',
 			'123456',
+			'tpmcache1',
+			'tpmcache2',
 		];
 		foreach ($projIds as $projId) {
 			try {
@@ -1925,5 +1927,93 @@ class LocalProjectServiceTest extends TestCase {
 
 		$this->localProjectService->deleteProject($projectId);
 		$this->localProjectService->deleteProject($toProjectId);
+	}
+
+	/**
+	 * Pick a payment mode of this project that carries an old_id, so the legacy `payment_mode`
+	 * char is derivable from it.
+	 */
+	private function firstPaymentModeWithOldId(string $projectId): array {
+		foreach ($this->localProjectService->getCategoriesOrPaymentModes($projectId, false) as $pm) {
+			if (isset($pm['old_id']) && $pm['old_id'] !== null && $pm['old_id'] !== '') {
+				return $pm;
+			}
+		}
+		$this->fail('no payment mode with an old_id in ' . $projectId);
+	}
+
+	/**
+	 * `cospend_bills` stores the payment mode twice: `payment_mode_id`, and the legacy
+	 * `payment_mode` char derived from that mode's `old_id`. Classic mode filtering and CSV export
+	 * read the legacy column, so a bill can look correct everywhere in the UI while being invisible
+	 * to both.
+	 *
+	 * The derivation reads a per-instance cache of the project's payment modes. One request can
+	 * touch more than one project — cronRepeatBills() walks every repeating bill on the instance
+	 * through a single service — and if that cache is not keyed by project, the second project's id
+	 * is absent from the first project's modes, the lookup misses, and the char silently falls back
+	 * to 'n'.
+	 *
+	 * Two projects are needed to see it at all: with one project the cache is always right, which is
+	 * every manual test.
+	 */
+	public function testPaymentModeCacheIsKeyedByProject(): void {
+		$projectA = 'tpmcache1';
+		$projectB = 'tpmcache2';
+		$this->createAndPopulateProject($projectA);
+		$this->createAndPopulateProject($projectB);
+
+		$pmA = $this->firstPaymentModeWithOldId($projectA);
+		$pmB = $this->firstPaymentModeWithOldId($projectB);
+		// each project gets its own rows for the same default modes: same old_id, different ids.
+		// That is exactly what makes a cache keyed by nothing return a miss rather than a wrong hit.
+		$this->assertEquals($pmA['old_id'], $pmB['old_id']);
+		$this->assertNotEquals($pmA['id'], $pmB['id']);
+
+		$memberA = $this->localProjectService->getMemberByName($projectA, 'member1');
+		$memberB = $this->localProjectService->getMemberByName($projectB, 'member1');
+
+		// project A first: this is what loads the cache
+		$resp = $this->apiController->createBill(
+			$projectA, '2019-01-22', 'in A', $memberA['id'], (string)$memberA['id'],
+			10.0, Application::FREQUENCY_NO, null, $pmA['id']
+		);
+		$this->assertEquals(Http::STATUS_OK, $resp->getStatus());
+		$billA = $this->billMapper->getBill($projectA, $resp->getData());
+		$this->assertEquals($pmA['id'], $billA['paymentmodeid']);
+		$this->assertEquals($pmA['old_id'], $billA['paymentmode']);
+
+		// now project B, same service instance
+		$resp = $this->apiController->createBill(
+			$projectB, '2019-01-22', 'in B', $memberB['id'], (string)$memberB['id'],
+			10.0, Application::FREQUENCY_NO, null, $pmB['id']
+		);
+		$this->assertEquals(Http::STATUS_OK, $resp->getStatus());
+		$billB = $this->billMapper->getBill($projectB, $resp->getData());
+		$this->assertEquals($pmB['id'], $billB['paymentmodeid']);
+		$this->assertEquals(
+			$pmB['old_id'], $billB['paymentmode'],
+			'legacy payment_mode char was derived from the wrong project\'s payment modes'
+		);
+
+		// and again through editBill, which keeps its own copy of the same lookup
+		$resp = $this->apiController->createBill(
+			$projectA, '2019-01-22', 'in A again', $memberA['id'], (string)$memberA['id'],
+			10.0, Application::FREQUENCY_NO, null, $pmA['id']
+		);
+		$this->assertEquals(Http::STATUS_OK, $resp->getStatus());
+		$resp = $this->apiController->editBill(
+			$projectB, $billB['id'], null, null, null, null, null, null, null, $pmB['id']
+		);
+		$this->assertEquals(Http::STATUS_OK, $resp->getStatus());
+		$billB = $this->billMapper->getBill($projectB, $billB['id']);
+		$this->assertEquals($pmB['id'], $billB['paymentmodeid']);
+		$this->assertEquals(
+			$pmB['old_id'], $billB['paymentmode'],
+			'editBill derived the legacy payment_mode char from the wrong project'
+		);
+
+		$this->localProjectService->deleteProject($projectA);
+		$this->localProjectService->deleteProject($projectB);
 	}
 }

@@ -65,6 +65,9 @@ class LocalProjectService implements IProjectService {
 	public array $defaultPaymentModes;
 	private array $hardCodedCategoryNames;
 	private ?array $paymentModes = null;
+	// which project $paymentModes was loaded for; without it a request touching more than one
+	// project keeps the first project's modes and the legacy 'payment_mode' char falls back to 'n'
+	private ?string $paymentModesProjectId = null;
 
 	public function __construct(
 		private IL10N $l10n,
@@ -927,9 +930,10 @@ class LocalProjectService implements IProjectService {
 		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null,
 		int $deleted = 0, bool $produceActivity = false,
 	): int {
-		// if we don't have the payment modes, get them now
-		if ($this->paymentModes === null) {
+		// if we don't have this project's payment modes, get them now
+		if ($this->paymentModes === null || $this->paymentModesProjectId !== $projectId) {
 			$this->paymentModes = $this->getCategoriesOrPaymentModes($projectId, false);
+			$this->paymentModesProjectId = $projectId;
 		}
 
 		if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
@@ -2155,9 +2159,10 @@ class LocalProjectService implements IProjectService {
 		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null,
 		?int $deleted = null, bool $produceActivity = false,
 	): void {
-		// if we don't have the payment modes, get them now
-		if ($this->paymentModes === null) {
+		// if we don't have this project's payment modes, get them now
+		if ($this->paymentModes === null || $this->paymentModesProjectId !== $projectId) {
 			$this->paymentModes = $this->getCategoriesOrPaymentModes($projectId, false);
+			$this->paymentModesProjectId = $projectId;
 		}
 
 		$dbBill = $this->billMapper->getBillEntity($projectId, $billId);

@@ -144,7 +144,23 @@
                 }
             },
             "Category": {
-                "$ref": "#/components/schemas/CategoryOrPaymentMode"
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/CategoryOrPaymentMode"
+                    },
+                    {
+                        "type": "object",
+                        "required": [
+                            "default_payment_mode_id"
+                        ],
+                        "properties": {
+                            "default_payment_mode_id": {
+                                "type": "integer",
+                                "format": "int64"
+                            }
+                        }
+                    }
+                ]
             },
             "CategoryOrPaymentMode": {
                 "type": "object",
@@ -15028,6 +15044,13 @@
                                         "type": "string",
                                         "nullable": true,
                                         "default": null
+                                    },
+                                    "defaultPaymentModeId": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "The category's default payment mode, 0 to clear it"
                                     }
                                 }
                             }
@@ -15735,6 +15758,13 @@
                                         "type": "string",
                                         "nullable": true,
                                         "default": null
+                                    },
+                                    "defaultPaymentModeId": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "The category's default payment mode, 0 to clear it"
                                     }
                                 }
                             }

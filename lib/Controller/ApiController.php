@@ -1015,6 +1015,7 @@ class ApiController extends OCSController {
 	 * @param string|null $name
 	 * @param string|null $icon
 	 * @param string|null $color
+	 * @param int|null $defaultPaymentModeId The category's default payment mode, 0 to clear it
 	 * @return DataResponse<Http::STATUS_OK, CospendCategory, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FAILED_DEPENDENCY, array<string, string>, array{}>
 	 * @throws DoesNotExistException
 	 * @throws Exception
@@ -1029,9 +1030,12 @@ class ApiController extends OCSController {
 	#[SupportFederatedProject]
 	public function editCategory(
 		string $projectId, int $categoryId, ?string $name = null, ?string $icon = null, ?string $color = null,
+		?int $defaultPaymentModeId = null,
 	): DataResponse {
 		try {
-			$category = $this->projectService->editCategory($projectId, $categoryId, $name, $icon, $color);
+			$category = $this->projectService->editCategory(
+				$projectId, $categoryId, $name, $icon, $color, $defaultPaymentModeId
+			);
 			return new DataResponse($category);
 		} catch (ClientException $e) {
 			return $this->getResponseFromClientException($e);

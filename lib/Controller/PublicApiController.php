@@ -851,6 +851,7 @@ class PublicApiController extends OCSController {
 	 * @param string|null $name
 	 * @param string|null $icon
 	 * @param string|null $color
+	 * @param int|null $defaultPaymentModeId The category's default payment mode, 0 to clear it
 	 * @return DataResponse<Http::STATUS_OK, CospendCategory, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array<string, string>, array{}>
 	 */
 	#[NoAdminRequired]
@@ -862,10 +863,11 @@ class PublicApiController extends OCSController {
 	public function publicEditCategory(
 		string $token, int $categoryId,
 		?string $name = null, ?string $icon = null, ?string $color = null,
+		?int $defaultPaymentModeId = null,
 	): DataResponse {
 		try {
 			$category = $this->localProjectService->editCategory(
-				$this->projectId, $categoryId, $name, $icon, $color
+				$this->projectId, $categoryId, $name, $icon, $color, $defaultPaymentModeId
 			);
 			return new DataResponse($category);
 		} catch (CospendBasicException $e) {

@@ -86,6 +86,21 @@ namespace OCA\Cospend;
  *     projectid: string,
  *  }
  *
+ * @psalm-type CospendAutoCategoryMapping = array{
+ *     id: int,
+ *     project_id: string,
+ *     bill_title: string,
+ *     category_id: ?int,
+ *     last_changed: int,
+ *     created_at: int,
+ *  }
+ *
+ * @psalm-type CospendAutoCategoryMappingCopyResult = array{
+ *     imported: int,
+ *     skipped: int,
+ *     errors: list<string>,
+ *  }
+ *
  * @psalm-type CospendCategoryOrPaymentMode = array{
  *     id: int,
  *     projectid: string,

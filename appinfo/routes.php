@@ -196,5 +196,14 @@ return [
 		['name' => 'publicApi#publicEditCategory', 'url' => '/api/{apiVersion}/public/projects/{token}/{password}/category/{categoryId}', 'verb' => 'PUT', 'requirements' => $publicRequirements],
 		['name' => 'publicApi#publicSaveCategoryOrder', 'url' => '/api/{apiVersion}/public/projects/{token}/{password}/category-order', 'verb' => 'PUT', 'requirements' => $publicRequirements],
 		['name' => 'publicApi#publicDeleteCategory', 'url' => '/api/{apiVersion}/public/projects/{token}/{password}/category/{categoryId}', 'verb' => 'DELETE', 'requirements' => $publicRequirements],
+		// auto-categorisation mappings
+		['name' => 'api#getAutoCategoryMappings', 'url' => '/api/{apiVersion}/projects/{projectId}/auto-mappings', 'verb' => 'GET', 'requirements' => $requirements],
+		['name' => 'api#createAutoCategoryMapping', 'url' => '/api/{apiVersion}/projects/{projectId}/auto-mappings', 'verb' => 'POST', 'requirements' => $requirements],
+		['name' => 'api#editAutoCategoryMapping', 'url' => '/api/{apiVersion}/projects/{projectId}/auto-mappings/{mappingId}', 'verb' => 'PUT', 'requirements' => $requirements],
+		['name' => 'api#deleteAutoCategoryMapping', 'url' => '/api/{apiVersion}/projects/{projectId}/auto-mappings/{mappingId}', 'verb' => 'DELETE', 'requirements' => $requirements],
+		['name' => 'api#autoCategorizeProject', 'url' => '/api/{apiVersion}/projects/{projectId}/auto-categorize', 'verb' => 'POST', 'requirements' => $requirements],
+		['name' => 'api#autoCategorizeAll', 'url' => '/api/{apiVersion}/auto-categorize', 'verb' => 'POST', 'requirements' => $requirements],
+		['name' => 'api#copyAutoCategoryMappings', 'url' => '/api/{apiVersion}/projects/{projectId}/auto-mappings/copy-to/{targetProjectId}', 'verb' => 'POST', 'requirements' => $requirements],
+		['name' => 'api#importAutoCategoryMappings', 'url' => '/api/{apiVersion}/projects/{projectId}/auto-mappings/import-from/{sourceProjectId}', 'verb' => 'POST', 'requirements' => $requirements],
 	],
 ];

@@ -146,6 +146,7 @@ export function editProject(project, password) {
 		categorySort: project.categorysort,
 		paymentModeSort: project.paymentmodesort,
 		archivedTs: project.archived_ts,
+		autoCategorization: project.auto_categorization,
 	}
 	const url = OCA.Cospend.state.pageIsPublic
 		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password })
@@ -606,6 +607,128 @@ export function rejectInvitation(invitationId) {
 	return axios.delete(url, req)
 }
 
+/**
+ * Fetch all auto-category mappings for a project
+ *
+ * @param {string} projectId - The project ID
+ * @return {Promise<import('axios').AxiosResponse<{ocs: {data: AutoCategoryMapping[]}}>>}
+ */
+export function getAutoCategoryMappings(projectId) {
+	const url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/auto-mappings', { projectId })
+	return axios.get(url)
+}
+
+/**
+ * Create a new auto-category mapping
+ *
+ * @param {string} projectId - The project ID
+ * @param {string} billTitle - The bill title to match
+ * @param {number} categoryId - The category ID to assign
+ * @return {Promise<import('axios').AxiosResponse<{ocs: {data: number}}>>} Resolves with the new mapping ID
+ */
+export function createAutoCategoryMapping(projectId, billTitle, categoryId) {
+	const req = {
+		billTitle,
+		categoryId,
+	}
+	const url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/auto-mappings', { projectId })
+	return axios.post(url, req)
+}
+
+/**
+ * Edit an existing auto-category mapping
+ *
+ * @param {string} projectId - The project ID
+ * @param {number} mappingId - The mapping ID
+ * @param {string} billTitle - The new bill title
+ * @param {number} categoryId - The new category ID
+ * @return {Promise<import('axios').AxiosResponse<{ocs: {data: AutoCategoryMapping}}>>}
+ */
+export function editAutoCategoryMapping(projectId, mappingId, billTitle, categoryId) {
+	const req = {
+		billTitle,
+		categoryId,
+	}
+	const url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/auto-mappings/{mappingId}', { projectId, mappingId })
+	return axios.put(url, req)
+}
+
+/**
+ * Delete an auto-category mapping
+ *
+ * @param {string} projectId - The project ID
+ * @param {number} mappingId - The mapping ID
+ * @return {Promise<import('axios').AxiosResponse>}
+ */
+export function deleteAutoCategoryMapping(projectId, mappingId) {
+	const url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/auto-mappings/{mappingId}', { projectId, mappingId })
+	return axios.delete(url)
+}
+
+/**
+ * Auto-categorise all bills in a project
+ *
+ * @param {string} projectId - The project ID
+ * @return {Promise<import('axios').AxiosResponse<{ocs: {data: number}}>>} Resolves with the count of categorised bills
+ */
+export function autoCategorizeProject(projectId) {
+	const url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/auto-categorize', { projectId })
+	return axios.post(url)
+}
+
+/**
+ * Auto-categorise bills in all projects (admin only)
+ *
+ * @return {Promise<import('axios').AxiosResponse<{ocs: {data: number}}>>} Resolves with total count of categorised bills
+ */
+export function autoCategorizeAll() {
+	const url = generateOcsUrl('/apps/cospend/api/v1/auto-categorize')
+	return axios.post(url)
+}
+
+/**
+ * Copy auto-category mappings from one project to another
+ *
+ * @param {string} projectId - Source project ID
+ * @param {string} targetProjectId - Target project ID
+ * @param {number|null} mappingId - Restrict the copy to this single mapping
+ * @return {Promise<import('axios').AxiosResponse<{ocs: {data: CopyImportResult}}>>}
+ */
+export function copyAutoCategoryMappings(projectId, targetProjectId, mappingId = null) {
+	const req = mappingId === null ? {} : { mappingId }
+	const url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/auto-mappings/copy-to/{targetProjectId}', { projectId, targetProjectId })
+	return axios.post(url, req)
+}
+
+/**
+ * Import auto-category mappings from another project
+ *
+ * @param {string} projectId - Target project ID
+ * @param {string} sourceProjectId - Source project ID
+ * @return {Promise<import('axios').AxiosResponse<{ocs: {data: CopyImportResult}}>>}
+ */
+export function importAutoCategoryMappings(projectId, sourceProjectId) {
+	const url = generateOcsUrl('/apps/cospend/api/v1/projects/{projectId}/auto-mappings/import-from/{sourceProjectId}', { projectId, sourceProjectId })
+	return axios.post(url)
+}
+
 export function getRemoteAvatarUrl(cloudId) {
 	return generateOcsUrl('/apps/cospend/api/v1/remote/avatar/64?cloudId={cloudId}', { cloudId })
 }
+
+/**
+ * @typedef {object} AutoCategoryMapping
+ * @property {number} id - Mapping ID
+ * @property {string} project_id - Project ID
+ * @property {string} bill_title - Bill title to match
+ * @property {number|null} category_id - Category to assign
+ * @property {number} last_changed - Unix timestamp of last modification
+ * @property {number} created_at - Unix timestamp of creation
+ */
+
+/**
+ * @typedef {object} CopyImportResult
+ * @property {number} imported - Number of mappings imported
+ * @property {number} skipped - Number of mappings skipped
+ * @property {string[]} errors - Detailed skip reasons
+ */

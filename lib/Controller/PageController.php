@@ -92,6 +92,9 @@ class PageController extends Controller {
 		}
 		$state['useTime'] = ($state['useTime'] ?? '0') !== '0';
 		$state['showMyBalance'] = ($state['showMyBalance'] ?? '0') !== '0';
+		$state['auto_categorization_enabled'] = $this->appConfig->getValueString(
+			Application::APP_ID, 'auto_categorization_enabled', '1', lazy: true
+		) === '1';
 
 		$this->initialStateService->provideInitialState('cospend-state', $state);
 		$this->eventDispatcher->dispatchTyped(new RenderReferenceEvent());

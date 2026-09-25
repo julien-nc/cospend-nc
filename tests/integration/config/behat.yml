@@ -1,0 +1,11 @@
+default:
+  formatters:
+    pretty:
+      output_styles:
+        comment: [ 'bright-blue' ]
+  suites:
+    federation:
+      paths:
+        - '%paths.base%/../features/federation/'
+      contexts:
+        - FederationContext

@@ -540,8 +540,10 @@ export default {
 #settlement-options {
 	.centered-option {
 		display: flex;
+		flex-wrap: wrap;
 		justify-content: center;
 		align-items: center;
+		row-gap: 8px;
 		margin: 10px 0 10px 0;
 
 		> * {

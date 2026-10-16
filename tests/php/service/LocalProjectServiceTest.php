@@ -1744,6 +1744,52 @@ class LocalProjectServiceTest extends TestCase {
 		return $this->localProjectService->getProjectInfo($projectId);
 	}
 
+	public function testAutoSettlementPassesPaidForMemberIdAsString(): void {
+		$service = $this->getMockBuilder(LocalProjectService::class)
+			->disableOriginalConstructor()
+			->onlyMethods(['getProjectSettlement', 'getMembers', 'createBill'])
+			->getMock();
+		$l10n = $this->createStub(IL10N::class);
+		$l10n->method('t')->willReturnArgument(0);
+		(new \ReflectionProperty(LocalProjectService::class, 'l10n'))->setValue($service, $l10n);
+
+		$service->expects($this->once())
+			->method('getProjectSettlement')
+			->with('test-project', null, 2000000000)
+			->willReturn([
+				'transactions' => [
+					['from' => 1, 'to' => 2, 'amount' => 12.345],
+				],
+			]);
+		$service->expects($this->once())
+			->method('getMembers')
+			->with('test-project')
+			->willReturn([
+				['id' => 1, 'name' => 'Alice'],
+				['id' => 2, 'name' => 'Bob'],
+			]);
+		$service->expects($this->once())
+			->method('createBill')
+			->with(
+				'test-project',
+				null,
+				'Alice → Bob',
+				1,
+				'2',
+				12.35,
+				Application::FREQUENCY_NO,
+				'n',
+				0,
+				Application::CATEGORY_REIMBURSEMENT,
+				0,
+				null,
+				1999999999,
+			)
+			->willReturn(1);
+
+		$service->autoSettlement('test-project', null, 2, 2000000000);
+	}
+
 	public function testGetSettlement() {
 		$this->createAndPopulateProject('testGetSettlement');
 		$this->localProjectService->getMemberByName('testGetSettlement', 'member1');

@@ -1166,7 +1166,7 @@ class LocalProjectService implements IProjectService {
 			$billTitle = $memberIdToName[$fromId] . ' → ' . $memberIdToName[$toId];
 			try {
 				$this->createBill(
-					$projectId, null, $billTitle, $fromId, $toId, $amount,
+					$projectId, null, $billTitle, $fromId, (string)$toId, $amount,
 					Application::FREQUENCY_NO, 'n', 0,
 					Application::CATEGORY_REIMBURSEMENT, 0, null, $ts
 				);

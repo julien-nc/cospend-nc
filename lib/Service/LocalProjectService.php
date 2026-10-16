@@ -456,7 +456,9 @@ class LocalProjectService implements IProjectService {
 	private function sanitizeJsonShares(array $jsonShares, int $callerAccessLevel): array {
 		$tokenShareTypes = [Share::TYPE_PUBLIC_LINK, Share::TYPE_FEDERATION];
 		foreach ($jsonShares as &$jsonShare) {
-			$jsonShare['hasPassword'] = ($jsonShare['password'] ?? null) !== null;
+			// keeps the value computed by a previous sanitization of the share
+			$jsonShare['hasPassword'] = ($jsonShare['hasPassword'] ?? null)
+				?? ($jsonShare['password'] ?? null) !== null;
 			unset($jsonShare['password']);
 			if (in_array($jsonShare['type'], $tokenShareTypes, true)
 				&& $jsonShare['accesslevel'] > $callerAccessLevel) {
@@ -2055,16 +2057,14 @@ class LocalProjectService implements IProjectService {
 	 * access level (passwords removed, tokens removed above that level)
 	 *
 	 * @param string $projectId
-	 * @param int|null $maxAccessLevel
+	 * @param int $maxAccessLevel
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
-	public function getPublicShares(string $projectId, ?int $maxAccessLevel = null): array {
+	public function getPublicShares(string $projectId, int $maxAccessLevel = Application::ACCESS_LEVEL_ADMIN): array {
 		$shares = $this->shareMapper->getSharesOfProject($projectId, Share::TYPE_PUBLIC_LINK);
 		$jsonShares = array_map(static fn (Share $share) => $share->jsonSerialize(), $shares);
-		return $maxAccessLevel === null
-			? $jsonShares
-			: $this->sanitizeJsonShares($jsonShares, $maxAccessLevel);
+		return $this->sanitizeJsonShares($jsonShares, $maxAccessLevel);
 	}
 
 	/**

@@ -812,12 +812,12 @@ class LocalProjectServiceTest extends TestCase {
 
 		// share link
 		$res = $this->localProjectService->createPublicShare('superproj', 'test');
-		$this->assertTrue(isset($res['token'], $res['id']));
+		$this->assertTrue(isset($res['userid'], $res['id']));
 		$this->assertTrue($res['id'] > 0);
 		$shareLinkId = $res['id'];
-		$shareLinkToken = $res['token'];
+		$shareLinkToken = $res['userid'];
 		$res = $this->localProjectService->createPublicShare('superproj', 'test');
-		$this->assertTrue(isset($res['id'], $res['token']));
+		$this->assertTrue(isset($res['id'], $res['userid']));
 		$this->assertTrue($res['id'] > 0);
 		$shareLinkId2 = $res['id'];
 		$res = $this->localProjectService->deletePublicShare('superproj', $shareLinkId2, 'test');
@@ -840,9 +840,10 @@ class LocalProjectServiceTest extends TestCase {
 		$this->assertTrue(isset($res['message']));
 		$res = $this->localProjectService->getPublicShares('superproj');
 		$this->assertEquals(1, count($res));
-		$this->assertEquals($shareLinkToken, $res[0]['token']);
+		$this->assertEquals($shareLinkToken, $res[0]['userid']);
 		$this->assertEquals('lala', $res[0]['label']);
-		$this->assertEquals('passpass', $res[0]['password']);
+		$this->assertFalse(isset($res[0]['password']));
+		$this->assertTrue($res[0]['hasPassword']);
 		$this->assertEquals(Application::ACCESS_LEVEL_ADMIN, $res[0]['accesslevel']);
 		$this->assertEquals($shareLinkId, $res[0]['id']);
 
@@ -1875,6 +1876,18 @@ class LocalProjectServiceTest extends TestCase {
 			$this->assertFalse(isset($share['password']));
 			$this->assertTrue(isset($share['userid']));
 		}
+		$this->assertTrue($this->findShareByLabel($shares, 'adminlink')['hasPassword']);
+		$this->assertFalse($this->findShareByLabel($shares, 'viewerlink')['hasPassword']);
+
+		// without an explicit access level, passwords are still never returned
+		$shares = $this->localProjectService->getPublicShares($projectId);
+		$this->assertEquals(2, count($shares));
+		foreach ($shares as $share) {
+			$this->assertFalse(isset($share['password']));
+			$this->assertTrue(isset($share['userid']));
+		}
+		$this->assertTrue($this->findShareByLabel($shares, 'adminlink')['hasPassword']);
+		$this->assertFalse($this->findShareByLabel($shares, 'viewerlink')['hasPassword']);
 
 		// sanitized project info for a viewer-level caller
 		$projInfo = $this->localProjectService->getProjectInfoForAccessLevel($projectId, Application::ACCESS_LEVEL_VIEWER);

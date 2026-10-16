@@ -282,6 +282,17 @@ class LocalProjectService implements IProjectService {
 	}
 
 	/**
+	 * Check if a project id corresponds to a local project
+	 * (federated project ids always contain '@')
+	 *
+	 * @param string $projectId
+	 * @return bool
+	 */
+	public function isLocalProject(string $projectId): bool {
+		return $this->projectMapper->find($projectId) !== null;
+	}
+
+	/**
 	 * Create a project
 	 *
 	 * @param string $name
@@ -298,6 +309,13 @@ class LocalProjectService implements IProjectService {
 		string $name, string $id, ?string $contact_email, string $userId = '',
 		bool $createDefaultCategories = true, bool $createDefaultPaymentModes = true,
 	): array {
+		// '@' is reserved for federated project ids
+		if (str_contains($id, '@')) {
+			throw new CospendBasicException(
+				'', Http::STATUS_BAD_REQUEST,
+				['message' => $this->l10n->t('Invalid project id')]
+			);
+		}
 		$newProject = $this->projectMapper->createProject(
 			$name, $id, $contact_email, $this->defaultCategories, $this->defaultPaymentModes,
 			$userId, $createDefaultCategories, $createDefaultPaymentModes

@@ -15,6 +15,7 @@ use OCA\Cospend\Db\Invitation;
 use OCA\Cospend\Db\InvitationMapper;
 use OCA\Cospend\Exception\CospendUserPermissionsException;
 use OCA\Cospend\Service\FederatedProjectService;
+use OCA\Cospend\Service\LocalProjectService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
@@ -30,6 +31,7 @@ class FederationMiddleware extends Middleware {
 		protected IRequest $request,
 		private LoggerInterface $logger,
 		private InvitationMapper $invitationMapper,
+		private LocalProjectService $localProjectService,
 	) {
 	}
 
@@ -43,8 +45,8 @@ class FederationMiddleware extends Middleware {
 
 		if (!empty($attributes)) {
 			$paramProjectId = $this->request->getParam('projectId');
-			// federated projects only
-			if (str_contains($paramProjectId, '@')) {
+			// federated projects only (local project ids may also contain '@')
+			if (str_contains($paramProjectId, '@') && !$this->localProjectService->isLocalProject($paramProjectId)) {
 				[$remoteProjectId, $remoteServerUrl] = FederatedProjectService::parseFederatedProjectId($paramProjectId);
 				$invitations = $this->invitationMapper->getInvitationsForUser($controller->userId, Invitation::STATE_ACCEPTED, $remoteServerUrl, $remoteProjectId);
 				if (empty($invitations)) {

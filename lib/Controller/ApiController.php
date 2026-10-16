@@ -124,7 +124,10 @@ class ApiController extends OCSController {
 			$projInfo = $this->localProjectService->getProjectInfoForAccessLevel($jsonProject['id'], Application::ACCESS_LEVEL_ADMIN);
 			return new DataResponse($projInfo);
 		} catch (CospendBasicException $e) {
-			return new DataResponse($e->data, $e->getCode());
+			$statusCode = $e->getCode() === Http::STATUS_BAD_REQUEST
+				? Http::STATUS_BAD_REQUEST
+				: Http::STATUS_NOT_FOUND;
+			return new DataResponse($e->data, $statusCode);
 		} catch (Exception $e) {
 			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}

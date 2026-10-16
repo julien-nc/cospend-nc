@@ -203,17 +203,13 @@ class PublicApiController extends OCSController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT, tags: ['Public-API_Projects'])]
 	public function publicGetProjectInfo(string $token): DataResponse {
 		$share = $this->shareMapper->getLinkOrFederatedShareByToken($token);
-		$projectInfo = $this->localProjectService->getProjectInfo($share->getProjectId());
-		if ($projectInfo !== null) {
-			unset($projectInfo['userid']);
-			// set the visible access level for frontend
-			$projectInfo['myaccesslevel'] = $share->getAccessLevel() ;
-			return new DataResponse($projectInfo);
+		try {
+			$projectInfo = $this->localProjectService->getProjectInfoForAccessLevel($share->getProjectId(), $share->getAccessLevel());
+		} catch (CospendBasicException $e) {
+			return new DataResponse(['message' => $this->trans->t('Project not found')], Http::STATUS_NOT_FOUND);
 		}
-		return new DataResponse(
-			['message' => $this->trans->t('Project not found')],
-			Http::STATUS_NOT_FOUND
-		);
+		unset($projectInfo['userid']);
+		return new DataResponse($projectInfo);
 	}
 
 	/**

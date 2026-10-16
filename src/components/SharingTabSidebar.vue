@@ -217,6 +217,7 @@
 
 				<NcActions>
 					<NcActionLink
+						v-if="!access.hasPassword"
 						:href="generateCospendLink(access)"
 						target="_blank"
 						@click.stop.prevent="displayCospendLinkQRCode(access)">
@@ -241,16 +242,15 @@
 						{{ t('cospend', 'Label') }}
 					</NcActionInput>
 					<NcActionCheckbox
-						:model-value="access.password !== null"
+						:model-value="access.hasPassword"
 						:disabled="!editionAccess || myAccessLevel < access.accesslevel"
 						@check="onPasswordCheck(access, $event)"
 						@uncheck="onPasswordUncheck(access, $event)">
 						{{ t('cospend', 'Password protect') }}
 					</NcActionCheckbox>
 					<NcActionInput
-						v-if="access.password !== null"
+						v-if="access.hasPassword"
 						type="password"
-						:model-value="access.password"
 						:disabled="!editionAccess || myAccessLevel < access.accesslevel"
 						@submit="submitPassword(access, $event)">
 						<template #icon>
@@ -610,7 +610,7 @@ export default {
 					accesslevel: constants.ACCESS.PARTICIPANT,
 					type: sh.type,
 					manually_added: sh.manually_added,
-					password: sh.password,
+					hasPassword: false,
 				}
 				newShAccess.id = response.data.ocs.data.id
 				if (sh.type === constants.SHARE_TYPE.PUBLIC_LINK) {
@@ -647,7 +647,7 @@ export default {
 			})
 		},
 		onPasswordCheck(access) {
-			access.password = ''
+			access.hasPassword = true
 		},
 		onPasswordUncheck(access) {
 			this.savePassword(access, '')
@@ -658,11 +658,7 @@ export default {
 		},
 		savePassword(access, password) {
 			network.editSharedAccess(this.projectId, access, null, password).then((response) => {
-				if (password === '') {
-					access.password = null
-				} else {
-					access.password = password
-				}
+				access.hasPassword = password !== ''
 				showSuccess(t('cospend', 'Share link saved'))
 			}).catch((error) => {
 				showError(
@@ -730,7 +726,6 @@ export default {
 		addLink() {
 			this.addSharedAccess({
 				type: constants.SHARE_TYPE.PUBLIC_LINK,
-				password: null,
 			})
 		},
 	},

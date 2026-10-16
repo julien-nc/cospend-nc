@@ -43,8 +43,9 @@ class UserPermissionMiddleware extends Middleware {
 
 		if (!empty($attributes)) {
 			$paramProjectId = $this->request->getParam('projectId');
-			// skip federated projects
-			if (str_contains($paramProjectId, '@')) {
+			// federated project ids contain '@' and are permission-checked by FederationMiddleware.
+			// Local project ids may also contain '@', so make sure it is not a local project before skipping.
+			if (str_contains($paramProjectId, '@') && !$this->localProjectService->isLocalProject($paramProjectId)) {
 				return;
 			}
 			$userId = $controller->userId;

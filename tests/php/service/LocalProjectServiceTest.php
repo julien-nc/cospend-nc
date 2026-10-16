@@ -2096,4 +2096,37 @@ class LocalProjectServiceTest extends TestCase {
 		$this->localProjectService->deleteProject($projectId);
 		$this->localProjectService->deleteProject($toProjectId);
 	}
+
+	public function testMoveBillNoSourceAccess() {
+		// source project owned by test2
+		$sourceProjectId = 'mvsrc';
+		$resp = $this->apiController2->createProject($sourceProjectId, 'SrcProj');
+		$this->assertEquals(Http::STATUS_OK, $resp->getStatus(), json_encode($resp->getData()));
+		$resp = $this->apiController2->createMember($sourceProjectId, 'srcmember');
+		$sourceMemberId = $resp->getData()['id'];
+		$resp = $this->apiController2->createBill($sourceProjectId, '2019-01-22', 'srcbill', $sourceMemberId, (string)$sourceMemberId, 10.0, Application::FREQUENCY_NO);
+		$this->assertEquals(Http::STATUS_OK, $resp->getStatus(), json_encode($resp->getData()));
+		$billId = $resp->getData();
+
+		// target project owned by test
+		$targetProjectId = 'mvtgt';
+		$resp = $this->apiController->createProject($targetProjectId, 'TgtProj');
+		$this->assertEquals(Http::STATUS_OK, $resp->getStatus(), json_encode($resp->getData()));
+		$this->apiController->createMember($targetProjectId, 'tgtmember');
+
+		// 'test' has no access to the source project: the move must be rejected
+		// even though the target project is accessible
+		$resp = $this->apiController->moveBill($sourceProjectId, $billId, $targetProjectId);
+		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $resp->getStatus());
+
+		$this->localProjectService->deleteProject($sourceProjectId);
+		$this->localProjectService->deleteProject($targetProjectId);
+	}
+
+	public function testCreateProjectInvalidId() {
+		// '@' is reserved for federated project ids
+		$resp = $this->apiController->createProject('bad@id', 'BadProj');
+		$this->assertEquals(Http::STATUS_BAD_REQUEST, $resp->getStatus());
+		$this->assertEquals(['message' => 'Invalid project id'], $resp->getData());
+	}
 }

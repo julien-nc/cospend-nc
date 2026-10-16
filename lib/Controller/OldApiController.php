@@ -102,8 +102,7 @@ class OldApiController extends ApiController {
 		}
 		try {
 			$jsonProject = $this->localProjectService->createProject($name, $id, $contact_email, $this->userId);
-			$projInfo = $this->localProjectService->getProjectInfo($jsonProject['id']);
-			$projInfo['myaccesslevel'] = Application::ACCESS_LEVEL_ADMIN;
+			$projInfo = $this->localProjectService->getProjectInfoForAccessLevel($jsonProject['id'], Application::ACCESS_LEVEL_ADMIN);
 			return new DataResponse($projInfo);
 		} catch (CospendBasicException $e) {
 			return new DataResponse($e->data, $e->getCode());
@@ -125,17 +124,15 @@ class OldApiController extends ApiController {
 	#[BruteForceProtection(action: 'CospendPublicGetProjectInfo')]
 	public function apiGetProjectInfo(string $token): DataResponse {
 		$publicShareInfo = $this->localProjectService->getLinkShareInfoFromShareToken($token);
-		$projectInfo = $this->localProjectService->getProjectInfo($publicShareInfo['projectid']);
-		if ($projectInfo !== null) {
-			unset($projectInfo['userid']);
-			// set the visible access level for frontend
-			$projectInfo['myaccesslevel'] = $publicShareInfo['accesslevel'];
-			return new DataResponse($projectInfo);
+		try {
+			$projectInfo = $this->localProjectService->getProjectInfoForAccessLevel(
+				$publicShareInfo['projectid'], $publicShareInfo['accesslevel']
+			);
+		} catch (CospendBasicException $e) {
+			return new DataResponse(['message' => $this->l->t('Project not found')], Http::STATUS_NOT_FOUND);
 		}
-		return new DataResponse(
-			['message' => $this->l->t('Project not found')],
-			Http::STATUS_NOT_FOUND
-		);
+		unset($projectInfo['userid']);
+		return new DataResponse($projectInfo);
 	}
 
 	#[NoAdminRequired]
@@ -143,16 +140,15 @@ class OldApiController extends ApiController {
 	#[NoCSRFRequired]
 	#[CospendUserPermissions(minimumLevel: Application::ACCESS_LEVEL_VIEWER)]
 	public function apiPrivGetProjectInfo(string $projectId): DataResponse {
-		$projectInfo = $this->localProjectService->getProjectInfo($projectId);
-		if ($projectInfo !== null) {
-			unset($projectInfo['userid']);
-			$projectInfo['myaccesslevel'] = $this->localProjectService->getUserMaxAccessLevel($this->userId, $projectId);
-			return new DataResponse($projectInfo);
+		try {
+			$projectInfo = $this->localProjectService->getProjectInfoForAccessLevel(
+				$projectId, $this->localProjectService->getUserMaxAccessLevel($this->userId, $projectId)
+			);
+		} catch (CospendBasicException $e) {
+			return new DataResponse(['message' => $this->l->t('Project not found')], Http::STATUS_NOT_FOUND);
 		}
-		return new DataResponse(
-			['message' => $this->l->t('Project not found')],
-			Http::STATUS_NOT_FOUND
-		);
+		unset($projectInfo['userid']);
+		return new DataResponse($projectInfo);
 	}
 
 	#[NoAdminRequired]

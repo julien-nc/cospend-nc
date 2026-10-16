@@ -499,9 +499,8 @@
                         "type": "object",
                         "required": [
                             "type",
-                            "token",
                             "label",
-                            "password"
+                            "hasPassword"
                         ],
                         "properties": {
                             "type": {
@@ -510,16 +509,15 @@
                                     "l"
                                 ]
                             },
-                            "token": {
+                            "userid": {
                                 "type": "string"
                             },
                             "label": {
                                 "type": "string",
                                 "nullable": true
                             },
-                            "password": {
-                                "type": "string",
-                                "nullable": true
+                            "hasPassword": {
+                                "type": "boolean"
                             }
                         }
                     }

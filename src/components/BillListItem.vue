@@ -19,13 +19,19 @@
 		@click="onItemClick">
 		<template #subname>
 			<div class="subname">
-				{{ parseFloat(bill.amount).toFixed(2) }}
-				<span v-if="currencyName">
-					{{ currencyName }}
+				<AlertCircleOutlineIcon v-if="bill.payersFallback"
+					class="payers-fallback-marker"
+					:size="16"
+					:title="payersFallbackTitle" />
+				<span class="subname-text">
+					{{ parseFloat(bill.amount).toFixed(2) }}
+					<span v-if="currencyName">
+						{{ currencyName }}
+					</span>
+					<CalendarSyncIcon v-if="bill.repeat !== 'n'"
+						:size="16" />
+					({{ smartPayerName }} → {{ smartOwerNames }})
 				</span>
-				<CalendarSyncIcon v-if="bill.repeat !== 'n'"
-					:size="16" />
-				({{ smartPayerName }} → {{ smartOwerNames }})
 			</div>
 		</template>
 		<template #indicator>
@@ -96,6 +102,7 @@ import UndoIcon from 'vue-material-design-icons/Undo.vue'
 import SwapHorizontalIcon from 'vue-material-design-icons/SwapHorizontal.vue'
 import ContentDuplicateIcon from 'vue-material-design-icons/ContentDuplicate.vue'
 import CursorMoveIcon from 'vue-material-design-icons/CursorMove.vue'
+import AlertCircleOutlineIcon from 'vue-material-design-icons/AlertCircleOutline.vue'
 
 import MemberAvatar from './avatar/MemberAvatar.vue'
 
@@ -105,7 +112,7 @@ import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import { generateUrl } from '@nextcloud/router'
 import moment from '@nextcloud/moment'
 import { emit } from '@nextcloud/event-bus'
-import { reload, Timer, getCategory, getSmartMemberName } from '../utils.js'
+import { reload, Timer, getBillPayerIds, getCategory, getSmartMemberName } from '../utils.js'
 
 export default {
 	name: 'BillListItem',
@@ -123,6 +130,7 @@ export default {
 		ContentDuplicateIcon,
 		RestoreIcon,
 		CursorMoveIcon,
+		AlertCircleOutlineIcon,
 	},
 
 	props: {
@@ -187,7 +195,8 @@ export default {
 				: this.payer
 		},
 		payerDisabled() {
-			return this.bill.id !== 0 && !this.members[this.bill.payer_id].activated
+			// Any payer missing from the project is enough to block duplication.
+			return this.bill.id !== 0 && this.payerIds.some(id => !this.members[id]?.activated)
 		},
 		pageIsPublic() {
 			return this.cospend.pageIsPublic
@@ -212,10 +221,41 @@ export default {
 				: getCategory(this.projectId, this.bill.categoryid).icon + ' '
 			return categoryChar + this.bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars
 		},
+		payersFallbackTitle() {
+			// Same sentence as the form, because it reports the same fact: the split is on
+			// disk but the balances are ignoring it.
+			return t('cospend', 'Payers cover {covered} of {total}. Until it balances, the bill counts as paid entirely by {payer}.', {
+				covered: (this.bill.payers ?? []).reduce((sum, payer) => sum + payer.amount, 0).toFixed(2),
+				total: parseFloat(this.bill.amount).toFixed(2),
+				payer: this.members[this.bill.payer_id]?.name ?? '?',
+			})
+		},
+		payerIds() {
+			return getBillPayerIds(this.bill, this.members)
+		},
+		payerNames() {
+			// A payer id with no member behind it renders as a stub instead of throwing.
+			return this.payerIds.map(id => (this.members[id] ? getSmartMemberName(this.projectId, id) : '?'))
+		},
 		smartPayerName() {
-			return this.bill.payer_id !== 0
-				? getSmartMemberName(this.projectId, this.bill.payer_id)
-				: ''
+			if (this.bill.payer_id === 0) {
+				return ''
+			}
+			const names = this.payerNames
+			if (names.length === 1) {
+				return names[0]
+			}
+			// The row has less room than a single name already needs, so the payer side gets
+			// the same ladder the ower side has rather than being allowed to grow.
+			const nbActivated = Object.values(this.members).filter(m => m.activated).length
+			if (names.length >= nbActivated) {
+				return t('cospend', 'Everyone')
+			}
+			if (names.length === 2) {
+				return t('cospend', '{member1} and {member2}', { member1: names[0], member2: names[1] })
+			}
+			return n('cospend', '{member} and {n} other', '{member} and {n} others', names.length - 1,
+				{ member: names[0], n: names.length - 1 })
 		},
 		smartOwerNames() {
 			const owerIds = this.bill.owerIds
@@ -352,8 +392,10 @@ export default {
 			e.dataTransfer.setData('projectId', this.projectId)
 			e.dataTransfer.setData('billId', this.bill.id)
 			e.dataTransfer.setData('payerId', this.bill.payer_id)
-			const payerName = this.members[this.bill.payer_id].name
-			e.dataTransfer.setData('payerName', payerName)
+			// Every payer has to exist in the target project, not only the primary one.
+			e.dataTransfer.setData('payerNames', JSON.stringify(
+				this.payerIds.map(id => this.members[id]?.name).filter(name => name !== undefined),
+			))
 			this.isDragged = true
 		},
 		onDragEnd(e) {
@@ -385,6 +427,23 @@ export default {
 .subname {
 	display: flex;
 	gap: 4px;
+	min-width: 0;
+}
+
+.subname-text {
+	// the row overflows even with a single payer name, so it truncates legibly here rather
+	// than being clipped mid-character by an ancestor. text-overflow has no effect on a flex
+	// container, which is why this wrapper exists at all.
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.payers-fallback-marker {
+	// first in the row so it survives the truncation it is warning about
+	flex: 0 0 auto;
+	color: var(--color-warning-text, var(--color-warning));
 }
 
 .icon-move {

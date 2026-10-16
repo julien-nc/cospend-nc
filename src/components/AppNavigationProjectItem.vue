@@ -348,13 +348,27 @@ export default {
 			})
 			return !!foundMember
 		},
+		/**
+		 * The payers of the dragged bill that this project has no member for.
+		 *
+		 * @param {DataTransfer} dataTransfer the drag payload
+		 * @return {Array} missing member names
+		 */
+		missingPayerNames(dataTransfer) {
+			let names
+			try {
+				names = JSON.parse(dataTransfer.getData('payerNames') || '[]')
+			} catch (e) {
+				names = []
+			}
+			return names.filter(name => !this.hasMemberNamed(name))
+		},
 		onDragOver(e) {
 			const billId = e.dataTransfer.getData('billId')
 			const projectId = e.dataTransfer.getData('projectId')
 			if (projectId && billId) {
 				this.isDraggedOver = true
-				const payerName = e.dataTransfer.getData('payerName')
-				this.isDropWarning = !this.hasMemberNamed(payerName)
+				this.isDropWarning = this.missingPayerNames(e.dataTransfer).length > 0
 				this.isDropError = projectId === this.project.id
 			}
 		},
@@ -363,8 +377,7 @@ export default {
 			const projectId = e.dataTransfer.getData('projectId')
 			if (projectId && billId) {
 				this.isDraggedOver = true
-				const payerName = e.dataTransfer.getData('payerName')
-				this.isDropWarning = !this.hasMemberNamed(payerName)
+				this.isDropWarning = this.missingPayerNames(e.dataTransfer).length > 0
 				this.isDropError = projectId === this.project.id
 			}
 		},
@@ -384,9 +397,16 @@ export default {
 				this.isDraggedOver = false
 				this.isDropError = false
 				this.isDropWarning = false
-				const payerName = e.dataTransfer.getData('payerName')
-				if (!this.hasMemberNamed(payerName)) {
-					showWarning(t('cospend', 'Impossible to move the bill to "{projectName}". The payer was not found in the target project.', { projectName: this.project.name }))
+				// The drop is allowed to fail rather than the row refusing to drag: a row that
+				// will not move without saying why is worse than an action that explains itself.
+				const missing = this.missingPayerNames(e.dataTransfer)
+				if (missing.length > 0) {
+					// Naming every missing member at once saves a second attempt after
+					// creating the first one.
+					showWarning(t('cospend', 'Impossible to move the bill to "{projectName}". These payers were not found there: {members}.', {
+						projectName: this.project.name,
+						members: missing.join(', '),
+					}))
 					return
 				}
 				if (this.project.id === projectId) {

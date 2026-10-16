@@ -7,7 +7,7 @@
 
 /// <reference types="vite/client" />
 
-import type { translate } from '@nextcloud/l10n'
+import type { translate, translatePlural } from '@nextcloud/l10n'
 import type { TranslationOptions } from '@nextcloud/l10n'
 
 interface Capabilities {
@@ -19,6 +19,7 @@ interface Capabilities {
 
 declare global {
 	const t: typeof translate
+	const n: typeof translatePlural
 
 	const OCA: {
 		Cospend: {

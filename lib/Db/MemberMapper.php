@@ -135,7 +135,12 @@ class MemberMapper extends QBMapper {
 	}
 
 	/**
-	 * Get bills involving a member (as a payer or an ower)
+	 * Get bills involving a member, as the main payer, an additional payer or an ower
+	 *
+	 * The additional-payer branch is what keeps deleteMember() and editMember() from
+	 * permanently deleting a member who only ever contributed to multi-payer bills:
+	 * both hard-delete the row when this returns nothing, and no foreign key would
+	 * catch the dangling cospend_bill_payers rows left behind.
 	 *
 	 * @param int $memberId
 	 * @param int|null $deleted
@@ -148,9 +153,18 @@ class MemberMapper extends QBMapper {
 			->from('cospend_bill_owers', 'bo')
 			->innerJoin('bo', 'cospend_bills', 'bi', $qb->expr()->eq('bo.bill_id', 'bi.id'))
 			->innerJoin('bo', $this->getTableName(), 'm', $qb->expr()->eq('bo.member_id', 'm.id'));
+
+		$payerSubQuery = $this->db->getQueryBuilder();
+		$payerSubQuery->select('bill_id')
+			->from('cospend_bill_payers')
+			->where(
+				$payerSubQuery->expr()->eq('member_id', $qb->createNamedParameter($memberId, IQueryBuilder::PARAM_INT))
+			);
+
 		$or = $qb->expr()->orx();
 		$or->add($qb->expr()->eq('bi.payer_id', $qb->createNamedParameter($memberId, IQueryBuilder::PARAM_INT)));
 		$or->add($qb->expr()->eq('bo.member_id', $qb->createNamedParameter($memberId, IQueryBuilder::PARAM_INT)));
+		$or->add($qb->expr()->in('bi.id', $qb->createFunction($payerSubQuery->getSQL()), IQueryBuilder::PARAM_STR_ARRAY));
 		$qb->where($or);
 		if ($deleted !== null) {
 			$qb->andWhere(

@@ -12,6 +12,7 @@ use DateTime;
 use Exception;
 use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\ResponseDefinitions;
+use OCA\Cospend\Utils;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\QBMapper;
@@ -24,8 +25,81 @@ use OCP\IDBConnection;
  */
 class BillMapper extends QBMapper {
 
-	public function __construct(IDBConnection $db) {
+	public function __construct(
+		IDBConnection $db,
+		private BillPayerMapper $billPayerMapper,
+	) {
 		parent::__construct($db, 'cospend_bills', Bill::class);
+	}
+
+	/**
+	 * Attach the payers relation to already-built bill arrays.
+	 *
+	 * Loaded with a separate batched query on purpose: cospend_bill_payers must never be joined
+	 * into getBillsClassic's bill x ower fan-out, where the extra rows would repeat every ower
+	 * and the duplicated owerIds would be written back to the database on the next edit.
+	 *
+	 * @param array<array-key, array> $bills
+	 * @return array<array-key, array>
+	 * @throws \OCP\DB\Exception
+	 */
+	private function attachPayers(array $bills): array {
+		if ($bills === []) {
+			return $bills;
+		}
+
+		$billIds = [];
+		foreach ($bills as $bill) {
+			$billIds[] = (int)$bill['id'];
+		}
+		$payersByBillId = $this->billPayerMapper->getPayersOfBills($billIds);
+
+		foreach ($bills as $key => $bill) {
+			$payers = [];
+			$amounts = [];
+			foreach ($payersByBillId[(int)$bill['id']] ?? [] as $billPayer) {
+				$payers[] = [
+					'id' => $billPayer->getMemberId(),
+					'amount' => $billPayer->getAmount(),
+				];
+				$amounts[] = $billPayer->getAmount();
+			}
+			$bills[$key]['payers'] = $payers;
+			$bills[$key]['payersFallback'] = $payers !== []
+				&& !Utils::payersCoverAmount($amounts, (float)$bill['amount']);
+		}
+
+		return $bills;
+	}
+
+	/**
+	 * Condition matching bills a member contributed to, as the main payer or an additional one.
+	 *
+	 * Shared by every payerId filter so the bill list, its counter and the statistics filter
+	 * cannot disagree about who is involved in a bill. Expressed as a subquery rather than a
+	 * join: joining cospend_bill_payers would multiply rows in the fan-out reads and inflate
+	 * COUNT(*).
+	 *
+	 * @param IQueryBuilder $qb
+	 * @param int $payerId
+	 * @param string $billIdColumn
+	 * @param string $payerIdColumn
+	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
+	 */
+	private function contributedByCondition(
+		IQueryBuilder $qb, int $payerId, string $billIdColumn, string $payerIdColumn,
+	) {
+		$subQuery = $this->db->getQueryBuilder();
+		$subQuery->select('bill_id')
+			->from('cospend_bill_payers')
+			->where(
+				$subQuery->expr()->eq('member_id', $qb->createNamedParameter($payerId, IQueryBuilder::PARAM_INT))
+			);
+
+		$or = $qb->expr()->orx();
+		$or->add($qb->expr()->eq($payerIdColumn, $qb->createNamedParameter($payerId, IQueryBuilder::PARAM_INT)));
+		$or->add($qb->expr()->in($billIdColumn, $qb->createFunction($subQuery->getSQL()), IQueryBuilder::PARAM_STR_ARRAY));
+		return $or;
 	}
 
 	/**
@@ -66,6 +140,25 @@ class BillMapper extends QBMapper {
 		$qb->delete('cospend_bill_owers')
 			->where(
 				$qb2->expr()->in('bill_id', $qb->createFunction($qb2->getSQL()), IQueryBuilder::PARAM_STR_ARRAY)
+			);
+		$qb->executeStatement();
+
+		// then the bill payers, which have no foreign key to clean them up
+		$qb = $this->db->getQueryBuilder();
+
+		$qb3 = $this->db->getQueryBuilder();
+		$qb3->select('id')
+			->from($this->getTableName())
+			->where(
+				$qb3->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+			)
+			->andWhere(
+				$qb->expr()->eq('deleted', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
+			);
+
+		$qb->delete('cospend_bill_payers')
+			->where(
+				$qb3->expr()->in('bill_id', $qb->createFunction($qb3->getSQL()), IQueryBuilder::PARAM_STR_ARRAY)
 			);
 		$qb->executeStatement();
 
@@ -114,6 +207,33 @@ class BillMapper extends QBMapper {
 				$qb2->expr()->in('bill_id', $qb->createFunction($qb2->getSQL()), IQueryBuilder::PARAM_STR_ARRAY)
 			);
 		$nbBillOwersDeleted = $qb->executeStatement();
+
+		// then the bill payers
+		$qb = $this->db->getQueryBuilder();
+
+		$qb3 = $this->db->getQueryBuilder();
+		$qb3->select('id')
+			->from($this->getTableName())
+			->where(
+				$qb3->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+			);
+		if ($what !== null) {
+			$qb3->andWhere(
+				$qb3->expr()->eq('what', $qb->createNamedParameter($what, IQueryBuilder::PARAM_STR))
+			);
+		}
+		if ($minTimestamp !== null) {
+			$qb3->andWhere(
+				$qb3->expr()->gt('timestamp', $qb->createNamedParameter($minTimestamp, IQueryBuilder::PARAM_INT))
+			);
+		}
+
+		$qb->delete('cospend_bill_payers')
+			->where(
+				$qb3->expr()->in('bill_id', $qb->createFunction($qb3->getSQL()), IQueryBuilder::PARAM_STR_ARRAY)
+			);
+		$nbBillPayersDeleted = $qb->executeStatement();
+
 		$qb = $this->db->getQueryBuilder();
 
 		///////////////////
@@ -136,6 +256,7 @@ class BillMapper extends QBMapper {
 		return [
 			'bills' => $nbBillsDeleted,
 			'billOwers' => $nbBillOwersDeleted,
+			'billPayers' => $nbBillPayersDeleted,
 		];
 	}
 
@@ -266,6 +387,7 @@ class BillMapper extends QBMapper {
 		$bill = $dbBbill->jsonSerialize();
 		$bill['owers'] = $billOwers;
 		$bill['owerIds'] = $billOwerIds;
+		$bill = $this->attachPayers([$bill])[0];
 		return $bill;
 	}
 
@@ -337,9 +459,7 @@ class BillMapper extends QBMapper {
 			);
 		}
 		if ($payerId !== null) {
-			$qb->andWhere(
-				$qb->expr()->eq('bi.payer_id', $qb->createNamedParameter($payerId, IQueryBuilder::PARAM_INT))
-			);
+			$qb->andWhere($this->contributedByCondition($qb, $payerId, 'bi.id', 'bi.payer_id'));
 		}
 		if ($tsMin !== null) {
 			$qb->andWhere(
@@ -425,6 +545,8 @@ class BillMapper extends QBMapper {
 		}
 		$req->closeCursor();
 
+		$billDict = $this->attachPayers($billDict);
+
 		/** @var list<CospendBill> $resultBills */
 		$resultBills = [];
 		foreach ($orderedBillIds as $bid) {
@@ -477,9 +599,7 @@ class BillMapper extends QBMapper {
 			);
 		}
 		if ($payerId !== null) {
-			$qb->andWhere(
-				$qb->expr()->eq('payer_id', $qb->createNamedParameter($payerId, IQueryBuilder::PARAM_INT))
-			);
+			$qb->andWhere($this->contributedByCondition($qb, $payerId, 'id', 'payer_id'));
 		}
 		if ($tsMin !== null) {
 			$qb->andWhere(
@@ -612,6 +732,8 @@ class BillMapper extends QBMapper {
 			$bills[$i]['owerIds'] = $billOwerIds;
 		}
 
+		$bills = $this->attachPayers($bills);
+
 		/** @var list<CospendBill> $bills */
 		return $bills;
 	}
@@ -643,6 +765,8 @@ class BillMapper extends QBMapper {
 			'payer_id' => $dbPayerId,
 			'owers' => [],
 			'owerIds' => [],
+			'payers' => [],
+			'payersFallback' => false,
 			'repeat' => $dbRepeat,
 			'paymentmode' => $dbPaymentMode,
 			'paymentmodeid' => $dbPaymentModeId,
@@ -770,9 +894,7 @@ class BillMapper extends QBMapper {
 			);
 		}
 		if ($payerId !== null) {
-			$qb->andWhere(
-				$qb->expr()->eq('payer_id', $qb->createNamedParameter($payerId, IQueryBuilder::PARAM_INT))
-			);
+			$qb->andWhere($this->contributedByCondition($qb, $payerId, 'id', 'payer_id'));
 		}
 		if ($categoryId !== null) {
 			$qb->andWhere(

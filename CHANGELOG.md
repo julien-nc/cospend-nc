@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+### Added
+
+- Several payers on one bill. "Multiple people…" at the bottom of the payer list opens a panel to set how much each member payed; the contributions have to add up to the bill amount. Balances, statistics, settlement, the bill list, CSV export/import and the API all follow the split. Bills with a single payer are unchanged
+
 ## 4.1.3 – 2026-09-02
 
 ### Changed

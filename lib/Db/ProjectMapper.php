@@ -214,6 +214,33 @@ class ProjectMapper extends QBMapper {
 	}
 
 	/**
+	 * Delete the bill payers of every bill of a project
+	 *
+	 * cospend_bill_payers is keyed by bill, not by project, so it cannot be purged
+	 * by the project_id loop in LocalProjectService::deleteProject().
+	 *
+	 * @param string $projectId
+	 * @return void
+	 * @throws Exception
+	 */
+	public function deleteBillPayersOfProject(string $projectId): void {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb2 = $this->db->getQueryBuilder();
+		$qb2->select('id')
+			->from('cospend_bills')
+			->where(
+				$qb2->expr()->eq('project_id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+			);
+
+		$qb->delete('cospend_bill_payers')
+			->where(
+				$qb2->expr()->in('bill_id', $qb->createFunction($qb2->getSQL()), IQueryBuilder::PARAM_STR_ARRAY)
+			);
+		$qb->executeStatement();
+	}
+
+	/**
 	 * Touch a project
 	 *
 	 * @param string $projectId

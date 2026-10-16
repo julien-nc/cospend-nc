@@ -148,6 +148,11 @@ namespace OCA\Cospend;
  *     activated: bool,
  * }
  *
+ * @psalm-type CospendPayer = array{
+ *     id: int,
+ *     amount: float,
+ * }
+ *
  * @psalm-type CospendBill = array{
  *     id: int,
  *     amount: float,
@@ -158,6 +163,8 @@ namespace OCA\Cospend;
  *     payer_id: int,
  *     owers: list<CospendOwer>,
  *     owerIds: list<int>,
+ *     payers: list<CospendPayer>,
+ *     payersFallback: bool,
  *     repeat: CospendFrequency,
  *     paymentmode: string,
  *     paymentmodeid: int,

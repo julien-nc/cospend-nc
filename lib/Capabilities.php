@@ -28,6 +28,8 @@ class Capabilities implements IPublicCapability {
 	 *         federation: array{
 	 *             enabled: bool,
 	 *         },
+	 *         multi_payer: bool,
+	 *         amount_epsilon: float,
 	 *     }
 	 * }
 	 */
@@ -40,6 +42,14 @@ class Capabilities implements IPublicCapability {
 				'federation' => [
 					'enabled' => $federationEnabled,
 				],
+				// Lets a client know bills can carry several payers before it offers the
+				// option. Without it the only signal is the version string, so the choice
+				// would appear against servers that cannot store it and fail at save time.
+				'multi_payer' => true,
+				// The tolerance the server uses to decide whether a bill's payers account for
+				// its amount. Published so a client can show the same verdict live while the
+				// user types, instead of keeping a second constant that can drift from this one.
+				'amount_epsilon' => Utils::AMOUNT_EPSILON,
 			],
 		];
 	}

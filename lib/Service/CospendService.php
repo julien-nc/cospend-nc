@@ -303,6 +303,30 @@ class CospendService {
 					$repeatfreq = array_key_exists('repeatfreq', $columns) ? (int)$data[$columns['repeatfreq']] : 1;
 					$comment = array_key_exists('comment', $columns) ? urldecode($data[$columns['comment']] ?? '') : null;
 					$deleted = array_key_exists('deleted', $columns) ? (int)$data[$columns['deleted']] : 0;
+					$payersJson = array_key_exists('payers', $columns) ? ($data[$columns['payers']] ?? '') : '';
+					$billPayers = [];
+					if ($payersJson !== '') {
+						$decodedPayers = json_decode($payersJson, true);
+						if (!is_array($decodedPayers)) {
+							fclose($handle);
+							return ['message' => $this->l10n->t('Malformed CSV, invalid payers on line %1$s', [$row + 1])];
+						}
+						foreach ($decodedPayers as $decodedPayer) {
+							if (!is_array($decodedPayer)
+								|| !isset($decodedPayer['name'], $decodedPayer['amount'])
+								|| !is_string($decodedPayer['name'])
+								|| trim($decodedPayer['name']) === ''
+								|| !is_numeric($decodedPayer['amount'])
+							) {
+								fclose($handle);
+								return ['message' => $this->l10n->t('Malformed CSV, invalid payers on line %1$s', [$row + 1])];
+							}
+							$billPayers[] = [
+								'name' => trim($decodedPayer['name']),
+								'amount' => (float)$decodedPayer['amount'],
+							];
+						}
+					}
 
 					// manage members
 					if (!isset($membersByName[$payer_name])) {
@@ -336,12 +360,22 @@ class CospendService {
 								$membersByName[$strippedOwer]['color'] = null;
 							}
 						}
+						// An additional payer can owe nothing on this bill and appear nowhere else,
+						// so register them here too or the name would not resolve to a member.
+						foreach ($billPayers as $billPayer) {
+							if (!isset($membersByName[$billPayer['name']])) {
+								$membersByName[$billPayer['name']]['weight'] = 1.0;
+								$membersByName[$billPayer['name']]['active'] = true;
+								$membersByName[$billPayer['name']]['color'] = null;
+							}
+						}
 						$bills[] = [
 							'what' => $what,
 							'comment' => $comment,
 							'timestamp' => $timestamp,
 							'amount' => $amount,
 							'payer_name' => $payer_name,
+							'payers' => $billPayers,
 							'owers' => $owersArray,
 							'paymentmode' => $paymentmode,
 							'paymentmodeid' => $paymentmodeid,
@@ -421,6 +455,13 @@ class CospendService {
 				$pmId = $paymentModeIdConv[$pmId];
 			}
 			$payerId = $memberNameToId[$bill['payer_name']];
+			$billPayers = [];
+			foreach ($bill['payers'] as $billPayer) {
+				$billPayers[] = [
+					'id' => $memberNameToId[$billPayer['name']],
+					'amount' => $billPayer['amount'],
+				];
+			}
 			$owerIds = [];
 			foreach ($bill['owers'] as $owerName) {
 				$strippedOwer = trim($owerName);
@@ -434,7 +475,7 @@ class CospendService {
 					$bill['paymentmode'], $pmId,
 					$catId, $bill['repeatallactive'],
 					$bill['repeatuntil'], $bill['timestamp'], $bill['comment'], $bill['repeatfreq'],
-					$bill['deleted'] ?? 0
+					$bill['deleted'] ?? 0, false, $billPayers === [] ? null : $billPayers
 				);
 			} catch (\Throwable $e) {
 				$this->localProjectService->deleteProject($projectId);
@@ -1007,6 +1048,48 @@ class CospendService {
 	}
 
 	/**
+	 * The `payers` cell of one exported bill: a JSON array of {name, amount}, or '' when the
+	 * bill has a single payer, which payer_name already says.
+	 *
+	 * Members are named, not numbered: this file is also the account export format, and an
+	 * import rebuilds the project with fresh member ids, so an id would resolve to nothing.
+	 * JSON rather than a delimiter of our own because both parts can contain one — names a
+	 * comma, amounts a decimal separator.
+	 *
+	 * A bill whose payer rows no longer add up to its amount exports as single-payer: that is
+	 * the split its own balance already ignores (see LocalProjectService's fallback), and
+	 * writing the rows anyway would produce a file that fails its own import.
+	 *
+	 * @param array $bill
+	 * @param array<int, string> $memberIdToName
+	 * @return string
+	 */
+	private function billPayersCell(array $bill, array $memberIdToName): string {
+		$payers = $bill['payers'] ?? [];
+		if ($payers === [] || ($bill['payersFallback'] ?? false)) {
+			return '';
+		}
+
+		$cell = [];
+		foreach ($payers as $payer) {
+			$cell[] = [
+				'name' => $memberIdToName[$payer['id']],
+				'amount' => $payer['amount'],
+			];
+		}
+
+		// JSON_HEX_QUOT is load-bearing: this file is read back with backslash as the CSV
+		// escape character, so a name containing a double quote would otherwise reach the
+		// parser as \" and swallow the end of the cell. As \u0022 it survives, and
+		// json_decode restores the character.
+		$json = json_encode($cell, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_QUOT);
+		// Only reachable through a member name that is not valid UTF-8. Exporting the bill as
+		// single-payer loses the split; throwing would lose the whole file, and this one is
+		// also the account export.
+		return $json === false ? '' : $json;
+	}
+
+	/**
 	 * @param array $projectInfo
 	 * @param array $bills
 	 * @return Generator
@@ -1030,7 +1113,11 @@ class CospendService {
 				. "\n";
 		}
 		// bills
-		yield "\nwhat,amount,date,timestamp,payer_name,payer_weight,payer_active,owers,repeat,repeatfreq,repeatallactive,repeatuntil,categoryid,paymentmode,paymentmodeid,comment,deleted\n";
+		// `payers` is appended last on purpose. Reading is header-keyed, so an older Cospend
+		// never looks the column up, while a new section would make it abort the whole import.
+		// payer_name and payer_weight also stay exactly where they are: their presence is how
+		// the bills section is recognised.
+		yield "\nwhat,amount,date,timestamp,payer_name,payer_weight,payer_active,owers,repeat,repeatfreq,repeatallactive,repeatuntil,categoryid,paymentmode,paymentmodeid,comment,deleted,payers\n";
 		foreach ($bills as $bill) {
 			$owerNames = [];
 			foreach ($bill['owers'] as $ower) {
@@ -1042,6 +1129,7 @@ class CospendService {
 			$payer_name = $memberIdToName[$payer_id];
 			$payer_weight = $memberIdToWeight[$payer_id];
 			$payer_active = $memberIdToActive[$payer_id];
+			$payersJson = $this->billPayersCell($bill, $memberIdToName);
 			$dateTime = DateTime::createFromFormat('U', (string)$bill['timestamp']);
 			$oldDateStr = $dateTime->format('Y-m-d');
 			// escaping double quotes by doubling them: https://stackoverflow.com/a/17808731
@@ -1061,7 +1149,8 @@ class CospendService {
 				. $bill['paymentmode'] . ','
 				. $bill['paymentmodeid'] . ','
 				. '"' . str_replace('"', '""', urlencode($bill['comment'])) . '",'
-				. $bill['deleted']
+				. $bill['deleted'] . ','
+				. '"' . str_replace('"', '""', $payersJson) . '"'
 				. "\n";
 		}
 

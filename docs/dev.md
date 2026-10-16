@@ -25,6 +25,7 @@ So the only differences between IHateMoney API and Cospend API are :
 
 * The password has to be included in the URL path, just after the project ID, like that : `https://mynextcloud.org/index.php/apps/cospend/api/myproject/projectPassword/bills`
 * The parameter `payed_for` cannot be given multiple times like in IHateMoney. It has to be given once with coma separated values.
+* A Cospend bill can have several payers, which IHateMoney has no equivalent for. **This API cannot set them**: `apiAddBill` and `apiEditBill` only take the single `payer`. Bills read through it do carry the split, as a `payers` array of `{"id": <memberId>, "amount": <float>}` plus a `payersFallback` boolean. Editing a bill here leaves its split untouched, unless you send a `payer` different from the stored one, which is read as a deliberate change of payer and drops the split. To set a split, use the OCS API (`/ocs/v2.php/apps/cospend/api/v1/projects/{projectId}/bills`), whose bill creation and edition accept an optional `payers` parameter whose amounts must add up to the bill amount.
 
 That's it.
 

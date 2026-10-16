@@ -72,10 +72,12 @@ class DeleteBills extends Base {
 		if ($input->getOption('simulate')) {
 			$output->writeln('0 bill deleted');
 			$output->writeln('0 bill ower deleted');
+			$output->writeln('0 bill payer deleted');
 		} else {
 			$nbDeleted = $this->billMapper->deleteBills($projectId, $what, $minTs);
 			$output->writeln($nbDeleted['bills'] . ' bills deleted');
 			$output->writeln($nbDeleted['billOwers'] . ' bill owers deleted');
+			$output->writeln($nbDeleted['billPayers'] . ' bill payers deleted');
 		}
 		return 0;
 	}

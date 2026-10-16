@@ -19,6 +19,8 @@ use OCA\Cospend\Db\Bill;
 use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Db\BillOwer;
 use OCA\Cospend\Db\BillOwerMapper;
+use OCA\Cospend\Db\BillPayer;
+use OCA\Cospend\Db\BillPayerMapper;
 use OCA\Cospend\Db\Category;
 use OCA\Cospend\Db\CategoryMapper;
 use OCA\Cospend\Db\Currency;
@@ -35,6 +37,7 @@ use OCA\Cospend\Exception\CospendBasicException;
 use OCA\Cospend\Federation\BackendNotifier;
 use OCA\Cospend\Federation\FederationManager;
 use OCA\Cospend\ResponseDefinitions;
+use OCA\Cospend\Utils;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
@@ -79,6 +82,7 @@ class LocalProjectService implements IProjectService {
 		private PaymentModeMapper $paymentModeMapper,
 		private CategoryMapper $categoryMapper,
 		private BillOwerMapper $billOwerMapper,
+		private BillPayerMapper $billPayerMapper,
 		private BackendNotifier $backendNotifier,
 		private ICloudIdManager $cloudIdManager,
 		private ActivityManager $activityManager,
@@ -312,6 +316,7 @@ class LocalProjectService implements IProjectService {
 			throw new CospendBasicException('', Http::STATUS_NOT_FOUND, ['error' => $this->l10n->t('Not Found')]);
 		}
 		$this->projectMapper->deleteBillOwersOfProject($projectId);
+		$this->projectMapper->deleteBillPayersOfProject($projectId);
 
 		$associatedTableNames = [
 			'cospend_bills' => 'project_id',
@@ -458,8 +463,6 @@ class LocalProjectService implements IProjectService {
 		bool $showDisabled = true, ?int $currencyId = null, ?int $payerId = null,
 	): array {
 		$timeZone = $this->dateTimeZone->getTimeZone();
-		$membersWeight = [];
-		$membersNbBills = [];
 		$membersBalance = [];
 		$membersFilteredBalance = [];
 		$membersPaid = [
@@ -483,9 +486,6 @@ class LocalProjectService implements IProjectService {
 		$members = $this->getMembers($projectId, 'lowername');
 		foreach ($members as $member) {
 			$memberId = $member['id'];
-			$memberWeight = $member['weight'];
-			$membersWeight[$memberId] = $memberWeight;
-			$membersNbBills[$memberId] = 0;
 			$membersBalance[$memberId] = $balances[$memberId];
 			$membersFilteredBalance[$memberId] = 0.0;
 			$membersPaid[$memberId] = 0.0;
@@ -538,13 +538,19 @@ class LocalProjectService implements IProjectService {
 
 		// compute classic stats
 		foreach ($bills as $bill) {
-			$payerId = $bill['payer_id'];
 			$amount = $bill['amount'];
 			$owers = $bill['owers'];
 
-			$membersNbBills[$payerId]++;
-			$membersFilteredBalance[$payerId] += $amount;
-			$membersPaid[$payerId] += $amount;
+			$contributions = $this->effectivePayerContributions($bill);
+			$totalPaid = array_sum($contributions);
+			// each payer is credited for what they put in, and owns that fraction of every
+			// ower's share in the "who paid for whom" matrix
+			$payerShares = [];
+			foreach ($contributions as $payerId => $paidAmount) {
+				$membersFilteredBalance[$payerId] += $paidAmount;
+				$membersPaid[$payerId] += $paidAmount;
+				$payerShares[$payerId] = $totalPaid > 0.0 ? $paidAmount / $totalPaid : 0.0;
+			}
 
 			$nbOwerShares = 0.0;
 			foreach ($owers as $ower) {
@@ -564,7 +570,9 @@ class LocalProjectService implements IProjectService {
 				$membersFilteredBalance[$owerId] -= $spent;
 				$membersSpent[$owerId] += $spent;
 				// membersPaidFor
-				$membersPaidFor[$payerId][$owerId] += $spent;
+				foreach ($payerShares as $payerId => $payerShare) {
+					$membersPaidFor[$payerId][$owerId] += $spent * $payerShare;
+				}
 				$membersPaidFor['total'][$owerId] += $spent;
 			}
 		}
@@ -604,7 +612,6 @@ class LocalProjectService implements IProjectService {
 		$memberMonthlySpentStats = [];
 		$allMembersKey = 0;
 		foreach ($bills as $bill) {
-			$payerId = $bill['payer_id'];
 			/** @var float $amount */
 			$amount = $bill['amount'];
 			$owers = $bill['owers'];
@@ -621,10 +628,13 @@ class LocalProjectService implements IProjectService {
 				$memberMonthlyPaidStats[$month][$allMembersKey] = 0.0;
 			}
 
-			// add paid amount
-			if (array_key_exists($payerId, $membersToDisplay)) {
-				$memberMonthlyPaidStats[$month][$payerId] += $amount;
-				$memberMonthlyPaidStats[$month][$allMembersKey] += $amount;
+			// add paid amount, per payer, so the all-members line stays the sum of the
+			// per-member lines it is drawn beside
+			foreach ($this->effectivePayerContributions($bill) as $payerId => $paidAmount) {
+				if (array_key_exists($payerId, $membersToDisplay)) {
+					$memberMonthlyPaidStats[$month][$payerId] += $paidAmount;
+					$memberMonthlyPaidStats[$month][$allMembersKey] += $paidAmount;
+				}
 			}
 			//////////////// SPENT
 			// initialize this month
@@ -757,7 +767,6 @@ class LocalProjectService implements IProjectService {
 		// compute category per member stats
 		$categoryMemberStats = [];
 		foreach ($bills as $bill) {
-			$payerId = $bill['payer_id'];
 			$billCategoryId = $bill['categoryid'];
 			if (!array_key_exists(strval($billCategoryId), $this->hardCodedCategoryNames)
 				&& !array_key_exists(strval($billCategoryId), $projectCategories)
@@ -772,8 +781,10 @@ class LocalProjectService implements IProjectService {
 					$categoryMemberStats[$billCategoryId][$memberId] = 0.0;
 				}
 			}
-			if (array_key_exists($payerId, $membersToDisplay)) {
-				$categoryMemberStats[$billCategoryId][$payerId] += $amount;
+			foreach ($this->effectivePayerContributions($bill) as $payerId => $paidAmount) {
+				if (array_key_exists($payerId, $membersToDisplay)) {
+					$categoryMemberStats[$billCategoryId][$payerId] += $paidAmount;
+				}
 			}
 		}
 		// convert if necessary
@@ -925,7 +936,7 @@ class LocalProjectService implements IProjectService {
 		?float $amount, ?string $repeat, ?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null, int $repeatAllActive = 0, ?string $repeatUntil = null,
 		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null,
-		int $deleted = 0, bool $produceActivity = false,
+		int $deleted = 0, bool $produceActivity = false, ?array $payers = null,
 	): int {
 		// if we don't have the payment modes, get them now
 		if ($this->paymentModes === null) {
@@ -959,6 +970,20 @@ class LocalProjectService implements IProjectService {
 		}
 		if ($amount === null) {
 			throw new CospendBasicException('amount is required', Http::STATUS_BAD_REQUEST);
+		}
+		$payerRows = [];
+		if ($payers !== null) {
+			[$payerRows, $collapsedPayerId] = $this->validatePayers($projectId, $payers, $amount);
+			$effectivePayerIds = $payerRows === []
+				? ($collapsedPayerId === null ? [] : [$collapsedPayerId])
+				: array_column($payerRows, 'id');
+			$this->assertPayerMatchesPayers($projectId, $payer, $effectivePayerIds);
+			if ($payerRows !== []) {
+				// several payers describe the bill on their own; payer_id becomes the primary one
+				$payer = $this->primaryPayerId($projectId, $payerRows);
+			} elseif ($collapsedPayerId !== null) {
+				$payer = $collapsedPayerId;
+			}
 		}
 		if ($payer === null) {
 			throw new CospendBasicException('payer is required', Http::STATUS_BAD_REQUEST);
@@ -1037,6 +1062,14 @@ class LocalProjectService implements IProjectService {
 			$this->billOwerMapper->insert($billOwer);
 		}
 
+		foreach ($payerRows as $payerRow) {
+			$billPayer = new BillPayer();
+			$billPayer->setBillId($insertedBillId);
+			$billPayer->setMemberId($payerRow['id']);
+			$billPayer->setAmount($payerRow['amount']);
+			$this->billPayerMapper->insert($billPayer);
+		}
+
 		$this->projectMapper->updateProjectLastChanged($projectId, $ts);
 
 		if ($produceActivity) {
@@ -1080,6 +1113,7 @@ class LocalProjectService implements IProjectService {
 				$this->billMapper->update($billToDelete);
 			} else {
 				$this->billOwerMapper->deleteBillOwersOfBill($billId);
+				$this->billPayerMapper->deleteBillPayersOfBill($billId);
 				$this->billMapper->delete($billToDelete);
 			}
 
@@ -1563,6 +1597,177 @@ class LocalProjectService implements IProjectService {
 	}
 
 	/**
+	 * Refuse a scalar payer that contradicts the payers list accompanying it.
+	 *
+	 * When both arrive, the list is the single source of who paid, and payer_id is derived from
+	 * it. A `payer` naming someone outside the list is not something a coherent client sends,
+	 * and honouring the list silently would produce a plausible bill that is not the one asked
+	 * for. Naming someone who is in the list is redundant rather than contradictory, so it
+	 * passes without noise. This is the same drift DEC-03 absorbs for old clients, refused here
+	 * because a caller that speaks the payers field has no excuse for it.
+	 *
+	 * @param string $projectId
+	 * @param int|null $payer
+	 * @param list<int> $effectivePayerIds
+	 * @return void
+	 * @throws CospendBasicException
+	 */
+	private function assertPayerMatchesPayers(string $projectId, ?int $payer, array $effectivePayerIds): void {
+		if ($payer === null || $effectivePayerIds === [] || in_array($payer, $effectivePayerIds, true)) {
+			return;
+		}
+		$member = $this->getMemberById($projectId, $payer);
+		$name = $member === null ? (string)$payer : (string)$member['name'];
+		$message = $this->l10n->t('%1$s is not one of the payers of this bill', [$name]);
+		throw new CospendBasicException($message, Http::STATUS_BAD_REQUEST, ['payers' => $message]);
+	}
+
+	/**
+	 * Validate an incoming payers list and reduce it to the rows to store.
+	 *
+	 * Entries with an amount of zero are discarded rather than refused: a checked member with
+	 * an empty amount is an ordinary state of the form, and refusing it would force the client
+	 * to reimplement this rule before sending.
+	 *
+	 * A negative amount is refused, because it belongs to the same family as a duplicate member:
+	 * it can still make the total add up (30 + -8 = 22), so the sum invariant passes and the
+	 * read-side fallback never fires, while the balances it produces are nonsense.
+	 *
+	 * Fewer than two effective payers is not a split. It stores no rows, and the second return
+	 * value carries the member to record as the payer, so a client sending a one-entry list
+	 * without a separate `payer` still gets a coherent bill.
+	 *
+	 * Duplicate members are refused for the same reason: the same member listed twice doubles
+	 * their credit while the amounts still add up. Duplicates and negatives are the two ways to
+	 * corrupt the balances without violating any other check; everything else either fails the
+	 * sum or is harmless.
+	 *
+	 * @param string $projectId
+	 * @param array $payers
+	 * @param float $amount
+	 * @return array{0: list<array{id: int, amount: float}>, 1: int|null} rows to store, collapsed payer
+	 * @throws CospendBasicException
+	 */
+	private function validatePayers(string $projectId, array $payers, float $amount): array {
+		$candidates = [];
+		$names = [];
+		foreach ($payers as $payer) {
+			if (!is_array($payer) || !isset($payer['id'], $payer['amount'])) {
+				$message = $this->l10n->t('Each payer needs a member and an amount');
+				throw new CospendBasicException($message, Http::STATUS_BAD_REQUEST, ['payers' => $message]);
+			}
+			$memberId = (int)$payer['id'];
+			$payerAmount = (float)$payer['amount'];
+			$member = $this->getMemberById($projectId, $memberId);
+			if ($member === null) {
+				$message = $this->l10n->t('Not a valid choice');
+				throw new CospendBasicException($message, Http::STATUS_BAD_REQUEST, ['payers' => $message]);
+			}
+			if ($payerAmount < 0.0) {
+				$message = $this->l10n->t('%1$s cannot pay a negative amount', [$member['name']]);
+				throw new CospendBasicException($message, Http::STATUS_BAD_REQUEST, ['payers' => $message]);
+			}
+			if ($payerAmount === 0.0) {
+				continue;
+			}
+			if (isset($names[$memberId])) {
+				$message = $this->l10n->t('%1$s is listed as a payer more than once', [$member['name']]);
+				throw new CospendBasicException($message, Http::STATUS_BAD_REQUEST, ['payers' => $message]);
+			}
+			$names[$memberId] = (string)$member['name'];
+			$candidates[] = ['id' => $memberId, 'amount' => $payerAmount];
+		}
+
+		if ($candidates === []) {
+			return [[], null];
+		}
+		if (count($candidates) === 1) {
+			return [[], $candidates[0]['id']];
+		}
+
+		if (!Utils::payersCoverAmount(array_column($candidates, 'amount'), $amount)) {
+			$message = $this->l10n->t('Payer amounts must add up to the bill amount');
+			throw new CospendBasicException($message, Http::STATUS_BAD_REQUEST, ['payers' => $message]);
+		}
+
+		// The contract promises no order, so store a canonical one instead of whatever the
+		// client happened to send: largest contribution first, ties by name.
+		usort($candidates, static function (array $a, array $b) use ($names): int {
+			return ($b['amount'] <=> $a['amount']) ?: strcmp($names[$a['id']], $names[$b['id']]);
+		});
+
+		return [$candidates, null];
+	}
+
+	/**
+	 * The payer to store in the bill's payer_id column.
+	 *
+	 * Highest contribution wins. On an exact tie the member matching the acting user is
+	 * preferred, then the first by name. Evaluated once at write time and persisted: resolving
+	 * it per request would show different primary payers to different people looking at the
+	 * same bill.
+	 *
+	 * @param string $projectId
+	 * @param non-empty-list<array{id: int, amount: float}> $payerRows
+	 * @return int
+	 */
+	private function primaryPayerId(string $projectId, array $payerRows): int {
+		$actingUserId = $this->userSession->getUser()?->getUID();
+
+		$best = $payerRows[0];
+		$bestMember = $this->getMemberById($projectId, $best['id']);
+		foreach (array_slice($payerRows, 1) as $row) {
+			if ($row['amount'] < $best['amount']) {
+				continue;
+			}
+			$member = $this->getMemberById($projectId, $row['id']);
+			if ($row['amount'] > $best['amount']) {
+				$best = $row;
+				$bestMember = $member;
+				continue;
+			}
+			// exact tie
+			$bestIsActingUser = $actingUserId !== null && ($bestMember['userid'] ?? null) === $actingUserId;
+			$rowIsActingUser = $actingUserId !== null && ($member['userid'] ?? null) === $actingUserId;
+			if ($rowIsActingUser && !$bestIsActingUser) {
+				$best = $row;
+				$bestMember = $member;
+			} elseif ($rowIsActingUser === $bestIsActingUser
+				&& strcmp((string)$member['name'], (string)$bestMember['name']) < 0
+			) {
+				$best = $row;
+				$bestMember = $member;
+			}
+		}
+
+		return $best['id'];
+	}
+
+	/**
+	 * Who actually paid a bill, and how much.
+	 *
+	 * Payer rows are authoritative only when they account for the whole bill amount. When they
+	 * do not — an external client can change `amount` without touching them — they are ignored
+	 * in favour of payer_id, so credits and debits still cancel and the project balances keep
+	 * summing to zero. The bill payload carries the same verdict as `payersFallback`, computed
+	 * from the same comparison, so the interface cannot contradict the arithmetic.
+	 *
+	 * @param array $bill
+	 * @return array<int, float> member id => amount that member put in
+	 */
+	private function effectivePayerContributions(array $bill): array {
+		$payers = $bill['payers'] ?? [];
+		if (Utils::payersCoverAmount(array_column($payers, 'amount'), (float)$bill['amount'])) {
+			$contributions = [];
+			foreach ($payers as $payer) {
+				$contributions[(int)$payer['id']] = (float)$payer['amount'];
+			}
+			return $contributions;
+		}
+		return [(int)$bill['payer_id'] => (float)$bill['amount']];
+	}
+
+	/**
 	 * Get members balances for a project
 	 *
 	 * @param string $projectId
@@ -1570,24 +1775,21 @@ class LocalProjectService implements IProjectService {
 	 * @return array
 	 */
 	private function getBalance(string $projectId, ?int $maxTimestamp = null): array {
-		$membersWeight = [];
 		$membersBalance = [];
 
 		$members = $this->getMembers($projectId);
 		foreach ($members as $member) {
-			$memberId = $member['id'];
-			$memberWeight = $member['weight'];
-			$membersWeight[$memberId] = $memberWeight;
-			$membersBalance[$memberId] = 0.0;
+			$membersBalance[$member['id']] = 0.0;
 		}
 
 		$bills = $this->billMapper->getBillsClassic($projectId, null, $maxTimestamp);
 		foreach ($bills as $bill) {
-			$payerId = $bill['payer_id'];
 			$amount = $bill['amount'];
 			$owers = $bill['owers'];
 
-			$membersBalance[$payerId] += $amount;
+			foreach ($this->effectivePayerContributions($bill) as $payerId => $paidAmount) {
+				$membersBalance[$payerId] += $paidAmount;
+			}
 
 			$nbOwerShares = 0.0;
 			foreach ($owers as $ower) {
@@ -2153,7 +2355,7 @@ class LocalProjectService implements IProjectService {
 		?float $amount, ?string $repeat, ?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null, ?int $repeatAllActive = null, ?string $repeatUntil = null,
 		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null,
-		?int $deleted = null, bool $produceActivity = false,
+		?int $deleted = null, bool $produceActivity = false, ?array $payers = null,
 	): void {
 		// if we don't have the payment modes, get them now
 		if ($this->paymentModes === null) {
@@ -2273,6 +2475,35 @@ class LocalProjectService implements IProjectService {
 		}
 		if ($amount !== null) {
 			$dbBill->setAmount($amount);
+		}
+
+		if ($payers !== null) {
+			// An explicit list replaces the relation wholesale; an empty one is how a bill goes
+			// back to having a single payer, which is why it must stay distinguishable from the
+			// null that means "leave the payers alone".
+			[$payerRows, $collapsedPayerId] = $this->validatePayers($projectId, $payers, $amount ?? $dbBill->getAmount());
+			$effectivePayerIds = $payerRows === []
+				? ($collapsedPayerId === null ? [] : [$collapsedPayerId])
+				: array_column($payerRows, 'id');
+			$this->assertPayerMatchesPayers($projectId, $payer, $effectivePayerIds);
+			$this->billPayerMapper->deleteBillPayersOfBill($billId);
+			foreach ($payerRows as $payerRow) {
+				$billPayer = new BillPayer();
+				$billPayer->setBillId($billId);
+				$billPayer->setMemberId($payerRow['id']);
+				$billPayer->setAmount($payerRow['amount']);
+				$this->billPayerMapper->insert($billPayer);
+			}
+			if ($payerRows !== []) {
+				$payer = $this->primaryPayerId($projectId, $payerRows);
+			} elseif ($collapsedPayerId !== null) {
+				$payer = $collapsedPayerId;
+			}
+		} elseif ($payer !== null && $payer !== $dbBill->getPayerId()) {
+			// A scalar payer that differs from the stored one is a deliberate change of payer,
+			// so the split it contradicts is dropped. An identical value is just a client
+			// echoing back the field it read, and must leave the split alone.
+			$this->billPayerMapper->deleteBillPayersOfBill($billId);
 		}
 		if ($payer !== null) {
 			$dbBill->setPayerId($payer);
@@ -2519,23 +2750,46 @@ class LocalProjectService implements IProjectService {
 		$originMembers = $this->getMembers($projectId, 'lowername');
 		$destinationMembers = $this->getMembers($toProjectId, 'lowername');
 
-		// try to match them
-		$originalPayer = $originMembers;
-		$originalPayer = array_filter($originalPayer, static function ($val) use ($bill) {
-			return $val['id'] === $bill['payer_id'];
-		});
-		$originalPayer = array_shift($originalPayer);
+		// Every payer has to exist in the target project. Matching only some of them would
+		// force a choice between inventing a member for the rest and dropping what they put
+		// in, and neither is a fact this app is entitled to decide, so the move is refused
+		// whole rather than performed partially.
+		$originById = array_column($originMembers, null, 'id');
+		$destinationByName = array_column($destinationMembers, null, 'name');
 
-		$newPayer = $destinationMembers;
-		$newPayer = array_filter($newPayer, static function ($val) use ($originalPayer) {
-			return $val['name'] === $originalPayer['name'];
-		});
+		$payerIds = $bill['payers'] === []
+			? [$bill['payer_id']]
+			: array_column($bill['payers'], 'id');
 
-		if (count($newPayer) < 1) {
-			return ['message' => $this->l10n->t('Cannot match payer')];
+		$missingPayerNames = [];
+		$newPayerIdByOldId = [];
+		foreach ($payerIds as $payerId) {
+			$name = $originById[$payerId]['name'] ?? null;
+			if ($name === null || !isset($destinationByName[$name])) {
+				$missingPayerNames[] = $name ?? (string)$payerId;
+				continue;
+			}
+			$newPayerIdByOldId[$payerId] = $destinationByName[$name]['id'];
 		}
 
-		$newPayer = array_shift($newPayer);
+		if ($missingPayerNames !== []) {
+			// Naming all of them at once spares a second attempt after creating the first.
+			return ['message' => $this->l10n->t(
+				'Cannot match these payers in the target project: %1$s',
+				[implode(', ', $missingPayerNames)],
+			)];
+		}
+
+		$newPayers = $bill['payers'] === []
+			? null
+			: array_map(
+				static fn (array $payer): array => [
+					'id' => $newPayerIdByOldId[$payer['id']],
+					'amount' => $payer['amount'],
+				],
+				$bill['payers'],
+			);
+		$newPayerId = $newPayerIdByOldId[$bill['payer_id']];
 
 		// match owers too, these do not mind that much, the user will be able to modify the new invoice just after moving it
 		$newOwers = array_filter($destinationMembers, static function ($member) use ($bill) {
@@ -2555,11 +2809,12 @@ class LocalProjectService implements IProjectService {
 
 		try {
 			$insertedId = $this->createBill(
-				$toProjectId, null, $bill['what'], $newPayer['id'],
+				$toProjectId, null, $bill['what'], $newPayerId,
 				implode(',', array_column($newOwers, 'id')), $bill['amount'], $bill['repeat'],
 				$bill['paymentmode'], $newPaymentId,
 				$newCategoryId, $bill['repeatallactive'], $bill['repeatuntil'],
-				$bill['timestamp'], $bill['comment'], $bill['repeatfreq'], $bill['deleted']
+				$bill['timestamp'], $bill['comment'], $bill['repeatfreq'], $bill['deleted'],
+				false, $newPayers
 			);
 		} catch (\Throwable $e) {
 			return ['message' => $this->l10n->t('Cannot create new bill: %1$s', $e->getMessage())];
@@ -2621,13 +2876,28 @@ class LocalProjectService implements IProjectService {
 			}
 		}
 
+		// Nothing copies relations generically, so the payers have to be carried over by hand:
+		// without this every occurrence would silently come back with a single payer, which is
+		// data corruption on a recurring schedule. Reading them through the same helper the
+		// balances use means a bill whose payers no longer add up repeats the way its balance
+		// is already being computed, rather than failing validation on the copy.
+		$contributions = $this->effectivePayerContributions($bill);
+		$repeatedPayers = count($contributions) > 1
+			? array_map(
+				static fn (int $memberId, float $amount): array => ['id' => $memberId, 'amount' => $amount],
+				array_keys($contributions),
+				array_values($contributions),
+			)
+			: null;
+
 		try {
 			$newBillId = $this->createBill(
 				$projectId, null, $bill['what'], $bill['payer_id'],
 				$owerIdsStr, $bill['amount'], $bill['repeat'],
 				$bill['paymentmode'], $bill['paymentmodeid'],
 				$bill['categoryid'], $bill['repeatallactive'], $bill['repeatuntil'],
-				$targetDatetime->getTimestamp(), $bill['comment'], $bill['repeatfreq']
+				$targetDatetime->getTimestamp(), $bill['comment'], $bill['repeatfreq'],
+				0, false, $repeatedPayers
 			);
 		} catch (\Throwable $e) {
 			$newBillId = 0;

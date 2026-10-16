@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import { getBillPayerIds } from '../utils.js'
 import NcListItem from '@nextcloud/vue/components/NcListItem'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 
@@ -54,11 +55,15 @@ export default {
 	},
 	computed: {
 		candidateTargetProjects() {
-			// only those with a member named like the bill payer
-			const payerName = this.cospend.members[this.projectId][this.bill.payer_id].name
+			// only those holding a member for every payer: moving a bill whose payers do not
+			// all exist there would have to either invent a member or drop their contribution
+			const members = this.cospend.members[this.projectId]
+			const payerNames = getBillPayerIds(this.bill, members)
+				.map(id => members[id]?.name)
+				.filter(name => name !== undefined)
 			const projects = {}
 			Object.values(this.cospend.projects).forEach(p => {
-				if (p.id !== this.projectId && this.projectHasMemberNamed(p.id, payerName)) {
+				if (p.id !== this.projectId && payerNames.every(name => this.projectHasMemberNamed(p.id, name))) {
 					projects[p.id] = this.cospend.projects[p.id]
 				}
 			})

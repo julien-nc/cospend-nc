@@ -451,3 +451,24 @@ export function slugify(text) {
 		.replace(/^-+/, '') // trim - from start of text
 		.replace(/-+$/, '')
 }
+
+/**
+ * The members who paid a bill, most significant contribution first.
+ *
+ * A bill with no payers relation is described by payer_id alone, so this collapses both
+ * shapes to one list and callers stop caring which they were given. The order is derived
+ * from the data rather than promised by the API: largest amount first, ties by name.
+ *
+ * @param {object} bill the bill
+ * @param {object} members the project members, keyed by id
+ * @return {Array} member ids
+ */
+export function getBillPayerIds(bill, members = {}) {
+	const payers = bill.payers ?? []
+	if (payers.length === 0) {
+		return [bill.payer_id]
+	}
+	return [...payers]
+		.sort((a, b) => (b.amount - a.amount) || strcmp(members[a.id]?.name ?? '', members[b.id]?.name ?? ''))
+		.map(payer => payer.id)
+}

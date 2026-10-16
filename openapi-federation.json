@@ -419,7 +419,9 @@
                         "type": "object",
                         "required": [
                             "version",
-                            "federation"
+                            "federation",
+                            "multi_payer",
+                            "amount_epsilon"
                         ],
                         "properties": {
                             "version": {
@@ -435,6 +437,13 @@
                                         "type": "boolean"
                                     }
                                 }
+                            },
+                            "multi_payer": {
+                                "type": "boolean"
+                            },
+                            "amount_epsilon": {
+                                "type": "number",
+                                "format": "double"
                             }
                         }
                     }

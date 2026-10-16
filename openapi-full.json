@@ -59,6 +59,8 @@
                     "payer_id",
                     "owers",
                     "owerIds",
+                    "payers",
+                    "payersFallback",
                     "repeat",
                     "paymentmode",
                     "paymentmodeid",
@@ -107,6 +109,15 @@
                             "type": "integer",
                             "format": "int64"
                         }
+                    },
+                    "payers": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Payer"
+                        }
+                    },
+                    "payersFallback": {
+                        "type": "boolean"
                     },
                     "repeat": {
                         "$ref": "#/components/schemas/Frequency"
@@ -535,6 +546,23 @@
                     }
                 }
             },
+            "Payer": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "amount"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "amount": {
+                        "type": "number",
+                        "format": "double"
+                    }
+                }
+            },
             "PaymentMode": {
                 "allOf": [
                     {
@@ -640,7 +668,9 @@
                         "type": "object",
                         "required": [
                             "version",
-                            "federation"
+                            "federation",
+                            "multi_payer",
+                            "amount_epsilon"
                         ],
                         "properties": {
                             "version": {
@@ -656,6 +686,13 @@
                                         "type": "boolean"
                                     }
                                 }
+                            },
+                            "multi_payer": {
+                                "type": "boolean"
+                            },
+                            "amount_epsilon": {
+                                "type": "number",
+                                "format": "double"
                             }
                         }
                     }
@@ -4684,6 +4721,29 @@
                                         "format": "int64",
                                         "nullable": true,
                                         "default": null
+                                    },
+                                    "payers": {
+                                        "type": "array",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "Members who paid, with the amount each put in. Omit for a bill with a single payer.",
+                                        "items": {
+                                            "type": "object",
+                                            "required": [
+                                                "id",
+                                                "amount"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "format": "int64"
+                                                },
+                                                "amount": {
+                                                    "type": "number",
+                                                    "format": "double"
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -6149,6 +6209,29 @@
                                         "format": "int64",
                                         "nullable": true,
                                         "default": null
+                                    },
+                                    "payers": {
+                                        "type": "array",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "Members who paid, with the amount each put in. Omit to leave the payers unchanged.",
+                                        "items": {
+                                            "type": "object",
+                                            "required": [
+                                                "id",
+                                                "amount"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "format": "int64"
+                                                },
+                                                "amount": {
+                                                    "type": "number",
+                                                    "format": "double"
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -7051,6 +7134,29 @@
                                         "format": "int64",
                                         "nullable": true,
                                         "default": null
+                                    },
+                                    "payers": {
+                                        "type": "array",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "Members who paid, with the amount each put in. Omit for a bill with a single payer.",
+                                        "items": {
+                                            "type": "object",
+                                            "required": [
+                                                "id",
+                                                "amount"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "format": "int64"
+                                                },
+                                                "amount": {
+                                                    "type": "number",
+                                                    "format": "double"
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -8399,6 +8505,29 @@
                                         "format": "int64",
                                         "nullable": true,
                                         "default": null
+                                    },
+                                    "payers": {
+                                        "type": "array",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "Members who paid, with the amount each put in. Omit to leave the payers unchanged.",
+                                        "items": {
+                                            "type": "object",
+                                            "required": [
+                                                "id",
+                                                "amount"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "format": "int64"
+                                                },
+                                                "amount": {
+                                                    "type": "number",
+                                                    "format": "double"
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }

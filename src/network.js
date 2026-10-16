@@ -167,6 +167,9 @@ export function editBill(projectId, bill) {
 		timestamp: bill.timestamp,
 		payer: bill.payer_id,
 		payedFor: bill.owerIds.join(','),
+		// null leaves the payers untouched; an empty array is how a bill goes back to a
+		// single payer, so the two must not collapse into one another here.
+		payers: bill.payers ?? null,
 		amount: bill.amount,
 		repeat: bill.repeat,
 		repeatAllActive: bill.repeatallactive ? 1 : 0,

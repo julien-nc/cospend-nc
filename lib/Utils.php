@@ -11,6 +11,32 @@ namespace OCA\Cospend;
 class Utils {
 
 	/**
+	 * Half a cent: below the smallest representable unit of a 2-decimal currency, so it can
+	 * absorb float noise without ever masking a real discrepancy.
+	 */
+	public const AMOUNT_EPSILON = 0.005;
+
+	/**
+	 * Whether a bill's payer rows account for its whole amount.
+	 *
+	 * Single source of truth for the INV-01 sum check. Both the payload flag attached by
+	 * BillMapper and the balance-side fallback must ask this same question, or the attention
+	 * marker shown to the user could disagree with the balances it is reporting on.
+	 *
+	 * An empty set is not a cover: a bill with no payer rows is described by payer_id alone.
+	 *
+	 * @param list<float> $payerAmounts
+	 * @param float $amount
+	 * @return bool
+	 */
+	public static function payersCoverAmount(array $payerAmounts, float $amount): bool {
+		if ($payerAmounts === []) {
+			return false;
+		}
+		return abs(array_sum($payerAmounts) - $amount) < self::AMOUNT_EPSILON;
+	}
+
+	/**
 	 * Convert hexadecimal color into RGB array
 	 *
 	 * @param string $color

@@ -201,7 +201,7 @@ interface IProjectService {
 		?float $amount, ?string $repeat, ?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null, int $repeatAllActive = 0, ?string $repeatUntil = null,
 		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null,
-		int $deleted = 0, bool $produceActivity = false,
+		int $deleted = 0, bool $produceActivity = false, ?array $payers = null,
 	): int;
 
 	/**
@@ -254,7 +254,7 @@ interface IProjectService {
 		?float $amount, ?string $repeat, ?string $paymentMode = null, ?int $paymentModeId = null,
 		?int $categoryId = null, ?int $repeatAllActive = null, ?string $repeatUntil = null,
 		?int $timestamp = null, ?string $comment = null, ?int $repeatFreq = null,
-		?int $deleted = null, bool $produceActivity = false,
+		?int $deleted = null, bool $produceActivity = false, ?array $payers = null,
 	): void;
 
 	/**

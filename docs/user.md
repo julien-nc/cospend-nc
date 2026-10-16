@@ -49,6 +49,8 @@ The only difference is the effect on other members balances:
 2. -5 in B's balance and -5 in C's balance
 3. -5 in each ower's balance
 
+A bill can also be payed by several members at once. Each payer's balance then goes up by the amount that member actually put in, not by the whole bill. If A and B pay 20$ and 10$ for a 30$ cake eaten by A, B and C, A's balance goes up of 20 and B's of 10, while all three owe 10 each.
+
 ## <a id='s1-3' />What is a member :ok_woman: ?
 
 A member has a name, a weight and can be activated or not. When a member is disabled, it cannot be part of a new bill (as a payer or an ower). A disabled member will appear in member list until their balance reaches 0.
@@ -63,7 +65,9 @@ It seems simple enough to do it intuitively with a small example but it gets rea
 
 ## <a id='s1-4' />What is a bill :dollar: ?
 
-A bill is a spending from one member which concerns one or more members in the project. A bill is defined by a name, an amount, a payer, a date and a list of owers.
+A bill is a spending which concerns one or more members in the project. A bill is defined by a name, an amount, one or more payers, a date and a list of owers.
+
+Most bills are payed by a single member. When several members payed for the same thing, the bill records how much each of them put in. The contributions always add up to the bill amount: the amount is what was spent, and the payers just say where it came from.
 
 # <a id='s2' />Create a project
 
@@ -97,6 +101,8 @@ Just provide a user name and that's it. Member is added with a weight of 1 and i
 # <a id='s4' />Create a bill
 
 Pretty simple too. Press the "new bill" button. Fill all fields and press the "Save bill" button.
+
+If more than one member payed, pick "Multiple people…" at the bottom of the payer list. A panel opens under the field to set how much each of them payed. A counter shows how much is still to assign; the bill can only be saved once the contributions add up to the amount.
 
 # <a id='s5' />Project statistics
 

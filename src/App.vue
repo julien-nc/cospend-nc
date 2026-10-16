@@ -185,7 +185,7 @@ import { defineAsyncComponent } from 'vue'
 
 import * as network from './network.js'
 import * as constants from './constants.js'
-import { rgbObjToHex, slugify } from './utils.js'
+import { getBillPayerIds, rgbObjToHex, slugify } from './utils.js'
 
 export default {
 	name: 'App',
@@ -548,6 +548,8 @@ export default {
 			Object.assign(bill, changedBill)
 			// this avoids having both bill object sharing the same owerIds array (pseudo deep copy)
 			bill.owerIds = [...changedBill.owerIds]
+			// same for the payers, which would otherwise be one array behind two references
+			bill.payers = (changedBill.payers ?? []).map(payer => ({ ...payer }))
 			if (updateProjectInfo) {
 				this.updateProjectInfo(this.cospend.currentProjectId)
 			}
@@ -761,13 +763,15 @@ export default {
 			}
 		},
 		isBillMovable(bill) {
-			// find a project with the same payer name
-			const payerName = this.currentMembers[bill.payer_id].name
+			// find a project holding a member for every payer of the bill
+			const payerNames = getBillPayerIds(bill, this.currentMembers)
+				.map(id => this.currentMembers[id]?.name)
+				.filter(name => name !== undefined)
 			let found = false
 			// every() stops if lambda returns false
 			Object.values(this.projects).every(p => {
 				if (p.id !== this.currentProjectId) {
-					if (this.projectHasMemberNamed(p.id, payerName)) {
+					if (payerNames.every(name => this.projectHasMemberNamed(p.id, name))) {
 						found = true
 						return false
 					}
@@ -831,6 +835,8 @@ export default {
 							repeatfreq: 1,
 							owers: [],
 							owerIds,
+							payers: [],
+							payersFallback: false,
 							paymentmode: 'n',
 							categoryid: 0,
 							paymentmodeid: 0,

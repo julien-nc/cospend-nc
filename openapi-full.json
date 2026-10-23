@@ -730,9 +730,8 @@
                         "type": "object",
                         "required": [
                             "type",
-                            "token",
                             "label",
-                            "password"
+                            "hasPassword"
                         ],
                         "properties": {
                             "type": {
@@ -741,16 +740,15 @@
                                     "l"
                                 ]
                             },
-                            "token": {
+                            "userid": {
                                 "type": "string"
                             },
                             "label": {
                                 "type": "string",
                                 "nullable": true
                             },
-                            "password": {
-                                "type": "string",
-                                "nullable": true
+                            "hasPassword": {
+                                "type": "boolean"
                             }
                         }
                     }
@@ -6666,7 +6664,7 @@
                         }
                     },
                     "401": {
-                        "description": "Current user is not allowed to create a bill in the target project",
+                        "description": "Current user is not allowed to access the source or the target project",
                         "content": {
                             "application/json": {
                                 "schema": {

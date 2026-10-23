@@ -72,9 +72,9 @@ namespace OCA\Cospend;
  *
  * @psalm-type CospendPublicShare = CospendBaseShare&array{
  *     type: 'l',
- *     token: string,
+ *     userid?: string,
  *     label: ?string,
- *     password: ?string,
+ *     hasPassword: bool,
  * }
  *
  * @psalm-type CospendShare = CospendUserShare|CospendGroupShare|CospendCircleShare|CospendPublicShare

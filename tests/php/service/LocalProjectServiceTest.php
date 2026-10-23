@@ -11,15 +11,20 @@ namespace OCA\Cospend\Service;
 use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Controller\ApiController;
+use OCA\Cospend\Controller\OldApiController;
+use OCA\Cospend\Controller\PublicApiController;
 use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Db\MemberMapper;
 use OCA\Cospend\Db\ProjectMapper;
+use OCA\Cospend\Db\Share;
+use OCA\Cospend\Db\ShareMapper;
 use OCA\Cospend\Exception\CospendBasicException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\Files\IRootFolder;
 use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
@@ -809,12 +814,12 @@ class LocalProjectServiceTest extends TestCase {
 
 		// share link
 		$res = $this->localProjectService->createPublicShare('superproj', 'test');
-		$this->assertTrue(isset($res['token'], $res['id']));
+		$this->assertTrue(isset($res['userid'], $res['id']));
 		$this->assertTrue($res['id'] > 0);
 		$shareLinkId = $res['id'];
-		$shareLinkToken = $res['token'];
+		$shareLinkToken = $res['userid'];
 		$res = $this->localProjectService->createPublicShare('superproj', 'test');
-		$this->assertTrue(isset($res['id'], $res['token']));
+		$this->assertTrue(isset($res['id'], $res['userid']));
 		$this->assertTrue($res['id'] > 0);
 		$shareLinkId2 = $res['id'];
 		$res = $this->localProjectService->deletePublicShare('superproj', $shareLinkId2, 'test');
@@ -837,9 +842,10 @@ class LocalProjectServiceTest extends TestCase {
 		$this->assertTrue(isset($res['message']));
 		$res = $this->localProjectService->getPublicShares('superproj');
 		$this->assertEquals(1, count($res));
-		$this->assertEquals($shareLinkToken, $res[0]['token']);
+		$this->assertEquals($shareLinkToken, $res[0]['userid']);
 		$this->assertEquals('lala', $res[0]['label']);
-		$this->assertEquals('passpass', $res[0]['password']);
+		$this->assertFalse(isset($res[0]['password']));
+		$this->assertTrue($res[0]['hasPassword']);
 		$this->assertEquals(Application::ACCESS_LEVEL_ADMIN, $res[0]['accesslevel']);
 		$this->assertEquals($shareLinkId, $res[0]['id']);
 
@@ -1746,6 +1752,52 @@ class LocalProjectServiceTest extends TestCase {
 		return $this->localProjectService->getProjectInfo($projectId);
 	}
 
+	public function testAutoSettlementPassesPaidForMemberIdAsString(): void {
+		$service = $this->getMockBuilder(LocalProjectService::class)
+			->disableOriginalConstructor()
+			->onlyMethods(['getProjectSettlement', 'getMembers', 'createBill'])
+			->getMock();
+		$l10n = $this->createStub(IL10N::class);
+		$l10n->method('t')->willReturnArgument(0);
+		(new \ReflectionProperty(LocalProjectService::class, 'l10n'))->setValue($service, $l10n);
+
+		$service->expects($this->once())
+			->method('getProjectSettlement')
+			->with('test-project', null, 2000000000)
+			->willReturn([
+				'transactions' => [
+					['from' => 1, 'to' => 2, 'amount' => 12.345],
+				],
+			]);
+		$service->expects($this->once())
+			->method('getMembers')
+			->with('test-project')
+			->willReturn([
+				['id' => 1, 'name' => 'Alice'],
+				['id' => 2, 'name' => 'Bob'],
+			]);
+		$service->expects($this->once())
+			->method('createBill')
+			->with(
+				'test-project',
+				null,
+				'Alice → Bob',
+				1,
+				'2',
+				12.35,
+				Application::FREQUENCY_NO,
+				'n',
+				0,
+				Application::CATEGORY_REIMBURSEMENT,
+				0,
+				null,
+				1999999999,
+			)
+			->willReturn(1);
+
+		$service->autoSettlement('test-project', null, 2, 2000000000);
+	}
+
 	public function testGetSettlement() {
 		$this->createAndPopulateProject('testGetSettlement');
 		$this->localProjectService->getMemberByName('testGetSettlement', 'member1');
@@ -1821,6 +1873,183 @@ class LocalProjectServiceTest extends TestCase {
 		$this->assertEquals($projectId, $projInfo['projectid']);
 
 		$this->localProjectService->deleteProject($projectId);
+	}
+
+	public function testShareInfoSanitization() {
+		$projectId = 'shareinfo';
+		$resp = $this->apiController->createProject($projectId, 'SuperProj');
+		$this->assertEquals(Http::STATUS_OK, $resp->getStatus(), json_encode($resp->getData()));
+
+		$adminShare = $this->localProjectService->createPublicShare(
+			$projectId, 'test', 'adminlink', 'SuperSecretAdminPW', Application::ACCESS_LEVEL_ADMIN
+		);
+		$this->assertTrue(isset($adminShare['userid'], $adminShare['id']));
+		// the creation response carries the token but never the password
+		$this->assertFalse(isset($adminShare['password']));
+		$this->assertTrue($adminShare['hasPassword']);
+		$viewerShare = $this->localProjectService->createPublicShare(
+			$projectId, 'test', 'viewerlink', null, Application::ACCESS_LEVEL_VIEWER
+		);
+		$this->assertTrue(isset($viewerShare['userid'], $viewerShare['id']));
+		$this->assertFalse(isset($viewerShare['password']));
+		$this->assertFalse($viewerShare['hasPassword']);
+
+		// federated shares also carry a token in their userid
+		$shareMapper = (new Application())->getContainer()->get(ShareMapper::class);
+		$federatedShare = new Share();
+		$federatedShare->setProjectId($projectId);
+		$federatedShare->setUserId('federatedtoken');
+		$federatedShare->setType(Share::TYPE_FEDERATION);
+		$federatedShare->setAccessLevel(Application::ACCESS_LEVEL_MAINTAINER);
+		$shareMapper->insert($federatedShare);
+
+		// a viewer-level caller gets no password and no token of the admin share
+		$shares = $this->localProjectService->getPublicShares($projectId, Application::ACCESS_LEVEL_VIEWER);
+		$this->assertEquals(2, count($shares));
+		$adminJson = $this->findShareByLabel($shares, 'adminlink');
+		$viewerJson = $this->findShareByLabel($shares, 'viewerlink');
+		$this->assertNotNull($adminJson);
+		$this->assertNotNull($viewerJson);
+		$this->assertFalse(isset($adminJson['password']));
+		$this->assertTrue($adminJson['hasPassword']);
+		$this->assertFalse(isset($adminJson['userid']));
+		$this->assertFalse(isset($viewerJson['password']));
+		$this->assertFalse($viewerJson['hasPassword']);
+		$this->assertEquals($viewerShare['userid'], $viewerJson['userid']);
+
+		// an admin-level caller gets every token but still no password
+		$shares = $this->localProjectService->getPublicShares($projectId, Application::ACCESS_LEVEL_ADMIN);
+		$this->assertEquals(2, count($shares));
+		foreach ($shares as $share) {
+			$this->assertFalse(isset($share['password']));
+			$this->assertTrue(isset($share['userid']));
+		}
+		$this->assertTrue($this->findShareByLabel($shares, 'adminlink')['hasPassword']);
+		$this->assertFalse($this->findShareByLabel($shares, 'viewerlink')['hasPassword']);
+
+		// without an explicit access level, passwords are still never returned
+		$shares = $this->localProjectService->getPublicShares($projectId);
+		$this->assertEquals(2, count($shares));
+		foreach ($shares as $share) {
+			$this->assertFalse(isset($share['password']));
+			$this->assertTrue(isset($share['userid']));
+		}
+		$this->assertTrue($this->findShareByLabel($shares, 'adminlink')['hasPassword']);
+		$this->assertFalse($this->findShareByLabel($shares, 'viewerlink')['hasPassword']);
+
+		// sanitized project info for a viewer-level caller
+		$projInfo = $this->localProjectService->getProjectInfoForAccessLevel($projectId, Application::ACCESS_LEVEL_VIEWER);
+		$this->assertEquals(Application::ACCESS_LEVEL_VIEWER, $projInfo['myaccesslevel']);
+		$adminJson = $this->findShareByLabel($projInfo['shares'], 'adminlink');
+		$this->assertNotNull($adminJson);
+		$this->assertFalse(isset($adminJson['password']));
+		$this->assertTrue($adminJson['hasPassword']);
+		$this->assertFalse(isset($adminJson['userid']));
+		$federatedJson = $this->findShareByType($projInfo['shares'], Share::TYPE_FEDERATION);
+		$this->assertNotNull($federatedJson);
+		$this->assertFalse(isset($federatedJson['userid']));
+
+		// the project owner gets all tokens but no password
+		$projInfo = $this->localProjectService->getProjectInfoWithAccessLevel($projectId, 'test');
+		$this->assertEquals(Application::ACCESS_LEVEL_ADMIN, $projInfo['myaccesslevel']);
+		$adminJson = $this->findShareByLabel($projInfo['shares'], 'adminlink');
+		$this->assertNotNull($adminJson);
+		$this->assertFalse(isset($adminJson['password']));
+		$this->assertTrue($adminJson['hasPassword']);
+		$this->assertEquals($adminShare['userid'], $adminJson['userid']);
+		$federatedJson = $this->findShareByType($projInfo['shares'], Share::TYPE_FEDERATION);
+		$this->assertNotNull($federatedJson);
+		$this->assertEquals('federatedtoken', $federatedJson['userid']);
+
+		// the project list endpoint returns sanitized shares as well
+		$projects = $this->localProjectService->getLocalProjects('test');
+		$shareInfoProject = null;
+		foreach ($projects as $project) {
+			if ($project['id'] === $projectId) {
+				$shareInfoProject = $project;
+				break;
+			}
+		}
+		$this->assertNotNull($shareInfoProject);
+		$this->assertEquals(Application::ACCESS_LEVEL_ADMIN, $shareInfoProject['myaccesslevel']);
+		$adminJson = $this->findShareByLabel($shareInfoProject['shares'], 'adminlink');
+		$this->assertNotNull($adminJson);
+		$this->assertFalse(isset($adminJson['password']));
+		$this->assertTrue($adminJson['hasPassword']);
+
+		$this->localProjectService->deleteProject($projectId);
+	}
+
+	private function findShareByLabel(array $shares, string $label): ?array {
+		foreach ($shares as $share) {
+			if ($share['type'] === Share::TYPE_PUBLIC_LINK && $share['label'] === $label) {
+				return $share;
+			}
+		}
+		return null;
+	}
+
+	public function testGetProjectInfoNotFound() {
+		$app = new Application();
+		$c = $app->getContainer();
+		$oldApiController = new OldApiController(
+			Application::APP_ID,
+			$this->createMock(IRequest::class),
+			$c->get(IL10N::class),
+			$c->get(BillMapper::class),
+			$c->get(ProjectMapper::class),
+			$c->get(LocalProjectService::class),
+			$c->get(ActivityManager::class),
+			'test'
+		);
+
+		$resp = $oldApiController->apiPrivGetProjectInfo('doesnotexist');
+		$this->assertEquals(Http::STATUS_NOT_FOUND, $resp->getStatus());
+		$this->assertEquals(['message' => 'Project not found'], $resp->getData());
+
+		$resp = $this->apiController->getProjectInfo('doesnotexist');
+		$this->assertEquals(Http::STATUS_NOT_FOUND, $resp->getStatus());
+	}
+
+	public function testPublicGetProjectInfoWhenProjectIsGone() {
+		$projectId = 'pubgone';
+		$resp = $this->apiController->createProject($projectId, 'SuperProj');
+		$this->assertEquals(Http::STATUS_OK, $resp->getStatus(), json_encode($resp->getData()));
+		$share = $this->localProjectService->createPublicShare($projectId, 'test');
+		$this->assertTrue(isset($share['userid']));
+		$token = $share['userid'];
+
+		// simulate the project being gone while the share still exists
+		$app = new Application();
+		$c = $app->getContainer();
+		$projectMapper = $c->get(ProjectMapper::class);
+		$projectMapper->delete($projectMapper->getById($projectId));
+
+		$publicApiController = new PublicApiController(
+			Application::APP_ID,
+			$this->createMock(IRequest::class),
+			$c->get(IL10N::class),
+			$c->get(BillMapper::class),
+			$c->get(ShareMapper::class),
+			$c->get(LocalProjectService::class),
+			$c->get(ActivityManager::class)
+		);
+		$resp = $publicApiController->publicGetProjectInfo($token);
+		$this->assertEquals(Http::STATUS_NOT_FOUND, $resp->getStatus());
+		$this->assertEquals(['message' => 'Project not found'], $resp->getData());
+
+		// clean up the orphaned share
+		$shareMapper = $c->get(ShareMapper::class);
+		$shareMapper->delete($shareMapper->getLinkShareByToken($token));
+	}
+
+	private function findShareByType(array $shares, string $type): ?array {
+		foreach ($shares as $share) {
+			if ($share['type'] === $type) {
+				return $share;
+			}
+		}
+		return null;
 	}
 
 	public function testMoveBill() {
@@ -2015,5 +2244,38 @@ class LocalProjectServiceTest extends TestCase {
 
 		$this->localProjectService->deleteProject($projectA);
 		$this->localProjectService->deleteProject($projectB);
+	}
+
+	public function testMoveBillNoSourceAccess() {
+		// source project owned by test2
+		$sourceProjectId = 'mvsrc';
+		$resp = $this->apiController2->createProject($sourceProjectId, 'SrcProj');
+		$this->assertEquals(Http::STATUS_OK, $resp->getStatus(), json_encode($resp->getData()));
+		$resp = $this->apiController2->createMember($sourceProjectId, 'srcmember');
+		$sourceMemberId = $resp->getData()['id'];
+		$resp = $this->apiController2->createBill($sourceProjectId, '2019-01-22', 'srcbill', $sourceMemberId, (string)$sourceMemberId, 10.0, Application::FREQUENCY_NO);
+		$this->assertEquals(Http::STATUS_OK, $resp->getStatus(), json_encode($resp->getData()));
+		$billId = $resp->getData();
+
+		// target project owned by test
+		$targetProjectId = 'mvtgt';
+		$resp = $this->apiController->createProject($targetProjectId, 'TgtProj');
+		$this->assertEquals(Http::STATUS_OK, $resp->getStatus(), json_encode($resp->getData()));
+		$this->apiController->createMember($targetProjectId, 'tgtmember');
+
+		// 'test' has no access to the source project: the move must be rejected
+		// even though the target project is accessible
+		$resp = $this->apiController->moveBill($sourceProjectId, $billId, $targetProjectId);
+		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $resp->getStatus());
+
+		$this->localProjectService->deleteProject($sourceProjectId);
+		$this->localProjectService->deleteProject($targetProjectId);
+	}
+
+	public function testCreateProjectInvalidId() {
+		// '@' is reserved for federated project ids
+		$resp = $this->apiController->createProject('bad@id', 'BadProj');
+		$this->assertEquals(Http::STATUS_BAD_REQUEST, $resp->getStatus());
+		$this->assertEquals(['message' => 'Invalid project id'], $resp->getData());
 	}
 }

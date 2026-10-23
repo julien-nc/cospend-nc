@@ -59,11 +59,11 @@
 		"vue": "^3.5.17",
 		"vue-chartjs": "^5.3.2",
 		"vue-material-design-icons": "^5.1.2",
-		"vue3-smooth-dnd": "^0.0.6",
+		"vue3-smooth-dnd": "^1.0.0",
 		"vuejs-smart-table": "^1.0.0-beta.6"
 	},
 	"devDependencies": {
-		"@nextcloud/babel-config": "^1.0.0",
+		"@nextcloud/babel-config": "^2.0.0",
 		"@nextcloud/browserslist-config": "^3.0.0",
 		"@nextcloud/eslint-config": "^9.0.1",
 		"@nextcloud/stylelint-config": "^3.0.1",

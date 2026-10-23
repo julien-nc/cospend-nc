@@ -95,7 +95,9 @@ namespace OCA\Cospend;
  *     order: int,
  *  }
  *
- * @psalm-type CospendCategory = CospendCategoryOrPaymentMode
+ * @psalm-type CospendCategory = CospendCategoryOrPaymentMode&array{
+ *     default_payment_mode_id: int,
+ *  }
  *
  * @psalm-type CospendPaymentMode = CospendCategoryOrPaymentMode&array{
  *     old_id: string,

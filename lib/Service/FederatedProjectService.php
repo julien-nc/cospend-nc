@@ -399,11 +399,13 @@ class FederatedProjectService implements IProjectService {
 
 	public function editCategory(
 		string $projectId, int $categoryId, ?string $name = null, ?string $icon = null, ?string $color = null,
+		?int $defaultPaymentModeId = null,
 	): array {
 		$params = [
 			'name' => $name,
 			'icon' => $icon,
 			'color' => $color,
+			'defaultPaymentModeId' => $defaultPaymentModeId,
 		];
 		return $this->request($projectId, 'api/v1/public/projects/{token}/{password}/category/' . $categoryId, $params, 'PUT');
 	}

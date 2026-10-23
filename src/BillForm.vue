@@ -681,6 +681,8 @@ export default {
 			showDatePicker: true,
 			categoryQuery: '',
 			pmQuery: '',
+			// set once the user picks a payment mode for this bill; blocks the category default
+			userTouchedPaymentMode: false,
 			showConvertInfo: false,
 			showAmountInfo: false,
 			showRepeatInfo: false,
@@ -1045,6 +1047,7 @@ export default {
 				...this.bill,
 				owerIds: [...this.bill.owerIds],
 			}
+			this.userTouchedPaymentMode = false
 			this.$refs.what.focus()
 		},
 		useTime() {
@@ -1081,6 +1084,7 @@ export default {
 			this.onBillEdited(null, false)
 		},
 		paymentModeSelected(selected) {
+			this.userTouchedPaymentMode = true
 			if (!selected.isNewPm) {
 				this.myBill.paymentmodeid = selected.id
 				this.onBillEdited(null, false)
@@ -1110,6 +1114,18 @@ export default {
 			}
 			this.pmQuery = ''
 		},
+		applyCategoryDefaultPaymentMode(categoryId) {
+			// an explicit choice always wins, and an existing payment mode is never overwritten
+			if (this.userTouchedPaymentMode || parseInt(this.myBill.paymentmodeid) !== 0) {
+				return
+			}
+			const category = this.cospend.projects[this.projectId].categories?.[categoryId]
+			const pmId = category?.default_payment_mode_id ?? 0
+			// a payment mode deleted since the default was set leaves a stale id behind
+			if (pmId !== 0 && this.cospend.projects[this.projectId].paymentmodes?.[pmId]) {
+				this.myBill.paymentmodeid = pmId
+			}
+		},
 		pmQueryChanged(query) {
 			this.pmQuery = query
 		},
@@ -1119,6 +1135,7 @@ export default {
 		categorySelected(selected) {
 			if (!selected.isNewCategory) {
 				this.myBill.categoryid = selected.id
+				this.applyCategoryDefaultPaymentMode(selected.id)
 				this.onBillEdited(null, false)
 			} else {
 				// add a category

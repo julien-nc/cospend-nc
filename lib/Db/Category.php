@@ -22,6 +22,8 @@ use OCP\DB\Types;
  * @method \string|\null getEncodedIcon()
  * @method \void setOrder(int $order)
  * @method \int getOrder()
+ * @method \void setDefaultPaymentModeId(int $defaultPaymentModeId)
+ * @method \int getDefaultPaymentModeId()
  */
 class Category extends Entity implements \JsonSerializable {
 
@@ -30,6 +32,7 @@ class Category extends Entity implements \JsonSerializable {
 	protected $color;
 	protected $encodedIcon;
 	protected $order;
+	protected $defaultPaymentModeId;
 
 	public function __construct() {
 		$this->addType('projectId', Types::STRING);
@@ -37,6 +40,7 @@ class Category extends Entity implements \JsonSerializable {
 		$this->addType('color', Types::STRING);
 		$this->addType('encodedIcon', Types::STRING);
 		$this->addType('order', Types::INTEGER);
+		$this->addType('defaultPaymentModeId', Types::INTEGER);
 	}
 
 	public function jsonSerialize(): array {
@@ -47,6 +51,7 @@ class Category extends Entity implements \JsonSerializable {
 			'color' => $this->getColor(),
 			'icon' => $this->getEncodedIcon() === null ? null : urldecode($this->getEncodedIcon()),
 			'order' => $this->getOrder(),
+			'default_payment_mode_id' => $this->getDefaultPaymentModeId(),
 		];
 	}
 }

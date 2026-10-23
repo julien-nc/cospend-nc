@@ -334,6 +334,7 @@ export function editCategory(projectId, category, backupCategory) {
 		name: category.name,
 		icon: category.icon,
 		color: category.color,
+		defaultPaymentModeId: category.default_payment_mode_id ?? 0,
 	}
 	const url = OCA.Cospend.state.pageIsPublic
 		? generateOcsUrl('/apps/cospend/api/v1/public/projects/{projectId}/{password}/category/{categoryId}', { projectId: OCA.Cospend.state.projectid, password: OCA.Cospend.state.password, categoryId: category.id })

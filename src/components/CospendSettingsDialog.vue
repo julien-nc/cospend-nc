@@ -115,6 +115,11 @@
 					@update:model-value="onMaxPrecisionChange" />
 				<NcFormBox>
 					<NcFormBoxSwitch
+						v-model="hideOwnBalance"
+						@update:model-value="onCheckboxChange($event, 'hideOwnBalance')">
+						{{ t('cospend', 'Hide my balance') }}
+					</NcFormBoxSwitch>
+					<NcFormBoxSwitch
 						v-model="useTime"
 						@update:model-value="onCheckboxChange($event, 'useTime')">
 						{{ t('cospend', 'Use time in dates') }}
@@ -223,6 +228,7 @@ export default {
 			sortOrder: OCA.Cospend.state.sortOrder || 'name',
 			memberOrder: OCA.Cospend.state.memberOrder || 'name',
 			maxPrecision: OCA.Cospend.state.maxPrecision as number || 2,
+			hideOwnBalance: OCA.Cospend.state.hideOwnBalance as boolean ?? false,
 			useTime: OCA.Cospend.state.useTime as boolean ?? true,
 			showMyBalance: OCA.Cospend.state.showMyBalance as boolean ?? false,
 			importingProject: false,

@@ -183,11 +183,6 @@
 						@update:model-value="onCheckboxChange($event, 'useTime')">
 						{{ t('cospend', 'Use time in dates') }}
 					</NcFormBoxSwitch>
-					<NcFormBoxSwitch
-						v-model="showMyBalance"
-						@update:model-value="onCheckboxChange($event, 'showMyBalance')">
-						{{ t('cospend', 'Show my cumulated balance') }}
-					</NcFormBoxSwitch>
 				</NcFormBox>
 			</NcAppSettingsSection>
 			<NcAppSettingsSection

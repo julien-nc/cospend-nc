@@ -2953,6 +2953,39 @@ class LocalProjectService implements IProjectService {
 	}
 
 	/**
+	 * Get a category's default payment mode, if it still points at a live payment mode.
+	 *
+	 * A payment mode that has since been deleted leaves a stale id behind; it is validated
+	 * here rather than cleaned up on deletion, so a stale id is inert and self-heals on the
+	 * next category edit.
+	 *
+	 * @param string $projectId
+	 * @param int $categoryId
+	 * @return int the payment mode id, or 0 if there is no usable default
+	 * @throws \OCP\DB\Exception
+	 */
+	private function getCategoryDefaultPaymentMode(string $projectId, int $categoryId): int {
+		try {
+			$category = $this->categoryMapper->getCategoryOfProject($projectId, $categoryId);
+		} catch (DoesNotExistException|MultipleObjectsReturnedException) {
+			return 0;
+		}
+		$defaultPaymentModeId = (int)$category->getDefaultPaymentModeId();
+		if ($defaultPaymentModeId === 0) {
+			return 0;
+		}
+		// Checked against the mapper rather than the $this->paymentModes cache: that cache is a
+		// plain instance property with no project key, so in a request touching more than one
+		// project it holds whichever project got there first.
+		try {
+			$this->paymentModeMapper->getPaymentModeOfProject($projectId, $defaultPaymentModeId);
+		} catch (DoesNotExistException|MultipleObjectsReturnedException) {
+			return 0;
+		}
+		return $defaultPaymentModeId;
+	}
+
+	/**
 	 * Get a category
 	 *
 	 * @param string $projectId
@@ -3044,39 +3077,6 @@ class LocalProjectService implements IProjectService {
 		}
 		$editedCategory = $this->categoryMapper->update($category);
 		return $editedCategory->jsonSerialize();
-	}
-
-	/**
-	 * Get a category's default payment mode, if it still points at a live payment mode.
-	 *
-	 * A payment mode that has since been deleted leaves a stale id behind; it is validated
-	 * here rather than cleaned up on deletion, so a stale id is inert and self-heals on the
-	 * next category edit.
-	 *
-	 * @param string $projectId
-	 * @param int $categoryId
-	 * @return int the payment mode id, or 0 if there is no usable default
-	 * @throws \OCP\DB\Exception
-	 */
-	private function getCategoryDefaultPaymentMode(string $projectId, int $categoryId): int {
-		try {
-			$category = $this->categoryMapper->getCategoryOfProject($projectId, $categoryId);
-		} catch (DoesNotExistException|MultipleObjectsReturnedException) {
-			return 0;
-		}
-		$defaultPaymentModeId = (int)$category->getDefaultPaymentModeId();
-		if ($defaultPaymentModeId === 0) {
-			return 0;
-		}
-		// Checked against the mapper rather than the $this->paymentModes cache: that cache is a
-		// plain instance property with no project key, so in a request touching more than one
-		// project it holds whichever project got there first.
-		try {
-			$this->paymentModeMapper->getPaymentModeOfProject($projectId, $defaultPaymentModeId);
-		} catch (DoesNotExistException|MultipleObjectsReturnedException) {
-			return 0;
-		}
-		return $defaultPaymentModeId;
 	}
 
 	/**

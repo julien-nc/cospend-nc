@@ -269,6 +269,44 @@ class MiddlewaresTest extends TestCase {
 		}
 	}
 
+	public function testUserPermissionWithAtInLocalProjectId(): void {
+		// legacy local project ids may contain '@' and must not bypass the permission check
+		$projectId = 'proj@todel';
+		$this->projectMapper->createProject('ProjAt', $projectId, null, [], [], 'test');
+		try {
+			$this->request
+				->expects($this->any())
+				->method('getParam')
+				->with('projectId')
+				->willReturn($projectId);
+
+			// owner passes
+			$this->userPermissionMiddleware->beforeController($this->apiController, 'getProjectInfo');
+
+			// a user with no access must be rejected (bypass regression test)
+			try {
+				$this->userPermissionMiddleware->beforeController($this->apiController2, 'getProjectInfo');
+				$this->assertTrue(false, 'Permission check should fail for a local project id containing @');
+			} catch (\Exception $e) {
+				$this->assertInstanceOf(CospendUserPermissionsException::class, $e);
+			}
+
+			// a federated-style id which is not a local project is skipped
+			// (its permissions are checked by FederationMiddleware)
+			$this->request
+				->expects($this->any())
+				->method('getParam')
+				->with('projectId')
+				->willReturn('someproject@remote.example');
+			$this->userPermissionMiddleware->beforeController($this->apiController, 'getProjectInfo');
+		} finally {
+			$dbProject = $this->projectMapper->find($projectId);
+			if ($dbProject !== null) {
+				$this->projectMapper->delete($dbProject);
+			}
+		}
+	}
+
 	public function testPublicAuth() {
 		$projectId = 'projtodel';
 		// CREATE PROJECT owned by test

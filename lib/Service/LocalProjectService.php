@@ -285,6 +285,17 @@ class LocalProjectService implements IProjectService {
 	}
 
 	/**
+	 * Check if a project id corresponds to a local project
+	 * (federated project ids always contain '@')
+	 *
+	 * @param string $projectId
+	 * @return bool
+	 */
+	public function isLocalProject(string $projectId): bool {
+		return $this->projectMapper->find($projectId) !== null;
+	}
+
+	/**
 	 * Create a project
 	 *
 	 * @param string $name
@@ -301,6 +312,13 @@ class LocalProjectService implements IProjectService {
 		string $name, string $id, ?string $contact_email, string $userId = '',
 		bool $createDefaultCategories = true, bool $createDefaultPaymentModes = true,
 	): array {
+		// '@' is reserved for federated project ids
+		if (str_contains($id, '@')) {
+			throw new CospendBasicException(
+				'', Http::STATUS_BAD_REQUEST,
+				['message' => $this->l10n->t('Invalid project id')]
+			);
+		}
 		$newProject = $this->projectMapper->createProject(
 			$name, $id, $contact_email, $this->defaultCategories, $this->defaultPaymentModes,
 			$userId, $createDefaultCategories, $createDefaultPaymentModes
@@ -404,9 +422,66 @@ class LocalProjectService implements IProjectService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function getProjectInfoWithAccessLevel(string $projectId, string $userId): array {
+		return $this->getProjectInfoForAccessLevel($projectId, $this->getUserMaxAccessLevel($userId, $projectId));
+	}
+
+	/**
+	 * Get all project data, sanitized for a caller with the given access level:
+	 * share passwords are never returned and public link and federated share
+	 * tokens are omitted for shares above the given access level
+	 *
+	 * @param string $projectId
+	 * @param int $accessLevel
+	 * @return array
+	 * @throws CospendBasicException
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
+	 * @throws \OCP\DB\Exception
+	 * @throws AppConfigTypeConflictException
+	 */
+	public function getProjectInfoForAccessLevel(string $projectId, int $accessLevel): array {
 		$projectInfo = $this->getProjectInfo($projectId);
-		$projectInfo['myaccesslevel'] = $this->getUserMaxAccessLevel($userId, $projectId);
+		$projectInfo['myaccesslevel'] = $accessLevel;
+		$projectInfo['shares'] = $this->sanitizeJsonShares($projectInfo['shares'], $accessLevel);
 		return $projectInfo;
+	}
+
+	/**
+	 * Remove sensitive share data for a caller with the given access level:
+	 * the password is never returned and the token of public link and
+	 * federated shares is omitted when the share is above the caller's
+	 * access level
+	 *
+	 * @param array $jsonShares
+	 * @param int $callerAccessLevel
+	 * @return array
+	 */
+	private function sanitizeJsonShares(array $jsonShares, int $callerAccessLevel): array {
+		$tokenShareTypes = [Share::TYPE_PUBLIC_LINK, Share::TYPE_FEDERATION];
+		foreach ($jsonShares as &$jsonShare) {
+			// keeps the value computed by a previous sanitization of the share
+			if (!isset($jsonShare['hasPassword'])) {
+				$jsonShare['hasPassword'] = ($jsonShare['password'] ?? null) !== null;
+			}
+			unset($jsonShare['password']);
+			if (in_array($jsonShare['type'], $tokenShareTypes, true)
+				&& $jsonShare['accesslevel'] > $callerAccessLevel) {
+				unset($jsonShare['userid']);
+			}
+		}
+		return $jsonShares;
+	}
+
+	/**
+	 * Remove sensitive data of a single share for a caller with the given
+	 * access level (same as sanitizeJsonShares for one share)
+	 *
+	 * @param array $jsonShare
+	 * @param int $callerAccessLevel
+	 * @return array
+	 */
+	public function sanitizeJsonShare(array $jsonShare, int $callerAccessLevel): array {
+		return $this->sanitizeJsonShares([$jsonShare], $callerAccessLevel)[0];
 	}
 
 	/**
@@ -1178,7 +1253,7 @@ class LocalProjectService implements IProjectService {
 			$billTitle = $memberIdToName[$fromId] . ' → ' . $memberIdToName[$toId];
 			try {
 				$this->createBill(
-					$projectId, null, $billTitle, $fromId, $toId, $amount,
+					$projectId, null, $billTitle, $fromId, (string)$toId, $amount,
 					Application::FREQUENCY_NO, 'n', 0,
 					Application::CATEGORY_REIMBURSEMENT, 0, null, $ts
 				);
@@ -1818,9 +1893,7 @@ class LocalProjectService implements IProjectService {
 		$projects = [];
 		foreach ($projectIds as $projectId) {
 			$projectId = (string)$projectId;
-			$project = $this->getProjectInfo($projectId);
-			$project['myaccesslevel'] = $this->getUserMaxAccessLevel($userId, $projectId);
-			$projects[] = $project;
+			$projects[] = $this->getProjectInfoWithAccessLevel($projectId, $userId);
 		}
 
 		return $projects;
@@ -1993,18 +2066,18 @@ class LocalProjectService implements IProjectService {
 	}
 
 	/**
-	 * Get public links of a project
+	 * Get public links of a project, sanitized for a caller with the given
+	 * access level (passwords removed, tokens removed above that level)
 	 *
 	 * @param string $projectId
-	 * @param int|null $maxAccessLevel
+	 * @param int $maxAccessLevel
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
-	public function getPublicShares(string $projectId, ?int $maxAccessLevel = null): array {
+	public function getPublicShares(string $projectId, int $maxAccessLevel = Application::ACCESS_LEVEL_ADMIN): array {
 		$shares = $this->shareMapper->getSharesOfProject($projectId, Share::TYPE_PUBLIC_LINK);
-		return array_map(function (Share $share) {
-			return $share->jsonSerialize();
-		}, $shares);
+		$jsonShares = array_map(static fn (Share $share) => $share->jsonSerialize(), $shares);
+		return $this->sanitizeJsonShares($jsonShares, $maxAccessLevel);
 	}
 
 	/**
@@ -3326,7 +3399,8 @@ class LocalProjectService implements IProjectService {
 
 		//$manager->notify($notification);
 
-		return $insertedShare->jsonSerialize();
+		// the token stays visible: the share level is at most the creator's level (checked above)
+		return $this->sanitizeJsonShare($insertedShare->jsonSerialize(), $accessLevel);
 	}
 
 	/**

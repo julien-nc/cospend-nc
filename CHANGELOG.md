@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.3.0 – 2026-10-20
+
+### Changed
+
+- Update npm and composer dependencies @julien-nc
+
+### Fixed
+
+- Do not expose share passwords anywhere and do not expose the project owner's user ID for shares above the caller's access level @julien-nc (credits to Jahn Kohlhas)
+- Enforce access permissions for local project IDs containing '@' @julien-nc
+- Never return share passwords from `getPublicShares()` @julien-nc (credits to Jahn Kohlhas)
+- Fix `createBill()` failing due to a type mismatch when the payed-for ID is not a string, add a unit test @leafonthewind [#420](https://github.com/julien-nc/cospend-nc/pull/420)
+- Fix README.md links after the main branch rename @fwinn [#424](https://github.com/julien-nc/cospend-nc/pull/424)
+- Wrap the settlement options on narrow screens @AkshayRao27 [#427](https://github.com/julien-nc/cospend-nc/pull/427)
+
 ## 4.1.3 – 2026-09-02
 
 ### Changed

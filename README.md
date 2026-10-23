@@ -53,7 +53,7 @@ This app is under development.
 
 🌍 Help us to translate this app on [Nextcloud-Cospend/MoneyBuster Crowdin project](https://crowdin.com/project/moneybuster).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://github.com/julien-nc/cospend-nc/blob/master/CONTRIBUTING.md).
+⚒ Check out other ways to help in the [contribution guidelines](https://github.com/julien-nc/cospend-nc/blob/main/CONTRIBUTING.md).
 
 Link to Nextcloud application website: https://apps.nextcloud.com/apps/cospend
 
@@ -67,11 +67,11 @@ If you'd like to support the creation and maintenance of this software, consider
 
 ## Documentation
 
-* [User documentation](https://github.com/julien-nc/cospend-nc/blob/master/docs/user.md)
-* [Admin documentation](https://github.com/julien-nc/cospend-nc/blob/master/docs/admin.md)
-* [Developer documentation](https://github.com/julien-nc/cospend-nc/blob/master/docs/dev.md)
-* [CHANGELOG](https://github.com/julien-nc/cospend-nc/blob/master/CHANGELOG.md#change-log)
-* [AUTHORS](https://github.com/julien-nc/cospend-nc/blob/master/AUTHORS.md#authors)
+* [User documentation](https://github.com/julien-nc/cospend-nc/blob/main/docs/user.md)
+* [Admin documentation](https://github.com/julien-nc/cospend-nc/blob/main/docs/admin.md)
+* [Developer documentation](https://github.com/julien-nc/cospend-nc/blob/main/docs/dev.md)
+* [CHANGELOG](https://github.com/julien-nc/cospend-nc/blob/main/CHANGELOG.md#change-log)
+* [AUTHORS](https://github.com/julien-nc/cospend-nc/blob/main/AUTHORS.md#authors)
 
 ## Known issues
 

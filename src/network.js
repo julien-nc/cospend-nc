@@ -531,6 +531,20 @@ export function exportSettlement(projectId, centeredOn, maxTimestamp, successCB)
 		})
 }
 
+export function getCrossProjectBalances() {
+	const url = generateOcsUrl('/apps/cospend/api/v1/cross-project-balances')
+	return axios.get(url, {
+		params: {
+			format: 'json',
+		},
+	})
+}
+
+export function createCrossProjectSettlement(req) {
+	const url = generateOcsUrl('/apps/cospend/api/v1/cross-project-settlement')
+	return axios.post(url, req)
+}
+
 export function createSharedAccess(projectId, sh) {
 	const req = {
 		accessLevel: sh.accesslevel || constants.ACCESS.PARTICIPANT,

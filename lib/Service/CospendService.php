@@ -28,6 +28,7 @@ use OCP\Files\NotPermittedException;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Lock\LockedException;
 use Throwable;
 
@@ -40,6 +41,7 @@ class CospendService {
 		private IRootFolder $root,
 		private IL10N $l10n,
 		private IUserManager $userManager,
+		private IUserSession $userSession,
 		private IDbConnection $db,
 		private IUserConfig $userConfig,
 	) {
@@ -757,6 +759,12 @@ class CospendService {
 		$userIds = $this->projectMapper->getUserIdsWithAutoExportProjects();
 
 		foreach ($userIds as $uid) {
+			$user = $this->userManager->get($uid);
+			// if the user does not exist: skip this user
+			if ($user === null) {
+				continue;
+			}
+
 			$outPath = $this->userConfig->getValueString($uid, Application::APP_ID, 'outputDirectory', '/Cospend', lazy: true);
 
 			$projects = $this->projectMapper->getUserProjectsWithAutoExport($uid);
@@ -765,25 +773,34 @@ class CospendService {
 			}
 
 			$userFolder = $this->root->getUserFolder($uid);
-			foreach ($projects as $project) {
-				$dbProjectId = (string)$project->getId();
-				$autoExport = $project->getAutoExport();
 
-				$suffix = $dailySuffix;
-				// TODO add suffix for all frequencies
-				if ($autoExport === Application::FREQUENCY_WEEKLY) {
-					$suffix = $weeklySuffix;
-				} elseif ($autoExport === Application::FREQUENCY_MONTHLY) {
-					$suffix = $monthlySuffix;
-				}
-				// check if file already exists
-				$exportName = $dbProjectId . $suffix . '.csv';
+			// impersonate the user so the files activity hooks
+			// consider them the file creator instead of falling
+			// back to a "remote account"
+			$this->userSession->setUser($user);
+			try {
+				foreach ($projects as $project) {
+					$dbProjectId = (string)$project->getId();
+					$autoExport = $project->getAutoExport();
 
-				if (!$userFolder->nodeExists($outPath . '/' . $exportName)) {
-					$projectInfo = $this->localProjectService->getProjectInfoWithAccessLevel($dbProjectId, $uid);
-					$bills = $this->localProjectService->getBills($dbProjectId);
-					$this->exportCsvProject($dbProjectId, $uid, $projectInfo, $bills['bills'] ?? [], $exportName);
+					$suffix = $dailySuffix;
+					// TODO add suffix for all frequencies
+					if ($autoExport === Application::FREQUENCY_WEEKLY) {
+						$suffix = $weeklySuffix;
+					} elseif ($autoExport === Application::FREQUENCY_MONTHLY) {
+						$suffix = $monthlySuffix;
+					}
+					// check if file already exists
+					$exportName = $dbProjectId . $suffix . '.csv';
+
+					if (!$userFolder->nodeExists($outPath . '/' . $exportName)) {
+						$projectInfo = $this->localProjectService->getProjectInfoWithAccessLevel($dbProjectId, $uid);
+						$bills = $this->localProjectService->getBills($dbProjectId);
+						$this->exportCsvProject($dbProjectId, $uid, $projectInfo, $bills['bills'] ?? [], $exportName);
+					}
 				}
+			} finally {
+				$this->userSession->setUser(null);
 			}
 		}
 	}

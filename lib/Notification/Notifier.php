@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace OCA\Cospend\Notification;
 
-use InvalidArgumentException;
 use OCA\Cospend\AppInfo\Application;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -145,7 +144,7 @@ class Notifier implements INotifier {
 				return $notification;
 			default:
 				// Unknown subject => Unknown notification => throw
-				throw new InvalidArgumentException();
+				throw new UnknownNotificationException('Unknown subject ' . $notification->getSubject());
 		}
 	}
 }

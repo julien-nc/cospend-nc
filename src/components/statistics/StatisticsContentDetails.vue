@@ -186,24 +186,24 @@
 					{{ t('cospend', 'Member name') }}
 				</VTh>
 				<VTh sort-key="paid">
-					{{ t('cospend', 'Paid') }}
+					{{ t('cospend', 'Paid') }}{{ currencySuffix }}
 				</VTh>
 				<VTh sort-key="spent">
-					{{ t('cospend', 'Spent') }}
+					{{ t('cospend', 'Spent') }}{{ currencySuffix }}
 				</VTh>
 				<VTh v-if="isFiltered"
 					sort-key="filtered_balance">
-					{{ t('cospend', 'Filtered balance') }}
+					{{ t('cospend', 'Filtered balance') }}{{ currencySuffix }}
 				</VTh>
 				<VTh sort-key="balance"
 					:title="t('cospend', 'This balance is computed from the complete bill list')">
-					{{ t('cospend', 'Global Balance') }}
+					{{ t('cospend', 'Global Balance') }}{{ currencySuffix }}
 				</VTh>
 			</template>
 			<template #body="{ rows }">
 				<tr v-for="row in rows"
 					:key="row.member.id">
-					<td :style="'border: 2px solid #' + myGetMemberColor(row.member.id) + ';'">
+					<td :style="'border-left: 4px solid #' + myGetMemberColor(row.member.id) + ';' + myGetRowTintStyle(row.member.id)">
 						<div class="left-aligned-cell-content">
 							<MemberAvatar
 								:member="members[row.member.id]"
@@ -213,25 +213,21 @@
 							</span>
 						</div>
 					</td>
-					<td :style="'border: 2px solid #' + myGetMemberColor(row.member.id) + ';'">
+					<td :style="myGetRowTintStyle(row.member.id)">
 						{{ row.paid.toFixed(2) }}
-						{{ selectedCurrencyName }}
 					</td>
-					<td :style="'border: 2px solid #' + myGetMemberColor(row.member.id) + ';'">
+					<td :style="myGetRowTintStyle(row.member.id)">
 						{{ row.spent.toFixed(2) }}
-						{{ selectedCurrencyName }}
 					</td>
 					<td v-if="isFiltered"
 						:class="getBalanceClass(row.filtered_balance)"
-						:style="'border: 2px solid #' + myGetMemberColor(row.member.id) + ';'">
+						:style="myGetRowTintStyle(row.member.id)">
 						{{ row.filtered_balance.toFixed(2) }}
-						{{ selectedCurrencyName }}
 					</td>
 					<td :class="getBalanceClass(row.balance)"
-						:style="'border: 2px solid #' + myGetMemberColor(row.member.id) + ';'"
+						:style="myGetRowTintStyle(row.member.id)"
 						:title="t('cospend', 'This balance is computed from the complete bill list')">
 						{{ row.balance.toFixed(2) }}
-						{{ selectedCurrencyName }}
 					</td>
 				</tr>
 			</template>
@@ -373,7 +369,7 @@
 			:data="membersPaidForData">
 			<template #head>
 				<VTh sort-key="name">
-					↓ {{ t('cospend', 'paid for') }} →
+					↓ {{ t('cospend', 'paid for') }} →{{ currencySuffix }}
 				</VTh>
 				<VTh v-for="mid in stats.allMemberIds"
 					:key="mid"
@@ -396,7 +392,7 @@
 					:key="row.memberid">
 					<td v-if="row.memberid !== 0"
 						class="centered-cell"
-						:style="'border: 2px solid #' + myGetMemberColor(row.memberid) + ';'">
+						:style="'border-left: 4px solid #' + myGetMemberColor(row.memberid) + ';' + myGetRowTintStyle(row.memberid)">
 						<div class="left-aligned-cell-content">
 							<MemberAvatar
 								:member="members[row.memberid]"
@@ -404,7 +400,8 @@
 							<span>{{ myGetSmartMemberName(row.memberid) }}</span>
 						</div>
 					</td>
-					<td v-else style="padding-left: 5px; border: 2px solid lightgrey;">
+					<td v-else
+						:style="'padding-left: 5px; border-left: 4px solid lightgrey;' + myGetRowTintStyle(row.memberid)">
 						{{ t('cospend', 'Total owed') }}
 					</td>
 					<td v-for="mid in stats.allMemberIds"
@@ -412,15 +409,13 @@
 						:title="row.memberid === 0
 							? t('cospend', 'Total owed by {name}', { name: myGetSmartMemberName(mid) })
 							: myGetSmartMemberName(row.memberid) + ' → ' + myGetSmartMemberName(mid)"
-						:style="'border: 2px solid ' + (row.memberid === 0 ? 'lightgrey' : '#' + myGetMemberColor(row.memberid)) + ';'">
+						:style="myGetRowTintStyle(row.memberid)">
 						{{ row[mid].toFixed(2) }}
-						{{ selectedCurrencyName }}
 					</td>
 					<td v-if="row.memberid !== 0"
 						:title="t('cospend', 'Total paid by {name}', { name: myGetSmartMemberName(row.memberid) })"
-						style="border: 2px solid lightgrey;">
+						:style="myGetRowTintStyle(row.memberid)">
 						{{ row.total.toFixed(2) }}
-						{{ selectedCurrencyName }}
 					</td>
 				</tr>
 			</template>
@@ -556,6 +551,9 @@ export default {
 				return selectedCurrency.name
 			}
 			return ''
+		},
+		currencySuffix() {
+			return this.selectedCurrencyName ? ' (' + this.selectedCurrencyName + ')' : ''
 		},
 		filterMembers() {
 			return [
@@ -1226,6 +1224,10 @@ export default {
 				return this.members[mid].color
 			}
 		},
+		myGetRowTintStyle(mid) {
+			const tint = '#' + this.myGetMemberColor(mid) + '26'
+			return 'background-image: linear-gradient(' + tint + ', ' + tint + ');'
+		},
 		getStats() {
 			this.stats = null
 			this.loadingStats = true
@@ -1395,6 +1397,7 @@ export default {
 		top: 0;
 		z-index: 9;
 		background-color: var(--color-main-background);
+		border-radius: 0;
 		&:first-child {
 			left: 0;
 			z-index: 10 !important;
@@ -1406,14 +1409,20 @@ export default {
 		left: 0;
 		z-index: 8;
 		background-color: var(--color-main-background);
+		box-shadow: 2px 0 4px -2px rgba(0, 0, 0, 0.15);
 	}
-
+	td {
+		border-bottom: 1px solid var(--color-border);
+		border-right: 1px solid var(--color-border);
+		border-radius: 0;
+		padding: 6px;
+	}
 	th.selected,
 	td.selected {
-		background-color: var(--color-background-dark);
+		background-color: var(--color-primary-light);
 	}
 	td:first-child {
-		padding: 4px 5px 4px 5px;
+		padding: 6px 5px;
 	}
 }
 
@@ -1429,6 +1438,7 @@ export default {
 		top: 0;
 		z-index: 9;
 		background-color: var(--color-main-background);
+		border-radius: 0;
 		&:first-child {
 			left: 0;
 			z-index: 10 !important;
@@ -1440,9 +1450,16 @@ export default {
 		left: 0;
 		z-index: 8;
 		background-color: var(--color-main-background);
+		box-shadow: 2px 0 4px -2px rgba(0, 0, 0, 0.15);
+	}
+	td {
+		border-bottom: 1px solid var(--color-border);
+		border-right: 1px solid var(--color-border);
+		border-radius: 0;
+		padding: 6px;
 	}
 	td:first-child {
-		padding: 4px 5px 4px 5px;
+		padding: 6px 5px;
 	}
 }
 

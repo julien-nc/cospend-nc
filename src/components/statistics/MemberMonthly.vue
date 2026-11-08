@@ -18,15 +18,15 @@
 						:key="month"
 						:sort-key="month"
 						:class="{ selected: selectedMemberMonthlyCol === index }">
-						{{ month }}
+						{{ month }}{{ currencySuffix }}
 					</VTh>
 					<VTh v-if="monthColumns.length"
 						sort-key="total">
-						{{ t('cospend', 'Total') }}
+						{{ t('cospend', 'Total') }}{{ currencySuffix }}
 					</VTh>
 					<VTh v-if="hasAverage"
 						:sort-key="averageKey">
-						{{ averageKey }}
+						{{ averageKey }}{{ currencySuffix }}
 					</VTh>
 				</template>
 				<template #body="{ rows }">
@@ -34,7 +34,7 @@
 						:key="row.member.id"
 						:class="{ 'all-members': row.member.id === 0 }"
 						@mouseenter="selectedMemberDataset = row.member.id">
-						<td :style="'border: 2px solid #' + myGetMemberColor(row.member.id) + ';'">
+						<td :style="'border-left: 4px solid #' + myGetMemberColor(row.member.id) + ';' + myGetRowTintStyle(row.member.id)">
 							<div class="left-aligned-cell-content">
 								<MemberAvatar v-if="row.member.id !== 0"
 									:member="members[row.member.id]"
@@ -47,20 +47,17 @@
 						<td v-for="(month, index) in monthColumns"
 							:key="month"
 							:class="{ selected: selectedMemberMonthlyCol === index }"
-							:style="'border: 2px solid #' + myGetMemberColor(row.member.id) + ';'"
+							:style="myGetRowTintStyle(row.member.id)"
 							@mouseenter="hoveredTableMonth = month">
 							{{ (row[month] || 0).toFixed(2) }}
-							{{ currencyName }}
 						</td>
 						<td v-if="monthColumns.length"
-							:style="'border: 2px solid #' + myGetMemberColor(row.member.id) + ';'">
+							:style="myGetRowTintStyle(row.member.id)">
 							{{ (row.total || 0).toFixed(2) }}
-							{{ currencyName }}
 						</td>
 						<td v-if="hasAverage"
-							:style="'border: 2px solid #' + myGetMemberColor(row.member.id) + ';'">
+							:style="myGetRowTintStyle(row.member.id)">
 							{{ (row[averageKey] || 0).toFixed(2) }}
-							{{ currencyName }}
 						</td>
 					</tr>
 				</template>
@@ -143,6 +140,9 @@ export default {
 		},
 		hasAverage() {
 			return this.averageKey in this.stats
+		},
+		currencySuffix() {
+			return this.currencyName ? ' (' + this.currencyName + ')' : ''
 		},
 		monthColumns() {
 			return this.realMonths.filter((month) => month in this.stats)
@@ -281,6 +281,10 @@ export default {
 				return this.members[mid].color
 			}
 		},
+		myGetRowTintStyle(mid) {
+			const tint = '#' + this.myGetMemberColor(mid) + '26'
+			return 'background-image: linear-gradient(' + tint + ', ' + tint + ');'
+		},
 	},
 }
 </script>
@@ -294,6 +298,13 @@ export default {
 		top: 0;
 		z-index: 9;
 		background-color: var(--color-main-background);
+		border-radius: 0;
+	}
+	td {
+		border-bottom: 1px solid var(--color-border);
+		border-right: 1px solid var(--color-border);
+		border-radius: 0;
+		padding: 6px;
 	}
 	th:first-child,
 	td:first-child {
@@ -301,6 +312,7 @@ export default {
 		left: 0;
 		z-index: 10;
 		background-color: var(--color-main-background);
+		box-shadow: 2px 0 4px -2px rgba(0, 0, 0, 0.15);
 	}
 	&.withTotal {
 		th:last-child,
@@ -321,6 +333,7 @@ export default {
 		th:nth-last-child(2),
 		td:nth-last-child(2) {
 			right: 8em;
+			box-shadow: -2px 0 4px -2px rgba(0, 0, 0, 0.15);
 		}
 	}
 
@@ -330,7 +343,7 @@ export default {
 		font-weight: bold;
 	}
 	td:first-child {
-		padding: 4px 5px 4px 5px;
+		padding: 6px 5px;
 	}
 }
 

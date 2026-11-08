@@ -8,16 +8,25 @@
 			@mouseleave="selectedMemberDataset = null ; hoveredTableMonth = null">
 			<VTable
 				class="memberMonthlyTable coloredTable"
+				:class="{ withTotal: monthColumns.length > 0 }"
 				:data="memberMonthlyStats">
 				<template #head>
 					<VTh sort-key="member.name">
 						{{ t('cospend', 'Member/Month') }}
 					</VTh>
-					<VTh v-for="(st, month) in stats"
+					<VTh v-for="(month, index) in monthColumns"
 						:key="month"
 						:sort-key="month"
-						:class="{ selected: selectedMemberMonthlyCol === Object.keys(stats).indexOf(month) }">
+						:class="{ selected: selectedMemberMonthlyCol === index }">
 						{{ month }}
+					</VTh>
+					<VTh v-if="monthColumns.length"
+						sort-key="total">
+						{{ t('cospend', 'Total') }}
+					</VTh>
+					<VTh v-if="hasAverage"
+						:sort-key="averageKey">
+						{{ averageKey }}
 					</VTh>
 				</template>
 				<template #body="{ rows }">
@@ -35,12 +44,22 @@
 								</span>
 							</div>
 						</td>
-						<td v-for="(st, month) in stats"
+						<td v-for="(month, index) in monthColumns"
 							:key="month"
-							:class="{ selected: selectedMemberMonthlyCol === Object.keys(stats).indexOf(month) }"
+							:class="{ selected: selectedMemberMonthlyCol === index }"
 							:style="'border: 2px solid #' + myGetMemberColor(row.member.id) + ';'"
 							@mouseenter="hoveredTableMonth = month">
-							{{ row[month].toFixed(2) }}
+							{{ (row[month] || 0).toFixed(2) }}
+							{{ currencyName }}
+						</td>
+						<td v-if="monthColumns.length"
+							:style="'border: 2px solid #' + myGetMemberColor(row.member.id) + ';'">
+							{{ (row.total || 0).toFixed(2) }}
+							{{ currencyName }}
+						</td>
+						<td v-if="hasAverage"
+							:style="'border: 2px solid #' + myGetMemberColor(row.member.id) + ';'">
+							{{ (row[averageKey] || 0).toFixed(2) }}
 							{{ currencyName }}
 						</td>
 					</tr>
@@ -119,6 +138,15 @@ export default {
 		members() {
 			return this.cospend.members[this.projectId]
 		},
+		averageKey() {
+			return t('cospend', 'Average per month')
+		},
+		hasAverage() {
+			return this.averageKey in this.stats
+		},
+		monthColumns() {
+			return this.realMonths.filter((month) => month in this.stats)
+		},
 		memberMonthlyStats() {
 			const memberIds = this.memberIds
 			const mids = memberIds.slice()
@@ -128,8 +156,9 @@ export default {
 					member: mid === '0' ? { name: t('cospend', 'All members'), id: 0 } : this.cospend.members[this.projectId][mid],
 				}
 				for (const month in this.stats) {
-					row[month] = this.stats[month][mid]
+					row[month] = this.stats[month][mid] || 0
 				}
+				row.total = this.monthColumns.reduce((acc, month) => acc + row[month], 0)
 				return row
 			})
 		},
@@ -273,12 +302,26 @@ export default {
 		z-index: 10;
 		background-color: var(--color-main-background);
 	}
-	th:last-child,
-	td:last-child {
-		position: sticky;
-		right: 0;
-		z-index: 10;
-		background-color: var(--color-main-background);
+	&.withTotal {
+		th:last-child,
+		td:last-child,
+		th:nth-last-child(2),
+		td:nth-last-child(2) {
+			position: sticky;
+			z-index: 10;
+			background-color: var(--color-main-background);
+		}
+		th:last-child,
+		td:last-child {
+			right: 0;
+			width: 8em;
+			min-width: 8em;
+			max-width: 8em;
+		}
+		th:nth-last-child(2),
+		td:nth-last-child(2) {
+			right: 8em;
+		}
 	}
 
 	th.selected,

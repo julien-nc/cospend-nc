@@ -692,9 +692,13 @@ export default {
 			return this.stats.stats.map(s => s.paid).reduce((acc, curr) => acc + curr)
 		},
 		distinctMonths() {
+			const averageKey = t('cospend', 'Average per month')
 			const months = []
 			for (const catId in this.stats.categoryMonthlyStats) {
 				for (const month in this.stats.categoryMonthlyStats[catId]) {
+					if (month === averageKey) {
+						continue
+					}
 					months.push(month)
 				}
 			}
@@ -712,15 +716,22 @@ export default {
 			return sortedCategoryIds
 		},
 		monthlyCategoryStats() {
+			const averageKey = t('cospend', 'Average per month')
 			return this.sortedMonthlyCategoryIds.map((catid) => {
 				const elem = {
 					id: catid,
 					name: this.getCategoryNameIcon(catid),
 					color: this.myGetCategory(catid).color,
 				}
+				let total = 0
 				for (const month in this.stats.categoryMonthlyStats[catid]) {
-					elem[month] = this.stats.categoryMonthlyStats[catid][month]
+					const value = this.stats.categoryMonthlyStats[catid][month]
+					elem[month] = value
+					if (month !== averageKey) {
+						total += value
+					}
 				}
+				elem.total = total
 				return elem
 			})
 		},
@@ -734,15 +745,22 @@ export default {
 			return sortedPaymentModeIds
 		},
 		monthlyPaymentModeStats() {
+			const averageKey = t('cospend', 'Average per month')
 			return this.sortedMonthlyPaymentModeIds.map((pmid) => {
 				const elem = {
 					id: pmid,
 					name: this.getPaymentModeNameIcon(pmid),
 					color: this.myGetPaymentMode(pmid).color,
 				}
+				let total = 0
 				for (const month in this.stats.paymentModeMonthlyStats[pmid]) {
-					elem[month] = this.stats.paymentModeMonthlyStats[pmid][month]
+					const value = this.stats.paymentModeMonthlyStats[pmid][month]
+					elem[month] = value
+					if (month !== averageKey) {
+						total += value
+					}
 				}
+				elem.total = total
 				return elem
 			})
 		},

@@ -9,16 +9,25 @@
 			@mouseleave="selectedDataset = null ; hoveredTableMonth = null">
 			<VTable
 				class="monthlyTable coloredTable"
+				:class="{ withTotal: hasAverage }"
 				:data="tableData">
 				<template #head>
 					<VTh sort-key="name">
 						{{ firstColumnTitle }}
 					</VTh>
-					<VTh v-for="month in distinctMonths"
+					<VTh v-for="(month, index) in distinctMonths"
 						:key="month"
 						:sort-key="month"
-						:class="{ selected: selectedMonthlyCol === distinctMonths.indexOf(month) }">
+						:class="{ selected: selectedMonthlyCol === index }">
 						{{ month }}
+					</VTh>
+					<VTh v-if="hasAverage"
+						sort-key="total">
+						{{ t('cospend', 'Total') }}
+					</VTh>
+					<VTh v-if="hasAverage"
+						:sort-key="averageKey">
+						{{ averageKey }}
 					</VTh>
 				</template>
 				<template #body="{ rows }">
@@ -28,12 +37,22 @@
 						<td :style="'border: 2px solid ' + row.color + ';'">
 							{{ row.name }}
 						</td>
-						<td v-for="month in distinctMonths"
+						<td v-for="(month, index) in distinctMonths"
 							:key="month"
-							:class="{ selected: selectedMonthlyCol === distinctMonths.indexOf(month) }"
+							:class="{ selected: selectedMonthlyCol === index }"
 							:style="'border: 2px solid ' + row.color + ';'"
 							@mouseenter="hoveredTableMonth = month">
 							{{ (row[month] || 0).toFixed(2) }}
+							{{ currencyName }}
+						</td>
+						<td v-if="hasAverage"
+							:style="'border: 2px solid ' + row.color + ';'">
+							{{ (row.total || 0).toFixed(2) }}
+							{{ currencyName }}
+						</td>
+						<td v-if="hasAverage"
+							:style="'border: 2px solid ' + row.color + ';'">
+							{{ (row[averageKey] || 0).toFixed(2) }}
 							{{ currencyName }}
 						</td>
 					</tr>
@@ -103,6 +122,12 @@ export default {
 	},
 
 	computed: {
+		averageKey() {
+			return t('cospend', 'Average per month')
+		},
+		hasAverage() {
+			return this.tableData.length > 0 && Object.keys(this.tableData[0]).includes(this.averageKey)
+		},
 		chartOptions() {
 			return {
 				...this.baseLineChartOptions,
@@ -183,12 +208,26 @@ export default {
 		z-index: 10;
 		background-color: var(--color-main-background);
 	}
-	th:last-child,
-	td:last-child {
-		position: sticky;
-		right: 0;
-		z-index: 10;
-		background-color: var(--color-main-background);
+	&.withTotal {
+		th:last-child,
+		td:last-child,
+		th:nth-last-child(2),
+		td:nth-last-child(2) {
+			position: sticky;
+			z-index: 10;
+			background-color: var(--color-main-background);
+		}
+		th:last-child,
+		td:last-child {
+			right: 0;
+			width: 8em;
+			min-width: 8em;
+			max-width: 8em;
+		}
+		th:nth-last-child(2),
+		td:nth-last-child(2) {
+			right: 8em;
+		}
 	}
 
 	th.selected,

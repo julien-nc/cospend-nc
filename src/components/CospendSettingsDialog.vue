@@ -87,7 +87,6 @@
 						:model-value="selectedSortOrder"
 						:input-label="t('cospend', 'Projects order')"
 						:options="Object.values(sortOrderOptions)"
-						:no-wrap="true"
 						:clearable="false"
 						@update:model-value="sortOrder = $event.value ?? 'name'; onSortOrderChange()" />
 				</div>
@@ -95,7 +94,6 @@
 					:model-value="selectedMemberOrder"
 					:input-label="t('cospend', 'Members order')"
 					:options="Object.values(memberOrderOptions)"
-					:no-wrap="true"
 					:clearable="false"
 					@update:model-value="memberOrder = $event.value ?? 'name'; onMemberOrderChange()" />
 			</NcAppSettingsSection>

@@ -33,7 +33,6 @@
 				:input-label="t('cospend', 'Automatic export')"
 				:options="Object.values(autoExportOptions)"
 				:disabled="!adminAccess"
-				:no-wrap="true"
 				label="label"
 				:clearable="false"
 				@update:model-value="onUpdateAutoExport($event.value)" />

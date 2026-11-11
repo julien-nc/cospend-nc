@@ -453,6 +453,7 @@ export default {
 
 		// plugin system: internal plumbing events
 		subscribe('cospend:plugin-navitem-clicked', this.onPluginNavItemClicked)
+		subscribe('cospend:plugin-create-project-action', this.onPluginCreateProjectAction)
 		subscribe('cospend:plugin-project-action', this.onPluginProjectAction)
 		subscribe('cospend:plugin-member-action', this.onPluginMemberAction)
 		subscribe('cospend:plugin-bill-action', this.onPluginBillAction)
@@ -460,7 +461,9 @@ export default {
 		// plugin system: public action events
 		subscribe('cospend:select-project', this.onPluginSelectProject)
 		subscribe('cospend:deselect-project', this.onPluginDeselectProject)
+		subscribe('cospend:close-plugin-view', this.onPluginCloseView)
 		subscribe('cospend:refresh-project', this.onPluginRefreshProject)
+		subscribe('cospend:create-project', this.onPluginCreateProject)
 		subscribe('cospend:create-bill', this.onPluginCreateBill)
 		subscribe('cospend:save-member', this.onPluginSaveMember)
 		subscribe('cospend:save-bill', this.onPluginSaveBill)
@@ -505,6 +508,7 @@ export default {
 
 		// plugin system: internal plumbing events
 		unsubscribe('cospend:plugin-navitem-clicked', this.onPluginNavItemClicked)
+		unsubscribe('cospend:plugin-create-project-action', this.onPluginCreateProjectAction)
 		unsubscribe('cospend:plugin-project-action', this.onPluginProjectAction)
 		unsubscribe('cospend:plugin-member-action', this.onPluginMemberAction)
 		unsubscribe('cospend:plugin-bill-action', this.onPluginBillAction)
@@ -512,7 +516,9 @@ export default {
 		// plugin system: public action events
 		unsubscribe('cospend:select-project', this.onPluginSelectProject)
 		unsubscribe('cospend:deselect-project', this.onPluginDeselectProject)
+		unsubscribe('cospend:close-plugin-view', this.onPluginCloseView)
 		unsubscribe('cospend:refresh-project', this.onPluginRefreshProject)
+		unsubscribe('cospend:create-project', this.onPluginCreateProject)
 		unsubscribe('cospend:create-bill', this.onPluginCreateBill)
 		unsubscribe('cospend:save-member', this.onPluginSaveMember)
 		unsubscribe('cospend:save-bill', this.onPluginSaveBill)
@@ -573,6 +579,27 @@ export default {
 				view: found.ep.view,
 				listView: found.ep.listView,
 				display: 'content',
+				projectId: null,
+				memberId: null,
+				billId: null,
+			})
+		},
+		onPluginCreateProjectAction({ pluginId, entryPointId }) {
+			const found = findEntryPoint(pluginId, 'createProjectAction', entryPointId)
+			if (!found) {
+				return
+			}
+			// app-level views are not tied to a project: deselect the current one
+			if (this.cospend.currentProjectId) {
+				this.deselectProject()
+			}
+			this.activatePluginView({
+				pluginId,
+				type: 'createProjectAction',
+				entryPointId,
+				view: found.ep.view,
+				listView: found.ep.listView,
+				display: found.ep.display,
 				projectId: null,
 				memberId: null,
 				billId: null,
@@ -660,10 +687,30 @@ export default {
 		onPluginDeselectProject() {
 			this.deselectProject()
 		},
+		onPluginCloseView({ pluginId, entryPointId }) {
+			if (this.pluginModalView?.pluginId === pluginId
+				&& (entryPointId === undefined || this.pluginModalView.entryPointId === entryPointId)) {
+				this.closePluginModal()
+				return
+			}
+			if (this.mode === 'plugin'
+				&& this.pluginView?.pluginId === pluginId
+				&& (entryPointId === undefined || this.pluginView.entryPointId === entryPointId)) {
+				// leaving the plugin mode makes the mode watcher close the view
+				this.mode = 'normal'
+			}
+		},
 		onPluginRefreshProject({ projectId }) {
 			if (projectId) {
 				this.updateProjectInfo(projectId)
 			}
+		},
+		onPluginCreateProject({ name, id }) {
+			if (!name || typeof name !== 'string') {
+				showError(t('cospend', 'Invalid project name'))
+				return
+			}
+			this.createProject(name, (typeof id === 'string' && id !== '') ? id : slugify(name))
 		},
 		onPluginCreateBill({ projectId, bill }) {
 			if (!projectId || !this.projects[projectId]) {

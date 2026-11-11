@@ -18,6 +18,7 @@
 import { defineCustomElement } from 'vue'
 import DemoMainView from './components/DemoMainView.vue'
 import DemoMainListView from './components/DemoMainListView.vue'
+import DemoCreateProjectActionView from './components/DemoCreateProjectActionView.vue'
 import DemoProjectActionView from './components/DemoProjectActionView.vue'
 import DemoSidebarTabView from './components/DemoSidebarTabView.vue'
 import DemoMemberActionView from './components/DemoMemberActionView.vue'
@@ -43,6 +44,7 @@ function defineDemoElement(tag, component) {
 
 defineDemoElement('cospend-plugin-demo-main', DemoMainView)
 defineDemoElement('cospend-plugin-demo-main-list', DemoMainListView)
+defineDemoElement('cospend-plugin-demo-create-project', DemoCreateProjectActionView)
 defineDemoElement('cospend-plugin-demo-project-action', DemoProjectActionView)
 defineDemoElement('cospend-plugin-demo-sidebar', DemoSidebarTabView)
 defineDemoElement('cospend-plugin-demo-member', DemoMemberActionView)
@@ -72,6 +74,13 @@ const plugin = {
 			order: 100,
 			view: 'cospend-plugin-demo-main',
 			listView: 'cospend-plugin-demo-main-list',
+		},
+		createProjectAction: {
+			id: 'demo-create-project',
+			name: 'Demo: create a project',
+			icon: demoIcon,
+			display: 'modal',
+			view: 'cospend-plugin-demo-create-project',
 		},
 		projectAction: {
 			id: 'demo-project-action',

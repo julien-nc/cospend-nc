@@ -10,7 +10,7 @@
 			({{ t('cospend', 'access level') }}: {{ pluginContext?.accessLevel }})
 		</p>
 		<div v-for="member in members" :key="member.id" class="demo-project">
-			{{ member.name }}: {{ member.balance }}
+			{{ member.name }}: {{ formatBalance(member.balance, pluginContext?.project?.precision) }}
 		</div>
 		<div class="demo-actions">
 			<NcButton class="demo-button"
@@ -35,6 +35,7 @@
 import NcButton from '@nextcloud/vue/components/NcButton'
 import { emit } from '@nextcloud/event-bus'
 import DemoContextInspector from './DemoContextInspector.vue'
+import { formatBalance } from '../utils.js'
 
 export default {
 	name: 'DemoProjectActionView',
@@ -66,6 +67,7 @@ export default {
 	},
 
 	methods: {
+		formatBalance,
 		createDemoBill() {
 			const members = this.members
 			if (members.length === 0) {

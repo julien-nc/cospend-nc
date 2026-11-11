@@ -8,7 +8,7 @@
 		<p v-if="project">
 			<strong>{{ project.name }}</strong>
 			— {{ project.nb_bills }} {{ t('cospend', 'bills') }},
-			{{ project.total_spent }} {{ project.currencyname ?? '' }}
+			{{ formatBalance(project.total_spent, project.precision) }} {{ project.currencyname ?? '' }}
 		</p>
 		<div class="demo-actions">
 			<NcButton class="demo-button"
@@ -24,6 +24,7 @@
 import NcButton from '@nextcloud/vue/components/NcButton'
 import { emit } from '@nextcloud/event-bus'
 import DemoContextInspector from './DemoContextInspector.vue'
+import { formatBalance } from '../utils.js'
 
 export default {
 	name: 'DemoBillListActionView',
@@ -51,6 +52,7 @@ export default {
 	},
 
 	methods: {
+		formatBalance,
 		refreshProject() {
 			emit('cospend:refresh-project', { projectId: this.projectId })
 		},

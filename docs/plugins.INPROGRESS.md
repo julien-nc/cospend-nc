@@ -252,6 +252,10 @@ the property is updated and your component re-renders. You never need to read
 
 # Entry points
 
+Icons are rendered at 20px through `NcIconSvgWrapper`. Like the Material Design icons
+used by Cospend itself, plugin icon artwork should include inner margins in its
+viewBox so it does not look bigger than the core icons.
+
 ## Layout while a plugin view is active
 
 Cospend owns the layout: activating an entry point switches Cospend to the plugin's
@@ -490,11 +494,26 @@ regular document styles apply.
 
 To adjust later:
 
-* Adjust the styles in the demo plugin. The intro text on top of the list pane
-  (`DemoMainListView`) is hidden by the navigation toggle button.
-* The sidebar tab is bigger than the other tabs; check whether the size difference
+* ~~Adjust the styles in the demo plugin. The intro text on top of the list pane
+  (`DemoMainListView`) is hidden by the navigation toggle button.~~ Fixed: the list
+  pane view now leaves room for the floating navigation toggle button
+  (`padding-left: calc(var(--default-clickable-area) + 12px)`, same trick as the
+  `BillList` header).
+* ~~The sidebar tab is bigger than the other tabs; check whether the size difference
   should be fixed in the plugin system (e.g. how `PluginHost` renders sidebar tab
-  elements) or is just a matter of demo plugin styling.
-* Number rounding: the demo plugin displays raw balance/amount values; round numbers
+  elements) or is just a matter of demo plugin styling.~~ Fixed in the plugin system:
+  plugin icons are rendered by `PluginIcon` with the same structure as Cospend's
+  material design icons (`<span class="material-design-icon plugin-icon">` wrapping a
+  20px SVG). This way, contexts that size those icons treat plugin icons identically:
+  action menus give them a whole clickable area like the core icons, sidebar tabs
+  keep them at 20px. (The first attempt used `NcIconSvgWrapper`, whose root claims a
+  clickable area in every context — too big in sidebar tabs — and its `inline` mode
+  then misaligned the icons in action menus.)
+* ~~Number rounding: the demo plugin displays raw balance/amount values; round numbers
   in the demo views respecting Cospend's display settings (max precision, see
-  `OCA.Cospend.state.maxPrecision` and the per-project `precision`).
+  `OCA.Cospend.state.maxPrecision` and the per-project `precision`).~~ Fixed: the demo
+  plugin now formats values like Cospend does (`src/demoPlugin/utils.js`): member
+  balances and totals use `toFixed(project.precision)` (the precision is part of the
+  project objects in `pluginContext`, computed by Cospend so rounded balances sum to 0
+  within the user's max precision setting), and bill amounts use the fixed 2 decimals
+  used by the bill list.

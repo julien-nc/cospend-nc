@@ -13,7 +13,7 @@
 		<div v-for="project in projects" :key="project.id" class="demo-project">
 			<strong>{{ project.name }}</strong> ({{ project.id }})
 			— {{ project.nb_bills }} {{ t('cospend', 'bills') }},
-			{{ project.total_spent }} {{ project.currencyname ?? '' }}
+			{{ formatBalance(project.total_spent, project.precision) }} {{ project.currencyname ?? '' }}
 			<NcButton class="demo-button"
 				@click="selectProject(project.id)">
 				{{ t('cospend', 'Select') }}
@@ -42,6 +42,7 @@
 import NcButton from '@nextcloud/vue/components/NcButton'
 import { emit } from '@nextcloud/event-bus'
 import DemoContextInspector from './DemoContextInspector.vue'
+import { formatBalance } from '../utils.js'
 
 export default {
 	name: 'DemoMainView',
@@ -69,6 +70,7 @@ export default {
 	},
 
 	methods: {
+		formatBalance,
 		selectProject(projectId) {
 			emit('cospend:select-project', { projectId })
 		},

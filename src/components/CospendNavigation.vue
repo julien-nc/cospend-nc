@@ -37,6 +37,15 @@
 							</template>
 							{{ t('cospend', 'Import SplitWise project') }}
 						</NcActionButton>
+						<NcActionButton v-for="action in pluginCreateProjectActions"
+							:key="action.plugin.id + ':' + action.ep.id"
+							:close-after-click="true"
+							@click="onPluginCreateProjectActionClick(action)">
+							<template #icon>
+								<PluginIcon :src="action.ep.icon" />
+							</template>
+							{{ action.ep.name }}
+						</NcActionButton>
 					</NcActions>
 				</template>
 			</NcAppNavigationSearch>
@@ -280,6 +289,9 @@ export default {
 		pluginNavItems() {
 			return getEntryPoints('navItem')
 		},
+		pluginCreateProjectActions() {
+			return getEntryPoints('createProjectAction')
+		},
 		editionAccess() {
 			return this.selectedProjectId && this.projects[this.selectedProjectId].myaccesslevel >= constants.ACCESS.PARTICIPANT
 		},
@@ -296,6 +308,12 @@ export default {
 		},
 		onPluginNavItemClick(item) {
 			emit('cospend:plugin-navitem-clicked', item.plugin.id)
+		},
+		onPluginCreateProjectActionClick(action) {
+			emit('cospend:plugin-create-project-action', {
+				pluginId: action.plugin.id,
+				entryPointId: action.ep.id,
+			})
 		},
 		toggleMenu() {
 			this.opened = !this.opened

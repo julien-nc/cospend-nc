@@ -18,6 +18,7 @@ export const ELEMENT_TAG_PREFIX = 'cospend-plugin-'
 
 const KNOWN_ENTRY_POINT_TYPES = [
 	'navItem',
+	'createProjectAction',
 	'projectAction',
 	'sidebarTab',
 	'memberAction',
@@ -28,6 +29,7 @@ const KNOWN_ENTRY_POINT_TYPES = [
 // entry points that render in the main content area and can declare a listView
 const CONTENT_ENTRY_POINT_TYPES = [
 	'navItem',
+	'createProjectAction',
 	'projectAction',
 	'memberAction',
 	'billAction',
@@ -35,6 +37,7 @@ const CONTENT_ENTRY_POINT_TYPES = [
 ]
 // entry points that need an id (all but navItem)
 const ID_ENTRY_POINT_TYPES = [
+	'createProjectAction',
 	'projectAction',
 	'sidebarTab',
 	'memberAction',

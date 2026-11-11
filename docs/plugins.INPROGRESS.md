@@ -1,11 +1,11 @@
 # Cospend plugin system
 
 Cospend can be extended by *UI plugins* provided by other Nextcloud apps. A plugin app
-injects UI entry points into Cospend's interface (a navigation item, a project context
-menu action, a project sidebar tab, a member or bill context action, a bill list
-header action, a settings section…) and renders its own Vue
-components inside Cospend's main content area, where they are free to call Cospend's
-public API and the plugin app's own backend.
+injects UI entry points into Cospend's interface (a navigation item, a "create a
+project" menu action, a project context menu action, a project sidebar tab, a member
+or bill context action, a bill list header action, a settings section…) and renders
+its own Vue components inside Cospend's main content area, where they are free to call
+Cospend's public API and the plugin app's own backend.
 
 The plugin system is UI-only: a plugin app's backend stays completely independent.
 No server-side support in Cospend is needed beyond the frontend contract described here.
@@ -173,6 +173,7 @@ event bus once it is mounted, in case your plugin needs a runtime setup hook.
 	// at least one entry point; unknown types are ignored with a console warning
 	entryPoints: {
 		navItem: { /* … */ },
+		createProjectAction: { /* … */ },
 		projectAction: { /* … */ },
 		sidebarTab: { /* … */ },
 		memberAction: { /* … */ },
@@ -271,6 +272,7 @@ view, and the content is placed by Cospend, never by the plugin.
 | Entry point | Main content | List pane |
 | --- | --- | --- |
 | `navItem` | plugin `view` | plugin `listView` if declared, else empty |
+| `createProjectAction` | plugin `view` | plugin `listView` if declared, else empty |
 | `projectAction` | plugin `view` | plugin `listView` if declared, else bill list |
 | `sidebarTab` | sidebar tab content | unchanged |
 | `memberAction` | plugin `view` | plugin `listView` if declared, else bill list |
@@ -297,6 +299,34 @@ navItem: {
 	listView: 'cospend-plugin-crossbalances-list',
 }
 ```
+
+## `createProjectAction`
+
+Adds an action in the "Create a project" menu in the navigation search bar (where
+"Create empty project", "Import csv project" and "Import SplitWise project" live).
+Like `navItem`, it is app-level: it has no project context, so `minAccessLevel` does
+not apply, and the current project (if any) is deselected when the view is activated:
+
+```js
+createProjectAction: {
+	id: 'myapp-create-from-template',
+	name: 'Create a project from a template',
+	icon: '/apps/myapp/img/action-icon.svg',
+	display: 'modal',        // 'content': replaces the main view; 'modal': opens a dialog
+	view: 'cospend-plugin-create-from-template',
+}
+```
+
+The element receives `projectId` (always `null`) and `pluginContext` (with all
+projects and members, but no `project`). Creating the project itself is done by
+firing the `cospend:create-project` action event (see
+[Interacting with Cospend](#interacting-with-cospend)); when the creation succeeds,
+Cospend selects the new project. The view stays under the plugin's control: observe
+the outcome through the `pluginContext` prop and close the view with the
+`cospend:close-plugin-view` action event when it has fulfilled its purpose.
+With `display: 'content'`,
+you can optionally declare `listView` to fill the list pane of the two-pane layout
+while the view is active.
 
 ## `projectAction`
 
@@ -431,7 +461,9 @@ updated after Cospend's state changes.
 | --- | --- | --- |
 | `cospend:select-project` | `{ projectId }` | Select the project (closes the plugin view). |
 | `cospend:deselect-project` | `{}` | Deselect the current project (closes the plugin view). |
+| `cospend:close-plugin-view` | `{ pluginId, entryPointId? }` | Close the plugin's active view (modal or main content view). Only the plugin's own views can be closed. |
 | `cospend:refresh-project` | `{ projectId }` | Reload project info, members and balances. |
+| `cospend:create-project` | `{ name, id? }` | Create a project (the id is optional and defaults to the slugified name) and select it. |
 | `cospend:create-bill` | `{ projectId, bill }` | Create a bill. |
 | `cospend:save-bill` | `{ projectId, bill }` | Update an existing bill (the bill must be in the displayed bill list, identified by `bill.id`). |
 | `cospend:delete-bill` | `{ projectId, billId }` | Delete a bill from the displayed bill list (it goes to the trash bin). |
@@ -466,6 +498,7 @@ events above so that Cospend's state stays consistent.
 * [x] Plugin registry, `OCA.Cospend` public namespace and `registerPlugin()`
 * [x] Rendering infrastructure: element fallback error content (`PluginHost`)
 * [x] `navItem` entry point and main content injection
+* [x] `createProjectAction` entry point
 * [x] `projectAction` entry point
 * [x] `sidebarTab` entry point
 * [x] `memberAction` entry point
@@ -479,7 +512,7 @@ events above so that Cospend's state stays consistent.
 # Reference implementation
 
 `src/demoPlugin/` contains a complete demo plugin, written exactly like a plugin
-coming from an external app: it defines custom elements for all seven entry point
+coming from an external app: it defines custom elements for all eight entry point
 types, reads everything from its `pluginContext` prop and interacts with Cospend only
 through action events. It is injected by the main page controller when the
 "Enable the demo UI plugin" admin setting is enabled.

@@ -8,7 +8,7 @@
 			{{ t('cospend', 'Demo sidebar tab. Rename a member to trigger a member save through an action event.') }}
 		</p>
 		<div v-for="member in members" :key="member.id" class="demo-project">
-			{{ member.name }}: {{ member.balance }}
+			{{ member.name }}: {{ formatBalance(member.balance, pluginContext?.project?.precision) }}
 			<NcButton class="demo-button"
 				@click="renameMember(member)">
 				{{ t('cospend', 'Rename with "(demo)" suffix') }}
@@ -28,6 +28,7 @@
 import NcButton from '@nextcloud/vue/components/NcButton'
 import { emit } from '@nextcloud/event-bus'
 import DemoContextInspector from './DemoContextInspector.vue'
+import { formatBalance } from '../utils.js'
 
 export default {
 	name: 'DemoSidebarTabView',
@@ -56,6 +57,7 @@ export default {
 	},
 
 	methods: {
+		formatBalance,
 		renameMember(member) {
 			if (member.name.includes('(demo)')) {
 				return

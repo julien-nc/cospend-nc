@@ -7,7 +7,7 @@
 		<h3>{{ t('cospend', 'Demo bill action') }}</h3>
 		<p>
 			<strong>{{ bill?.what }}</strong>
-			({{ bill?.amount }})
+			({{ formatAmount(bill?.amount) }})
 		</p>
 		<div class="demo-actions">
 			<NcButton class="demo-button"
@@ -31,6 +31,7 @@
 import NcButton from '@nextcloud/vue/components/NcButton'
 import { emit } from '@nextcloud/event-bus'
 import DemoContextInspector from './DemoContextInspector.vue'
+import { formatAmount } from '../utils.js'
 
 export default {
 	name: 'DemoBillActionView',
@@ -58,6 +59,7 @@ export default {
 	},
 
 	methods: {
+		formatAmount,
 		duplicateBill() {
 			if (!this.bill) {
 				return

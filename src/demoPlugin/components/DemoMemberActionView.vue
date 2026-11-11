@@ -7,7 +7,7 @@
 		<h3>{{ t('cospend', 'Demo member action') }}</h3>
 		<p>
 			<strong>{{ member?.name }}</strong>
-			({{ t('cospend', 'balance') }}: {{ member?.balance }})
+			({{ t('cospend', 'balance') }}: {{ formatBalance(member?.balance, pluginContext?.project?.precision) }})
 		</p>
 		<div class="demo-actions">
 			<NcButton class="demo-button"
@@ -27,6 +27,7 @@
 import NcButton from '@nextcloud/vue/components/NcButton'
 import { emit } from '@nextcloud/event-bus'
 import DemoContextInspector from './DemoContextInspector.vue'
+import { formatBalance } from '../utils.js'
 
 export default {
 	name: 'DemoMemberActionView',
@@ -58,6 +59,7 @@ export default {
 	},
 
 	methods: {
+		formatBalance,
 		createBillPaidByMember() {
 			if (!this.member || this.activeMembers.length === 0) {
 				return

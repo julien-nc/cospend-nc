@@ -163,6 +163,18 @@
 					</NcFormBox>
 				</div>
 			</NcAppSettingsSection>
+			<NcAppSettingsSection v-for="section in pluginSettingsSections"
+				:id="'plugin-' + section.plugin.id + '-' + section.ep.id"
+				:key="section.plugin.id + ':' + section.ep.id"
+				:name="section.ep.name">
+				<template #icon>
+					<PluginIcon :src="section.ep.icon" />
+				</template>
+				<PluginHost
+					:tag="section.ep.view"
+					:plugin-id="section.plugin.id"
+					:plugin-context="pluginContext" />
+			</NcAppSettingsSection>
 		</NcAppSettingsDialog>
 	</div>
 </template>
@@ -189,12 +201,20 @@ import { subscribe, unsubscribe, emit } from '@nextcloud/event-bus'
 import { getFilePickerBuilder, FilePickerType, showSuccess } from '@nextcloud/dialogs'
 import { importCospendProject, importSWProject } from '../utils.js'
 
+import PluginHost from '../plugin/PluginHost.vue'
+import PluginIcon from '../plugin/PluginIcon.vue'
+
+import { getEntryPoints, snapshot } from '../plugin/registry.js'
+import { getCurrentUser } from '@nextcloud/auth'
+
 export default {
 	name: 'CospendSettingsDialog',
 
 	components: {
 		NcAppSettingsDialog,
 		NcAppSettingsSection,
+		PluginHost,
+		PluginIcon,
 		NcButton,
 		NcTextField,
 		NcLoadingIcon,
@@ -250,6 +270,27 @@ export default {
 	},
 
 	computed: {
+		pluginSettingsSections() {
+			return getEntryPoints('settingsSection')
+		},
+		pluginContext() {
+			const pageIsPublic = !!OCA.Cospend.state.pageIsPublic
+			let user = null
+			if (!pageIsPublic) {
+				const u = getCurrentUser()
+				user = u ? { uid: u.uid, displayName: u.displayName } : null
+			}
+			return {
+				user,
+				pageIsPublic,
+				projects: snapshot(OCA.Cospend.state.projects),
+				members: snapshot(OCA.Cospend.state.members),
+				project: null,
+				accessLevel: null,
+				member: null,
+				bill: null,
+			}
+		},
 		selectedSortOrder(): object {
 			return this.sortOrderOptions[this.sortOrder as keyof typeof this.sortOrderOptions] ?? this.sortOrderOptions.name
 		},

@@ -20,6 +20,11 @@
 					@update:model-value="saveBalancePastBillsOnly">
 					{{ t('cospend', 'Only consider past bills to compute balances') }}
 				</NcFormBoxSwitch>
+				<NcFormBoxSwitch :model-value="state.enable_demo_plugin"
+					:disabled="loading"
+					@update:model-value="saveEnableDemoPlugin">
+					{{ t('cospend', 'Enable the demo UI plugin (to test the plugin system)') }}
+				</NcFormBoxSwitch>
 			</NcFormBox>
 		</div>
 	</div>
@@ -86,6 +91,10 @@ export default {
 		saveBalancePastBillsOnly(value) {
 			this.state.balance_past_bills_only = value
 			this.saveOptions({ balance_past_bills_only: value ? '1' : '0' })
+		},
+		saveEnableDemoPlugin(value) {
+			this.state.enable_demo_plugin = value
+			this.saveOptions({ enable_demo_plugin: value ? '1' : '0' })
 		},
 	},
 }

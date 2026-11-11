@@ -82,6 +82,15 @@
 				</template>
 				{{ moveIconTitle }}
 			</NcActionButton>
+			<NcActionButton v-for="action in pluginBillActions"
+				:key="action.plugin.id + ':' + action.ep.id"
+				:close-after-click="true"
+				@click="onPluginActionClick(action)">
+				<template #icon>
+					<PluginIcon :src="action.ep.icon" />
+				</template>
+				{{ action.ep.name }}
+			</NcActionButton>
 		</template>
 	</NcListItem>
 </template>
@@ -98,6 +107,9 @@ import ContentDuplicateIcon from 'vue-material-design-icons/ContentDuplicate.vue
 import CursorMoveIcon from 'vue-material-design-icons/CursorMove.vue'
 
 import MemberAvatar from './avatar/MemberAvatar.vue'
+import PluginIcon from '../plugin/PluginIcon.vue'
+
+import { getEntryPoints } from '../plugin/registry.js'
 
 import NcListItem from '@nextcloud/vue/components/NcListItem'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
@@ -112,6 +124,7 @@ export default {
 
 	components: {
 		MemberAvatar,
+		PluginIcon,
 		NcListItem,
 		CalendarSyncIcon,
 		UndoIcon,
@@ -194,6 +207,17 @@ export default {
 		},
 		deletionEnabled() {
 			return !this.cospend.projects[this.projectId].deletiondisabled
+		},
+		pluginBillActions() {
+			return getEntryPoints('billAction').filter(({ ep }) => {
+				const project = this.cospend.projects[this.projectId]
+				return ep.minAccessLevel <= (project?.myaccesslevel ?? 0)
+					&& this.editionAccess
+					&& !this.selectMode
+					&& this.bill.id !== 0
+					&& this.bill.deleted !== 1
+					&& !this.timerOn
+			})
 		},
 		currencyName() {
 			return this.cospend.projects[this.projectId].currencyname
@@ -294,6 +318,14 @@ export default {
 		},
 		onMoveClick(e) {
 			this.$emit('move')
+		},
+		onPluginActionClick(action) {
+			emit('cospend:plugin-bill-action', {
+				pluginId: action.plugin.id,
+				entryPointId: action.ep.id,
+				projectId: this.projectId,
+				billId: this.bill.id,
+			})
 		},
 		onRestoreClick() {
 			emit('restore-bill', this.bill)

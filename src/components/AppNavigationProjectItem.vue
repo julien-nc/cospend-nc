@@ -138,6 +138,15 @@
 				</template>
 				{{ t('cospend', 'Leave share') }}
 			</NcActionButton>
+			<NcActionButton v-for="action in pluginProjectActions"
+				:key="action.plugin.id + ':' + action.ep.id"
+				:close-after-click="true"
+				@click="onPluginActionClick(action)">
+				<template #icon>
+					<PluginIcon :src="action.ep.icon" />
+				</template>
+				{{ action.ep.name }}
+			</NcActionButton>
 		</template>
 		<template #default>
 			<NcAppNavigationItem v-if="members.length < 1"
@@ -180,6 +189,9 @@ import ReimburseIcon from './icons/ReimburseIcon.vue'
 
 import AppNavigationMemberItem from './AppNavigationMemberItem.vue'
 import CountdownTimer from './CountdownTimer.vue'
+import PluginIcon from '../plugin/PluginIcon.vue'
+
+import { getEntryPoints } from '../plugin/registry.js'
 
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
@@ -196,6 +208,7 @@ export default {
 		CountdownTimer,
 		ReimburseIcon,
 		AppNavigationMemberItem,
+		PluginIcon,
 		NcAppNavigationItem,
 		NcActionButton,
 		ChartLineIcon,
@@ -272,6 +285,11 @@ export default {
 				? t('cospend', 'Close the trash bin')
 				: t('cospend', 'Show the trash bin')
 		},
+		pluginProjectActions() {
+			return getEntryPoints('projectAction').filter(({ ep }) => {
+				return ep.minAccessLevel <= this.project.myaccesslevel
+			})
+		},
 		title() {
 			return this.project.federated
 				? t('cospend', 'Project {projectName} ({projectId}) shared by {displayName} ({cloudId})', {
@@ -338,6 +356,13 @@ export default {
 						emit('remove-project', this.project.id)
 					})
 				})
+		},
+		onPluginActionClick(action) {
+			emit('cospend:plugin-project-action', {
+				pluginId: action.plugin.id,
+				entryPointId: action.ep.id,
+				projectId: this.project.id,
+			})
 		},
 		onUpdateMenuOpen(isOpen) {
 			this.menuOpen = isOpen

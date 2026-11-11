@@ -13,6 +13,7 @@ export default createAppConfig({
 	sharePassword: 'src/sharePassword.js',
 	adminSettings: 'src/adminSettings.js',
 	dashboard: 'src/dashboard.js',
+	demoPlugin: 'src/demoPlugin/index.js',
 }, {
 	config: {
 		css: {

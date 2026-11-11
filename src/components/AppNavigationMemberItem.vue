@@ -41,16 +41,16 @@
 				:title="balanceCounter"
 				:raw="true" />
 		</template>
-		<template v-if="maintenerAccess"
+		<template v-if="maintenerAccess || pluginMemberActions.length > 0"
 			#actions>
-			<NcActionButton
+			<NcActionButton v-if="maintenerAccess"
 				@click="onMenuColorClick">
 				<template #icon>
 					<PaletteIcon :size="20" />
 				</template>
 				{{ t('cospend', 'Change color') }}
 			</NcActionButton>
-			<NcActionInput
+			<NcActionInput v-if="maintenerAccess"
 				ref="weightInput"
 				type="number"
 				step="0.01"
@@ -65,7 +65,7 @@
 				</template>
 				{{ t('cospend', 'Weight') }} ({{ member.weight }})
 			</NcActionInput>
-			<NcActionButton
+			<NcActionButton v-if="maintenerAccess"
 				:close-after-click="true"
 				@click="onDeleteMemberClick">
 				<template #icon>
@@ -73,6 +73,15 @@
 					<UndoIcon v-else :size="20" />
 				</template>
 				{{ getDeletionText() }}
+			</NcActionButton>
+			<NcActionButton v-for="action in pluginMemberActions"
+				:key="action.plugin.id + ':' + action.ep.id"
+				:close-after-click="true"
+				@click="onPluginActionClick(action)">
+				<template #icon>
+					<PluginIcon :src="action.ep.icon" />
+				</template>
+				{{ action.ep.name }}
 			</NcActionButton>
 
 			<NcActionSeparator v-if="showShareEdition" />
@@ -135,6 +144,9 @@ import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
 import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
 
 import MemberAvatar from './avatar/MemberAvatar.vue'
+import PluginIcon from '../plugin/PluginIcon.vue'
+
+import { getEntryPoints } from '../plugin/registry.js'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { emit } from '@nextcloud/event-bus'
@@ -148,6 +160,7 @@ export default {
 	name: 'AppNavigationMemberItem',
 	components: {
 		MemberAvatar,
+		PluginIcon,
 		NcAppNavigationItem,
 		NcActionButton,
 		NcActionRadio,
@@ -205,6 +218,11 @@ export default {
 		},
 		editionAccess() {
 			return this.projectId && this.cospend.projects[this.projectId].myaccesslevel >= constants.ACCESS.PARTICIPANT
+		},
+		pluginMemberActions() {
+			return getEntryPoints('memberAction').filter(({ ep }) => {
+				return ep.minAccessLevel <= this.project.myaccesslevel
+			})
 		},
 		isCurrentUser() {
 			return (uid) => uid === getCurrentUser().uid
@@ -322,6 +340,14 @@ export default {
 		onMenuColorClick() {
 			this.menuOpen = false
 			this.$refs.avatar.$el.click()
+		},
+		onPluginActionClick(action) {
+			emit('cospend:plugin-member-action', {
+				pluginId: action.plugin.id,
+				entryPointId: action.ep.id,
+				projectId: this.projectId,
+				memberId: this.member.id,
+			})
 		},
 		deleteAccessOfUser() {
 			if (this.access !== null && !this.access.manually_added) {

@@ -111,6 +111,14 @@
 							<CogIcon />
 						</template>
 					</NcAppNavigationItem>
+					<NcAppNavigationItem v-for="item in pluginNavItems"
+						:key="item.plugin.id"
+						:name="item.ep.name"
+						@click="onPluginNavItemClick(item)">
+						<template #icon>
+							<PluginIcon :src="item.ep.icon" />
+						</template>
+					</NcAppNavigationItem>
 				</div>
 			</div>
 		</template>
@@ -149,6 +157,9 @@ import { emit } from '@nextcloud/event-bus'
 import { showSuccess } from '@nextcloud/dialogs'
 import { getCurrentUser } from '@nextcloud/auth'
 
+import PluginIcon from '../plugin/PluginIcon.vue'
+import { getEntryPoints } from '../plugin/registry.js'
+
 export default {
 	name: 'CospendNavigation',
 	components: {
@@ -157,6 +168,7 @@ export default {
 		PendingInvitationsModal,
 		NewProjectModal,
 		AppNavigationProjectItem,
+		PluginIcon,
 		NcAppNavigation,
 		NcEmptyContent,
 		NcAppNavigationItem,
@@ -265,6 +277,9 @@ export default {
 				return Object.keys(this.projects)
 			}
 		},
+		pluginNavItems() {
+			return getEntryPoints('navItem')
+		},
 		editionAccess() {
 			return this.selectedProjectId && this.projects[this.selectedProjectId].myaccesslevel >= constants.ACCESS.PARTICIPANT
 		},
@@ -278,6 +293,9 @@ export default {
 		},
 		showSettings() {
 			emit('show-settings')
+		},
+		onPluginNavItemClick(item) {
+			emit('cospend:plugin-navitem-clicked', item.plugin.id)
 		},
 		toggleMenu() {
 			this.opened = !this.opened

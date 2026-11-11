@@ -83,6 +83,15 @@
 						</template>
 						{{ multiToggleText }}
 					</NcActionButton>
+					<NcActionButton v-for="action in pluginBillListActions"
+						:key="action.plugin.id + ':' + action.ep.id"
+						:close-after-click="true"
+						@click="onPluginActionClick(action)">
+						<template #icon>
+							<PluginIcon :src="action.ep.icon" />
+						</template>
+						{{ action.ep.name }}
+					</NcActionButton>
 				</NcActions>
 			</div>
 			<Transition name="fade">
@@ -319,6 +328,9 @@ import NcTextField from '@nextcloud/vue/components/NcTextField'
 import PaymentModeMultiSelect from './components/PaymentModeMultiSelect.vue'
 import CategoryMultiSelect from './components/CategoryMultiSelect.vue'
 import BillListItem from './components/BillListItem.vue'
+import PluginIcon from './plugin/PluginIcon.vue'
+
+import { getEntryPoints } from './plugin/registry.js'
 
 import InfiniteLoading from '@codog/vue3-infinite-loading'
 import { showSuccess, showError } from '@nextcloud/dialogs'
@@ -334,6 +346,7 @@ export default {
 	components: {
 		BillListItem,
 		CospendIcon,
+		PluginIcon,
 		NcAppContentList,
 		NcActions,
 		NcActionButton,
@@ -423,6 +436,12 @@ export default {
 	computed: {
 		project() {
 			return this.cospend.projects[this.projectId]
+		},
+		pluginBillListActions() {
+			return getEntryPoints('billListAction').filter(({ ep }) => {
+				return ep.minAccessLevel <= (this.project?.myaccesslevel ?? 0)
+					&& this.editionAccess
+			})
 		},
 		nbBills() {
 			return this.totalBillNumber
@@ -614,6 +633,13 @@ export default {
 	},
 
 	methods: {
+		onPluginActionClick(action) {
+			emit('cospend:plugin-billlist-action', {
+				pluginId: action.plugin.id,
+				entryPointId: action.ep.id,
+				projectId: this.projectId,
+			})
+		},
 		infiniteHandler($state) {
 			this.$emit('load-more-bills', this.projectId, $state, this.trashbinEnabled)
 		},

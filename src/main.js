@@ -11,6 +11,8 @@ import { getCapabilities } from '@nextcloud/capabilities'
 
 import { hexToDarkerHex } from './utils.js'
 import { defaultState } from './state.js'
+import { initPlugins } from './plugin/registry.js'
+import { emit } from '@nextcloud/event-bus'
 import '../css/cospend.scss'
 
 if (!OCA.Cospend) {
@@ -50,6 +52,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 		OCA.Cospend.state.themeColor = '#0082C9'
 	}
 	OCA.Cospend.state.themeColorDark = hexToDarkerHex(OCA.Cospend.state.themeColor)
+	initPlugins()
 	main()
 })
 
@@ -57,4 +60,5 @@ function main() {
 	const app = createApp(App)
 	app.mixin({ methods: { t, n } })
 	app.mount('#content')
+	emit('cospend:app:init')
 }

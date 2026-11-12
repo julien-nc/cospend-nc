@@ -19,12 +19,13 @@
 			:show-details="shouldShowDetails"
 			@update:showDetails="showList">
 			<template #list>
-				<PluginHost
-					v-if="mode === 'plugin' && pluginListView"
-					:tag="pluginListView"
-					:plugin-id="pluginView.pluginId"
-					:project-id="pluginView.projectId"
-					:plugin-context="pluginContext" />
+				<div v-if="mode === 'plugin' && pluginListView" class="plugin-list-pane">
+					<PluginHost
+						:tag="pluginListView"
+						:plugin-id="pluginView.pluginId"
+						:project-id="pluginView.projectId"
+						:plugin-context="pluginContext" />
+				</div>
 				<BillList
 					v-if="showBillList"
 					ref="billList"
@@ -1768,6 +1769,14 @@ export default {
 
 .iconButton {
 	padding: 0px;
+}
+
+.plugin-list-pane {
+	height: 100%;
+	box-sizing: border-box;
+	/* the navigation toggle button floats over the top-left corner of the list
+	   pane: reserve that zone so plugin content is never placed under it */
+	padding-top: calc(var(--app-navigation-padding) + var(--default-clickable-area));
 }
 </style>
 

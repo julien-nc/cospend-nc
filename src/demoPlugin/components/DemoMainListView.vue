@@ -65,11 +65,6 @@ export default {
 	align-items: flex-start;
 }
 .demo-hint {
-	/* the hint sits at the top-left, leave room for the floating navigation toggle
-	   button (same clearance as the BillList header, minus the container padding) */
-	margin-left: calc(var(--default-clickable-area) + 12px - 16px);
-}
-.demo-hint {
 	color: var(--color-text-maxcontrast);
 }
 .demo-project {

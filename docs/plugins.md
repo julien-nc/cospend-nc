@@ -282,6 +282,11 @@ view, and the content is placed by Cospend, never by the plugin.
 
 On mobile, the usual list/details toggle applies, driven by Cospend.
 
+The navigation toggle button floats over the top-left corner of the list pane.
+Cospend reserves that top strip (its height is
+`var(--app-navigation-padding) + var(--default-clickable-area)`), so a `listView`
+element is always rendered below it and never needs to clear the toggle itself.
+
 ## `navItem`
 
 Adds an item to the bottom of Cospend's navigation (like "Cospend settings"). Clicking

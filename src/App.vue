@@ -560,8 +560,8 @@ export default {
 				this.selectProject(projectId, true, true)
 			}
 		},
-		onPluginNavItemClicked(pluginId) {
-			const found = findEntryPoint(pluginId, 'navItem', null)
+		onPluginNavItemClicked({ pluginId, entryPointId }) {
+			const found = findEntryPoint(pluginId, 'navItem', entryPointId)
 			if (!found) {
 				return
 			}
@@ -572,7 +572,7 @@ export default {
 			this.activatePluginView({
 				pluginId,
 				type: 'navItem',
-				entryPointId: null,
+				entryPointId,
 				view: found.ep.view,
 				listView: found.ep.listView,
 				display: 'content',

@@ -65,7 +65,7 @@ let initialized = false
  *
  * @typedef {object} CospendEntryPoint
  * @property {string} view custom element tag to render
- * @property {string|null} id entry point id (null for navItem)
+ * @property {string|null} id entry point id (optional for navItem, defaults to its view tag)
  * @property {string} name display name
  * @property {string} icon icon url
  * @property {'content'|'modal'} display how the view is shown
@@ -213,7 +213,12 @@ function normalizeEntryPoint(type, ep, pluginId) {
 
 	return {
 		view: ep.view,
-		id: ep.id ?? null,
+		// navItem has no required id: default it to the view tag so that several
+		// navItems of the same plugin can be told apart (a custom element tag
+		// is unique per definition)
+		id: type === 'navItem' && (typeof ep.id !== 'string' || ep.id === '')
+			? ep.view
+			: (ep.id ?? null),
 		name: ep.name,
 		icon: typeof ep.icon === 'string' ? ep.icon : '',
 		display: type === 'navItem' ? 'content' : (ep.display ?? 'modal'),
@@ -263,7 +268,7 @@ export function getEntryPoints(type) {
  *
  * @param {string} pluginId plugin id
  * @param {string} type entry point type
- * @param {string|null} entryPointId entry point id (null for navItem)
+ * @param {string|null} entryPointId entry point id (null matches the first entry point found)
  * @return {{plugin: CospendPlugin, ep: CospendEntryPoint}|null}
  */
 export function findEntryPoint(pluginId, type, entryPointId = null) {

@@ -336,7 +336,7 @@ projectAction: {
 	name: 'Extended settlement',
 	icon: '/apps/myapp/img/action-icon.svg',
 	display: 'content',      // 'content': replaces the main view; 'modal': opens a dialog
-	minAccessLevel: 2,       // optional: 1 participant, 2 maintainer, 3 admin
+	minAccessLevel: 2,       // optional: 1 viewer, 2 participant, 3 maintainer, 4 admin
 	view: 'cospend-plugin-extended-settle',
 }
 ```
@@ -345,6 +345,11 @@ The element receives `projectId` and `pluginContext` (with `project`, `members` 
 `accessLevel` set). With `display: 'content'`, you can optionally declare `listView`
 to also take over the bill list pane while the view is active (see
 [Layout](#layout-while-a-plugin-view-is-active)).
+
+`minAccessLevel` uses the same scale as the project access levels (1 viewer,
+2 participant, 3 maintainer, 4 admin). It is optional and defaults to 1 (viewer).
+Entry points of app-level types (`navItem`, `createProjectAction`, `settingsSection`)
+have no project context and ignore it.
 
 ## `sidebarTab`
 
@@ -357,7 +362,7 @@ sidebarTab: {
 	name: 'Budget',
 	icon: '/apps/myapp/img/tab-icon.svg',
 	order: 10,               // core tabs use 1 to 6, use 10+ to come after them
-	minAccessLevel: 2,       // optional: 1 participant, 2 maintainer, 3 admin
+	minAccessLevel: 2,       // optional: 1 viewer, 2 participant, 3 maintainer, 4 admin
 	view: 'cospend-plugin-budget',
 }
 ```
@@ -376,7 +381,7 @@ memberAction: {
 	name: 'Detailed member history',
 	icon: '/apps/myapp/img/member-action-icon.svg',
 	display: 'modal',        // 'content': replaces the main view; 'modal': opens a dialog
-	minAccessLevel: 1,       // optional: 1 participant, 2 maintainer, 3 admin
+	minAccessLevel: 1,       // optional: 1 viewer, 2 participant, 3 maintainer, 4 admin
 	view: 'cospend-plugin-member-history',
 }
 ```
@@ -398,7 +403,7 @@ billAction: {
 	name: 'Split this bill',
 	icon: '/apps/myapp/img/bill-action-icon.svg',
 	display: 'modal',        // 'content': replaces the main view; 'modal': opens a dialog
-	minAccessLevel: 1,       // optional: 1 participant, 2 maintainer, 3 admin
+	minAccessLevel: 1,       // optional: 1 viewer, 2 participant, 3 maintainer, 4 admin
 	view: 'cospend-plugin-bill-split',
 }
 ```
@@ -420,7 +425,7 @@ billListAction: {
 	name: 'Generate a report',
 	icon: '/apps/myapp/img/list-action-icon.svg',
 	display: 'content',      // 'content': replaces the main view; 'modal': opens a dialog
-	minAccessLevel: 1,       // optional: 1 participant, 2 maintainer, 3 admin
+	minAccessLevel: 1,       // optional: 1 viewer, 2 participant, 3 maintainer, 4 admin
 	view: 'cospend-plugin-list-report',
 }
 ```

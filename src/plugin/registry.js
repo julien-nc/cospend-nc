@@ -12,6 +12,7 @@
  */
 import { reactive } from 'vue'
 import { subscribe } from '@nextcloud/event-bus'
+import { ACCESS } from '../constants.js'
 
 export const SUPPORTED_API_VERSION = 1
 export const ELEMENT_TAG_PREFIX = 'cospend-plugin-'
@@ -70,7 +71,7 @@ let initialized = false
  * @property {'content'|'modal'} display how the view is shown
  * @property {string|null} listView optional custom element tag for list views
  * @property {number} order sort order
- * @property {number} minAccessLevel minimal project access level (1, 2 or 3)
+ * @property {number} minAccessLevel minimal project access level (ACCESS.VIEWER to ACCESS.ADMIN)
  * @property {string[]} contexts visibility contexts ('user', 'public')
  */
 
@@ -204,9 +205,9 @@ function normalizeEntryPoint(type, ep, pluginId) {
 		return null
 	}
 	if (ep.minAccessLevel !== undefined
-		&& (!Number.isInteger(ep.minAccessLevel) || ep.minAccessLevel < 1 || ep.minAccessLevel > 3)
+		&& (!Number.isInteger(ep.minAccessLevel) || ep.minAccessLevel < ACCESS.VIEWER || ep.minAccessLevel > ACCESS.ADMIN)
 	) {
-		console.warn(`[cospend] Plugin ${pluginId}: ${type} entry point minAccessLevel must be 1, 2 or 3, ignored`)
+		console.warn(`[cospend] Plugin ${pluginId}: ${type} entry point minAccessLevel must be between ${ACCESS.VIEWER} (viewer) and ${ACCESS.ADMIN} (admin), ignored`)
 		return null
 	}
 
@@ -218,7 +219,7 @@ function normalizeEntryPoint(type, ep, pluginId) {
 		display: type === 'navItem' ? 'content' : (ep.display ?? 'modal'),
 		listView: ep.listView ?? null,
 		order: typeof ep.order === 'number' ? ep.order : Infinity,
-		minAccessLevel: ep.minAccessLevel ?? 1,
+		minAccessLevel: ep.minAccessLevel ?? ACCESS.VIEWER,
 		contexts: sanitizeContexts(ep.contexts),
 	}
 }

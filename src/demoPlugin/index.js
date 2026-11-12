@@ -52,6 +52,23 @@ defineDemoElement('cospend-plugin-demo-bill', DemoBillActionView)
 defineDemoElement('cospend-plugin-demo-billlist', DemoBillListActionView)
 defineDemoElement('cospend-plugin-demo-settings', DemoSettingsView)
 
+// The second navItem showcases late element definition: its component chunks are
+// imported dynamically and the elements (details view and list view) are only
+// defined once the chunk resolves. Cospend does not care when the elements get
+// defined: their hosts wait, show a loading state and re-render when the
+// elements appear (see docs/plugins.md).
+// The artificial delay makes the wait long enough to be visible.
+async function defineLateDemoElement() {
+	await new Promise((resolve) => setTimeout(resolve, 1000))
+	const [{ default: DemoLateView }, { default: DemoLateListView }] = await Promise.all([
+		import('./components/DemoLateView.vue'),
+		import('./components/DemoLateListView.vue'),
+	])
+	defineDemoElement('cospend-plugin-demo-late', DemoLateView)
+	defineDemoElement('cospend-plugin-demo-late-list', DemoLateListView)
+}
+defineLateDemoElement()
+
 // self-contained SVG icon (puzzle piece), so the demo does not depend on server files;
 // the glyph is scaled down inside the viewBox to match the margins of the material
 // design icons used elsewhere in the sidebar, so it does not look bigger
@@ -68,13 +85,27 @@ const plugin = {
 	apiVersion: 1,
 	contexts: ['user'],
 	entryPoints: {
-		navItem: {
-			name: 'Demo plugin',
-			icon: demoIcon,
-			order: 100,
-			view: 'cospend-plugin-demo-main',
-			listView: 'cospend-plugin-demo-main-list',
-		},
+		// several navItems: an entry point value may also be an array;
+		// the second navItem showcases late element definition (dynamic import)
+		navItem: [
+			{
+				name: 'Demo plugin',
+				icon: demoIcon,
+				order: 100,
+				view: 'cospend-plugin-demo-main',
+				listView: 'cospend-plugin-demo-main-list',
+			},
+			{
+				// optional id, useful to tell several navItems of the same plugin apart
+				id: 'demo-late',
+				name: 'Demo: late view',
+				icon: demoIcon,
+				order: 101,
+				view: 'cospend-plugin-demo-late',
+				// optional list pane, also defined from the dynamic import
+				listView: 'cospend-plugin-demo-late-list',
+			},
+		],
 		createProjectAction: {
 			id: 'demo-create-project',
 			name: 'Demo: create a project',

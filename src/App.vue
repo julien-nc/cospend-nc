@@ -267,11 +267,16 @@ export default {
 			pluginView: null,
 			// plugin system: the currently open plugin dialog (modal display)
 			pluginModalView: null,
+			// plugin system: whether the mobile layout currently shows the plugin's list view
+			pluginListVisible: false,
 		}
 	},
 	computed: {
 		shouldShowDetails() {
 			if (this.mode === 'plugin') {
+				if (this.pluginListView && this.pluginListVisible) {
+					return false
+				}
 				return true
 			}
 			return (this.currentBill && this.currentBill !== null) || !['edition', 'normal'].includes(this.mode)
@@ -528,6 +533,7 @@ export default {
 	methods: {
 		// ===== plugin system =====
 		activatePluginView(view) {
+			this.pluginListVisible = false
 			if (view.display === 'modal') {
 				this.pluginModalView = view
 			} else {
@@ -1736,6 +1742,10 @@ export default {
 		},
 		showList() {
 			this.currentBill = null
+			if (this.mode === 'plugin' && this.pluginListView) {
+				this.pluginListVisible = true
+				return
+			}
 			this.mode = 'edition'
 		},
 	},

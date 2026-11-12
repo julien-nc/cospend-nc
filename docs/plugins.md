@@ -167,6 +167,9 @@ event bus once it is mounted, in case your plugin needs a runtime setup hook.
 	appId: 'myapp',            // your app id, used for attribution and error reporting
 	apiVersion: 1,             // contract version this plugin was written against
 
+	// optional: visibility contexts shared by all entry points (default: ['user'])
+	contexts: ['user', 'public'],
+
 	// at least one entry point; unknown types are ignored with a console warning
 	entryPoints: {
 		navItem: { /* … */ },
@@ -183,6 +186,52 @@ event bus once it is mounted, in case your plugin needs a runtime setup hook.
 
 Each entry point value may also be an **array** of objects, if your plugin provides
 several of the same type (e.g. multiple sidebar tabs).
+
+## Visibility contexts
+
+Entry points can declare where they are visible with a `contexts` field holding a
+list of contexts:
+
+| Context | Meaning |
+| --- | --- |
+| `user` | Authenticated pages (the default Cospend interface). |
+| `public` | Public share pages. |
+
+* An entry point without the `public` context is **hidden on public share pages**.
+  This is the default: entry points only show up there if they opt in with
+  `'public'`.
+* `contexts` can be declared at plugin level (it then applies to every entry point)
+  and on each entry point, where it overrides the plugin-level declaration.
+* Unknown context values are ignored with the registered contexts falling back to
+  `['user']`.
+
+```js
+const plugin = {
+	id: 'crossbalances',
+	appId: 'myapp',
+	apiVersion: 1,
+	// default for every entry point of this plugin
+	contexts: ['user', 'public'],
+	entryPoints: {
+		// visible everywhere (inherits the plugin-level contexts)
+		navItem: { /* … */ },
+		// visible on authenticated pages only, despite the plugin-level contexts
+		sidebarTab: {
+			// …
+			contexts: ['user'],
+		},
+	},
+}
+```
+
+This complements the visibility decision you can make when loading the plugin
+script (see [Loading the plugin script](#loading-the-plugin-script)): the PHP
+listener decides whether your script is loaded at all on public pages, while
+`contexts` gives you finer control when it is — e.g. keep a `navItem` for
+authenticated users but hide a `projectAction` on public share pages. If your
+script is not loaded on public pages at all, you don't need `contexts`. Inside
+your components, `pluginContext.pageIsPublic` tells you which context you are
+currently in.
 
 Contract stability: event names and payload shapes, registration fields and entry
 point semantics are **additive-only**. A breaking change of the contract bumps

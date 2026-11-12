@@ -207,7 +207,7 @@ import { defineAsyncComponent } from 'vue'
 
 import * as network from './network.js'
 import * as constants from './constants.js'
-import { rgbObjToHex, slugify } from './utils.js'
+import { rgbObjToHex, slugify, getErrorMessage } from './utils.js'
 import { findEntryPoint, snapshot } from './plugin/registry.js'
 
 export default {
@@ -699,8 +699,33 @@ export default {
 				this.updateProjectInfo(projectId)
 			}
 		},
-		onCreateBill({ projectId, bill }) {
+		/**
+		 * Report the outcome of an action event.
+		 * When the payload carries an `onDone` callback, the result is delivered to it
+		 * and no toast is shown: the emitting plugin owns the feedback. Otherwise the
+		 * outcome falls back to the classic success/error toast.
+		 *
+		 * @param {?(result: object) => void} onDone the `onDone` callback of the payload, if any
+		 * @param {object} result `{ ok, projectId?, ... , error?, status? }`
+		 * @param {?string} successText toast shown on success when there is no callback
+		 * @param {?string} failureText toast shown on failure when there is no callback
+		 */
+		notifyActionDone(onDone, result, successText, failureText) {
+			if (typeof onDone === 'function') {
+				onDone(result)
+				return
+			}
+			if (result.ok) {
+				if (successText) {
+					showSuccess(successText)
+				}
+			} else if (failureText) {
+				showError(failureText)
+			}
+		},
+		onCreateBill({ projectId, bill, onDone }) {
 			if (!this.isKnownProject(projectId)) {
+				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown project') }, null, null)
 				return
 			}
 			const req = {
@@ -718,9 +743,10 @@ export default {
 				categoryId: bill.categoryid ?? 0,
 			}
 			network.createBill(projectId, req).then((response) => {
+				const billId = response.data.ocs.data
 				const createdBill = {
 					...bill,
-					id: response.data.ocs.data,
+					id: billId,
 					what: req.what,
 					comment: req.comment,
 					timestamp: req.timestamp,
@@ -736,59 +762,69 @@ export default {
 				}
 				this.addBillToState(projectId, createdBill)
 				this.updateProjectInfo(projectId)
-				showSuccess(t('cospend', 'Bill created'))
+				this.notifyActionDone(onDone, { ok: true, projectId, billId }, t('cospend', 'Bill created'), null)
 			}).catch((error) => {
-				showError(
-					t('cospend', 'Failed to create bill')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
-				)
 				console.error(error)
+				const message = getErrorMessage(error)
+				this.notifyActionDone(
+					onDone,
+					{ ok: false, projectId, error: message, status: error.response?.status ?? null },
+					null,
+					t('cospend', 'Failed to create bill') + ': ' + message,
+				)
 			})
 		},
-		onSaveMember({ projectId, member }) {
+		onSaveMember({ projectId, member, onDone }) {
 			if (!this.isKnownProject(projectId)) {
+				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown project') }, null, null)
 				return
 			}
 			const members = this.members[projectId] ?? {}
 			if (member.id && members[member.id]) {
-				this.saveMember(projectId, member.id, member)
+				this.saveMember(projectId, member.id, member, onDone)
 			} else {
-				this.createMember(projectId, member.name, member.userid ?? null)
+				this.createMember(projectId, member.name, member.userid ?? null, onDone)
 			}
 		},
-		onSaveBill({ projectId, bill }) {
+		onSaveBill({ projectId, bill, onDone }) {
 			if (!this.isKnownProject(projectId)) {
+				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown project') }, null, null)
 				return
 			}
 			const existing = this.findBill(projectId, bill.id)
 			if (!existing) {
-				showError(t('cospend', 'Bill {id} not found in the displayed bill list', { id: bill.id }))
+				const error = t('cospend', 'Bill {id} not found in the displayed bill list', { id: bill.id })
+				this.notifyActionDone(onDone, { ok: false, projectId, error }, null, error)
 				return
 			}
 			const merged = { ...existing, ...bill }
 			network.editBill(projectId, merged).then(() => {
-				showSuccess(t('cospend', 'Bill saved'))
 				this.applyBillChanges(projectId, existing, merged)
+				this.notifyActionDone(onDone, { ok: true, projectId, billId: bill.id }, t('cospend', 'Bill saved'), null)
 			}).catch((error) => {
 				console.error(error)
-				showError(
-					t('cospend', 'Failed to save bill')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
+				const message = getErrorMessage(error)
+				this.notifyActionDone(
+					onDone,
+					{ ok: false, projectId, error: message, status: error.response?.status ?? null },
+					null,
+					t('cospend', 'Failed to save bill') + ': ' + message,
 				)
 			})
 		},
-		onDeleteMember({ projectId, memberId }) {
+		onDeleteMember({ projectId, memberId, onDone }) {
 			if (!this.isKnownProject(projectId)) {
+				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown project') }, null, null)
 				return
 			}
 			const member = this.members[projectId]?.[memberId]
 			if (!member) {
-				showError(t('cospend', 'Unknown member'))
+				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown member') }, null, t('cospend', 'Unknown member'))
 				return
 			}
 			// member deletion in Cospend is a deactivation, idempotent by design
 			member.activated = false
-			this.onMemberEdited({ projectId, memberId })
+			this.onMemberEdited({ projectId, memberId }, onDone)
 		},
 		// ===== end plugin system =====
 		removeUnreachableProject(invitationId) {
@@ -993,27 +1029,34 @@ export default {
 		onResetSelection() {
 			this.currentBill = null
 		},
-		onDeleteBill({ projectId, billId }) {
+		onDeleteBill({ projectId, billId, onDone }) {
 			if (!this.isKnownProject(projectId)) {
+				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown project') }, null, null)
 				return
 			}
 			const bill = this.findBill(projectId, billId)
 			if (!bill) {
-				showError(t('cospend', 'Bill {id} not found in the displayed bill list', { id: billId }))
+				const error = t('cospend', 'Bill {id} not found in the displayed bill list', { id: billId })
+				this.notifyActionDone(onDone, { ok: false, projectId, error }, null, error)
 				return
 			}
 			if (bill.id === 0) {
 				// unsaved bill: just remove it from the state
 				this.removeBillFromState(projectId, billId)
+				this.notifyActionDone(onDone, { ok: true, projectId, billId }, null, null)
 				return
 			}
 			network.deleteBill(projectId, bill).then(() => {
-				showSuccess(t('cospend', 'Bill deleted'))
 				this.removeBillFromState(projectId, billId)
+				this.notifyActionDone(onDone, { ok: true, projectId, billId }, t('cospend', 'Bill deleted'), null)
 			}).catch((error) => {
-				showError(
-					t('cospend', 'Failed to delete bill')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
+				console.error(error)
+				const message = getErrorMessage(error)
+				this.notifyActionDone(
+					onDone,
+					{ ok: false, projectId, error: message, status: error.response?.status ?? null },
+					null,
+					t('cospend', 'Failed to delete bill') + ': ' + message,
 				)
 			})
 		},
@@ -1025,22 +1068,28 @@ export default {
 			})
 			this.updateProjectInfo(this.cospend.currentProjectId)
 		},
-		onRestoreBill({ projectId, billId }) {
+		onRestoreBill({ projectId, billId, onDone }) {
 			if (!this.isKnownProject(projectId)) {
+				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown project') }, null, null)
 				return
 			}
 			const bill = this.findBill(projectId, billId)
 			if (!bill) {
-				showError(t('cospend', 'Bill {id} not found in the displayed bill list', { id: billId }))
+				const error = t('cospend', 'Bill {id} not found in the displayed bill list', { id: billId })
+				this.notifyActionDone(onDone, { ok: false, projectId, error }, null, error)
 				return
 			}
 			network.restoreBill(projectId, bill).then(() => {
-				showSuccess(t('cospend', 'Bill restored'))
 				this.removeBillFromState(projectId, billId)
+				this.notifyActionDone(onDone, { ok: true, projectId, billId }, t('cospend', 'Bill restored'), null)
 			}).catch((error) => {
-				showError(
-					t('cospend', 'Failed to restore bill')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
+				console.error(error)
+				const message = getErrorMessage(error)
+				this.notifyActionDone(
+					onDone,
+					{ ok: false, projectId, error: message, status: error.response?.status ?? null },
+					null,
+					t('cospend', 'Failed to restore bill') + ': ' + message,
 				)
 			})
 		},
@@ -1056,7 +1105,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to delete bills')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
+					+ ': ' + getErrorMessage(error),
 				)
 			})
 		},
@@ -1441,7 +1490,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to get bills')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
+					+ ': ' + getErrorMessage(error),
 				)
 				console.error(error)
 			}).then(() => {
@@ -1475,7 +1524,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to get bills')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
+					+ ': ' + getErrorMessage(error),
 				)
 			}).then(() => {
 			})
@@ -1501,23 +1550,28 @@ export default {
 			this.addProject(project)
 			this.selectProject(project.id, true, true)
 		},
-		onCreateProject({ name, id }) {
+		onCreateProject({ name, id, onDone }) {
 			if (!name || typeof name !== 'string') {
-				showError(t('cospend', 'Invalid project name'))
+				const error = t('cospend', 'Invalid project name')
+				this.notifyActionDone(onDone, { ok: false, error }, null, error)
 				return
 			}
-			this.createProject(name, (typeof id === 'string' && id !== '') ? id : slugify(name))
+			this.createProject(name, (typeof id === 'string' && id !== '') ? id : slugify(name), onDone)
 		},
-		createProject(name, id) {
+		createProject(name, id, onDone = null) {
 			network.createProject(name, id).then((response) => {
 				this.$refs.billList?.toggleFilterMode(false, false)
 				this.addProject(response.data.ocs.data)
 				this.selectProject(response.data.ocs.data.id, true, true)
+				this.notifyActionDone(onDone, { ok: true, projectId: response.data.ocs.data.id }, t('cospend', 'Project created'), null)
 			}).catch((error) => {
 				console.error(error)
-				showError(
-					t('cospend', 'Failed to create project')
-					+ ': ' + (error.response?.data?.ocs?.data?.error || error.response?.data?.ocs?.data),
+				const message = getErrorMessage(error)
+				this.notifyActionDone(
+					onDone,
+					{ ok: false, error: message, status: error.response?.status ?? null },
+					null,
+					t('cospend', 'Failed to create project') + ': ' + message,
 				)
 			})
 		},
@@ -1550,19 +1604,21 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to delete project')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
+					+ ': ' + getErrorMessage(error),
 				)
 			})
 		},
-		onArchiveProject({ projectId }) {
+		onArchiveProject({ projectId, onDone }) {
 			if (!this.isKnownProject(projectId)) {
+				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown project') }, null, null)
 				return
 			}
-			this.archiveProject(projectId)
+			this.archiveProject(projectId, onDone)
 		},
-		archiveProject(projectId) {
-			this.projects[projectId].archived_ts = this.projects[projectId].archived_ts ? constants.PROJECT_ARCHIVED_TS_UNSET : constants.PROJECT_ARCHIVED_TS_NOW
-			this.editProject(projectId, null, true)
+		archiveProject(projectId, onDone = null) {
+			const willBeArchived = this.projects[projectId].archived_ts === constants.PROJECT_ARCHIVED_TS_UNSET
+			this.projects[projectId].archived_ts = willBeArchived ? constants.PROJECT_ARCHIVED_TS_NOW : constants.PROJECT_ARCHIVED_TS_UNSET
+			this.editProject(projectId, null, true, onDone)
 		},
 		updateProjectInfo(projectId) {
 			return network.getProjectInfo(projectId).then((response) => {
@@ -1585,7 +1641,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to update balances')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
+					+ ': ' + getErrorMessage(error),
 				)
 			})
 		},
@@ -1603,7 +1659,7 @@ export default {
 			} while (sum !== 0.0 && precision < this.cospend.maxPrecision)
 			this.projects[projectId].precision = precision
 		},
-		createMember(projectId, name, userid = null) {
+		createMember(projectId, name, userid = null, onDone = null) {
 			const isProjectFederated = this.projects[projectId].federated === true
 			// avoid adding local users as members in federated project, the user won't exist in the remote instance
 			const newMemberUserId = isProjectFederated ? null : userid
@@ -1613,15 +1669,24 @@ export default {
 				responseData.color = rgbObjToHex(responseData.color).replace('#', '')
 				this.members[projectId][responseData.id] = responseData
 				this.projects[projectId].members.unshift(responseData)
-				showSuccess(t('cospend', 'Created member {name}', { name }))
 				// add access to this user if it's not there already
 				if (responseData.userid) {
 					this.addParticipantAccess(projectId, responseData.id, responseData.userid)
 				}
+				this.notifyActionDone(
+					onDone,
+					{ ok: true, projectId, memberId: responseData.id },
+					t('cospend', 'Created member {name}', { name }),
+					null,
+				)
 			}).catch((error) => {
-				showError(
-					t('cospend', 'Failed to add member')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
+				console.error(error)
+				const message = getErrorMessage(error)
+				this.notifyActionDone(
+					onDone,
+					{ ok: false, projectId, error: message, status: error.response?.status ?? null },
+					null,
+					t('cospend', 'Failed to add member') + ': ' + message,
 				)
 			})
 		},
@@ -1649,7 +1714,7 @@ export default {
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to add shared access')
-						+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
+						+ ': ' + getErrorMessage(error),
 					)
 				})
 			}
@@ -1663,14 +1728,14 @@ export default {
 				this.removeBillFromState(this.cospend.currentProjectId, newBill.id)
 			}
 		},
-		onMemberEdited({ projectId, memberId }) {
-			this.saveMember(projectId, memberId)
+		onMemberEdited({ projectId, memberId }, onDone = null) {
+			this.saveMember(projectId, memberId, null, onDone)
 		},
-		saveMember(projectId, memberId, changes = null) {
+		saveMember(projectId, memberId, changes = null, onDone = null) {
 			this.deleteNewBill()
 			const member = this.members[projectId]?.[memberId]
 			if (!member) {
-				showError(t('cospend', 'Unknown member'))
+				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown member') }, null, t('cospend', 'Unknown member'))
 				return
 			}
 			// apply the changes on the state member before saving (the API response does not carry them)
@@ -1678,16 +1743,19 @@ export default {
 				Object.assign(member, changes)
 			}
 			network.editMember(projectId, member).then((response) => {
-				this.editMemberSuccess(projectId, memberId, response.data.ocs.data)
+				this.editMemberSuccess(projectId, memberId, response.data.ocs.data, onDone)
 			}).catch((error) => {
 				console.error(error)
-				showError(
-					t('cospend', 'Failed to save member')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
+				const message = getErrorMessage(error)
+				this.notifyActionDone(
+					onDone,
+					{ ok: false, projectId, error: message, status: error.response?.status ?? null },
+					null,
+					t('cospend', 'Failed to save member') + ': ' + message,
 				)
 			})
 		},
-		editMemberSuccess(projectId, memberid, member) {
+		editMemberSuccess(projectId, memberid, member, onDone = null) {
 			if (!member) {
 				// delete member
 				delete this.members[projectId][memberid]
@@ -1695,31 +1763,41 @@ export default {
 				if (i !== -1) {
 					this.projects[projectId].members.splice(i, 1)
 				}
-				showSuccess(t('cospend', 'Member deleted'))
+				this.notifyActionDone(onDone, { ok: true, projectId, memberId: memberid }, t('cospend', 'Member deleted'), null)
 			} else {
-				showSuccess(t('cospend', 'Member saved'))
 				this.updateProjectInfo(this.cospend.currentProjectId)
 				// add access to this user if it's not there already
 				if (member.userid) {
 					this.addParticipantAccess(projectId, memberid, member.userid)
 				}
+				this.notifyActionDone(onDone, { ok: true, projectId, memberId: memberid }, t('cospend', 'Member saved'), null)
 			}
 		},
-		editProject(projectId, password = null, deselectProject = false) {
+		editProject(projectId, password = null, deselectProject = false, onDone = null) {
 			const project = this.projects[projectId]
 			network.editProject(project, password).then((response) => {
 				if (password && this.cospend.pageIsPublic) {
 					this.cospend.password = password
 				}
 				this.updateProjectInfo(projectId).then(() => {
-					showSuccess(t('cospend', 'Project saved'))
+					this.notifyActionDone(
+						onDone,
+						{ ok: true, projectId, archived: this.projects[projectId].archived_ts !== constants.PROJECT_ARCHIVED_TS_UNSET },
+						t('cospend', 'Project saved'),
+						null,
+					)
 					if (deselectProject) {
 						this.deselectProject()
 					}
 				})
 			}).catch((error) => {
-				showError(t('cospend', 'Failed to edit project'))
 				console.error(error)
+				this.notifyActionDone(
+					onDone,
+					{ ok: false, projectId, error: getErrorMessage(error), status: error.response?.status ?? null },
+					null,
+					t('cospend', 'Failed to edit project'),
+				)
 			})
 		},
 		onCategoryDeleted(catid) {

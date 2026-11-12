@@ -73,13 +73,45 @@ export function importProject(targetPath, isSplitWise = false, importBeginCallba
 	}).catch((error) => {
 		showError(
 			t('cospend', 'Failed to import project file')
-			+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
+			+ ': ' + getErrorMessage(error),
 		)
 	}).then(() => {
 		if (importEndCallback) {
 			importEndCallback()
 		}
 	})
+}
+
+/**
+ * Extract a human readable message from an axios error response.
+ * The message can live in the OCS meta, in the OCS data (object or plain string)
+ * or in the raw response text.
+ */
+export function getErrorMessage(error) {
+	const ocsData = error?.response?.data?.ocs?.data
+	const message = error?.response?.data?.ocs?.meta?.message
+		|| (typeof ocsData === 'string' ? ocsData : ocsData?.error || ocsData?.message)
+	if (message) {
+		return message
+	}
+	const responseText = error?.response?.request?.responseText
+	if (responseText) {
+		try {
+			const parsed = JSON.parse(responseText)
+			const parsedData = parsed?.ocs?.data
+			const parsedMessage = parsed?.ocs?.meta?.message
+				|| (typeof parsedData === 'string' ? parsedData : parsedData?.error || parsedData?.message)
+				|| parsed?.message
+			if (parsedMessage) {
+				return parsedMessage
+			}
+		} catch {
+			// not JSON: fall back to the raw response text
+		}
+		// avoid dumping a huge raw payload in a toast
+		return responseText.length > 200 ? responseText.slice(0, 200) + '…' : responseText
+	}
+	return error?.message ?? String(error)
 }
 
 export function getMemberName(projectid, memberid) {

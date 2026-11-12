@@ -83,7 +83,7 @@
 						:plugin-context="pluginContext" />
 				</NcModal>
 				<StatisticsContentDetails
-					v-else-if="mode === 'stats'"
+					v-if="mode === 'stats'"
 					:project-id="currentProjectId" />
 				<ProjectSettlement
 					v-else-if="mode === 'settle'"

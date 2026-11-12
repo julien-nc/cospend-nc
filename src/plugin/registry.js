@@ -49,6 +49,32 @@ const ID_ENTRY_POINT_TYPES = [
 let initialized = false
 
 /**
+ * A validated plugin registration.
+ *
+ * @typedef {object} CospendPlugin
+ * @property {string} id unique plugin id
+ * @property {string} appId id of the app providing the plugin
+ * @property {number} apiVersion plugin API version
+ * @property {string[]} contexts visibility contexts ('user', 'public')
+ * @property {Record<string, CospendEntryPoint[]>} entryPoints valid entry points by type
+ */
+
+/**
+ * A validated plugin entry point.
+ *
+ * @typedef {object} CospendEntryPoint
+ * @property {string} view custom element tag to render
+ * @property {string|null} id entry point id (null for navItem)
+ * @property {string} name display name
+ * @property {string} icon icon url
+ * @property {'content'|'modal'} display how the view is shown
+ * @property {string|null} listView optional custom element tag for list views
+ * @property {number} order sort order
+ * @property {number} minAccessLevel minimal project access level (1, 2 or 3)
+ * @property {string[]} contexts visibility contexts ('user', 'public')
+ */
+
+/**
  * Adopt early registrations (made by plugin scripts that ran before us),
  * define the public registration API and handle late registrations.
  */
@@ -211,7 +237,7 @@ function sanitizeContexts(contexts) {
  * unless they declare the 'public' context).
  *
  * @param {string} type one of the known entry point types
- * @return {Array<{plugin: object, ep: object}>}
+ * @return {Array<{plugin: CospendPlugin, ep: CospendEntryPoint}>}
  */
 export function getEntryPoints(type) {
 	const pageIsPublic = OCA.Cospend.state?.pageIsPublic ?? false
@@ -237,7 +263,7 @@ export function getEntryPoints(type) {
  * @param {string} pluginId plugin id
  * @param {string} type entry point type
  * @param {string|null} entryPointId entry point id (null for navItem)
- * @return {{plugin: object, ep: object}|null}
+ * @return {{plugin: CospendPlugin, ep: CospendEntryPoint}|null}
  */
 export function findEntryPoint(pluginId, type, entryPointId = null) {
 	return getEntryPoints(type).find(({ plugin, ep }) => {

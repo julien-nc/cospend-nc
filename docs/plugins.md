@@ -591,7 +591,7 @@ Like all Cospend event bus events, their names carry the `cospend:` app prefix.
 | `cospend:select-project` | `{ projectId }` | Select the project (closes the plugin view). |
 | `cospend:deselect-project` | `{}` | Deselect the current project (closes the plugin view). |
 | `cospend:close-plugin-view` | `{ pluginId, entryPointId? }` | Close the plugin's active view (modal or main content view). Only the plugin's own views can be closed. |
-| `cospend:refresh-project` | `{ projectId }` | Reload project info, members and balances. |
+| `cospend:refresh-project` | `{ projectId, includeBills? }` | Reload project info, members and balances. If `includeBills` is `true` and the project is the currently displayed one, the displayed bill list is reloaded as well (which also refreshes project info). |
 | `cospend:create-project` | `{ name, id? }` | Create a project (the id is optional and defaults to the slugified name) and select it. |
 | `cospend:create-bill` | `{ projectId, bill }` | Create a bill. |
 | `cospend:save-bill` | `{ projectId, bill }` | Update an existing bill (the bill must be in the displayed bill list, identified by `bill.id`). |

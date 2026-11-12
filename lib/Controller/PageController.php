@@ -96,7 +96,7 @@ class PageController extends Controller {
 		$this->initialStateService->provideInitialState('cospend-state', $state);
 		$this->eventDispatcher->dispatchTyped(new RenderReferenceEvent());
 		if ($this->appConfig->getValueString(Application::APP_ID, 'enable_demo_plugin', '0', lazy: true) === '1') {
-			// inject the demo UI plugin, see docs/plugins.INPROGRESS.md
+			// inject the demo UI plugin, see docs/plugins.md
 			\OCP\Util::addScript(Application::APP_ID, Application::APP_ID . '-demoPlugin');
 		}
 		return new TemplateResponse(Application::APP_ID, 'main');

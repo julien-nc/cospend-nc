@@ -513,11 +513,72 @@ settingsSection: {
 
 ## Action events (plugin → Cospend)
 
-Fire and forget action events, emitted on the event bus. They are routed to the same
-code
+Action events emitted on the event bus. They are routed to the same code
 paths Cospend itself uses, so Cospend updates its state, refreshes its UI and displays
 errors when applicable. Observe the outcome through the `pluginContext` prop, which is
 updated after Cospend's state changes.
+
+### Getting the result of an action event
+
+By default action events are fire-and-forget. If you need the outcome (e.g. the id of a
+created bill), pass an `onDone` callback in the payload. Cospend then calls it exactly
+once with a result object, and shows **no toast** for that action: your plugin owns the
+feedback. Without a callback, the toast behavior is unchanged.
+
+```js
+const result = await new Promise((resolve) => {
+	emit('cospend:create-bill', { projectId, bill, onDone: resolve })
+})
+if (result.ok) {
+	console.log('created bill', result.billId)
+} else {
+	console.error(result.error)
+}
+```
+
+The result always resolves (never rejects) with:
+
+| Field | Success (`ok: true`) | Failure (`ok: false`) |
+| --- | --- | --- |
+| `ok` | `true` | `false` |
+| `projectId` | the target project id | the target project id, when the event has one |
+| `error` | — | human readable failure message |
+| `status` | — | HTTP status code, or `null` for client-side failures |
+
+Plus the event-specific fields below:
+
+| Event | Extra success fields |
+| --- | --- |
+| `cospend:create-project` | `projectId` |
+| `cospend:create-bill` | `projectId`, `billId` |
+| `cospend:save-bill` | `projectId`, `billId` |
+| `cospend:delete-bill` | `projectId`, `billId` |
+| `cospend:restore-bill` | `projectId`, `billId` |
+| `cospend:save-member` | `projectId`, `memberId` |
+| `cospend:delete-member` | `projectId`, `memberId` |
+| `cospend:archive-project` | `projectId`, `archived` (boolean, the new archive state) |
+
+This is how a cross-project settlement creates bills in several projects and learns
+which ones worked:
+
+```js
+const results = await Promise.allSettled(
+	targetProjects.map((project) =>
+		new Promise((resolve) => {
+			emit('cospend:create-bill', {
+				projectId: project.id,
+				bill,
+				onDone: resolve,
+			})
+		})
+	)
+)
+const succeeded = results.filter((r) => r.value.ok)
+const failed = results.filter((r) => !r.value.ok)
+```
+
+Note: a payload holding a callback is no longer *plain data* — a function cannot be
+structured-cloned, so never forward such a payload to a Web Worker or `postMessage`.
 
 These events are not plugin-specific duplicates: they *are* the events Cospend's own
 interface emits (project items, bill list items, member items, the create project

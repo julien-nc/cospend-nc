@@ -15,10 +15,17 @@
 				{{ t('cospend', 'Create a bill paid by {name}', { name: member?.name ?? '?' }) }}
 			</NcButton>
 			<NcButton class="demo-button"
+				@click="createBillWithResult()">
+				{{ t('cospend', 'Create a bill and get the result') }}
+			</NcButton>
+			<NcButton class="demo-button"
 				@click="refreshProject()">
 				{{ t('cospend', 'Refresh this project') }}
 			</NcButton>
 		</div>
+		<p v-if="lastResult" class="demo-result">
+			{{ lastResult }}
+		</p>
 		<DemoContextInspector :context="pluginContext" />
 	</div>
 </template>
@@ -26,6 +33,7 @@
 <script>
 import NcButton from '@nextcloud/vue/components/NcButton'
 import { emit } from '@nextcloud/event-bus'
+import { showSuccess, showError } from '@nextcloud/dialogs'
 import DemoContextInspector from './DemoContextInspector.vue'
 import { formatBalance } from '../utils.js'
 
@@ -48,6 +56,12 @@ export default {
 		},
 	},
 
+	data() {
+		return {
+			lastResult: null,
+		}
+	},
+
 	computed: {
 		member() {
 			return this.pluginContext?.member
@@ -60,20 +74,48 @@ export default {
 
 	methods: {
 		formatBalance,
+		buildDemoBill() {
+			return {
+				what: 'Demo bill (member action)',
+				amount: 5,
+				payer_id: this.member.id,
+				owerIds: this.activeMembers.map((m) => m.id),
+				timestamp: Math.floor(Date.now() / 1000),
+			}
+		},
 		createBillPaidByMember() {
 			if (!this.member || this.activeMembers.length === 0) {
 				return
 			}
+			// Cospend suppresses its own toast when a callback is provided,
+			// so the plugin can show one that mentions it created the bill
 			emit('cospend:create-bill', {
 				projectId: this.projectId,
-				bill: {
-					what: 'Demo bill (member action)',
-					amount: 5,
-					payer_id: this.member.id,
-					owerIds: this.activeMembers.map((m) => m.id),
-					timestamp: Math.floor(Date.now() / 1000),
+				bill: this.buildDemoBill(),
+				onDone: (result) => {
+					if (result.ok) {
+						showSuccess(t('cospend', 'Bill created by plugin'))
+					} else {
+						showError(t('cospend', 'Failed to create bill: {error}', { error: result.error }))
+					}
 				},
 			})
+		},
+		// the payload may carry an onDone callback to get the outcome instead of toasts
+		async createBillWithResult() {
+			if (!this.member || this.activeMembers.length === 0) {
+				return
+			}
+			const result = await new Promise((resolve) => {
+				emit('cospend:create-bill', {
+					projectId: this.projectId,
+					bill: this.buildDemoBill(),
+					onDone: resolve,
+				})
+			})
+			this.lastResult = result.ok
+				? t('cospend', 'Bill {id} created', { id: result.billId })
+				: t('cospend', 'Failed to create bill: {error}', { error: result.error })
 		},
 		refreshProject() {
 			emit('cospend:refresh-project', { projectId: this.projectId })
@@ -98,5 +140,8 @@ export default {
 }
 .demo-button {
 	align-self: flex-start;
+}
+.demo-result {
+	margin: 0;
 }
 </style>

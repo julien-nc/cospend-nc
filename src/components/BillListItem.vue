@@ -339,14 +339,14 @@ export default {
 			})
 		},
 		onRestoreClick() {
-			emit('restore-bill', this.bill)
+			emit('cospend:restore-bill', { projectId: this.projectId, billId: this.bill.id })
 		},
 		onDeleteClick(e) {
 			// delay deletion only in trashbin
 			if (this.bill.deleted) {
 				this.delayedDelete()
 			} else {
-				emit('delete-bill', this.bill)
+				emit('cospend:delete-bill', { projectId: this.projectId, billId: this.bill.id })
 			}
 		},
 		delayedDelete() {
@@ -359,7 +359,7 @@ export default {
 				}
 			} else {
 				if (this.bill.id === 0) {
-					emit('delete-bill', this.bill)
+					emit('cospend:delete-bill', { projectId: this.projectId, billId: this.bill.id })
 				} else {
 					// start timer
 					this.deleteCounter = 7
@@ -375,7 +375,7 @@ export default {
 					this.timerLoop()
 				}, 1000)
 			} else {
-				emit('delete-bill', this.bill)
+				emit('cospend:delete-bill', { projectId: this.projectId, billId: this.bill.id })
 			}
 		},
 		onSelectorClick(e) {

@@ -301,10 +301,10 @@ export default {
 	methods: {
 		toggleArchivedProjects() {
 			this.showArchivedProjects = !this.showArchivedProjects
-			emit('deselect-project')
+			emit('cospend:deselect-project')
 		},
 		showSettings() {
-			emit('show-settings')
+			emit('cospend:show-settings')
 		},
 		onPluginNavItemClick(item) {
 			emit('cospend:plugin-navitem-clicked', item.plugin.id)
@@ -325,7 +325,7 @@ export default {
 			importCospendProject(() => {
 				this.importingProject = true
 			}, (data) => {
-				emit('project-imported', data)
+				emit('cospend:project-imported', data)
 				showSuccess(t('cospend', 'Project imported'))
 			}, () => {
 				this.importingProject = false
@@ -335,7 +335,7 @@ export default {
 			importSWProject(() => {
 				this.importingProject = true
 			}, (data) => {
-				emit('project-imported', data)
+				emit('cospend:project-imported', data)
 				showSuccess(t('cospend', 'Project imported'))
 			}, () => {
 				this.importingProject = false

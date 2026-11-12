@@ -34,10 +34,10 @@ export default {
 		},
 	},
 	mounted() {
-		subscribe('chart-zoom-reset', this.onResetZoom)
+		subscribe('cospend:chart-zoom-reset', this.onResetZoom)
 	},
 	unmounted() {
-		unsubscribe('chart-zoom-reset', this.onResetZoom)
+		unsubscribe('cospend:chart-zoom-reset', this.onResetZoom)
 	},
 	methods: {
 		onResetZoom() {

@@ -59,7 +59,7 @@ export default {
 	},
 	methods: {
 		createProject() {
-			emit('create-project', this.newProjectName)
+			emit('cospend:create-project', { name: this.newProjectName })
 			this.newProjectName = ''
 			this.$emit('close')
 		},

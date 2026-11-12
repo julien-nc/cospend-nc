@@ -293,7 +293,7 @@ export default {
 		},
 		onDeleteMemberClick() {
 			this.cMember.activated = !this.cMember.activated
-			emit('member-edited', { projectId: this.projectId, memberId: this.member.id })
+			emit('cospend:member-edited', { projectId: this.projectId, memberId: this.member.id })
 			// take care of removing access if it was added automatically
 			if (this.member.userid) {
 				this.deleteAccessOfUser()
@@ -315,7 +315,7 @@ export default {
 				this.deleteAccessOfUser()
 			}
 			this.cMember.userid = null
-			emit('member-edited', { projectId: this.projectId, memberId: this.member.id })
+			emit('cospend:member-edited', { projectId: this.projectId, memberId: this.member.id })
 		},
 		// only react if the field was cleared with the trailing button
 		onWeightSubmit(e) {
@@ -323,19 +323,19 @@ export default {
 			const newWeightFloat = parseFloat(newWeight)
 			if (isNaN(newWeightFloat)) {
 				this.cMember.weight = 1.0
-				emit('member-edited', { projectId: this.projectId, memberId: this.member.id })
+				emit('cospend:member-edited', { projectId: this.projectId, memberId: this.member.id })
 			}
 		},
 		onWeightChange: debounce(function(value) {
 			this.cMember.weight = parseFloat(value)
-			emit('member-edited', { projectId: this.projectId, memberId: this.member.id })
+			emit('cospend:member-edited', { projectId: this.projectId, memberId: this.member.id })
 		}, 2000),
 		updateColor(color) {
 			this.applyUpdateColor(color)
 		},
 		applyUpdateColor(color) {
 			this.cMember.color = color.replace('#', '')
-			emit('member-edited', { projectId: this.projectId, memberId: this.member.id })
+			emit('cospend:member-edited', { projectId: this.projectId, memberId: this.member.id })
 		},
 		onMenuColorClick() {
 			this.menuOpen = false

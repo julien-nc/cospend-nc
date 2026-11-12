@@ -654,14 +654,14 @@ export default {
 			this.updateBillFilterQuery(e.target.value)
 		}, 2000),
 		updateBillFilterQuery(query) {
-			emit('bill-search', { query })
+			emit('cospend:bill-search', { query })
 		},
 		onCloseTrashbinClicked() {
 			this.selectedBillIds = []
-			emit('close-trashbin', this.projectId)
+			emit('cospend:close-trashbin', this.projectId)
 		},
 		onAddMemberClicked() {
-			emit('new-member-clicked', this.projectId)
+			emit('cospend:new-member-clicked', this.projectId)
 		},
 		onAddBillClicked() {
 			if (!this.editionAccess || !this.oneActiveMember) {
@@ -679,7 +679,7 @@ export default {
 					this.selectedBillIds.push(bill.id)
 				}
 			} else {
-				emit('bill-clicked', { projectId: this.projectId, billId: bill.id })
+				emit('cospend:bill-clicked', { projectId: this.projectId, billId: bill.id })
 			}
 		},
 		onItemMove(bill) {
@@ -687,12 +687,12 @@ export default {
 		},
 		showTrashbin() {
 			this.selectedBillIds = []
-			emit('trashbin-clicked', this.projectId)
+			emit('cospend:trashbin-clicked', this.projectId)
 		},
 		clearTrashBin() {
 			this.showClearTrashBinConfirmation = false
 			this.selectedBillIds = []
-			emit('clear-trashbin-clicked', this.projectId)
+			emit('cospend:clear-trashbin-clicked', this.projectId)
 		},
 		toggleFilterMode(emit = true, enabled = null) {
 			if (enabled === null) {
@@ -773,7 +773,7 @@ export default {
 		},
 		confirmedRestoreSelection() {
 			this.showRestorationConfirmation = false
-			emit('restore-bills', this.selectedBillIds)
+			emit('cospend:restore-bills', this.selectedBillIds)
 			this.selectedBillIds = []
 		},
 	},

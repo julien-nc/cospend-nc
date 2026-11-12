@@ -204,9 +204,10 @@ its Vue templates). Entry points that can be displayed as `content` (see
   care when the element gets defined: custom elements upgrade automatically, so
   Cospend renders the tag unconditionally and the element takes over once defined.
 * If the element is not defined when its entry point first renders (e.g. it is
-  defined from a dynamic `import()`), the host waits for the definition and
-  re-renders once the element is available. If it is never defined (broken
-  plugin), Cospend shows an error empty content instead of a silently blank area.
+  defined from a dynamic `import()`), the host waits for the definition, shows a
+  loading state and re-renders once the element is available. If it is still
+  undefined after a short grace period (broken plugin), Cospend shows an error
+  empty content instead of a silently blank or endlessly loading area.
 * The view component must be a Vue component wrapped with `defineCustomElement`
   (the plugin's own Vue version is embedded inside the element, so there is no runtime
   coupling with Cospend).
@@ -510,9 +511,10 @@ events above so that Cospend's state stays consistent.
 
 `src/demoPlugin/` contains a complete demo plugin, written exactly like a plugin
 coming from an external app: it defines custom elements for all eight entry point
-types, reads everything from its `pluginContext` prop and interacts with Cospend only
-through action events. It is injected by the main page controller when the
-"Enable the demo UI plugin" admin setting is enabled.
+types (including several `navItem` entries), one of them from a dynamic `import()`
+to showcase late element definition, reads everything from its `pluginContext` prop
+and interacts with Cospend only through action events. It is injected by the main
+page controller when the "Enable the demo UI plugin" admin setting is enabled.
 
 Note for plugin authors building their views with Vue: `defineCustomElement` puts the
 component in a shadow DOM root by default, which is self-contained (styles collected

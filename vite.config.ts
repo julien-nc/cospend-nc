@@ -34,6 +34,27 @@ export default createAppConfig({
 		],
 		build: {
 			cssCodeSplit: true,
+			// keep the demo plugin's late-defined view in its own lazy chunk:
+			// without this, the default "common" group merges it into an eagerly
+			// loaded chunk, turning the dynamic import() showcase into a no-op
+			rolldownOptions: {
+				output: {
+					codeSplitting: {
+						groups: [
+							{
+								name: 'demoLateView',
+								test: /DemoLate/,
+								priority: 1,
+								minSize: 0,
+								// only capture the late view modules themselves: their
+								// dependencies are shared with all entries and must stay
+								// in eager chunks
+								includeDependenciesRecursively: false,
+							},
+						],
+					},
+				},
+			},
 			// caused issues with NcAvatar (TypeError: can't access property "needReadable", this._readableState is undefined)
 			rollupOptions: {
 				treeshake: {

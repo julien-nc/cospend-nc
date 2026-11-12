@@ -203,8 +203,10 @@ its Vue templates). Entry points that can be displayed as `content` (see
   `import()` its component chunks dynamically from the plugin script, Cospend does not
   care when the element gets defined: custom elements upgrade automatically, so
   Cospend renders the tag unconditionally and the element takes over once defined.
-* If the element is never defined (broken plugin), Cospend shows an error empty
-  content instead of a silently blank area.
+* If the element is not defined when its entry point first renders (e.g. it is
+  defined from a dynamic `import()`), the host waits for the definition and
+  re-renders once the element is available. If it is never defined (broken
+  plugin), Cospend shows an error empty content instead of a silently blank area.
 * The view component must be a Vue component wrapped with `defineCustomElement`
   (the plugin's own Vue version is embedded inside the element, so there is no runtime
   coupling with Cospend).

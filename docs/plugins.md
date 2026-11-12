@@ -537,7 +537,7 @@ Like all Cospend event bus events, their names carry the `cospend:` app prefix.
 | `cospend:delete-bill` | `{ projectId, billId }` | Delete a bill from the displayed bill list (it goes to the trash bin). |
 | `cospend:restore-bill` | `{ projectId, billId }` | Restore a bill from the trash bin (it must be in the displayed trash bin list). |
 | `cospend:save-member` | `{ projectId, member }` | Create or update a member. |
-| `cospend:delete-member` | `{ projectId, memberId }` | Deactivate a member (same as the "Delete" member action). |
+| `cospend:delete-member` | `{ projectId, memberId }` | Deactivate a member (idempotent, unlike the toggleable "Delete" member action). |
 | `cospend:archive-project` | `{ projectId }` | Toggle the project's archive state. |
 
 Example:

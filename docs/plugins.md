@@ -289,6 +289,9 @@ layout:
 
 ```js
 navItem: {
+	// optional: distinguishes several navItems of the same plugin
+	// (defaults to the view tag)
+	// id: 'myapp-balances',
 	name: 'Cross-project balances',
 	icon: '/apps/myapp/img/icon.svg',   // SVG url, data URI or inline SVG string
 	order: 60,                          // suggested position, lower comes first

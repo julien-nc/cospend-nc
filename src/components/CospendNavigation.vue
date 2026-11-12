@@ -121,7 +121,7 @@
 						</template>
 					</NcAppNavigationItem>
 					<NcAppNavigationItem v-for="item in pluginNavItems"
-						:key="item.plugin.id"
+						:key="item.plugin.id + '-' + item.ep.id"
 						:name="item.ep.name"
 						@click="onPluginNavItemClick(item)">
 						<template #icon>
@@ -307,7 +307,10 @@ export default {
 			emit('cospend:show-settings')
 		},
 		onPluginNavItemClick(item) {
-			emit('cospend:plugin-navitem-clicked', item.plugin.id)
+			emit('cospend:plugin-navitem-clicked', {
+				pluginId: item.plugin.id,
+				entryPointId: item.ep.id,
+			})
 		},
 		onPluginCreateProjectActionClick(action) {
 			emit('cospend:plugin-create-project-action', {

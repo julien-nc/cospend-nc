@@ -780,11 +780,8 @@ export default {
 				showError(t('cospend', 'Unknown member'))
 				return
 			}
-			// member deletion in Cospend is a deactivation, same as the member menu action
-			if (this.currentProjectId !== projectId) {
-				this.selectProject(projectId, true, true)
-			}
-			member.activated = !member.activated
+			// member deletion in Cospend is a deactivation, idempotent by design
+			member.activated = false
 			this.onMemberEdited({ projectId, memberId })
 		},
 		// ===== end plugin system =====

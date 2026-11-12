@@ -694,8 +694,15 @@ export default {
 				this.mode = 'normal'
 			}
 		},
-		onPluginRefreshProject({ projectId }) {
-			if (projectId) {
+		onPluginRefreshProject({ projectId, includeBills = false }) {
+			if (!projectId) {
+				return
+			}
+			if (includeBills && projectId === this.cospend.currentProjectId) {
+				// getBills also refreshes project info, and respects the current
+				// member/category/payment-mode/search filters and trashbin mode
+				this.getBills(projectId, null, false, this.trashbinEnabled)
+			} else {
 				this.updateProjectInfo(projectId)
 			}
 		},

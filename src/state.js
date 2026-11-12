@@ -16,9 +16,6 @@ export const defaultState = {
 	billDeletionTimer: {},
 	currencyDeletionTimer: {},
 	categoryDeletionTimer: {},
-	// indexed by projectid, then by billid
-	bills: {},
-	billLists: {},
 	// indexed by projectid, then by memberid
 	members: {},
 	projects: {},

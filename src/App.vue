@@ -1486,11 +1486,9 @@ export default {
 				this.members[proj.id][member.id].color = rgbObjToHex(member.color).replace('#', '')
 			})
 
-			this.cospend.bills[proj.id] = {}
-			this.bills[proj.id] = this.cospend.bills[proj.id]
+			this.bills[proj.id] = {}
 
-			this.cospend.billLists[proj.id] = []
-			this.billLists[proj.id] = this.cospend.billLists[proj.id]
+			this.billLists[proj.id] = []
 
 			this.cospend.projects[proj.id] = proj
 			this.projects[proj.id] = proj

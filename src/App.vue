@@ -67,22 +67,6 @@
 					@perso-bills-created="onPersoBillsCreated"
 					@duplicate-bill="onDuplicateBill"
 					@repeat-bill-now="onRepeatBillNow" />
-				<NcModal v-if="showMoveModal"
-					size="normal"
-					@close="showMoveModal = false">
-					<MoveToProjectList
-						:bill="billToMove"
-						:project-id="currentProjectId" />
-				</NcModal>
-				<NcModal v-if="pluginModalView"
-					size="normal"
-					@close="closePluginModal">
-					<PluginHost
-						:tag="pluginModalView.view"
-						:plugin-id="pluginModalView.pluginId"
-						:project-id="pluginModalView.projectId"
-						:plugin-context="pluginContext" />
-				</NcModal>
 				<StatisticsContentDetails
 					v-if="mode === 'stats'"
 					:project-id="currentProjectId" />
@@ -155,6 +139,22 @@
 				<div @click="() => {}" />
 			</div>
 		</NcAppContent>
+		<NcModal v-if="pluginModalView"
+			size="normal"
+			@close="closePluginModal">
+			<PluginHost
+				:tag="pluginModalView.view"
+				:plugin-id="pluginModalView.pluginId"
+				:project-id="pluginModalView.projectId"
+				:plugin-context="pluginContext" />
+		</NcModal>
+		<NcModal v-if="showMoveModal"
+			size="normal"
+			@close="showMoveModal = false">
+			<MoveToProjectList
+				:bill="billToMove"
+				:project-id="currentProjectId" />
+		</NcModal>
 		<CospendSettingsDialog
 			@update-max-precision="onUpdateMaxPrecision" />
 		<CospendAppSidebar

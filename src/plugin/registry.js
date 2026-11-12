@@ -56,7 +56,7 @@ let initialized = false
  * @property {string} id unique plugin id
  * @property {string} appId id of the app providing the plugin
  * @property {number} apiVersion plugin API version
- * @property {string[]} contexts visibility contexts ('user', 'public')
+ * @property {string[]} contexts visibility contexts ('user', 'public'), defaults to ['user']
  * @property {Record<string, CospendEntryPoint[]>} entryPoints valid entry points by type
  */
 
@@ -72,7 +72,7 @@ let initialized = false
  * @property {string|null} listView optional custom element tag for list views
  * @property {number} order sort order
  * @property {number} minAccessLevel minimal project access level (ACCESS.VIEWER to ACCESS.ADMIN)
- * @property {string[]} contexts visibility contexts ('user', 'public')
+ * @property {string[]} contexts visibility contexts ('user', 'public'), defaults to ['user']
  */
 
 /**
@@ -137,7 +137,7 @@ export function registerPlugin(plugin) {
 			}
 			const valid = []
 			for (const ep of Array.isArray(value) ? value : [value]) {
-				const normalized = normalizeEntryPoint(type, ep, plugin.id)
+				const normalized = normalizeEntryPoint(type, ep, plugin.id, plugin.contexts)
 				if (normalized !== null) {
 					valid.push(normalized)
 				}
@@ -169,8 +169,9 @@ export function registerPlugin(plugin) {
 
 /**
  * Validate a single entry point. Returns a sanitized copy or null (with a warning).
+ * A missing contexts declaration falls back to the plugin-level one.
  */
-function normalizeEntryPoint(type, ep, pluginId) {
+function normalizeEntryPoint(type, ep, pluginId, pluginContexts) {
 	if (!ep || typeof ep !== 'object') {
 		console.warn(`[cospend] Plugin ${pluginId}: invalid ${type} entry point (not an object), ignored`)
 		return null
@@ -225,7 +226,7 @@ function normalizeEntryPoint(type, ep, pluginId) {
 		listView: ep.listView ?? null,
 		order: typeof ep.order === 'number' ? ep.order : Infinity,
 		minAccessLevel: ep.minAccessLevel ?? ACCESS.VIEWER,
-		contexts: sanitizeContexts(ep.contexts),
+		contexts: sanitizeContexts(ep.contexts ?? pluginContexts),
 	}
 }
 
@@ -250,8 +251,7 @@ export function getEntryPoints(type) {
 	const result = []
 	for (const plugin of OCA.Cospend.plugins ?? []) {
 		for (const ep of plugin.entryPoints[type] ?? []) {
-			const contexts = ep.contexts ?? plugin.contexts
-			if (pageIsPublic && !contexts.includes('public')) {
+			if (pageIsPublic && !ep.contexts.includes('public')) {
 				continue
 			}
 			result.push({ plugin, ep })

@@ -83,6 +83,9 @@ const plugin = {
 	id: 'demo',
 	appId: 'cospend',
 	apiVersion: 1,
+	// visibility contexts for every entry point ('user', 'public');
+	// 'user' (the default) keeps the demo hidden on public share pages.
+	// Each entry point can override this with its own contexts field.
 	contexts: ['user'],
 	entryPoints: {
 		// several navItems: an entry point value may also be an array;

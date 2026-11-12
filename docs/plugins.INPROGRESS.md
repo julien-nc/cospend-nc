@@ -457,6 +457,12 @@ paths Cospend itself uses, so Cospend updates its state, refreshes its UI and di
 errors when applicable. Observe the outcome through the `pluginContext` prop, which is
 updated after Cospend's state changes.
 
+These events are not plugin-specific duplicates: they *are* the events Cospend's own
+interface emits (project items, bill list items, member items, the create project
+menu…). Cospend's internal components and plugin apps emit the exact same event names
+with the same payload shapes, and Cospend handles them with a single set of handlers.
+Like all Cospend event bus events, their names carry the `cospend:` app prefix.
+
 | Event | Payload | Effect |
 | --- | --- | --- |
 | `cospend:select-project` | `{ projectId }` | Select the project (closes the plugin view). |

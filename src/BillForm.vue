@@ -1224,7 +1224,7 @@ export default {
 			return true
 		},
 		onDeleteClick() {
-			emit('delete-bill', this.myBill)
+			emit('cospend:delete-bill', { projectId: this.projectId, billId: this.myBill.id })
 		},
 		saveBill() {
 			// don't save the bill if we are typing a formula

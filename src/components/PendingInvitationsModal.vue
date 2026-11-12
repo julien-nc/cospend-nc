@@ -97,11 +97,11 @@ export default {
 		},
 		accept(invite) {
 			network.acceptPendingInvitation(invite.id).then(response => {
-				emit('add-project', response.data.ocs.data)
+				emit('cospend:add-project', response.data.ocs.data)
 				this.$emit('close')
 				this.$nextTick(() => {
-					emit('remove-pending-invitation', invite.id)
-					emit('project-clicked', response.data.ocs.data.id)
+					emit('cospend:remove-pending-invitation', invite.id)
+					emit('cospend:project-clicked', { projectId: response.data.ocs.data.id })
 				})
 			})
 		},
@@ -109,7 +109,7 @@ export default {
 			network.rejectInvitation(invite.id).then(response => {
 				this.$emit('close')
 				this.$nextTick(() => {
-					emit('remove-pending-invitation', invite.id)
+					emit('cospend:remove-pending-invitation', invite.id)
 				})
 			})
 		},

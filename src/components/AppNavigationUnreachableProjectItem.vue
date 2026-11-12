@@ -87,7 +87,7 @@ export default {
 				})
 				.then(() => {
 					this.$nextTick(() => {
-						emit('remove-unreachable-project', this.invite.id)
+						emit('cospend:remove-unreachable-project', this.invite.id)
 					})
 				})
 		},

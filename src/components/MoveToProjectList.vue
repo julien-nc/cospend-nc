@@ -77,7 +77,7 @@ export default {
 		onProjectClicked(project) {
 			network.moveBill(this.projectId, this.bill.id, project.id).then(res => {
 				showSuccess(t('cospend', 'Bill moved to "{project}" successfully', { project: project.name }))
-				emit('bill-moved', { newBillId: res.data.ocs.data, newProjectId: project.id })
+				emit('cospend:bill-moved', { newBillId: res.data.ocs.data, newProjectId: project.id })
 			}).catch(error => {
 				console.error(error)
 				showError(

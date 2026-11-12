@@ -13,7 +13,7 @@
  * everything goes through the pluginContext prop and event-bus action events.
  *
  * This file is the template to follow to write a plugin in another app:
- * see docs/plugins.INPROGRESS.md.
+ * see docs/plugins.md.
  */
 import { defineCustomElement } from 'vue'
 import DemoMainView from './components/DemoMainView.vue'

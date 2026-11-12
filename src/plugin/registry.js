@@ -8,7 +8,7 @@
  *
  * Plugins are registered from external app scripts (or the demo plugin) through
  * OCA.Cospend.registerPlugin() or the 'cospend:plugin:register' event-bus event.
- * A registration is declarative data only; see docs/plugins.INPROGRESS.md.
+ * A registration is declarative data only; see docs/plugins.md.
  */
 import { reactive } from 'vue'
 import { subscribe } from '@nextcloud/event-bus'

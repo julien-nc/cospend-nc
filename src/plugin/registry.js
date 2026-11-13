@@ -73,6 +73,8 @@ let initialized = false
  * @property {number} order sort order
  * @property {number} minAccessLevel minimal project access level (ACCESS.VIEWER to ACCESS.ADMIN)
  * @property {string[]} contexts visibility contexts ('user', 'public'), defaults to ['user']
+ * @property {number|string|undefined} counter navItem only: optional badge value shown
+ *   next to the item name (a number renders as a counter, a string is displayed as-is)
  */
 
 /**
@@ -212,6 +214,18 @@ function normalizeEntryPoint(type, ep, pluginId, pluginContexts) {
 		return null
 	}
 
+	// navItem only: an optional initial badge value (updated through the
+	// 'cospend:set-navitem-counter' event, see docs/plugins.md)
+	let counter
+	if (type === 'navItem' && ep.counter !== undefined) {
+		if ((typeof ep.counter !== 'number' || !Number.isFinite(ep.counter))
+			&& (typeof ep.counter !== 'string' || ep.counter === '')) {
+			console.warn(`[cospend] Plugin ${pluginId}: navItem counter must be a finite number or a non-empty string, ignored`)
+		} else {
+			counter = ep.counter
+		}
+	}
+
 	return {
 		view: ep.view,
 		// navItem has no required id: default it to the view tag so that several
@@ -227,6 +241,7 @@ function normalizeEntryPoint(type, ep, pluginId, pluginContexts) {
 		order: typeof ep.order === 'number' ? ep.order : Infinity,
 		minAccessLevel: ep.minAccessLevel ?? ACCESS.VIEWER,
 		contexts: sanitizeContexts(ep.contexts ?? pluginContexts),
+		counter,
 	}
 }
 

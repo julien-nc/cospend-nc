@@ -7,13 +7,33 @@
 		<p class="demo-hint">
 			{{ t('cospend', 'This view is rendered by the demo plugin too, but its custom element is defined from a dynamic import(): the element was defined after this navItem was registered and opened. Cospend waits for the definition and shows a loading state until the element takes over.') }}
 		</p>
+		<p class="demo-hint">
+			{{ t('cospend', 'The buttons below update the counter badge of the "Demo: late view" nav item in the navigation, like the cumulated balance of the core nav items. The value survives the closing of this view.') }}
+		</p>
+		<div class="demo-actions">
+			<NcButton class="demo-button"
+				@click="changeDemoLateCounter(-1)">
+				{{ t('cospend', 'Decrease the nav item counter') }}
+			</NcButton>
+			<NcButton class="demo-button"
+				@click="changeDemoLateCounter(1)">
+				{{ t('cospend', 'Increase the nav item counter') }}
+			</NcButton>
+		</div>
 		<pre class="demo-context">{{ pretty }}</pre>
 	</div>
 </template>
 
 <script>
+import NcButton from '@nextcloud/vue/components/NcButton'
+import { changeDemoLateCounter } from '../navItemCounter.js'
+
 export default {
 	name: 'DemoLateView',
+
+	components: {
+		NcButton,
+	},
 
 	props: {
 		projectId: {
@@ -30,6 +50,10 @@ export default {
 		pretty() {
 			return JSON.stringify(this.pluginContext, null, 2)
 		},
+	},
+
+	methods: {
+		changeDemoLateCounter,
 	},
 }
 </script>
@@ -54,5 +78,15 @@ export default {
 	overflow: auto;
 	max-height: 300px;
 	font-size: 12px;
+}
+
+.demo-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 8px;
+}
+.demo-button {
+	align-self: flex-start;
 }
 </style>

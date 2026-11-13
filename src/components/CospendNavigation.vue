@@ -127,6 +127,10 @@
 						<template #icon>
 							<PluginIcon :src="item.ep.icon" />
 						</template>
+						<template v-if="item.counter !== undefined && item.counter !== null" #counter>
+							<NcCounterBubble :count="item.counter"
+								:raw="typeof item.counter === 'string'" />
+						</template>
 					</NcAppNavigationItem>
 				</div>
 			</div>
@@ -162,7 +166,7 @@ import ColoredAvatar from './avatar/ColoredAvatar.vue'
 import * as constants from '../constants.js'
 import { strcmp, importCospendProject, importSWProject } from '../utils.js'
 
-import { emit } from '@nextcloud/event-bus'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { showSuccess } from '@nextcloud/dialogs'
 import { getCurrentUser } from '@nextcloud/auth'
 
@@ -238,6 +242,9 @@ export default {
 			showPendingInvitations: false,
 			projectFilterQuery: '',
 			currentUserId: getCurrentUser()?.uid,
+			// plugin nav item counter overrides, keyed by 'pluginId::entryPointId';
+			// a key holding undefined (or being absent) means "use the registered counter"
+			pluginNavItemCounters: {},
 		}
 	},
 	computed: {
@@ -287,7 +294,11 @@ export default {
 			}
 		},
 		pluginNavItems() {
-			return getEntryPoints('navItem')
+			return getEntryPoints('navItem').map((item) => ({
+				plugin: item.plugin,
+				ep: item.ep,
+				counter: this.pluginNavItemCounter(item.plugin.id, item.ep.id, item.ep.counter),
+			}))
 		},
 		pluginCreateProjectActions() {
 			return getEntryPoints('createProjectAction')
@@ -298,7 +309,59 @@ export default {
 	},
 	beforeMount() {
 	},
+	mounted() {
+		subscribe('cospend:set-navitem-counter', this.onSetNavItemCounter)
+	},
+	beforeUnmount() {
+		unsubscribe('cospend:set-navitem-counter', this.onSetNavItemCounter)
+	},
 	methods: {
+		pluginNavItemCounterKey(pluginId, entryPointId) {
+			return pluginId + '::' + entryPointId
+		},
+		pluginNavItemCounter(pluginId, entryPointId, fallback) {
+			const override = this.pluginNavItemCounters[this.pluginNavItemCounterKey(pluginId, entryPointId)]
+			return override === undefined ? fallback : override
+		},
+		/**
+		 * Handle the 'cospend:set-navitem-counter' event: validate the payload and
+		 * store the counter override for one of the emitting plugin's own nav items.
+		 */
+		onSetNavItemCounter(payload) {
+			const { pluginId, navItemId, count } = payload ?? {}
+			if (typeof pluginId !== 'string' || pluginId === '') {
+				console.warn('[cospend] cospend:set-navitem-counter: missing pluginId, ignored')
+				return
+			}
+			const items = getEntryPoints('navItem').filter((item) => item.plugin.id === pluginId)
+			if (items.length === 0) {
+				console.warn(`[cospend] cospend:set-navitem-counter: plugin ${pluginId} has no visible navItem, ignored`)
+				return
+			}
+			let item
+			if (navItemId === undefined || navItemId === null || navItemId === '') {
+				if (items.length > 1) {
+					console.warn(`[cospend] cospend:set-navitem-counter: plugin ${pluginId} has several navItems, navItemId is required, ignored`)
+					return
+				}
+				item = items[0]
+			} else {
+				item = items.find((i) => i.ep.id === navItemId)
+				if (!item) {
+					console.warn(`[cospend] cospend:set-navitem-counter: plugin ${pluginId} has no navItem with id "${navItemId}", ignored`)
+					return
+				}
+			}
+			if (count !== null
+				&& (typeof count !== 'number' || !Number.isFinite(count))
+				&& (typeof count !== 'string' || count === '')) {
+				console.warn(`[cospend] cospend:set-navitem-counter: count must be a finite number, a non-empty string or null, ignored (plugin ${pluginId})`)
+				return
+			}
+			const key = this.pluginNavItemCounterKey(item.plugin.id, item.ep.id)
+			// null stores an explicit "no badge"; a number/string (re)sets the badge
+			this.pluginNavItemCounters[key] = count
+		},
 		toggleArchivedProjects() {
 			this.showArchivedProjects = !this.showArchivedProjects
 			emit('cospend:deselect-project')

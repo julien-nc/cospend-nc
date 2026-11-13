@@ -354,7 +354,40 @@ navItem: {
 	// optional: a second element rendered in the list pane of the two-pane layout.
 	// Without it, the view takes the full content width (like "Project statistics").
 	listView: 'cospend-plugin-crossbalances-list',
+	// optional: initial badge value shown next to the item name, like the
+	// cumulated balance of the core nav items (see "Nav item counters" below)
+	counter: 3,
 }
+```
+
+### Nav item counters
+
+A navItem can display a badge (a counter bubble) next to its name, like the cumulated
+balance shown by Cospend's own nav items. Two ways to control it:
+
+- **At registration**: declare the optional `counter` field (a number or a string) on
+  the navItem.
+- **Dynamically**: emit the `cospend:set-navitem-counter` event at any time. The badge
+  can be updated even while your view is not mounted, which is useful because your
+  custom elements are unmounted as soon as their view is closed — emit from your
+  plugin's top-level script instead (it stays loaded), for example from a lifecycle
+  event handler.
+
+Payload of `cospend:set-navitem-counter`:
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `pluginId` | `string` | Your plugin id (required). Only your own navItems can be updated. |
+| `navItemId` | `string?` | The id of the target navItem. Optional if your plugin declares exactly one navItem, required otherwise. |
+| `count` | `number \| string \| null` | `null` hides the badge, a number renders as a counter, a non-empty string is displayed as-is (like a formatted balance, e.g. `"12.34"`). Keep it short: the bubble is meant for a few characters. |
+
+Invalid payloads (unknown plugin or navItem, wrong types) are ignored with a console
+warning.
+
+```js
+import { emit } from '@nextcloud/event-bus'
+
+emit('cospend:set-navitem-counter', { pluginId, count: 42 })
 ```
 
 ## `createProjectAction`
@@ -628,7 +661,10 @@ events above so that Cospend's state stays consistent.
 coming from an external app: it defines custom elements for all eight entry point
 types (including several `navItem` entries), one of them from a dynamic `import()`
 to showcase late element definition, reads everything from its `pluginContext` prop
-and interacts with Cospend only through action events. It is injected by the main
+and interacts with Cospend only through action events. It also showcases the nav item
+counter: buttons in the late view update the badge of the matching nav item through
+`cospend:set-navitem-counter`, the value being kept in the plugin's top-level script so
+that it survives the closing of the view. It is injected by the main
 page controller when the "Enable the demo UI plugin" admin setting is enabled.
 
 Note for plugin authors building their views with Vue: `defineCustomElement` puts the

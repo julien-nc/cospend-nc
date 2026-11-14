@@ -104,6 +104,8 @@ const plugin = {
 				name: 'Demo: late view',
 				icon: demoIcon,
 				order: 101,
+				// optional initial badge value, updated via 'cospend:set-navitem-counter'
+				counter: 3,
 				view: 'cospend-plugin-demo-late',
 				// optional list pane, also defined from the dynamic import
 				listView: 'cospend-plugin-demo-late-list',

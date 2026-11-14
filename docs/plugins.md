@@ -179,6 +179,7 @@ event bus once it is mounted, in case your plugin needs a runtime setup hook.
 		memberAction: { /* … */ },
 		billAction: { /* … */ },
 		billListAction: { /* … */ },
+		billFormExtra: { /* … */ },
 		settingsSection: { /* … */ },
 	},
 }
@@ -327,6 +328,7 @@ view, and the content is placed by Cospend, never by the plugin.
 | `memberAction` | plugin `view` | plugin `listView` if declared, else bill list |
 | `billAction` | plugin `view` | plugin `listView` if declared, else bill list |
 | `billListAction` | plugin `view` | plugin `listView` if declared, else bill list |
+| `billFormExtra` | rendered below the bill form (no takeover) | unchanged |
 | `settingsSection` | settings section content | unchanged |
 
 On mobile, the usual list/details toggle applies, driven by Cospend.
@@ -528,6 +530,83 @@ The element receives `projectId` and `pluginContext` (with `project`, `members` 
 optionally declare `listView` to also take over the bill list pane while the view is
 active (see [Layout](#layout-while-a-plugin-view-is-active)).
 
+## `billFormExtra`
+
+Unlike the other entry points, it does not take over any view: your element is
+embedded **right below the bill form** (the central pane showing "What?", "How
+much?", the payer and the owers), so it appears and disappears with the form itself.
+It is meant for widgets that complete the bill editing experience (receipt scanning,
+currency conversion helpers, templates…):
+
+```js
+billFormExtra: {
+	id: 'myapp-billform-ocr',
+	name: 'Scan a receipt',
+	icon: '/apps/myapp/img/scan-icon.svg',
+	view: 'cospend-plugin-billform-ocr',
+}
+```
+
+The element receives `projectId` and `pluginContext` (with `project`, `members`,
+`accessLevel` and `bill` set). `bill` is a snapshot of the bill currently edited in
+the form (the working copy, not the last saved version), refreshed live as the form
+changes. The entry point has no `display` and no `listView`. Like other project-level
+entry points it is hidden on public share pages unless it declares the `'public'`
+context, and it only shows up when the project access level is at least
+`minAccessLevel` (1 viewer by default).
+
+### Setting bill values
+
+Emit the `cospend:set-bill-values` action event to change the values of the bill being
+edited in the form. Cospend applies the values like a user edit and saves the bill,
+unless `save: false` is passed.
+
+Payload of `cospend:set-bill-values`:
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `pluginId` | `string` | Your plugin id (required). |
+| `entryPointId` | `string?` | The id of your `billFormExtra` entry point. Optional if your plugin declares exactly one, required otherwise. |
+| `values` | `object` | The bill fields to set (see below). |
+| `save` | `boolean?` | `true` (default) saves the bill after applying the values; `false` only updates the form without persisting (and without refreshing the bill list preview of a not-yet-created bill). |
+
+Allowed fields in `values`:
+
+| Field | Expected value |
+| --- | --- |
+| `what`, `comment` | string |
+| `amount` | finite number, or numeric string (decimal comma accepted, e.g. `"12,34"`) |
+| `timestamp` | unix timestamp in seconds (integer) |
+| `payer_id` | integer, id of an existing member of the project |
+| `categoryid`, `paymentmodeid` | integer |
+| `repeat` | `'n'`, `'d'`, `'w'`, `'b'`, `'s'`, `'m'` or `'y'` |
+| `repeatfreq` | integer ≥ 1 |
+| `repeatallactive` | boolean (stored as 1 or 0) |
+| `repeatuntil` | `'YYYY-MM-DD'` string (empty string clears it) |
+| `owerIds` | array of ids of existing members of the project (duplicates and unknown ids are dropped) |
+
+Any other field (e.g. `id`), and values of the wrong type, are refused with a console
+warning, so a plugin cannot corrupt the internal state of the form.
+
+The event is ignored with a console warning when the user has no edition access on the
+project, or when your plugin declares no visible `billFormExtra` entry point (its
+`minAccessLevel` and `contexts` are then respected).
+
+```js
+import { emit } from '@nextcloud/event-bus'
+
+emit('cospend:set-bill-values', {
+	pluginId,
+	entryPointId,
+	values: {
+		what: 'Pizza',
+		amount: 42.5,
+		owerIds: [1, 2, 3],
+	},
+	save: false,
+})
+```
+
 ## `settingsSection`
 
 Adds a section in Cospend's settings dialog. Persist your settings through your own
@@ -658,13 +737,15 @@ events above so that Cospend's state stays consistent.
 # Reference implementation
 
 `src/demoPlugin/` contains a complete demo plugin, written exactly like a plugin
-coming from an external app: it defines custom elements for all eight entry point
+coming from an external app: it defines custom elements for all nine entry point
 types (including several `navItem` entries), one of them from a dynamic `import()`
 to showcase late element definition, reads everything from its `pluginContext` prop
 and interacts with Cospend only through action events. It also showcases the nav item
 counter: buttons in the late view update the badge of the matching nav item through
 `cospend:set-navitem-counter`, the value being kept in the plugin's top-level script so
-that it survives the closing of the view. It is injected by the main
+that it survives the closing of the view, and the bill form extra: buttons below the
+bill form change the values of the bill being edited through
+`cospend:set-bill-values`. It is injected by the main
 page controller when the "Enable the demo UI plugin" admin setting is enabled.
 
 Note for plugin authors building their views with Vue: `defineCustomElement` puts the

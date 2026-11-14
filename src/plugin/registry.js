@@ -25,6 +25,7 @@ const KNOWN_ENTRY_POINT_TYPES = [
 	'memberAction',
 	'billAction',
 	'billListAction',
+	'billFormExtra',
 	'settingsSection',
 ]
 // entry points that render in the main content area and can declare a listView
@@ -44,6 +45,7 @@ const ID_ENTRY_POINT_TYPES = [
 	'memberAction',
 	'billAction',
 	'billListAction',
+	'billFormExtra',
 	'settingsSection',
 ]
 

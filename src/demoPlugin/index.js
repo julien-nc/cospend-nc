@@ -24,6 +24,7 @@ import DemoSidebarTabView from './components/DemoSidebarTabView.vue'
 import DemoMemberActionView from './components/DemoMemberActionView.vue'
 import DemoBillActionView from './components/DemoBillActionView.vue'
 import DemoBillListActionView from './components/DemoBillListActionView.vue'
+import DemoBillFormExtraView from './components/DemoBillFormExtraView.vue'
 import DemoSettingsView from './components/DemoSettingsView.vue'
 
 // shadowRoot: false so the styles bundled with the app apply (light DOM custom elements);
@@ -50,6 +51,7 @@ defineDemoElement('cospend-plugin-demo-sidebar', DemoSidebarTabView)
 defineDemoElement('cospend-plugin-demo-member', DemoMemberActionView)
 defineDemoElement('cospend-plugin-demo-bill', DemoBillActionView)
 defineDemoElement('cospend-plugin-demo-billlist', DemoBillListActionView)
+defineDemoElement('cospend-plugin-demo-billform-extra', DemoBillFormExtraView)
 defineDemoElement('cospend-plugin-demo-settings', DemoSettingsView)
 
 // The second navItem showcases late element definition: its component chunks are
@@ -157,6 +159,13 @@ const plugin = {
 			display: 'content',
 			minAccessLevel: 1,
 			view: 'cospend-plugin-demo-billlist',
+		},
+		// rendered below the bill form, can set the values of the bill being edited
+		billFormExtra: {
+			id: 'demo-billform-extra',
+			name: 'Demo: bill form extra',
+			icon: demoIcon,
+			view: 'cospend-plugin-demo-billform-extra',
 		},
 		settingsSection: {
 			id: 'demo-settings',

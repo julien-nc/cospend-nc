@@ -13,7 +13,7 @@
  */
 import { emit } from '@nextcloud/event-bus'
 
-let demoLateCounter = 0
+let demoLateCounter = 3
 
 /**
  * Add a delta to the demo nav item counter and update the badge.

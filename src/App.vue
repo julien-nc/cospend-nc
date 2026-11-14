@@ -19,8 +19,15 @@
 			:show-details="shouldShowDetails"
 			@update:showDetails="showList">
 			<template #list>
+				<div v-if="mode === 'plugin' && pluginListView" class="plugin-list-pane">
+					<PluginHost
+						:tag="pluginListView"
+						:plugin-id="pluginView.pluginId"
+						:project-id="pluginView.projectId"
+						:plugin-context="pluginContext" />
+				</div>
 				<BillList
-					v-if="currentProjectId"
+					v-if="showBillList"
 					ref="billList"
 					:loading="billsLoading"
 					:project-id="currentProjectId"
@@ -43,6 +50,12 @@
 					@move-bill-clicked="onMoveBillClicked" />
 			</template>
 			<div class="content-details-wrapper">
+				<PluginHost
+					v-if="mode === 'plugin' && pluginView"
+					:tag="pluginView.view"
+					:plugin-id="pluginView.pluginId"
+					:project-id="pluginView.projectId"
+					:plugin-context="pluginContext" />
 				<BillForm
 					v-if="currentBill !== null && mode === 'edition'"
 					:bill="currentBill"
@@ -54,15 +67,8 @@
 					@perso-bills-created="onPersoBillsCreated"
 					@duplicate-bill="onDuplicateBill"
 					@repeat-bill-now="onRepeatBillNow" />
-				<NcModal v-if="showMoveModal"
-					size="normal"
-					@close="showMoveModal = false">
-					<MoveToProjectList
-						:bill="billToMove"
-						:project-id="currentProjectId" />
-				</NcModal>
 				<StatisticsContentDetails
-					v-else-if="mode === 'stats'"
+					v-if="mode === 'stats'"
 					:project-id="currentProjectId" />
 				<ProjectSettlement
 					v-else-if="mode === 'settle'"
@@ -133,6 +139,22 @@
 				<div @click="() => {}" />
 			</div>
 		</NcAppContent>
+		<NcModal v-if="pluginModalView"
+			size="normal"
+			@close="closePluginModal">
+			<PluginHost
+				:tag="pluginModalView.view"
+				:plugin-id="pluginModalView.pluginId"
+				:project-id="pluginModalView.projectId"
+				:plugin-context="pluginContext" />
+		</NcModal>
+		<NcModal v-if="showMoveModal"
+			size="normal"
+			@close="showMoveModal = false">
+			<MoveToProjectList
+				:bill="billToMove"
+				:project-id="currentProjectId" />
+		</NcModal>
 		<CospendSettingsDialog
 			@update-max-precision="onUpdateMaxPrecision" />
 		<CospendAppSidebar
@@ -173,7 +195,7 @@ import isMobile from './mixins/isMobile.js'
 
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { subscribe, unsubscribe, emit } from '@nextcloud/event-bus'
 import moment from '@nextcloud/moment'
 import {
 	showSuccess,
@@ -185,7 +207,8 @@ import { defineAsyncComponent } from 'vue'
 
 import * as network from './network.js'
 import * as constants from './constants.js'
-import { rgbObjToHex, slugify } from './utils.js'
+import { rgbObjToHex, slugify, getErrorMessage } from './utils.js'
+import { findEntryPoint, snapshot } from './plugin/registry.js'
 
 export default {
 	name: 'App',
@@ -198,6 +221,7 @@ export default {
 		ProjectSettlement: defineAsyncComponent(() => import('./ProjectSettlement.vue')),
 		CospendAppSidebar: defineAsyncComponent(() => import('./components/CospendAppSidebar.vue')),
 		MoveToProjectList: defineAsyncComponent(() => import('./components/MoveToProjectList.vue')),
+		PluginHost: defineAsyncComponent(() => import('./plugin/PluginHost.vue')),
 		NcContent: defineAsyncComponent(() => import('@nextcloud/vue/components/NcContent')),
 		NcAppContent: defineAsyncComponent(() => import('@nextcloud/vue/components/NcAppContent')),
 		NcEmptyContent,
@@ -239,11 +263,29 @@ export default {
 			billToMove: null,
 			pendingInvitations: [],
 			unreachableFederatedProject: [],
+			// plugin system: the currently active plugin view (content display)
+			pluginView: null,
+			// plugin system: the currently open plugin dialog (modal display)
+			pluginModalView: null,
+			// plugin system: whether the mobile layout currently shows the plugin's list view
+			pluginListVisible: false,
 		}
 	},
 	computed: {
 		shouldShowDetails() {
+			if (this.mode === 'plugin') {
+				if (this.pluginListView && this.pluginListVisible) {
+					return false
+				}
+				return true
+			}
 			return (this.currentBill && this.currentBill !== null) || !['edition', 'normal'].includes(this.mode)
+		},
+		pluginListView() {
+			return (this.mode === 'plugin' && this.pluginView) ? this.pluginView.listView : null
+		},
+		showBillList() {
+			return !!this.currentProjectId && !this.pluginListView
 		},
 		showProjectEmptyContent() {
 			return this.currentProjectId
@@ -326,79 +368,472 @@ export default {
 				? this.currentProject.nb_trashbin_bills || 0
 				: this.currentProject.nb_bills || 0
 		},
+		pluginContext() {
+			const view = this.pluginModalView ?? (this.mode === 'plugin' ? this.pluginView : null)
+			if (!view) {
+				return null
+			}
+			const pageIsPublic = !!this.cospend.pageIsPublic
+			let user = null
+			if (!pageIsPublic) {
+				const u = getCurrentUser()
+				user = u ? { uid: u.uid, displayName: u.displayName } : null
+			}
+			const projects = snapshot(this.projects)
+			const members = snapshot(this.members)
+			const context = {
+				user,
+				pageIsPublic,
+				projects,
+				members,
+				project: null,
+				accessLevel: null,
+				member: null,
+				bill: null,
+			}
+			if (view.projectId && this.projects[view.projectId]) {
+				context.project = projects[view.projectId]
+				context.accessLevel = this.projects[view.projectId].myaccesslevel
+			}
+			if (view.memberId !== null && view.projectId) {
+				context.member = members[view.projectId]?.[view.memberId] ?? null
+			}
+			if (view.billId !== null && view.projectId) {
+				const bill = this.bills[view.projectId]?.[view.billId]
+					?? (this.billLists[view.projectId] ?? []).find((b) => b.id === view.billId)
+				context.bill = bill ? snapshot(bill) : null
+			}
+			return context
+		},
+	},
+	watch: {
+		// plugin system: notify plugins when their view is closed by a mode change
+		mode(newMode, oldMode) {
+			if (oldMode === 'plugin' && newMode !== 'plugin' && this.pluginView) {
+				emit('cospend:app-view-changed', {
+					pluginId: this.pluginView.pluginId,
+					entryPointId: this.pluginView.entryPointId,
+					projectId: this.pluginView.projectId,
+					active: false,
+				})
+				this.pluginView = null
+			}
+		},
 	},
 	created() {
 		this.getProjects()
 	},
 	mounted() {
 		subscribe('nextcloud:unified-search:search', this.filter)
-		subscribe('bill-search', this.filter)
+		subscribe('cospend:bill-search', this.filter)
 		subscribe('nextcloud:unified-search:reset', this.cleanSearch)
 
-		subscribe('project-clicked', this.onProjectClicked)
-		subscribe('delete-project', this.onDeleteProject)
-		subscribe('archive-project', this.archiveProject)
-		subscribe('deselect-project', this.deselectProject)
-		subscribe('project-imported', this.onProjectImported)
-		subscribe('stats-clicked', this.onStatsClicked)
-		subscribe('settle-clicked', this.onSettleClicked)
-		subscribe('detail-clicked', this.onDetailClicked)
-		subscribe('share-clicked', this.onShareClicked)
-		subscribe('new-member-clicked', this.onNewMemberClicked)
-		subscribe('member-edited', this.onMemberEdited)
-		subscribe('member-click', this.onNavMemberClick)
-		subscribe('create-project', this.onCreateProject)
-		subscribe('save-option', this.onSaveOption)
-		subscribe('restore-bill', this.onRestoreBill)
-		subscribe('restore-bills', this.onRestoreBills)
-		subscribe('delete-bill', this.onDeleteBill)
-		subscribe('bill-moved', this.onBillMoved)
-		subscribe('bill-clicked', this.onBillClicked)
+		subscribe('cospend:project-clicked', this.onProjectClicked)
+		subscribe('cospend:select-project', this.onProjectClicked)
+		subscribe('cospend:delete-project', this.onDeleteProject)
+		subscribe('cospend:archive-project', this.onArchiveProject)
+		subscribe('cospend:deselect-project', this.deselectProject)
+		subscribe('cospend:project-imported', this.onProjectImported)
+		subscribe('cospend:stats-clicked', this.onStatsClicked)
+		subscribe('cospend:settle-clicked', this.onSettleClicked)
+		subscribe('cospend:detail-clicked', this.onDetailClicked)
+		subscribe('cospend:share-clicked', this.onShareClicked)
+		subscribe('cospend:new-member-clicked', this.onNewMemberClicked)
+		subscribe('cospend:member-edited', this.onMemberEdited)
+		subscribe('cospend:member-click', this.onNavMemberClick)
+		subscribe('cospend:create-project', this.onCreateProject)
+		subscribe('cospend:save-option', this.onSaveOption)
+		subscribe('cospend:restore-bill', this.onRestoreBill)
+		subscribe('cospend:restore-bills', this.onRestoreBills)
+		subscribe('cospend:delete-bill', this.onDeleteBill)
+		subscribe('cospend:bill-moved', this.onBillMoved)
+		subscribe('cospend:bill-clicked', this.onBillClicked)
 
-		subscribe('trashbin-clicked', this.onTrashbinClicked)
-		subscribe('close-trashbin', this.onCloseTrashbinClicked)
-		subscribe('clear-trashbin-clicked', this.onClearTrashBinClicked)
+		subscribe('cospend:trashbin-clicked', this.onTrashbinClicked)
+		subscribe('cospend:close-trashbin', this.onCloseTrashbinClicked)
+		subscribe('cospend:clear-trashbin-clicked', this.onClearTrashBinClicked)
 
-		subscribe('add-project', this.addProject)
-		subscribe('remove-pending-invitation', this.removePendingInvitation)
-		subscribe('remove-project', this.removeProject)
-		subscribe('remove-unreachable-project', this.removeUnreachableProject)
+		subscribe('cospend:add-project', this.addProject)
+		subscribe('cospend:remove-pending-invitation', this.removePendingInvitation)
+		subscribe('cospend:remove-project', this.removeProject)
+		subscribe('cospend:remove-unreachable-project', this.removeUnreachableProject)
+
+		// plugin system: entry point activation events (plugin → Cospend)
+		subscribe('cospend:plugin-navitem-clicked', this.onPluginNavItemClicked)
+		subscribe('cospend:plugin-create-project-action', this.onPluginCreateProjectAction)
+		subscribe('cospend:plugin-project-action', this.onPluginProjectAction)
+		subscribe('cospend:plugin-member-action', this.onPluginMemberAction)
+		subscribe('cospend:plugin-bill-action', this.onPluginBillAction)
+		subscribe('cospend:plugin-billlist-action', this.onPluginBillListAction)
+		// plugin system: plugin-only action events
+		subscribe('cospend:close-plugin-view', this.onPluginCloseView)
+		subscribe('cospend:refresh-project', this.onPluginRefreshProject)
+		// plugin system: action events shared with Cospend's own UI
+		// (cospend:select-project, cospend:deselect-project, cospend:archive-project,
+		// cospend:create-project, cospend:delete-bill are subscribed above,
+		// along with Cospend's own emitters)
+		subscribe('cospend:create-bill', this.onCreateBill)
+		subscribe('cospend:save-member', this.onSaveMember)
+		subscribe('cospend:save-bill', this.onSaveBill)
+		subscribe('cospend:delete-member', this.onDeleteMember)
 	},
 	beforeUnmount() {
 		unsubscribe('nextcloud:unified-search:search', this.filter)
-		unsubscribe('bill-search', this.filter)
+		unsubscribe('cospend:bill-search', this.filter)
 		unsubscribe('nextcloud:unified-search:reset', this.cleanSearch)
 
-		unsubscribe('project-clicked', this.onProjectClicked)
-		unsubscribe('delete-project', this.onDeleteProject)
-		unsubscribe('archive-project', this.archiveProject)
-		unsubscribe('deselect-project', this.deselectProject)
-		unsubscribe('project-imported', this.onProjectImported)
-		unsubscribe('stats-clicked', this.onStatsClicked)
-		unsubscribe('settle-clicked', this.onSettleClicked)
-		unsubscribe('detail-clicked', this.onDetailClicked)
-		unsubscribe('share-clicked', this.onShareClicked)
-		unsubscribe('new-member-clicked', this.onNewMemberClicked)
-		unsubscribe('member-edited', this.onMemberEdited)
-		unsubscribe('member-click', this.onNavMemberClick)
-		unsubscribe('create-project', this.onCreateProject)
-		unsubscribe('save-option', this.onSaveOption)
-		unsubscribe('restore-bill', this.onRestoreBill)
-		unsubscribe('restore-bills', this.onRestoreBills)
-		unsubscribe('delete-bill', this.onDeleteBill)
-		unsubscribe('bill-moved', this.onBillMoved)
-		unsubscribe('bill-clicked', this.onBillClicked)
+		unsubscribe('cospend:project-clicked', this.onProjectClicked)
+		unsubscribe('cospend:select-project', this.onProjectClicked)
+		unsubscribe('cospend:delete-project', this.onDeleteProject)
+		unsubscribe('cospend:archive-project', this.onArchiveProject)
+		unsubscribe('cospend:deselect-project', this.deselectProject)
+		unsubscribe('cospend:project-imported', this.onProjectImported)
+		unsubscribe('cospend:stats-clicked', this.onStatsClicked)
+		unsubscribe('cospend:settle-clicked', this.onSettleClicked)
+		unsubscribe('cospend:detail-clicked', this.onDetailClicked)
+		unsubscribe('cospend:share-clicked', this.onShareClicked)
+		unsubscribe('cospend:new-member-clicked', this.onNewMemberClicked)
+		unsubscribe('cospend:member-edited', this.onMemberEdited)
+		unsubscribe('cospend:member-click', this.onNavMemberClick)
+		unsubscribe('cospend:create-project', this.onCreateProject)
+		unsubscribe('cospend:save-option', this.onSaveOption)
+		unsubscribe('cospend:restore-bill', this.onRestoreBill)
+		unsubscribe('cospend:restore-bills', this.onRestoreBills)
+		unsubscribe('cospend:delete-bill', this.onDeleteBill)
+		unsubscribe('cospend:bill-moved', this.onBillMoved)
+		unsubscribe('cospend:bill-clicked', this.onBillClicked)
 
-		unsubscribe('trashbin-clicked', this.onTrashbinClicked)
-		unsubscribe('close-trashbin', this.onCloseTrashbinClicked)
-		unsubscribe('clear-trashbin-clicked', this.onClearTrashBinClicked)
+		unsubscribe('cospend:trashbin-clicked', this.onTrashbinClicked)
+		unsubscribe('cospend:close-trashbin', this.onCloseTrashbinClicked)
+		unsubscribe('cospend:clear-trashbin-clicked', this.onClearTrashBinClicked)
 
-		unsubscribe('add-project', this.addProject)
-		unsubscribe('remove-pending-invitation', this.removePendingInvitation)
-		unsubscribe('remove-project', this.removeProject)
-		unsubscribe('remove-unreachable-project', this.removeUnreachableProject)
+		unsubscribe('cospend:add-project', this.addProject)
+		unsubscribe('cospend:remove-pending-invitation', this.removePendingInvitation)
+		unsubscribe('cospend:remove-project', this.removeProject)
+		unsubscribe('cospend:remove-unreachable-project', this.removeUnreachableProject)
+
+		// plugin system: entry point activation events (plugin → Cospend)
+		unsubscribe('cospend:plugin-navitem-clicked', this.onPluginNavItemClicked)
+		unsubscribe('cospend:plugin-create-project-action', this.onPluginCreateProjectAction)
+		unsubscribe('cospend:plugin-project-action', this.onPluginProjectAction)
+		unsubscribe('cospend:plugin-member-action', this.onPluginMemberAction)
+		unsubscribe('cospend:plugin-bill-action', this.onPluginBillAction)
+		unsubscribe('cospend:plugin-billlist-action', this.onPluginBillListAction)
+		// plugin system: plugin-only action events
+		unsubscribe('cospend:close-plugin-view', this.onPluginCloseView)
+		unsubscribe('cospend:refresh-project', this.onPluginRefreshProject)
+		// plugin system: action events shared with Cospend's own UI
+		// (no double unsubscribe for the events subscribed above,
+		// see the comment in mounted())
+		unsubscribe('cospend:create-bill', this.onCreateBill)
+		unsubscribe('cospend:save-member', this.onSaveMember)
+		unsubscribe('cospend:save-bill', this.onSaveBill)
+		unsubscribe('cospend:delete-member', this.onDeleteMember)
 	},
 	methods: {
+		// ===== plugin system =====
+		activatePluginView(view) {
+			this.pluginListVisible = false
+			if (view.display === 'modal') {
+				this.pluginModalView = view
+			} else {
+				this.pluginModalView = null
+				this.pluginView = view
+				if (this.mode !== 'plugin') {
+					this.mode = 'plugin'
+				}
+			}
+			emit('cospend:app-view-changed', {
+				pluginId: view.pluginId,
+				entryPointId: view.entryPointId,
+				projectId: view.projectId,
+				active: true,
+			})
+		},
+		closePluginModal() {
+			const view = this.pluginModalView
+			this.pluginModalView = null
+			if (view) {
+				emit('cospend:app-view-changed', {
+					pluginId: view.pluginId,
+					entryPointId: view.entryPointId,
+					projectId: view.projectId,
+					active: false,
+				})
+			}
+		},
+		selectPluginTargetProject(projectId) {
+			if (projectId && this.currentProjectId !== projectId && this.projects[projectId]) {
+				this.selectProject(projectId, true, true)
+			}
+		},
+		onPluginNavItemClicked({ pluginId, entryPointId }) {
+			const found = findEntryPoint(pluginId, 'navItem', entryPointId)
+			if (!found) {
+				return
+			}
+			// app-level views are not tied to a project: deselect the current one
+			if (this.cospend.currentProjectId) {
+				this.deselectProject()
+			}
+			this.activatePluginView({
+				pluginId,
+				type: 'navItem',
+				entryPointId,
+				view: found.ep.view,
+				listView: found.ep.listView,
+				display: 'content',
+				projectId: null,
+				memberId: null,
+				billId: null,
+			})
+		},
+		onPluginCreateProjectAction({ pluginId, entryPointId }) {
+			const found = findEntryPoint(pluginId, 'createProjectAction', entryPointId)
+			if (!found) {
+				return
+			}
+			// app-level views are not tied to a project: deselect the current one
+			if (this.cospend.currentProjectId) {
+				this.deselectProject()
+			}
+			this.activatePluginView({
+				pluginId,
+				type: 'createProjectAction',
+				entryPointId,
+				view: found.ep.view,
+				listView: found.ep.listView,
+				display: found.ep.display,
+				projectId: null,
+				memberId: null,
+				billId: null,
+			})
+		},
+		onPluginProjectAction({ pluginId, entryPointId, projectId }) {
+			const found = findEntryPoint(pluginId, 'projectAction', entryPointId)
+			if (!found) {
+				return
+			}
+			this.selectPluginTargetProject(projectId)
+			this.activatePluginView({
+				pluginId,
+				type: 'projectAction',
+				entryPointId,
+				view: found.ep.view,
+				listView: found.ep.listView,
+				display: found.ep.display,
+				projectId,
+				memberId: null,
+				billId: null,
+			})
+		},
+		onPluginMemberAction({ pluginId, entryPointId, projectId, memberId }) {
+			const found = findEntryPoint(pluginId, 'memberAction', entryPointId)
+			if (!found) {
+				return
+			}
+			this.selectPluginTargetProject(projectId)
+			this.activatePluginView({
+				pluginId,
+				type: 'memberAction',
+				entryPointId,
+				view: found.ep.view,
+				listView: found.ep.listView,
+				display: found.ep.display,
+				projectId,
+				memberId,
+				billId: null,
+			})
+		},
+		onPluginBillAction({ pluginId, entryPointId, projectId, billId }) {
+			const found = findEntryPoint(pluginId, 'billAction', entryPointId)
+			if (!found) {
+				return
+			}
+			this.selectPluginTargetProject(projectId)
+			this.activatePluginView({
+				pluginId,
+				type: 'billAction',
+				entryPointId,
+				view: found.ep.view,
+				listView: found.ep.listView,
+				display: found.ep.display,
+				projectId,
+				memberId: null,
+				billId,
+			})
+		},
+		onPluginBillListAction({ pluginId, entryPointId, projectId }) {
+			const found = findEntryPoint(pluginId, 'billListAction', entryPointId)
+			if (!found) {
+				return
+			}
+			this.selectPluginTargetProject(projectId)
+			this.activatePluginView({
+				pluginId,
+				type: 'billListAction',
+				entryPointId,
+				view: found.ep.view,
+				listView: found.ep.listView,
+				display: found.ep.display,
+				projectId,
+				memberId: null,
+				billId: null,
+			})
+		},
+		onPluginCloseView({ pluginId, entryPointId }) {
+			if (this.pluginModalView?.pluginId === pluginId
+				&& (entryPointId === undefined || this.pluginModalView.entryPointId === entryPointId)) {
+				this.closePluginModal()
+				return
+			}
+			if (this.mode === 'plugin'
+				&& this.pluginView?.pluginId === pluginId
+				&& (entryPointId === undefined || this.pluginView.entryPointId === entryPointId)) {
+				// leaving the plugin mode makes the mode watcher close the view
+				this.mode = 'normal'
+			}
+		},
+		onPluginRefreshProject({ projectId, includeBills = false }) {
+			if (!projectId) {
+				return
+			}
+			if (includeBills && projectId === this.cospend.currentProjectId) {
+				// getBills also refreshes project info, and respects the current
+				// member/category/payment-mode/search filters and trashbin mode
+				this.getBills(projectId, null, false, this.trashbinEnabled)
+			} else {
+				this.updateProjectInfo(projectId)
+			}
+		},
+		/**
+		 * Report the outcome of an action event.
+		 * When the payload carries an `onDone` callback, the result is delivered to it
+		 * and no toast is shown: the emitting plugin owns the feedback. Otherwise the
+		 * outcome falls back to the classic success/error toast.
+		 *
+		 * @param {?(result: object) => void} onDone the `onDone` callback of the payload, if any
+		 * @param {object} result `{ ok, projectId?, ... , error?, status? }`
+		 * @param {?string} successText toast shown on success when there is no callback
+		 * @param {?string} failureText toast shown on failure when there is no callback
+		 */
+		notifyActionDone(onDone, result, successText, failureText) {
+			if (typeof onDone === 'function') {
+				onDone(result)
+				return
+			}
+			if (result.ok) {
+				if (successText) {
+					showSuccess(successText)
+				}
+			} else if (failureText) {
+				showError(failureText)
+			}
+		},
+		onCreateBill({ projectId, bill, onDone }) {
+			if (!this.isKnownProject(projectId)) {
+				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown project') }, null, null)
+				return
+			}
+			const req = {
+				what: bill.what ?? '',
+				comment: bill.comment ?? '',
+				timestamp: bill.timestamp ?? moment().unix(),
+				payer: bill.payer_id,
+				payedFor: (bill.owerIds ?? []).join(','),
+				amount: bill.amount ?? 0,
+				repeat: bill.repeat ?? 'n',
+				repeatAllActive: bill.repeatallactive ? 1 : 0,
+				repeatUntil: bill.repeatuntil ?? null,
+				repeatFreq: bill.repeatfreq ? parseInt(bill.repeatfreq) : 1,
+				paymentModeId: bill.paymentmodeid ?? 0,
+				categoryId: bill.categoryid ?? 0,
+			}
+			network.createBill(projectId, req).then((response) => {
+				const billId = response.data.ocs.data
+				const createdBill = {
+					...bill,
+					id: billId,
+					what: req.what,
+					comment: req.comment,
+					timestamp: req.timestamp,
+					payer_id: req.payer,
+					owerIds: bill.owerIds ?? [],
+					amount: req.amount,
+					repeat: req.repeat,
+					repeatallactive: req.repeatAllActive,
+					repeatuntil: req.repeatUntil,
+					repeatfreq: req.repeatFreq,
+					paymentmodeid: req.paymentModeId,
+					categoryid: req.categoryId,
+				}
+				this.addBillToState(projectId, createdBill)
+				this.updateProjectInfo(projectId)
+				this.notifyActionDone(onDone, { ok: true, projectId, billId }, t('cospend', 'Bill created'), null)
+			}).catch((error) => {
+				console.error(error)
+				const message = getErrorMessage(error)
+				this.notifyActionDone(
+					onDone,
+					{ ok: false, projectId, error: message, status: error.response?.status ?? null },
+					null,
+					t('cospend', 'Failed to create bill') + ': ' + message,
+				)
+			})
+		},
+		onSaveMember({ projectId, member, onDone }) {
+			if (!this.isKnownProject(projectId)) {
+				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown project') }, null, null)
+				return
+			}
+			const members = this.members[projectId] ?? {}
+			if (member.id && members[member.id]) {
+				this.saveMember(projectId, member.id, member, onDone)
+			} else {
+				this.createMember(projectId, member.name, member.userid ?? null, onDone)
+			}
+		},
+		onSaveBill({ projectId, bill, onDone }) {
+			if (!this.isKnownProject(projectId)) {
+				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown project') }, null, null)
+				return
+			}
+			const existing = this.findBill(projectId, bill.id)
+			if (!existing) {
+				const error = t('cospend', 'Bill {id} not found in the displayed bill list', { id: bill.id })
+				this.notifyActionDone(onDone, { ok: false, projectId, error }, null, error)
+				return
+			}
+			const merged = { ...existing, ...bill }
+			network.editBill(projectId, merged).then(() => {
+				this.applyBillChanges(projectId, existing, merged)
+				this.notifyActionDone(onDone, { ok: true, projectId, billId: bill.id }, t('cospend', 'Bill saved'), null)
+			}).catch((error) => {
+				console.error(error)
+				const message = getErrorMessage(error)
+				this.notifyActionDone(
+					onDone,
+					{ ok: false, projectId, error: message, status: error.response?.status ?? null },
+					null,
+					t('cospend', 'Failed to save bill') + ': ' + message,
+				)
+			})
+		},
+		onDeleteMember({ projectId, memberId, onDone }) {
+			if (!this.isKnownProject(projectId)) {
+				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown project') }, null, null)
+				return
+			}
+			const member = this.members[projectId]?.[memberId]
+			if (!member) {
+				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown member') }, null, t('cospend', 'Unknown member'))
+				return
+			}
+			// member deletion in Cospend is a deactivation, idempotent by design
+			member.activated = false
+			this.onMemberEdited({ projectId, memberId }, onDone)
+		},
+		// ===== end plugin system =====
 		removeUnreachableProject(invitationId) {
 			const index = this.unreachableFederatedProject.findIndex(i => i.id === invitationId)
 			if (index !== -1) {
@@ -501,10 +936,53 @@ export default {
 				this.billLists[this.cospend.currentProjectId].splice(i0, 1)
 			}
 		},
+		isKnownProject(projectId) {
+			if (!projectId || !this.projects[projectId]) {
+				showError(t('cospend', 'Unknown project: {id}', { id: projectId }))
+				return false
+			}
+			return true
+		},
+		findBill(projectId, billId) {
+			return this.bills[projectId]?.[billId]
+				?? (this.billLists[projectId] ?? []).find((b) => b.id === billId)
+				?? null
+		},
+		addBillToState(projectId, bill) {
+			if (this.bills[projectId]) {
+				this.bills[projectId][bill.id] = bill
+			}
+			if (this.billLists[projectId]) {
+				this.billLists[projectId].unshift(bill)
+			}
+			if (this.projects[projectId]) {
+				this.projects[projectId].nb_bills++
+			}
+		},
+		removeBillFromState(projectId, billId) {
+			const billList = this.billLists[projectId]
+			const index = billList?.findIndex((b) => b.id === billId) ?? -1
+			if (index !== -1) {
+				billList.splice(index, 1)
+			}
+			if (this.bills[projectId]) {
+				delete this.bills[projectId][billId]
+			}
+			if (this.currentBill?.id === billId) {
+				this.currentBill = null
+			}
+			this.updateProjectInfo(projectId)
+		},
+		applyBillChanges(projectId, existing, changes, updateProjectInfo = true) {
+			Object.assign(existing, changes)
+			// this avoids having both bill objects sharing the same owerIds array (pseudo deep copy)
+			existing.owerIds = [...(changes.owerIds ?? existing.owerIds)]
+			if (updateProjectInfo) {
+				this.updateProjectInfo(projectId)
+			}
+		},
 		onBillCreated(bill, select, mode) {
-			this.bills[this.cospend.currentProjectId][bill.id] = bill
-			this.billLists[this.cospend.currentProjectId].unshift(bill)
-			this.currentProject.nb_bills++
+			this.addBillToState(this.cospend.currentProjectId, bill)
 			this.cleanupBills()
 			if (select) {
 				this.currentBill = bill
@@ -545,12 +1023,7 @@ export default {
 			this.onNewBillClicked(bill)
 		},
 		onBillSaved(bill, changedBill, updateProjectInfo = true) {
-			Object.assign(bill, changedBill)
-			// this avoids having both bill object sharing the same owerIds array (pseudo deep copy)
-			bill.owerIds = [...changedBill.owerIds]
-			if (updateProjectInfo) {
-				this.updateProjectInfo(this.cospend.currentProjectId)
-			}
+			this.applyBillChanges(this.cospend.currentProjectId, bill, changedBill, updateProjectInfo)
 		},
 		onCustomBillsCreated() {
 			this.currentBill = null
@@ -563,20 +1036,36 @@ export default {
 		onResetSelection() {
 			this.currentBill = null
 		},
-		onDeleteBill(bill) {
-			if (bill.id === 0) {
-				this.onBillDeleted(bill)
-			} else {
-				network.deleteBill(this.cospend.currentProjectId, bill).then((response) => {
-					this.onBillDeleted(bill)
-					showSuccess(t('cospend', 'Bill deleted'))
-				}).catch((error) => {
-					showError(
-						t('cospend', 'Failed to delete bill')
-						+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
-					)
-				})
+		onDeleteBill({ projectId, billId, onDone }) {
+			if (!this.isKnownProject(projectId)) {
+				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown project') }, null, null)
+				return
 			}
+			const bill = this.findBill(projectId, billId)
+			if (!bill) {
+				const error = t('cospend', 'Bill {id} not found in the displayed bill list', { id: billId })
+				this.notifyActionDone(onDone, { ok: false, projectId, error }, null, error)
+				return
+			}
+			if (bill.id === 0) {
+				// unsaved bill: just remove it from the state
+				this.removeBillFromState(projectId, billId)
+				this.notifyActionDone(onDone, { ok: true, projectId, billId }, null, null)
+				return
+			}
+			network.deleteBill(projectId, bill).then(() => {
+				this.removeBillFromState(projectId, billId)
+				this.notifyActionDone(onDone, { ok: true, projectId, billId }, t('cospend', 'Bill deleted'), null)
+			}).catch((error) => {
+				console.error(error)
+				const message = getErrorMessage(error)
+				this.notifyActionDone(
+					onDone,
+					{ ok: false, projectId, error: message, status: error.response?.status ?? null },
+					null,
+					t('cospend', 'Failed to delete bill') + ': ' + message,
+				)
+			})
 		},
 		onBillsDeleted(billIds) {
 			const billList = this.billLists[this.cospend.currentProjectId]
@@ -586,30 +1075,28 @@ export default {
 			})
 			this.updateProjectInfo(this.cospend.currentProjectId)
 		},
-		onBillDeleted(bill) {
-			const billList = this.billLists[this.cospend.currentProjectId]
-			const billIndex = billList.findIndex(b => bill.id === b.id)
-			if (billIndex !== -1) {
-				billList.splice(billIndex, 1)
+		onRestoreBill({ projectId, billId, onDone }) {
+			if (!this.isKnownProject(projectId)) {
+				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown project') }, null, null)
+				return
 			}
-			if (bill.id === this.selectedBillId) {
-				this.currentBill = null
+			const bill = this.findBill(projectId, billId)
+			if (!bill) {
+				const error = t('cospend', 'Bill {id} not found in the displayed bill list', { id: billId })
+				this.notifyActionDone(onDone, { ok: false, projectId, error }, null, error)
+				return
 			}
-			this.updateProjectInfo(this.cospend.currentProjectId)
-		},
-		onRestoreBill(bill) {
-			network.restoreBill(this.cospend.currentProjectId, bill).then((response) => {
-				showSuccess(t('cospend', 'Bill restored'))
-				const billList = this.billLists[this.cospend.currentProjectId]
-				billList.splice(billList.indexOf(bill), 1)
-				if (bill.id === this.selectedBillId) {
-					this.currentBill = null
-				}
-				this.updateProjectInfo(this.cospend.currentProjectId)
+			network.restoreBill(projectId, bill).then(() => {
+				this.removeBillFromState(projectId, billId)
+				this.notifyActionDone(onDone, { ok: true, projectId, billId }, t('cospend', 'Bill restored'), null)
 			}).catch((error) => {
-				showError(
-					t('cospend', 'Failed to restore bill')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
+				console.error(error)
+				const message = getErrorMessage(error)
+				this.notifyActionDone(
+					onDone,
+					{ ok: false, projectId, error: message, status: error.response?.status ?? null },
+					null,
+					t('cospend', 'Failed to restore bill') + ': ' + message,
 				)
 			})
 		},
@@ -625,11 +1112,14 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to delete bills')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
+					+ ': ' + getErrorMessage(error),
 				)
 			})
 		},
-		onProjectClicked(projectId) {
+		onProjectClicked({ projectId }) {
+			if (!this.isKnownProject(projectId)) {
+				return
+			}
 			if (this.cospend.currentProjectId !== projectId) {
 				this.trashbinEnabled = false
 				this.selectProject(projectId, true, true)
@@ -641,6 +1131,9 @@ export default {
 				// we load bills from scratch to make sure we get the correct total number of bills
 				// and infinite scroll works fine
 				this.getBills(this.cospend.currentProjectId)
+			} else if (this.mode === 'plugin') {
+				// the project is already selected: leave any active plugin view
+				this.mode = 'normal'
 			}
 		},
 		onDeleteProject(projectId) {
@@ -1004,7 +1497,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to get bills')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
+					+ ': ' + getErrorMessage(error),
 				)
 				console.error(error)
 			}).then(() => {
@@ -1038,7 +1531,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to get bills')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
+					+ ': ' + getErrorMessage(error),
 				)
 			}).then(() => {
 			})
@@ -1053,11 +1546,9 @@ export default {
 				this.members[proj.id][member.id].color = rgbObjToHex(member.color).replace('#', '')
 			})
 
-			this.cospend.bills[proj.id] = {}
-			this.bills[proj.id] = this.cospend.bills[proj.id]
+			this.bills[proj.id] = {}
 
-			this.cospend.billLists[proj.id] = []
-			this.billLists[proj.id] = this.cospend.billLists[proj.id]
+			this.billLists[proj.id] = []
 
 			this.cospend.projects[proj.id] = proj
 			this.projects[proj.id] = proj
@@ -1066,24 +1557,28 @@ export default {
 			this.addProject(project)
 			this.selectProject(project.id, true, true)
 		},
-		onCreateProject(name) {
-			if (!name) {
-				showError(t('cospend', 'Invalid project name'))
-			} else {
-				const id = slugify(name)
-				this.createProject(name, id)
+		onCreateProject({ name, id, onDone }) {
+			if (!name || typeof name !== 'string') {
+				const error = t('cospend', 'Invalid project name')
+				this.notifyActionDone(onDone, { ok: false, error }, null, error)
+				return
 			}
+			this.createProject(name, (typeof id === 'string' && id !== '') ? id : slugify(name), onDone)
 		},
-		createProject(name, id) {
+		createProject(name, id, onDone = null) {
 			network.createProject(name, id).then((response) => {
 				this.$refs.billList?.toggleFilterMode(false, false)
 				this.addProject(response.data.ocs.data)
 				this.selectProject(response.data.ocs.data.id, true, true)
+				this.notifyActionDone(onDone, { ok: true, projectId: response.data.ocs.data.id }, t('cospend', 'Project created'), null)
 			}).catch((error) => {
 				console.error(error)
-				showError(
-					t('cospend', 'Failed to create project')
-					+ ': ' + (error.response?.data?.ocs?.data?.error || error.response?.data?.ocs?.data),
+				const message = getErrorMessage(error)
+				this.notifyActionDone(
+					onDone,
+					{ ok: false, error: message, status: error.response?.status ?? null },
+					null,
+					t('cospend', 'Failed to create project') + ': ' + message,
 				)
 			})
 		},
@@ -1116,13 +1611,21 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to delete project')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
+					+ ': ' + getErrorMessage(error),
 				)
 			})
 		},
-		archiveProject(projectId) {
-			this.projects[projectId].archived_ts = this.projects[projectId].archived_ts ? constants.PROJECT_ARCHIVED_TS_UNSET : constants.PROJECT_ARCHIVED_TS_NOW
-			this.editProject(projectId, null, true)
+		onArchiveProject({ projectId, onDone }) {
+			if (!this.isKnownProject(projectId)) {
+				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown project') }, null, null)
+				return
+			}
+			this.archiveProject(projectId, onDone)
+		},
+		archiveProject(projectId, onDone = null) {
+			const willBeArchived = this.projects[projectId].archived_ts === constants.PROJECT_ARCHIVED_TS_UNSET
+			this.projects[projectId].archived_ts = willBeArchived ? constants.PROJECT_ARCHIVED_TS_NOW : constants.PROJECT_ARCHIVED_TS_UNSET
+			this.editProject(projectId, null, true, onDone)
 		},
 		updateProjectInfo(projectId) {
 			return network.getProjectInfo(projectId).then((response) => {
@@ -1145,7 +1648,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to update balances')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
+					+ ': ' + getErrorMessage(error),
 				)
 			})
 		},
@@ -1163,7 +1666,7 @@ export default {
 			} while (sum !== 0.0 && precision < this.cospend.maxPrecision)
 			this.projects[projectId].precision = precision
 		},
-		createMember(projectId, name, userid = null) {
+		createMember(projectId, name, userid = null, onDone = null) {
 			const isProjectFederated = this.projects[projectId].federated === true
 			// avoid adding local users as members in federated project, the user won't exist in the remote instance
 			const newMemberUserId = isProjectFederated ? null : userid
@@ -1173,15 +1676,24 @@ export default {
 				responseData.color = rgbObjToHex(responseData.color).replace('#', '')
 				this.members[projectId][responseData.id] = responseData
 				this.projects[projectId].members.unshift(responseData)
-				showSuccess(t('cospend', 'Created member {name}', { name }))
 				// add access to this user if it's not there already
 				if (responseData.userid) {
 					this.addParticipantAccess(projectId, responseData.id, responseData.userid)
 				}
+				this.notifyActionDone(
+					onDone,
+					{ ok: true, projectId, memberId: responseData.id },
+					t('cospend', 'Created member {name}', { name }),
+					null,
+				)
 			}).catch((error) => {
-				showError(
-					t('cospend', 'Failed to add member')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
+				console.error(error)
+				const message = getErrorMessage(error)
+				this.notifyActionDone(
+					onDone,
+					{ ok: false, projectId, error: message, status: error.response?.status ?? null },
+					null,
+					t('cospend', 'Failed to add member') + ': ' + message,
 				)
 			})
 		},
@@ -1209,34 +1721,48 @@ export default {
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to add shared access')
-						+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
+						+ ': ' + getErrorMessage(error),
 					)
 				})
 			}
 		},
 		deleteNewBill() {
 			const billList = this.billLists[this.cospend.currentProjectId]
-			const newBill = billList.find((bill) => {
+			const newBill = billList?.find((bill) => {
 				return bill.id === 0
 			})
 			if (newBill) {
-				this.onBillDeleted(newBill)
+				this.removeBillFromState(this.cospend.currentProjectId, newBill.id)
 			}
 		},
-		onMemberEdited({ projectId, memberId }) {
+		onMemberEdited({ projectId, memberId }, onDone = null) {
+			this.saveMember(projectId, memberId, null, onDone)
+		},
+		saveMember(projectId, memberId, changes = null, onDone = null) {
 			this.deleteNewBill()
-			const member = this.members[projectId][memberId]
+			const member = this.members[projectId]?.[memberId]
+			if (!member) {
+				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown member') }, null, t('cospend', 'Unknown member'))
+				return
+			}
+			// apply the changes on the state member before saving (the API response does not carry them)
+			if (changes) {
+				Object.assign(member, changes)
+			}
 			network.editMember(projectId, member).then((response) => {
-				this.editMemberSuccess(projectId, memberId, response.data.ocs.data)
+				this.editMemberSuccess(projectId, memberId, response.data.ocs.data, onDone)
 			}).catch((error) => {
 				console.error(error)
-				showError(
-					t('cospend', 'Failed to save member')
-					+ ': ' + (error.response?.data?.ocs?.meta?.message || error.response?.data?.ocs?.data?.message || error.response?.request?.responseText),
+				const message = getErrorMessage(error)
+				this.notifyActionDone(
+					onDone,
+					{ ok: false, projectId, error: message, status: error.response?.status ?? null },
+					null,
+					t('cospend', 'Failed to save member') + ': ' + message,
 				)
 			})
 		},
-		editMemberSuccess(projectId, memberid, member) {
+		editMemberSuccess(projectId, memberid, member, onDone = null) {
 			if (!member) {
 				// delete member
 				delete this.members[projectId][memberid]
@@ -1244,31 +1770,41 @@ export default {
 				if (i !== -1) {
 					this.projects[projectId].members.splice(i, 1)
 				}
-				showSuccess(t('cospend', 'Member deleted'))
+				this.notifyActionDone(onDone, { ok: true, projectId, memberId: memberid }, t('cospend', 'Member deleted'), null)
 			} else {
-				showSuccess(t('cospend', 'Member saved'))
 				this.updateProjectInfo(this.cospend.currentProjectId)
 				// add access to this user if it's not there already
 				if (member.userid) {
 					this.addParticipantAccess(projectId, memberid, member.userid)
 				}
+				this.notifyActionDone(onDone, { ok: true, projectId, memberId: memberid }, t('cospend', 'Member saved'), null)
 			}
 		},
-		editProject(projectId, password = null, deselectProject = false) {
+		editProject(projectId, password = null, deselectProject = false, onDone = null) {
 			const project = this.projects[projectId]
 			network.editProject(project, password).then((response) => {
 				if (password && this.cospend.pageIsPublic) {
 					this.cospend.password = password
 				}
 				this.updateProjectInfo(projectId).then(() => {
-					showSuccess(t('cospend', 'Project saved'))
+					this.notifyActionDone(
+						onDone,
+						{ ok: true, projectId, archived: this.projects[projectId].archived_ts !== constants.PROJECT_ARCHIVED_TS_UNSET },
+						t('cospend', 'Project saved'),
+						null,
+					)
 					if (deselectProject) {
 						this.deselectProject()
 					}
 				})
 			}).catch((error) => {
-				showError(t('cospend', 'Failed to edit project'))
 				console.error(error)
+				this.notifyActionDone(
+					onDone,
+					{ ok: false, projectId, error: getErrorMessage(error), status: error.response?.status ?? null },
+					null,
+					t('cospend', 'Failed to edit project'),
+				)
 			})
 		},
 		onCategoryDeleted(catid) {
@@ -1291,6 +1827,10 @@ export default {
 		},
 		showList() {
 			this.currentBill = null
+			if (this.mode === 'plugin' && this.pluginListView) {
+				this.pluginListVisible = true
+				return
+			}
 			this.mode = 'edition'
 		},
 	},
@@ -1321,6 +1861,14 @@ export default {
 
 .iconButton {
 	padding: 0px;
+}
+
+.plugin-list-pane {
+	height: 100%;
+	box-sizing: border-box;
+	/* the navigation toggle button floats over the top-left corner of the list
+	   pane: reserve that zone so plugin content is never placed under it */
+	padding-top: calc(var(--app-navigation-padding) + var(--default-clickable-area));
 }
 </style>
 

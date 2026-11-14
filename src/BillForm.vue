@@ -540,6 +540,14 @@
 				</NcButton>
 			</div>
 		</div>
+		<!-- plugin system: elements embedded below the bill form (billFormExtra entry points) -->
+		<PluginHost
+			v-for="entry in pluginBillFormExtras"
+			:key="entry.plugin.id + '::' + entry.ep.id"
+			:tag="entry.ep.view"
+			:plugin-id="entry.plugin.id"
+			:project-id="projectId"
+			:plugin-context="pluginContext" />
 	</NcAppContentDetails>
 </template>
 
@@ -578,7 +586,10 @@ import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import MemberAvatar from './components/avatar/MemberAvatar.vue'
 import MemberMultiSelect from './components/MemberMultiSelect.vue'
 
-import { emit } from '@nextcloud/event-bus'
+import PluginHost from './plugin/PluginHost.vue'
+import { getEntryPoints, snapshot } from './plugin/registry.js'
+
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { getLocale } from '@nextcloud/l10n'
@@ -602,6 +613,7 @@ export default {
 		MemberAvatar,
 		CurrencyIcon,
 		CospendIcon,
+		PluginHost,
 		NcDateTimePickerNative,
 		NcAppContentDetails,
 		NcSelect,
@@ -848,6 +860,31 @@ export default {
 		pageIsPublic() {
 			return this.cospend.pageIsPublic
 		},
+		pluginBillFormExtras() {
+			return getEntryPoints('billFormExtra').filter(({ ep }) => {
+				const project = this.cospend.projects[this.projectId]
+				return ep.minAccessLevel <= (project?.myaccesslevel ?? 0)
+			})
+		},
+		pluginContext() {
+			const pageIsPublic = this.pageIsPublic
+			let user = null
+			if (!pageIsPublic) {
+				const u = getCurrentUser()
+				user = u ? { uid: u.uid, displayName: u.displayName } : null
+			}
+			return {
+				user,
+				pageIsPublic,
+				projects: snapshot(this.cospend.projects),
+				members: snapshot(this.cospend.members),
+				project: snapshot(this.project),
+				accessLevel: this.project.myaccesslevel,
+				// snapshot of the bill being edited in this form (the working copy,
+				// not the last saved version)
+				bill: snapshot(this.myBill),
+			}
+		},
 		isNewBill() {
 			return (this.myBill.id === 0)
 		},
@@ -1054,9 +1091,122 @@ export default {
 
 	mounted() {
 		this.$refs.what.focus()
+		subscribe('cospend:set-bill-values', this.onSetBillValues)
+	},
+
+	beforeUnmount() {
+		unsubscribe('cospend:set-bill-values', this.onSetBillValues)
 	},
 
 	methods: {
+		/**
+		 * Handle the 'cospend:set-bill-values' event: validate the payload and
+		 * apply the given values to the bill being edited, like a user edit.
+		 *
+		 * @param {object} payload event payload
+		 */
+		onSetBillValues(payload) {
+			const { pluginId, entryPointId, values, save } = payload ?? {}
+			if (typeof pluginId !== 'string' || pluginId === '') {
+				console.warn('[cospend] cospend:set-bill-values: missing pluginId, ignored')
+				return
+			}
+			// only plugins that actually render a billFormExtra here (with a
+			// sufficient access level and a valid visibility context) may mutate
+			// the bill form
+			const entries = this.pluginBillFormExtras.filter(({ plugin }) => plugin.id === pluginId)
+			if (entries.length === 0) {
+				console.warn(`[cospend] cospend:set-bill-values: plugin ${pluginId} has no visible billFormExtra, ignored`)
+				return
+			}
+			if (entryPointId !== undefined && entryPointId !== null && entryPointId !== '') {
+				if (!entries.find(({ ep }) => ep.id === entryPointId)) {
+					console.warn(`[cospend] cospend:set-bill-values: plugin ${pluginId} has no billFormExtra with id "${entryPointId}", ignored`)
+					return
+				}
+			} else if (entries.length > 1) {
+				console.warn(`[cospend] cospend:set-bill-values: plugin ${pluginId} has several billFormExtras, entryPointId is required, ignored`)
+				return
+			}
+			if (!values || typeof values !== 'object' || Array.isArray(values)) {
+				console.warn(`[cospend] cospend:set-bill-values: values must be an object (plugin ${pluginId}), ignored`)
+				return
+			}
+			if (!this.editionAccess) {
+				console.warn(`[cospend] cospend:set-bill-values: no edition access on this project, ignored (plugin ${pluginId})`)
+				return
+			}
+			const applied = this.applyBillValues(values)
+			// save by default; save: false only updates the form without persisting
+			if (applied && save !== false) {
+				this.onBillEdited(null, false)
+			}
+		},
+		/**
+		 * Apply plugin-provided values to myBill. Simple scalar fields are type
+		 * checked and copied as-is, owerIds gets member-id validation, and
+		 * unknown fields are refused so that plugins cannot corrupt internal
+		 * state (id, deleted, currency conversion state…).
+		 *
+		 * @param {object} values the bill fields to set
+		 * @return {boolean} whether at least one value was applied
+		 */
+		applyBillValues(values) {
+			let applied = false
+			const checks = {
+				what: (v) => typeof v === 'string',
+				comment: (v) => typeof v === 'string',
+				amount: (v) => (typeof v === 'number' && Number.isFinite(v))
+					|| (typeof v === 'string' && v.trim() !== '' && !isNaN(v)),
+				timestamp: (v) => Number.isInteger(v) && v >= 0,
+				payer_id: (v) => Number.isInteger(v) && this.members[v] !== undefined,
+				categoryid: (v) => Number.isInteger(v),
+				paymentmodeid: (v) => Number.isInteger(v),
+				repeat: (v) => Object.values(constants.FREQUENCY).includes(v),
+				repeatfreq: (v) => Number.isInteger(v) && v >= 1,
+				repeatallactive: (v) => typeof v === 'boolean' || v === 0 || v === 1,
+				repeatuntil: (v) => typeof v === 'string',
+			}
+			for (const [field, check] of Object.entries(checks)) {
+				if (!(field in values)) {
+					continue
+				}
+				if (!check(values[field])) {
+					console.warn(`[cospend] cospend:set-bill-values: invalid value for "${field}", ignored`)
+					continue
+				}
+				let value = values[field]
+				if (field === 'amount') {
+					// normalize like the amount input does (decimal comma, numeric strings)
+					value = typeof value === 'string' ? parseFloat(value.replace(/,/g, '.')) : value
+					// the formula being typed (if any) is no longer relevant
+					this.currentFormula = null
+				} else if (field === 'repeatallactive') {
+					value = value === true || value === 1 ? 1 : 0
+				}
+				this.myBill[field] = value
+				applied = true
+			}
+			if ('owerIds' in values) {
+				const owerIds = values.owerIds
+				if (!Array.isArray(owerIds) || !owerIds.every((id) => Number.isInteger(id))) {
+					console.warn('[cospend] cospend:set-bill-values: invalid value for "owerIds", ignored')
+				} else {
+					const unknown = owerIds.filter((id) => this.members[id] === undefined)
+					if (unknown.length > 0) {
+						console.warn(`[cospend] cospend:set-bill-values: owerIds contains unknown member ids ${unknown.join(', ')}, they were dropped`)
+					}
+					this.myBill.owerIds = [...new Set(owerIds.filter((id) => this.members[id] !== undefined))]
+					applied = true
+				}
+			}
+			for (const field of Object.keys(values)) {
+				if (!(field in checks) && field !== 'owerIds') {
+					console.warn(`[cospend] cospend:set-bill-values: unknown field "${field}", ignored`)
+				}
+			}
+			return applied
+		},
 		isRepeatUntilDateDisabled(date) {
 			return moment(date).isBefore(this.billDateMoment)
 		},
@@ -1224,7 +1374,7 @@ export default {
 			return true
 		},
 		onDeleteClick() {
-			emit('delete-bill', this.myBill)
+			emit('cospend:delete-bill', { projectId: this.projectId, billId: this.myBill.id })
 		},
 		saveBill() {
 			// don't save the bill if we are typing a formula

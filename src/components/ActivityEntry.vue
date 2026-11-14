@@ -123,7 +123,7 @@ export default {
 			if (e.target.tagName === 'A') {
 				const billInfo = this.parseBillLink(e.target.href)
 				if (billInfo) {
-					emit('bill-clicked', billInfo)
+					emit('cospend:bill-clicked', billInfo)
 					e.preventDefault()
 					e.stopPropagation()
 				}

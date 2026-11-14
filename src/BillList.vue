@@ -83,6 +83,15 @@
 						</template>
 						{{ multiToggleText }}
 					</NcActionButton>
+					<NcActionButton v-for="action in pluginBillListActions"
+						:key="action.plugin.id + ':' + action.ep.id"
+						:close-after-click="true"
+						@click="onPluginActionClick(action)">
+						<template #icon>
+							<PluginIcon :src="action.ep.icon" />
+						</template>
+						{{ action.ep.name }}
+					</NcActionButton>
 				</NcActions>
 			</div>
 			<Transition name="fade">
@@ -319,6 +328,9 @@ import NcTextField from '@nextcloud/vue/components/NcTextField'
 import PaymentModeMultiSelect from './components/PaymentModeMultiSelect.vue'
 import CategoryMultiSelect from './components/CategoryMultiSelect.vue'
 import BillListItem from './components/BillListItem.vue'
+import PluginIcon from './plugin/PluginIcon.vue'
+
+import { getEntryPoints } from './plugin/registry.js'
 
 import InfiniteLoading from '@codog/vue3-infinite-loading'
 import { showSuccess, showError } from '@nextcloud/dialogs'
@@ -334,6 +346,7 @@ export default {
 	components: {
 		BillListItem,
 		CospendIcon,
+		PluginIcon,
 		NcAppContentList,
 		NcActions,
 		NcActionButton,
@@ -423,6 +436,12 @@ export default {
 	computed: {
 		project() {
 			return this.cospend.projects[this.projectId]
+		},
+		pluginBillListActions() {
+			return getEntryPoints('billListAction').filter(({ ep }) => {
+				return ep.minAccessLevel <= (this.project?.myaccesslevel ?? 0)
+					&& this.editionAccess
+			})
 		},
 		nbBills() {
 			return this.totalBillNumber
@@ -614,6 +633,13 @@ export default {
 	},
 
 	methods: {
+		onPluginActionClick(action) {
+			emit('cospend:plugin-billlist-action', {
+				pluginId: action.plugin.id,
+				entryPointId: action.ep.id,
+				projectId: this.projectId,
+			})
+		},
 		infiniteHandler($state) {
 			this.$emit('load-more-bills', this.projectId, $state, this.trashbinEnabled)
 		},
@@ -628,14 +654,14 @@ export default {
 			this.updateBillFilterQuery(e.target.value)
 		}, 2000),
 		updateBillFilterQuery(query) {
-			emit('bill-search', { query })
+			emit('cospend:bill-search', { query })
 		},
 		onCloseTrashbinClicked() {
 			this.selectedBillIds = []
-			emit('close-trashbin', this.projectId)
+			emit('cospend:close-trashbin', this.projectId)
 		},
 		onAddMemberClicked() {
-			emit('new-member-clicked', this.projectId)
+			emit('cospend:new-member-clicked', this.projectId)
 		},
 		onAddBillClicked() {
 			if (!this.editionAccess || !this.oneActiveMember) {
@@ -653,7 +679,7 @@ export default {
 					this.selectedBillIds.push(bill.id)
 				}
 			} else {
-				emit('bill-clicked', { projectId: this.projectId, billId: bill.id })
+				emit('cospend:bill-clicked', { projectId: this.projectId, billId: bill.id })
 			}
 		},
 		onItemMove(bill) {
@@ -661,12 +687,12 @@ export default {
 		},
 		showTrashbin() {
 			this.selectedBillIds = []
-			emit('trashbin-clicked', this.projectId)
+			emit('cospend:trashbin-clicked', this.projectId)
 		},
 		clearTrashBin() {
 			this.showClearTrashBinConfirmation = false
 			this.selectedBillIds = []
-			emit('clear-trashbin-clicked', this.projectId)
+			emit('cospend:clear-trashbin-clicked', this.projectId)
 		},
 		toggleFilterMode(emit = true, enabled = null) {
 			if (enabled === null) {
@@ -747,7 +773,7 @@ export default {
 		},
 		confirmedRestoreSelection() {
 			this.showRestorationConfirmation = false
-			emit('restore-bills', this.selectedBillIds)
+			emit('cospend:restore-bills', this.selectedBillIds)
 			this.selectedBillIds = []
 		},
 	},

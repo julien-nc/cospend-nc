@@ -8,17 +8,6 @@ export const defaultState = {
 	restoredCurrentProjectId: null,
 	restoredCurrentBillId: null,
 	currentProjectId: null,
-	currentBill: null,
-	memberEditionMode: null,
-	projectEditionMode: null,
-	projectDeletionTimer: {},
-	shareDeletionTimer: {},
-	billDeletionTimer: {},
-	currencyDeletionTimer: {},
-	categoryDeletionTimer: {},
-	// indexed by projectid, then by billid
-	bills: {},
-	billLists: {},
 	// indexed by projectid, then by memberid
 	members: {},
 	projects: {},

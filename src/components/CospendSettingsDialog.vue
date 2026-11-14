@@ -163,6 +163,18 @@
 					</NcFormBox>
 				</div>
 			</NcAppSettingsSection>
+			<NcAppSettingsSection v-for="section in pluginSettingsSections"
+				:id="'plugin-' + section.plugin.id + '-' + section.ep.id"
+				:key="section.plugin.id + ':' + section.ep.id"
+				:name="section.ep.name">
+				<template #icon>
+					<PluginIcon :src="section.ep.icon" />
+				</template>
+				<PluginHost
+					:tag="section.ep.view"
+					:plugin-id="section.plugin.id"
+					:plugin-context="pluginContext" />
+			</NcAppSettingsSection>
 		</NcAppSettingsDialog>
 	</div>
 </template>
@@ -189,12 +201,20 @@ import { subscribe, unsubscribe, emit } from '@nextcloud/event-bus'
 import { getFilePickerBuilder, FilePickerType, showSuccess } from '@nextcloud/dialogs'
 import { importCospendProject, importSWProject } from '../utils.js'
 
+import PluginHost from '../plugin/PluginHost.vue'
+import PluginIcon from '../plugin/PluginIcon.vue'
+
+import { getEntryPoints, snapshot } from '../plugin/registry.js'
+import { getCurrentUser } from '@nextcloud/auth'
+
 export default {
 	name: 'CospendSettingsDialog',
 
 	components: {
 		NcAppSettingsDialog,
 		NcAppSettingsSection,
+		PluginHost,
+		PluginIcon,
 		NcButton,
 		NcTextField,
 		NcLoadingIcon,
@@ -250,6 +270,27 @@ export default {
 	},
 
 	computed: {
+		pluginSettingsSections() {
+			return getEntryPoints('settingsSection')
+		},
+		pluginContext() {
+			const pageIsPublic = !!OCA.Cospend.state.pageIsPublic
+			let user = null
+			if (!pageIsPublic) {
+				const u = getCurrentUser()
+				user = u ? { uid: u.uid, displayName: u.displayName } : null
+			}
+			return {
+				user,
+				pageIsPublic,
+				projects: snapshot(OCA.Cospend.state.projects),
+				members: snapshot(OCA.Cospend.state.members),
+				project: null,
+				accessLevel: null,
+				member: null,
+				bill: null,
+			}
+		},
 		selectedSortOrder(): object {
 			return this.sortOrderOptions[this.sortOrder as keyof typeof this.sortOrderOptions] ?? this.sortOrderOptions.name
 		},
@@ -259,11 +300,11 @@ export default {
 	},
 
 	mounted() {
-		subscribe('show-settings', this.handleShowSettings)
+		subscribe('cospend:show-settings', this.handleShowSettings)
 	},
 
 	beforeUnmount() {
-		unsubscribe('show-settings', this.handleShowSettings)
+		unsubscribe('cospend:show-settings', this.handleShowSettings)
 	},
 
 	methods: {
@@ -289,7 +330,7 @@ export default {
 						}
 						path = path.replace(/^\/+/, '/')
 						this.outputDir = path
-						emit('save-option', { key: 'outputDirectory', value: path })
+						emit('cospend:save-option', { key: 'outputDirectory', value: path })
 					},
 				})
 				.build()
@@ -302,36 +343,36 @@ export default {
 				}
 				path = path.replace(/^\/+/, '/')
 				this.outputDir = path
-				emit('save-option', { key: 'outputDirectory', value: path })
+				emit('cospend:save-option', { key: 'outputDirectory', value: path })
 			})
 			*/
 		},
 		resetOutputDir(): void {
 			this.outputDir = '/'
-			emit('save-option', { key: 'outputDirectory', value: '/' })
+			emit('cospend:save-option', { key: 'outputDirectory', value: '/' })
 		},
 		onSortOrderChange(): void {
-			emit('save-option', { key: 'sortOrder', value: this.sortOrder })
+			emit('cospend:save-option', { key: 'sortOrder', value: this.sortOrder })
 			this.cospend.sortOrder = this.sortOrder
 		},
 		onMemberOrderChange(): void {
-			emit('save-option', { key: 'memberOrder', value: this.memberOrder })
+			emit('cospend:save-option', { key: 'memberOrder', value: this.memberOrder })
 			this.cospend.memberOrder = this.memberOrder
 		},
 		onMaxPrecisionChange(): void {
-			emit('save-option', { key: 'maxPrecision', value: this.maxPrecision })
+			emit('cospend:save-option', { key: 'maxPrecision', value: this.maxPrecision })
 			this.cospend.maxPrecision = this.maxPrecision
 			this.$emit('update-max-precision')
 		},
 		onCheckboxChange(checked: boolean, key: string): void {
-			emit('save-option', { key, value: checked ? '1' : '0' })
+			emit('cospend:save-option', { key, value: checked ? '1' : '0' })
 			this.cospend[key] = checked
 		},
 		onImportClick(): void {
 			importCospendProject(() => {
 				this.importingProject = true
 			}, (data: any) => {
-				emit('project-imported', data)
+				emit('cospend:project-imported', data)
 				showSuccess(t('cospend', 'Project imported'))
 			}, () => {
 				this.importingProject = false
@@ -341,7 +382,7 @@ export default {
 			importSWProject(() => {
 				this.importingSWProject = true
 			}, (data: any) => {
-				emit('project-imported', data)
+				emit('cospend:project-imported', data)
 				showSuccess(t('cospend', 'Project imported'))
 			}, () => {
 				this.importingSWProject = false

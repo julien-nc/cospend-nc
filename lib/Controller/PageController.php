@@ -10,6 +10,7 @@ namespace OCA\Cospend\Controller;
 
 use OC\Files\Filesystem;
 use OCA\Cospend\AppInfo\Application;
+use OCA\Cospend\Service\CospendService;
 use OCA\Cospend\Service\LocalProjectService;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
@@ -45,6 +46,7 @@ class PageController extends Controller {
 		string $appName,
 		IRequest $request,
 		private IL10N $trans,
+		private CospendService $cospendService,
 		private LocalProjectService $projectService,
 		private IInitialState $initialStateService,
 		private IAppManager $appManager,
@@ -185,6 +187,33 @@ class PageController extends Controller {
 	#[NoCSRFRequired]
 	public function indexBill(string $projectId, int $billId): TemplateResponse {
 		return $this->index($projectId, $billId);
+	}
+
+	/**
+	 * Cross-project balances page
+	 *
+	 * @return TemplateResponse
+	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	public function indexCrossProject(): TemplateResponse {
+		$response = $this->index();
+		return $response;
+	}
+
+	/**
+	 * Cross-project settlement page
+	 *
+	 * @param string $personKey
+	 * @return TemplateResponse
+	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	public function indexCrossProjectSettlement(string $personKey): TemplateResponse {
+		$response = $this->index();
+		$this->initialStateService->provideInitialState('restoredCrossProjectMode', 'settlement');
+		$this->initialStateService->provideInitialState('restoredCrossProjectPersonKey', $personKey);
+		return $response;
 	}
 
 	/**

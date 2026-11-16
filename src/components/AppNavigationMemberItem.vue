@@ -34,7 +34,7 @@
 				:size="24"
 				:force-is-no-user="project.federated" />
 		</template>
-		<template v-if="inNavigation"
+		<template v-if="inNavigation && !(cospend.hideOwnBalance && member.userid && isCurrentUser(member.userid))"
 			#counter>
 			<NcCounterBubble :class="balanceClass"
 				:count="balanceCounter"

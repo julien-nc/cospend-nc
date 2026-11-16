@@ -4,6 +4,7 @@
 -->
 <template>
 	<NcListItem
+		ref="listItem"
 		class="billitem"
 		:class="{ newBill: bill.id === 0 }"
 		:title="billFormattedTitle"
@@ -14,6 +15,7 @@
 		:counter-number="deleteCounter"
 		:force-display-actions="true"
 		:draggable="true"
+		@contextmenu.stop.prevent="onContextMenu"
 		@dragstart="onDragStart"
 		@dragend="onDragEnd"
 		@click="onItemClick">
@@ -291,6 +293,15 @@ export default {
 	methods: {
 		onItemClick() {
 			this.$emit('clicked', this.bill)
+		},
+		onContextMenu() {
+			// no menu on unsaved bills or while selecting bills
+			if (this.selectMode || this.bill.id === 0) {
+				return
+			}
+			// NcListItem has no public API to open its actions menu,
+			// so use the openMenu() method of its internal NcActions
+			this.$refs.listItem?.$refs?.actions?.openMenu()
 		},
 		onMoveClick(e) {
 			this.$emit('move')

@@ -39,6 +39,8 @@
 		<command>OCA\Cospend\Command\RepeatBills</command>
 		<command>OCA\Cospend\Command\ExportProject</command>
 		<command>OCA\Cospend\Command\DeleteBills</command>
+		<command>OCA\Cospend\Command\AutoCategorizeProject</command>
+		<command>OCA\Cospend\Command\AutoCategorizeAll</command>
 	</commands>
 	<activity>
 		<settings>

@@ -145,6 +145,19 @@ class ProjectMapper extends QBMapper {
 	}
 
 	/**
+	 * @return Project[]
+	 * @throws Exception
+	 */
+	public function getAll(): array {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName());
+
+		return $this->findEntities($qb);
+	}
+
+	/**
 	 * @param string $userId
 	 * @return Project[]
 	 * @throws Exception

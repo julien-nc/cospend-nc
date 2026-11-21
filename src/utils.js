@@ -451,3 +451,28 @@ export function slugify(text) {
 		.replace(/^-+/, '') // trim - from start of text
 		.replace(/-+$/, '')
 }
+
+/**
+ * Extract a user-friendly error message from an API error response
+ *
+ * @param {Error} error - The error object from a failed request
+ * @param {string} fallback - Default message if no details are available
+ * @return {string} A user-friendly error message
+ */
+export function getErrorMessage(error, fallback) {
+	if (error?.response?.data?.ocs?.meta?.message) {
+		return error.response.data.ocs.meta.message
+	}
+	if (error?.response?.data?.ocs?.data?.message) {
+		return error.response.data.ocs.data.message
+	}
+	if (error?.message) {
+		return error.message
+	}
+	return fallback
+}
+
+export function decodeHtmlEntities(text) {
+	const parser = new DOMParser()
+	return parser.parseFromString(text, 'text/html').body.textContent || text
+}

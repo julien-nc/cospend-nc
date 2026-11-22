@@ -105,6 +105,11 @@ export function getErrorMessage(error) {
 			if (parsedMessage) {
 				return parsedMessage
 			}
+			// valid JSON response without a usable message: don't dump the raw payload
+			const status = error?.response?.status
+			return status
+				? t('cospend', 'Request failed (HTTP {status})', { status })
+				: (error?.message ?? String(error))
 		} catch {
 			// not JSON: fall back to the raw response text
 		}

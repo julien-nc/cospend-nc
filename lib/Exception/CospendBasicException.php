@@ -17,6 +17,10 @@ class CospendBasicException extends \Exception {
 		// extra data to potentially return in an API response
 		public array $data = [],
 	) {
+		// API controllers return $data only, so make sure the message is carried in it
+		if ($this->data === []) {
+			$this->data = ['error' => $message];
+		}
 		parent::__construct($message, $code);
 	}
 }

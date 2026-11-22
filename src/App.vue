@@ -740,9 +740,19 @@ export default {
 				showError(failureText)
 			}
 		},
+		/**
+		 * Report an unknown-project failure of an action event.
+		 *
+		 * @param {?(result: object) => void} onDone the `onDone` callback of the payload, if any
+		 * @param {?string} projectId the target project id, when the event has one
+		 */
+		notifyUnknownProject(onDone, projectId) {
+			const error = t('cospend', 'Unknown project: {id}', { id: projectId })
+			this.notifyActionDone(onDone, { ok: false, projectId, error }, null, error)
+		},
 		onCreateBill({ projectId, bill, onDone }) {
 			if (!this.isKnownProject(projectId)) {
-				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown project') }, null, null)
+				this.notifyUnknownProject(onDone, projectId)
 				return
 			}
 			const req = {
@@ -793,7 +803,7 @@ export default {
 		},
 		onSaveMember({ projectId, member, onDone }) {
 			if (!this.isKnownProject(projectId)) {
-				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown project') }, null, null)
+				this.notifyUnknownProject(onDone, projectId)
 				return
 			}
 			const members = this.members[projectId] ?? {}
@@ -805,7 +815,7 @@ export default {
 		},
 		onSaveBill({ projectId, bill, onDone }) {
 			if (!this.isKnownProject(projectId)) {
-				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown project') }, null, null)
+				this.notifyUnknownProject(onDone, projectId)
 				return
 			}
 			const existing = this.findBill(projectId, bill.id)
@@ -831,7 +841,7 @@ export default {
 		},
 		onDeleteMember({ projectId, memberId, onDone }) {
 			if (!this.isKnownProject(projectId)) {
-				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown project') }, null, null)
+				this.notifyUnknownProject(onDone, projectId)
 				return
 			}
 			const member = this.members[projectId]?.[memberId]
@@ -947,11 +957,7 @@ export default {
 			}
 		},
 		isKnownProject(projectId) {
-			if (!projectId || !this.projects[projectId]) {
-				showError(t('cospend', 'Unknown project: {id}', { id: projectId }))
-				return false
-			}
-			return true
+			return !!projectId && this.projects[projectId] !== undefined
 		},
 		findBill(projectId, billId) {
 			return this.bills[projectId]?.[billId]
@@ -1048,7 +1054,7 @@ export default {
 		},
 		onDeleteBill({ projectId, billId, onDone }) {
 			if (!this.isKnownProject(projectId)) {
-				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown project') }, null, null)
+				this.notifyUnknownProject(onDone, projectId)
 				return
 			}
 			const bill = this.findBill(projectId, billId)
@@ -1087,7 +1093,7 @@ export default {
 		},
 		onRestoreBill({ projectId, billId, onDone }) {
 			if (!this.isKnownProject(projectId)) {
-				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown project') }, null, null)
+				this.notifyUnknownProject(onDone, projectId)
 				return
 			}
 			const bill = this.findBill(projectId, billId)
@@ -1128,6 +1134,7 @@ export default {
 		},
 		onProjectClicked({ projectId }) {
 			if (!this.isKnownProject(projectId)) {
+				showError(t('cospend', 'Unknown project: {id}', { id: projectId }))
 				return
 			}
 			if (this.cospend.currentProjectId !== projectId) {
@@ -1627,7 +1634,7 @@ export default {
 		},
 		onArchiveProject({ projectId, onDone }) {
 			if (!this.isKnownProject(projectId)) {
-				this.notifyActionDone(onDone, { ok: false, projectId, error: t('cospend', 'Unknown project') }, null, null)
+				this.notifyUnknownProject(onDone, projectId)
 				return
 			}
 			this.archiveProject(projectId, onDone)

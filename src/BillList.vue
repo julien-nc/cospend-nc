@@ -793,6 +793,11 @@ export default {
 		gap: 4px;
 		padding: var(--app-navigation-padding);
 		padding-left: calc(var(--default-clickable-area) + 12px);
+		/* the floating sidebar toggle overlaps the list pane when it spans the
+		   full content width: keep the header actions clear of it */
+		@media only screen and (width < 1024px) {
+			padding-right: calc(var(--default-clickable-area) + 12px);
+		}
 
 		.header-trashbin-icon {
 			color: var(--color-text-error);

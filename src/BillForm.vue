@@ -1157,7 +1157,7 @@ export default {
 				what: (v) => typeof v === 'string',
 				comment: (v) => typeof v === 'string',
 				amount: (v) => (typeof v === 'number' && Number.isFinite(v))
-					|| (typeof v === 'string' && v.trim() !== '' && !isNaN(v)),
+					|| (typeof v === 'string' && v.trim() !== '' && !isNaN(v.replace(/,/g, '.'))),
 				timestamp: (v) => Number.isInteger(v) && v >= 0,
 				payer_id: (v) => Number.isInteger(v) && this.members[v] !== undefined,
 				categoryid: (v) => Number.isInteger(v),

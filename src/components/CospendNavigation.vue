@@ -37,6 +37,15 @@
 							</template>
 							{{ t('cospend', 'Import SplitWise project') }}
 						</NcActionButton>
+						<NcActionButton v-for="action in pluginCreateProjectActions"
+							:key="action.plugin.id + ':' + action.ep.id"
+							:close-after-click="true"
+							@click="onPluginCreateProjectActionClick(action)">
+							<template #icon>
+								<PluginIcon :src="action.ep.icon" />
+							</template>
+							{{ action.ep.name }}
+						</NcActionButton>
 					</NcActions>
 				</template>
 			</NcAppNavigationSearch>
@@ -111,6 +120,18 @@
 							<CogIcon />
 						</template>
 					</NcAppNavigationItem>
+					<NcAppNavigationItem v-for="item in pluginNavItems"
+						:key="item.plugin.id + '-' + item.ep.id"
+						:name="item.ep.name"
+						@click="onPluginNavItemClick(item)">
+						<template #icon>
+							<PluginIcon :src="item.ep.icon" />
+						</template>
+						<template v-if="item.counter !== undefined && item.counter !== null" #counter>
+							<NcCounterBubble :count="item.counter"
+								:raw="typeof item.counter === 'string'" />
+						</template>
+					</NcAppNavigationItem>
 				</div>
 			</div>
 		</template>
@@ -145,9 +166,12 @@ import ColoredAvatar from './avatar/ColoredAvatar.vue'
 import * as constants from '../constants.js'
 import { strcmp, importCospendProject, importSWProject } from '../utils.js'
 
-import { emit } from '@nextcloud/event-bus'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { showSuccess } from '@nextcloud/dialogs'
 import { getCurrentUser } from '@nextcloud/auth'
+
+import PluginIcon from '../plugin/PluginIcon.vue'
+import { getEntryPoints } from '../plugin/registry.js'
 
 export default {
 	name: 'CospendNavigation',
@@ -157,6 +181,7 @@ export default {
 		PendingInvitationsModal,
 		NewProjectModal,
 		AppNavigationProjectItem,
+		PluginIcon,
 		NcAppNavigation,
 		NcEmptyContent,
 		NcAppNavigationItem,
@@ -217,6 +242,9 @@ export default {
 			showPendingInvitations: false,
 			projectFilterQuery: '',
 			currentUserId: getCurrentUser()?.uid,
+			// plugin nav item counter overrides, keyed by 'pluginId::entryPointId';
+			// a key holding undefined (or being absent) means "use the registered counter"
+			pluginNavItemCounters: {},
 		}
 	},
 	computed: {
@@ -265,19 +293,93 @@ export default {
 				return Object.keys(this.projects)
 			}
 		},
+		pluginNavItems() {
+			return getEntryPoints('navItem').map((item) => ({
+				plugin: item.plugin,
+				ep: item.ep,
+				counter: this.pluginNavItemCounter(item.plugin.id, item.ep.id, item.ep.counter),
+			}))
+		},
+		pluginCreateProjectActions() {
+			return getEntryPoints('createProjectAction')
+		},
 		editionAccess() {
 			return this.selectedProjectId && this.projects[this.selectedProjectId].myaccesslevel >= constants.ACCESS.PARTICIPANT
 		},
 	},
 	beforeMount() {
 	},
+	mounted() {
+		subscribe('cospend:set-navitem-counter', this.onSetNavItemCounter)
+	},
+	beforeUnmount() {
+		unsubscribe('cospend:set-navitem-counter', this.onSetNavItemCounter)
+	},
 	methods: {
+		pluginNavItemCounterKey(pluginId, entryPointId) {
+			return pluginId + '::' + entryPointId
+		},
+		pluginNavItemCounter(pluginId, entryPointId, fallback) {
+			const override = this.pluginNavItemCounters[this.pluginNavItemCounterKey(pluginId, entryPointId)]
+			return override === undefined ? fallback : override
+		},
+		/**
+		 * Handle the 'cospend:set-navitem-counter' event: validate the payload and
+		 * store the counter override for one of the emitting plugin's own nav items.
+		 */
+		onSetNavItemCounter(payload) {
+			const { pluginId, navItemId, count } = payload ?? {}
+			if (typeof pluginId !== 'string' || pluginId === '') {
+				console.warn('[cospend] cospend:set-navitem-counter: missing pluginId, ignored')
+				return
+			}
+			const items = getEntryPoints('navItem').filter((item) => item.plugin.id === pluginId)
+			if (items.length === 0) {
+				console.warn(`[cospend] cospend:set-navitem-counter: plugin ${pluginId} has no visible navItem, ignored`)
+				return
+			}
+			let item
+			if (navItemId === undefined || navItemId === null || navItemId === '') {
+				if (items.length > 1) {
+					console.warn(`[cospend] cospend:set-navitem-counter: plugin ${pluginId} has several navItems, navItemId is required, ignored`)
+					return
+				}
+				item = items[0]
+			} else {
+				item = items.find((i) => i.ep.id === navItemId)
+				if (!item) {
+					console.warn(`[cospend] cospend:set-navitem-counter: plugin ${pluginId} has no navItem with id "${navItemId}", ignored`)
+					return
+				}
+			}
+			if (count !== null
+				&& (typeof count !== 'number' || !Number.isFinite(count))
+				&& (typeof count !== 'string' || count === '')) {
+				console.warn(`[cospend] cospend:set-navitem-counter: count must be a finite number, a non-empty string or null, ignored (plugin ${pluginId})`)
+				return
+			}
+			const key = this.pluginNavItemCounterKey(item.plugin.id, item.ep.id)
+			// null stores an explicit "no badge"; a number/string (re)sets the badge
+			this.pluginNavItemCounters[key] = count
+		},
 		toggleArchivedProjects() {
 			this.showArchivedProjects = !this.showArchivedProjects
-			emit('deselect-project')
+			emit('cospend:deselect-project')
 		},
 		showSettings() {
-			emit('show-settings')
+			emit('cospend:show-settings')
+		},
+		onPluginNavItemClick(item) {
+			emit('cospend:plugin-navitem-clicked', {
+				pluginId: item.plugin.id,
+				entryPointId: item.ep.id,
+			})
+		},
+		onPluginCreateProjectActionClick(action) {
+			emit('cospend:plugin-create-project-action', {
+				pluginId: action.plugin.id,
+				entryPointId: action.ep.id,
+			})
 		},
 		toggleMenu() {
 			this.opened = !this.opened
@@ -289,7 +391,7 @@ export default {
 			importCospendProject(() => {
 				this.importingProject = true
 			}, (data) => {
-				emit('project-imported', data)
+				emit('cospend:project-imported', data)
 				showSuccess(t('cospend', 'Project imported'))
 			}, () => {
 				this.importingProject = false
@@ -299,7 +401,7 @@ export default {
 			importSWProject(() => {
 				this.importingProject = true
 			}, (data) => {
-				emit('project-imported', data)
+				emit('cospend:project-imported', data)
 				showSuccess(t('cospend', 'Project imported'))
 			}, () => {
 				this.importingProject = false

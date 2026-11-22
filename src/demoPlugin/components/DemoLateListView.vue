@@ -1,0 +1,82 @@
+<!--
+  - SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<template>
+	<div class="demo-view">
+		<p class="demo-hint">
+			{{ t('cospend', 'Demo plugin list pane, loaded from the same dynamic import() as the details view. Click a project to select it.') }}
+		</p>
+		<div v-if="projects.length === 0" class="demo-hint">
+			{{ t('cospend', 'No project found.') }}
+		</div>
+		<div v-for="project in projects" :key="project.id" class="demo-project">
+			<strong>{{ project.name }}</strong> ({{ project.id }})
+			— {{ project.nb_bills }} {{ t('cospend', 'bills') }}
+			<NcButton class="demo-button"
+				@click="selectProject(project.id)">
+				{{ t('cospend', 'Select') }}
+			</NcButton>
+		</div>
+	</div>
+</template>
+
+<script>
+import NcButton from '@nextcloud/vue/components/NcButton'
+import { emit } from '@nextcloud/event-bus'
+
+export default {
+	name: 'DemoLateListView',
+
+	components: {
+		NcButton,
+	},
+
+	props: {
+		projectId: {
+			type: String,
+			default: null,
+		},
+		pluginContext: {
+			type: Object,
+			default: null,
+		},
+	},
+
+	computed: {
+		projects() {
+			return Object.values(this.pluginContext?.projects ?? {})
+		},
+	},
+
+	methods: {
+		selectProject(projectId) {
+			emit('cospend:select-project', { projectId })
+		},
+	},
+}
+</script>
+
+<style scoped>
+.demo-view {
+	padding: 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	align-items: flex-start;
+}
+
+.demo-hint {
+	color: var(--color-text-maxcontrast);
+}
+
+.demo-project {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+
+.demo-button {
+	align-self: flex-start;
+}
+</style>

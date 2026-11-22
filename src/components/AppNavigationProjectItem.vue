@@ -138,6 +138,15 @@
 				</template>
 				{{ t('cospend', 'Leave share') }}
 			</NcActionButton>
+			<NcActionButton v-for="action in pluginProjectActions"
+				:key="action.plugin.id + ':' + action.ep.id"
+				:close-after-click="true"
+				@click="onPluginActionClick(action)">
+				<template #icon>
+					<PluginIcon :src="action.ep.icon" />
+				</template>
+				{{ action.ep.name }}
+			</NcActionButton>
 		</template>
 		<template #default>
 			<NcAppNavigationItem v-if="members.length < 1"
@@ -180,6 +189,9 @@ import ReimburseIcon from './icons/ReimburseIcon.vue'
 
 import AppNavigationMemberItem from './AppNavigationMemberItem.vue'
 import CountdownTimer from './CountdownTimer.vue'
+import PluginIcon from '../plugin/PluginIcon.vue'
+
+import { getEntryPoints } from '../plugin/registry.js'
 
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
@@ -196,6 +208,7 @@ export default {
 		CountdownTimer,
 		ReimburseIcon,
 		AppNavigationMemberItem,
+		PluginIcon,
 		NcAppNavigationItem,
 		NcActionButton,
 		ChartLineIcon,
@@ -272,6 +285,11 @@ export default {
 				? t('cospend', 'Close the trash bin')
 				: t('cospend', 'Show the trash bin')
 		},
+		pluginProjectActions() {
+			return getEntryPoints('projectAction').filter(({ ep }) => {
+				return ep.minAccessLevel <= this.project.myaccesslevel
+			})
+		},
 		title() {
 			return this.project.federated
 				? t('cospend', 'Project {projectName} ({projectId}) shared by {displayName} ({cloudId})', {
@@ -289,18 +307,18 @@ export default {
 	},
 	methods: {
 		onProjectClick() {
-			emit('project-clicked', this.project.id)
+			emit('cospend:project-clicked', { projectId: this.project.id })
 		},
 		onMemberClick(memberId) {
-			emit('member-click', { projectId: this.project.id, memberId })
+			emit('cospend:member-click', { projectId: this.project.id, memberId })
 		},
 		onArchiveProjectClick() {
-			emit('archive-project', this.project.id)
+			emit('cospend:archive-project', { projectId: this.project.id })
 		},
 		onDeleteProjectClick() {
 			this.deleting = true
 			this.deletionTimer = new Timer(() => {
-				emit('delete-project', this.project.id)
+				emit('cospend:delete-project', this.project.id)
 			}, 7000)
 		},
 		cancelDeletion() {
@@ -309,22 +327,22 @@ export default {
 			delete this.deletionTimer
 		},
 		onStatsClick() {
-			emit('stats-clicked', this.project.id)
+			emit('cospend:stats-clicked', this.project.id)
 		},
 		onTrashbinClick() {
-			emit('trashbin-clicked', this.project.id)
+			emit('cospend:trashbin-clicked', this.project.id)
 		},
 		onSettleClick() {
-			emit('settle-clicked', this.project.id)
+			emit('cospend:settle-clicked', this.project.id)
 		},
 		onDetailClick() {
-			emit('detail-clicked', this.project.id)
+			emit('cospend:detail-clicked', this.project.id)
 		},
 		onShareClick() {
-			emit('share-clicked', this.project.id)
+			emit('cospend:share-clicked', this.project.id)
 		},
 		onAddMemberClick() {
-			emit('new-member-clicked', this.project.id)
+			emit('cospend:new-member-clicked', this.project.id)
 		},
 		onLeaveShareClick() {
 			network.rejectInvitation(this.project.federation.invitation_id)
@@ -335,9 +353,16 @@ export default {
 				})
 				.then(() => {
 					this.$nextTick(() => {
-						emit('remove-project', this.project.id)
+						emit('cospend:remove-project', this.project.id)
 					})
 				})
+		},
+		onPluginActionClick(action) {
+			emit('cospend:plugin-project-action', {
+				pluginId: action.plugin.id,
+				entryPointId: action.ep.id,
+				projectId: this.project.id,
+			})
 		},
 		onUpdateMenuOpen(isOpen) {
 			this.menuOpen = isOpen
@@ -394,7 +419,7 @@ export default {
 				}
 				network.moveBill(projectId, parseInt(billId), this.project.id).then(res => {
 					showSuccess(t('cospend', 'Bill moved to "{projectName}" successfully', { projectName: this.project.name }))
-					emit('bill-moved', { newBillId: res.data.ocs.data, newProjectId: this.project.id })
+					emit('cospend:bill-moved', { newBillId: res.data.ocs.data, newProjectId: this.project.id })
 				}).catch(error => {
 					console.error(error)
 					showError(

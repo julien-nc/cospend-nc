@@ -481,7 +481,7 @@ export default {
 			const member = this.members[this.selectedMemberId]
 			member.userid = this.selectedAffectUser.user
 			member.name = this.selectedAffectUser.name
-			emit('member-edited', { projectId: this.projectId, memberId: this.selectedMemberId })
+			emit('cospend:member-edited', { projectId: this.projectId, memberId: this.selectedMemberId })
 			this.selectedAffectUser = null
 			this.selectedMemberId = null
 		},

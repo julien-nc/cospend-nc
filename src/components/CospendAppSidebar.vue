@@ -112,6 +112,20 @@
 				:project-id="projectId"
 				@project-edited="onProjectEdited" />
 		</NcAppSidebarTab>
+		<NcAppSidebarTab v-for="tab in pluginSidebarTabs"
+			:id="'plugin-' + tab.plugin.id + '-' + tab.ep.id"
+			:key="tab.plugin.id + ':' + tab.ep.id"
+			:name="tab.ep.name"
+			:order="tab.ep.order">
+			<template #icon>
+				<PluginIcon :src="tab.ep.icon" />
+			</template>
+			<PluginHost
+				:tag="tab.ep.view"
+				:plugin-id="tab.plugin.id"
+				:project-id="projectId"
+				:plugin-context="pluginContext" />
+		</NcAppSidebarTab>
 	</NcAppSidebar>
 </template>
 
@@ -135,13 +149,21 @@ import CategoryOrPmManagement from '../CategoryOrPmManagement.vue'
 import CurrencyManagement from '../CurrencyManagement.vue'
 import ActivityTabSidebar from './ActivityTabSidebar.vue'
 
+import PluginHost from '../plugin/PluginHost.vue'
+import PluginIcon from '../plugin/PluginIcon.vue'
+
+import { getEntryPoints, snapshot } from '../plugin/registry.js'
+
 import { generateUrl } from '@nextcloud/router'
+import { getCurrentUser } from '@nextcloud/auth'
 import * as constants from '../constants.js'
 
 export default {
 	name: 'CospendAppSidebar',
 	components: {
 		CurrencyIcon,
+		PluginHost,
+		PluginIcon,
 		NcActionButton,
 		NcAppSidebar,
 		NcAppSidebarTab,
@@ -227,6 +249,34 @@ export default {
 		},
 		editionAccess() {
 			return this.project.myaccesslevel >= constants.ACCESS.MAINTENER
+		},
+		pluginSidebarTabs() {
+			return getEntryPoints('sidebarTab').filter(({ ep }) => {
+				return ep.minAccessLevel <= (this.project?.myaccesslevel ?? 0)
+			})
+		},
+		pluginContext() {
+			const pageIsPublic = !!OCA.Cospend.state.pageIsPublic
+			let user = null
+			if (!pageIsPublic) {
+				const u = getCurrentUser()
+				user = u ? { uid: u.uid, displayName: u.displayName } : null
+			}
+			const context = {
+				user,
+				pageIsPublic,
+				projects: snapshot(OCA.Cospend.state.projects),
+				members: snapshot(OCA.Cospend.state.members),
+				project: null,
+				accessLevel: null,
+				member: null,
+				bill: null,
+			}
+			if (this.project) {
+				context.project = snapshot(this.project)
+				context.accessLevel = this.project.myaccesslevel
+			}
+			return context
 		},
 	},
 	methods: {

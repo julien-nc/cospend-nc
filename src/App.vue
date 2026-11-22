@@ -467,6 +467,7 @@ export default {
 		subscribe('cospend:plugin-billlist-action', this.onPluginBillListAction)
 		// plugin system: plugin-only action events
 		subscribe('cospend:close-plugin-view', this.onPluginCloseView)
+		subscribe('cospend:show-plugin-details', this.onPluginShowDetails)
 		subscribe('cospend:refresh-project', this.onPluginRefreshProject)
 		// plugin system: action events shared with Cospend's own UI
 		// (cospend:select-project, cospend:deselect-project, cospend:archive-project,
@@ -521,6 +522,7 @@ export default {
 		unsubscribe('cospend:plugin-billlist-action', this.onPluginBillListAction)
 		// plugin system: plugin-only action events
 		unsubscribe('cospend:close-plugin-view', this.onPluginCloseView)
+		unsubscribe('cospend:show-plugin-details', this.onPluginShowDetails)
 		unsubscribe('cospend:refresh-project', this.onPluginRefreshProject)
 		// plugin system: action events shared with Cospend's own UI
 		// (no double unsubscribe for the events subscribed above,
@@ -692,6 +694,14 @@ export default {
 				&& (entryPointId === undefined || this.pluginView.entryPointId === entryPointId)) {
 				// leaving the plugin mode makes the mode watcher close the view
 				this.mode = 'normal'
+			}
+		},
+		onPluginShowDetails({ pluginId, entryPointId }) {
+			if (this.mode === 'plugin'
+				&& this.pluginView?.pluginId === pluginId
+				&& (entryPointId === undefined || this.pluginView.entryPointId === entryPointId)) {
+				// on mobile, switch back from the plugin's list pane to its main view
+				this.pluginListVisible = false
 			}
 		},
 		onPluginRefreshProject({ projectId, includeBills = false }) {

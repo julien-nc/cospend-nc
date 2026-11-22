@@ -331,7 +331,12 @@ view, and the content is placed by Cospend, never by the plugin.
 | `billFormExtra` | rendered below the bill form (no takeover) | unchanged |
 | `settingsSection` | settings section content | unchanged |
 
-On mobile, the usual list/details toggle applies, driven by Cospend.
+On mobile, the usual list/details toggle applies, driven by Cospend: the main view is
+shown first and the back toggle switches to the list pane. A plugin can
+programmatically bring the main view back — for example when the user taps an entry
+of the list — by emitting the `cospend:show-plugin-details` action event (see
+[Interacting with Cospend](#interacting-with-cospend)). On desktop, both panes are
+visible and the event does nothing.
 
 The navigation toggle button floats over the top-left corner of the list pane.
 Cospend reserves that top strip (its height is
@@ -703,6 +708,7 @@ Like all Cospend event bus events, their names carry the `cospend:` app prefix.
 | `cospend:select-project` | `{ projectId }` | Select the project (closes the plugin view). |
 | `cospend:deselect-project` | `{}` | Deselect the current project (closes the plugin view). |
 | `cospend:close-plugin-view` | `{ pluginId, entryPointId? }` | Close the plugin's active view (modal or main content view). Only the plugin's own views can be closed. |
+| `cospend:show-plugin-details` | `{ pluginId, entryPointId? }` | On mobile, switch back from the plugin's list pane to its main view. Does nothing on desktop, or when the plugin has no active view with a `listView`. |
 | `cospend:refresh-project` | `{ projectId, includeBills? }` | Reload project info, members and balances. If `includeBills` is `true` and the project is the currently displayed one, the displayed bill list is reloaded as well (which also refreshes project info). |
 | `cospend:create-project` | `{ name, id? }` | Create a project (the id is optional and defaults to the slugified name) and select it. |
 | `cospend:create-bill` | `{ projectId, bill }` | Create a bill. |
@@ -743,9 +749,10 @@ to showcase late element definition, reads everything from its `pluginContext` p
 and interacts with Cospend only through action events. It also showcases the nav item
 counter: buttons in the late view update the badge of the matching nav item through
 `cospend:set-navitem-counter`, the value being kept in the plugin's top-level script so
-that it survives the closing of the view, and the bill form extra: buttons below the
+that it survives the closing of the view, the bill form extra: buttons below the
 bill form change the values of the bill being edited through
-`cospend:set-bill-values`. It is injected by the main
+`cospend:set-bill-values`, and the mobile layout switch: a button in the main list
+view shows the main view again through `cospend:show-plugin-details`. It is injected by the main
 page controller when the "Enable the demo UI plugin" admin setting is enabled.
 
 Note for plugin authors building their views with Vue: `defineCustomElement` puts the

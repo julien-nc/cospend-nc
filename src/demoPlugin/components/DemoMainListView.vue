@@ -14,6 +14,10 @@
 				{{ t('cospend', 'Select') }}
 			</NcButton>
 		</div>
+		<NcButton class="demo-button"
+			@click="showMainView()">
+			{{ t('cospend', 'Show the main view') }}
+		</NcButton>
 		<DemoContextInspector :context="pluginContext" />
 	</div>
 </template>
@@ -51,6 +55,9 @@ export default {
 	methods: {
 		selectProject(projectId) {
 			emit('cospend:select-project', { projectId })
+		},
+		showMainView() {
+			emit('cospend:show-plugin-details', { pluginId: 'demo' })
 		},
 	},
 }

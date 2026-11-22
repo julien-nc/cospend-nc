@@ -573,7 +573,7 @@ Payload of `cospend:set-bill-values`:
 | `pluginId` | `string` | Your plugin id (required). |
 | `entryPointId` | `string?` | The id of your `billFormExtra` entry point. Optional if your plugin declares exactly one, required otherwise. |
 | `values` | `object` | The bill fields to set (see below). |
-| `save` | `boolean?` | `true` (default) saves the bill after applying the values; `false` only updates the form without persisting (and without refreshing the bill list preview of a not-yet-created bill). |
+| `save` | `boolean?` | `true` (default) saves the bill after applying the values; on a not-yet-created bill, the values only fill the form (and its bill list preview) and the user still creates it. `false` only updates the form without persisting (and without refreshing the bill list preview of a not-yet-created bill). |
 
 Allowed fields in `values`:
 

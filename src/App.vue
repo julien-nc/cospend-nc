@@ -1772,7 +1772,7 @@ export default {
 				}
 				this.notifyActionDone(onDone, { ok: true, projectId, memberId: memberid }, t('cospend', 'Member deleted'), null)
 			} else {
-				this.updateProjectInfo(this.cospend.currentProjectId)
+				this.updateProjectInfo(projectId)
 				// add access to this user if it's not there already
 				if (member.userid) {
 					this.addParticipantAccess(projectId, memberid, member.userid)

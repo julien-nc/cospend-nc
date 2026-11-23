@@ -375,10 +375,12 @@ interface IProjectService {
 	 * @param string|null $name
 	 * @param string|null $icon
 	 * @param string|null $color
+	 * @param int|null $defaultPaymentModeId 0 clears the default, null leaves it unchanged
 	 * @return array
 	 */
 	public function editCategory(
 		string $projectId, int $categoryId, ?string $name = null, ?string $icon = null, ?string $color = null,
+		?int $defaultPaymentModeId = null,
 	): array;
 
 	/**

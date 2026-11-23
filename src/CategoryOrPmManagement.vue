@@ -104,6 +104,8 @@
 							:element="element"
 							:edition-access="editionAccess"
 							:draggable="true"
+							:type="type"
+							:payment-modes="projectPaymentModes"
 							@delete="onDeleteElement"
 							@edit="onEditElement" />
 					</Draggable>
@@ -116,6 +118,8 @@
 					:key="element.id"
 					:element="element"
 					:edition-access="editionAccess"
+					:type="type"
+					:payment-modes="projectPaymentModes"
 					@delete="onDeleteElement"
 					@edit="onEditElement" />
 			</div>
@@ -208,6 +212,14 @@ export default {
 	computed: {
 		project() {
 			return this.cospend.projects[this.projectId]
+		},
+		projectPaymentModes() {
+			// only categories need these; ordered by the project's payment mode sort where manual
+			return this.type === 'category'
+				? Object.values(this.project.paymentmodes ?? {}).sort((a, b) => {
+						return a.order === b.order ? strcmp(a.name, b.name) : a.order - b.order
+					})
+				: []
 		},
 		sortOrderLabel() {
 			return this.type === 'category' ? t('cospend', 'Category sort method') : t('cospend', 'Payment mode sort method')
@@ -343,7 +355,7 @@ export default {
 			delete this.elements[elementid]
 			this.$emit('element-deleted', elementid)
 		},
-		onEditElement(element, name, icon, color) {
+		onEditElement(element, name, icon, color, defaultPaymentModeId) {
 			if (name === null || name === '') {
 				showError(t('cospend', 'Name should not be empty'))
 				return
@@ -352,11 +364,13 @@ export default {
 				name: element.name,
 				icon: element.icon,
 				color: element.color,
+				default_payment_mode_id: element.default_payment_mode_id,
 			}
 			element.name = name
 			element.icon = icon
 			element.color = color
 			if (this.type === 'category') {
+				element.default_payment_mode_id = defaultPaymentModeId ?? 0
 				network.editCategory(this.project.id, element, backupElement).then((response) => {
 				}).catch((error) => {
 					this.editElementFail(element, backupElement)
@@ -374,6 +388,9 @@ export default {
 			element.name = backupElement.name
 			element.icon = backupElement.icon
 			element.color = backupElement.color
+			if ('default_payment_mode_id' in backupElement) {
+				element.default_payment_mode_id = backupElement.default_payment_mode_id
+			}
 		},
 		onDrop(e) {
 			const index = e.removedIndex

@@ -13,6 +13,9 @@
 				:style="{ backgroundColor: element.color }" />
 			<label class="one-element-label-label">{{ element.icon || '' }}</label>
 			<label class="one-element-label-label label-label">{{ element.name }}</label>
+			<label v-if="defaultPaymentModeLabel"
+				class="one-element-default-pm"
+				:title="t('cospend', 'Default payment mode')">{{ defaultPaymentModeLabel }}</label>
 			<NcButton v-show="editionAccess"
 				:title="t('cospend', 'Edit')"
 				:aria-label="t('cospend', 'Edit')"
@@ -84,6 +87,16 @@
 					<CheckIcon :size="20" />
 				</template>
 			</NcButton>
+			<NcSelect v-if="type === 'category'"
+				:model-value="selectedPaymentModeItem"
+				class="default-pm-select"
+				:placeholder="t('cospend', 'Default payment mode')"
+				:input-label="t('cospend', 'Default payment mode')"
+				:options="paymentModeItems"
+				:no-wrap="true"
+				label="name"
+				:clearable="false"
+				@update:model-value="onPaymentModeSelected" />
 		</div>
 	</div>
 </template>
@@ -99,6 +112,7 @@ import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
 import NcEmojiPicker from '@nextcloud/vue/components/NcEmojiPicker'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 
 import CountdownTimer from './CountdownTimer.vue'
 
@@ -118,6 +132,7 @@ export default {
 		CheckIcon,
 		CursorMoveIcon,
 		NcButton,
+		NcSelect,
 	},
 
 	props: {
@@ -133,6 +148,16 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		// 'category' or 'paymentmode'; only categories carry a default payment mode
+		type: {
+			type: String,
+			default: '',
+		},
+		// the project's payment modes, sorted, used to populate the default selector
+		paymentModes: {
+			type: Array,
+			default: () => [],
+		},
 	},
 
 	emits: ['edit', 'delete'],
@@ -146,10 +171,30 @@ export default {
 			color: this.element.color,
 			name: this.element.name,
 			icon: this.element.icon,
+			defaultPaymentModeId: this.element.default_payment_mode_id ?? 0,
 		}
 	},
 
 	computed: {
+		paymentModeItems() {
+			return [
+				{ id: 0, name: t('cospend', 'None') },
+				...this.paymentModes.map((pm) => ({ id: pm.id, name: pm.icon + ' ' + pm.name })),
+			]
+		},
+		selectedPaymentModeItem() {
+			// a payment mode deleted since the default was set leaves a stale id behind, so fall
+			// back to 'None' rather than rendering an empty selector
+			return this.paymentModeItems.find((item) => item.id === this.defaultPaymentModeId)
+				?? this.paymentModeItems[0]
+		},
+		defaultPaymentModeLabel() {
+			if (this.type !== 'category' || this.defaultPaymentModeId === 0) {
+				return ''
+			}
+			const pm = this.paymentModes.find((p) => p.id === this.defaultPaymentModeId)
+			return pm ? pm.icon || pm.name : ''
+		},
 	},
 
 	methods: {
@@ -158,6 +203,9 @@ export default {
 		},
 		updateColor(color) {
 			this.color = color
+		},
+		onPaymentModeSelected(selected) {
+			this.defaultPaymentModeId = selected?.id ?? 0
 		},
 		onClickEdit() {
 			this.editMode = true
@@ -168,6 +216,7 @@ export default {
 			this.name = this.element.name
 			this.color = this.element.color
 			this.icon = this.element.icon
+			this.defaultPaymentModeId = this.element.default_payment_mode_id ?? 0
 		},
 		onClickDelete() {
 			if (this.timerOn) {
@@ -183,7 +232,7 @@ export default {
 			}
 		},
 		onClickEditOk() {
-			this.$emit('edit', this.element, this.name, this.icon, this.color)
+			this.$emit('edit', this.element, this.name, this.icon, this.color, this.defaultPaymentModeId)
 			this.editMode = false
 		},
 	},
@@ -203,6 +252,9 @@ export default {
 .one-element-edit {
 	flex-grow: 1;
 	display: flex;
+	// the payment mode select is a full-width flex item, so it wraps to its own line instead of
+	// squeezing the name field and pushing the cancel/save buttons out of a narrow sidebar
+	flex-wrap: wrap;
 	align-items: center;
 	padding: 4px 0 4px 0;
 	border-radius: 15px;
@@ -210,6 +262,8 @@ export default {
 	margin-right: 20px;
 	.editElementNameInput {
 		flex-grow: 1;
+		// without this the input's intrinsic width keeps it from shrinking on narrow screens
+		min-width: 0;
 	}
 	> * {
 		margin: 0 4px 0 4px;
@@ -233,6 +287,18 @@ export default {
 		position: absolute;
 		right: -20px;
 	}
+}
+
+.default-pm-select {
+	// 100% basis puts it on its own row; min-width overrides NcSelect's own floor, which would
+	// otherwise force the row wider than the sidebar and bring the scrollbar back
+	flex: 1 0 100%;
+	min-width: 0;
+	margin-top: 4px !important;
+}
+
+.one-element-default-pm {
+	opacity: .7;
 }
 
 .one-element-label-icon {
